@@ -1,0 +1,74 @@
+﻿--CRM Batch upload
+create table C_BATCH_UPLOAD_QP_EXPERIENCE (
+    uuid VARCHAR2(36),
+    file_path VARCHAR2(200),
+    file_name VARCHAR2(200),
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint C_BATCH_UPLOAD_QP_EXPERIENCE_PK primary key (uuid)
+)
+
+-- PEM Modifcation No
+  CREATE TABLE "MWMS2"."P_MW_MODIFICATION_NO" 
+   ("UUID" VARCHAR2(36 BYTE), 
+	"REFERENCE_NO" VARCHAR2(36 BYTE), 
+	"PREFIX" VARCHAR2(36 BYTE), 
+	"CURRENT_NUMBER" VARCHAR2(36 BYTE), 
+	"CREATED_BY" VARCHAR2(20 BYTE), 
+	"CREATED_DATE" DATE, 
+	"MODIFIED_BY" VARCHAR2(20 BYTE), 
+	"MODIFIED_DATE" DATE, 
+	 CONSTRAINT "P_MW_MODIFICATION_NO_PK" PRIMARY KEY ("UUID")
+	}
+
+-- PEM Modification detail table
+create table P_mw_modification_related_mwno (
+    uuid VARCHAR2(36),
+    modification_id VARCHAR2(36),
+    mw_no VARCHAR2(36),
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint C_BATCH_UPLOAD_QP_EXPERIENCE_PK primary key (uuid),
+	constraint P_MW_MODI_RELATED_MWNO_FK foreign key (modification_id) references P_MW_MODIFICATION(uuid)
+)
+
+-- CRM Pooling Table
+create table C_POOLING (
+    uuid VARCHAR2(36),
+    Master_id VARCHAR2(36),
+    Pool_No VARCHAR2(36),
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint C_POOLING_PK primary key (uuid),
+    constraint C_POOLING_Master_id_FK FOREIGN KEY (Master_id) REFERENCES c_comp_application (UUID)
+)
+
+-- Mod annual inspection detail table
+create table P_mod_bd106_annual_insp (
+    uuid VARCHAR2(36),
+    mod_bd106_id VARCHAR2(36),
+    Referral_TO_LSS_date date,
+    Site_Inspection_date date,
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint P_mod_bd106_annual_insp_PK primary key (uuid),   
+    constraint P_mod_bd106_annual_insp_FK FOREIGN KEY (mod_bd106_id) REFERENCES p_mod_bd106 (UUID)
+)
+
+---Add field
+alter table c_ind_application add Date_of_disposal date;
+alter table p_mod_bd106 add PERMIT_NO VARCHAR2(40);
+alter table p_mod_bd106 add OUR_REF_NO VARCHAR2(40);
+alter table p_mod_bd106 add STATUS VARCHAR2(30);
+
+
+
+

@@ -1,0 +1,59 @@
+﻿<!-- InstanceBeginEditable name="content" -->
+
+@model IEnumerable<MWMS2.Entity.B_S_SYSTEM_VALUE>
+<h3>Validation Option</h3>
+<br>
+
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        <input class="inputButton" id="" name="" value="Add" style="width: 100px;" onclick='location.href="@Url.Action("SMM1107Create", "SMM1107")"' type="button">
+    </div>
+</div>
+<br>
+
+<div class="sList">
+    <table class="resultTable">
+        <thead>
+            <tr class="grid-header" style="height: 19px;">
+                <th >
+                  Code
+                </th>
+                <th >
+                  Description 
+                </th>
+                <th >
+                   Ordering 
+                </th>
+                <th >
+                   Status 
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+            <tr>
+                <td>
+
+                    @Html.ActionLink(item.CODE, "SMM1107Edit", "SMM1107", new { id = item.UUID }, null)
+                    @*@Html.DisplayFor(modelItem => item.REGISTRATION_NO)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ORDERING)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IS_ACTIVE)
+                </td>
+            </tr>
+                    }
+                }
+                </tbody>
+    </table>
+</div>
+
+<br>
+

@@ -1,0 +1,69 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+
+<h3>District Maintenance</h3>
+<br>
+
+
+@using (Html.BeginForm("SMM1103DistrictMaintenanceCreate", "SMM1103DistrictMaintenance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <th>District Code<span class="asterix">*</span>:</th>
+                <td>
+                    @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject",@required ="required" } })
+                    @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+
+                </td>
+            </tr>
+
+            <tr>
+                <th >District Name :</th>
+
+                <td>
+                    @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Region :
+                </th>
+                <td>
+                              @Html.DropDownListFor(model => model.PARENT_ID,(IEnumerable<SelectListItem>) ViewBag.RegionList, new { style = "width:auto", id = "RegionList" })
+    
+                </td>
+            </tr>
+            <tr>
+                <th >
+                    Ordering :
+                </th>
+                <td>
+                    @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "ORDERING", @type = "number", @min = "0" } })
+                    @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+
+                    @*<input name="systemValueOrdering" value="" onfocus="inputMaskOnFocus(this, event, 'N')" style="width:90px;" class="inputText" type="text">*@
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <div class="btnSet btnSetTypeA">
+                        <div class="right">
+                            <input type="submit" class="SaveBtn" id="Save" value="Save" />
+                            @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="" type="button">*@
+                            <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1103DistrictMaintenance", "SMM1103DistrictMaintenance")"' type="button">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

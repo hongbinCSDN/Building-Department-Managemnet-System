@@ -1,0 +1,82 @@
+﻿
+@model IEnumerable<MWMS2.Entity.B_S_LETTER_TEMPLATE>
+<h3>Letter Template</h3>
+<br />
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        <input class="inputButton" id="" name="" value="Create Letter Template" onclick="location.href='@Url.Action("SMM1103LetterTemplateCreate", "SMM1103LetterTemplate")'" type="button">
+    </div>
+</div>
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Letter Name</th>
+            <th>Letter Type</th>
+            <th>Form Code</th>
+            <th>Result</th>
+            <th>File</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                <input class="inputButton" id="" name="" value="Edit" onclick='location.href="@Url.Action("SMM1103LetterTemplateEdit", "SMM1103LetterTemplate", new { id = item.UUID })"' type="button">
+            </td>
+            <td>   @Html.DisplayFor(modelItem => item.LETTER_NAME)</td>
+            <td>  @Html.DisplayFor(modelItem => item.LETTER_TYPE)</td>
+            <td>  @Html.DisplayFor(modelItem => item.FORM_CODE)</td>
+            <td>  @Html.DisplayFor(modelItem => item.RESULT)</td>
+            <td>
+                @Html.ActionLink(item.FILE_NAME, "", "", new { id = item.UUID }, null)
+            </td>
+        </tr>
+
+            }
+
+
+         }
+        </tbody>
+
+
+
+
+
+
+</table>
+
+<h3>
+    Tag Reference
+</h3>
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Example
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (ViewBag.TagRef != null)
+            {
+                foreach (var item in ViewBag.TagRef)
+                {
+                    <tr>
+                        <td>@item.CODE</td>
+                        <td>@item.DESCRIPTION</td>
+                    </tr>}
+            }
+
+        }
+    </tbody>
+
+</table>

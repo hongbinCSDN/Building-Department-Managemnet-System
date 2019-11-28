@@ -1,0 +1,98 @@
+﻿<script src="js/jquery.min.js"></script>
+<script src="js/base.js"></script>
+<script src="demoData.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<form id="reportForm" method="post" name="reportForm" action="/Registration/report.do?method=LoadReport&amp;registrationType=CGC">
+
+    <input id="registrationType" name="registrationType" value="" type="hidden">
+    <input id="popReport" name="popReport" value="Load_GCC_annual_gazette_ENG" type="hidden">
+    <input id="REPORT_NAME" name="REPORT_NAME" value="annual_gazette_ENG_CGC" type="hidden">
+    <input id="reg_type" name="reg_type" value="CGC" type="hidden">
+    <input name="today" value="16/11/2018" type="hidden">
+
+
+    <table border="0">
+        <tbody>
+            <tr>
+                <td> Date of Gazette </td>
+                <td>
+                    From :  	<input onblur="checkDate(this)" style="width: 80px;" id="gaz_fr_date" class="inputText" name="gaz_fr_date" maxLength="10" value="" type="text">
+                    <span style="color: red; display: none;" id="err_gaz_fr_date" class="err">Invalid date</span>
+                </td>
+                <td>
+                    To :
+                    <input onblur="checkDate(this)" style="width: 80px;" id="gaz_to_date" class="inputText" name="gaz_to_date" maxLength="10" value="" type="text">
+                    <span style="color: red; display: none;" id="err_gaz_to_date" class="err">Invalid date</span>
+                </td>
+                <td class="SubmitButtonCell">
+                    <button id="oParamsSubmit" onclick="viewReport(0)" type="button">View Report</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Category Group</td>
+                <td colSpan="3">
+                    <select id="cat_gp" onchange="setText()" name="cat_gp">
+                        <option value="GB">General Building Contractor</option>
+                        <option value="SC">Specialist Contractors</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Header Description</td>
+                <td colSpan="3">
+                    <textarea style="width: 450px; height: 50px;" id="header" name="header">Pursuant to section 8A(3) of the Buildings Ordinance, a list of the names of the contractors in each register kept by the Building Authority is hereby published below, as at [DD] [MMMM] [YYYY]</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>as at </td>
+                <td colSpan="3">
+                    <input onblur="checkDate(this)" style="width: 80px;" id="as_at_date" class="inputText" name="as_at_date" maxLength="10" value="" type="text">
+                    <span style="color: red; display: none;" id="err_as_at_date" class="err">Invalid date</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+    <br>
+    <table border="1" width="500">
+        <tbody>
+            <tr>
+
+                <td>|&lt;&lt;</td>
+                <td>&lt;</td>
+
+                <td> 0 of 0 </td>
+
+
+                <td>&gt;</td>
+                <td>&gt;&gt;|</td>
+
+
+                <td>
+                    Export Format:
+                    <select id="reportType" name="reportType">
+                        <option value="PDF">PDF</option>
+                        <option value="EXCEL">EXCEL</option>
+                        <option value="HTML">HTML</option>
+                    </select>
+                    <input onclick="exportExcel('CRM0210GM2Table')" name="Export" value="Export" type="button">
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <table id="CRM0210GM2Table" border="0" cellSpacing="0" cellPadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</form>

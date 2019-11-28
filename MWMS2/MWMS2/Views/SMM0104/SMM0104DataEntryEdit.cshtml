@@ -1,0 +1,2076 @@
+﻿@model MWMS2.Models.ModelSVRecord
+
+
+
+@section scripts{
+    <script type="text/javascript">
+
+        var SelectedValidationItems = 0;
+
+
+        function copySignboardAddressToPAW() {
+            document.getElementById('SVPAWAddressflat').value =
+                document.getElementById('SVInfoFlat').value;
+            document.getElementById('SVPAWAddressfloor').value =
+                document.getElementById('SVInfoFloor').value;
+            document.getElementById('SVPAWAddressblock').value =
+                document.getElementById('SVInfoBlock').value;
+
+
+
+            document.getElementById('SVPAWAddressbuildingnameEst').value =
+                document.getElementById('SVInfoBuildingEstate').value;
+            document.getElementById('SVPAWAddressStreetRoadVillage').value =
+                document.getElementById('SVInfoStreetRoadVillageName').value;
+            document.getElementById('SVPAWAddressStreetNo').value =
+                document.getElementById('SVInfoStreetNumber').value;
+            document.getElementById('SVPAWAddressDistrict').value =
+                document.getElementById('SVInfoDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVInfoSelectedRegion');
+            var radioTo = document.getElementsByName('SVPAWSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+
+        }
+        function copySignboardOwnerAddressToPAW() {
+            document.getElementById('SVPAWAddressflat').value =
+                document.getElementById('SVOwnerAddressflat').value;
+            document.getElementById('SVPAWAddressfloor').value =
+                document.getElementById('SVOwnerAddressfloor').value;
+            document.getElementById('SVPAWAddressblock').value =
+                document.getElementById('SVOwnerAddressblock').value;
+
+
+
+            document.getElementById('SVPAWAddressbuildingnameEst').value =
+                document.getElementById('SVOwnerAddressbuildingnameEst').value;
+            document.getElementById('SVPAWAddressStreetRoadVillage').value =
+                document.getElementById('SVOwnerAddressStreetRoadVillage').value;
+            document.getElementById('SVPAWAddressStreetNo').value =
+                document.getElementById('SVOwnerAddressStreetNo').value;
+            document.getElementById('SVPAWAddressDistrict').value =
+                document.getElementById('SVOwnerAddressDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVOwnerSelectedRegion');
+            var radioTo = document.getElementsByName('SVPAWSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+
+        }
+        function copySignboardOwnerCropAddressToPAW() {
+            document.getElementById('SVPAWAddressflat').value =
+                document.getElementById('SVOwnerCorpAddressflat').value;
+            document.getElementById('SVPAWAddressfloor').value =
+                document.getElementById('SVOwnerCorpAddressfloor').value;
+            document.getElementById('SVPAWAddressblock').value =
+                document.getElementById('SVOwnerCorpAddressblock').value;
+
+
+
+            document.getElementById('SVPAWAddressbuildingnameEst').value =
+                document.getElementById('SVOwnerCorpAddressbuildingnameEst').value;
+            document.getElementById('SVPAWAddressStreetRoadVillage').value =
+                document.getElementById('SVOwnerCorpAddressStreetRoadVillage').value;
+            document.getElementById('SVPAWAddressStreetNo').value =
+                document.getElementById('SVOwnerCorpAddressStreetNo').value;
+            document.getElementById('SVPAWAddressDistrict').value =
+                document.getElementById('SVOwnerCorpAddressDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVOwnerCorpSelectedRegion');
+            var radioTo = document.getElementsByName('SVPAWSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+
+        }
+
+
+
+
+        function copySignboardAddressToOwner() {
+            document.getElementById('SVOwnerAddressflat').value =
+                document.getElementById('SVInfoFlat').value;
+            document.getElementById('SVOwnerAddressfloor').value =
+                document.getElementById('SVInfoFloor').value;
+            document.getElementById('SVOwnerAddressblock').value =
+                document.getElementById('SVInfoBlock').value;
+
+
+
+            document.getElementById('SVOwnerAddressbuildingnameEst').value =
+                document.getElementById('SVInfoBuildingEstate').value;
+            document.getElementById('SVOwnerAddressStreetRoadVillage').value =
+                document.getElementById('SVInfoStreetRoadVillageName').value;
+            document.getElementById('SVOwnerAddressStreetNo').value =
+                document.getElementById('SVInfoStreetNumber').value;
+            document.getElementById('SVOwnerAddressDistrict').value =
+                document.getElementById('SVInfoDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVInfoSelectedRegion');
+            var radioTo = document.getElementsByName('SVOwnerSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+
+
+        }
+        function copySignboardAddressToOwnerCrop() {
+
+            document.getElementById('SVOwnerCorpAddressflat').value =
+                document.getElementById('SVInfoFlat').value;
+            document.getElementById('SVOwnerCorpAddressfloor').value =
+                document.getElementById('SVInfoFloor').value;
+            document.getElementById('SVOwnerCorpAddressblock').value =
+                document.getElementById('SVInfoBlock').value;
+
+
+
+            document.getElementById('SVOwnerCorpAddressbuildingnameEst').value =
+                document.getElementById('SVInfoBuildingEstate').value;
+            document.getElementById('SVOwnerCorpAddressStreetRoadVillage').value =
+                document.getElementById('SVInfoStreetRoadVillageName').value;
+            document.getElementById('SVOwnerCorpAddressStreetNo').value =
+                document.getElementById('SVInfoStreetNumber').value;
+            document.getElementById('SVOwnerCorpAddressDistrict').value =
+                document.getElementById('SVInfoDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVInfoSelectedRegion');
+            var radioTo = document.getElementsByName('SVOwnerCorpSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+
+
+        }
+
+
+        function copySignboardOwnerAddressToOwnerCrop() {
+
+            document.getElementById('SVOwnerCorpAddressflat').value =
+                document.getElementById('SVOwnerAddressflat').value;
+            document.getElementById('SVOwnerCorpAddressfloor').value =
+                document.getElementById('SVOwnerAddressfloor').value;
+            document.getElementById('SVOwnerCorpAddressblock').value =
+                document.getElementById('SVOwnerAddressblock').value;
+
+
+
+            document.getElementById('SVOwnerCorpAddressbuildingnameEst').value =
+                document.getElementById('SVOwnerAddressbuildingnameEst').value;
+            document.getElementById('SVOwnerCorpAddressStreetRoadVillage').value =
+                document.getElementById('SVOwnerAddressStreetRoadVillage').value;
+            document.getElementById('SVOwnerCorpAddressStreetNo').value =
+                document.getElementById('SVOwnerAddressStreetNo').value;
+            document.getElementById('SVOwnerCorpAddressDistrict').value =
+                document.getElementById('SVOwnerAddressDistrict').value;
+
+
+            var radioFrom = document.getElementsByName('SVOwnerSelectedRegion');
+            var radioTo = document.getElementsByName('SVOwnerCorpSelectedRegion');
+            var radioLength = radioFrom.length;
+
+            for (var i = 0; i < radioLength; i++) {
+
+
+                radioTo[i].checked = radioFrom[i].checked;
+
+
+            }
+        }
+
+        function ValItemChange(element) {
+            element.parentNode.parentNode.getElementsByClassName('CorrMWItem')[0].innerHTML = element.value;
+        }
+
+        function delValItem(element) {
+            $(element).closest('tr').remove();
+            var numItems = $('.DeleteValItemClass').length;
+
+            if (numItems == 1) {
+
+                $(".DeleteValItemClass").css("display", "none");
+            }
+
+        }
+
+
+        function addValItem() {
+            var m = domId("ValItem");
+            var m_clone = m.cloneNode(true);
+            m_clone.getElementsByClassName("SelectedValidationItemsDescription")[0].value = "";
+        
+            if ($('.DeleteValItemClass').length == 1) {
+                //for model setting (set same name to pass value)
+                m.getElementsByClassName("SelectedValidationItemsDescription")[0].setAttribute("name", "SelectedValidationItemsDescription[" + ($('.DeleteValItemClass').length - 1) + "]");
+                m.getElementsByClassName("ValidationItems")[0].setAttribute("name", "SelectedValidationItems[" + ($('.DeleteValItemClass').length - 1) + "]");
+            }
+            m_clone.getElementsByClassName("SelectedValidationItemsDescription")[0].setAttribute("name", "SelectedValidationItemsDescription[" + $('.DeleteValItemClass').length + "]");
+            m_clone.getElementsByClassName("ValidationItems")[0].selectedIndex = 0;
+            m_clone.getElementsByClassName("ValidationItems")[0].setAttribute("name", "SelectedValidationItems[" + $('.DeleteValItemClass').length+"]");
+            m_clone.getElementsByClassName("CorrMWItem")[0].innerHTML = "";
+            m.parentNode.appendChild(m_clone);
+         
+            //$("#ValidationItems option:selected").remove();
+            $(".DeleteValItemClass").css("display", "");
+
+
+        }
+        function addMWItem() {
+            var m = domId("MWItemRow");
+            var m_clone = m.cloneNode(true);
+
+            if ($('.deleteMWItemClass').length == 1) {
+                //for model setting (set same name to pass value) 
+
+                m.getElementsByClassName("MWItem")[0].setAttribute("name", "SelectedMWItems[" + ($('.deleteMWItemClass').length - 1) + "]");
+
+                m.getElementsByClassName("SelectedMWItemsDescription")[0].setAttribute("name", "SelectedMWItemsDescription[" + ($('.deleteMWItemClass').length - 1) + "]");
+                m.getElementsByClassName("SelectedMWItemsRefNo")[0].setAttribute("name", "SelectedMWItemsRefNo[" + ($('.deleteMWItemClass').length - 1) + "]");
+            }
+            m_clone.getElementsByClassName("MWItem")[0].selectedIndex = 0;
+            m_clone.getElementsByClassName("MWItem")[0].setAttribute("name", "SelectedMWItems[" + $('.deleteMWItemClass').length + "]");
+
+            m_clone.getElementsByClassName("SelectedMWItemsDescription")[0].setAttribute("name", "SelectedMWItemsDescription[" + $('.deleteMWItemClass').length + "]");
+            m_clone.getElementsByClassName("SelectedMWItemsRefNo")[0].setAttribute("name", "SelectedMWItemsRefNo[" + $('.deleteMWItemClass').length + "]");
+
+            m_clone.getElementsByClassName("SelectedMWItemsRefNo")[0].value = "";
+            m_clone.getElementsByClassName("SelectedMWItemsDescription")[0].value = "";
+
+            m.parentNode.appendChild(m_clone);
+            $(".deleteMWItemClass").css("display", "");
+
+        }
+
+        function delMWItem(element) {
+            $(element).closest('tr').remove();
+            var numItems = $('.deleteMWItemClass').length;
+
+            if (numItems == 1) {
+
+                $(".deleteMWItemClass").css("display", "none");
+            }
+
+        }
+
+        $(document).ready(function () {
+
+            if ($('.DeleteValItemClass').length > 1) { $(".DeleteValItemClass").css("display", ""); }
+            else
+            {
+                $(".DeleteValItemClass").css("display", "none");
+            }
+            if ($('.deleteMWItemClass').length > 1) { $(".deleteMWItemClass").css("display", ""); }
+            else {
+                $(".deleteMWItemClass").css("display", "none");
+            }
+            var formCode = @Html.Raw(Json.Encode(Model.FormCode));
+            if (!formCode.includes("SC01")) {
+                $(".RegisteredInspector").css("display", "");
+
+            }
+            else
+            {
+                $(".RegisteredInspector").css("display", "none");
+
+
+            }
+
+
+            $('input[type=radio][name=SVInfoSelectedRegion]').change(function () {
+              
+                $.ajax({
+                    type: "POST",
+                    url: "/SMM0104/SelectedRegionChange",
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: { Region: this.value },
+                    success: function (data) {
+                        $('#SVInfoBCISDistrict').empty();
+
+                        $.each(data, function (key, value) {
+                            $('#SVInfoBCISDistrict').append($("<option></option>").attr("value", value.Value).text(value.Text));
+
+                            // Check in the loop by un-commenting this line
+                            // alert('id: ' + value.Text + ' name: ' + value.Value);
+                        });
+                    },
+                });
+
+
+            });
+
+
+
+            $("#SVInfoStreetRoadVillageName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/SMM0104/AutoCompleteStreetName",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+                              
+                                return { label: item, value: item };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+            $("#SVInfoBuildingEstate").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/SMM0104/AutoCompleteBuildingName",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+
+                                return { label: item, value: item };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+            $("#SVInfoFlat").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/SMM0104/AutoCompleteFlat",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+
+                                return { label: item, value: item };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+            $("#SVInfoFloor").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/SMM0104/AutoCompleteFloor",
+                        type: "POST",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+
+                            response($.map(data, function (item) {
+
+                                return { label: item, value: item };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+
+
+
+
+
+        })
+
+
+        function NextPage()
+        {
+            $(".DataEntry").css("display", "none");
+            $(".DataEntryValInfo").css("display", "");
+        }
+        function BackPage() {
+            $(".DataEntryValInfo").css("display", "none");
+            $(".DataEntry").css("display", "");
+        }
+
+      
+      
+
+        
+
+
+
+    </script>
+
+
+
+}
+
+@using (Html.BeginForm("SMM0104DataEntryCreate", "SMM0104", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="DataEntry" style="display:block">
+
+        <table class="inputTable">
+            <tbody>
+
+                <tr>
+                    <th>
+                        Submission No. :
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelitem => Model.SubmissionNo)
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Form Language :
+                    </th>
+                    <td>
+                        @{ 
+
+                            @Html.RadioButtonFor(model => model.FormLanguage, "EN", new { @class = "inputRadio" }) } English<br />
+                        @{ 
+
+                            @Html.RadioButtonFor(model => model.FormLanguage, "ZH", new { @class = "inputRadio" }) } Traditional Chinese<br />
+                         
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Received Date :
+                    </th>
+                    <td valign="top">
+                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "inputDate" })
+
+
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Form Code :
+                    </th>
+                    <td class="fText">
+                        @Html.DisplayFor(modelitem => Model.FormCode)
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Batch Number :
+                    </th>
+                    <td class="fText">
+                        @Html.EditorFor(model => model.BatchNumber, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "SVInfoBatchNumber" } })
+                        @Html.ValidationMessageFor(model => model.BatchNumber, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+
+        <br />
+
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Data Entry Information
+                    </th>
+                </tr>
+                <tr>
+
+                    <th colspan="2">
+                        Signboard Information
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        Location of Signboard :
+                    </th>
+                    <td colspan="6">
+                        @Html.TextAreaFor(model => model.SVInfoLocationOfSignboard, new { id = "SVInfoLocationOfSignboard", @rows = "4", @cols = "50" })
+                        @Html.ValidationMessageFor(model => model.SVInfoLocationOfSignboard, "", new { @class = "text-danger" })
+                        <input type="button" value="Search" class="inputButton" onclick="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Street/Road/Village :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoStreetRoadVillageName, new { htmlAttributes = new { @class = "form-control", id = "SVInfoStreetRoadVillageName" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoStreetRoadVillageName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street Number :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoStreetNumber, new { htmlAttributes = new { @class = "form-control", id = "SVInfoStreetNumber" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoStreetNumber, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Building/Estate :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoBuildingEstate, new { htmlAttributes = new { @class = "form-control", id = "SVInfoBuildingEstate" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoBuildingEstate, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Flat/Room :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoFlat, new { htmlAttributes = new { @class = "form-control", id = "SVInfoFlat", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoFlat, "", new { @class = "text-danger" })
+
+                        <span>Floor</span>
+                        @Html.EditorFor(model => model.SVInfoFloor, new { htmlAttributes = new { @class = "form-control", id = "SVInfoFloor", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoFloor, "", new { @class = "text-danger" })
+                        <span>Block</span>
+                        @Html.EditorFor(model => model.SVInfoBlock, new { htmlAttributes = new { @class = "form-control", id = "SVInfoBlock", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoBlock, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        District :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoDistrict, new { htmlAttributes = new { @class = "form-control", id = "SVInfoDistrict", style = "width:300px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoDistrict, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @{
+                            foreach (var item in Model.Regions)
+                            {
+                                @Html.RadioButtonFor(m => m.SVInfoSelectedRegion, item.Code, item.Code == "HK" ? new { id = "SVInfoSelectedRegion", @checked = "checked" } : null)
+                                @Html.Label(item.Description, item.Description + " ")
+                            }
+
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        RVD No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoRVD_No, new { htmlAttributes = new { @class = "form-control", id = "SVInfoRVD_No", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoRVD_No, "", new { @class = "text-danger" })
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        RV Block ID :
+                    </th>
+
+                    <td>
+                        <input type="text" name="dataEntryObject.signboard.svAddress.rvBlockId" maxlength="36" value="" readonly="readonly" id="dataEntryObject.signboard.svAddress.rvBlockId" style="width:300px;" class="inputTextOption">
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>
+                        BCIS Block ID :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoBCISBlockID, new { htmlAttributes = new { @class = "form-control", id = "SVInfoBCISBlockID", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoBCISBlockID, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        BCIS District :
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.SVInfoBCISDistrict, (IEnumerable<SelectListItem>)ViewBag.BCISDistrictResult, new { style = "width:auto", id = "SVInfoBCISDistrict" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        BD ref. (4+2) :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVInfoBCIS4plus2, new { htmlAttributes = new { @class = "form-control", id = "SVInfoBCIS4plus2", style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoBCIS4plus2, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <th>
+                        Related Order/DSRN (if applicable) :
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.SVInfoS24OrderType, (IEnumerable<SelectListItem>)ViewBag.RelatedOrderResult, new { style = "width:auto", id = "SVInfoRelatedOrderResult" })
+
+
+                        @Html.EditorFor(model => model.SVInfoS24OrderNo, new { htmlAttributes = new { @class = "form-control", id = "SVInfoDSRN", style = "width:800px;" } })
+                        @Html.ValidationMessageFor(model => model.SVInfoS24OrderNo, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+
+        <table class="resultTable" id="SMM0104ValItemTable">
+
+            <thead>
+                <tr>
+                    <th>Validation item</th>
+                    <th colspan="3" style="text-align: right">
+                        <input class="inputButton" type="button" value="Add Validation Item" onclick="addValItem()">
+                    </th>
+
+                </tr>
+                <tr><th>-</th><th>Validation item</th><th>Description</th><th>Corresponding MW items</th></tr>
+
+            </thead>
+            <tbody>
+                @{
+                    var VINumber = Model.SelectedValidationItems.Count();
+                    if (VINumber == 0)
+                    {
+                        <tr id="ValItem">
+
+                            <td class="sCell">
+                                <input type="button" value="Delete" class="inputButton DeleteValItemClass" name="deleteVaItemBtn" onclick="delValItem(this)" style="display:none">
+                            </td>
+                            <td class="sCell">
+
+                                @Html.DropDownListFor(model => model.SelectedValidationItems, (IEnumerable<SelectListItem>)ViewBag.ValidationItemResultList[0], new { style = "width:auto", @onchange = "ValItemChange(this)", @class = "ValidationItems" })
+                            </td>
+
+                            <td>
+                                <textarea rows="4" cols="50" name="SelectedValidationItemsDescription" class="SelectedValidationItemsDescription"id="SelectedValidationItemsDescription"> </textarea>
+                                 @*@Html.TextAreaFor(model => model.SelectedValidationItemsDescription, new { @class = "SelectedValidationItemsDescription", id = "SelectedValidationItemsDescription" })*@
+                            <td>
+                                @*<label class="CorrMWItem"></label>*@
+                                <label for="Name" class="CorrMWItem" ></label>
+                            </td>
+
+
+                        </tr>
+
+                    }
+                    for (int i = 0; i < VINumber; i++)
+                    {
+                        <tr id="ValItem">
+
+                            <td class="sCell">
+                                <input type="button" value="Delete" class="inputButton DeleteValItemClass" name="deleteVaItemBtn" onclick="delValItem(this)" style="display:none">
+                            </td>
+                            <td class="sCell">
+
+                                @Html.DropDownListFor(model => model.SelectedValidationItems[i], (IEnumerable<SelectListItem>)ViewBag.ValidationItemResultList[i], new { style = "width:auto", @onchange = "ValItemChange(this)", @class = "ValidationItems" })
+                            </td>
+
+                            <td>
+                                @Html.TextAreaFor(model => model.SelectedValidationItemsDescription[i], new { @class = "SelectedValidationItemsDescription", id = "SelectedValidationItemsDescription" })
+                            <td>
+                                @*<label class="CorrMWItem"></label>*@
+                                <label for="Name" class="CorrMWItem">@Model.SelectedValidationItems[i]</label>
+                            </td>
+
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+
+
+
+
+
+        <br>
+
+
+
+        <br>
+        <table class="resultTable">
+
+            <thead>
+                <tr>
+                    <th>
+
+                        Proposed validation/alteration/strengthening
+                    </th>
+                    <th colspan="4" style="text-align: right">
+                        <input class="inputButton" type="button" value="Add MW Item" onclick="addMWItem()">
+                    </th>
+                </tr>
+                <tr>
+                    <th>-</th>
+                    <th>Minor work Item</th>
+                    <th>Description</th>
+                    <th>Order / Direction / Notice / BD Reference No.</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @{ var MWNumber = Model.SelectedMWItems.Count();
+                    if (MWNumber == 0)
+                    {
+                        <tr id="MWItemRow">
+
+                            <td class="sCell">
+                                <input type="button" value="Delete" class="inputButton deleteMWItemClass" name="deleteVaItemBtn" onclick="delMWItem(this)" style="display:none">
+                            </td>
+                            <td class="sCell">
+
+                                @Html.DropDownListFor(model => model.SelectedMWItems, (IEnumerable<SelectListItem>)ViewBag.MWItemQueryResultList[0], new { style = "width:auto", @onchange = "", @class = "MWItem" })
+                            </td>
+
+                            <td>
+                                <textarea rows="4" cols="50" name="SelectedMWItemsDescription" class="SelectedMWItemsDescription" id="SelectedMWItemsDescription"> </textarea>
+                            <td>
+                                <textarea rows="4" cols="50" name="SelectedMWItemsRefNo" class="SelectedMWItemsRefNo" id="SelectedMWItemsRefNo"> </textarea>
+
+                            </td>
+
+
+                        </tr>
+
+                    }
+                    for (int i = 0; i < MWNumber; i++)
+                    {
+                            <tr  id="MWItemRow">
+                                <td >
+                                    <input type="button" value="Delete" class="inputButton deleteMWItemClass" id="deleteItemBtn0" name="deleteItemBtn" onclick="delMWItem(this)" style="display:none">
+                                </td>
+                                <td >
+
+                                    @Html.DropDownListFor(model => model.SelectedMWItems[i], (IEnumerable<SelectListItem>)ViewBag.MWItemQueryResultList[i], new { style = "width:auto", @onchange = "", @class = "MWItem" })
+
+                                </td>
+                                <td >
+                                    @Html.TextAreaFor(model => model.SelectedMWItemsDescription[i], new { @class = "SelectedMWItemsDescription", id = "SelectedMWItemsDescription" })
+                                </td>
+                                <td >
+                                    @Html.TextAreaFor(model => model.SelectedMWItemsRefNo[i], new { @class = "SelectedMWItemsRefNo", id = "SelectedMWItemsRefNo" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+        </table>
+
+
+
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="4">
+                        招牌擁有人的詳情 Particulars of the Signboard owner
+                        <br>
+                    </th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerChineseName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerChineseName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerEnglishName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @Html.EditorFor(model => model.SVOwnerIdNumber, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerIdNumber" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerIdNumber, "", new { @class = "text-danger" })
+
+                        <br>
+
+                        @Html.RadioButtonFor(model => model.SVOwnerIdType, "HKID", new { onclick = "", id = "", @class = "SVOwnerIdType" })     HKID No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerIdType, "Passport", new { onclick = "", id = "", @class = "SVOwnerIdType" })    Passport No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerIdType, "BusinessReg", new { onclick = "", id = "", @class = "SVOwnerIdType" })      Business Registration No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerIdType, "CompanyReg", new { onclick = "", id = "", @class = "SVOwnerIdType" })     Company Registration No.<br />
+
+                        @Html.RadioButtonFor(model => model.SVOwnerIdType, "I/ORegistration", new { onclick = "", id = "", @class = "SVOwnerIdType" })     I/O Registration No.<br />
+
+
+                        <br>
+                        Country of Issue
+                        @Html.EditorFor(model => model.SVOwnerCountryOfIssue, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCountryOfIssue", @style = "width:100px" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCountryOfIssue, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        Correspondence Address :
+                    </th>
+                    <td style="text-align:right">
+                        <input class="inputButton" type="button" value="Copy from Signboard Address" onclick="copySignboardAddressToOwner()"><br>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Flat/Room :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerAddressflat, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressflat", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressflat, "", new { @class = "text-danger" })
+
+                        <span>Floor :</span>
+                        @Html.EditorFor(model => model.SVOwnerAddressfloor, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressfloor", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressfloor, "", new { @class = "text-danger" })
+
+                        <span>Block :</span>
+                        @Html.EditorFor(model => model.SVOwnerAddressblock, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressblock", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressblock, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Building/Estate :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerAddressbuildingnameEst, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressbuildingnameEst" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressbuildingnameEst, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street/Road/Village :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerAddressStreetRoadVillage, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressStreetRoadVillage" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressStreetRoadVillage, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street Number :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerAddressStreetNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressStreetNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressStreetNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        District :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerAddressDistrict, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerAddressDistrict" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerAddressDistrict, "", new { @class = "text-danger" })
+
+                        @*<input type="text" name="SVOwnerAddressDistrict" maxlength="200" value="" id="SVOwnerAddressDistrict" style="width:300px;" class="inputText">*@
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @{
+                            foreach (var item in Model.Regions)
+                            {
+                                @Html.RadioButtonFor(m => m.SVOwnerSelectedRegion, item.Code, item.Code == "HK" ? new { id = "SVOwnerSelectedRegion", @checked = "checked" } : null)
+                                @Html.Label(item.Description, item.Description + " ")
+                            }
+
+                        }
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        E-mail Address :
+                    </th>
+                    <td>
+
+                        @Html.EditorFor(model => model.SVOwnerEmailAddress, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerEmailAddress" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerEmailAddress, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerContactNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerContactNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerContactNo, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerFaxNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <br />
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="4">
+                        業主立案法團 Owners’ Corporations
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpChineseName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpChineseName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpEnglishName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @Html.EditorFor(model => model.SVOwnerCorpIdNumber, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpIdNumber" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpIdNumber, "", new { @class = "text-danger" })
+
+                        <br>
+
+                        @Html.RadioButtonFor(model => model.SVOwnerCorpIdType, "HKID", new { onclick = "", id = "", @class = "SVOwnerCorpIdType" })     HKID No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerCorpIdType, "Passport", new { onclick = "", id = "", @class = "SVOwnerCorpIdType" })    Passport No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerCorpIdType, "BusinessReg", new { onclick = "", id = "", @class = "SVOwnerCorpIdType" })      Business Registration No.<br />
+                        @Html.RadioButtonFor(model => model.SVOwnerCorpIdType, "CompanyReg", new { onclick = "", id = "", @class = "SVOwnerCorpIdType" })     Company Registration No.<br />
+
+                        @Html.RadioButtonFor(model => model.SVOwnerCorpIdType, "I/ORegistration", new { onclick = "", id = "", @class = "SVOwnerCorpIdType" })     I/O Registration No.<br />
+
+
+                        <br>
+                        Country of Issue
+                        @Html.EditorFor(model => model.SVOwnerCorpCountryOfIssue, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpCountryOfIssue", @style = "width:100px" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpCountryOfIssue, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        Correspondence Address :
+                    </th>
+                    <td style="text-align:right">
+                        <input class="inputButton" type="button" value="Copy from Signboard Address" onclick="copySignboardAddressToOwnerCrop()"><br>
+                        <input class="inputButton" type="button" value="Copy from Signboard Owner Address" onclick="copySignboardOwnerAddressToOwnerCrop()"><br>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Flat/Room :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressflat, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressflat", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressflat, "", new { @class = "text-danger" })
+
+                        <span>Floor :</span>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressfloor, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressfloor", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressfloor, "", new { @class = "text-danger" })
+
+                        <span>Block :</span>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressblock, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressblock", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressblock, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Building/Estate :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressbuildingnameEst, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressbuildingnameEst" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressbuildingnameEst, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street/Road/Village :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressStreetRoadVillage, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressStreetRoadVillage" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressStreetRoadVillage, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street Number :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressStreetNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressStreetNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressStreetNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        District :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpAddressDistrict, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpAddressDistrict" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpAddressDistrict, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @{
+                            foreach (var item in Model.Regions)
+                            {
+                                @Html.RadioButtonFor(m => m.SVOwnerCorpSelectedRegion, item.Code, item.Code == "HK" ? new { id = "SVOwnerCorpSelectedRegion", @checked = "checked" } : null)
+                                @Html.Label(item.Description, item.Description + " ")
+                            }
+
+                        }
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        E-mail Address :
+                    </th>
+                    <td>
+
+                        @Html.EditorFor(model => model.SVOwnerCorpEmailAddress, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpEmailAddress" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpEmailAddress, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpContactNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpContactNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpContactNo, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpFaxNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Name of the representative <br />of the prescribed registered <br /> contractor appointed :
+
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpPRCAppointedName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpPRCAppointedName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpPRCAppointedName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpPRCAppointedContactNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpPRCAppointedContactNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpPRCAppointedContactNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Name of the representative <br />of the prescribed building<br /> professional appointed :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpPBPAppointedName, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpPBPAppointedName" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpPBPAppointedName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVOwnerCorpPBPAppointedContactNo, new { htmlAttributes = new { @class = "form-control", id = "SVOwnerCorpPBPAppointedContactNo" } })
+                        @Html.ValidationMessageFor(model => model.SVOwnerCorpPBPAppointedContactNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Person who arranged the works (PAW)<br>
+                    </th>
+                </tr>
+
+
+
+            </thead>
+            <tbody>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWChineseName, new { htmlAttributes = new { @class = "form-control", id = "SVPAWChineseName" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWEnglishName, new { htmlAttributes = new { @class = "form-control", id = "SVPAWEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @Html.EditorFor(model => model.SVPAWIdNumber, new { htmlAttributes = new { @class = "form-control", id = "SVPAWIdNumber" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWIdNumber, "", new { @class = "text-danger" })
+
+                        <br>
+
+                        @Html.RadioButtonFor(model => model.SVPAWIdType, "HKID", new { onclick = "", id = "", @class = "SVPAWIdType" })     HKID No.<br />
+                        @Html.RadioButtonFor(model => model.SVPAWIdType, "Passport", new { onclick = "", id = "", @class = "SVPAWIdType" })    Passport No.<br />
+                        @Html.RadioButtonFor(model => model.SVPAWIdType, "BusinessReg", new { onclick = "", id = "", @class = "SVPAWIdType" })      Business Registration No.<br />
+                        @Html.RadioButtonFor(model => model.SVPAWIdType, "CompanyReg", new { onclick = "", id = "", @class = "SVPAWIdType" })     Company Registration No.<br />
+
+                        @Html.RadioButtonFor(model => model.SVPAWIdType, "I/ORegistration", new { onclick = "", id = "", @class = "SVPAWIdType" })     I/O Registration No.<br />
+
+
+                        <br>
+                        Country of Issue
+                        @Html.EditorFor(model => model.SVPAWCountryOfIssue, new { htmlAttributes = new { @class = "form-control", id = "SVPAWCountryOfIssue", @style = "width:100px" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWCountryOfIssue, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        Correspondence Address :
+                    </th>
+                    <td style="text-align:right">
+                        <input class="inputButton" type="button" value="Copy from Signboard Address" onclick="copySignboardAddressToPAW()"><br>
+                        <input class="inputButton" type="button" value="Copy from Signboard Owner Address" onclick="copySignboardOwnerAddressToPAW()"><br>
+                        <input class="inputButton" type="button" value="Copy from Owners’ Corporations Address" onclick="copySignboardOwnerCropAddressToPAW()"><br>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Flat/Room :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWAddressflat, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressflat", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressflat, "", new { @class = "text-danger" })
+
+                        <span>Floor :</span>
+                        @Html.EditorFor(model => model.SVPAWAddressfloor, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressfloor", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressfloor, "", new { @class = "text-danger" })
+
+                        <span>Block :</span>
+                        @Html.EditorFor(model => model.SVPAWAddressblock, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressblock", @style = "width:100px;" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressblock, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Building/Estate :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWAddressbuildingnameEst, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressbuildingnameEst" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressbuildingnameEst, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street/Road/Village :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWAddressStreetRoadVillage, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressStreetRoadVillage" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressStreetRoadVillage, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Street Number :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWAddressStreetNo, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressStreetNo" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressStreetNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        District :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWAddressDistrict, new { htmlAttributes = new { @class = "form-control", id = "SVPAWAddressDistrict" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWAddressDistrict, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <td valign="top">
+                        @{
+                            foreach (var item in Model.Regions)
+                            {
+                                @Html.RadioButtonFor(m => m.SVPAWSelectedRegion, item.Code, item.Code == "HK" ? new { id = "SVPAWSelectedRegion", @checked = "checked" } : null)
+                                @Html.Label(item.Description, item.Description + " ")
+                            }
+
+                        }
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th>
+                        E-mail Address :
+                    </th>
+                    <td>
+
+                        @Html.EditorFor(model => model.SVPAWEmailAddress, new { htmlAttributes = new { @class = "form-control", id = "SVPAWEmailAddress" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWEmailAddress, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWContactNo, new { htmlAttributes = new { @class = "form-control", id = "SVPAWContactNo" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWContactNo, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.SVPAWFaxNo, new { htmlAttributes = new { @class = "form-control", id = "SVPAWFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.SVPAWFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        PAW Same As
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.SVPAWSAMEAS, (IEnumerable<SelectListItem>)ViewBag.PAWSAMEASQueryResult, new { style = "width:auto", id = "SVPAWSAMEAS" })
+
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+
+
+
+
+        <br />
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Work Schedule
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        Inpsection Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.WSInspectionDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Validation Expiry Date
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.WSValidationExpiryDate, new { @readonly = "readonly",@disabled="disabled", @class = "inputDate" })
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th>
+                        Discovery date for Signboard Removal
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.WSDiscoryDateForSVRemoval, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Authorized person
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th>
+                        Certificate of Registration No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.APCertRegNo, new { htmlAttributes = new { @class = "form-control", id = "APCertRegNo" } })
+                        @Html.ValidationMessageFor(model => model.APCertRegNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.APChineseName, new { htmlAttributes = new { @class = "form-control", id = "APChineseName" } })
+                        @Html.ValidationMessageFor(model => model.APChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.APEnglishName, new { htmlAttributes = new { @class = "form-control", id = "APEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.APEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.APContactNo, new { htmlAttributes = new { @class = "form-control", id = "APContactNo" } })
+                        @Html.ValidationMessageFor(model => model.APContactNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.APFaxNo, new { htmlAttributes = new { @class = "form-control", id = "APFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.APFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Expiry Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.APExpiryDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Signature Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.APSignDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Registered structural engineer
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th>
+                        Certificate of Registration No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.RSECertRegNo, new { htmlAttributes = new { @class = "form-control", id = "RSECertRegNo" } })
+                        @Html.ValidationMessageFor(model => model.RSECertRegNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.RSEChineseName, new { htmlAttributes = new { @class = "form-control", id = "RSEChineseName" } })
+                        @Html.ValidationMessageFor(model => model.RSEChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.RSEEnglishName, new { htmlAttributes = new { @class = "form-control", id = "RSEEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.RSEEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.RSEContactNo, new { htmlAttributes = new { @class = "form-control", id = "RSEContactNo" } })
+                        @Html.ValidationMessageFor(model => model.RSEContactNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.RSEFaxNo, new { htmlAttributes = new { @class = "form-control", id = "RSEFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.RSEFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Expiry Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.RSEExpiryDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Signature Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.RSESignDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+
+        <div class="RegisteredInspector" style="display:none">
+            <table class="inputTable">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Registered Inspector
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th>
+                            Certificate of Registration No. :
+                        </th>
+                        <td>
+                            @Html.EditorFor(model => model.RICertRegNo, new { htmlAttributes = new { @class = "form-control", id = "RICertRegNo" } })
+                            @Html.ValidationMessageFor(model => model.RICertRegNo, "", new { @class = "text-danger" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="350">
+                            Chinese Name :
+                        </th>
+                        <td>
+                            @Html.EditorFor(model => model.RIChineseName, new { htmlAttributes = new { @class = "form-control", id = "RIChineseName" } })
+                            @Html.ValidationMessageFor(model => model.RIChineseName, "", new { @class = "text-danger" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            English Name :
+                        </th>
+                        <td>
+                            @Html.EditorFor(model => model.RIEnglishName, new { htmlAttributes = new { @class = "form-control", id = "RIEnglishName" } })
+                            @Html.ValidationMessageFor(model => model.RIEnglishName, "", new { @class = "text-danger" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Contact No. :
+                        </th>
+                        <td>
+                            @Html.EditorFor(model => model.RIContactNo, new { htmlAttributes = new { @class = "form-control", id = "RIContactNo" } })
+                            @Html.ValidationMessageFor(model => model.RIContactNo, "", new { @class = "text-danger" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Fax No. :
+                        </th>
+                        <td>
+                            @Html.EditorFor(model => model.RIFaxNo, new { htmlAttributes = new { @class = "form-control", id = "RIFaxNo" } })
+                            @Html.ValidationMessageFor(model => model.RIFaxNo, "", new { @class = "text-danger" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Particulars of the authorized signatory
+                        </th>
+                        <td></td>
+                    </tr>
+             
+                    <tr>
+                        <th>
+                            Expiry Date :
+                        </th>
+                        <td>
+                            @Html.TextBoxFor(model => model.RIExpiryDate, new { @class = "inputDate" })
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Signature Date :
+                        </th>
+                        <td>
+                            @Html.TextBoxFor(model => model.RISingDate, new { @class = "inputDate" })
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+        <br />
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Prescribed registered contractor
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th>
+                        Certificate of Registration No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCCertRegNo, new { htmlAttributes = new { @class = "form-control", id = "PRCCertRegNo" } })
+                        @Html.ValidationMessageFor(model => model.PRCCertRegNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th width="350">
+                        Chinese Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCChineseName, new { htmlAttributes = new { @class = "form-control", id = "PRCChineseName" } })
+                        @Html.ValidationMessageFor(model => model.PRCChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        English Name :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCEnglishName, new { htmlAttributes = new { @class = "form-control", id = "PRCEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.PRCEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Contact No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCContactNo, new { htmlAttributes = new { @class = "form-control", id = "PRCContactNo" } })
+                        @Html.ValidationMessageFor(model => model.PRCContactNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Fax No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCFaxNo, new { htmlAttributes = new { @class = "form-control", id = "PRCFaxNo" } })
+                        @Html.ValidationMessageFor(model => model.PRCFaxNo, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Particulars of the authorized signatory
+                    </th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>
+                        AS Chinese Name
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCASChineseName, new { htmlAttributes = new { @class = "form-control", id = "PRCASChineseName" } })
+                        @Html.ValidationMessageFor(model => model.PRCASChineseName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        AS English Name
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.PRCASEnglishName, new { htmlAttributes = new { @class = "form-control", id = "PRCASEnglishName" } })
+                        @Html.ValidationMessageFor(model => model.PRCASEnglishName, "", new { @class = "text-danger" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Expiry Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.PRCExpiryDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Signature Date :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.PRCSignDate, new { @class = "inputDate" })
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table class="inputTable">
+            <tfoot>
+                <tr>
+                    <td>
+                        <input class="inputButton" id="" name="" value="Next" onclick='NextPage()' type="button">
+                        <input type="submit" class="SaveBtn" id="Save" value="Save as Draft" />
+                        <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM0104", "SMM0104")"' type="button">
+
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <br />
+
+    </div>
+
+
+
+
+    <div class="DataEntryValInfo" style="display:none">
+        <h3>
+            Data Entry - Validation Information
+        </h3>
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Validation Information
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Validity of AP/ RSE/ RGE/ RI appointed :</th>
+                    <td >
+                        @Html.RadioButtonFor(model => model.VIValidityAP, "OK", new { id = "VIValidityAP", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VIValidityAP, "Not OK", new { id = "VIValidityAP", @class = "inputRadio" }) Not OK
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Signature of AP/ RSE/ RGE/ RI appointed :<br />
+                        Specimen Signature of AP :   <br />
+                        Specimen Signature of RSE :   <br />
+                        Specimen Signature of RGE : <br />
+                        Specimen Signature of RI : <br />
+
+                    </th>
+                    <td valign="top">
+                        @Html.RadioButtonFor(model => model.VISignatureAP, "OK", new { id = "VISignatureAP", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VISignatureAP, "Not OK", new { id = "VISignatureAP", @class = "inputRadio" }) Not OK
+                    </td>
+                </tr>
+                <tr>
+                    <th>Capacity of AS appointed w.r.t. stated MW item no. :	</th>
+                    <td>
+                        @Html.RadioButtonFor(model => model.VICapacityAS, "OK", new { id = "VICapacityAS", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VICapacityAS, "Not OK", new { id = "VICapacityAS", @class = "inputRadio" }) Not OK
+                    </td>
+                </tr>
+                <tr>
+                    <th>Validity of PRC appointed :	</th>
+                    <td>
+                        @Html.RadioButtonFor(model => model.VIValidityPRC, "OK", new { id = "VIValidityPRC", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VIValidityPRC, "Not OK", new { id = "VIValidityPRC", @class = "inputRadio" }) Not OK
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Signature of AS appointed :<br />
+                        Specimen Signature :
+                    </th>
+                    <td>
+                        @Html.RadioButtonFor(model => model.VISignatureAS, "OK", new { id = "VISignatureAS", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VISignatureAS, "Not OK", new { id = "VISignatureAS", @class = "inputRadio" }) Not OK
+                    </td>
+                </tr>
+                <tr>
+                    <th>Information of Signboard Owner provided :</th>
+                    <td>
+                        @Html.RadioButtonFor(model => model.VIInfoSOProvided, "OK", new { id = "VIInfoSOProvided", @class = "inputRadio" }) OK
+                        @Html.RadioButtonFor(model => model.VIInfoSOProvided, "Not OK", new { id = "VIInfoSOProvided", @class = "inputRadio" }) Not OK
+                        @Html.RadioButtonFor(model => model.VIInfoSOProvided, "N/A", new { id = "VIInfoSOProvided", @class = "inputRadio" }) N/A
+
+                    </td>
+                </tr>
+                <tr>
+                    <th> Other irregularities as marked :</th>
+                    <td>
+                        @Html.TextBoxFor(model => model.VIOtherIRRMarked)
+                            </td>
+                </tr>
+                <tr>
+                    <th>Recommendation : 	</th>
+                    <td>
+                        @Html.RadioButtonFor(model => model.VIRecommendation, "Accept", new { id = "VIRecommendation", @class = "inputRadio" }) Accept
+                        @Html.RadioButtonFor(model => model.VIRecommendation, "Refuse", new { id = "VIRecommendation", @class = "inputRadio" }) Refuse
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+        <br />
+
+        <table class="inputTable">
+
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Generate Acknowledgement Letter
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        TO Handling Officer :
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.GALTOHandlingOffice, (IEnumerable<SelectListItem>)ViewBag.TOHandlingOfficerResult, new { style = "width:auto", id = "GALTOHandlingOffice" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        I.O. Address :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.GALIOAddress, new { htmlAttributes = new { @class = "form-control", id = "GALIOAddress" } })
+                        @Html.ValidationMessageFor(model => model.GALIOAddress, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Last Acknowledgment Letter Issue Date :
+                    </th>
+                    <td>@Html.DisplayFor(modelItem =>Model.GALLastAckLetterIssuedDate)</td>
+                </tr>
+                <tr>
+                    <th>
+                        Letter Type :
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.GALLetterType, (IEnumerable<SelectListItem>)ViewBag.LetterType, new { style = "width:auto", id = "GALLetterType" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Letter :
+                    </th>
+                    <td>
+                        @*@Html.DropDownListFor(model => model.GALLetter,, new { style = "width:auto", id = "GALLetterType" })*@
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+        <table class="inputTable">
+            <tfoot>
+                <tr>
+                    <td>
+                        <input class="inputButton" id="" name="" value="Back" onclick='BackPage()' type="button">
+                        <input type="submit" class="SubmitBtn" id="Submit" value="Submit" />
+                        <input type="submit" class="SaveBtn" id="Save" value="Save as Draft" />
+                        <input class="inputButton" id="" name="btnCancel" value="Home" onclick='location.href="@Url.Action("SMM0104", "SMM0104")"' type="button">
+
+                    </td>
+                </tr>
+            </tfoot>
+        </table>    
+
+    </div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br>
+
+
+
+
+
+<br>
+
+<br>
+
+
+
+

@@ -1,0 +1,441 @@
+﻿
+
+<h3>Generate New Document S/N.</h3>
+
+<div class="sList">
+
+    <table class="inputTable">
+        <thead>
+            <tr>
+                <th>Generate new document S/N.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fLabel">
+                    <!--<input class="inputButton" type="button" id="btnGenNewDSN" name="btnGenNewDSN" value="Generate New Document S/N."  vertical-align:middle" onclick="return genSNBarcodeByType()">-->
+                    <input class="inputButton" type="button" id="btnGenNewDSN" name="btnGenNewDSN" value="Generate New Document S/N." vertical-align:middle" onclick="return generateIncomingBarcodeByType()">
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br>
+<div class="sList">
+
+    <table class="inputTable">
+
+        <thead>
+            <tr>
+                <th colspan="2" class="sTh1">Existing Document S/N.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="fLabel" >Existing Document S/N. :</th>
+                <td class="fField">
+                    <input type="text" id="snBarcodeNumber" name="snBarcodeNumber" value="" style="width:290px">
+                    <input class="inputButton" type="button" id="btnPrint" name="btnPrint" value="Print Barcode" vertical-align:middle" onclick="genSNBarcodeByNumber()">
+                    <font color="#FF0000"></font>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+
+<div id="PEMHideDiv" class="hide">
+    <div id="printArea">
+        <img src="/img/barcode.png" height="60px" width="100px" alt="barcode">
+    </div>
+    <br />
+    <applet code="jzebra.JZebraApplet.class" archive="http://10.5.17.38:80/pem/jzebra.jar" width="0" height="0">
+        <param name="DSN_NO" value="D0000748846">
+        <param name="configtype" value="URL">
+        <param name="configpath" value="http://10.5.17.38:80/pem/preview-raw-commands.txt">
+        <param name="autoprint" value="true">
+        <param name="printername" value="jzebra">
+        <param name="showicon" value="false">
+        <param name="buttontext" value="">
+        <param name="linefeed" value="\r">
+    </applet>
+
+
+    <div class="sList">
+        <table class="inputTable">
+           
+                            <tbody>
+                                <tr>
+                                    <th class="fLabel" style="width:200px">Document S/N. :</th>
+                                    <td class="fField" style="font-family:sans-serif;font-size:10pt">D0000748846</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fLabel">Ref. No. :</th>
+                                    <td class="fField">
+                                        <input type="text" id="refNo" name="refNo" value="" style="width:290px" onblur="isComOrEnq()">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+           
+    </div>
+
+
+    <div class="sList" id="hideShow">
+
+        <table class="inputTable">
+            
+                            <tbody>
+                                <tr>
+                                    <th class="fLabel" style="width:200px">Issued Date :</th>
+                                    <td class="fField">
+                                        <input class="inputDate" type="text" name="issuedDate" value="19/10/2018" readonly="">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fLabel">Letter Template No :</th>
+                                    <td class="fField">
+                                        <select class="inputSelect" id="letterTemplate" name="letterTemplate" style="width:500px;">
+                                            <option value="">- Select -</option>
+
+                                            <option value="SL-MW01A Notice Commencement (with PBP)_CN ">SL-MW01A Notice Commencement (with PBP)_CN </option>
+
+                                            <option value="SL-MW01A Notice of Commencement (with PBP) EN">SL-MW01A Notice of Commencement (with PBP) EN</option>
+
+                                            <option value="SL-MW01B Notice of Commencement (with PBP)_CN">SL-MW01B Notice of Commencement (with PBP)_CN</option>
+
+                                            <option value="SL-MW01B Notice of Commencment (with PBP) _EN">SL-MW01B Notice of Commencment (with PBP) _EN</option>
+
+                                            <option value="SL-MW01C Notice of Commencement (with PBP)_CN">SL-MW01C Notice of Commencement (with PBP)_CN</option>
+
+                                            <option value="SL-MW01C Notice of Commencement (with PBP)_EN">SL-MW01C Notice of Commencement (with PBP)_EN</option>
+
+                                            <option value="SL-MW02A Certificate on Completion (with PBP)_CN">SL-MW02A Certificate on Completion (with PBP)_CN</option>
+
+                                            <option value="SL-MW02A Certificate on Completion (with PBP)_EN">SL-MW02A Certificate on Completion (with PBP)_EN</option>
+
+                                            <option value="SL-MW02B Certificate on Completion (with PBP)_CN">SL-MW02B Certificate on Completion (with PBP)_CN</option>
+
+                                            <option value="SL-MW02B Certificate on Completion (with PBP)_EN">SL-MW02B Certificate on Completion (with PBP)_EN</option>
+
+                                            <option value="SL-MW02C Certificate on Completion (with PBP)_CN">SL-MW02C Certificate on Completion (with PBP)_CN</option>
+
+                                            <option value="SL-MW02C Certificate on Completion (with PBP)_EN">SL-MW02C Certificate on Completion (with PBP)_EN</option>
+
+                                            <option value="SL-MW03A Notice of Commencement (without PBP)_CN">SL-MW03A Notice of Commencement (without PBP)_CN</option>
+
+                                            <option value="SL-MW03A Notice of Commencement (without PBP)_EN">SL-MW03A Notice of Commencement (without PBP)_EN</option>
+
+                                            <option value="SL-MW03B Notice of Commencement (without PBP)_CN">SL-MW03B Notice of Commencement (without PBP)_CN</option>
+
+                                            <option value="SL-MW03B Notice of Commencement (without PBP)_EN">SL-MW03B Notice of Commencement (without PBP)_EN</option>
+
+                                            <option value="SL-MW03C Notice of Commencement (without PBP)_CN">SL-MW03C Notice of Commencement (without PBP)_CN</option>
+
+                                            <option value="SL-MW03C Notice of Commencement (without PBP)_EN">SL-MW03C Notice of Commencement (without PBP)_EN</option>
+
+                                            <option value="SL-MW04A Certificate on Completion (without PBP)_CN">SL-MW04A Certificate on Completion (without PBP)_CN</option>
+
+                                            <option value="SL-MW04A Certificate on Completion (without PBP)_EN">SL-MW04A Certificate on Completion (without PBP)_EN</option>
+
+                                            <option value="SL-MW04B Certificate on Completion (without PBP)_CN">SL-MW04B Certificate on Completion (without PBP)_CN</option>
+
+                                            <option value="SL-MW04B Certificate on Completion (without PBP)_EN">SL-MW04B Certificate on Completion (without PBP)_EN</option>
+
+                                            <option value="SL-MW04C Certificate on Completion (without PBP)_CN">SL-MW04C Certificate on Completion (without PBP)_CN</option>
+
+                                            <option value="SL-MW04C Certificate on Completion (without PBP)_EN">SL-MW04C Certificate on Completion (without PBP)_EN</option>
+
+                                            <option value="SL-MW05A Notice of Completion of Class III Minor Works_CN">SL-MW05A Notice of Completion of Class III Minor Works_CN</option>
+
+                                            <option value="SL-MW05A Notice of Completion of Class III Minor Works_EN">SL-MW05A Notice of Completion of Class III Minor Works_EN</option>
+
+                                            <option value="SL-MW05B Notice of Completion of Class III Minor Works_CN">SL-MW05B Notice of Completion of Class III Minor Works_CN</option>
+
+                                            <option value="SL-MW05B Notice of Completion of Class III Minor Works_EN">SL-MW05B Notice of Completion of Class III Minor Works_EN</option>
+
+                                            <option value="SL-MW05C Notice of Completion of Class III Minor Workson (with PBP)_CN">SL-MW05C Notice of Completion of Class III Minor Workson (with PBP)_CN</option>
+
+                                            <option value="SL-MW05C Notice of Completion of Class III Minor Workson (with PBP)_EN">SL-MW05C Notice of Completion of Class III Minor Workson (with PBP)_EN</option>
+
+                                            <option value="SL-MW06A Notice of Validation for Household Minor Works_CN">SL-MW06A Notice of Validation for Household Minor Works_CN</option>
+
+                                            <option value="SL-MW06A Notice of Validation for Household Minor Works_EN">SL-MW06A Notice of Validation for Household Minor Works_EN</option>
+
+                                            <option value="SL-MW06B Notice of Validation for Household Minor Works_CN">SL-MW06B Notice of Validation for Household Minor Works_CN</option>
+
+                                            <option value="SL-MW06B Notice of Validation for Household Minor Works_EN">SL-MW06B Notice of Validation for Household Minor Works_EN</option>
+
+                                            <option value="SL-MW06C Notice of Validation for Household Minor Works CN">SL-MW06C Notice of Validation for Household Minor Works CN</option>
+
+                                            <option value="SL-MW06C Notice of Validation for Household Minor Works EN">SL-MW06C Notice of Validation for Household Minor Works EN</option>
+
+                                            <option value="SL-MW07A Notice of Change in Appointment of PBP(other than AP) or PRC_CN">SL-MW07A Notice of Change in Appointment of PBP(other than AP) or PRC_CN</option>
+
+                                            <option value="SL-MW07A Notice of Change in Appointment of PBP(other than AP) or PRC_EN">SL-MW07A Notice of Change in Appointment of PBP(other than AP) or PRC_EN</option>
+
+                                            <option value="SL-MW07B Notice of Change in Appointment of PBP(other than AP) or PRC_CN">SL-MW07B Notice of Change in Appointment of PBP(other than AP) or PRC_CN</option>
+
+                                            <option value="SL-MW07B Notice of Change in Appointment of PBP(other than AP) or PRC_EN">SL-MW07B Notice of Change in Appointment of PBP(other than AP) or PRC_EN</option>
+
+                                            <option value="SL-MW08A Notice of Change in Appointment of PBP(AP)_CN">SL-MW08A Notice of Change in Appointment of PBP(AP)_CN</option>
+
+                                            <option value="SL-MW08A Notice of Change in Appointment of PBP(AP)_EN">SL-MW08A Notice of Change in Appointment of PBP(AP)_EN</option>
+
+                                            <option value="SL-MW08B Notice of Change in Appointment of PBP(AP)_CN">SL-MW08B Notice of Change in Appointment of PBP(AP)_CN</option>
+
+                                            <option value="SL-MW08B Notice of Change in Appointment of PBP(AP)_EN">SL-MW08B Notice of Change in Appointment of PBP(AP)_EN</option>
+
+                                            <option value="SL-MW09A Notice of Nomination by PBP to act in his stead_CN">SL-MW09A Notice of Nomination by PBP to act in his stead_CN</option>
+
+                                            <option value="SL-MW09A Notice of Nomination by PBP to act in his stead_EN">SL-MW09A Notice of Nomination by PBP to act in his stead_EN</option>
+
+                                            <option value="SL-MW09B Notice of Nomination by PBP to act in his stead_CN">SL-MW09B Notice of Nomination by PBP to act in his stead_CN</option>
+
+                                            <option value="SL-MW09B Notice of Nomination by PBP to act in his stead_EN">SL-MW09B Notice of Nomination by PBP to act in his stead_EN</option>
+
+                                            <option value="SL-MW10A Notice from PRC on ceasing to be appointed_CN">SL-MW10A Notice from PRC on ceasing to be appointed_CN</option>
+
+                                            <option value="SL-MW10A Notice from PRC on ceasing to be appointed_EN">SL-MW10A Notice from PRC on ceasing to be appointed_EN</option>
+
+                                            <option value="SL-MW10B Notice from PRC on ceasing to be appointed_CN">SL-MW10B Notice from PRC on ceasing to be appointed_CN</option>
+
+                                            <option value="SL-MW10B Notice from PRC on ceasing to be appointed_EN">SL-MW10B Notice from PRC on ceasing to be appointed_EN</option>
+
+                                            <option value="SL-MW11A Notice of Commencement of Additional Minor Works (with  PBP)_CN">SL-MW11A Notice of Commencement of Additional Minor Works (with  PBP)_CN</option>
+
+                                            <option value="SL-MW11A Notice of Commencement of Additional Minor Works (with  PBP)_EN">SL-MW11A Notice of Commencement of Additional Minor Works (with  PBP)_EN</option>
+
+                                            <option value="SL-MW11B Notice of Commencement of Additional Minor Works (with  PBP)_CN">SL-MW11B Notice of Commencement of Additional Minor Works (with  PBP)_CN</option>
+
+                                            <option value="SL-MW11B Notice of Commencement of Additional Minor Works (with  PBP)_EN">SL-MW11B Notice of Commencement of Additional Minor Works (with  PBP)_EN</option>
+
+                                            <option value="SL-MW11C Notice of Commencement of Additional Minor Works (with  PBP)_CN">SL-MW11C Notice of Commencement of Additional Minor Works (with  PBP)_CN</option>
+
+                                            <option value="SL-MW11C Notice of Commencement of Additional Minor Works (with  PBP)_EN">SL-MW11C Notice of Commencement of Additional Minor Works (with  PBP)_EN</option>
+
+                                            <option value="SL-MW12A Notice of Commencement of Additional Minor Works (without  PBP)_CN">SL-MW12A Notice of Commencement of Additional Minor Works (without  PBP)_CN</option>
+
+                                            <option value="SL-MW12A Notice of Commencement of Additional Minor Works (without  PBP)_EN">SL-MW12A Notice of Commencement of Additional Minor Works (without  PBP)_EN</option>
+
+                                            <option value="SL-MW12B Notice of Commencement of Additional Minor Works (without  PBP)_CN">SL-MW12B Notice of Commencement of Additional Minor Works (without  PBP)_CN</option>
+
+                                            <option value="SL-MW12B Notice of Commencement of Additional Minor Works (without  PBP)_EN">SL-MW12B Notice of Commencement of Additional Minor Works (without  PBP)_EN</option>
+
+                                            <option value="SL-MW12C Notice of Commencement of Additional Minor Works (without  PBP)_CN">SL-MW12C Notice of Commencement of Additional Minor Works (without  PBP)_CN</option>
+
+                                            <option value="SL-MW12C Notice of Commencement of Additional Minor Works (without  PBP)_EN">SL-MW12C Notice of Commencement of Additional Minor Works (without  PBP)_EN</option>
+
+                                            <option value="SL-MW31A Notice of Commencement of Revised Minor Works (with PBP)_CN">SL-MW31A Notice of Commencement of Revised Minor Works (with PBP)_CN</option>
+
+                                            <option value="SL-MW31A Notice of Commencement of Revised Minor Works (with PBP)_EN">SL-MW31A Notice of Commencement of Revised Minor Works (with PBP)_EN</option>
+
+                                            <option value="SL-MW31B Notice of Commencement of Revised Minor Works (with PBP)_CN">SL-MW31B Notice of Commencement of Revised Minor Works (with PBP)_CN</option>
+
+                                            <option value="SL-MW31B Notice of Commencement of Revised Minor Works (with PBP)_EN">SL-MW31B Notice of Commencement of Revised Minor Works (with PBP)_EN</option>
+
+                                            <option value="SL-MW32A Request of Submission Number for erection of Signboard of Class III Minor Works_CN">SL-MW32A Request of Submission Number for erection of Signboard of Class III Minor Works_CN</option>
+
+                                            <option value="SL-MW32A Request of Submission Number for erection of Signboard of Class III Minor Works_EN">SL-MW32A Request of Submission Number for erection of Signboard of Class III Minor Works_EN</option>
+
+                                            <option value="SL-MW32B Request of Submission Number for erection of Signboard of Class III Minor Works_CN">SL-MW32B Request of Submission Number for erection of Signboard of Class III Minor Works_CN</option>
+
+                                            <option value="SL-MW32B Request of Submission Number for erection of Signboard of Class III Minor Works_EN">SL-MW32B Request of Submission Number for erection of Signboard of Class III Minor Works_EN</option>
+
+                                            <option value="SL-MW33A Supplementary document for Minor Works_CN">SL-MW33A Supplementary document for Minor Works_CN</option>
+
+                                            <option value="SL-MW33A Supplementary document for Minor Works_EN">SL-MW33A Supplementary document for Minor Works_EN</option>
+
+                                            <option value="SL-MW33B Supplementary Document for Minor Works_CN">SL-MW33B Supplementary Document for Minor Works_CN</option>
+
+                                            <option value="SL-MW33B Supplementary document  for Minor Works_EN">SL-MW33B Supplementary document  for Minor Works_EN</option>
+
+                                            <option value="SL-MWG01 Interim Acknowledgement Letter_CN">SL-MWG01 Interim Acknowledgement Letter_CN</option>
+
+                                            <option value="SL-MWG01 Interim Acknowledgement Letter_EN">SL-MWG01 Interim Acknowledgement Letter_EN</option>
+
+                                            <option value="SL-MWG02 Notifying the registered incorporated owners for the erection of signboard on external wall of building_CN">SL-MWG02 Notifying the registered incorporated owners for the erection of signboard on external wall of building_CN</option>
+
+                                            <option value="SL-MWG02 Notifying the registered incorporated owners for the erection of signboard on external wall of building_EN">SL-MWG02 Notifying the registered incorporated owners for the erection of signboard on external wall of building_EN</option>
+
+                                            <option value="SL-MWG03 Reminder for Notice of completion Letter_CN">SL-MWG03 Reminder for Notice of completion Letter_CN</option>
+
+                                            <option value="SL-MWG03 Reminder for Notice of completion Letter_EN">SL-MWG03 Reminder for Notice of completion Letter_EN</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fLabel">Letter Type :</th>
+                                    <td class="fField">
+                                        <select class="inputSelect" id="letterType" name="letterType" style="width:290px;">
+                                            <option value="">- Select -</option>
+
+                                            <option value="Acknowledgement">Acknowledgement</option>
+
+                                            <option value="Conditional">Conditional</option>
+
+                                            <option value="Refusal">Refusal</option>
+
+                                            <option value="Reply Letter">Reply Letter</option>
+
+                                            <option value="Interim Reply">Interim Reply</option>
+
+                                            <option value="IO Notification">IO Notification</option>
+
+                                            <option value="Reminder">Reminder</option>
+
+                                            <option value="Memo">Memo</option>
+
+                                            <option value="Email">Email</option>
+
+                                            <option value="Other">Other</option>
+
+                                            <option value="D-Letter">D-Letter</option>
+
+                                            <option value="Referral">Referral</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+     
+
+    </div>
+
+
+
+    <div class="sList">
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <td class="sCell">
+
+                        <input class="inputRadio" type="radio" value="Scan and Dispatch" name="dispatchOrHook">
+                        Scan and Dispatch&nbsp;
+
+                        <input class="inputRadio" type="radio" value="Scan and Hook" name="dispatchOrHook" checked="checked">
+                        Scan and Hook&nbsp;
+
+                    </td>
+                    <td class="fField">
+                        <input type="hidden" name="snBarcodeMsgLbl" value="D0000748846" style="width:290px">
+                        <input type="hidden" name="isNewSN" value="" style="width:290px">
+                        <input class="inputButton" type="button" id="btnSubmit" name="btnSubmit" value="Submit" style="width:100px; vertical-align:middle" onclick="loadContentPage('PEM0210')">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="PEMHideDivPEM0210" style="display:none">
+    <div id="printArea">
+        <img src="/img/barcode.png" height="60px" width="100px" alt="barcode">
+    </div>
+    <br />
+    <applet code="jzebra.JZebraApplet.class" archive="http://10.5.17.38:80/pem/jzebra.jar" width="0" height="0">
+        <param name="DSN_NO" value="D0000748846">
+        <param name="configtype" value="URL">
+        <param name="configpath" value="http://10.5.17.38:80/pem/preview-raw-commands.txt">
+        <param name="autoprint" value="true">
+        <param name="printername" value="jzebra">
+        <param name="showicon" value="false">
+        <param name="buttontext" value="">
+        <param name="linefeed" value="\r">
+    </applet>
+
+
+    <div class="sList">
+        <table class="inputTable">
+            <tbody>
+               
+                                <tr>
+                                    <th class="fLabel" style="width:200px">Document S/N. :</th>
+                                    <td class="fField" style="font-family:sans-serif;font-size:10pt">D0000748846</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fLabel">Ref. No. :</th>
+                                    <td class="fField">
+                                        <input type="text" id="refNo" name="refNo" value="" style="width:290px" onblur="isComOrEnq()">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+  
+
+
+
+    <div class="sList">
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <td class="sCell">
+
+                        <input class="inputRadio" type="radio" value="Scan and Dispatch" name="dispatchOrHook">
+                        Scan and Dispatch&nbsp;
+
+                        <input class="inputRadio" type="radio" value="Scan and Hook" name="dispatchOrHook" checked="checked">
+                        Scan and Hook&nbsp;
+
+                    </td>
+                    <td class="fField">
+                        <input type="hidden" name="snBarcodeMsgLbl" value="D0000748846" style="width:290px">
+                        <input type="hidden" name="isNewSN" value="" style="width:290px">
+                        <input class="inputButton" type="button" id="btnSubmit" name="btnSubmit" value="Submit" style="width:100px; vertical-align:middle" onclick="loadContentPage('PEM0210')">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

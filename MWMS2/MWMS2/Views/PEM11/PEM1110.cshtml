@@ -1,0 +1,215 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1110ImportRecordsModel
+
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+<div class="panelHeader">
+    Import Records
+</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    @using (Html.BeginForm("ImportRecordsExcel", "PEM11", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm", @id="importForm" }))
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m2 s2">Import File :</div>
+                <div class="w3-col l10 m10 s10">
+                    @Html.HiddenFor(model => model.fileType)
+                    @*<input type="file" name="uploadFile" id="uploadFile" style="width:400px" accept=".xls" onchange="onChangeFile();">*@
+                    <input type="file" name="file" id="file" />
+                    @*@ViewBag.Message*@
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <a target="_BLANK" href="\img\template.xls">Template import file</a>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="btn btn-default" type="button" onclick="checkFile()"><i class="fa fa-upload"></i> Upload file</button>
+            <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+        </div>
+        <div id="resultPanel">
+
+        </div>
+    }
+</div>
+
+
+<script>
+    var searchT;
+    domReady(function () {
+        searchT = new searcher({
+            searchPath: "SearchImportRecords"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File", columnName: "FILE_NAME"
+                    , click: function (row) {
+                        try {
+                            if (row == null)
+                                return null;
+                            $.ajax({
+                                url: "ExportItemRecords"
+                                , type: "POST"
+                                , data: {
+                                    UUID: row.UUID
+                                    ,
+                                    fileName: row.FILE_NAME
+                                }
+                                , success: function (d) {
+                                    if (d != null && d.key != null) {
+                                        if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                                        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                                        dlForm.method = "post";
+                                        dlForm.target = "dlFrame";
+                                        dlForm.action = "ExportPEM1110Records";
+                                        dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                                        dlForm.submit();
+                                        attr(dlForm, "html", "");
+                                        //dropClass(exportingDom, "exporting");
+                                    }
+                                }
+                            });
+                        }
+                        catch (err) { }
+                    }
+                }
+                ,
+                {
+                    displayName: "Update Date", columnName: "CREATED_DATE"
+                }
+                ,
+                {
+                    displayName: "Upload By", columnName: "CREATED_BY"
+                }
+                ,
+                {
+                    displayName: "Status(success/total)", columnName: "STATUS"
+                }
+                ,
+                {
+                    displayName: "Action", formater: function (row, idx){
+                        if (row.STATUS == 'Uploaded') {
+                            var div = document.createElement('div');
+                            div.innerHTML = "<button type='button' onclick='UpdateFileStatus(" + '"' + row.UUID + '"' + ")'>Import to PEM</button>   /   <button type='button' onclick='DeleteRecord(" + '"' + row.UUID + '"' + ")' >Delete File</button>"
+                            return div;
+                        }
+                    }
+                }
+                ,
+                {
+                    displayName: "Result", columnName: "RESULT"
+                    , click: function (row) {
+                        try {
+                            if (row == null)
+                                return null;
+
+                            $.ajax({
+                                url: "ExportPEM1110Records"
+                                , type: "POST"
+                                , data: {
+                                    UUID: row.UUID
+                                }
+                                , success: function (d) {
+                                    if (d != null && d.key != null) {
+                                        if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                                        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                                        dlForm.method = "post";
+                                        dlForm.target = "dlFrame";
+                                        dlForm.action = "ExportPEM1110Records";
+                                        dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                                        dlForm.submit();
+                                        attr(dlForm, "html", "");
+                                        //dropClass(exportingDom, "exporting");
+                                    }
+                                }
+                            });
+                        }
+                        catch (err) { }
+                    }
+
+                }
+            ]
+        }).search();
+    });
+    function cancel() {
+        window.location.href = domId("rootPath").value + "/Admin/Para";
+    }
+    function checkFile() {
+        var thisForm = document.getElementById('importForm');
+        var file = $('#file').val();
+        if (file == null || file == "") {
+            alert("Please select the excel file.")
+            return;
+        }
+        else {
+            var index = file.lastIndexOf(".");
+            if (index < 0) {
+                alert("The file is in the wrong format.")
+                return;
+            }
+            else {
+                var ext = file.substring(index + 1, file.length);
+                if (ext != "xls" && ext != "xlsx") {
+                    alert("Upload excel only.")
+                    return;
+                }
+            }
+        }
+        thisForm.submit();
+    }
+
+    function DeleteRecord(UUID) {
+        if (confirm("Confirm to delete this file?")) {
+            $.ajax({
+                url: "DeleteMWRecords"
+                , type: "POST"
+                , data: {
+                    UUID: UUID
+                }
+                , success: function (data) {
+                    console.log(data)
+                    if (data != null && data.Result == "SUCCESS") {
+                        alert(data.Message);
+                        //document.getElementById('resultPanel').remove();
+                        searchT.search();
+                    } else {
+                        if (data.Result == "Failed") {
+                            alert(data.Message);
+                        }
+                    }
+                }
+
+            });
+        }
+    }
+
+    function UpdateFileStatus(UUID) {
+        if (confirm("Confirm to import this file?")) {
+            $.ajax({
+                url: "UpdateFileStatus"
+                , type: "POST"
+                , data: {
+                    UUID: UUID
+                }
+                , success: function (data) {
+                    console.log(data)
+                    if (data != null && data.Result == "SUCCESS") {
+                        alert(data.Message);
+                        searchT.search();
+                    } else {
+                        if (data.Result == "Failed") {
+                            alert(data.Message);
+                        }
+                    }
+                }
+
+            });
+        }
+    }
+</script>
+

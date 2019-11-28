@@ -1,0 +1,557 @@
+﻿<h3>
+    Edit Members Particular
+</h3>
+<table id="tblTabs" class="inputTable">
+    <thead>
+        <tr>
+            <th id="td1" class="tab"  align="center"><a href="javascript:setTab('memberInfo');">Member Info</a></th>
+
+            <th id="td2" class="untab"align="center"><a href="javascript:setTab('committeeType');">Committee Info</a></th>
+
+            <th id="td3" class="untab"align="center"><a href="javascript:setTab('institutes');">Institutes</a></th>
+
+
+        </tr>
+    </thead>
+</table>
+
+
+                <div id="memberInfo" style="display:;">
+                    
+                    <table id="Table3" class="inputTable">
+                        <tbody>
+                            <tr>
+                                <th style="WIDTH: 86px">HKID :<span class="asterix">*</span></th>
+                                <td>
+                                    <input name="hkid" maxlength="20" value="" id="hkid" style="font-size:10pt;width:144px;" class="inputText" type="text">
+
+                                    <!-- <input type="button" onclick="getApplicantById()" name="uclApplicants:btnGetId" value="Get HKID/Passport No." id="uclApplicants_btnGetId" title="Get info for specified HKID or passport." class="smallprint" style="width:144px;" /> -->
+
+                                    <br>
+                                    <span id="cusValHkid" controltovalidate="txtHkid" errormessage="Invalid HKID." display="Dynamic" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">Invalid HKID.</span>
+                                </td>
+                                <th style="WIDTH: 96px">Passport No.<span class="smallprint"> :</span></th>
+                                <td>
+                                    <input name="passportNo" maxlength="20" value="" style="font-size:10pt;width:161px;" class="inputText" type="text">
+                                    <br>
+                                    <span class="smallprint" style="FONT-SIZE: 7pt; COLOR: dimgray">
+                                        If not a HKID
+                                        holder, enter passport no.
+                                    </span><br>
+                                    <span id="RegularExpressionValidator9" controltovalidate="txtPassport" errormessage="Only letters, numbers, and the characters ()- are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="^[\w \(\)\-]*$" style="color:Red;display:none;">Only letters, numbers, and the characters ()- are allowed.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 86px">Title :</th>
+                                <td>
+                                    <select style="width:auto" name="title"  class="inputSelectNoWidth">
+                                        <option value="">- Select -</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0000">Mr</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0001">Miss</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0002">Dr</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0003">Mrs</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0004">Ir</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0005">Unknown</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0006">Ir Dr</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0007">Prof</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0008">Ms</option>
+                                        <option value="8a85932a25bf9f910125bf9f919c0009">Ir Prof</option>
+                                        <option value="8a8591a23bb69c9b013bb71fd3120bfa">Sr</option>
+                                        <option value="8a8591a23db07dfe013dfd5ee1ec4537">Ir Sr</option>
+                                    </select>
+                                </td>
+                                <th style="WIDTH: 96px">Sex :</th>
+                                <td>
+
+
+
+                                    <select style="width:auto" name="gender" id="gender" >
+                                        <option value="">- Select -</option>
+                                        <option value="M">M</option>
+                                        <option value="F">F</option>
+                                    </select>
+
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 86px">Surname :<span class="asterix">*</span></th>
+                                <td>
+                                    <input name="surname" maxlength="40" value="" style="font-size:10pt;width:200px;" class="inputText" type="text">
+
+                                    <span id="RequiredFieldValidator1" controltovalidate="txtSurname" errormessage="Please enter a surname." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a surname.</span> <span id="RegularExpressionValidator10" controltovalidate="txtSurname" errormessage="Only letters and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z ]*" style="color:Red;display:none;">Only letters and space are allowed.</span>
+                                </td>
+                                <th style="WIDTH: 96px">Given Name :<span class="asterix">*</span></th>
+                                <td>
+                                    <input name="givenNameOnId" maxlength="60" value="" style="font-size:10pt;width:200px;" class="inputText" type="text">
+                                    <span id="RequiredFieldValidator2" controltovalidate="txtGivenName" errormessage="Please enter a given name." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a given name.</span> <span id="RegularExpressionValidator11" controltovalidate="txtGivenName" errormessage="Only letters and the characters -, and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\-\,\. ]+" style="color:Red;display:none;">Only letters and the characters -, and space are allowed.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 86px">Chinese Name :</th>
+                                <td><input name="chineseName" maxlength="6" value="" style="font-size:10pt;width:96px;" class="inputText" type="text"></td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="Table10" class="inputTable">
+                        <tbody>
+                            <tr>
+                                <th width="86">C/o :</th>
+                                <td width="670"><input name="englishCareOf" maxlength="150" value="" style="font-size:10pt;width:653px;" class="inputText" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th width="86">C/o<span class="smallprint"> (Chn)</span> :</th>
+                                <td width="670"><input name="chineseCareOf" maxlength="50" value="" style="font-size:10pt;width:352px;" class="inputText" type="text"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="Table5" class="inputTable">
+                        <tbody>
+                            <tr>
+                                <th style="WIDTH: 377px">Address<span class="smallprint"> (English)</span> :<span class="asterix">*</span></th>
+                                <td>Address<span class="smallprint"> (Chinese)</span> :</td>
+                            </tr>
+                            <tr>
+                                <td style="WIDTH: 377px">
+                                    <input name="englishAddress1" maxlength="40" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="englishAddress2" maxlength="40" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="englishAddress3" maxlength="40" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="englishAddress4" maxlength="40" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="englishAddress5" maxlength="40" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <span id="RequiredFieldValidator3" controltovalidate="txtAddr1" errormessage="Please enter an address." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter an address.</span>
+                                </td>
+                                <td>
+                                    <input name="chineseAddress1" maxlength="30" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="chineseAddress2" maxlength="30" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="chineseAddress3" maxlength="30" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="chineseAddress4" maxlength="30" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                    <br>
+                                    <input name="chineseAddress5" maxlength="30" value="" style="font-size:10pt;width:360px;" class="inputText" type="text">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="Table8" class="inputTable">
+                        <tbody>
+                            <tr>
+                                <td style="FONT-SIZE: 1px" colspan="4">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 115px">Telephone Nos. :<span class="asterix">*</span></th>
+                                <td colspan="3">
+                                    1)
+                                    <input name="telephoneNo1" maxlength="22" value="" id="telephoneNo1" style="font-size:10pt;width:175px;" class="inputText" type="text">
+                                    &nbsp;
+                                    2)
+                                    <input name="telephoneNo2" maxlength="22" value="" id="telephoneNo2" style="font-size:10pt;width:175px;" class="inputText" type="text">
+                                    &nbsp;
+                                    3)
+                                    <input name="telephoneNo3" maxlength="22" value="" id="telephoneNo3" style="font-size:10pt;width:175px;" class="inputText" type="text">
+                                    <br>
+                                    <span id="RequiredFieldValidator5" controltovalidate="txtTel1" errormessage="Please enter at least one  telephone no.<br>" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">
+                                        Please enter at least one  telephone no.<br>
+                                    </span> <span id="RegularExpressionValidator1" controltovalidate="txtTel1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                        Invalid telephone no. 1.<br>
+                                    </span> <span id="RegularExpressionValidator3" controltovalidate="txtTel2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                        Invalid telephone no. 2.<br>
+                                    </span> <span id="RegularExpressionValidator13" controltovalidate="txtTel3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no. 3.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 115px">Fax Nos. :</th>
+                                <td colspan="3">
+                                    1)
+                                    <input name="faxNo1" maxlength="20" value="" style="font-size:10pt;width:175px;" class="inputText" type="text">
+                                    &nbsp;
+                                    2)
+                                    <input name="faxNo2" maxlength="20" value="" style="font-size:10pt;width:175px;" class="inputText" type="text">
+                                    <br>
+                                    <span id="RegularExpressionValidator5" controltovalidate="txtFax1" errormessage="Invalid fax no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                        Invalid fax no. 1.<br>
+                                    </span> <span id="RegularExpressionValidator6" controltovalidate="txtFax2" errormessage="Invalid fax no. 2." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid fax no. 2.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 115px">Email :</th>
+                                <td colspan="3">
+                                    <input name="email" maxlength="80" value="" style="font-size:10pt;width:583px;" class="inputText" type="text">
+                                    <br>
+                                    <span id="RegularExpressionValidator8" controltovalidate="txtEmail" errormessage="Invalid email address." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" style="color:Red;display:none;">Invalid email address.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 115px">Rank :</th>
+                                <td colspan="3"><input name="rank" maxlength="50" value="" style="font-size:10pt;width:450px;" class="inputText" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 44px">Post :</th>
+                                <td colspan="3"><input name="post" maxlength="50" value="" style="font-size:10pt;width:341px;" class="inputText" type="text"></td>
+                            </tr>
+                            <tr>
+                                <th style="WIDTH: 115px">Career :</th>
+                                <td colspan="3"><input name="career" maxlength="30" value="" style="font-size:10pt;width:305px;" class="inputText" type="text"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div id="committeeType" style="display:none;">
+
+                    <h3>Committee Panel</h3>
+
+                    <table class="resultTable hide" id="CRM0601Table">
+                        <thead>
+                            <tr class="grid-header" >
+                                <th nowrap="nowrap">Year</th>
+                                <th nowrap="nowrap">Committee Panel</th>
+                                <th nowrap="nowrap">Role in Panel</th>
+                                <th nowrap="nowrap">Expiry Date</th>
+                                <th nowrap="nowrap">Status</th>
+                                <th nowrap="nowrap">End Date of Service</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <br>
+
+
+                    <h3>
+                        Committee
+                    </h3>
+
+                    <table class="resultTable hide" id="CRM0601Table2">
+                        <thead>
+                            <tr class="grid-header" >
+                                <th nowrap="nowrap">Year</th>
+                                <th nowrap="nowrap">Committee</th>
+                                <th nowrap="nowrap">Committee Group</th>
+                                <th nowrap="nowrap">Role in Committee Group</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+                <div id="institutes" style="display:none;">
+
+                    <table class="inputTable">
+                        <thead>
+                            <tr class="grid-header" style="height:19px;">
+                                <th><input name="dgSociety:_ctl1:checkAll" id="dgSociety__ctl1_checkAll" onclick="CheckAll(this);" value="ON" type="checkbox"></th>
+                                <th nowrap="nowrap">Institutes</th>
+                            </tr>
+                        </thead>
+                     
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_0" value="8a85932a25bf9ed70125bf9ed7640009" type="checkbox">
+                                </td>
+
+                                <td>ARB</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_1" value="8a8591a23bef090b013c047fb1ef3011" type="checkbox">
+                                </td>
+
+                                <td>BD</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_2" value="8a85932a25bf9ed70125bf9ed7640000" type="checkbox">
+                                </td>
+
+                                <td>CASA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_3" value="8a85932a25bf9ed70125bf9ed764000f" type="checkbox">
+                                </td>
+
+                                <td>CUHK</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_4" value="8a85932a25bf9ed70125bf9ed764000a" type="checkbox">
+                                </td>
+
+                                <td>ERB</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_5" value="8a85932a25bf9ed70125bf9ed764000c" type="checkbox">
+                                </td>
+
+                                <td>ERB(BS/E&amp;M)</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_6" value="8a85932a25bf9ed70125bf9ed764000d" type="checkbox">
+                                </td>
+
+                                <td>ERB(GI/SF)</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_7" value="8a8591a23bef090b013c047fd6503012" type="checkbox">
+                                </td>
+
+                                <td>HD</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_8" value="8a85932a25bf9ed70125bf9ed764000e" type="checkbox">
+                                </td>
+
+                                <td>HK CityU</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_9" value="8a85932a25bf9ed70125bf9ed7640001" type="checkbox">
+                                </td>
+
+                                <td>HKCA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_10" value="8a8591a23bef090b013c04801ab03013" type="checkbox">
+                                </td>
+
+                                <td>HKCIEGU</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_11" value="8a8591a2263054750126404c230202bb" type="checkbox">
+                                </td>
+
+                                <td>HKCSA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_12" value="8a85932a25bf9ed70125bf9ed7640002" type="checkbox">
+                                </td>
+
+                                <td>HKEMCA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_13" value="8a8591a243bd94f30143be2a9b131fb3" type="checkbox">
+                                </td>
+
+                                <td>HKFEMC</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_14" value="8a85932a25bf9ed70125bf9ed7640003" type="checkbox">
+                                </td>
+
+                                <td>HKGBCA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_15" value="8a85932a25bf9ed70125bf9ed7640004" type="checkbox">
+                                </td>
+
+                                <td>HKIA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_16" value="8a85932a25bf9ed70125bf9ed7640005" type="checkbox">
+                                </td>
+
+                                <td>HKICM</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_17" value="8a85932a25bf9ed70125bf9ed7640006" type="checkbox">
+                                </td>
+
+                                <td>HKIE</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_18" value="8a85932a25bf9ed70125bf9ed7640007" type="checkbox">
+                                </td>
+
+                                <td>HKIS</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_19" value="8a85932a25bf9ed70125bf9ed7740011" type="checkbox">
+                                </td>
+
+                                <td>HKPolyU</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_20" value="8a8591a257568030015924afb9e57f83" type="checkbox">
+                                </td>
+
+                                <td>HKRCA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_21" value="8a85932a25bf9ed70125bf9ed7640008" type="checkbox">
+                                </td>
+
+                                <td>HKRVCAL</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_22" value="8a85932a25bf9ed70125bf9ed7740010" type="checkbox">
+                                </td>
+
+                                <td>HKU</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_23" value="8a8591a2263054750126404b925b02b9" type="checkbox">
+                                </td>
+
+                                <td>MWJWG</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_24" value="8a8591a2263054750126404bedba02ba" type="checkbox">
+                                </td>
+
+                                <td>RMWCSA</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <input name="institutesSelectedIdList" id="institutesSelectedIdList_25" value="8a85932a25bf9ed70125bf9ed764000b" type="checkbox">
+                                </td>
+
+                                <td>SRB</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+      
+<br>
+
+
+
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td class="editfooter" height="32">
+
+
+
+                <input name="btnSave" value="Save" onclick="loadContentPage('CRM0601')" id="btnSave" accesskey="S" type="button">
+                &nbsp;
+
+                <input name="btnCancel" value="Cancel" id="btnCancel" onclick="loadContentPage('CRM0601')" accesskey="C" type="button">
+                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+            </td>
+
+        </tr>
+
+    </tfoot>
+
+
+</table>

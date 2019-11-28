@@ -1,0 +1,23 @@
+INSERT INTO P_S_System_Value
+            (UUID,
+             System_Type_ID,
+             Code,
+             Description,
+             Description_E,
+             Ordering,
+             Created_By,
+             Created_Date,
+             Modified_By,
+             Modified_Date)
+SELECT Sys_guid(),
+       UUID,
+       '2.',
+       '請盡快重新填寫新表格連同有關文件郵寄或親身呈交至請盡快重新填寫新表格連同有關文件郵寄或親身呈交香港九龍油麻地海庭道11號西九龍政府合署北座地下屋宇署收發處。，你亦可透過電子方式呈交有關文件。',
+       'Please resubmit a fresh prescribed form with all corresponding documents by post or in person to Receipt '|| chr(38) ||' Despatch Counter, Buildings Department, G/F, North Tower, West Kowloon Government Offices, 11 Hoi Ting Road, Yau Ma Tei, Kowloon, Hong Kong. You may also submit the documents through electronic means.',
+       1,
+       'Chester',
+       Sysdate,
+       'Chester',
+       Sysdate
+FROM   P_S_System_type
+WHERE  Type = 'DW_REMARK2'; 

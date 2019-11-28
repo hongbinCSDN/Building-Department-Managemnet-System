@@ -1,0 +1,956 @@
+﻿<div id="searchContent">
+    <img src="images/expand.gif">&nbsp; <a id="btnGaz" href="javascript:showSearchForm(0)"> Gazette Memo &amp; Notices ...</a><br>
+
+
+
+    <div id="pnlGaz" style="display: none;">
+
+        <form name="reportForm" id="pnlGazForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="RPT0010a_a3_IP">
+            <input type="hidden" name="reportType" value="CSV">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+            
+                            <table id="Table6" class="inputTable">
+                                <tbody>
+                                    <tr> </tr>
+                                    <tr>
+                                        <th >Date of Gazette :</th>
+                                        <td>
+                                            <input type="text" name="gaz_date" value="" id="gaz_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_gaz_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th >Signature Name :</th>
+                                        <td>
+
+                                            <select style="width:auto" name="auth_uuid" id="auth_uuid">
+                                                <option selected="selected" value="">- Select Authority -</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin (for Chief Officer / Technical Services)</option>
+                                                <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie (Structural Engineer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee (Building Surveyor / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze (Building Surveyor / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung (Director of Buildings)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung (Building Surveyor / Registration)</option>
+                                                <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy (Structural Engineer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu (Structural Engineer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei (for Chief Officer / Technical Services)</option>
+                                                <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching (Structural Engineer / Registration)</option>
+                                                <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto (Structural Engineer / Registration)</option>
+                                                <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung (Structural Engineer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy (Senior Professional Officer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy (for Chief Officer / Technical Services)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching (for Chief Officer / Technical Services)</option>
+                                                <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai (Building Surveyor / Registration)</option>
+                                                <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan (for Chief Officer / Technical Support)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing (Structural Engineer / Registration)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung (Deputy Director of Buildings)</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah (Building Surveyor / Registration)</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Acting :</th>
+                                        <td>
+                                            <select style="width:auto" name="acting" id="acting" style="width:58px;">
+                                                <option selected="selected" value="0">No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="FONT-SIZE: 5px" colspan="2">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="btnGazMemo3a1" href="javascript:exportMMD0003a_1()">Export Memo (MMD0003a_1)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="btnGazMemo3a2" href="javascript:exportMMD0003a_2()">Export Memo (MMD0003a_2)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="HEIGHT: 20px" colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="btnGazMemo3a3" href="javascript:exportMMD0003a_3()">Export Memo (MMD0003a_3)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnGazWeekly" href="javascript:exportMMD0003a_4()">Export Weekly Notice (MMD0003a_4)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/print.gif">&nbsp;
+                                            <a id="btnRPT0010a_a3" href="javascript:printRPT0010a_a3()">Print Annual Notice (RPT0010a_a3)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/print.gif">&nbsp;
+                                            <a id="lbtnGazetteEng" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_annual_gazette_ENG')">Print Annual Gazette (Eng)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/print.gif">&nbsp;
+                                            <a id="lbtnGazetteChn" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_annual_gazette_CHN')">Print Annual Gazette (Chn)</a>
+                                        </td>
+                                    </tr>
+                                    <tr> </tr>
+                                </tbody>
+                            </table>
+    
+        </form>
+    </div>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="lbtnLabel" href="javascript:showSearchForm(1)">Label ...</a>
+
+    <div id="pnlLabel" style="display: none;">
+
+        <form name="reportForm" id="pnlLabelForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="RPT0010b_a2_CGC">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+          
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr> </tr>
+                                    <tr>
+                                        <th>File reference :</th>
+                                        <td><input name="txtFileRef" type="text" maxlength="20" id="txtFileRef"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date of Gazette :</th>
+                                        <td>
+                                            from&nbsp;
+                                            <input type="text" name="gaz_fr_date" value="" id="gaz_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_gaz_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="gaz_to_date" value="" id="gaz_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_gaz_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th >Date of Expiry :</th>
+                                        <td>
+                                            from&nbsp;
+                                            <input type="text" name="expiry_fr_date" value="" id="expiry_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_expiry_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="expiry_to_date" value="" id="expiry_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_expiry_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>PN :</th>
+                                        <td>
+                                            <select style="width:auto" name="ddPNRCUUID" id="ddPNRCUUID">
+                                                <option selected="selected" value="">ALL</option>
+                                                <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                                                <option value="8a85932a25bf9e120125bf9e12bc0003">BY EMAIL</option>
+                                                <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                                                <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Category Code :</th>
+                                        <td>
+                                            <select style="width:auto" name="ddCtrUUID" id="ddCtrUUID">
+                                                <option selected="selected" value="">ALL</option>
+                                                <option value="8a85934725d309310125d31170150002">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Surname :</th>
+                                        <td><input name="inputSurname" type="text" id="inputSurname" style="width:490px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Given Name :</th>
+                                        <td><input name="inputGivename" type="text" id="inputGivename" style="width:490px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input id="chkExpiryDate" type="checkbox" name="chkExpiryDate">
+                                            <label for="chkExpiryDate">Check Expiry Date (Active File Reference)</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnExportLabel" href="javascript:exportLabelTwo()">Export Label (2Label.doc for 2 columns)</a>&nbsp;&nbsp;
+                                            Start at: Columns&nbsp;
+                                            <select style="width:auto" name="dd2Cols" id="dd2Cols">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                            &nbsp;,Rows&nbsp;
+                                            <select style="width:auto" name="dd2Rows" id="dd2Rows">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnExportLabel2" href="javascript:exportLabelThree()">Export Label (3Label.doc for 3 columns)</a>&nbsp;&nbsp;
+                                            Start at: Columns&nbsp;
+                                            <select style="width:auto" name="dd3Cols" id="dd3Cols">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                            &nbsp;,Rows&nbsp;
+                                            <select style="width:auto" name="dd3Rows" id="dd3Rows">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+
+    <br>
+    <br>
+
+    <img src="images/expand.gif">&nbsp; <a id="lbtnInterview" href="javascript:showSearchForm(2)">Label (for Interview Schedule) ...</a>
+    <div id="pnlInterview" style="display: none;">
+
+        <form name="reportForm" id="pnlLabelInterviewForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="A">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+            <table class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <th><span id="Label1">Meeting Group :</span></th>
+                                        <td>
+                                            <select style="width:auto" name="meetingGroupUUID" id="meetingGroupUUID"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><span id="Label2">Type of People :</span></th>
+                                        <td>
+                                            <select style="width:auto" name="ddExportType" id="ddExportType">
+                                                <option selected="selected" value="0">ALL</option>
+                                                <option value="1">Interviewers</option>
+                                                <option value="2">Interviewees</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnExportInterview" href="javascript:exportLabelTwoInterview()">Export Label (2Label.doc for 2 columns)</a>&nbsp;&nbsp;
+                                            Start at: Columns&nbsp;
+                                            <select style="width:auto" name="dd2ColsInterview" id="dd2ColsInterview">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                            &nbsp;,Rows&nbsp;
+                                            <select style="width:auto" name="dd2RowsInterview" id="dd2RowsInterview">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnExportInterview2" href="javascript:exportLabelThreeInterview()">Export Label (3Label.doc for 3 columns)</a>&nbsp;&nbsp;
+                                            Start at: Columns&nbsp;
+                                            <select style="width:auto" name="dd3ColsInterview" id="dd3ColsInterview">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                            &nbsp;,Rows&nbsp;
+                                            <select style="width:auto" name="dd3RowsInterview" id="dd3RowsInterview">
+                                                <option selected="selected" value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+
+
+
+
+    </div>
+    <br>
+
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showSearchForm(3)"> Applicant monitor reports ...</a>
+
+    <div id="pnlAppControlForm" style="display: none;">
+
+        <form name="reportForm" id="pnlStatusAppControlForm" method="post" action="/Registration/report.do">
+
+            <input type="hidden" name="REPORT_NAME" value="StatusAppControlForm_IP">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+            <table class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Category Group :&nbsp;&nbsp;
+                                            <select style="width:auto" name="cat_gp" id="cat_gp">
+                                                <option value="IMW">IMW</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><br></td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="images/print.gif">&nbsp; <a id="lbtnStatusAppControl" href="javascript:submitStatusAppControl()">Status of Application Control Form</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+    </div>
+    <br>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="btnConvict" href="javascript:showSearchForm(4)">Information Sheet of Personnel's Performance Records ...</a>
+    <div id="pnlInfoSheet" style="display: none;">
+
+        <form name="reportForm" id="pnlInfoSheetForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="conviction_IP">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+            <table id="Table5" class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table id="Table3" class="inputTable">
+                                <tbody>
+                                    <tr> </tr>
+                                    <tr>
+                                        <th >Surname :</th>
+                                        <td>
+                                            <input name="txtConvSurname" type="text" maxlength="150" id="txtConvSurname" style="width:300px;">
+                                            <br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Given Name :</td>
+                                        <td><input name="txtConvGName" type="text" id="txtConvGName" style="width:300px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <th >Date of Offence :</th>
+                                        <td>
+                                            from &nbsp;
+                                            <input type="text" name="offence_fr_date" value="" id="offence_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_offence_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="offence_to_date" value="" id="offence_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_offence_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th >Date of Judgement :</th>
+                                        <td>
+                                            from &nbsp;
+
+                                            <input type="text" name="judge_fr_date" value="" id="judge_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_judge_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="judge_to_date" value="" id="judge_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_judge_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="FONT-SIZE: 5px" colspan="2">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img id="Image1" src="images/form.gif" alt="" border="0">
+                                            <a id="lbtnConvictCover" href="javascript:exportIPConvictionCover()">Conviction Records (Cover)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <img src="images/print.gif">&nbsp;
+                                            <a id="btnConvictList" href="javascript:submitPnlInfoSheetExportConviction()">Export Conviction Records</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <br>
+    <br>
+
+    <img src="images/expand.gif">&nbsp; <a id="btnPersonImg" href="javascript:showSearchForm(5)">Checking of particulars of the person on specified form ...</a>
+
+    <div id="pnlImg" style="display: none;">
+
+        <form name="reportForm" id="pnlImgForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="registrationType" value="IMW" id="registrationType">
+            <input type="hidden" name="maxpage" value="0" id="maxpage">
+
+            <table class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <th style="WIDTH: 131px">File Reference :</th>
+                                        <td>
+                                            <input type="text" name="displayfileReferenceNo" value="" id="displayfileReferenceNo" class="inputText">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 131px">Surname :</th>
+                                        <td>
+                                            <input type="text" name="displaySurname" value="" id="displaySurname" class="inputText">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 131px">Given Name :</th>
+                                        <td>
+                                            <input type="text" name="displayGivenname" value="" id="displayGivenname" class="inputText">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 131px">HKID :</th>
+                                        <td>
+                                            <input type="text" name="displayHKID" value="" id="displayHKID" class="inputText">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 131px">Passport no. :</th>
+                                        <td>
+                                            <input type="text" name="displayPassport" value="" id="displayPassport" class="inputText">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 131px">&nbsp;</th>
+                                        <td><input type="button" name="btnSearchImg" value="Search" id="btnSearchImg" onclick="pnlImgFormSearch()"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </form>
+
+    </div>
+    <br>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showSearchForm(6)">Administrative Reports ...</a>
+    <div id="pnlAdministrative" style="display: none;">
+        <form name="reportForm" id="pnlAdminReportsForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="admin_rpt_panel_type">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="MW">
+            <input type="hidden" name="panel_type_code" value="MWCRC">
+            <input type="hidden" name="today" value="21/11/2018">
+
+            <table class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="images/print.gif">&nbsp; <a id="btnAppControlForm" href="javascript:submitAdminReportsMWCR()">Minor Work Contractors Registration Committee Panel </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="lbtnExportInfo" href="javascript:showSearchForm(7)">Export MWC(W) information ...</a>
+
+    <div id="pnlExpInfo" style="display: none;">
+        <form name="reportForm" id="pnlExpInfoForm" method="post" action="/Registration/report.do">
+
+            <input type="hidden" name="REPORT_NAME" value="export_APRSERGE_information_IP">
+            <input type="hidden" name="reportType" value="CSV">
+            <input type="hidden" name="reg_type" value="IMW">
+            <input type="hidden" name="today" value="21/11/2018">
+
+
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">File Reference :</th>
+                                        <td valign="top"><input name="txtExpFileRef" type="text" id="txtExpFileRef"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Application Status :</th>
+                                        <td valign="top">
+
+                                            <select style="width:auto" name="status_id" id="status_id" style="width:200px">
+                                                <option selected="selected" value="">- ALL -</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80000">Active</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80001">Application in progress</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80003">Certificate prepared</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80006">Removed</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80007">Inactive</option>
+                                                <option value="8a85932a25bf968e0125bf968ef80008">Withdrawn</option>
+                                                <option value="8a8593a2607d43b301607d65d68a0001">test3162</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Date of Approval :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpApprovalDtFm" type="text" id="txtExpApprovalDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpApprovalDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpApprovalDtTo" type="text" id="txtExpApprovalDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpApprovalDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+
+
+                                        <th style="WIDTH: 150px" valign="top">Date of Registration :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpRegDtFm" type="text" id="txtExpRegDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRegDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpRegDtTo" type="text" id="txtExpRegDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRegDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Date of retention application submitted :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpRetDtFm" type="text" id="txtExpRetDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRetDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpRetDtTo" type="text" id="txtExpRetDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRetDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Date of restoration application submitted :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpRestDtFm" type="text" id="txtExpRestDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRestDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpRestDtTo" type="text" id="txtExpRestDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRestDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Date of Gazette :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpGazDtFm" type="text" id="txtExpGazDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpGazDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpGazDtTo" type="text" id="txtExpGazDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpGazDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Date of Expiry :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpExpiryDtFm" type="text" id="txtExpExpiryDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpExpiryDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpExpiryDtTo" type="text" id="txtExpExpiryDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpExpiryDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Period of Validity :</th>
+                                        <td valign="top">
+                                            <select style="width:auto" id="periodOfValidity" name="periodOfValidity" style="width:96px;">
+                                                <option value="">- All -</option>
+                                                <option value="8a85932a25bf9d8b0125bf9d8b3d0002">3</option>
+                                                <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Removal Date :</th>
+                                        <td valign="top">
+                                            from&nbsp;
+                                            <input name="txtExpRemovalDtFm" type="text" id="txtExpRemovalDtFm" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRemovalDtFm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input name="txtExpRemovalDtTo" type="text" id="txtExpRemovalDtTo" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_txtExpRemovalDtTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Authority Name :</th>
+                                        <td valign="top">
+
+                                            <select style="width:auto" name="auth_id" id="auth_id" style="width:408px;">
+                                                <option selected="selected" value="">- Select Authority -</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin</option>
+                                                <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung</option>
+                                                <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei</option>
+                                                <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching</option>
+                                                <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto</option>
+                                                <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching</option>
+                                                <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai</option>
+                                                <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung</option>
+                                                <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">PNAP :</th>
+                                        <td valign="top">
+
+                                            <select style="width:auto" name="ddlExpPNRC" id="ddlExpPNRC">
+                                                <option selected="selected" value="ALL">- ALL -</option>
+                                                <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                                                <option value="8a85932a25bf9e120125bf9e12bc0003">BY EMAIL</option>
+                                                <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                                                <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Category Code :</th>
+                                        <td valign="top">
+                                            <select style="width:auto" name="ddlExpCatCode" id="ddlExpCatCode">
+                                                <option selected="selected" value="ALL">- ALL -</option>
+                                                <option value="8a85934725d309310125d31170150002">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Surname :</th>
+                                        <td valign="top"><input name="txtExpSurname" type="text" id="txtExpSurname" style="width:250px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <th style="WIDTH: 150px" valign="top">Given Name :</th>
+                                        <td valign="top"><input name="txtExpGName" type="text" id="txtExpGName" style="width:250px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <label>Services of QP :</label>
+                                        </th>
+                                        <td>
+                                            <select style="width:auto" id="willingnessQp" name="willingnessQp">
+                                                <option value="">- ALL -</option>
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                                <option value="I">No Indication</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr><td><u>QP Card</u></td></tr>
+                                    <tr>
+                                        <th >Date of Issue :</th>
+                                        <td>
+                                            from &nbsp;
+                                            <input type="text" name="qp_issue_fr_date" value="" id="qp_issue_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_issue_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="qp_issue_to_date" value="" id="qp_issue_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_issue_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th >Date of Expiry :</th>
+                                        <td>
+                                            from &nbsp;
+                                            <input type="text" name="qp_expiry_fr_date" value="" id="qp_expiry_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_expiry_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="qp_expiry_to_date" value="" id="qp_expiry_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_expiry_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Serial No. :</th>
+                                        <td><input name="qp_serial_no" type="text" maxlength="20" id="qp_serial_no"></td>
+                                    </tr>
+                                    <tr>
+                                        <th >Return Date :</th>
+                                        <td>
+                                            from &nbsp;
+                                            <input type="text" name="qp_return_fr_date" value="" id="qp_return_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_return_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                            &nbsp;to&nbsp;
+                                            <input type="text" name="qp_return_to_date" value="" id="qp_return_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                            <span id="err_qp_return_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <label>Services in Fire Safety :</label>
+                                        </th>
+                                        <td>
+                                            <select style="width:auto" id="interestedFSS" name="interestedFSS">
+                                                <option value="">- ALL -</option>
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                                <option value="I">No Indication</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <td colspan="2" valign="top">
+                                            <input id="chkExpInfo" type="checkbox" name="chkExpInfo">
+                                            <label for="chkExpInfo">Check Expiry Date (Active File Reference)</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="WIDTH: 150px" colspan="2" valign="top">
+                                            <img src="images/form.gif">&nbsp;
+                                            <a id="lbtnExpInfo" href="javascript:submitExpInfo()">Export</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+
+    <br>
+
+
+    <img src="images/print.gif">&nbsp; <a id="btnExpired" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_RPT0007a')">MW Individual Expired List (RPT0007a)</a><br>
+    <br>
+
+    <form name="reportForm" id="RPT0002Form" method="post" action="/Registration/report.do">
+        <input type="hidden" name="REPORT_NAME" value="RPT0002_IMW">
+        <input type="hidden" name="reg_type" value="IMW">
+        <input type="hidden" name="SUBREPORT_DIR" value="SUBREPORT_DIR">
+        <input type="hidden" name="today" value="21/11/2018">
+        <img src="images/print.gif">&nbsp;
+        <a id="btnRPT0002" href="javascript:submitRPT0002()">Populations Listed on Registers and Lists (RPT0002)</a>
+    </form>
+
+    <br>
+
+    <form name="reportForm" id="RPT0002NewForm" method="post" action="/Registration/report.do">
+        <input type="hidden" name="REPORT_NAME" value="RPT0002_IMW_NEW">
+        <input type="hidden" name="reg_type" value="IMW">
+        <input type="hidden" name="SUBREPORT_DIR" value="SUBREPORT_DIR">
+        <input type="hidden" name="today" value="21/11/2018">
+        <img src="images/print.gif">&nbsp;
+        <a id="btnRPT0002New" href="javascript:submitRPT0002New()">Populations Listed on Registers and Lists (RPT0002)(New)</a>
+    </form>
+
+    <p>
+        <img src="images/print.gif">&nbsp; <a id="btnSummary" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_RPT0004')">Registered MW Individual Summary (RPT0004)</a><br>
+
+        <br>
+
+        <img src="images/print.gif">&nbsp; <a id="btnFormStats" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_RPT0008')">Statistics of Forms Received (RPT0008)</a><br>
+
+        <br>
+
+
+    </p><form name="reportForm" id="expiryRegistersForm" method="post" action="/Registration/report.do">
+        <input type="hidden" name="REPORT_NAME" value="expiry_registers_IP">
+        <input type="hidden" name="reg_type" value="IMW">
+        <input type="hidden" name="SUBREPORT_DIR" value="SUBREPORT_DIR">
+        <input type="hidden" name="today" value="21/11/2018">
+        <img src="images/print.gif">&nbsp;
+        <a id="btnExpiryContractor" href="javascript:submitExpiryRegisters()"> Count for Expiry of Registers (RPT)</a>
+    </form>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showSearchForm(8)">Attendance Record of Members ...</a>
+    <p></p>
+    <div id="AttendanceRecord" style="display: none;">
+        <table class="searchform" width="710" cellspacing="5" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td><img src="images/print.gif">&nbsp; <a id="btnattendance_month" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_attendance_month')">Specific month</a></td>
+                </tr>
+                <tr>
+                    <td><img src="images/print.gif">&nbsp; <a id="btnattendance_period" href="javascript:popupWind('report.do?method=LoadReport&amp;popReport=Load_MWI_attendance_period')">Specific period</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <img src="images/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showSearchForm(9)">Application Count Report ...</a>
+    <div id="pnlApplCntReport" style="display: none;">
+        <form name="reportForm" id="pnlApplCntForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="application_count_IMW">
+            <input type="hidden" name="reg_type" value="IMW">
+
+            <table class="inputTable">
+                <tbody>
+                    <tr>
+                        <th style="width:140px;">Application Date : </th>
+                        <td style="display:none;">
+                            <select style="width:auto" id="date_type" name="date_type" style="width:184px;">
+                                <option value="">- Select Type of Date -</option>
+                                <option value="application_date" selected="selected">Date of Application</option>
+                                <option value="registration_date">Date of Registration</option>
+                                <option value="gazette_date">Date of Gazette</option>
+                                <option value="expiry_date">Date of Expiry</option>
+                                <option value="removal_date">Date of Removal</option>
+                                <option value="retention_date">Date of Renewal</option>
+                                <option value="restore_date">Date of Restoration</option>
+                                <option value="approval_date">Date of Approval</option>
+                            </select>
+                        </td>
+                        <td colspan="2">
+                            from&nbsp;
+                            <input type="text" id="from_date" name="from_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                            <span id="err_from_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                            &nbsp;to&nbsp;
+                            <input type="text" id="to_date" name="to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                            <span id="err_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td valign="top">Application Status :</td>
+                        <td>
+                            <div id="div_statusList" class="scrollTableDivLower" style="height:100px; width:220px">
+                                <table class="scrollTable" cellspacing="0" cellpadding="0" border="0"> <tbody><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80000" name="statusList"> Active</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80001" name="statusList"> Application in progress</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80003" name="statusList"> Certificate prepared</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80006" name="statusList"> Removed</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80007" name="statusList"> Inactive</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80008" name="statusList"> Withdrawn</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a8593a2607d43b301607d65d68a0001" name="statusList"> test3162</td></tr></tbody></table>
+                            </div>
+                            <input type="hidden" id="statusStr" name="statusStr">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <img src="images/print.gif">&nbsp; <a id="Linkbutton3" href="javascript:submitApplCntReport()">Export Application Count Report</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <br>
+    <br>
+    <img src="images/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showSearchForm(10)">Progress of Minor Works Contractors Registration Report ...</a>
+    <div id="pnlProgMwcRegForm" style="display: none;">
+        <form name="reportForm" id="progMwcRegForm" method="post" action="/Registration/report.do">
+            <input type="hidden" name="REPORT_NAME" value="prog_mwc_reg">
+            <input type="hidden" name="reportType" value="">
+            <input type="hidden" name="reg_type" value="IMW">
+
+            <table class="inputTable">
+                <tbody>
+                    <tr>
+                        <th style="width:70px;">Date as at: </th>
+                        <td>
+                            <input type="text" id="date" name="date" style="width:80px;" maxlength="10" onblur="checkDate(this)">
+                            <span id="err_date" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width:500px;">
+                            <img src="images/print.gif">&nbsp; <a id="Linkbutton3" href="javascript:submitProgMWCReg()">Export Progress of Minor Works Contractors Registration Report</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>

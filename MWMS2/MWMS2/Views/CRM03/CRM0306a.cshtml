@@ -1,0 +1,231 @@
+﻿<table class="inputTable">
+    <tbody>
+        <tr>
+            <th><span id="Label1">Applicant Name:</span></th>
+            <td colspan="3"><input name="txtCompName" value="AU xx xx" readonly="readonly" id="txtCompName" style="width:496px;" type="text"></td>
+        </tr>
+        <tr>
+            <th><span id="Label3">File Reference :</span></th>
+            <td colspan="3"><input name="txtFileRef" value="R 1/83" readonly="readonly" id="txtFileRef" style="width:240px;" type="text"></td>
+        </tr>
+        <tr>
+            <th><span id="Label5">Category Code :</span></th>
+            <td colspan="3"><input name="txtPost" value="AP(A)" readonly="readonly" id="txtPost" style="width:240px;" type="text"></td>
+        </tr>
+        <tr>
+            <th><span id="Label4"> Date of Received:</span></th>
+            <td colspan="3">
+                <input name="receivedIndDate" maxlength="10" value="11/03/2015" onblur="CalDueDate(this)" id="receivedIndDate" class="inputDate" title="" type="text">
+                <span id="err_receivedIndDate" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                <span id="Label4"> Date of Withdrawal:</span>
+                <input name="indWithdrawalDate" maxlength="10" value="" onblur="checkDate(this)" id="indWithdrawalDate" class="inputDate" title="" type="text">
+                <span id="err_indWithdrawalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+
+            </td>
+        </tr>
+        <tr>
+            <th><span>Due Date:</span></th>
+            <td colspan="3">
+                <input name="dueDate" maxlength="10" value="10/07/2015" onblur="checkDate(this)" id="dueDate" class="inputDate" title="" type="text">
+                <span id="err_dueDate" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                <span>Removal Date:</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input name="removalDate" maxlength="10" value="" onblur="checkDate(this)" id="removalDate" class="inputDate" title="" type="text">
+                <span id="err_removalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th><span>Type of Application:</span></th>
+            <td colspan="3">
+
+                <select style="width:auto" name="applicationFormUUID" id="applicationFormUUID" class="inputSelect"><option value="8a85932a25bf97e50125bf97e5410000">BA1</option> <option value="8a85932a25bf97e50125bf97e5510001" selected="selected">BA1A</option> <option value="8a85932a25bf97e50125bf97e5510002">BA1B</option> <option value="8a85932a25bf97e50125bf97e5510004">BA24</option> <option value="8a85932a25bf97e50125bf97e5510008">LETTER</option> <option value="8a85932a25bf97e50125bf97e5510009">NA</option> <option value="6D0F09FA4E3B414DBC7DC4B91ADCBCE5">QP Card</option></select>
+            </td>
+        </tr>
+        <tr>
+            <th><span id="Label4"> Vetting Officer:</span></th>
+            <td colspan="3">
+                <select style="width:auto" name="indVettingOfficer" id="indVettingOfficer">
+                    <option value="BS/Reg1" selected="selected">BS/Reg1</option>
+                    <option value="BS/Reg2">BS/Reg2</option>
+                    <option value="BS/Reg3">BS/Reg3</option>
+                    <option value="SE/Reg1">SE/Reg1</option>
+                    <option value="SE/Reg2">SE/Reg2</option>
+                    <option value="SE/Reg3">SE/Reg3</option>
+                    <option value="SE/Reg4">SE/Reg4</option>
+                    <option value="SE/Reg5">SE/Reg5</option>
+                    <option value="SE/Reg6">SE/Reg6</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th><span id="Label2">Audit Check:</span></th>
+            <td colspan="3">
+                <input name="audit" value="" style="width:150px;" class="inputText" type="text">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <span id="Label15">
+                    Latest Date of Supplementary Documents:
+                </span>
+            </th>
+            <td colspan="3">
+                <input name="suppleDocumentDate" maxlength="10" value="" onblur="checkSupDocDate(this)" onfocus="setPreDate()" id="suppleDocumentDate" class="inputDate" title="" type="text">
+
+                <span id="err_suppleDocumentDate" class="err" style="color:Red;display:none;">Invalid date</span>
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <th><span id="Label6">Reference :</span><br></th>
+            <td colspan="3"></td>
+<tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px">
+
+
+                <span id="Label7">Date of Ask:</span>
+
+            </th>
+            <td colspan="3" >
+                <input name="referenceAskDate" maxlength="10" value="" onblur="checkDate(this)" id="referenceAskDate" class="inputDate" title="" type="text">
+                <span id="err_referenceAskDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+
+        <tr>
+            <th><span id="Label9">Reg. Board :</span></th>
+            <td colspan="3"></td>
+
+        <tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px"><span id="Label10">Date of Ask:</span></th>
+            <td >
+                <input name="registrationAskDate" maxlength="10" value="" onblur="checkDate(this)" id="registrationAskDate" class="inputDate" title="" type="text">
+                <span id="err_registrationAskDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px"><span id="Label11">Date of Reply:</span></th>
+            <td >
+                <input name="registrationReplyDate" maxlength="10" value="" onblur="checkDate(this)" id="registrationReplyDate" class="inputDate" title="" type="text">
+                <span id="err_registrationReplyDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <th>
+                <span id="Label12"> Interview for Review Application :</span>
+
+                <td colspan="3"></td>
+<tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px"><span id="Label13">Date of Notify:</span></th>
+            <td>
+                <input name="interviewNotifyDate" maxlength="10" value="" onblur="checkDate(this)" id="interviewNotifyDate" class="inputDate" title="" type="text">
+                <span id="err_interviewNotifyDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px"><span id="Label14"> Date of Interview/Assessment :</span></th>
+            <td>
+                <input name="interviewIndDate" maxlength="10" value="" onblur="checkDate(this)" id="interviewIndDate" class="inputDate" title="" type="text">
+                <span id="err_interviewIndDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px"><span id="Label14"> Due Date of Interview/Assessment :</span></th>
+            <td colspan="3">
+                <input name="interviewIndDueDate" maxlength="10" value="" onblur="checkDate(this)" id="interviewIndDueDate" class="inputDate" title="" type="text">
+                <span id="err_interviewIndDueDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <th ><span id="Label18">Result Letter (Issue Date) :</span></th><td colspan="3"></td>
+        <tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label19"> Date of Accept:</span></th>
+            <td >
+                <input name="resultAcceptDate" maxlength="10" value="08/05/2015" onblur="checkDate(this)" id="resultAcceptDate" class="inputDate" title="" type="text">
+                <span id="err_resultAcceptDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label20"> Date of Defer:</span></th>
+            <td >
+
+                <input name="resultDeferDate" maxlength="10" value="" onblur="checkDate(this)" id="resultDeferDate" class="inputDate" title="" type="text">
+
+
+                <span id="err_resultDeferDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+         
+        </tr>
+        <tr>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label21">Date of Refuse :</span></th>
+            <td>
+                <input name="resultRefuseDate" maxlength="10" value="" onblur="checkDate(this)" id="resultRefuseDate" class="inputDate" title="" type="text">
+                <span id="err_resultRefuseDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label5">End of Defer Date:</span></th>
+            <td>
+
+                <input name="deferIndDate" maxlength="10" value="" onblur="checkDate(this)" id="deferIndDate" class="inputDate" title="" type="text">
+
+
+                <span id="err_deferIndDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label5">Date of Notification Letter:</span></th>
+            <td>
+                <input name="notificationLetterDueDate" maxlength="10" value="" onblur="checkDate(this)" id="notificationLetterDueDate" class="inputDate" title="" type="text">
+                <span id="err_notificationLetterDueDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+            <th style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" nowrap="nowrap"><span id="Label5">Date of O/S:</span></th>
+            <td >
+                <input name="osDate" maxlength="10" value="" onblur="checkDate(this)" id="osDate" class="inputDate" title="" type="text">
+                <span id="err_osDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+          
+        </tr>
+
+
+        <tr>
+            <th ><span id="Label8"> Gazette :</span></th><td colspan="3"></td>
+        <tr>
+            <th nowrap="nowrap"><span id="Label16"> Date of Gazette:</span></th>
+            <td colspan="3">
+                <input name="gazetteDate" maxlength="10" value="" onblur="checkDate(this)" id="gazetteDate" class="inputDate" title="" type="text">
+                <span id="err_gazetteDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+         
+        </tr>
+
+     
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="editfooter" >
+
+
+                <input name="btnSave" id="btnSave" value="Save" onclick="loadContentPage('CRM0306')" type="button">
+                &nbsp;
+
+
+
+                <input name="btnDel" id="btnDel" value="Delete" onclick="loadContentPage('CRM0306')" type="button">
+                &nbsp;
+
+
+                <input name="btnCancel" id="btnCancel" value="Finish" onclick="loadContentPage('CRM0306a')" type="button">
+            </td>
+        </tr>
+    </tfoot>
+</table>

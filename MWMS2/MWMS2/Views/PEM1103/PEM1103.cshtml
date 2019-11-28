@@ -1,0 +1,156 @@
+﻿
+<h3>System Parameter Management</h3>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>Parameters </th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        <!--
+        <tr>
+            @*<td>@Html.ActionLink("Audit Check %", "PEM1103AuditCheckPercentage", "Admin/PEM1103AuditCheckPercentage")</td>*@
+            <td>@Html.ActionLink("Audit Check %", "PEM1103AuditCheckPercentage", "Admin/PEM1103AuditCheck")</td>
+        </tr>
+        -->
+        <tr class="sRow2">
+            <td>
+                @*<a href="javascript:loadContentPage('PEM1103b')">Validation Rules for Notification Days </a>*@
+                @Html.ActionLink("Validation Rules for Notification Days", "Index", "Admin/PEM1103VRND")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("MW Number Prefix", "Index", "Admin/PEM1103MWNumberPrefix")
+                @*<a href="javascript:loadContentPage('PEM1103c')">MW Number Prefix</a>*@
+            </td>
+        </tr>
+        <tr class="sRow2">
+            <td>
+                @*<a href="javascript:loadContentPage('PEM1103d')">Import MW Item Description</a>*@
+            @Html.ActionLink("Import MW Item Description", "Index", "Admin/PEM1103ImportMWItem")
+        </td>
+    </tr>
+
+
+</tbody>
+</table>
+<br><br>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>Acknowledgement Letter Module Parameters </th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <tr>
+            <td>
+                @*<a href="javascript:loadContentPage('PEM1103e')">
+                    Public Holiday
+                </a>*@
+                @Html.ActionLink("Public Holiday", "Index", "Admin/PEM1103PublicHoliday")
+            </td>
+        </tr>
+        <tr class="sRow2">
+            <td>
+                @Html.ActionLink("Audit Percentage", "Index", "Admin/PEM1103AuditPercentage")
+                @*<a href="javascript:loadContentPage('PEM1103f')">
+                    Audit Percentage
+                </a>*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("Number of daily Direct Return Over Counter", "Index", "Admin/PEM1103NoOfDirectReturn")
+                @*<a href="javascript:loadContentPage('PEM1103g')">
+                    Number of daily Direct Return Over Counter
+                </a>*@
+            </td>
+        </tr>
+        <tr class="sRow2">
+            <td>
+                @*<a href="javascript:loadContentPage('PEM1103h')">
+                    Number of Validated Structures
+                </a>*@
+                @Html.ActionLink("Number of Validated Structures", "Index", "Admin/PEM1103NumValidatedStructures")
+            </td>
+        </tr>
+        <tr class="sRow2">
+            <td>
+                @Html.ActionLink("To Details", "Index", "Admin/PEM1103ToDetails")
+
+                @*<a href="javascript:loadContentPage('PEM1103i')">
+                    TO Details
+                </a>*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("Day Back", "Index", "Admin/PEM1103DayBack")
+                @*<a href="javascript:loadContentPage('PEM1103j')">
+                    Day Back
+                </a>*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("Acknowledgement Letter Template Signature", "Index", "Admin/PEM1103AckLetterTemplateSignature")
+                @*<a href="javascript:loadContentPage('PEM1103k')">
+                    Acknowledgement Letter Template Signature
+                </a>*@
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.ActionLink(" Book mark address list", "Index", "Admin/PEMBookMarkAddress")
+
+                @*<a href="javascript:void()">
+                    Book mark address list
+                </a>*@
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.ActionLink("Direct Return Roster", "Index", "Admin/DirectReturnRoster")
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="resultTable">
+
+    <thead>
+        <tr>
+            <th>
+                Remind Letter Module Parameters
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @*<a href="javascript:loadContentPage('PEM1103RemindLetSign')">
+                    Remind Letter Template Signature
+                </a>*@
+                @Html.ActionLink("Remind Letter Template Signature", "Index", "Admin/PEM1103RemindLetterTemplateSignature")
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    function cancel() {
+        window.location.href = domId("rootPath").value + "/Admin/Para";
+    }
+</script>

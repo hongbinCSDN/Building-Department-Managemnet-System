@@ -1,0 +1,1 @@
+alter table p_mw_record_sac add sys_page_code varchar2(20);

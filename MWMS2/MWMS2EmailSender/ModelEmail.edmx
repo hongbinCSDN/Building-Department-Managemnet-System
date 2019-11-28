@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelEmail.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SYS_EMAIL_SENDER">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="RECIPIENT" Type="varchar2" MaxLength="1000" Nullable="false" />
+          <Property Name="CC" Type="varchar2" MaxLength="1000" />
+          <Property Name="SUBJECT" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="EMAILCONTENT" Type="varchar2" MaxLength="2000" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="200" />
+          <Property Name="ATTACHMENT" Type="blob" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="ModelEmailStoreContainer">
+          <EntitySet Name="SYS_EMAIL_SENDER" EntityType="Self.SYS_EMAIL_SENDER" Schema="" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelEmail" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EntitiesEmail" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SYS_EMAIL_SENDER" EntityType="ModelEmail.SYS_EMAIL_SENDER" />
+        </EntityContainer>
+        <EntityType Name="SYS_EMAIL_SENDER">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="RECIPIENT" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CC" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SUBJECT" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EMAILCONTENT" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ATTACHMENT" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="CREATED_BY" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelEmailStoreContainer" CdmEntityContainer="EntitiesEmail">
+          <EntitySetMapping Name="SYS_EMAIL_SENDER">
+            <EntityTypeMapping TypeName="ModelEmail.SYS_EMAIL_SENDER">
+              <MappingFragment StoreEntitySet="SYS_EMAIL_SENDER">
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="ATTACHMENT" ColumnName="ATTACHMENT" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="EMAILCONTENT" ColumnName="EMAILCONTENT" />
+                <ScalarProperty Name="SUBJECT" ColumnName="SUBJECT" />
+                <ScalarProperty Name="CC" ColumnName="CC" />
+                <ScalarProperty Name="RECIPIENT" ColumnName="RECIPIENT" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

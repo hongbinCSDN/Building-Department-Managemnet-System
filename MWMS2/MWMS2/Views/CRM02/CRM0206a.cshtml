@@ -1,0 +1,346 @@
+﻿<table class="inputTable">
+    <thead>
+        <tr>
+            <th colspan="2">Update Process Monitor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Name of Contractor :   </th>
+            <td><input name="txtCompName" value="xx (Luen Hop) Refrigeration Co., Ltd." readonly="readonly" id="txtCompName" style="width:496px;" type="text"></td>
+        </tr>
+        <tr>
+            <th>File Reference :</th>
+            <td><input name="txtFileRef" value="4/6816/56(11)" readonly="readonly" id="txtFileRef" style="width:240px;" type="text"></td>
+        </tr>
+        <tr>
+            <th> Candidate :</th>
+            <td><input name="txtCandidate" value="LEE xx xx Johnson" readonly="readonly" id="txtCandidate" style="width:240px;" type="text"></td>
+        </tr>
+        <tr>
+            <th>Post :</th>
+            <td><input name="txtPost" value="AS" readonly="readonly" id="txtPost" style="width:240px;" type="text"></td>
+        </tr>
+
+        <tr>
+            <th>Applicant Apply Type :</th>
+            <td>
+                <table id="rdlAppStatus" border="0">
+                    <tbody>
+                        <tr>
+
+
+
+                            <td>
+                                <input name="applyStatus" value="A" checked="checked" onclick="changeTypeOfApplication(this.value)" id="A" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_0">Addition</label>
+                            </td>
+                            <td>
+                                <input name="applyStatus" value="I" onclick="changeTypeOfApplication(this.value)" id="I" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_1">Inclusion</label>
+                            </td>
+                            <td>
+                                <input name="applyStatus" value="N" onclick="changeTypeOfApplication(this.value)" id="N" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_2">Renewal</label>
+                            </td>
+                            <td>
+                                <input name="applyStatus" value="S" onclick="changeTypeOfApplication(this.value)" id="S" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_3">Restoration</label>
+                            </td>
+                            <td>
+                                <input name="applyStatus" value="D" onclick="changeTypeOfApplication(this.value)" id="D" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_4">Application after Deferral</label>
+                            </td>
+
+                            <td>
+                                <input name="applyStatus" value="Q" onclick="changeTypeOfApplication(this.value)" id="Q" class="applyStatus" type="radio">
+                                <label for="rdlAppStatus_5">QP Card</label>
+                            </td>
+
+
+                            <t
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Interview Date :</th>
+
+            <td>
+                <select name="interviewDate" id="interviewDate"><option value=""></option></select>
+            </td>
+        </tr>
+        <tr>
+
+
+            <th>CRC :</th>
+
+
+            <td>
+                <input name="crcName" value="" id="crcName" style="width:240px;" class="inputText" type="text">
+            </td>
+        </tr>
+        <tr>
+            <th>Secretary :</th>
+            <td>
+                <select name="secretary" id="secretary"style="width:auto">
+                    <option value="" selected="selected"></option>
+                    <option value="BS/Reg1">BS/Reg1</option>
+                    <option value="BS/Reg2">BS/Reg2</option>
+                    <option value="BS/Reg3">BS/Reg3</option>
+                    <option value="SE/Reg1">SE/Reg1</option>
+                    <option value="SE/Reg2">SE/Reg2</option>
+                    <option value="SE/Reg3">SE/Reg3</option>
+                    <option value="SE/Reg4">SE/Reg4</option>
+                    <option value="SE/Reg5">SE/Reg5</option>
+                    <option value="SE/Reg6">SE/Reg6</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Vetting Officer :</th>
+            <td>
+                <select name="vettingOfficer" id="vettingOfficer"style="width:auto">
+                    <option value="" selected="selected"></option>
+                    <option value="BS/Reg1">BS/Reg1</option>
+                    <option value="BS/Reg2">BS/Reg2</option>
+                    <option value="BS/Reg3">BS/Reg3</option>
+                    <option value="SE/Reg1">SE/Reg1</option>
+                    <option value="SE/Reg2">SE/Reg2</option>
+                    <option value="SE/Reg3">SE/Reg3</option>
+                    <option value="SE/Reg4">SE/Reg4</option>
+                    <option value="SE/Reg5">SE/Reg5</option>
+                    <option value="SE/Reg6">SE/Reg6</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Type of Application :</th>
+            <td>
+
+
+
+
+                <select name="applicationFormUUID" onchange="changeApplyStatus()" id="applicationFormUUID" style="width:auto"><option value="8a85932a25bf97680125bf9768ce0003">BA2</option> <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option> <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option> <option value="8a85932a25bf97680125bf9768ce0007" selected="selected">BA2C</option> <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option> <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option></select>
+
+
+            </td>
+        </tr>
+        <tr>
+            <th>Nature (Normal/ Deferred Case) :</th>
+            <td>
+                <select name="nature" id="nature" class="inputSelect"style="width:auto">
+                    <option value="N">N</option>
+
+                    <option value="D">D</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Received Date :</th>
+            <td>
+                <input name="receivedDate" maxlength="10" value="" onblur="CalDueDate(this)" id="receivedDate" class="inputDate" title="" type="text">
+                <span id="err_receivedDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Due Date :</th>
+            <td>
+                <input name="dueDate" maxlength="10" value="" onblur="checkDate(this)" id="dueDate" class="inputDate" title="" type="text">
+                <span id="err_dueDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+
+                <span id="Label26">BA2 10-Day Pledge Date of Initial Reply [1]/[3] :</span>
+
+            </th>
+            <td>
+
+                <input name="pledgeInitialDate" maxlength="10" value="" onblur="checkDate(this)" id="pledgeInitialDate" class="inputDate" title="" type="text">
+
+
+                <span id="err_pledgeInitialDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Two Months Case :</th>
+            <td>
+                <select name="twoMonthCase" id="twoMonthCase" style="width:auto">
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Date of Letter [6] :</th>
+            <td>
+                <input name="dateOfLetter6" maxlength="10" value="" onblur="checkDate(this)" id="dateOfLetter6" class="inputDate" title="" type="text">
+                <span id="err_dateofLetter6" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Letter [8] :</th>
+            <td>
+                <input name="dateOfLetter8" maxlength="10" value="" onblur="checkDate(this)" id="dateOfLetter8" class="inputDate" title="" type="text">
+                <span id="err_dateofLetter8" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Date of 3-alternative Letter :</th>
+            <td>
+                <input name="alternativeLetterDate" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="alternativeLetterDate" class="inputDate" title="" type="text">
+                <span id="err_alternativeLetterDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Subsequent to 3-Alt. :</th>
+            <td>
+                <input name="subsequentDate" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="subsequentDate" class="inputDate" title="" type="text">
+                <span id="err_subsequentDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Preliminary Letter :</th>
+            <td>
+                <input name="preliminaryLetterDate" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="preliminaryLetterDate" class="inputDate" title="" type="text">
+                <span id="err_preliminaryLetterDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Result Letter :</th>
+            <td>
+                <input name="resultLetterDate" maxlength="10" value="" onblur="checkDate(this)" id="resultLetterDate" class="inputDate" title="" type="text">
+                <span id="err_resultLetterDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Interview/ Assessment Result :</th>
+            <td>
+                <select name="interviewResultUUID" id="interviewResultUUID" style="width:auto"><option value="8a85932a25bf9adf0125bf9adf180000">ACCEPTED</option> <option value="8a85932a25bf9adf0125bf9adf280001">BRING-UP</option> <option value="8a85932a25bf9adf0125bf9adf280002">DEFERRED</option> <option value="8a85932a25bf9adf0125bf9adf280003">NO OBJECTION IN PRINCIPLE</option> <option value="8a85932a25bf9adf0125bf9adf280004">ABSENT WITH NOTIFICATION</option> <option value="8a85932a25bf9adf0125bf9adf280005">REFUSED</option> <option value="8a85932a25bf9adf0125bf9adf280006">ABSENT</option> <option value="8a85932a25bf9adf0125bf9adf280007" selected="selected">null</option> <option value="8a8591a24c037988014c068eb6144023">WITHDRAWN</option></select>
+            </td>
+        </tr>
+        <tr>
+            <th>Initial Reply :</th>
+            <td>
+                <input name="initialReply" maxlength="3" value="" onfocus="inputMaskOnFocus(this, event, 'N')" disabled="disabled" style="width:50px;" class="inputText" type="text">days from Received Date
+            </td>
+        </tr>
+        <tr>
+            <th>Interview :</th>
+            <td>
+                <input name="interview" maxlength="3" value="" onfocus="inputMaskOnFocus(this, event, 'N')" disabled="disabled" style="width:50px;" class="inputText" type="text">days from Received Date
+            </td>
+        </tr>
+        <tr>
+            <th>Result Letter :</th>
+            <td> <input name="resultLetter" maxlength="3" value="" onfocus="inputMaskOnFocus(this, event, 'N')" disabled="disabled" style="width:50px;" class="inputText" type="text">days from Received Date</td>
+        </tr>
+        <tr>
+            <th>End of Defer Date :</th>
+            <td>
+                <input name="deferDate" maxlength="10" value="" onblur="checkDate(this)" id="deferDate" class="inputDate" title="" type="text">
+                <span id="err_deferDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Certificate Issued :</th>
+            <td>
+                <input name="certificateIssuedDate" maxlength="10" value="" onblur="checkDate(this)" id="certificateIssuedDate" class="inputDate" title="" type="text">
+                <span id="err_certificateIssuedDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Withdraw :</th>
+            <td>
+                <input name="withdrawDate" maxlength="10" value="" onblur="checkDate(this)" id="withdrawDate" class="inputDate" title="" type="text">
+                <span id="err_withdrawDate" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Remarks :</th>
+            <td>
+                <textarea name="remarks" rows="5" style="width:450px;" class="inputTextarea"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        </tbody>
+    <thead>
+        <tr>
+            <th colspan="4"><u>QP Card</u></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Date of Issue:</th>
+            <td>
+                <input name="issueDateQp" maxlength="10" value="" onblur="checkDate(this)" id="issueDateQp" class="inputDate" title="" type="text">
+                <span id="err_issueDateQp" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Date of Expiry:</th>
+            <td>
+                <input name="expiryDateQp" maxlength="10" value="" onblur="checkDate(this)" id="expiryDateQp" class="inputDate" title="" type="text">
+                <span id="err_expiryDateQp" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Serial No.:</th>
+
+            <td>
+                <input name="serialNoQp" value="" id="serialNoQp" class="inputDate" type="text">
+            </td>
+        </tr>
+        <tr>
+            <th>Return Date:</th>
+            <td>
+                <input name="returnDateQp" maxlength="10" value="" onblur="checkDate(this)" id="returnDateQp" class="inputDate" title="" type="text">
+                <span id="err_returnDateQp" class="err" style="color:Red;display:none;">Invalid date</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Registered Mail No.:</th>
+            <td>
+                <input name="regMailNoQp" maxlength="10" value="" onblur="checkDate(this)" id="regMailNoQp" class="inputDate" title="" type="text">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="4"></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="editfooter" colspan="4">
+
+
+                <input name="btnSave" id="btnSave" value="Save" onclick="loadContentPage('CRM0206')" type="button">
+                &nbsp;
+
+
+
+
+
+                <input name="btnCancel" id="btnCancel" value="Finish" onclick="loadContentPage('CRM0206')" type="button">
+
+
+
+            </td>
+        </tr>
+    </tfoot>
+</table>

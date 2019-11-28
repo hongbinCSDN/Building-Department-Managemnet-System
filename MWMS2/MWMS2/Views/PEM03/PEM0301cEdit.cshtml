@@ -1,0 +1,757 @@
+﻿<h3>
+    FORM MW01 ( 2nd Entry )
+</h3>
+<h3>
+    New Form
+</h3>
+
+
+<table class="inputTable">
+    <TBODY>
+        <TR>
+            <th>Document S/N</th>
+            <TD class=fText>D0000709940</TD>
+        </TR>
+        <TR>
+            <th>MW No.</th>
+            <TD>MW160302973</TD>
+        </TR>
+        <TR>
+            <th>Form Language</th>
+            <TD><LABEL><INPUT value="EN" type="radio"> English </LABEL>&nbsp;&nbsp; <LABEL><INPUT id=lang2 class=inputRadio name=mwViewForm.lang value=ZH CHECKED type=radio> Traditional Chinese </LABEL>&nbsp;&nbsp; </TD>
+        </TR>
+        <TR>
+            <th>Received Date</th>
+            <TD><INPUT id=mwViewForm.mwForm.receivedDateString class="inputDate" title=DD/MM/YYYY name=mwViewForm.mwForm.receivedDateString maxLength=10 value=21/3/2016 jQuery1542075170270="2"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR>
+            <th>File Reference No.</th>
+            <TD><INPUT style="WIDTH: 30px" id=mwViewForm.fileRefFour name=mwViewForm.fileRefFour maxLength=4>/ <INPUT style="WIDTH: 20px" id=mwViewForm.fileRefTwo name=mwViewForm.fileRefTwo maxLength=2></TD>
+        </TR>
+        <!--
+        <tr>
+            <td class="fLabel">Strengthening Of PBBW</td>
+            <td class="fField">
+
+            </td>
+        </tr>
+        -->
+        <TR>
+            <th>Requirements check list</th>
+            <TD><SELECT id=mwViewForm.selectedOfReq name=mwViewForm.selectedOfReq style="width:auto"> <OPTION selected value=1>Indicator for version 1 MW Item (Before Effective date of the law in 2017)</OPTION> <OPTION value=2>Indicator for version 2 MW Item (After Effective date of the law in 2017)</OPTION></SELECT> </TD>
+        </TR>
+        <!--
+        <tr>
+            <td class="fLabel">EFSS Submission Reference No.</td>
+            <td class="fText">
+            <input type="hidden" name="mwViewForm.efssRefNo" value="" />
+            </td>
+
+        </tr>
+        -->
+    </TBODY>
+</table>
+
+
+
+<h3>
+    Part A
+</h3>
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th colSpan=2>Notice of appointment of appointed persons</th>
+        </TR>
+        <TR>
+            <th class=sTh1 colSpan=2>1. Location or Address of the proposed minor works to be carried out</th>
+        </TR>
+    </thead>
+
+
+    <TBODY>
+        <TR>
+            <th class=fLabel width=300>Location or address of the Minor Works </th>
+            <TD><INPUT id=locationOfMw name=mwViewForm.locationOfMw maxLength=1000> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street/Road/Village</th>
+            <TD><INPUT id=streetMw class="inputText ac_input" name=mwViewForm.mwWorkAddress.streetOrVillage value=xxx jQuery1542075170270="91" autocomplete="off"> <INPUT id=street_codeMw name=mwViewForm.mwWorkAddress.streetCode type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street Number</th>
+            <TD><INPUT id=street_noMw class="inputText ac_input" name=mwViewForm.mwWorkAddress.streetNo value=xxx jQuery1542075170270="92" autocomplete="off"> <INPUT id=block_idMw name=mwViewForm.mwWorkAddress.blockID type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Building/Estate</th>
+            <TD><INPUT id=block_nameMw name=mwViewForm.mwWorkAddress.buildingName value=錦華樓> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Floor</th>
+            <TD><INPUT id=floorMw class="inputText ac_input" name=mwViewForm.mwWorkAddress.floor jQuery1542075170270="93" autocomplete="off"> <INPUT id=hidden_floorMw name=mwViewForm.mwWorkAddress.hiddenFloor type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Flat/Room</th>
+            <TD><INPUT id=unitMw class="inputText ac_input" name=mwViewForm.mwWorkAddress.flat jQuery1542075170270="94" autocomplete="off"> <INPUT id=hidden_unitMw name=mwViewForm.mwWorkAddress.hiddenFlat type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>District</th>
+            <TD><INPUT id=districtMw name=mwViewForm.mwWorkAddress.district value=西貢> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>&nbsp;</th>
+            <TD vAlign=top><LABEL><INPUT name=mwViewForm.mwWorkAddress.region value=HK type=radio> Hong Kong </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.mwWorkAddress.region value=KLW type=radio> Kowloon </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.mwWorkAddress.region value=NT CHECKED type=radio> New Territories </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>RVD No.</th>
+            <TD><INPUT id=rvd name=mwViewForm.rvdNo maxLength=15> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th>2. The proposed minor works are to be carried out</th>
+            <th colspan="2" style="TEXT-ALIGN: right"><INPUT id=btnAdd class="inputButton sBtn" onclick="addRevised1Item('addItem1')" name=btnAdd value=Add type=button> </th>
+        </TR>
+
+        <TR>
+            <th class=sTh2>Minor work Item</th>
+            <th class=sTh2>Description</th>
+            <th class=sTh2>Order / Direction / Notice / BD Reference No.</th>
+        </TR>
+    </thead>
+    <tbody id="PEM0301cEditBody">
+        <TR class=sRow2 id="PEM0301cEditRow">
+            <TD class=sCell><INPUT id=revised1MwItemList[0].ordering value=0 type=hidden><INPUT style="WIDTH: 100px" id=revised1MwItemList[0].mwItemCode value=1.17 maxlength="36"></TD>
+            <TD class=sCell><INPUT style="WIDTH: 400px" id=revised1MwItemList[0].locationDescription value=按照原本設計,於大廈外牆位置,修葺懸臂式平板 maxlength="500"></TD>
+            <TD class=sCell><INPUT style="WIDTH: 400px" id=revised1MwItemList[0].relevantReference maxlength="500"></TD>
+        </TR>
+    </tbody>
+</TABLE>
+
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+
+
+        <TR>
+            <th class=sTh1 colSpan=3>3. Particulars of appointed persons </th>
+
+        </TR>
+    </thead>
+    <TBODY>
+        <TR>
+            <th class=sTh2 rowSpan=4>Prescribed Registered Contractor</th>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Chinese Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[3].chineseName name=mwViewForm.professionalList[3].chineseName value=xxxx(香港)有限公司> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>English Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[3].englishName name=mwViewForm.professionalList[3].englishName value="xxxx (HONG KONG) LIMITED&nbsp;"> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Certificate of Registration No.</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[3].certificationNo name=mwViewForm.professionalList[3].certificationNo value="GBC 3/2009"> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+
+<table class="inputTable">
+    <TBODY>
+        <TR>
+            <th class=sTh2 rowSpan=4>
+                <INPUT id=checkAP class=inputCheckBox value='AP' CHECKED type=checkbox> <LABEL>Authorized Person</LABEL> <BR><INPUT id=checkRI class=inputCheckBox value="" type=checkbox><LABEL>Registered Inspector</LABEL>
+
+                <SELECT style="DISPLAY: none" id=mwViewForm.professionalList[0].identifyFlag onchange="document.getElementById('mwViewForm.professionalList[4].identifyFlag').value = this.value" name=mwViewForm.professionalList[0].identifyFlag> <OPTION id=personTypeAP selected value=AP>Authorized Person</OPTION> <OPTION id=personTypeRI value=RI>Registered Inspector</OPTION></SELECT>
+            </th>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Chinese Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[0].chineseName name=mwViewForm.professionalList[0].chineseName value=沈xx> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>English Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[0].englishName name=mwViewForm.professionalList[0].englishName value="SHUN xx xx "> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Certificate of Registration No.</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[0].certificationNo name=mwViewForm.professionalList[0].certificationNo value="AP(A)  2083/65"> </TD>
+        </TR>
+        <TR>
+            <th class=sTh2 rowSpan=4><INPUT id=addItem1 class=inputCheckBox name=mwViewForm.professionalList[1].checked value=Y type=checkbox> <LABEL>Registered Structural Engineer</LABEL> </th>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Chinese Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[1].chineseName name=mwViewForm.professionalList[1].chineseName> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>English Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[1].englishName name=mwViewForm.professionalList[1].englishName> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Certificate of Registration No.</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[1].certificationNo name=mwViewForm.professionalList[1].certificationNo> </TD>
+        </TR>
+        <TR>
+            <th class=sTh2 rowSpan=4><INPUT id=mwViewForm.professionalList[2].checked class=inputCheckBox name=mwViewForm.professionalList[2].checked value=Y type=checkbox> <LABEL>Registered Geotechnical Engineer</LABEL> </th>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Chinese Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[2].chineseName name=mwViewForm.professionalList[2].chineseName> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>English Name</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[2].englishName name=mwViewForm.professionalList[2].englishName> </TD>
+        </TR>
+        <TR class=sRow2>
+            <th class=sCell>Certificate of Registration No.</th>
+            <TD class=sCell><INPUT id=mwViewForm.professionalList[2].certificationNo name=mwViewForm.professionalList[2].certificationNo> </TD>
+        </TR>
+    </TBODY>
+</table>
+
+
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th colspan="2">4. Particulars of person who arranged for the minor works to be carried out</th>
+        </TR>
+    </thead>
+
+    <TBODY>
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD><INPUT id=chineseName name=mwViewForm.chineseName value=xxx(香港)有限公司> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel width=300>English Name</th>
+            <TD><INPUT id=englishName name=mwViewForm.englishName maxLength=150 value="xxx (HONG KONG) LIMITED&nbsp;"> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>&nbsp;</th>
+            <TD vAlign=top><INPUT id=idNo name=mwViewForm.idNo maxLength=36 value=39494913-000-06-13-9> <BR><LABEL><INPUT id=idType class=inputRadio name=mwViewForm.idType value=1 type=radio> HKID No. </LABEL>&nbsp;&nbsp; <LABEL><INPUT id=idType class=inputRadio name=mwViewForm.idType value=2 type=radio> Passport No. </LABEL>&nbsp;&nbsp; <LABEL><INPUT id=idType class=inputRadio name=mwViewForm.idType value=3 CHECKED type=radio> Business Registration No. </LABEL><BR><LABEL><INPUT id=idType class=inputRadio name=mwViewForm.idType value=4 type=radio> Other (Please specify) <INPUT style="WIDTH: 208px" id=otherIdType name=mwViewForm.otherIdType maxLength=50> </LABEL><BR>Country of Issue <INPUT style="WIDTH: 208px" id=countryOfIssue name=mwViewForm.countryOfIssue maxLength=50> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Correspondence Address</th>
+            <TD><LABEL><INPUT id=asAbove class=inputCheckBox name=mwViewForm.mwForm.asAbove value=Y type=checkbox> Address same as Part A1 </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street/Road/Village</th>
+            <TD><INPUT id=street class="inputText ac_input" name=mwViewForm.ownerAddress.streetOrVillage autocomplete="off" jQuery1542077540994="95"> <INPUT id=street_code name=mwViewForm.ownerAddress.streetCode type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street Number</th>
+            <TD><INPUT id=street_no class="inputText ac_input" name=mwViewForm.ownerAddress.streetNo autocomplete="off" jQuery1542077540994="96"> <INPUT id=block_id name=mwViewForm.ownerAddress.blockID type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Building/Estate</th>
+            <TD><INPUT id=block_name name=mwViewForm.ownerAddress.buildingName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Floor</th>
+            <TD><INPUT id=floor class="inputText ac_input" name=mwViewForm.ownerAddress.floor autocomplete="off" jQuery1542077540994="97"> <INPUT id=hidden_floor name=mwViewForm.ownerAddress.hiddenFloor type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Flat/Room</th>
+            <TD><INPUT id=unit class="inputText ac_input" name=mwViewForm.ownerAddress.flat autocomplete="off" jQuery1542077540994="98"> <INPUT id=hidden_unit name=mwViewForm.ownerAddress.hiddenFlat type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>District</th>
+            <TD><INPUT id=district name=mwViewForm.ownerAddress.district> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>&nbsp;</th>
+            <TD vAlign=top><LABEL><INPUT name=mwViewForm.ownerAddress.region value=HK type=radio> Hong Kong </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.ownerAddress.region value=KLW type=radio> Kowloon </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.ownerAddress.region value=NT type=radio> New Territories </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>E-mail Address</th>
+            <TD><INPUT id=email name=mwViewForm.email maxLength=50 value=xx@xx.COM.HK> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Fax No.</th>
+            <TD><INPUT id=faxNo name=mwViewForm.faxNo maxLength=22 value=xxxxxxxx> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD><INPUT id=contactNo name=mwViewForm.contactNo maxLength=22 value=xxxxxxxx> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+<table class="inputTable">
+    <TBODY jQuery1542077540994="33">
+        <TR class=sRow2 jQuery1542077540994="32">
+            <th style="TEXT-ALIGN: right; WIDTH: 300px" class=sTh2>Signature Date</th>
+            <TD class=sCell jQuery1542077540994="31"><INPUT id=getInfo3 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[3].endorsementDate maxLength=10 value=16/3/2016 jQuery1542077540994="3"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+</table>
+
+
+
+<h3>
+    Part B
+</h3>
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th colspan="2" class=sTh>Confirmation of appointment by authorized person / registered inspector</th>
+        </TR>
+    </thead>
+
+
+    <TBODY>
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[4].chineseName name=mwViewForm.professionalList[4].chineseName value=沈xxxx> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>English Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[4].englishName name=mwViewForm.professionalList[4].englishName value="SHUN xxx xxx"> </TD>
+        </TR>
+        <TR jQuery1542077540994="37">
+            <th class=fLabel>MW Commencement Date</th>
+            <TD jQuery1542077540994="36"><INPUT id=getInfo4 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[4].mwCommencedOn maxLength=10 value=29/3/2016 jQuery1542077540994="4"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Previously Related MW No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[4].mwNo name=mwViewForm.professionalList[4].mwNo maxLength=25> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Fax No.</th>
+            <TD><INPUT id=faxNo name=mwViewForm.professionalList[4].faxNo maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD><INPUT id=contactNo name=mwViewForm.professionalList[4].contactNo maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Will to receive SMS</th>
+            <TD><INPUT id=receiveSms class=inputCheckBox name=mwViewForm.professionalList[4].receiveSms maxLength=22 value=Y type=checkbox> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Certificate of Registration No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[4].certificationNo name=mwViewForm.professionalList[4].certificationNo value="AP(A)  2083/65"> </TD>
+        </TR>
+        <TR jQuery1542077540994="46">
+            <th class=fLabel>Expiry Date</th>
+            <TD jQuery1542077540994="45"><INPUT id=mwViewForm.professionalList[4].expiryOfRegDate class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[4].expiryOfRegDate maxLength=10 value=19/10/2020 jQuery1542077540994="5"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR jQuery1542077540994="48">
+            <th class=fLabel>Signature Date</th>
+            <TD jQuery1542077540994="47"><INPUT id=mwViewForm.professionalList[4].endorsementDate class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[4].endorsementDate maxLength=10 value=16/3/2016 jQuery1542077540994="6"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+<h3>
+    Part C
+</h3>
+
+<TABLE class="inputTable">
+    <thead>
+        <tr>
+            <th colspan="2">
+                Confirmation of appointment by registered structural engineer
+            </th>
+        </tr>
+    </thead>
+    <TBODY jQuery1542077540994="51">
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].chineseName name=mwViewForm.professionalList[5].chineseName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>English Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].englishName name=mwViewForm.professionalList[5].englishName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD><INPUT id=contactNo name=mwViewForm.professionalList[5].contactNo maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Will to receive SMS</th>
+            <TD><INPUT id=receiveSms class=inputCheckBox name=mwViewForm.professionalList[5].receiveSms maxLength=22 value=Y type=checkbox> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Certificate of Registration No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].certificationNo name=mwViewForm.professionalList[5].certificationNo> </TD>
+        </TR>
+        <TR jQuery1542077540994="50">
+            <th class=fLabel>Expiry Date</th>
+            <TD jQuery1542077540994="49"><INPUT style="FONT-STYLE: italic; WIDTH: 100px; COLOR: #a1a1a1" id=getInfo5 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[5].expiryOfRegDate maxLength=10 value=DD/MM/YYYY jQuery1542077540994="7"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR jQuery1542077540994="59">
+            <th class=fLabel>Signature Date</th>
+            <TD jQuery1542077540994="58"><INPUT style="FONT-STYLE: italic; WIDTH: 100px; COLOR: #a1a1a1" id=getInfo5 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[5].endorsementDate maxLength=10 value=DD/MM/YYYY jQuery1542077540994="8"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+<h3>
+    Part D
+</h3>
+
+<TABLE class="inputTable">
+    <thead>
+        <tr>
+            <th colspan="2">
+                Confirmation of appointment by registered geotechnical engineer
+            </th>
+        </tr>
+    </thead>
+    <TBODY jQuery1542077540994="51">
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].chineseName name=mwViewForm.professionalList[5].chineseName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>English Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].englishName name=mwViewForm.professionalList[5].englishName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD><INPUT id=contactNo name=mwViewForm.professionalList[5].contactNo maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Will to receive SMS</th>
+            <TD><INPUT id=receiveSms class=inputCheckBox name=mwViewForm.professionalList[5].receiveSms maxLength=22 value=Y type=checkbox> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Certificate of Registration No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[5].certificationNo name=mwViewForm.professionalList[5].certificationNo> </TD>
+        </TR>
+        <TR jQuery1542077540994="50">
+            <th class=fLabel>Expiry Date</th>
+            <TD jQuery1542077540994="49"><INPUT style="FONT-STYLE: italic; WIDTH: 100px; COLOR: #a1a1a1" id=getInfo5 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[5].expiryOfRegDate maxLength=10 value=DD/MM/YYYY jQuery1542077540994="7"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR jQuery1542077540994="59">
+            <th class=fLabel>Signature Date</th>
+            <TD jQuery1542077540994="58"><INPUT style="FONT-STYLE: italic; WIDTH: 100px; COLOR: #a1a1a1" id=getInfo5 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[5].endorsementDate maxLength=10 value=DD/MM/YYYY jQuery1542077540994="8"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+<h3>
+    Part E
+</h3>
+<table class="inputTable">
+    <thead>
+        <TR>
+            <th colspan="2" class=sTh>Confirmation of appointment by prescribed registered contractor</th>
+        </TR>
+
+    </thead>
+    <TBODY jQuery1542077540994="73">
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].chineseName name=mwViewForm.professionalList[7].chineseName value=駿安建築(香港)有限公司> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>English Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].englishName name=mwViewForm.professionalList[7].englishName value="SMART ON CONSTRUCTION (HONG KONG) LIMITED&nbsp;"> </TD>
+        </TR>
+        <TR style="DISPLAY: none">
+            <th class=fLabel>Declarations</th>
+            <TD><INPUT id=mwViewForm.mwForm.form01ES23 class=inputCheckBox name=mwViewForm.mwForm.form01ES23 value=Y type=checkbox> &nbsp;&nbsp;&nbsp;&nbsp;S33 &amp; 37 of B(MW)R <BR><INPUT id=mwViewForm.mwForm.form01E2 class=inputCheckBox name=mwViewForm.mwForm.form01E2 value=Y type=checkbox> 2. Class II minor works detailed in Part A are to be commenced on the same date as stated in paragraph 2 of Part B. <BR><INPUT id=mwViewForm.mwForm.form01E3 class=inputCheckBox name=mwViewForm.mwForm.form01E3 value=Y type=checkbox> 3. Photos sumbitted <BR><INPUT id=mwViewForm.mwForm.form01E4 class=inputCheckBox name=mwViewForm.mwForm.form01E4 value=Y type=checkbox> 4. Plans &amp; details submitted <BR><INPUT id=mwViewForm.mwForm.form01E5 class=inputCheckBox name=mwViewForm.mwForm.form01E5 value=Y type=checkbox> 5. Signed &amp; prepared plans &amp; details <BR><INPUT id=mwViewForm.mwForm.form01E6 class=inputCheckBox name=mwViewForm.mwForm.form01E6 value=Y type=checkbox> 6. The building is capable of bearing load &amp; stresses <BR><INPUT id=mwViewForm.mwForm.form01E7 class=inputCheckBox name=mwViewForm.mwForm.form01E7 value=Y type=checkbox> 7. Involved erection of a signboard </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Certificate of Registration No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].certificationNo name=mwViewForm.professionalList[7].certificationNo value="GBC 3/2009"> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>AS Chinese Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].apChineseName name=mwViewForm.professionalList[7].apChineseName value=李志剛> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>AS English Name</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].apEnglishName name=mwViewForm.professionalList[7].apEnglishName value="LI CHI KONG, ANDY"> </TD>
+        </TR>
+        <TR jQuery1542077540994="72">
+            <th class=fLabel>Expiry Date</th>
+            <TD jQuery1542077540994="71"><INPUT id=getInfo7 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[7].expiryOfRegDate maxLength=10 value=25/11/2018 jQuery1542077540994="11"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Previously Related MW No.</th>
+            <TD><INPUT id=mwViewForm.professionalList[7].mwNo name=mwViewForm.professionalList[7].mwNo maxLength=25> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Fax No.</th>
+            <TD><INPUT id=faxNo name=mwViewForm.professionalList[7].faxNo maxLength=22 value=37412502> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD><INPUT id=contactNo name=mwViewForm.professionalList[7].contactNo maxLength=22 value=37412507> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Will to receive SMS</th>
+            <TD><INPUT id=receiveSms class=inputCheckBox name=mwViewForm.professionalList[7].receiveSms maxLength=22 value=Y type=checkbox> </TD>
+        </TR>
+        <TR jQuery1542077540994="81">
+            <th class=fLabel>Signature Date</th>
+            <TD jQuery1542077540994="80"><INPUT id=getInfo7 class="inputDate" title=DD/MM/YYYY name=mwViewForm.professionalList[7].endorsementDate maxLength=10 value=16/3/2016 jQuery1542077540994="12"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+
+</table>
+
+
+<h3>
+    Part F
+</h3>
+
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th colspan="2" class=sTh>Particulars of the person for whom the signboard is to be erected</th>
+        </TR>
+
+    </thead>
+    <TBODY jQuery1542077540994="84">
+        <TR>
+            <th class=fLabel>Chinese Name</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=chineseName2 class=inputText name=mwViewForm.chineseName2 maxLength=30> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel width=300>English Name</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=englishName2 class=inputText name=mwViewForm.englishName2 maxLength=150> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>&nbsp;</th>
+            <TD class=fField vAlign=top><INPUT style="WIDTH: 300px" id=idNo2 class=inputText name=mwViewForm.idNo2 maxLength=36> <BR><LABEL><INPUT id=idType2 class=inputRadio name=mwViewForm.idType2 value=1 type=radio> HKID No. </LABEL>&nbsp;&nbsp; <LABEL><INPUT id=idType2 class=inputRadio name=mwViewForm.idType2 value=2 type=radio> Passport No. </LABEL>&nbsp;&nbsp; <LABEL><INPUT id=idType2 class=inputRadio name=mwViewForm.idType2 value=3 type=radio> Business Registration No. </LABEL><BR><LABEL><INPUT id=idType2 class=inputRadio name=mwViewForm.idType2 value=4 type=radio> Other (Please specify) <INPUT style="WIDTH: 208px" id=otherIdType2 class=inputText name=mwViewForm.otherIdType2 maxLength=50> </LABEL><BR>Country of Issue <INPUT style="WIDTH: 208px" id=mwViewForm.countryOfIssue2 class=inputText name=mwViewForm.countryOfIssue2 maxLength=50> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Correspondence Address</th>
+            <TD class=fField><LABEL><INPUT id=mwViewForm.addressSameA1 class=inputCheckBox name=mwViewForm.addressSameA1 value=Y type=checkbox> Address same as Part 1 </LABEL>&nbsp;&nbsp;&nbsp;&nbsp; <LABEL><INPUT id=mwViewForm.addressSameA4 class=inputCheckBox name=mwViewForm.addressSameA4 value=Y type=checkbox> Address same as Part 4 </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street/Road/Village</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=streetSB class="inputText ac_input" name=mwViewForm.signAddress.streetOrVillage autocomplete="off" jQuery1542077540994="103"> <INPUT id=street_codeSB class=inputText name=mwViewForm.signAddress.streetCode type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street Number</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=street_noSB class="inputText ac_input" name=mwViewForm.signAddress.streetNo autocomplete="off" jQuery1542077540994="104"> <INPUT id=block_idSB class=inputText name=mwViewForm.signAddress.blockID type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Building/Estate</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=block_nameSB class=inputText name=mwViewForm.signAddress.buildingName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Floor</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=floorSB class="inputText ac_input" name=mwViewForm.signAddress.floor autocomplete="off" jQuery1542077540994="105"> <INPUT id=hidden_floorSB class=inputText name=mwViewForm.signAddress.hiddenFloor type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Flat/Room</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=unitSB class="inputText ac_input" name=mwViewForm.signAddress.flat autocomplete="off" jQuery1542077540994="106"> <INPUT id=hidden_unitSB class=inputText name=mwViewForm.signAddress.hiddenFlat type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>District</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=districtSB class=inputText name=mwViewForm.signAddress.district> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>&nbsp;</th>
+            <TD class=fField vAlign=top><LABEL><INPUT name=mwViewForm.signAddress.region value=HK type=radio> Hong Kong </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.signAddress.region value=KLW type=radio> Kowloon </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.signAddress.region value=NT type=radio> New Territories </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Fax No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=faxNo2 class=inputText name=mwViewForm.faxNo2 maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=contactNo2 class=inputText name=mwViewForm.contactNo2 maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>E-mail Address</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=email2 class=inputText name=mwViewForm.email2 maxLength=50> </TD>
+        </TR>
+        <TR jQuery1542077540994="83">
+            <th class=fLabel>Signature Date</th>
+            <TD class=fField jQuery1542077540994="82"><INPUT style="FONT-STYLE: italic; WIDTH: 100px; COLOR: #a1a1a1" id=mwViewForm.endorsementDate2 class="inputDate" title=DD/MM/YYYY name=mwViewForm.endorsementDate2 maxLength=10 value=DD/MM/YYYY jQuery1542077540994="13"> <SPAN style="DISPLAY: none; COLOR: red" class=err>Invalid date</SPAN> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+<h3>
+    Part G
+</h3>
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th colspan="2" class=sTh>Particulars of the corresponding Owners' Corporations or Property Management Company when the works to be carried out may involve common areas</th>
+        </TR>
+    </thead>
+    <TBODY>
+
+        <TR>
+            <th class=fLabel>English Name of Owner’s Corporations or Property Management Company</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=oiNameEng class=inputText name=mwViewForm.oiNameEng> </TD>
+        </TR>
+        <!--<tr>
+            <td class="fLabel">Chinese Name of Owner’s Corporations or Property Management Company</td>
+            <td class="fField">
+              <input class="inputText" type="text" id="oiNameChi"
+                  name="mwViewForm.oiNameChi" value=""
+                  style="width: 300px;" />
+
+            </td>
+        </tr>-->
+        <TR>
+            <th class=fLabel>Correspondence Address</th>
+            <TD class=fField></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street/Road/Village</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=streetOi class="inputText ac_input" name=mwViewForm.oiAddress.streetOrVillage autocomplete="off" jQuery1542077540994="99"> <INPUT id=street_codeOi class=inputText name=mwViewForm.oiAddress.streetCode type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Street Number</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=street_noOi class="inputText ac_input" name=mwViewForm.oiAddress.streetNo autocomplete="off" jQuery1542077540994="100"> <INPUT id=block_idOi class=inputText name=mwViewForm.oiAddress.blockID type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Building/Estate</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=block_nameOi class=inputText name=mwViewForm.oiAddress.buildingName> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Floor</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=floorOi class="inputText ac_input" name=mwViewForm.oiAddress.floor autocomplete="off" jQuery1542077540994="101"> <INPUT id=hidden_floorOi class=inputText name=mwViewForm.oiAddress.hiddenFloor type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Flat/Room</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=unitOi class="inputText ac_input" name=mwViewForm.oiAddress.flat autocomplete="off" jQuery1542077540994="102"> <INPUT id=hidden_unitOi class=inputText name=mwViewForm.oiAddress.hiddenFlat type=hidden> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>District</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=districtOi class=inputText name=mwViewForm.oiAddress.district> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel></th>
+            <TD class=fField vAlign=top><LABEL><INPUT name=mwViewForm.oiAddress.region value=HK type=radio> Hong Kong </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.oiAddress.region value=KLW type=radio> Kowloon </LABEL>&nbsp;&nbsp; <LABEL><INPUT name=mwViewForm.oiAddress.region value=NT type=radio> New Territories </LABEL></TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Fax No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiFaxNo class=inputText name=mwViewForm.oiFaxNo maxLength=22> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Email</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiEmail class=inputText name=mwViewForm.oiEmail maxLength=50> </TD>
+        </TR>
+        <TR>
+            <th class=fLabel>Contact No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiContactNo class=inputText name=mwViewForm.oiContactNo maxLength=22> </TD>
+        </TR>
+        <TR style="DISPLAY: none">
+            <th class=fLabel>PRC Representative Name</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiPrcName class=inputText name=mwViewForm.oiPrcName> </TD>
+        </TR>
+        <TR style="DISPLAY: none">
+            <th class=fLabel>PRC Representative Contact No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiPrcContactNo class=inputText name=mwViewForm.oiPrcContactNo maxLength=22> </TD>
+        </TR>
+        <TR style="DISPLAY: none">
+            <th class=fLabel>PBP Representative Name</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiPbpName class=inputText name=mwViewForm.oiPbpName> </TD>
+        </TR>
+        <TR style="DISPLAY: none">
+            <th class=fLabel>PBP Representative Contact No.</th>
+            <TD class=fField><INPUT style="WIDTH: 300px" id=mwViewForm.oiPbpContactNo class=inputText name=mwViewForm.oiPbpContactNo maxLength=22> </TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+<TABLE class="inputTable">
+
+    <thead>
+        <TR>
+            <Th class=sTh colSpan=3>Edit Submission Information History</Th>
+
+        </TR>
+    </thead>
+    <TBODY>
+
+        <TR class=sRow2>
+            <TD class=sTh2>Modified By</TD>
+            <TD class=sTh2>Modified Date</TD>
+            <TD class=sTh2>Modified Reason</TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+
+
+<TABLE class="inputTable">
+    <thead>
+        <TR>
+            <th class=sTh colSpan=3>Modify Detail</th>
+        </TR>
+    </thead>
+    <TBODY>
+        <TR class=sRow2>
+            <th class=fLabel>Modify Reason : </th>
+            <TD class=fText><TEXTAREA style="WIDTH: 800px; HEIGHT: 100px" id=modifiedReason class=inputText name=modifiedReason></TEXTAREA></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+
+
+<table class="inputTable">
+
+   <tfoot>
+       <tr>
+           <td>
+               <INPUT class=inputButton onclick=loadContentPage('PEM0301c') value=Save type=button>
+               <INPUT class=inputButton onclick=loadContentPage('PEM0301c') value=Back type=button>
+           </td>
+       </tr>
+   </tfoot>
+</table>
+
+
+
+
+
+
+
+

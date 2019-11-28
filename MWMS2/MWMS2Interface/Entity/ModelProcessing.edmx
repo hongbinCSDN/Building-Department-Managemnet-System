@@ -1,0 +1,898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelProcessing.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="C_QP_COUNT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="COUNT_DATE" Type="date" Nullable="false" />
+          <Property Name="COUNT_TYPE" Type="varchar2" MaxLength="30" />
+          <Property Name="YES" Type="number" Precision="38" Scale="0" />
+          <Property Name="NO" Type="number" Precision="38" Scale="0" />
+          <Property Name="NO_INDICATION" Type="number" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="P_MW_ADDRESS">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="FLAT" Type="nvarchar2" MaxLength="500" />
+          <Property Name="FLOOR" Type="nvarchar2" MaxLength="500" />
+          <Property Name="BLOCK" Type="nvarchar2" MaxLength="500" />
+          <Property Name="BUILDING_NAME" Type="nvarchar2" MaxLength="500" />
+          <Property Name="STREET_NO" Type="nvarchar2" MaxLength="500" />
+          <Property Name="STREE_NAME" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISTRICT" Type="nvarchar2" MaxLength="200" />
+          <Property Name="REGION" Type="nvarchar2" MaxLength="10" />
+          <Property Name="LOCATION" Type="nvarchar2" MaxLength="255" />
+          <Property Name="ADDRESS_TYPE" Type="nvarchar2" MaxLength="36" />
+          <Property Name="PERSON_CONTACT_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="BLOCK_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="UNIT_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="STREET_LOCATION_TABLE_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="ENGLISH_STREET_NAME" Type="nvarchar2" MaxLength="45" />
+          <Property Name="ENGLISH_STREET_TYPE" Type="nvarchar2" MaxLength="45" />
+          <Property Name="ENGLISH_STREET_DIRECTION" Type="nvarchar2" MaxLength="45" />
+          <Property Name="ENGLISH_ST_TYPE_PRE_INDICATOR" Type="nvarchar2" MaxLength="45" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_1" Type="nvarchar2" MaxLength="35" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_2" Type="nvarchar2" MaxLength="35" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_3" Type="nvarchar2" MaxLength="35" />
+          <Property Name="CHINESE_STREET_NAME" Type="nvarchar2" MaxLength="45" />
+          <Property Name="CHINESE_STREET_TYPE" Type="nvarchar2" MaxLength="45" />
+          <Property Name="CHINESE_STREET_DIRECTION" Type="nvarchar2" MaxLength="45" />
+          <Property Name="CHINESE_ST_TYPE_PRE_INDICATOR" Type="nvarchar2" MaxLength="45" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_1" Type="nvarchar2" MaxLength="35" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_2" Type="nvarchar2" MaxLength="35" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_3" Type="nvarchar2" MaxLength="35" />
+          <Property Name="BUILDING_NO_NUMERIC" Type="number" Precision="4" Scale="0" />
+          <Property Name="BUILDING_NO_ALPHA" Type="varchar2" MaxLength="6" />
+          <Property Name="BUILDING_NO_EXTENSION" Type="varchar2" MaxLength="24" />
+          <Property Name="BLOCK_ID_NUMERIC" Type="number" Precision="5" Scale="0" />
+          <Property Name="BLOCK_ID_ALPHA" Type="varchar2" MaxLength="10" />
+          <Property Name="BLOCK_ID_ALPHA_PRE_INDICATOR" Type="varchar2" MaxLength="24" />
+          <Property Name="ENGLISH_BLOCK_DESCRIPTION" Type="varchar2" MaxLength="35" />
+          <Property Name="CHINESE_BLOCK_DESCRIPTION" Type="nvarchar2" MaxLength="500" />
+          <Property Name="BLOCK_DESC_PRECEDE_INDICATOR" Type="varchar2" MaxLength="20" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_1" Type="nvarchar2" MaxLength="135" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_2" Type="nvarchar2" MaxLength="135" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_3" Type="nvarchar2" MaxLength="135" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_1" Type="nvarchar2" MaxLength="135" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_2" Type="nvarchar2" MaxLength="135" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_3" Type="nvarchar2" MaxLength="135" />
+          <Property Name="ENGLISH_BLOCK_ADDRESS" Type="varchar2" MaxLength="200" />
+          <Property Name="ENGLISH_BLOCK_ADDRESS_2" Type="varchar2" MaxLength="200" />
+          <Property Name="CHINESE_BLOCK_ADDRESS" Type="nvarchar2" MaxLength="200" />
+          <Property Name="ENGLISH_DEVELOPMENT_NAME" Type="varchar2" MaxLength="36" />
+          <Property Name="CHINESE_DEVELOPMENT_NAME" Type="nvarchar2" MaxLength="36" />
+          <Property Name="FLOOR_CODE" Type="varchar2" MaxLength="20" />
+          <Property Name="ENGLISH_FLOOR_DESCRIPTION" Type="varchar2" MaxLength="20" />
+          <Property Name="CHINESE_FLOOR_DESCRIPTION" Type="nvarchar2" MaxLength="500" />
+          <Property Name="ENGLISH_UNIT_NO" Type="varchar2" MaxLength="42" />
+          <Property Name="CHINESE_UNIT_NO" Type="nvarchar2" MaxLength="500" />
+          <Property Name="ASSESSMENT_NO" Type="varchar2" MaxLength="20" />
+          <Property Name="ENGLISH_TENEMENT_DESCRIPTION" Type="varchar2" MaxLength="175" />
+          <Property Name="CHINESE_TENEMENT_DESCRIPTION" Type="nvarchar2" MaxLength="500" />
+          <Property Name="ENGLISH_RRM_ADDRESS" Type="varchar2" MaxLength="2000" />
+          <Property Name="ENGLISH_RRM_BUILDING" Type="varchar2" MaxLength="2000" />
+          <Property Name="CHINESE_RRM_ADDRESS" Type="nvarchar2" MaxLength="500" />
+          <Property Name="CHINESE_RRM_BUILDING" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_STREET" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_STREET_NO" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_BUILDINGNAME" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_FLOOR" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_FLAT" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_DISTRICT" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_REGION" Type="nvarchar2" MaxLength="500" />
+          <Property Name="ENGLISH_DISPLAY" Type="varchar2" MaxLength="500" />
+          <Property Name="CHINESE_DISPLAY" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_STREET_CODE" Type="nvarchar2" MaxLength="500" />
+          <Property Name="DISPLAY_BLOCK_ID" Type="nvarchar2" MaxLength="500" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+        </EntityType>
+        <EntityType Name="P_MW_FILEREF">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="MW_RECORD_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="FILEREF_FOUR" Type="varchar2" MaxLength="4" />
+          <Property Name="FILEREF_TWO" Type="varchar2" MaxLength="2" />
+          <Property Name="BLK_ID" Type="varchar2" MaxLength="20" />
+          <Property Name="UNIT_ID" Type="varchar2" MaxLength="20" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="20" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="REFERENCE_NUMBER" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="LOCATION_ADDRESS_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="COMMENCEMENT_DATE" Type="date" />
+          <Property Name="COMPLETION_DATE" Type="date" />
+          <Property Name="COMMENCEMENT_SUBMISSION_DATE" Type="date" />
+          <Property Name="STATUS_CODE" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SIGNBOARD_PERFROMER_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="S_FORM_TYPE_CODE" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="PLAN_NO" Type="nvarchar2" MaxLength="36" />
+          <Property Name="LANGUAGE_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="CLASS_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="MW_PROGRESS_STATUS_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="IS_DATA_ENTRY" Type="varchar2" MaxLength="1" />
+          <Property Name="COMPLETION_SUBMISSION_DATE" Type="date" />
+          <Property Name="LOCATION_OF_MINOR_WORK" Type="nvarchar2" MaxLength="1000" />
+          <Property Name="FILE_REFERENCE" Type="varchar2" MaxLength="50" />
+          <Property Name="OWNER_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="COMMENCEMENT_ACKNOWLEDGE_DATE" Type="date" />
+          <Property Name="COMMENCEMENT_CONDINTIONAL_DATE" Type="date" />
+          <Property Name="COMMENCEMENT_REFUSE_DATE" Type="date" />
+          <Property Name="COMPLETION_ACKNOWLEDGE_DATE" Type="date" />
+          <Property Name="COMPLETION_CONDINTIONAL_DATE" Type="date" />
+          <Property Name="COMPLETION_REFUSE_DATE" Type="date" />
+          <Property Name="SUBMIT_TYPE" Type="varchar2" MaxLength="36" />
+          <Property Name="FIRST_RECEIVED_DATE" Type="date" />
+          <Property Name="LAST_RECEIVED_DATE" Type="date" />
+          <Property Name="VERIFICATION_SPO" Type="varchar2" MaxLength="1" />
+          <Property Name="SPO_COMPLETE" Type="varchar2" MaxLength="1" />
+          <Property Name="MW_DSN" Type="varchar2" MaxLength="50" />
+          <Property Name="PERMIT_NO" Type="varchar2" MaxLength="20" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+          <Property Name="INSPECTION_DATE" Type="date" />
+          <Property Name="FORM_VERSION" Type="varchar2" MaxLength="10" />
+          <Property Name="OI_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="MW05_ITEM36" Type="varchar2" MaxLength="20" />
+          <Property Name="NO_OF_PREMISES" Type="varchar2" MaxLength="10" />
+          <Property Name="FILEREF_FOUR" Type="varchar2" MaxLength="4" />
+          <Property Name="FILEREF_TWO" Type="varchar2" MaxLength="2" />
+          <Property Name="AUDIT_RELATED" Type="varchar2" MaxLength="10" />
+          <Property Name="IMPORT_FORM_TYPE" Type="varchar2" MaxLength="20" />
+          <Property Name="EFSS_REF_NO" Type="varchar2" MaxLength="36" />
+          <Property Name="SITE_AUDIT_RELATED" Type="varchar2" MaxLength="10" />
+          <Property Name="PRE_SITE_AUDIT_RELATED" Type="varchar2" MaxLength="10" />
+          <Property Name="VERIFICATION_SPO_SMM" Type="varchar2" MaxLength="1" />
+          <Property Name="SPO_COMPLETE_SMM" Type="varchar2" MaxLength="1" />
+          <Property Name="SITE_AUDIT_RELATED_MW" Type="varchar2" MaxLength="10" />
+          <Property Name="SITE_AUDIT_RELATED_SB" Type="varchar2" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD_ADDRESS_INFO">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="MW_RECORD_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="MW_ADDRESS_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+          <Property Name="ADDRESS_TYPE" Type="varchar2" MaxLength="36" />
+          <Property Name="KEY_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD_ITEM">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="MW_RECORD_ID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="MW_ITEM_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="LOCATION_DESCRIPTION" Type="nvarchar2" MaxLength="500" />
+          <Property Name="COMMENCEMENT_DATE" Type="date" />
+          <Property Name="COMPLETION_DATE" Type="date" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="RELEVANT_REFERENCE" Type="nvarchar2" MaxLength="500" />
+          <Property Name="REVISION" Type="varchar2" MaxLength="1000" />
+          <Property Name="CLASS_CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="ORDERING" Type="number" Precision="38" Scale="0" />
+          <Property Name="STATUS_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+          <Property Name="LAST_MODIFIED_FORM_CODE" Type="varchar2" MaxLength="20" />
+          <Property Name="FILE_ITEM_UUID" Type="varchar2" MaxLength="36" />
+        </EntityType>
+        <EntityType Name="P_MW_SCANNED_DOCUMENT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="DSN_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="DSN_SUB" Type="varchar2" MaxLength="50" />
+          <Property Name="FILE_PATH" Type="varchar2" MaxLength="255" />
+          <Property Name="PAGE_COUNT" Type="number" Precision="38" Scale="0" />
+          <Property Name="DOCUMENT_TYPE" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SCAN_DATE" Type="date" Nullable="false" />
+          <Property Name="FILE_SIZE_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+          <Property Name="SUBMIT_TYPE" Type="varchar2" MaxLength="36" />
+          <Property Name="FORM_TYPE" Type="varchar2" MaxLength="36" />
+          <Property Name="DOC_TITLE" Type="nvarchar2" MaxLength="500" />
+          <Property Name="RELATIVE_FILE_PATH" Type="varchar2" MaxLength="255" />
+          <Property Name="STATUS_CODE" Type="varchar2" MaxLength="36" />
+          <Property Name="FOLDER_TYPE" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="RRM_SYN_STATUS" Type="varchar2" MaxLength="36" />
+        </EntityType>
+        <Association Name="MW_RECORD_ADDRESS_INFO_MW_FK1">
+          <End Role="P_MW_ADDRESS" Type="Self.P_MW_ADDRESS" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD_ADDRESS_INFO" Type="Self.P_MW_RECORD_ADDRESS_INFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_ADDRESS">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ADDRESS_INFO">
+              <PropertyRef Name="MW_ADDRESS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MW_RECORD_ADDRESS_INFO_MW_FK2">
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD_ADDRESS_INFO" Type="Self.P_MW_RECORD_ADDRESS_INFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_RECORD">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ADDRESS_INFO">
+              <PropertyRef Name="MW_RECORD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MWREC_ADDRESS_FK">
+          <End Role="P_MW_ADDRESS" Type="Self.P_MW_ADDRESS" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_ADDRESS">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD">
+              <PropertyRef Name="LOCATION_ADDRESS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MWRI_MWREC_FK">
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="1" />
+          <End Role="P_MW_RECORD_ITEM" Type="Self.P_MW_RECORD_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_RECORD">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ITEM">
+              <PropertyRef Name="MW_RECORD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelProcessingStoreContainer">
+          <EntitySet Name="C_QP_COUNT" EntityType="Self.C_QP_COUNT" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_ADDRESS" EntityType="Self.P_MW_ADDRESS" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_FILEREF" EntityType="Self.P_MW_FILEREF" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_RECORD" EntityType="Self.P_MW_RECORD" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_RECORD_ADDRESS_INFO" EntityType="Self.P_MW_RECORD_ADDRESS_INFO" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_RECORD_ITEM" EntityType="Self.P_MW_RECORD_ITEM" Schema="" store:Type="Tables" />
+          <EntitySet Name="P_MW_SCANNED_DOCUMENT" EntityType="Self.P_MW_SCANNED_DOCUMENT" Schema="" store:Type="Tables" />
+          <AssociationSet Name="MW_RECORD_ADDRESS_INFO_MW_FK1" Association="Self.MW_RECORD_ADDRESS_INFO_MW_FK1">
+            <End Role="P_MW_ADDRESS" EntitySet="P_MW_ADDRESS" />
+            <End Role="P_MW_RECORD_ADDRESS_INFO" EntitySet="P_MW_RECORD_ADDRESS_INFO" />
+          </AssociationSet>
+          <AssociationSet Name="MW_RECORD_ADDRESS_INFO_MW_FK2" Association="Self.MW_RECORD_ADDRESS_INFO_MW_FK2">
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+            <End Role="P_MW_RECORD_ADDRESS_INFO" EntitySet="P_MW_RECORD_ADDRESS_INFO" />
+          </AssociationSet>
+          <AssociationSet Name="MWREC_ADDRESS_FK" Association="Self.MWREC_ADDRESS_FK">
+            <End Role="P_MW_ADDRESS" EntitySet="P_MW_ADDRESS" />
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+          </AssociationSet>
+          <AssociationSet Name="MWRI_MWREC_FK" Association="Self.MWRI_MWREC_FK">
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+            <End Role="P_MW_RECORD_ITEM" EntitySet="P_MW_RECORD_ITEM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelProcessing" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="P_MW_ADDRESS">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FLAT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FLOOR" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BLOCK" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BUILDING_NAME" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="STREET_NO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="STREE_NAME" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISTRICT" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="REGION" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LOCATION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="PERSON_CONTACT_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="BLOCK_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="STREET_LOCATION_TABLE_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_STREET_NAME" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_STREET_TYPE" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_STREET_DIRECTION" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_ST_TYPE_PRE_INDICATOR" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_1" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_2" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_ST_LOCATION_NAME_3" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_STREET_NAME" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_STREET_TYPE" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_STREET_DIRECTION" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_ST_TYPE_PRE_INDICATOR" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_1" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_2" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_ST_LOCATION_NAME_3" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="BUILDING_NO_NUMERIC" Type="Int16" />
+          <Property Name="BUILDING_NO_ALPHA" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="BUILDING_NO_EXTENSION" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="BLOCK_ID_NUMERIC" Type="Int16" />
+          <Property Name="BLOCK_ID_ALPHA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BLOCK_ID_ALPHA_PRE_INDICATOR" Type="String" MaxLength="24" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_BLOCK_DESCRIPTION" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_BLOCK_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BLOCK_DESC_PRECEDE_INDICATOR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_1" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_2" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_BUILDING_NAME_LINE_3" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_1" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_2" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_BUILDING_NAME_LINE_3" Type="String" MaxLength="135" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_BLOCK_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_BLOCK_ADDRESS_2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_BLOCK_ADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_DEVELOPMENT_NAME" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_DEVELOPMENT_NAME" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="FLOOR_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_FLOOR_DESCRIPTION" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_FLOOR_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_UNIT_NO" Type="String" MaxLength="42" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_UNIT_NO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ASSESSMENT_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_TENEMENT_DESCRIPTION" Type="String" MaxLength="175" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_TENEMENT_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_RRM_ADDRESS" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ENGLISH_RRM_BUILDING" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_RRM_ADDRESS" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CHINESE_RRM_BUILDING" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_STREET" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_STREET_NO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_BUILDINGNAME" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_FLOOR" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_FLAT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_DISTRICT" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_REGION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ENGLISH_DISPLAY" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_DISPLAY" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_STREET_CODE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DISPLAY_BLOCK_ID" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="P_MW_RECORD_ADDRESS_INFO" Relationship="Self.MW_RECORD_ADDRESS_INFO_MW_FK1" FromRole="P_MW_ADDRESS" ToRole="P_MW_RECORD_ADDRESS_INFO" />
+          <NavigationProperty Name="P_MW_RECORD" Relationship="Self.MWREC_ADDRESS_FK" FromRole="P_MW_ADDRESS" ToRole="P_MW_RECORD" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="REFERENCE_NUMBER" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LOCATION_ADDRESS_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="COMMENCEMENT_DATE" Type="DateTime" />
+          <Property Name="COMPLETION_DATE" Type="DateTime" />
+          <Property Name="COMMENCEMENT_SUBMISSION_DATE" Type="DateTime" />
+          <Property Name="STATUS_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SIGNBOARD_PERFROMER_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="S_FORM_TYPE_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PLAN_NO" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="LANGUAGE_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="CLASS_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="MW_PROGRESS_STATUS_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="IS_DATA_ENTRY" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="COMPLETION_SUBMISSION_DATE" Type="DateTime" />
+          <Property Name="LOCATION_OF_MINOR_WORK" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FILE_REFERENCE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OWNER_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="COMMENCEMENT_ACKNOWLEDGE_DATE" Type="DateTime" />
+          <Property Name="COMMENCEMENT_CONDINTIONAL_DATE" Type="DateTime" />
+          <Property Name="COMMENCEMENT_REFUSE_DATE" Type="DateTime" />
+          <Property Name="COMPLETION_ACKNOWLEDGE_DATE" Type="DateTime" />
+          <Property Name="COMPLETION_CONDINTIONAL_DATE" Type="DateTime" />
+          <Property Name="COMPLETION_REFUSE_DATE" Type="DateTime" />
+          <Property Name="SUBMIT_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_RECEIVED_DATE" Type="DateTime" />
+          <Property Name="LAST_RECEIVED_DATE" Type="DateTime" />
+          <Property Name="VERIFICATION_SPO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SPO_COMPLETE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MW_DSN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PERMIT_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="INSPECTION_DATE" Type="DateTime" />
+          <Property Name="FORM_VERSION" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OI_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="MW05_ITEM36" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NO_OF_PREMISES" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FILEREF_FOUR" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="FILEREF_TWO" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="AUDIT_RELATED" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IMPORT_FORM_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EFSS_REF_NO" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SITE_AUDIT_RELATED" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PRE_SITE_AUDIT_RELATED" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VERIFICATION_SPO_SMM" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SPO_COMPLETE_SMM" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="P_MW_ADDRESS" Relationship="Self.MWREC_ADDRESS_FK" FromRole="P_MW_RECORD" ToRole="P_MW_ADDRESS" />
+          <NavigationProperty Name="P_MW_RECORD_ADDRESS_INFO" Relationship="Self.MW_RECORD_ADDRESS_INFO_MW_FK2" FromRole="P_MW_RECORD" ToRole="P_MW_RECORD_ADDRESS_INFO" />
+          <NavigationProperty Name="P_MW_RECORD_ITEM" Relationship="Self.MWRI_MWREC_FK" FromRole="P_MW_RECORD" ToRole="P_MW_RECORD_ITEM" />
+          <Property Name="SITE_AUDIT_RELATED_MW" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SITE_AUDIT_RELATED_SB" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD_ADDRESS_INFO">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MW_RECORD_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="MW_ADDRESS_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <Property Name="ADDRESS_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="KEY_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="P_MW_ADDRESS" Relationship="Self.MW_RECORD_ADDRESS_INFO_MW_FK1" FromRole="P_MW_RECORD_ADDRESS_INFO" ToRole="P_MW_ADDRESS" />
+          <NavigationProperty Name="P_MW_RECORD" Relationship="Self.MW_RECORD_ADDRESS_INFO_MW_FK2" FromRole="P_MW_RECORD_ADDRESS_INFO" ToRole="P_MW_RECORD" />
+        </EntityType>
+        <EntityType Name="P_MW_RECORD_ITEM">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MW_RECORD_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MW_ITEM_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="LOCATION_DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="COMMENCEMENT_DATE" Type="DateTime" />
+          <Property Name="COMPLETION_DATE" Type="DateTime" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="RELEVANT_REFERENCE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="REVISION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CLASS_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ORDERING" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="STATUS_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_FORM_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_ITEM_UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="P_MW_RECORD" Relationship="Self.MWRI_MWREC_FK" FromRole="P_MW_RECORD_ITEM" ToRole="P_MW_RECORD" />
+        </EntityType>
+        <EntityType Name="P_MW_SCANNED_DOCUMENT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DSN_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="DSN_SUB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PAGE_COUNT" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="DOCUMENT_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SCAN_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="FILE_SIZE_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="SUBMIT_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FORM_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_TITLE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RELATIVE_FILE_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_CODE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FOLDER_TYPE" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="MW_RECORD_ADDRESS_INFO_MW_FK1">
+          <End Role="P_MW_ADDRESS" Type="Self.P_MW_ADDRESS" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD_ADDRESS_INFO" Type="Self.P_MW_RECORD_ADDRESS_INFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_ADDRESS">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ADDRESS_INFO">
+              <PropertyRef Name="MW_ADDRESS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MWREC_ADDRESS_FK">
+          <End Role="P_MW_ADDRESS" Type="Self.P_MW_ADDRESS" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_ADDRESS">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD">
+              <PropertyRef Name="LOCATION_ADDRESS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MW_RECORD_ADDRESS_INFO_MW_FK2">
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="0..1" />
+          <End Role="P_MW_RECORD_ADDRESS_INFO" Type="Self.P_MW_RECORD_ADDRESS_INFO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_RECORD">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ADDRESS_INFO">
+              <PropertyRef Name="MW_RECORD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MWRI_MWREC_FK">
+          <End Role="P_MW_RECORD" Type="Self.P_MW_RECORD" Multiplicity="1" />
+          <End Role="P_MW_RECORD_ITEM" Type="Self.P_MW_RECORD_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_MW_RECORD">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="P_MW_RECORD_ITEM">
+              <PropertyRef Name="MW_RECORD_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EntitiesProcessing" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="P_MW_ADDRESS" EntityType="Self.P_MW_ADDRESS" />
+          <EntitySet Name="P_MW_RECORD" EntityType="Self.P_MW_RECORD" />
+          <EntitySet Name="P_MW_RECORD_ADDRESS_INFO" EntityType="Self.P_MW_RECORD_ADDRESS_INFO" />
+          <EntitySet Name="P_MW_RECORD_ITEM" EntityType="Self.P_MW_RECORD_ITEM" />
+          <EntitySet Name="P_MW_SCANNED_DOCUMENT" EntityType="Self.P_MW_SCANNED_DOCUMENT" />
+          <AssociationSet Name="MW_RECORD_ADDRESS_INFO_MW_FK1" Association="Self.MW_RECORD_ADDRESS_INFO_MW_FK1">
+            <End Role="P_MW_ADDRESS" EntitySet="P_MW_ADDRESS" />
+            <End Role="P_MW_RECORD_ADDRESS_INFO" EntitySet="P_MW_RECORD_ADDRESS_INFO" />
+          </AssociationSet>
+          <AssociationSet Name="MWREC_ADDRESS_FK" Association="Self.MWREC_ADDRESS_FK">
+            <End Role="P_MW_ADDRESS" EntitySet="P_MW_ADDRESS" />
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+          </AssociationSet>
+          <AssociationSet Name="MW_RECORD_ADDRESS_INFO_MW_FK2" Association="Self.MW_RECORD_ADDRESS_INFO_MW_FK2">
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+            <End Role="P_MW_RECORD_ADDRESS_INFO" EntitySet="P_MW_RECORD_ADDRESS_INFO" />
+          </AssociationSet>
+          <AssociationSet Name="MWRI_MWREC_FK" Association="Self.MWRI_MWREC_FK">
+            <End Role="P_MW_RECORD" EntitySet="P_MW_RECORD" />
+            <End Role="P_MW_RECORD_ITEM" EntitySet="P_MW_RECORD_ITEM" />
+          </AssociationSet>
+          <EntitySet Name="C_QP_COUNT" EntityType="ModelProcessing.C_QP_COUNT" />
+          <EntitySet Name="P_MW_FILEREF" EntityType="ModelProcessing.P_MW_FILEREF" />
+        </EntityContainer>
+        <EntityType Name="C_QP_COUNT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="COUNT_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="COUNT_TYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="YES" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="NO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="NO_INDICATION" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="P_MW_FILEREF">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="MW_RECORD_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FILEREF_FOUR" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="FILEREF_TWO" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="BLK_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="RRM_SYN_STATUS" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelProcessingStoreContainer" CdmEntityContainer="EntitiesProcessing">
+          <EntitySetMapping Name="P_MW_ADDRESS">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_ADDRESS">
+              <MappingFragment StoreEntitySet="P_MW_ADDRESS">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="FLAT" ColumnName="FLAT" />
+                <ScalarProperty Name="FLOOR" ColumnName="FLOOR" />
+                <ScalarProperty Name="BLOCK" ColumnName="BLOCK" />
+                <ScalarProperty Name="BUILDING_NAME" ColumnName="BUILDING_NAME" />
+                <ScalarProperty Name="STREET_NO" ColumnName="STREET_NO" />
+                <ScalarProperty Name="STREE_NAME" ColumnName="STREE_NAME" />
+                <ScalarProperty Name="DISTRICT" ColumnName="DISTRICT" />
+                <ScalarProperty Name="REGION" ColumnName="REGION" />
+                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
+                <ScalarProperty Name="ADDRESS_TYPE" ColumnName="ADDRESS_TYPE" />
+                <ScalarProperty Name="PERSON_CONTACT_ID" ColumnName="PERSON_CONTACT_ID" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="BLOCK_ID" ColumnName="BLOCK_ID" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="STREET_LOCATION_TABLE_ID" ColumnName="STREET_LOCATION_TABLE_ID" />
+                <ScalarProperty Name="ENGLISH_STREET_NAME" ColumnName="ENGLISH_STREET_NAME" />
+                <ScalarProperty Name="ENGLISH_STREET_TYPE" ColumnName="ENGLISH_STREET_TYPE" />
+                <ScalarProperty Name="ENGLISH_STREET_DIRECTION" ColumnName="ENGLISH_STREET_DIRECTION" />
+                <ScalarProperty Name="ENGLISH_ST_TYPE_PRE_INDICATOR" ColumnName="ENGLISH_ST_TYPE_PRE_INDICATOR" />
+                <ScalarProperty Name="ENGLISH_ST_LOCATION_NAME_1" ColumnName="ENGLISH_ST_LOCATION_NAME_1" />
+                <ScalarProperty Name="ENGLISH_ST_LOCATION_NAME_2" ColumnName="ENGLISH_ST_LOCATION_NAME_2" />
+                <ScalarProperty Name="ENGLISH_ST_LOCATION_NAME_3" ColumnName="ENGLISH_ST_LOCATION_NAME_3" />
+                <ScalarProperty Name="CHINESE_STREET_NAME" ColumnName="CHINESE_STREET_NAME" />
+                <ScalarProperty Name="CHINESE_STREET_TYPE" ColumnName="CHINESE_STREET_TYPE" />
+                <ScalarProperty Name="CHINESE_STREET_DIRECTION" ColumnName="CHINESE_STREET_DIRECTION" />
+                <ScalarProperty Name="CHINESE_ST_TYPE_PRE_INDICATOR" ColumnName="CHINESE_ST_TYPE_PRE_INDICATOR" />
+                <ScalarProperty Name="CHINESE_ST_LOCATION_NAME_1" ColumnName="CHINESE_ST_LOCATION_NAME_1" />
+                <ScalarProperty Name="CHINESE_ST_LOCATION_NAME_2" ColumnName="CHINESE_ST_LOCATION_NAME_2" />
+                <ScalarProperty Name="CHINESE_ST_LOCATION_NAME_3" ColumnName="CHINESE_ST_LOCATION_NAME_3" />
+                <ScalarProperty Name="BUILDING_NO_NUMERIC" ColumnName="BUILDING_NO_NUMERIC" />
+                <ScalarProperty Name="BUILDING_NO_ALPHA" ColumnName="BUILDING_NO_ALPHA" />
+                <ScalarProperty Name="BUILDING_NO_EXTENSION" ColumnName="BUILDING_NO_EXTENSION" />
+                <ScalarProperty Name="BLOCK_ID_NUMERIC" ColumnName="BLOCK_ID_NUMERIC" />
+                <ScalarProperty Name="BLOCK_ID_ALPHA" ColumnName="BLOCK_ID_ALPHA" />
+                <ScalarProperty Name="BLOCK_ID_ALPHA_PRE_INDICATOR" ColumnName="BLOCK_ID_ALPHA_PRE_INDICATOR" />
+                <ScalarProperty Name="ENGLISH_BLOCK_DESCRIPTION" ColumnName="ENGLISH_BLOCK_DESCRIPTION" />
+                <ScalarProperty Name="CHINESE_BLOCK_DESCRIPTION" ColumnName="CHINESE_BLOCK_DESCRIPTION" />
+                <ScalarProperty Name="BLOCK_DESC_PRECEDE_INDICATOR" ColumnName="BLOCK_DESC_PRECEDE_INDICATOR" />
+                <ScalarProperty Name="ENGLISH_BUILDING_NAME_LINE_1" ColumnName="ENGLISH_BUILDING_NAME_LINE_1" />
+                <ScalarProperty Name="ENGLISH_BUILDING_NAME_LINE_2" ColumnName="ENGLISH_BUILDING_NAME_LINE_2" />
+                <ScalarProperty Name="ENGLISH_BUILDING_NAME_LINE_3" ColumnName="ENGLISH_BUILDING_NAME_LINE_3" />
+                <ScalarProperty Name="CHINESE_BUILDING_NAME_LINE_1" ColumnName="CHINESE_BUILDING_NAME_LINE_1" />
+                <ScalarProperty Name="CHINESE_BUILDING_NAME_LINE_2" ColumnName="CHINESE_BUILDING_NAME_LINE_2" />
+                <ScalarProperty Name="CHINESE_BUILDING_NAME_LINE_3" ColumnName="CHINESE_BUILDING_NAME_LINE_3" />
+                <ScalarProperty Name="ENGLISH_BLOCK_ADDRESS" ColumnName="ENGLISH_BLOCK_ADDRESS" />
+                <ScalarProperty Name="ENGLISH_BLOCK_ADDRESS_2" ColumnName="ENGLISH_BLOCK_ADDRESS_2" />
+                <ScalarProperty Name="CHINESE_BLOCK_ADDRESS" ColumnName="CHINESE_BLOCK_ADDRESS" />
+                <ScalarProperty Name="ENGLISH_DEVELOPMENT_NAME" ColumnName="ENGLISH_DEVELOPMENT_NAME" />
+                <ScalarProperty Name="CHINESE_DEVELOPMENT_NAME" ColumnName="CHINESE_DEVELOPMENT_NAME" />
+                <ScalarProperty Name="FLOOR_CODE" ColumnName="FLOOR_CODE" />
+                <ScalarProperty Name="ENGLISH_FLOOR_DESCRIPTION" ColumnName="ENGLISH_FLOOR_DESCRIPTION" />
+                <ScalarProperty Name="CHINESE_FLOOR_DESCRIPTION" ColumnName="CHINESE_FLOOR_DESCRIPTION" />
+                <ScalarProperty Name="ENGLISH_UNIT_NO" ColumnName="ENGLISH_UNIT_NO" />
+                <ScalarProperty Name="CHINESE_UNIT_NO" ColumnName="CHINESE_UNIT_NO" />
+                <ScalarProperty Name="ASSESSMENT_NO" ColumnName="ASSESSMENT_NO" />
+                <ScalarProperty Name="ENGLISH_TENEMENT_DESCRIPTION" ColumnName="ENGLISH_TENEMENT_DESCRIPTION" />
+                <ScalarProperty Name="CHINESE_TENEMENT_DESCRIPTION" ColumnName="CHINESE_TENEMENT_DESCRIPTION" />
+                <ScalarProperty Name="ENGLISH_RRM_ADDRESS" ColumnName="ENGLISH_RRM_ADDRESS" />
+                <ScalarProperty Name="ENGLISH_RRM_BUILDING" ColumnName="ENGLISH_RRM_BUILDING" />
+                <ScalarProperty Name="CHINESE_RRM_ADDRESS" ColumnName="CHINESE_RRM_ADDRESS" />
+                <ScalarProperty Name="CHINESE_RRM_BUILDING" ColumnName="CHINESE_RRM_BUILDING" />
+                <ScalarProperty Name="DISPLAY_STREET" ColumnName="DISPLAY_STREET" />
+                <ScalarProperty Name="DISPLAY_STREET_NO" ColumnName="DISPLAY_STREET_NO" />
+                <ScalarProperty Name="DISPLAY_BUILDINGNAME" ColumnName="DISPLAY_BUILDINGNAME" />
+                <ScalarProperty Name="DISPLAY_FLOOR" ColumnName="DISPLAY_FLOOR" />
+                <ScalarProperty Name="DISPLAY_FLAT" ColumnName="DISPLAY_FLAT" />
+                <ScalarProperty Name="DISPLAY_DISTRICT" ColumnName="DISPLAY_DISTRICT" />
+                <ScalarProperty Name="DISPLAY_REGION" ColumnName="DISPLAY_REGION" />
+                <ScalarProperty Name="ENGLISH_DISPLAY" ColumnName="ENGLISH_DISPLAY" />
+                <ScalarProperty Name="CHINESE_DISPLAY" ColumnName="CHINESE_DISPLAY" />
+                <ScalarProperty Name="DISPLAY_STREET_CODE" ColumnName="DISPLAY_STREET_CODE" />
+                <ScalarProperty Name="DISPLAY_BLOCK_ID" ColumnName="DISPLAY_BLOCK_ID" />
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_MW_RECORD">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_RECORD">
+              <MappingFragment StoreEntitySet="P_MW_RECORD">
+                <ScalarProperty Name="SITE_AUDIT_RELATED_SB" ColumnName="SITE_AUDIT_RELATED_SB" />
+                <ScalarProperty Name="SITE_AUDIT_RELATED_MW" ColumnName="SITE_AUDIT_RELATED_MW" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="REFERENCE_NUMBER" ColumnName="REFERENCE_NUMBER" />
+                <ScalarProperty Name="LOCATION_ADDRESS_ID" ColumnName="LOCATION_ADDRESS_ID" />
+                <ScalarProperty Name="COMMENCEMENT_DATE" ColumnName="COMMENCEMENT_DATE" />
+                <ScalarProperty Name="COMPLETION_DATE" ColumnName="COMPLETION_DATE" />
+                <ScalarProperty Name="COMMENCEMENT_SUBMISSION_DATE" ColumnName="COMMENCEMENT_SUBMISSION_DATE" />
+                <ScalarProperty Name="STATUS_CODE" ColumnName="STATUS_CODE" />
+                <ScalarProperty Name="SIGNBOARD_PERFROMER_ID" ColumnName="SIGNBOARD_PERFROMER_ID" />
+                <ScalarProperty Name="S_FORM_TYPE_CODE" ColumnName="S_FORM_TYPE_CODE" />
+                <ScalarProperty Name="PLAN_NO" ColumnName="PLAN_NO" />
+                <ScalarProperty Name="LANGUAGE_CODE" ColumnName="LANGUAGE_CODE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="CLASS_CODE" ColumnName="CLASS_CODE" />
+                <ScalarProperty Name="MW_PROGRESS_STATUS_CODE" ColumnName="MW_PROGRESS_STATUS_CODE" />
+                <ScalarProperty Name="IS_DATA_ENTRY" ColumnName="IS_DATA_ENTRY" />
+                <ScalarProperty Name="COMPLETION_SUBMISSION_DATE" ColumnName="COMPLETION_SUBMISSION_DATE" />
+                <ScalarProperty Name="LOCATION_OF_MINOR_WORK" ColumnName="LOCATION_OF_MINOR_WORK" />
+                <ScalarProperty Name="FILE_REFERENCE" ColumnName="FILE_REFERENCE" />
+                <ScalarProperty Name="OWNER_ID" ColumnName="OWNER_ID" />
+                <ScalarProperty Name="COMMENCEMENT_ACKNOWLEDGE_DATE" ColumnName="COMMENCEMENT_ACKNOWLEDGE_DATE" />
+                <ScalarProperty Name="COMMENCEMENT_CONDINTIONAL_DATE" ColumnName="COMMENCEMENT_CONDINTIONAL_DATE" />
+                <ScalarProperty Name="COMMENCEMENT_REFUSE_DATE" ColumnName="COMMENCEMENT_REFUSE_DATE" />
+                <ScalarProperty Name="COMPLETION_ACKNOWLEDGE_DATE" ColumnName="COMPLETION_ACKNOWLEDGE_DATE" />
+                <ScalarProperty Name="COMPLETION_CONDINTIONAL_DATE" ColumnName="COMPLETION_CONDINTIONAL_DATE" />
+                <ScalarProperty Name="COMPLETION_REFUSE_DATE" ColumnName="COMPLETION_REFUSE_DATE" />
+                <ScalarProperty Name="SUBMIT_TYPE" ColumnName="SUBMIT_TYPE" />
+                <ScalarProperty Name="FIRST_RECEIVED_DATE" ColumnName="FIRST_RECEIVED_DATE" />
+                <ScalarProperty Name="LAST_RECEIVED_DATE" ColumnName="LAST_RECEIVED_DATE" />
+                <ScalarProperty Name="VERIFICATION_SPO" ColumnName="VERIFICATION_SPO" />
+                <ScalarProperty Name="SPO_COMPLETE" ColumnName="SPO_COMPLETE" />
+                <ScalarProperty Name="MW_DSN" ColumnName="MW_DSN" />
+                <ScalarProperty Name="PERMIT_NO" ColumnName="PERMIT_NO" />
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+                <ScalarProperty Name="INSPECTION_DATE" ColumnName="INSPECTION_DATE" />
+                <ScalarProperty Name="FORM_VERSION" ColumnName="FORM_VERSION" />
+                <ScalarProperty Name="OI_ID" ColumnName="OI_ID" />
+                <ScalarProperty Name="MW05_ITEM36" ColumnName="MW05_ITEM36" />
+                <ScalarProperty Name="NO_OF_PREMISES" ColumnName="NO_OF_PREMISES" />
+                <ScalarProperty Name="FILEREF_FOUR" ColumnName="FILEREF_FOUR" />
+                <ScalarProperty Name="FILEREF_TWO" ColumnName="FILEREF_TWO" />
+                <ScalarProperty Name="AUDIT_RELATED" ColumnName="AUDIT_RELATED" />
+                <ScalarProperty Name="IMPORT_FORM_TYPE" ColumnName="IMPORT_FORM_TYPE" />
+                <ScalarProperty Name="EFSS_REF_NO" ColumnName="EFSS_REF_NO" />
+                <ScalarProperty Name="SITE_AUDIT_RELATED" ColumnName="SITE_AUDIT_RELATED" />
+                <ScalarProperty Name="PRE_SITE_AUDIT_RELATED" ColumnName="PRE_SITE_AUDIT_RELATED" />
+                <ScalarProperty Name="VERIFICATION_SPO_SMM" ColumnName="VERIFICATION_SPO_SMM" />
+                <ScalarProperty Name="SPO_COMPLETE_SMM" ColumnName="SPO_COMPLETE_SMM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_MW_RECORD_ADDRESS_INFO">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_RECORD_ADDRESS_INFO">
+              <MappingFragment StoreEntitySet="P_MW_RECORD_ADDRESS_INFO">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="MW_RECORD_ID" ColumnName="MW_RECORD_ID" />
+                <ScalarProperty Name="MW_ADDRESS_ID" ColumnName="MW_ADDRESS_ID" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="ADDRESS_TYPE" ColumnName="ADDRESS_TYPE" />
+                <ScalarProperty Name="KEY_ID" ColumnName="KEY_ID" />
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_MW_RECORD_ITEM">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_RECORD_ITEM">
+              <MappingFragment StoreEntitySet="P_MW_RECORD_ITEM">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="MW_RECORD_ID" ColumnName="MW_RECORD_ID" />
+                <ScalarProperty Name="MW_ITEM_CODE" ColumnName="MW_ITEM_CODE" />
+                <ScalarProperty Name="LOCATION_DESCRIPTION" ColumnName="LOCATION_DESCRIPTION" />
+                <ScalarProperty Name="COMMENCEMENT_DATE" ColumnName="COMMENCEMENT_DATE" />
+                <ScalarProperty Name="COMPLETION_DATE" ColumnName="COMPLETION_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="RELEVANT_REFERENCE" ColumnName="RELEVANT_REFERENCE" />
+                <ScalarProperty Name="REVISION" ColumnName="REVISION" />
+                <ScalarProperty Name="CLASS_CODE" ColumnName="CLASS_CODE" />
+                <ScalarProperty Name="ORDERING" ColumnName="ORDERING" />
+                <ScalarProperty Name="STATUS_CODE" ColumnName="STATUS_CODE" />
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+                <ScalarProperty Name="LAST_MODIFIED_FORM_CODE" ColumnName="LAST_MODIFIED_FORM_CODE" />
+                <ScalarProperty Name="FILE_ITEM_UUID" ColumnName="FILE_ITEM_UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_MW_SCANNED_DOCUMENT">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_SCANNED_DOCUMENT">
+              <MappingFragment StoreEntitySet="P_MW_SCANNED_DOCUMENT">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="DSN_ID" ColumnName="DSN_ID" />
+                <ScalarProperty Name="DSN_SUB" ColumnName="DSN_SUB" />
+                <ScalarProperty Name="FILE_PATH" ColumnName="FILE_PATH" />
+                <ScalarProperty Name="PAGE_COUNT" ColumnName="PAGE_COUNT" />
+                <ScalarProperty Name="DOCUMENT_TYPE" ColumnName="DOCUMENT_TYPE" />
+                <ScalarProperty Name="SCAN_DATE" ColumnName="SCAN_DATE" />
+                <ScalarProperty Name="FILE_SIZE_CODE" ColumnName="FILE_SIZE_CODE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="SUBMIT_TYPE" ColumnName="SUBMIT_TYPE" />
+                <ScalarProperty Name="FORM_TYPE" ColumnName="FORM_TYPE" />
+                <ScalarProperty Name="DOC_TITLE" ColumnName="DOC_TITLE" />
+                <ScalarProperty Name="RELATIVE_FILE_PATH" ColumnName="RELATIVE_FILE_PATH" />
+                <ScalarProperty Name="STATUS_CODE" ColumnName="STATUS_CODE" />
+                <ScalarProperty Name="FOLDER_TYPE" ColumnName="FOLDER_TYPE" />
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_QP_COUNT">
+            <EntityTypeMapping TypeName="ModelProcessing.C_QP_COUNT">
+              <MappingFragment StoreEntitySet="C_QP_COUNT">
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="NO_INDICATION" ColumnName="NO_INDICATION" />
+                <ScalarProperty Name="NO" ColumnName="NO" />
+                <ScalarProperty Name="YES" ColumnName="YES" />
+                <ScalarProperty Name="COUNT_TYPE" ColumnName="COUNT_TYPE" />
+                <ScalarProperty Name="COUNT_DATE" ColumnName="COUNT_DATE" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_MW_FILEREF">
+            <EntityTypeMapping TypeName="ModelProcessing.P_MW_FILEREF">
+              <MappingFragment StoreEntitySet="P_MW_FILEREF">
+                <ScalarProperty Name="RRM_SYN_STATUS" ColumnName="RRM_SYN_STATUS" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="BLK_ID" ColumnName="BLK_ID" />
+                <ScalarProperty Name="FILEREF_TWO" ColumnName="FILEREF_TWO" />
+                <ScalarProperty Name="FILEREF_FOUR" ColumnName="FILEREF_FOUR" />
+                <ScalarProperty Name="MW_RECORD_ID" ColumnName="MW_RECORD_ID" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

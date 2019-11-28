@@ -1,0 +1,64 @@
+﻿<form id="reportForm" method="post" name="reportForm" action="/Registration/report.do?method=LoadReport&amp;registrationType=CGC">
+
+    <input id="registrationType" name="registrationType" value="CGC" type="hidden">
+    <input id="popReport" name="popReport" value="Load_GCC_applicants_mon" type="hidden">
+
+    <input id="REPORT_NAME" name="REPORT_NAME" value="applicants_mon_CGC_I_A" type="hidden">
+    <input id="REPORT_TYPE" name="reg_type" value="CGC" type="hidden">
+    <input id="SUBREPORT_DIR" name="SUBREPORT_DIR" value="report/layout/" type="hidden">
+
+    <table id="oParamsGrid">
+        <tbody>
+            <tr id="oParamsRow" vAlign="top">
+                <td class="ParamLabelCell">Year</td>
+                <td class="ParamEntryCell">
+                    <input id="year" onfocus="inputMaskOnFocus(this, event, 'N')" name="year" value="" size="10" type="text">
+                </td>
+                <td class="ParamLabelCell">
+                    <button id="oParamsSubmit" onclick="viewReport(0)" type="button">View Report</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <br>
+    <table border="1" width="500">
+        <tbody>
+            <tr>
+
+                <td>|&lt;&lt;</td>
+                <td>&lt;</td>
+
+                <td> 0 of 0 </td>
+
+
+                <td>&gt;</td>
+                <td>&gt;&gt;|</td>
+
+
+                <td>
+                    Export Format:
+                    <select id="reportType" name="reportType">
+                        <option value="PDF">PDF</option>
+                        <option value="EXCEL">EXCEL</option>
+                        <option value="HTML">HTML</option>
+                    </select>
+                    <input onclick="generateReport()" name="Export" value="Export" type="button">
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <table border="0" cellSpacing="0" cellPadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</form>

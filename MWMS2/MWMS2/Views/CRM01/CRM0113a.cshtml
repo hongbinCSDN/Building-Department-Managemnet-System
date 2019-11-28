@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0;charset=utf-8">-->
+    <link href="style.css" rel="stylesheet">
+    <script src="demoData.js"></script>
+</head>
+
+<body>
+   
+    <form name="reportForm" id="reportForm" method="post" action="/Registration/report.do?method=LoadReport&amp;registrationType=CGC">
+        <input type="hidden" name="registrationType" value="" id="registrationType">
+        <input type="hidden" name="popReport" value="LoadViewer" id="popReport">
+
+        <input type="hidden" id="ENCRYPTED_KEY" name="ENCRYPTED_KEY" value="22A7907EF0B997F0821ADE5538A6A5249F94AEB41D95D3756629D53AFD44DFD3">
+
+        <input type="hidden" id="REPORT_NAME" name="REPORT_NAME" value="caseInHand">
+
+        <input type="hidden" id="application_type" name="application_type" value="">
+
+        <input type="hidden" id="category" name="category" value="AP">
+
+        <input type="hidden" id="due_fr_date" name="due_fr_date" value="">
+
+        <input type="hidden" id="due_to_date" name="due_to_date" value="">
+
+        <input type="hidden" id="fileReference" name="fileReference" value="">
+
+        <input type="hidden" id="method" name="method" value="viewReport">
+
+        <input type="hidden" id="popReport" name="popReport" value="LoadViewer">
+
+        <input type="hidden" id="received_fr_date" name="received_fr_date" value="">
+
+        <input type="hidden" id="received_to_date" name="received_to_date" value="">
+
+        <input type="hidden" id="vettingOfficer" name="vettingOfficer" value="">
+
+
+        <table width="500" border="1">
+            <tbody>
+                <tr>
+
+                    <td>|&lt;&lt;</td>
+                    <td>&lt;</td>
+
+                    <td> 1 of 74 </td>
+
+
+                    <td><a href="javascript:viewReport(2)">&gt;</a></td>
+                    <td><a href="javascript:viewReport(74)">&gt;&gt;|</a></td>
+
+
+                    <td>
+                        Export Format:
+                        <select name="reportType" id="reportType">
+                            <option value="PDF">PDF</option>
+                            <option value="EXCEL">EXCEL</option>
+                            <option value="HTML">HTML</option>
+                        </select>
+                        <input name="Export" type="button" value="Export" onclick="exportExcel('CRM0113Table')"><!--<input name="Export" type="button" value="Export" onclick="generateReport()">-->
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <table id="CRM0113Table" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <a name="JR_PAGE_ANCHOR_0_1"></a>
+                        <table style="width: 595px" cellpadding="0" cellspacing="0" border="0" bgcolor="white">
+                            <tbody>
+                                <tr>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 116px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 135px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 106px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 84px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 74px; height: 1px;"></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 1px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="7"><img alt="" src="images/px" style="width: 595px; height: 35px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 19px;"></td>
+                                    <td colspan="5" style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; text-align: center;"><span style="font-family: Arial; color: #000000; font-size: 12.0px; font-weight: bold;">Cases In Hand Report</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 19px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                    <td colspan="5" style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">Authorized Persons' Register (AP)</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="7"><img alt="" src="images/px" style="width: 595px; height: 4px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #000000; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Vetting Officer</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #000000; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">File Reference</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #000000; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Received Date</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #000000; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Due Date</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #000000; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Appl. Type</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BS/REG1</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2064/50</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">28/08/1950</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">26/12/1950</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2076/57</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">31/10/1957</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">28/02/1958</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2076/57</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/02/1958</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/06/1958</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2076/57</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">13/10/1958</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">10/02/1959</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2077/58</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">21/11/1958</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">20/03/1959</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2077/58</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">17/04/1959</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">14/08/1959</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2076/57</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">04/11/1959</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">03/03/1960</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2083/65</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/08/1965</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">03/12/1965</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2062/66</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">17/06/1966</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">14/10/1966</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2063/71</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">31/05/1971</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">28/09/1971</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 2102/71</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">14/11/1971</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">13/03/1972</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 39/75</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">30/09/1975</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">28/01/1976</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 88/76</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">29/10/1976</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">25/02/1977</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 4/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">23/01/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">23/05/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 88/76</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">10/05/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/09/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 41/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">21/05/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">18/09/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 74/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/11/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/03/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 94/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">21/12/1979</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">18/04/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 16/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">10/03/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">08/07/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 84/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">08/04/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/08/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 41/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/11/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/03/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 71/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/11/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">06/03/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 73/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">17/11/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">17/03/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 86/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">11/12/1980</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">10/04/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 70/81</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">04/07/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">30/10/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 98/81</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">12/10/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">09/02/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 104/81</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">02/11/1981</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">02/03/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 16/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/01/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">07/05/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 80/82</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">09/11/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">09/03/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 87/82</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">12/11/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">11/03/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 98/82</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">19/11/1982</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">18/03/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 80/82</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">14/03/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">12/07/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 56/79</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">24/03/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">22/07/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="2"><img alt="" src="images/px" style="width: 156px; height: 20px;"></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">R 16/80</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">26/04/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">24/08/1983</span></td>
+                                    <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">BA1</span></td>
+                                    <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+                                </tr>
+                                <tr valign="top">
+                                    <td colspan="7"><img alt="" src="images/px" style="width: 595px; height: 64px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+       
+
+
+
+
+
+</body>
+</html> 

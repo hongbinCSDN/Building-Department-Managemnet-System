@@ -1,0 +1,66 @@
+
+	<table class="inputTable">
+        <tbody>
+            <tr>
+                <td>
+                    Click once to select case :
+                    <input class="inputButton" type="button" id="btnSelect" name="btnSelect" value="Select" onclick="selectAudit()">
+                </td>
+            </tr>
+        </tbody>
+            <tbody></tbody>
+	</table>
+	<table class="inputTable">
+		<thead><tr><th colspan="4">Search Criteria</th></tr>
+		<tbody>
+			<tr>
+				<th >Document S/N :</th>
+				<td >
+					<input class="inputText" type="text" id="searchDSN" name="searchDSN" value="" >
+				</td>
+			</tr>
+
+			<tr>
+				<th >Ref. No. :</th>
+				<td >
+					<input class="inputText" type="text" id="searchRefNo" name="searchRefNo" value="" >
+				</td>
+			</tr>
+
+			<tr>
+				<th >Selection Date :</th>
+				<td >
+					From
+					<input class="inputDate" type="text" id="searchSelectionDateFrom" name="searchSelectionDateFrom" value="12/10/2018" readonly="">
+					To
+					<input class="inputDate" type="text" id="searchSelectionDateTo" name="searchSelectionDateTo" value="12/10/2018" readonly="">
+				</td>
+			</tr>
+		</tbody>
+		<tfoot><tr><td colspan="2">
+		
+            <input class="inputButton" type="button" id="btnSearch" name="btnSearch" value="Export PCSA List" onclick="exportExcel('PEM103AuditList')">
+            <input class="inputButton" type="button" id="btnSearch" name="btnSearch" value="Search" onclick="searchSiteAudit()">
+		</td></tr></tfoot>
+	</table>
+   
+   
+   
+	<table class="resultTable" id="PEM103AuditList" >
+	   
+			<thead >
+				<tr>
+					<th style="width:80px">Document S/N</th>
+					<th style="width:80px">MW No.</th>
+					<th style="width:50px">Received Date</th>
+					<th style="width:60px">Address</th>
+					<th style="width:50px">Selection Date</th>
+					<th style="width:50px">Inspection Date</th>
+					<th style="width:60px">Officer</th>
+					<th>Result</th>
+				</tr>
+			  </thead>
+	   
+	</table>
+
+ 

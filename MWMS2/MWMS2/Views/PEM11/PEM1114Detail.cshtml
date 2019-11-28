@@ -1,0 +1,128 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1114MWNumberMappingModel
+<div class="panelHeader">
+    User Account
+</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m4 s4">
+                MW Number
+            </div>
+            <div class="w3-col l8 m8 s8">
+                @Html.TextBoxFor(model => model.Reference_No)
+            </div>
+        </div>
+    </div>
+    
+   
+    <div id="resultPanel">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                   <th  style="width:21.1%">
+                       <div class="w3-container">
+                           <input type="checkbox" id="checkAll"  class="checkAll w3-left" onclick="checkAll()" />
+                       </div>
+                    </th>
+                    <th>
+                        User Account
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button" onclick="Save()">Save</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+</div>
+<script>
+    var SearchMWNumberUserName;
+      domReady(function () {
+          SearchMWNumberUserName = new searcher({
+            searchPath: "SearchMWNumberUserName"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                   
+                    formater: function (row, idx) {
+                        var span = document.createElement('span');
+                        span.id = row.UUID;
+                        if (row.ISCHECK == 1) {
+                            span.innerHTML = "<input type='checkbox' checked='true' id='checkbox_" + row.UUID + "' onclick = 'SetUUID(" + '"#checkbox_' + row.UUID + '","' + row.UUID + '"' + ")'/>";
+                            UserIDList.push(row.UUID);
+                        } else {
+                            span.innerHTML = "<input type='checkbox' id='checkbox_" + row.UUID + "' onclick = 'SetUUID(" + '"#checkbox_' + row.UUID + '","' + row.UUID + '"' + ")'/>"; 
+                        }
+                        //var checkbox = document.createElement('input');
+                        //checkbox.type = "checkbox"
+                        //checkbox.id = "checkbox_" + row.UUID
+                        //checkbox.onclick = "SetUUID('" + row.UUID + "','" + "checkbox_" + row.UUID +"')";
+                        //return checkbox;
+                        return span;
+                    }
+                }
+                ,
+                {
+                    
+                    columnName: "BD_PORTAL_LOGIN"
+                    //displayName: "User Account", 
+                }
+            ]
+        }).search();
+    });
+    var UserIDList = [];
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM11/PEM1114";
+        goTo("PEM1114", [{ name: "pageCode", value: domId("functionCode").value }]);
+    }
+    function checkAll() {
+        var div = document.getElementById("resultPanel");
+        var spans = div.getElementsByTagName("span");
+        if ($('#checkAll').is(":checked")) {
+            UserIDList = [];
+            for (i = 0; i < spans.length; i++) {
+                UserIDList.push(spans[i].id);
+            }
+        }
+        else
+            UserIDList = [];
+        console.log(UserIDList);
+
+    }
+    function SetUUID(ID,UUID) {
+        if ($(ID).is(":checked")) {
+            UserIDList.push(UUID);
+        }
+        else
+        {
+            var index = UserIDList.indexOf(UUID)
+            if (index > -1)
+                UserIDList.splice(index, 1);
+        }
+    }
+    function Save() {
+        $.ajax({
+            url: "SaveMWNumberMapping"
+            , type: "POST"
+            , data: {
+                Reference_No: $('#Reference_No').val()
+                , UserIDList: UserIDList
+            }
+            , success: function (data) {
+                if (data != null && data.Result == "SUCCESS") {
+                    SearchMWNumberUserName.search();
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Message);
+                }
+            }
+            , onAfterSearch: function () {
+                UserIDList = [];
+            }
+        });
+    }
+
+</script>

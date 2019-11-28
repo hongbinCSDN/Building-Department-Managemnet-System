@@ -1,0 +1,87 @@
+﻿
+
+@model MWMS2.Entity.B_S_SYSTEM_VALUE
+<h3>
+    Reason for Refuse
+</h3>
+
+
+<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    @Html.DisplayFor(model => model.MODIFIED_DATE)
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    @Html.DisplayFor(model => model.MODIFIED_BY)
+</div>
+
+<br>
+
+@using (Html.BeginForm("SMM1108Edit", "SMM1108", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UUID)
+    <div class="sList">
+        <table class="inputTable">
+
+
+            <tbody>
+                <tr>
+                    <th>
+                       No. :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "systemValueOrdering", @type = "number", @min = "0" } })
+                        @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+
+                        @*<input name="systemValueOrdering" value="1" onfocus="inputMaskOnFocus(this, event, 'N')" style="width:90px;" class="inputText" type="text">*@
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Code :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", @readonly = "readonly", id = "Code" } })
+                        @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        Description :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "systemValueDescription" } })
+                        @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+
+                        @*<input name="systemValueDescription" value="Certification of Registration No. Not Found!" class="inputText" type="text">*@
+                    </td>
+                </tr>
+
+              
+
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" id="submit" value="Submit" />
+                        @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="loadContentPage('SMM1107')" type="button">*@
+                        <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1108","SMM1108")"' type="button">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br>
+

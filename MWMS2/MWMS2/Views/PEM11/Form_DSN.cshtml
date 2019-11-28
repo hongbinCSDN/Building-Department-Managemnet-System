@@ -1,0 +1,83 @@
+﻿@model MWMS2.Areas.Signboard.Models.DSNSearchModel
+
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+
+@*@using (Html.BeginForm("Save_DSN", "PEM11", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+
+    <form id="inputForm" method="post">
+        @Html.HiddenFor(model => model.P_MW_DSN.DSN)
+        @Html.HiddenFor(model => model.P_MW_DSN.UUID)
+        @Html.HiddenFor(model => model.DSN)
+
+        <div class="panelHeader">Update DSN Nature</div>
+
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">DSN Number:</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(model => model.P_MW_DSN.DSN)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Ref Number :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(model => model.P_MW_DSN.RECORD_ID)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Form Code :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(model => model.P_MW_DSN.FORM_CODE)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Submission Nature :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DropDownListFor(model => model.P_MW_DSN.SUBMISSION_NATURE, Model.getSubmissionNature())
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button type="button" onclick="onSaveForm()" class="SaveDSN" id="SaveDSN" value="Save"><i class="fa fa-save"></i> Submit</button>
+            <button onclick="cancel()" class="searchButton btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+        </div>
+    </form>
+   
+@*}*@
+<script>
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM11/PEM1109";
+        goTo("PEM1109", [{ name: "pageCode", value: domId("functionCode").value }]);
+    }
+
+    function onSaveForm() {
+        $.post("Save_DSN", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo("PEM1109", [{ name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+</script>

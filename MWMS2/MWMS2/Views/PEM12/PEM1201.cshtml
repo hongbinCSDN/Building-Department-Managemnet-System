@@ -1,0 +1,93 @@
+﻿
+
+  
+<table id="printArea" class="inputTable">
+<thead>
+<tr>
+<th  colspan="6">Elementary Checking</th>
+</tr>
+
+</thead>
+<tbody >
+<tr>
+<th  style="width:200px">Certificate of Registration No. : </th>
+<td >
+<input type="text" name="searchCR" value="" id="searchCR" style="width:150px">
+</td>
+<th >Chinese Company Name :</th>
+<td colspan="2"><span id="chineseCompanyName" style="font-weight:bold"></span></td>
+</tr>
+<tr>
+<th >PBP/PRC/AS : </th>
+<td >
+<select id="searchAS" name="searchAS" style="width:150px"></select>
+</td>
+<th >English Company Name :</th>
+<td colspan="2"><span id="englishCompanyName" style="font-weight:bold"></span></td>
+</tr>
+<tr style="display:none">
+<td ></td>
+<td ></td>
+<td >PRC Expiry Date :</td>
+<td colspan="2"  style="width:200px">
+<span id="prcExpiryDate" style="font-weight:bold"></span>
+</td>
+</tr>
+<tr>
+<td ></td>
+<td ></td>
+<th >Date of Expiry :</th>
+<td colspan="2"  style="width:200px">
+<span id="displayCompExpiryDate" style="font-weight:bold"></span>
+</td>
+</tr>
+<tr>
+<td ></td>
+<td ></td>
+<th >Date of Removal :</th>
+<td colspan="2"  style="width:200px">
+<span id="displayCompRemovalDate" style="font-weight:bold"></span>
+</td>
+</tr>
+<tr  id="PEM1201Row">
+<th  id="itemVersion">Minor Works Item No. : </th>
+<td  id="itemTD" colspan="3">
+<input type="text" name="searchItem1" id="searchItem1" style="width: 80px;">
+<input type="text" name="searchItem2" id="searchItem2" style="width: 80px;">
+<input type="text" name="searchItem3" id="searchItem3" style="width: 80px;">
+<input type="text" name="searchItem4" id="searchItem4" style="width: 80px;">
+<input type="text" name="searchItem5" id="searchItem5" style="width: 80px;">
+<br>
+<input type="text" name="searchItem6" id="searchItem6" style="width: 80px;">
+<input type="text" name="searchItem7" id="searchItem7" style="width: 80px;">
+<input type="text" name="searchItem8" id="searchItem8" style="width: 80px;">
+<input type="text" name="searchItem9" id="searchItem9" style="width: 80px;">
+<input type="text" name="searchItem10" id="searchItem10" style="width: 80px;">
+
+<input type="button" name="addItemButton" id="addItemButton"  value="Add" onclick="addItem()">
+</td>
+</tr>
+<tr>
+<td colspan="4" >Minor Works Item Version&nbsp;</td>
+<td  colspan="3" id="itemVersionTd" hidden="true">
+<input type="radio" id="itemVersion1" name="itemVersion" value="1" checked="true">Old
+<input type="radio" id="itemVersion2" name="itemVersion" value="2">New
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr >
+<td  colspan="4"><input  type="button" id="checkButton" name="" value="Check" onclick="PEMRemoveHideSearch()">
+
+<input id="printButton"  type="button" name="" value="Print"  onclick="printData()"></td>
+</tr>
+</tfoot>
+
+</table>
+         
+<table id="PEMHideDiv" class="inputTable hide" ><tbody><tr><th class="fLabel" style="width: 85px; text-align: right;">Name :</th><td class="fText" style="width: 200px; text-align: left;"></td><th class="fLabel" style="width: 120px; text-align: right;">Result :</th><td class="fText" style="text-align: left;"><span style="color:RED">Fail</span></td></tr><tr><th class="fLabel" style="width: 85px; text-align: right;">Signature :</th><td class="fText" id="openImageTD" style="text-align: left;">Checking :
+<br><input type="RADIO" name="radioundefined" checked="" id="okr"></input><label for="okr">OK</label>
+<br><input type="RADIO" name="radioundefined" id="notokr"><label for="notokr">NOT OK</label></td>
+
+
+<th class="fLabel" style="text-align: right;">Status :</th><td class="fText" style="text-align: left; color: red;">N/A</td></tr><tr><th class="fLabel" style="text-align: right;">Valid Item :</th><td class="fText" colspan="3" style="text-align: left; color: blue;"></td></tr><tr><th class="fLabel" style="text-align: right;">Invalid Item :</th><td class="fText" colspan="3" style="text-align: left; color: red;"></td></tr></tbody></table>

@@ -1,0 +1,101 @@
+﻿@model MWMS2.Entity.B_S_LETTER_TEMPLATE
+
+
+<h3>Letter Template</h3>
+<br />
+
+@using (Html.BeginForm("SMM1103LetterTemplateCreate", "SMM1103LetterTemplate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <td>Letter Name<span class="asterix">*</span>:</td>
+                <td>
+                    @Html.EditorFor(model => model.LETTER_NAME, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "LetterName", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.LETTER_NAME, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>Letter Type:</td>
+                <td>
+                    @Html.DropDownListFor(model => model.LETTER_TYPE, (IEnumerable<SelectListItem>)ViewBag.LetterType, new { style = "width:auto", id = "LetterType" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>Form Code:</td>
+                <td>
+                    @Html.DropDownListFor(model => model.FORM_CODE, (IEnumerable<SelectListItem>)ViewBag.FormCode, new { style = "width:auto", id = "LetterType", @required = "required" })
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>Result:</td>
+                <td>
+                    @Html.DropDownListFor(model => model.RESULT, (IEnumerable<SelectListItem>)ViewBag.LetterResult, new { style = "width:auto", id = "LetterResult" , @required = "required" })
+
+
+                </td>
+            </tr>
+            <tr>
+                <td>Template File:</td>
+                <td>
+
+                    <input name="formFile" value="" id="formFile" type="file" required = "required">
+
+
+
+                </td>
+            </tr>
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+
+                    <input type="submit" class="SaveBtn" id="Save" value="Save" />
+                    @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="" type="button">*@
+                    <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1103LetterTemplate", "SMM1103LetterTemplate")"' type="button">
+
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+}
+<h3>
+    Tag Reference
+</h3>
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Example
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (ViewBag.TagRef != null)
+            {
+                foreach (var item in ViewBag.TagRef)
+                {
+                    <tr>
+                        <td>@item.CODE</td>
+                        <td>@item.DESCRIPTION</td>
+                    </tr>}
+            }
+
+        }
+    </tbody>
+
+</table>

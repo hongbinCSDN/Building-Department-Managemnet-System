@@ -1,0 +1,22 @@
+﻿<Window x:Class="PScan.WLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PScan"
+        mc:Ignorable="d"
+        Title="Login" Height="200" Width="320">
+    <Grid>
+        <WrapPanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+            <Label Content="Username :" Width="300"/>
+            <TextBox Name="TextBoxUsername" Width="280" Margin="10,0,0,0" Text="TESTER_PO"/>
+            <Label Content="Password :" Width="300"/>
+            <PasswordBox Name="PasswordBoxPassword" Width="280" Margin="10,0,0,0" Password="123456"/>
+            <Label Content="Authenticate by :" Width="300"/>
+            <RadioButton Content="Portal" Name="RadioButtonPortal" GroupName="AuthenticateBy" Margin="10,0,0,0"/>
+            <RadioButton Content="MWMS" Name="RadioButtonMWMS" GroupName="AuthenticateBy" Margin="20,0,0,0" IsChecked="True"/>
+            <Button Content="Login" Margin="50,-5,0,0"  Width="100" Click="Button_Click"></Button>
+        </WrapPanel>
+
+    </Grid>
+</Window>

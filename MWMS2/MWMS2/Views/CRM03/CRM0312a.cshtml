@@ -1,0 +1,172 @@
+﻿
+            <table id="Table6" class="inputTable">
+              <tbody>
+                
+                <tr>
+                  <th >Meeting Group :</th>
+                  <td>
+                  	<span id="lblMeetNo" style="font-weight:bold;">2014-SERC-A01</span>
+                  </td>
+                  <th >Room :</th>
+                  <td >
+                  	<span id="lblRoom" style="font-weight:bold;">ROOM 106B</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th >Appointment Date :</th>
+                  <td><span id="lblIntervDate" style="font-weight:bold;">23/01/2014</span></td>
+                  <th >Session :</th>
+                  <td ><span id="lblSession" style="font-weight:bold;">AM</span></td>
+                </tr>
+              
+                <tr>
+                  <th >Start Time :<br>
+                    <span style="FONT-SIZE: 7pt; COLOR: dimgray">(hh:mm am/pm)</span></th>
+                  <td>
+                  	<input name="startTime" maxlength="8" value="9:15 AM" onblur="checkTime(this)"  class="startTime" type="text">
+                    <span id="RequiredTime" style="color:Red;display:none;">Please enter a start time.</span><br>
+                    <span id="InvalidTime" style="color:Red;display:none;">Invalid time.</span></td>
+                  <th >Duration (mins) :</th>
+                  <td >
+                  	<input name="duration" maxlength="2" value="30" onkeypress="return onKeyPressOnlyNumbers(event);" style="width:40px;" class="duration" type="text">
+                    </td>
+                </tr>
+                <tr>
+                  <th >Candidate No. :</th>
+                  <td colspan="3" width="633">
+                  		<input name="candidateNo" maxlength="8" value="" onkeypress="return onKeyPressOnlyNumbers(event);" id="candidateNo" style="width:80px;" class="candidateNo" type="text">
+                    
+                    <input name="add" value="Add to list" id="btnCancel" accesskey="A" onclick="loadCandidate()" type="button"></td>
+                	
+                </tr>
+                <tr>
+                  <td colspan="4" width="744">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+           
+                                <table class="resultTable" id="dgList">
+                                    <thead>
+                                        <tr class="grid-header" style="height:19px;">
+                                            <th>File Reference</th>
+                                            <th>Candidate No</th>
+                                            <th>Type</th>
+                                            <th>Duration</th>
+                                            <th>Candidate Alias No</th>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+
+                                        </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td>R 81/13</td>
+                                            <td>16407</td>
+                                            <td>
+                                                <select style="width:auto" name="interviewType" id="interviewType_<%=i%>" class="inputSelectNoWidth">
+                                                    <option value="I" selected="selected">Interview</option>
+                                                    <option value="A">Assessment</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input maxlength="2" name="candidateDur" id="candidateDur_0" value="30" style="width:40px;" onkeypress="return onKeyPressOnlyNumbers(event);">
+                                            </td>
+                                            <td>
+                                                <input maxlength="30" name="aliasNo" id="aliasNo_0" value="" style="width:120px;">
+                                            </td>
+                                            <td>NG xx xx</td>
+                                            <td>RSE</td>
+                                            <td nowrap="nowrap">
+
+                                                <img name="btnDelRow" id="btnDelRow" style="cursor:pointer;" onclick="deleteCandidate('0') " src="images/delete.gif" alt="Delete" border="0">
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+           <table class="inputTable">
+    <tbody>
+        <tr>
+            <td style="FONT-SIZE: 8pt; COLOR: darkgreen">
+                <input onclick="generateTimeTable()" name="generateTimetable" value="Generate Timetable" id="btnGenerate" accesskey="G" type="button">
+                <span style="FONT-SIZE: 8pt; COLOR: darkgreen">(Remember to click 'Generate Timetable' after making changes to Candidate List)</span>
+            </td>
+
+        </tr>
+            </tbody></table>
+            <br>
+            <br>
+ <div style="FONT-WEIGHT: bold; PADDING-BOTTOM: 5px; COLOR: #52616b">Interview / 
+                    Assessment Timetable</div>
+        
+                    <table class="resultTable" id="dgList">
+                        <thead>
+                            <tr class="grid-header" style="height:19px;">
+                                <th>File Reference</th>
+                                <th>Candidate No</th>
+                                <th>Type</th>
+                                <th>Start Time</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>R 81/13</td>
+                                <td>16407</td>
+                                <td>Interview</td>
+                                <td> 09:15 AM</td>
+                                <td>NG Yan Kit</td>
+                                <td>RSE</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+            <table class="inputTable">
+                <tbody>
+                    <tr>
+                        <td style="FONT-SIZE: 8pt; COLOR: darkgreen">AM session times must be &gt;= 9:15 AM and &lt; 2:15 PM, PM session times &gt;= 2:15 PM.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img id="ImgExport" src="images/form.gif" alt="" border="0">&nbsp;
+                            <a id="lbtnExport" href="javascript:exportMinutes()">Export Minutes of the CRC &amp; Schedule of Meeting of CRC (MMD0002b_2.doc)</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img id="ImgExport" src="images/form.gif" alt="" border="0">&nbsp;
+                            <a id="lbtnExport" href="javascript:exportCommittee()">Export Meeting Group Committee</a>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            
+                <tfoot>
+
+
+                    <tr>
+                        <td class="editfooter" height="32">
+                            &nbsp;
+
+                            <input name="" value=" Save Timetable" id="" accesskey="S" onclick="loadContentPage('CRM0312')" type="button">
+                            &nbsp;
+
+                            <input name="btnCancel" value="Cancel" id="btnCancel" onclick="loadContentPage('CRM0312')" type="button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <input name="btnDel" value="Delete" id="btnDel" accesskey="D" onclick="loadContentPage('CRM0312')" type="button">
+
+                        </td>
+                    </tr>
+                </tfoot>
+            
+            
+            </table>
+      
+        

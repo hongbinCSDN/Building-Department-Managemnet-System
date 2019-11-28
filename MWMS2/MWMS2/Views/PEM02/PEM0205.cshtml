@@ -1,0 +1,77 @@
+
+	<table class="inputTable">
+<thead><tr><th colspan="2">Criteria</th></tr></thead>
+            <tbody>
+                <tr>
+                    <th class="fLabel">No of Outstanding :</th>
+                    <td class="fBigLabel">&nbsp;466</td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Document S/N</th>
+                    <td class="fField"><input class="inputText" type="text" id="searchDsn" name="searchDsn" value="" style="width:120px"></td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Ref. No.</th>
+                    <td class="fField"><input class="inputText" type="text" id="searchRefNo" name="searchRefNo" value="" style="width:120px"></td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Receive Date</th>
+                    <td class="fField">
+                        From
+                        <input class="inputDate" type="text" id="fromDate" name="fromDate" value="" title="to:toDate" readonly="">
+                        To
+                        <input class="inputDate" type="text" id="toDate" name="toDate" value=""     title="from:fromDate" readonly="">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Status :</th>
+                    <td class="fField">
+                        <select style="width:auto" name="status">
+
+                            <option selected="'selected'" value="">- Select -</option>
+
+                            <option value="SCANNED">Scanned</option>
+
+                            <option value="CONFIRMED">Confirmed</option>
+
+                            <option value="GENERAL_ENTRY">Draft</option>
+
+                        </select>
+
+                        <input type="hidden" name="statusList[0].value" value="">
+                        <input type="hidden" name="statusList[0].label" value="- Select -">
+
+                        <input type="hidden" name="statusList[1].value" value="SCANNED">
+                        <input type="hidden" name="statusList[1].label" value="Scanned">
+
+                        <input type="hidden" name="statusList[2].value" value="CONFIRMED">
+                        <input type="hidden" name="statusList[2].label" value="Confirmed">
+
+                        <input type="hidden" name="statusList[3].value" value="GENERAL_ENTRY">
+                        <input type="hidden" name="statusList[3].label" value="Draft">
+                    </td>
+                </tr>
+            </tbody>
+        
+        <tfoot>
+        	<tr><td colspan="2"> <input class="inputButton" type="button" id="" name="" value="Search"  onclick="search('PEM205table','searchDsn')">
+       </td></tr></tfoot>
+       </table>
+       
+        <table id="PEM205table" class="resultTable">
+            <thead>
+
+                <tr>
+                    <th class="sTh" style="width:75px">DSN</th>
+                    <th class="sTh" style="width:75px">Assignment Date</th>
+                    <th class="sTh" style="width:75px">Time</th>
+                    <th class="sTh" style="width:75px">Ref. No.</th>
+                    <th class="sTh">Type</th>
+                    <th class="sTh">Status</th>
+                    <!-- <th class="sTh" >TaskId</th> -->
+                </tr>
+                </thead>
+
+          
+        </table>
+

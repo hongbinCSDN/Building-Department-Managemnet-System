@@ -1,0 +1,220 @@
+
+ <table id="Table10" class="inputTable">
+     <tbody>
+         <tr>
+             <th >File Reference :</th>
+             <td colspan="3">
+                 <input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" id="displayFileReference" style="width:170px;" class="inputText">
+             </td>
+         </tr>
+         <tr>
+             <th >Company Name :</th>
+             <td colspan="3">
+                 <input type="text" name="displayCompanyNameEng" maxlength="150" value="" onkeydown="enterToSubmit(searchForm, this, event)" id="displayCompanyNameEng" style="width:570px;" class="inputText">
+             </td>
+         </tr>
+         <tr>
+             <th>Surname :</th>
+             <td>
+                 <input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" id="displayFileReference" style="width:170px;" class="inputText">
+
+             </td>
+             <th>Given Name :</th>
+             <td>
+                 <input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" id="displayFileReference" style="width:170px;" class="inputText">
+
+             </td>
+         </tr>
+         <tr><th>Chinese Name :</th><td colspan="3">
+    <input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" id="displayFileReference" style="width:170px;" class="inputText">
+</td></tr>
+         <tr>
+             <th >Deferral Period (mth) :</th>
+             <td colspan="3" >
+
+                 <select name="displayDeferral" id="displayDeferral" class="inputSelect" style="width:auto">
+
+                     <option value=">=" selected="selected">&gt;=</option>
+                     <option value=">">&gt;</option>
+                     <option value="=">=</option>
+                     <option value="<=">&lt;=</option>
+                     <option value="<">&lt;</option>
+                 </select>
+                 &nbsp;
+                 <input type="text" name="displayDeferralPeriod" maxlength="2" value="1" onkeydown="enterToSubmit(searchForm, this, event)" id="displayDeferralPeriod" style="width:32px;vertical-align:middle; " class="inputText">
+             </td>
+         </tr>
+         <tr><th>Referral Type</th><td colspan="3">
+    <input type="checkbox" checked value="Professional" />Professional
+    <input type="checkbox" checked value="General Contractor" />General Contractor
+    <input type="checkbox" checked value="MW Company" />MW Company
+    <input type="checkbox" checked value="MW Individual" />MW Individual
+</td></tr>
+     </tbody>
+     <tfoot>
+         <tr>
+             <td colspan="4">
+                 <input type="button" name="btnExport" onclick="exportExcel('CRMHideDiv')" value="Export">
+                 <input type="button" name="btnSearch" onclick="searchForm()" value="Search">
+             </td>
+
+         </tr>
+         <tr>
+             <td colspan="3"><span id="lblMsg" style="color:Crimson;"></span></td>
+         </tr>
+     </tfoot>
+ </table>
+    
+
+ 
+                     <table id="CRMHideDiv" class="hide resultTable" id="dgList">
+                         <thead>
+                             <tr class="grid-header" style="height:19px;">
+                                 <th>Referral Type</th>
+                                 <th>     File Ref.       </th>
+                                 <th> Name</th>
+                                 <th> 	Category Code</th>
+
+                                 <th>  Company Name       </th>
+                                 <th>     Candidate Name  </th>
+                                 <th>        Received Date</th>
+                                 <th>           Defer Date</th>
+                                 <th>                 Role</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Professional</td>
+                                 <td><a href='javascript:loadContentPage("CRM0106a")'>R 1/09</a></td>
+                                 <td> 	LEE xx xx Ellen</td>
+                                 <td>AP(A)</td>
+                                 <td></td>
+                                 <td></td>
+                                 <td>17/05/2012</td>
+                                 <td>06/12/2013</td>
+                                 <td>AS</td>
+                             </tr>
+                             <tr class="grid-alt-item">
+                                 <td>General Contractor</td>
+                                 <td><a href='javascript:loadContentPage("CRM0105a")'>GBC 1/2002</a></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td>xx INTERIOR &amp; RENOVATION LIMITED</td>
+                                 <td>LAW xx xx</td>
+                                 <td>17/05/2012</td>
+                                 <td>06/12/2013</td>
+                                 <td>AS</td>
+
+                             </tr>
+
+
+                             <tr>
+
+                                 <td>MW Company</td>
+                                 <td><a href='javascript:loadContentPage("CRM0105a")'>MWC 1000/2011</a></td>
+                                 <td> 	</td>
+                                 <td></td>
+
+                                 <td>xx xxxAIR-CONDITION ELECTRICAL ENGINEERING CO.,</td>
+                                 <td>MAN xx xx</td>
+                                 <td>17/05/2012</td>
+                                 <td>06/12/2013</td>
+                                 <td>AS</td>
+                             </tr>
+                             <tr>
+
+                                 <td>MW Individual</td>
+                                 <td><a href='javascript:loadContentPage("CRM0106a")'>MWC(W) 1798/2010</a></td>
+                                 <td> 	LIU xx xx </td>
+                                 <td>MWC(W)</td>
+                                 <td></td>
+                                 <td></td>
+                                 <td>17/05/2012</td>
+                                 <td>06/12/2013</td>
+                                 <td></td>
+                             </tr>
+                             <!--<tr class="grid-alt-item">
+
+        <td><a href='javascript:loadContentPage("CRM0105a")'>GBC 1/2014</a></td>
+        <td></td>
+        <td></td>
+        <td>xx DESIGN &amp; BUILD LIMITED</td>
+        <td>YU xx xx</td>
+        <td>20/01/2016</td>
+        <td>10/01/2017</td>
+        <td>AS</td>
+
+    </tr>
+
+    <tr>
+
+        <td><a href='javascript:loadContentPage("CRM0105a")'>GBC 1/2014</a></td>
+        <td></td>
+        <td></td>
+        <td>xx DESIGN &amp; BUILD LIMITED</td>
+        <td>IP xx xx</td>
+        <td>22/03/2016</td>
+        <td>08/12/2016</td>
+        <td>AS</td>
+
+    </tr>
+
+    <tr class="grid-alt-item">
+
+        <td><a href='javascript:loadContentPage("CRM0105a")'>GBC 1/2016</a></td>
+        <td></td>
+        <td></td>
+        <td>xx SHING CONSTRUCTION &amp; ENGINEERING LIMITED</td>
+        <td>LEE xx xx</td>
+        <td>15/11/2016</td>
+        <td>24/10/2017</td>
+        <td>AS</td>
+
+    </tr>
+
+    <tr>
+
+        <td><a href="javascript:editPM('8a8591a2547f2bea01549dfe49fb7827')">GBC 10/2009</a></td>
+        <td></td>
+        <td></td>
+
+        <td>xx BRIGHT CONSTRUCTION LIMITED</td>
+        <td>TSANG xx xx</td>
+        <td>10/05/2016</td>
+        <td>13/03/2017</td>
+        <td>AS</td>
+
+    </tr>
+
+    <tr class="grid-alt-item">
+
+        <td><a href="javascript:editPM('8a8591a2272cbca501275093bb011029')">GBC 10/2010</a></td>
+        <td></td>
+        <td></td>
+        <td>xx KEE ENGINEERING LIMITED</td>
+        <td>CHOW xx xx</td>
+        <td>11/03/2010</td>
+        <td>06/04/2011</td>
+        <td>AS</td>
+
+    </tr>
+
+    <tr>
+
+        <td><a href="javascript:editPM('8a8591a24a719bef014adcf0081a7aba')">GBC 10/2012</a></td>
+        <td></td>
+        <td></td>
+        <td>xx CONSTRUCTION LIMITED</td>
+        <td>LEE xx xx</td>
+        <td>09/01/2015</td>
+        <td>03/12/2015</td>
+        <td>AS</td>
+
+    </tr>-->
+
+
+
+
+
+                         </tbody>
+                     </table>

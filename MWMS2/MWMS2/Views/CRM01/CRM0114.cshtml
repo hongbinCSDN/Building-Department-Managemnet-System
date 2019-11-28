@@ -1,0 +1,79 @@
+﻿
+
+
+     
+
+                                        <div class="title1"><h3>Class, Type, Item Count Report</h3></div>
+                        
+                                                        <table id="Table10" class="inputTable">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>Type of Date :</th>
+                                                                    <td>
+                                                                        <select id="date_type" name="date_type" style="width :auto">
+                                                                            <option value="">- Select Type of Date -</option>
+                                                                            <option value="application_date">Date of Application</option>
+                                                                            <option value="registration_date">Date of Registration</option>
+                                                                            <option value="gazette_date">Date of Gazette</option>
+                                                                            <option value="expiry_date">Date of Expiry</option>
+                                                                            <option value="removal_date">Date of Removal</option>
+                                                                            <option value="retention_date">Date of Renewal</option>
+                                                                            <option value="restore_date">Date of Restoration</option>
+                                                                            <option value="approval_date">Date of Approval</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td colspan="2">
+                                                                        from&nbsp;
+                                                                        <input type="text" id="from_date" class="inputDate" name="from_date"  maxlength="10" onblur="checkDate(this)">
+                                                                        <span id="err_from_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                                        &nbsp;to&nbsp;
+                                                                        <input type="text" id="to_date" name="to_date" class="inputDate"  maxlength="10" onblur="checkDate(this)">
+                                                                        <span id="err_to_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="display :none;">
+                                                                    <td valign="top">Application Status :</td>
+                                                                    <td>
+                                                                        <div class="scrollTableDivLower" style="height :100px; width :220px" id="div_statusList">
+                                                                            <table class="scrollTable" border="0" cellpadding="0" cellspacing="0"> <tbody><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80000" name="statusList"> Active</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80001" name="statusList"> Application in progress</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80003" name="statusList"> Certificate prepared</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80006" name="statusList"> Removed</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80007" name="statusList"> Inactive</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a85932a25bf968e0125bf968ef80008" name="statusList"> Withdrawn</td></tr><tr><td><input class="inputCheckbox" type="checkbox" id="statusList" value="8a8593a2607d43b301607d65d68a0001" name="statusList"> test3162</td></tr></tbody></table>
+                                                                        </div>
+                                                                        <input type="hidden" id="statusStr" name="statusStr" value="">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Category :</th>
+                                                                    <td colspan="2">
+                                                                        <select name="category" id="category"style="width :auto">
+                                                                            <!-- <option value="AP">AP</option>
+                                                                        <option value="RSE">RSE</option>
+                                                                        <option value="RGE">RGE</option>
+                                                                        <option value="RI">RI</option> -->
+                                                                            <option value="IP">AP/RSE/RGE/RI</option>
+                                                                            <option value="GBC">GBC</option>
+                                                                            <option value="SC">RSC</option>
+                                                                            <option value="MWC">RMWC</option>
+                                                                            <option value="MWC(P)">RMWC(P)</option>
+                                                                            <option value="RMWC(W)">RMWC(W)</option>
+                                                                            <option value="RMWC(W)(NEW)">RMWC(W)(NEW)</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+            
+                     
+                                        <table class="inputTable">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <img src="img/print.gif">
+                                                        <a href="javascript:printNumberOfRegistrationReport()">Export Class, Type, Item Count Report</a>
+                                                    </td>
+                                                             </tr>
+                                            </tbody>
+                                        </table>
+                                        <br>
+             
+                    </form>
+
+

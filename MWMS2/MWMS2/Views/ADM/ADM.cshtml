@@ -1,0 +1,610 @@
+﻿
+
+@model MWMS2.Areas.Admin.Models.ParaModel
+
+<div class="panelHeader">Search Criteria</div>
+
+@if (Model.CommFunc != null && Model.CommFunc.Count > 0)
+{
+    <div class="panelHeader">User Management</div>
+    foreach (var func in Model.CommFunc)
+    {
+        <div class="w3-dropdown-hover">
+            <span id="menu_CRM01" class="w3-button"><span>@func.DESCRIPTION</span>&nbsp;<span class="fa fa-caret-down"></span></span>
+            <div class="w3-dropdown-content w3-card-4">
+                @foreach (var func2 in func.Childs)
+                {
+                    <div onclick="javascript:goTo('@func2.URL',[{name:'pageCode',value:'@func2.CODE'}])">@func2.DESCRIPTION </div>
+                }
+            </div>
+        </div>
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+@foreach (var func in MWMS2.Utility.SessionUtil.CurrentModule.Childs)
+{
+    <div class="w3-dropdown-hover">
+        <span id="menu_CRM01" class="w3-button"><span>@func.DESCRIPTION</span>&nbsp;<span class="fa fa-caret-down"></span></span>
+        <div class="w3-dropdown-content w3-card-4">
+            @foreach (var func2 in func.Childs)
+            {
+                <div onclick="javascript:goTo('@func2.URL',[{name:'pageCode',value:'@func2.CODE'}])">@func2.DESCRIPTION </div>
+            }
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+<table class="inputTable">
+
+    <thead>
+        <tr>
+            <th>
+                Common
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a id="menu_PEM1101" href="/Admin/UM/Index">
+                    - User Management
+                </a>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <a id="menu_PEM1102" href="/Admin/Sys/RoleIndex">
+                    - Role Management
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <a id="menu_PEM1102" href="/Admin/Section/Index">
+                    - Section Management
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a id="menu_PEM_Unit" href="/Admin/PEM_Unit/Index">
+                    - Unit Management
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br />
+
+<script>
+    function openAdminTab(evt, AdminTab) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("admin");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-border-green", "");
+        }
+        document.getElementById(AdminTab).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-border-green";
+    }
+</script>
+
+
+
+
+
+
+
+
+<div class="w3-row">
+    <a href="javascript:void(0)" onclick="openAdminTab(event, 'PEMAdmin');">
+
+        <div style="width:33.33%" class="w3-third tablink w3-border-green w3-bottombar w3-hover-light-grey w3-padding">MW Processing</div>
+    </a>
+    <a href="javascript:void(0)" onclick="openAdminTab(event, 'SMMAdmin');">
+        <div style="width:33.33%" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Signboard</div>
+    </a>
+    <a href="javascript:void(0)" onclick="openAdminTab(event, 'CRMAdmin');">
+        <div style="width:33.33%" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Registration</div>
+    </a>
+</div>
+
+<div id="PEMAdmin" class="w3-container admin" style="padding-right:0; padding-left:0px; display:">
+    <table class="inputTable">
+
+        <tbody>
+
+
+
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1103" href="/PEM1103/PEM1103?pageCode=PEM1103">
+                        - System Parameter Management
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1104" href="/PEM11/PEM1104">
+                        - Letter Template Management
+                    </a>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1105" href="/PEM11/PEM1105">
+                        - Organization Escalation Chart
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1106" href="/PEM11/PEM1106">
+                        - Handling Outstanding Documentser Management
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1107" href="/PEM11/PEM1107">
+                        - Process Status
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1108" href="/PEM11/PEM1108">
+                        - Import MW05(3.6) Record
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1109" href="/PEM11/PEM1109">
+                        - Edit DSN Nature
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1110" href="/PEM11/PEM1110">
+                        - Import Records
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1111" href="/PEM11/PEM1111">
+                        - Upload PDF History
+                    </a>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1112" href="/PEM11/PEM1112">
+                        - Pending Transfer
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1113" href="/PEM11/PEM1113">
+                        - Update Minor Work Record
+                    </a>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1114" href="/PEM11/PEM1114">
+                        - MW Number Mapping
+                    </a>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td>
+                    <a id="menu_PEM1115" href="/PEM11/PEM1115">
+                        - Update Submission Record
+                    </a>
+                </td>
+            </tr>
+
+
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div id="SMMAdmin" class="w3-container admin" style="padding-right:0; padding-left:0px; display:none">
+    <table class="inputTable">
+        <tbody>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1103" href="/SMM1103/SMM1103?pageCode=SMM1103">
+                        - System Parameter Management
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1104" href="?pageCode=SMM1104">
+                        - SCU Team Management
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1105" href="/SMM1105/SMM1105?pageCode=SMM1105">
+                        - Update Signboard Application
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1106" href="/SMM1106/SMM1106?pageCode=SMM1106">
+                        - Update Job Assignment
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1107" href="/SMM1107/SMM1107?pageCode=SMM1107">
+                        - Validation Option
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1108" href="/SMM1108/SMM1108?pageCode=SMM1108">
+                        - Reason for Refuse
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1109" href="/SMM1109/SMM1109?pageCode=SMM1109">
+                        - Types of Signboard
+                    </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div id="CRMAdmin" class="w3-container admin" style="padding-right:0; padding-left:0px; display:none">
+
+
+    <table class="inputTable">
+
+        <tbody>
+            <tr>
+                <td>
+                    <a id="menu_CRM0701" href="/CRM07/CRM0701">
+                        - Applicant Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0702" href="/CRM07/CRM0702">
+                        - Applicant Status
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0703" href="?pageCode=CRM0703">
+                        - Application Form
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0704" href="?pageCode=CRM0704">
+                        - Authority Name
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0705" href="?pageCode=CRM0705">
+                        - Buildings Safety &amp; Code
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0706" href="?pageCode=CRM0706">
+                        - Buildings Safety &amp; Code Item
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0707" href="?pageCode=CRM0707">
+                        - Company Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0708" href="?pageCode=CRM0708">
+                        - Panel Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0709" href="?pageCode=CRM0709">
+                        - Committee Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0710" href="?pageCode=CRM0710">
+                        - Conviction Source
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0711" href="?pageCode=CRM0711">
+                        - Category Code
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0712" href="?pageCode=CRM0712">
+                        - Category Group
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0713" href="?pageCode=CRM0713">
+                        - HTML Notes
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0714" href="?pageCode=CRM0714">
+                        - Interview Result
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0715" href="?pageCode=CRM0715">
+                        - Panel Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0716" href="?pageCode=CRM0716">
+                        - Committee Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0717" href="?pageCode=CRM0717">
+                        - Non-building Works Related
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0718" href="?pageCode=CRM0718">
+                        - Period of Validity
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0719" href="?pageCode=CRM0719">
+                        - Practice Notes
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0720" href="?pageCode=CRM0720">
+                        - Professional Registration Board
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0721" href="?pageCode=CRM0721">
+                        - Room Details
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0722" href="?pageCode=CRM0722">
+                        - Society Name
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0723" href="?pageCode=CRM0723">
+                        - Title
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0724" href="?pageCode=CRM0724">
+                        - Public Holiday Management
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0725" href="?pageCode=CRM0725">
+                        - Minor Works Class
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0726" href="?pageCode=CRM0726">
+                        - Minor Works Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0727" href="?pageCode=CRM0727">
+                        - Minor Works Item
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0728" href="?pageCode=CRM0728">
+                        - Vetting Officer
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0729" href="?pageCode=CRM0729">
+                        - Secretary
+
+
+
+
+                    </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+<br />
+

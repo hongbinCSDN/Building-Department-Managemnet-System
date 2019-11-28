@@ -1,0 +1,207 @@
+
+ <table class="inputTable">
+     <tbody>
+         <tr>
+             <th>Submission Type :</th>
+             <td>
+                 <select name="searchType" onchange="reloadPage()">
+                     <option value="Enq">Enq</option>
+                     <option value="Com">Com</option>
+                 </select>
+
+                 <input type="hidden" name="searchTypeList[0].value" value="Enq">
+                 <input type="hidden" name="searchTypeList[0].label" value="Enq">
+
+                 <input type="hidden" name="searchTypeList[1].value" value="Com">
+                 <input type="hidden" name="searchTypeList[1].label" value="Com">
+
+             </td>
+             
+             
+               <th>
+                 Ref No. :
+             </th>
+             <td>
+                 <input type="text" name="searchCaseNo" value="">
+             </td>
+             
+             
+         </tr>
+
+         <tr>
+             <th>
+                 Status :
+             </th>
+             <td>
+                 <select name="searchStatus">
+
+                     <option selected="'selected'" value="">
+                         -All-
+                     </option>
+
+                     <option value="Outstanding">
+                         In Progress
+                     </option>
+
+                     <option value="Interim Replied">
+                         Interim Reply Sent
+                     </option>
+
+                     <option value="Endorsed">
+                         Endorsed
+                     </option>
+
+                     <option value="Closed">
+                         Closed
+                     </option>
+
+                 </select>
+             </td>
+             
+             <th>
+                 Receive Date :
+             </th>
+             <td>
+                 <input class="inputText inputCalendar" type="text" name="searchReceiveDate" value="" readonly="">
+             </td>
+             
+             
+         </tr>
+         <tr>
+             <th>
+                 Source :
+             </th>
+             <td>
+                 <select name="searchSource">
+
+                     <option selected="'selected'" value="">
+                         - Select -
+                     </option>
+
+                     <option value="GENERAL_PUBLIC">
+                         General Public
+                     </option>
+
+                     <option value="ICC">
+                         ICC
+                     </option>
+
+                     <option value="INTERNAL_REFERRAL">
+                         Internal Referral
+                     </option>
+
+                     <option value="OTHERS">
+                         Others
+                     </option>
+
+                 </select>
+
+                 <input type="hidden" name="sourceList[0].value" value="">
+                 <input type="hidden" name="sourceList[0].label" value="- Select -">
+
+                 <input type="hidden" name="sourceList[1].value" value="GENERAL_PUBLIC">
+                 <input type="hidden" name="sourceList[1].label" value="General Public">
+
+                 <input type="hidden" name="sourceList[2].value" value="ICC">
+                 <input type="hidden" name="sourceList[2].label" value="ICC">
+
+                 <input type="hidden" name="sourceList[3].value" value="INTERNAL_REFERRAL">
+                 <input type="hidden" name="sourceList[3].label" value="Internal Referral">
+
+                 <input type="hidden" name="sourceList[4].value" value="OTHERS">
+                 <input type="hidden" name="sourceList[4].label" value="Others">
+
+             </td>
+             <th>
+                 Referral Date :
+             </th>
+             <td>
+                 <input class="inputText inputCalendar" type="text" name="searchReferralDate" value="" readonly="">
+             </td>                                                    
+         </tr>
+
+         <tr>
+             <th>
+                 Name :
+                 <label>
+                     <input class="inputRadio" type="radio" id="nameSearchType" name="nameSearchType" value="P" checked="">
+                     Prefix
+                 </label>
+                 <label>
+                     <input class="inputRadio" type="radio" id="nameSearchType" name="nameSearchType" value="W">
+                     Wild card
+                 </label>
+
+             </th>
+             <td>
+                 <input type="text" name="searchName" value="">
+             </td>
+             
+             
+             <th>
+                 Progress :
+             </th>
+             <td>
+                 <select name="searchProgress">
+
+                     <option selected="'selected'" value="">
+
+                         - Select -
+                     </option>
+
+                     <option selected="'selected'" value="">
+
+                         Show All
+                     </option>
+
+                     <option value="SHOW_OVERDUE">
+
+                         Show Overdue
+                     </option>
+
+                     <option value="SHOW_ALERT">
+
+                         Show Alert
+                     </option>
+
+                 </select>
+
+                 <input type="hidden" name="progressList[0].value" value="">
+                 <input type="hidden" name="progressList[0].label" value="- Select -">
+
+                 <input type="hidden" name="progressList[1].value" value="">
+                 <input type="hidden" name="progressList[1].label" value="Show All">
+
+                 <input type="hidden" name="progressList[2].value" value="SHOW_OVERDUE">
+                 <input type="hidden" name="progressList[2].label" value="Show Overdue">
+
+                 <input type="hidden" name="progressList[3].value" value="SHOW_ALERT">
+                 <input type="hidden" name="progressList[3].label" value="Show Alert">
+
+             </td>
+             
+             
+         </tr>
+     </tbody>
+     <tfoot><tr><td colspan="4"> <input class="inputButton" type="button" id="" name="" value="Search" onclick="searchPEM0305()"/></td></tr></tfoot>
+ </table>
+
+<table id="PEM0305Table" class="resultTable">
+    <thead>
+        <tr>
+            <th class="sTh">DSN/ ICC No.</th>
+            <th class="sTh">Ref. No.</th>
+            <th class="sTh">Date of Assignment</th>
+            <th class="sTh">Final Reply Due Date</th>
+            <th class="sTh">Final Reply Remaining Days</th>
+            <!-- <th class="sTh" >Interim Reply Due Date</th> -->
+
+            <th class="sTh">Interim Reply Date</th>
+            <th class="sTh">Interim Reply Remaining Days</th>
+            <th class="sTh">Title</th>
+            <th class="sTh">Channel</th>
+            <th class="sTh">Status</th>
+        </tr>
+        </thead>
+    <tbody></tbody>
+</table>

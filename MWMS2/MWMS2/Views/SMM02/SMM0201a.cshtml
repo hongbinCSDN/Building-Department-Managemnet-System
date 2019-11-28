@@ -1,0 +1,2070 @@
+﻿
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tbody>
+                <tr>
+                    <td>
+
+
+
+
+
+
+
+
+
+
+                        <script type="text/javascript">
+var ctxPath = "/SMM";
+
+function submitToPage(formName, relActionPath, method){
+    var form = document.getElementById(formName);
+    form.action =
+        '/SMM/' + relActionPath + '.do?method=' + method;
+    form.submit();
+}
+function confirmSubmitToPage(formName, relActionPath, method, msg){
+    if(confirm(msg)){
+        submitToPage(formName, relActionPath, method);
+        return true;
+    }else
+        return false;
+}
+function goToPage(relActionPath, method, paramStr){
+    var url = '/SMM/' + relActionPath +
+        '.do?method=' + method;
+    if(typeof paramStr != "undefined")
+        url += '&' + paramStr;
+    window.location.replace(url);
+}
+function confirmGoToPage(relActionPath, method, paramStr, msg){
+    if(confirm(msg)){
+        window.location.replace('/SMM/' + relActionPath +
+            '.do?method=' + method + '&' + paramStr);
+        return true;
+    }else
+        return false;
+}
+function disableAllBtns(){
+    $("input:button").each(function(){
+        $(this).attr("disabled", "disabled");
+    });
+}
+function enableAllBtns(){
+    $("input:button").each(function(){
+        $(this).removeAttr("disabled");
+    });
+}
+function selectSignboard(signboardNoID, streetNameID, streetNoID, buildingNameID, bcisBlockId, addRefNo){
+    disableAllBtns();
+    var url = ctxPath + "/signboardSelector.do?method=show";
+    var signboard = popup(url, null,
+        "dialogWidth:1024px; dialogHeight:768px; center:yes");
+    if(typeof signboard != "undefined" && signboard != null){
+        if(typeof signboardNoID != "undefined")
+            document.getElementById(signboardNoID).value = signboard.signboardNo;
+        if(typeof streetNameID != "undefined" && typeof streetNoID != "undefined" &&
+                typeof buildingNameID != "undefined"){
+            var streetNameObj = document.getElementById(streetNameID);
+            var streetNoObj = document.getElementById(streetNoID);
+            var buildingNameObj = document.getElementById(buildingNameID);
+            if(streetNameObj.value == "" && streetNoObj.value == "" &&
+                    buildingNameObj.value == ""){
+                streetNameObj.value = signboard.streetName;
+                streetNoObj.value = signboard.streetNo;
+                buildingNameObj.value = signboard.buildingName;
+            }
+        }
+        if(typeof bcisBlockId != "undefined" && typeof addRefNo != "undefined"){
+        	var bcisBlockIdObj = document.getElementById(bcisBlockId);
+        	var addRefNoObj = document.getElementById(addRefNo);
+        	if(bcisBlockIdObj.value == "" && addRefNoObj.value == ""){
+                bcisBlockIdObj.value = signboard.bcisBlockId;
+                addRefNoObj.value = signboard.addRefNo;
+
+            }
+        }
+    }
+    enableAllBtns();
+    if(typeof signboard != "undefined" && signboard != null)
+        return signboard.signboardNo;
+}
+
+function selectReport(reportNo){
+    disableAllBtns();
+    var url = ctxPath + "/signboardSelector.do?method=showReport";
+    var report = popup(url, null,
+        "dialogWidth:1024px; dialogHeight:768px; center:yes");
+    if(typeof report != "undefined" && report != null){
+        if(typeof reportNo != "undefined")
+            document.getElementById(reportNo).value = report.reportNo;
+    }
+    enableAllBtns();
+    if(typeof report != "undefined" && report != null)
+        return report.reportNo;
+}
+
+function selectS24(s24No){
+    disableAllBtns();
+    var url = ctxPath + "/signboardSelector.do?method=showS24";
+    var s24 = popup(url, null,
+        "dialogWidth:1024px; dialogHeight:768px; center:yes");
+    if(typeof s24 != "undefined" && s24 != null){
+        if(typeof s24No != "undefined")
+            document.getElementById(s24No).value = s24.s24OrderNo;
+    }
+    enableAllBtns();
+    if(typeof s24 != "undefined" && s24 != null)
+        return s24.s24OrderNo;
+}
+
+function toStr(strArray){
+    var str = "";
+    for(var a in strArray){
+        if(a > 0) str += ", ";
+        str += strArray[a];
+    }
+    return str;
+}
+function popup(url, param, options){
+    url += "&time=" + (new Date());
+    var returnVal = window.showModalDialog(url, param, options);
+    return returnVal;
+}
+function jq_escape(str){
+    return str.replace("[", "\\[").replace("]", "\\]").replace(".", "\\.");
+}
+function regExp_escape(str){
+    return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\$&");
+}
+                        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <style type="text/css">
+                            .bigText {
+                                font-size: 16px;
+                                font-weight: bold;  
+                            }
+                        </style>
+                        <script type="text/javascript" src="/SMM/js/openwysiwyg/scripts/wysiwyg.js"></script>
+                        <script type="text/javascript" src="/SMM/js/openwysiwyg/scripts/wysiwyg-settings.js"></script>
+                        <script type="text/javascript">
+var wysiwygSettings = new WYSIWYG.Settings();
+$(document).ready(function(){
+    wysiwygSettings.ImagesDir = "/SMM/js/openwysiwyg/images/";
+    wysiwygSettings.PopupsDir = "/SMM/js/openwysiwyg/popups/";
+    wysiwygSettings.CSSFile = "/SMM/js/openwysiwyg/styles/openwysiwyg.css";
+    wysiwygSettings.ContextMenu = false;
+    wysiwygSettings.StatusBarEnabled = false;
+    //wysiwygSettings.DefaultStyle = "display:inline;";
+    wysiwygSettings.Width = "97%";
+    wysiwygSettings.Height = "50px";
+    wysiwygSettings.clearToolbar();
+});
+                        </script>
+                        <script>
+var displayChecked = "on";
+var displayUnchecked = "";
+var trueStr = "Y";
+var falseStr = "N";
+var okDisplay = "OK";
+var notOkDisplay = "Not OK";
+var okNotOkDisplay = "OK / Not OK";
+
+
+function getParamStr(){
+    var param = '&sessionID=d24cdfb0-b45e-4d69-9a60-70186e5ad25d';
+    var editMode = document.ValidationTaskForm.editMode.value;
+    var isPopup = document.ValidationTaskForm.isPopup.value;
+    if(editMode == "view")
+        param += "&editMode=" + editMode;
+    if(isPopup == "Y")
+        param += "&isPopup=" + isPopup;
+    return param;
+}
+function submitToDo(page){
+    disableAllBtns();
+    submitToPage('validationTaskForm', 'task/validation', page + getParamStr());
+}
+function confirmSubmitToDo(page, msg){
+    disableAllBtns();
+    if(!confirmSubmitToPage('validationTaskForm', 'task/validation',
+            page + getParamStr(), msg))
+       enableAllBtns();
+}
+function enableSubmit(){
+    $("#btnSubmit").removeAttr("disabled");
+}
+function blockRadioBtnSelect(radioObj){
+    var name = radioObj.name;
+    var jObj = $("input:hidden[name=" + name + "]");
+    $("input:radio[name=" + name + "]").each(function(){
+        if($(this).val() == jObj.val())
+            $(this).attr("checked", "checked");
+    });
+}
+function blockDropDownChange(selectObj){
+    var name = selectObj.name;
+    var jObj = $("input:hidden[name=" + name + "]");
+    $("select[name=" + name + "]").val(jObj.val());
+}
+function toggleOkBtn(btnObj){
+    if(btnObj.name != "")
+        var fieldObj = document.getElementById(btnObj.name);
+    if(typeof fieldObj != "undefined"){
+        if(fieldObj.value == displayChecked)
+            fieldObj.value = displayUnchecked;
+        else if(fieldObj.value == displayUnchecked)
+            fieldObj.value = displayChecked;
+    }
+    if(btnObj.value == okDisplay)
+        btnObj.value = notOkDisplay;
+    else if(btnObj.value == notOkDisplay)
+        btnObj.value = okDisplay;
+}
+function toggleOkNullBtn(btnObj){
+    if(btnObj.name != "")
+        var fieldObj = document.getElementById(btnObj.name);
+    if(typeof fieldObj != "undefined"){
+        if(fieldObj.value == trueStr)
+            fieldObj.value = falseStr;
+        else if(fieldObj.value == falseStr)
+            fieldObj.value = "";
+        else if(fieldObj.value == "")
+            fieldObj.value = trueStr;
+    }
+    if(btnObj.value == okDisplay)
+        btnObj.value = notOkDisplay;
+    else if(btnObj.value == notOkDisplay)
+        btnObj.value = okNotOkDisplay;
+    else if(btnObj.value == okNotOkDisplay)
+        btnObj.value = okDisplay;
+}
+function setOkBtn(btnJObj, isChecked, isOk){
+    var fieldObj = document.getElementById(btnJObj.attr("name"));
+
+    if(typeof fieldObj != "undefined" && fieldObj != null){
+      fieldObj.value = isChecked;
+      btnJObj.val(isOk);
+    }
+}
+/*function updateItemResults(textAreaObj, itemInd){
+    if(hasItemRemarks[itemInd]) return;
+    var hasItemRemarksNow = false;
+    $("textarea[name^='" + jq_escape("recordItemCheckingForm[" + itemInd + "]") +
+            "']").each(function(){
+        if($(this).text() != "") hasItemRemarksNow = true;
+    });
+
+    var resultBtnJObj =
+        $("input:button[name^='recordItemCheckingForm[" + itemInd + "].result']");
+    if(hasItemRemarksNow)
+        setOkBtn(resultBtnJObj, displayUnchecked, notOkDisplay);
+    else
+        setOkBtn(resultBtnJObj, displayChecked, okDisplay);
+}*/
+function appendRemarks(remarksJObjs, btnObj){
+    remarksJObjs.each(function(){
+        $(this).val($(this).val() + ($(this).val() != "" ? "\n" : "") +
+            "admin" +
+            /*" (" + new Date().toLocaleString() + ")" +*/
+            ": " + btnObj.value);
+    });
+    remarksJObjs.each(function(){
+        //WYSIWYG.updateTextArea($(this).attr("id"));
+        /*WYSIWYG.getEditorWindow($(this).attr("id")).document.body.innerHTML =
+            $(this).val();*/
+    });
+}
+function updateItemResult(btnObj, itemInd){
+    var resultBtnJObj =
+        $("input:button[name^='recordItemCheckingForm[" + itemInd + "].result']");
+    if(btnObj.value == okDisplay)
+        setOkBtn(resultBtnJObj, displayChecked, okDisplay);
+    else
+        setOkBtn(resultBtnJObj, displayUnchecked, notOkDisplay);
+}
+function appendItemRemarks(btnObj, itemInd){
+    //var remarksJObjs = $(".itemRemarks");
+    var remarksJObjs =
+        $("textarea[name^='recordItemCheckingForm[" + itemInd + "].']" +
+            "[name$='.remarks']");
+    appendRemarks(remarksJObjs, btnObj);
+}
+function updateProfResult(btnObj){
+    var resultBtnJObj =
+        $("input:button[name^='pbpPrcCheckingValid']");
+    if(btnObj.value == okDisplay)
+        setOkBtn(resultBtnJObj, displayChecked, okDisplay);
+    else
+        setOkBtn(resultBtnJObj, displayUnchecked, notOkDisplay);
+}
+function appendProfRemarks(btnObj){
+    var remarksJObjs = $(".profRemarks[disabled='']");
+    appendRemarks(remarksJObjs, btnObj);
+}
+function popupComments(isReadonly){
+    disableAllBtns();
+    var url = ctxPath + "/comment.do" +
+        "?method=list" +
+        "&recordType=VALIDATION" +
+        "&recordID=8a8591a66643a00b016656ca76650016";
+    if(isReadonly)
+        url += "&editMode=view";
+    var returnVal =
+        popup(url, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+    enableAllBtns();
+    return returnVal;
+}
+function rollbackToDo(page){
+    var token = popupComments(false).token;
+    //alert("org.apache.struts.taglib.html.TOKEN");
+    //document.getElementsByName("org.apache.struts.taglib.html.TOKEN")[0].value = token;
+    document.getElementsByName("org.apache.struts.taglib.html.TOKEN")[0].value = token;
+    //alert(document.getElementsByName("org.apache.struts.taglib.html.TOKEN").value;);
+    submitToDo(page);
+}
+function goToNext(){
+    if(document.ValidationTaskForm.checkingType.value ==
+            "submissionInfoChecking")
+        submitToDo('loadTOItemChecking&nextRecordItemCheckingsInd=0');
+    else
+        goNext();
+}
+function goToPrev(){
+    if(document.ValidationTaskForm.checkingType.value ==
+            "itemChecking")
+        goBack();
+    else
+        submitToDo("loadTOItemChecking&" +
+            "nextRecordItemCheckingsInd=-1");
+}
+$(document).ready(function(){
+    $("#recommendResultAck").click(enableSubmit);
+    $("#recommendResultRef").click(enableSubmit);
+    $("#recommendResultCond").click(enableSubmit);
+
+    new DropDownList("reasonForRefuseDropDownList",
+        "ReasonForRefuse");
+});
+
+function genAuditForm(uuid,page){
+				submitToDo(page);
+				var letterUuid = 'AuditForm';
+				var url = ctxPath+'/mailMerge.do?method=mergeLetter&uuid='+uuid+'&letterUuid='+letterUuid;
+				window.open(url);
+
+}
+function genAdvisoryLetter(uuid,page){
+				submitToDo(page);
+				//var letterUuid = 'AdvisoryLetter';   // advisoryLetterTemplateList
+				letterUuid = document.getElementById("AdvisoryLetter").value;
+				var url = ctxPath+'/mailMerge.do?method=mergeLetter&uuid='+uuid+'&letterUuid='+letterUuid;
+				window.open(url);
+}
+                        </script>
+                       
+                           
+                                            <h3>
+                                              
+                                                    Validation
+                                                  
+                                                </h3>
+
+
+                                                    <div style="text-align: right; width: 100%;">
+                                                        Last Modified Date:
+                                                        09/10/2018 11:22 AM
+                                                    </div>
+                                                    <div style="text-align: right; width: 100%;">
+                                                        Last Modified By:
+                                                        admin
+                                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                
+                                                        <table class="inputTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="5" class="sTh">
+                                                                        Submission Information
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                           
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th valign="top" class="fLabel" style="width:160px;">
+                                                                                        Submission No. :
+                                                                                    </th>
+                                                                                    <td class="fText" style="width:20%" colspan="2">
+                                                                                        SC18100001
+                                                                                    </td>
+                                                                                    <th valign="top" class="fLabel" style="width:20%">
+                                                                                        Form Code :
+                                                                                    </th>
+                                                                                    <td class="fText">SC01</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th valign="top" class="fLabel">Received Date :</th>
+                                                                                    <td valign="top" class="fText" colspan="2">
+                                                                                        09/10/2018
+                                                                                    </td>
+                                                                                    <th valign="top" class="fLabel" rowspan="3">
+                                                                                        Location/Address of the Signboard :
+                                                                                    </th>
+                                                                                    <td class="fText" rowspan="3">
+                                                                                        <br>
+                                                                                        <br>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th valign="top" class="fLabel">
+                                                                                        BCIS Block ID :<br>
+                                                                                    </th>
+                                                                                    <td class="fText">
+                                                                                        123&nbsp;
+                                                                                    </td>
+                                                                                    <td class="fText" rowspan="2" style="display:;">
+                                                                                        <span style="float:right;">
+                                                                                            <input class="inputButton" type="button" value="Edit" id="btnEditAddr" name="btnEditAddr" onclick="popupAddress('8a8591a66643a00b016656ca76650008')">
+                                                                                        </span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th valign="top" class="fLabel">
+                                                                                        BD ref. (4+2) :<br>
+                                                                                    </th>
+                                                                                    <td class="fText">
+                                                                                        &nbsp;
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th valign="top" class="fLabel">
+                                                                                        Related Order/DSRN (if applicable) :<br>
+                                                                                    </th>
+                                                                                    <td class="fText" colspan="2">
+                                                                                        &nbsp;
+                                                                                    </td>
+                                                                                    <th valign="top" class="fLabel">
+                                                                                        With alteration/strengthening :
+                                                                                    </th>
+                                                                                    <td class="fText"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                               
+                                                        <table class="inputTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh1" colspan="6">
+                                                                        Handling Officers
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                <tr class="sRow2">
+
+                                                                    <td class="fLabel" style="padding-right:20px;">
+                                                                        TO
+                                                                    </td>
+                                                                    <td class="fText" style="width:33%;">
+                                                                        SOSC4
+                                                                        &nbsp;
+                                                                    </td>
+
+                                                                    <td class="fLabel" style="padding-right:20px;">
+                                                                        PO
+                                                                    </td>
+                                                                    <td class="fText" style="width:33%;">
+                                                                        PSOSC1
+                                                                        &nbsp;
+                                                                    </td>
+
+                                                                    <td class="fLabel" style="padding-right:20px;">
+                                                                        SPO
+                                                                    </td>
+                                                                    <td class="fText" style="width:33%;">
+                                                                        SBSSC
+                                                                        &nbsp;
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <br>
+                                                    <div id="submittedDoc" class="sList">
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="7" class="sTh1">
+                                                                        Submitted Document
+                                                                    </th>
+                                                                </tr>
+
+                                                                <tr class="sRow2">
+                                                                    <th style="width:50px; display:;" class="sTh2">
+                                                                        &nbsp;
+                                                                    </th>
+                                                                    <th style="width: 150px" class="sTh2">
+                                                                        DSN Number
+                                                                    </th>
+                                                                    <th style="width: 150px" class="sTh2">
+                                                                        Document Type
+                                                                    </th>
+                                                                    <th style="width: 100px" class="sTh2">
+                                                                        Scanned Date
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Document Description
+                                                                    </th>
+                                                                    <th style="width: 80px" class="sTh2">
+                                                                        View Image
+                                                                    </th>
+                                                                    <th style="width: 100px" class="sTh2">
+                                                                        Folder Type
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="sRow2">
+                                                                    <td class="sCell" style="display:;">
+
+
+                                                                        &nbsp;
+
+                                                                    </td>
+                                                                    <td class="sCell" style="vertical-align:middle;">
+                                                                        D0000004709
+                                                                    </td>
+                                                                    <td class="sCell" style="vertical-align:middle;">
+                                                                        Form
+                                                                    </td>
+                                                                    <td class="sCell" style="vertical-align:middle;"></td>
+                                                                    <td class="sCell" style="vertical-align:middle;"></td>
+                                                                    <td class="sCell" style="vertical-align:middle;">
+                                                                        <img alt="ico" src="/SMM/images/ico_view.gif" onclick="popupWind('/SMM/common.do?method=viewImage&amp;imageId=8a8591a66643a00b016656bd1e6a0005')" style="cursor: pointer;">
+                                                                    </td>
+                                                                    <td class="sCell" style="vertical-align:middle;">
+                                                                        <input type="hidden" name="submittedDocForm[0].uuid" value="8a8591a66643a00b016656bd1e6a0005">
+
+                                                                        <input type="hidden" value="Private (SCU)" name="submittedDocForm[0].folderType" id="submittedDocForm[0].folderType">
+
+                                                                        <select style="width:auto" class="inputSelect" onchange="blockDropDownChange(this)" id="submittedDocForm[0].folderType" name="submittedDocForm[0].folderType">
+
+
+
+                                                                            <option value="Public">Public</option>
+
+
+
+                                                                            <option value="Private (SCU)" selected="selected">
+                                                                                Private (SCU)
+                                                                            </option>
+
+
+
+
+
+                                                                            <option value="Private (BD)">Private (BD)</option>
+
+
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+
+                                                    </div>
+                                                    <br>
+                                                    <div id="photolib" class="sList">
+
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="3" class="sTh1">
+                                                                        Photo Library/BCIS
+
+                                                                        <img style="cursor: pointer;" src="/SMM/images/ico_view.gif" onclick="popupWind('/SMM/common.do?method=goToBCIS', 1024, 768)" alt="ico">
+                                                                    </th>
+                                                                </tr>
+                                                          
+
+
+                                                                                    <tr class="sRow2">
+                                                                                        <th class="sTh2" style="display:none; width:40px;"></th>
+                                                                                        <th class="sTh2">Photo Library Description</th>
+                                                                                        <th class="sTh2">URL</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr class="sRow2">
+                                                                                        <input type="hidden" name="photoLibForm[0].uuid" value="8a8591a66643a00b016656ca7665000e" id="photoLibForm[0].uuid">
+                                                                                        <input type="hidden" name="photoLibForm[0].desc" value="_123" id="photoLibForm[0].desc">
+                                                                                        <input type="hidden" name="photoLibForm[0].url" value="https://dp2.bd.hksarg/wpls_prod/jsp/spa/spa0102.jsp?BK_ID=123" id="photoLibForm[0].url">
+                                                                                        <td class="sCell" style="display:none;">
+                                                                                            <input class="inputButton" type="button" value="Edit" id="btnEditPhotoLib" name="btnEditPhotoLib" onclick="loadPhotoLib(0)">
+                                                                                        </td>
+                                                                                        <td class="sCell" style="vertical-align:middle;">_123</td>
+                                                                                        <td class="sCell" style="vertical-align:middle;">
+                                                                                            <img style="cursor: pointer;" src="/SMM/images/ico_view.gif" onclick="popupWind('/SMM/common.do?method=viewPhotoLibImage&amp;imageId=8a8591a66643a00b016656ca7665000e', 1024, 768)" alt="ico">
+                                                                                        </td>
+                                                                                    </tr>
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+
+                                                        <br>
+
+                                                    </div>
+                                                    <div id="signboardRelation" class="sList">
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh1">
+                                                                        Related Signboards of the Signboard
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                <tr>
+
+                                                                    <td>
+                                                                        <div class="sList">
+                                                                            <input type="hidden" name="signboardRelationForm.uuid" value="" id="signboardRelationForm.uuid">
+                                                                            <input type="hidden" name="signboardRelationForm.signboardNo" value="" id="signboardRelationForm.signboardNo">
+                                                                            <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0" id="signboardRelations"></table>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <div class="btnSet btnSetTypeA">
+                                                            <div class="right">
+                                                                <input class="inputButton" type="button" id="btnAddSignboardRelation" name="btnAddSignboardRelation" value="Add" style="width: 80px;" onclick="addSignboardRelation()">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <br>
+                                                    <div id="mwItemInfo" class="sList">
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="2" class="sTh1">
+                                                                        Details of the Validation/MW Item
+                                                                    </th>
+                                                                </tr>
+                                                            
+                                                                                    <tr class="sRow2">
+                                                                                        <th class="sTh2">
+                                                                                            Validation Items  1
+                                                                                        </th>
+                                                                                        <th class="sTh2">
+                                                                                            Corresponding MW items
+                                                                                        </th>
+                                                                                    </tr>
+
+
+
+
+
+                                                                                    <input type="hidden" name="recordValidationItemForm[0].uuid" value="8a8591a66643a00b016656ca78580017" id="recordValidationItemForm[0].uuid">
+                                                                                    <input type="hidden" name="recordValidationItemForm[0].itemNo" value="1(a)" id="recordValidationItemForm[0].itemNo">
+                                                                                    <input type="hidden" name="recordValidationItemForm[0].desc" value="1.20" id="recordValidationItemForm[0].desc">
+                                                                                    <input type="hidden" name="recordValidationItemForm[0].revision" value="" id="recordValidationItemForm[0].revision">
+
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr class="sRow2">
+                                                                                        <td class="sCell" id="recordValidationItemForm[0].itemNoDisplay">
+                                                                                            1(a)
+                                                                                        </td>
+                                                                                        <td class="sCell" id="recordValidationItemForm[0].descDisplay">
+                                                                                            1.20
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class="sList">
+                                                                            <table id="itemTable" class="resultTable">
+                                                                                <thead>
+                                                                                    <tr class="sRow2">
+                                                                                        <th class="sTh2">
+                                                                                            MW Item No.
+                                                                                        </th>
+                                                                                        <th class="sTh2">
+                                                                                            Description
+                                                                                        </th>
+                                                                                        <th class="sTh2">
+                                                                                            Relevant Order/ Direction/ Notice No./ BD Reference No.
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                          
+                                                                                <tbody></tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+
+                                                    </div>
+                                                    <br>
+
+                                                    <!-- ************************************************** -->
+                                                    <!--                                                    -->
+                                                    <!-- Particulars of PBP                                 -->
+                                                    <!--                                                    -->
+                                                    <!-- ************************************************** -->
+                                                    <div id="pbpInfo" class="sList">
+                                                      
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th colspan="4" class="sTh1">
+                                                                        Particulars of PBP
+                                                                    </th>
+                                                                    <th class="sTh1">
+                                                                        Result
+                                                                    </th>
+                                                                </tr>
+                                                                <tr class="sRow2">
+                                                                    <th class="sTh2">
+                                                                        PBP
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Certification of Registration No.
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        English Name
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Chinese Name
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Reg. No. &amp; Name of PBP
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                <tr class="sRow2 results">
+                                                                    <td class="sCell">AP</td>
+                                                                    <td class="sCell">
+                                                                        <span class="Apple-style-span" style="color: rgb(0, 0, 0); font-family: Arial; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: rgb(252, 252, 252); display: inline ! important; float: none;">
+
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell">
+                                                                        <input type="hidden" name="pbpProfForm[0].nameValid" value="" id="pbpProfForm[0].nameValid">
+                                                                        <input type="button" name="pbpProfForm[0].nameValid" class="inputButton inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <tr class="sRow2 results">
+                                                                    <td class="sCell">RSE</td>
+                                                                    <td class="sCell">
+                                                                        <span class="Apple-style-span" style="color: rgb(0, 0, 0); font-family: Arial; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: rgb(252, 252, 252); display: inline ! important; float: none;">
+
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell">
+                                                                        <input type="hidden" name="pbpProfForm[1].nameValid" value="" id="pbpProfForm[1].nameValid">
+                                                                        <input type="button" name="pbpProfForm[1].nameValid" class="inputButton inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <tr class="sRow2 results">
+                                                                    <td class="sCell">RGE</td>
+                                                                    <td class="sCell">
+                                                                        <span class="Apple-style-span" style="color: rgb(0, 0, 0); font-family: Arial; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; background-color: rgb(252, 252, 252); display: inline ! important; float: none;">
+
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell">
+                                                                        <input type="hidden" name="pbpProfForm[2].nameValid" value="" id="pbpProfForm[2].nameValid">
+                                                                        <input type="button" name="pbpProfForm[2].nameValid" class="inputButton inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                       
+                                                    <!-- ************************************************** -->
+                                                    <!-- End                                                -->
+                                                    <!-- Particulars of PBP                                  -->
+                                                    <!--                                                    -->
+                                                    <!-- ************************************************** -->
+                                                    <!-- ************************************************** -->
+                                                    <!--                                                    -->
+                                                    <!-- Particulars of PRC                                 -->
+                                                    <!--                                                    -->
+                                                    <!-- ************************************************** -->
+                                                    <div class="sList" id="prcInfo">
+
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh1" colspan="3">
+                                                                        Particulars of PRC
+                                                                    </th>
+                                                                    <th class="sTh1">
+                                                                        Result
+                                                                    </th>
+                                                                    <th class="sTh1" colspan="2">
+                                                                        Particulars of AS
+                                                                    </th>
+                                                                    <th class="sTh1">
+                                                                        Result
+                                                                    </th>
+                                                                </tr>
+                                                                <tr class="sRow2">
+                                                                    <th class="sTh2">
+                                                                        Certification of Registration No.
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        English Name of PRC
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Chinese Name of PRC
+                                                                    </th>
+                                                                    <th class="sTh2" style="width: 120px">
+                                                                        Reg. No. &amp; Name of PRC
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        English Name of AS
+                                                                    </th>
+                                                                    <th class="sTh2">
+                                                                        Chinese Name of AS
+                                                                    </th>
+                                                                    <th class="sTh2" style="width: 120px">
+                                                                        Reg. No. &amp; Name of AS
+                                                                    </th>
+                                                                </tr>
+</thead>
+
+
+                                                            <tbody>
+                                                                <tr class="sRow2">
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell results">
+                                                                        <input type="hidden" name="prcNameValid" value="" id="prcNameValid">
+                                                                        <input type="button" name="prcNameValid" class="inputButton inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+                                                                    </td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell"></td>
+                                                                    <td class="sCell results">
+                                                                        <input type="hidden" name="prcAsNameValid" value="" id="prcAsNameValid">
+                                                                        <input type="button" name="prcAsNameValid" class="inputButton inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- ************************************************** -->
+                                                    <!-- End                                                -->
+                                                    <!-- Particulars of PBP                                  -->
+                                                    <!--                                                    -->
+                                                    <!-- ************************************************** -->
+
+                                                    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    <script type="text/javascript">
+                                                        function implode() {
+                                                            var tempRow1 = null;
+                                                            var remarks = $(".remarks");
+                                                            for (var i = 0; i < remarks.length; i++) {
+                                                                if (remarks.eq(i).attr("class").match("sRow1") != null)
+                                                                    tempRow1 = remarks.eq(i);
+                                                                else if (remarks.eq(i).attr("class").match("sRow2") != null) {
+                                                                    var ind = (i - 1) / 4;
+                                                                    if (i > 11) {
+                                                                        tempRow1 = null;
+                                                                        if (i == 12 || i == 13 || i == 16)
+                                                                            ind = 3;
+                                                                        else if (i == 14 || i == 15)
+                                                                            ind = 4;
+                                                                    }
+                                                                    $(".results").eq(ind).find("input:hidden").each(function () {
+                                                                        if (/*$(this).attr('checked') &&*/
+                                                                            $(this).val() == "on") {
+                                                                            if (tempRow1 != null)
+                                                                                tempRow1.hide();
+                                                                            remarks.eq(i).hide();
+                                                                        }
+                                                                    });
+                                                                    $(".results").eq(ind).find("input:button").each(function () {
+                                                                        if (/*$(this).attr('checked') &&*/
+                                                                            $(this).val() == "N/A") {
+                                                                            if (tempRow1 != null)
+                                                                                tempRow1.hide();
+                                                                            remarks.eq(i).hide();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                        function explode() {
+                                                            $(".remarks").each(function () {
+                                                                $(this).show();
+                                                            });
+                                                        }
+                                                        function showButtonClick(sender) {
+                                                            if (sender.value == "Show All") {
+                                                                explode();
+                                                                sender.value = "Show \"Not OK\" Only";
+                                                            } else {
+                                                                implode();
+                                                                sender.value = "Show All";
+                                                            }
+                                                        }
+                                                        function allProfRemarksSetBtnClicked(btnObj) {
+                                                            appendProfRemarks(btnObj);
+
+                                                            explode();
+                                                            document.getElementById("showBtn").value = "Show \"Not OK\" Only";
+
+                                                            updateProfResult(btnObj);
+                                                        }
+                                                        $("document").ready(function () {
+                                                            implode();
+                                                            document.getElementById("showBtn").value = "Show All";
+
+
+                                                            /*var textarea_1 = document.getElementById("textarea_1");
+
+                                                            var font = document.createElement("font");
+                                                            var text = document.createTextNode("This should be RED.");
+                                                            font.setAttribute("color", "red");
+                                                            font.appendChild(text);
+                                                            textarea_1.appendChild(font);
+
+                                                            var font2 = document.createElement("font");
+                                                            var text2 = document.createTextNode("This should be BLUE.");
+                                                            font2.setAttribute("color", "blue");
+                                                            font2.appendChild(text2);
+                                                            textarea_1.appendChild(font2);*/
+
+                                                            /*$(".profRemarks").each(function(){
+                                                                WYSIWYG.attach($(this).attr("id"), wysiwygSettings);
+                                                            });*/
+
+                                                            //WYSIWYG.attach("textarea_1", wysiwygSettings);
+                                                            //WYSIWYG.attach("textarea_2", wysiwygSettings);
+                                                            /*$(".tableTextareaEditor tr").each(function(){
+                                                                $(this).remove();
+                                                            });*/
+                                                        })
+                                                    </script>
+
+                                                    <div id="formPbpCheck" class="sList" style="float: right">
+                                                        <input class="inputButton" style="width: 150px" type="button" value="Show All" id="showBtn" onclick="javascript:showButtonClick(this)">
+                                                    </div>
+                                                    <br>
+
+                                                    <!--<textarea id="textarea_1"></textarea>
+            <textarea id="textarea_2"></textarea>-->
+
+                                                    <br>
+                                                    <div id="formPbpCheck" class="sList">
+                                                        <table class="resultTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh" style="width: 350px" colspan="2">
+                                                                        PBP Checking
+                                                                    </th>
+                                                                    <th class="sTh" colspan="3">
+                                                                        Remarks
+
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+
+                                                                <tr class="sRow1 remarks" style="display: none;">
+                                                                    <td colspan="4" class="sCell">
+                                                                        Checking of AP
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" style="width: 350px" colspan="2">
+                                                                        <b>Validity of appointed AP</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[0].remarks" rows="3" disabled="disabled" id="pbpCheckingForm[0].remarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Signature of AP</b>
+                                                                        <br>
+                                                                        Specimen Signature:
+                                                                        <img alt="ico" onclick="popupWind('/SMM/common.do?method=viewCRMImage&amp;imageId=8a8591a66643a00b016656ca76650011')" src="/SMM/images/ico_view.gif" style="cursor: pointer;">
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[0].signatureRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[0].signatureRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>AP Signature Date</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[0].signatureDateRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[0].signatureDateRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+
+
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <tr class="sRow1 remarks" style="display: none;">
+                                                                    <td colspan="4" class="sCell">
+                                                                        Checking of RSE
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" style="width: 350px" colspan="2">
+                                                                        <b>Validity of appointed RSE</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[1].remarks" rows="3" disabled="disabled" id="pbpCheckingForm[1].remarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Signature of RSE</b>
+                                                                        <br>
+                                                                        Specimen Signature:
+                                                                        <img alt="ico" onclick="popupWind('/SMM/common.do?method=viewCRMImage&amp;imageId=8a8591a66643a00b016656ca76650013')" src="/SMM/images/ico_view.gif" style="cursor: pointer;">
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[1].signatureRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[1].signatureRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>RSE Signature Date</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[1].signatureDateRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[1].signatureDateRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+
+
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <tr class="sRow1 remarks" style="display: none;">
+                                                                    <td colspan="4" class="sCell">
+                                                                        Checking of RGE
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" style="width: 350px" colspan="2">
+                                                                        <b>Validity of appointed RGE</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[2].remarks" rows="3" disabled="disabled" id="pbpCheckingForm[2].remarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Signature of RGE</b>
+                                                                        <br>
+                                                                        Specimen Signature:
+                                                                        <img alt="ico" onclick="popupWind('/SMM/common.do?method=viewCRMImage&amp;imageId=8a8591a66643a00b016656ca76650014')" src="/SMM/images/ico_view.gif" style="cursor: pointer;">
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[2].signatureRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[2].signatureRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>RGE Signature Date</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="pbpCheckingForm[2].signatureDateRemarks" rows="3" disabled="disabled" id="pbpCheckingForm[2].signatureDateRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+
+
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <tr class="sRow2"><td class="sCell" colspan="4">&nbsp;</td></tr>
+
+                                                                </tbody>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh sRow1" style="width: 350px" colspan="2">
+                                                                        PRC Checking
+                                                                    </th>
+                                                                    <th class="sTh" colspan="3">
+                                                                        Remarks
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                              <tbody>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Validity of appointed PRC</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="prcRemarks" rows="3" disabled="disabled" id="prcRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Capability of appointed PRC</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="prcCapRemarks" rows="3" disabled="disabled" id="prcCapRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Validity of Authorized Signatory</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="prcAsRemarks" rows="3" disabled="disabled" id="prcAsRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>Signature Of AS</b>
+                                                                        <br>
+                                                                        Specimen Signature:
+                                                                        <img alt="ico" onclick="popupWind('/SMM/common.do?method=viewCRMImage&amp;imageId=8a8591a66643a00b016656ca76650012')" src="/SMM/images/ico_view.gif" style="cursor: pointer;">
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="prcAsSignatureRemarks" rows="3" disabled="disabled" id="prcAsSignatureRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow2 remarks" style="display: none;">
+                                                                    <td class="sCell" colspan="2">
+                                                                        <b>PRC Signature Date</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="3">
+                                                                        <textarea name="prcSignatureDateRemarks" rows="3" disabled="disabled" id="prcSignatureDateRemarks" style="width: 100%;" class="inputTextarea profRemarks " alt="VALIDATION_CHECKING">N/A</textarea>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr class="sRow2"><td class="sCell" colspan="4">&nbsp;</td></tr>
+
+                                                                <tr class="sRow2">
+
+                                                                    <td class="sCellVM" style="width:169px;">
+                                                                        <b>Results from TO</b>
+                                                                    </td>
+                                                                    <td class="sCell" style="width:168px;">
+                                                                        <input type="button" class="inputMediumButton" name="pbpPrcCheckingValidTO" disabled="" value="N/A">
+                                                                    </td>
+
+
+                                                                    <td class="sCellVM" style="width:169px;">
+                                                                        <b>Results from PO</b>
+                                                                    </td>
+                                                                    <td class="sCell">
+
+
+                                                                        <input type="hidden" name="pbpPrcCheckingValid" value="" id="pbpPrcCheckingValid">
+                                                                        <input type="button" name="pbpPrcCheckingValid" class="inputMediumButton" value="N/A" disabled="" onclick="toggleOkBtn(this)">
+
+
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <br>
+
+
+
+
+
+
+
+                                                    <script type="text/javascript">
+                                                        var ctxPath = "/SMM";
+
+                                                        function submitToPage(formName, relActionPath, method) {
+                                                            var form = document.getElementById(formName);
+                                                            form.action =
+                                                                '/SMM/' + relActionPath + '.do?method=' + method;
+                                                            form.submit();
+                                                        }
+                                                        function confirmSubmitToPage(formName, relActionPath, method, msg) {
+                                                            if (confirm(msg)) {
+                                                                submitToPage(formName, relActionPath, method);
+                                                                return true;
+                                                            } else
+                                                                return false;
+                                                        }
+                                                        function goToPage(relActionPath, method, paramStr) {
+                                                            var url = '/SMM/' + relActionPath +
+                                                                '.do?method=' + method;
+                                                            if (typeof paramStr != "undefined")
+                                                                url += '&' + paramStr;
+                                                            window.location.replace(url);
+                                                        }
+                                                        function confirmGoToPage(relActionPath, method, paramStr, msg) {
+                                                            if (confirm(msg)) {
+                                                                window.location.replace('/SMM/' + relActionPath +
+                                                                    '.do?method=' + method + '&' + paramStr);
+                                                                return true;
+                                                            } else
+                                                                return false;
+                                                        }
+                                                        function disableAllBtns() {
+                                                            $("input:button").each(function () {
+                                                                $(this).attr("disabled", "disabled");
+                                                            });
+                                                        }
+                                                        function enableAllBtns() {
+                                                            $("input:button").each(function () {
+                                                                $(this).removeAttr("disabled");
+                                                            });
+                                                        }
+                                                        function selectSignboard(signboardNoID, streetNameID, streetNoID, buildingNameID, bcisBlockId, addRefNo) {
+                                                            disableAllBtns();
+                                                            var url = ctxPath + "/signboardSelector.do?method=show";
+                                                            var signboard = popup(url, null,
+                                                                "dialogWidth:1024px; dialogHeight:768px; center:yes");
+                                                            if (typeof signboard != "undefined" && signboard != null) {
+                                                                if (typeof signboardNoID != "undefined")
+                                                                    document.getElementById(signboardNoID).value = signboard.signboardNo;
+                                                                if (typeof streetNameID != "undefined" && typeof streetNoID != "undefined" &&
+                                                                    typeof buildingNameID != "undefined") {
+                                                                    var streetNameObj = document.getElementById(streetNameID);
+                                                                    var streetNoObj = document.getElementById(streetNoID);
+                                                                    var buildingNameObj = document.getElementById(buildingNameID);
+                                                                    if (streetNameObj.value == "" && streetNoObj.value == "" &&
+                                                                        buildingNameObj.value == "") {
+                                                                        streetNameObj.value = signboard.streetName;
+                                                                        streetNoObj.value = signboard.streetNo;
+                                                                        buildingNameObj.value = signboard.buildingName;
+                                                                    }
+                                                                }
+                                                                if (typeof bcisBlockId != "undefined" && typeof addRefNo != "undefined") {
+                                                                    var bcisBlockIdObj = document.getElementById(bcisBlockId);
+                                                                    var addRefNoObj = document.getElementById(addRefNo);
+                                                                    if (bcisBlockIdObj.value == "" && addRefNoObj.value == "") {
+                                                                        bcisBlockIdObj.value = signboard.bcisBlockId;
+                                                                        addRefNoObj.value = signboard.addRefNo;
+
+                                                                    }
+                                                                }
+                                                            }
+                                                            enableAllBtns();
+                                                            if (typeof signboard != "undefined" && signboard != null)
+                                                                return signboard.signboardNo;
+                                                        }
+
+                                                        function selectReport(reportNo) {
+                                                            disableAllBtns();
+                                                            var url = ctxPath + "/signboardSelector.do?method=showReport";
+                                                            var report = popup(url, null,
+                                                                "dialogWidth:1024px; dialogHeight:768px; center:yes");
+                                                            if (typeof report != "undefined" && report != null) {
+                                                                if (typeof reportNo != "undefined")
+                                                                    document.getElementById(reportNo).value = report.reportNo;
+                                                            }
+                                                            enableAllBtns();
+                                                            if (typeof report != "undefined" && report != null)
+                                                                return report.reportNo;
+                                                        }
+
+                                                        function selectS24(s24No) {
+                                                            disableAllBtns();
+                                                            var url = ctxPath + "/signboardSelector.do?method=showS24";
+                                                            var s24 = popup(url, null,
+                                                                "dialogWidth:1024px; dialogHeight:768px; center:yes");
+                                                            if (typeof s24 != "undefined" && s24 != null) {
+                                                                if (typeof s24No != "undefined")
+                                                                    document.getElementById(s24No).value = s24.s24OrderNo;
+                                                            }
+                                                            enableAllBtns();
+                                                            if (typeof s24 != "undefined" && s24 != null)
+                                                                return s24.s24OrderNo;
+                                                        }
+
+                                                        function toStr(strArray) {
+                                                            var str = "";
+                                                            for (var a in strArray) {
+                                                                if (a > 0) str += ", ";
+                                                                str += strArray[a];
+                                                            }
+                                                            return str;
+                                                        }
+                                                        function popup(url, param, options) {
+                                                            url += "&time=" + (new Date());
+                                                            var returnVal = window.showModalDialog(url, param, options);
+                                                            return returnVal;
+                                                        }
+                                                        function jq_escape(str) {
+                                                            return str.replace("[", "\\[").replace("]", "\\]").replace(".", "\\.");
+                                                        }
+                                                        function regExp_escape(str) {
+                                                            return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\$&");
+                                                        }
+                                                    </script>
+
+
+
+
+                                                    <script type="text/javascript">
+                                                        var hasItemRemarks = new Array();
+
+                                                        var displayChecked = "on";
+                                                        var displayUnchecked = "";
+                                                        var okDisplay = "OK";
+                                                        var notOkDisplay = "Not OK";
+                                                        var naDisplay = "N/A";
+                                                        var outstandingDisplay = "O/S";
+                                                        var trueStr = "Y";
+                                                        var falseStr = "N";
+                                                        var oustandingCode = "O";
+                                                        var naCode = "NA";
+
+                                                        function toggleAllItemBtns(btnObj) {
+                                                            $("input:button[name^='recordItemCheckingForm']").each(function () {
+                                                                if (btnObj.value != okDisplay && btnObj.value != notOkDisplay)
+                                                                    btnObj.value = okDisplay;
+                                                                if (btnObj.value == okDisplay)
+                                                                    setOkBtn($(this), displayUnchecked, notOkDisplay);
+                                                                else if (btnObj.value == notOkDisplay)
+                                                                    setOkBtn($(this), displayChecked, okDisplay);
+                                                            });
+                                                            toggleOkBtn(btnObj);
+                                                        }
+                                                        function toggleSiteAuditResult(btnObj) {
+                                                            var fieldObj = document.getElementById(btnObj.name);
+                                                            if (btnObj.value == naDisplay) {
+                                                                fieldObj.value = trueStr;
+                                                                btnObj.value = okDisplay;
+                                                            } else if (btnObj.value == okDisplay) {
+                                                                fieldObj.value = falseStr;
+                                                                btnObj.value = notOkDisplay;
+                                                            } else if (btnObj.value == notOkDisplay) {
+                                                                fieldObj.value = oustandingCode;
+                                                                btnObj.value = outstandingDisplay;
+                                                            } else if (btnObj.value == outstandingDisplay) {
+                                                                fieldObj.value = naCode;
+                                                                btnObj.value = naDisplay;
+                                                            }
+
+                                                        }
+                                                        function toggleStructCalcCheck(btnObj) {
+                                                            var fieldObj = document.getElementById(btnObj.name);
+                                                            if (btnObj.value == naDisplay) {
+                                                                fieldObj.value = trueStr;
+                                                                btnObj.value = okDisplay;
+                                                            } else if (btnObj.value == okDisplay) {
+                                                                fieldObj.value = falseStr;
+                                                                btnObj.value = notOkDisplay;
+                                                            } else if (btnObj.value == notOkDisplay) {
+                                                                fieldObj.value = oustandingCode;
+                                                                btnObj.value = outstandingDisplay;
+                                                            } else if (btnObj.value == outstandingDisplay) {
+                                                                fieldObj.value = naCode;
+                                                                btnObj.value = naDisplay;
+                                                            }
+                                                            /*
+                                                               if(btnObj.value == outstandingDisplay){
+                                                                    fieldObj.value = naCode;
+                                                                   btnObj.value = naDisplay;
+                                                               }
+                                                                if(btnObj.value == naDisplay){
+                                                                    fieldObj.value = trueStr;
+                                                                   btnObj.value = okDisplay;
+                                                               }
+                                                               if(btnObj.value == okDisplay){
+                                                                  fieldObj.value = falseStr;
+                                                                   btnObj.value = notOkDisplay;
+                                                               }else if(btnObj.value == notOkDisplay){
+                                                                           fieldObj.value = oustandingCode;
+                                                                   btnObj.value = outstandingDisplay;
+                                                               }
+
+                                                            */
+                                                        }
+                                                        /*function updateAllItemsBtnDisplay(){
+                                                            var hasItemBtnOk = false
+                                                            var hasItemBtnNotOk = false;
+                                                            $("input:button[name^='recordItemCheckingForm']").each(function(){
+                                                                var fieldObj = document.getElementById($(this).attr("name"));
+                                                                if(typeof fieldObj != "undefined" && fieldObj != null){
+                                                                    if($(this).val() == okDisplay)
+                                                                        hasItemBtnOk = true;
+                                                                    else if($(this).val() == notOkDisplay)
+                                                                        hasItemBtnNotOk = true;
+                                                                }
+                                                            });
+
+                                                            var allItemsOkBtnObj = document.getElementById("allItemsOkBtn");
+                                                            if(hasItemBtnOk && !hasItemBtnNotOk)
+                                                                allItemsOkBtnObj.value = okDisplay;
+                                                            else if(!hasItemBtnOk && hasItemBtnNotOk)
+                                                                allItemsOkBtnObj.value = notOkDisplay;
+                                                            else
+                                                                allItemsOkBtnObj.value = okDisplay + " / " + notOkDisplay;
+                                                        }*/
+                                                        function itemBtnClicked(btnObj) {
+                                                            toggleOkBtn(btnObj);
+                                                            //updateAllItemsBtnDisplay();
+                                                        }
+                                                        /*function itemRemarksTextAreaChanged(textAreaObj, itemInd){
+                                                            updateItemResults(textAreaObj, itemInd);
+                                                            updateAllItemsBtnDisplay();
+                                                        }*/
+                                                        function allItemRemarksSetBtnClicked(btnObj, itemInd) {
+                                                            appendItemRemarks(btnObj, itemInd);
+                                                            updateItemResult(btnObj, itemInd);
+                                                            //updateAllItemsBtnDisplay();
+                                                        }
+                                                        $(document).ready(function () {
+                                                            //updateAllItemsBtnDisplay();
+                                                        });
+                                                    </script>
+
+                                                    <div class="sList">
+                                                        <table class="inputTable">
+
+
+
+
+
+
+
+
+                                                            <thead>
+                               
+
+                                                                <tr>
+                                                                    <th class="sTh" width="10">Item</th>
+                                                                    <th class="sTh" colspan="2">Checking Items</th>
+                                                                    <th class="sTh">Item Details</th>
+                                                                    <th class="sTh" colspan="2">
+                                                                        Remarks
+                                                                        <input type="button" class="inputButton" value="OK" onclick="allItemRemarksSetBtnClicked(this, 0)" style="display:">
+                                                                        <input type="button" class="inputButton" value="Not OK" onclick="allItemRemarksSetBtnClicked(this, 0)" style="display:">
+                                                                    </th>
+                                                                </tr>
+
+                                           
+
+                                                                </thead>
+
+
+
+
+
+                                                            <tbody>
+                                 
+
+                                                                <tr class="sRow2">
+                                                                    <td class="sCellVM" colspan="2">
+                                                                        <b>Site Audit Result</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="1">
+                                                                        <input type="hidden" name="siteAuditResult" value="" id="siteAuditResult">
+                                                                        <input type="button" class="inputMediumButton" name="siteAuditResult" value="N/A" onclick="toggleSiteAuditResult(this)">
+                                                                    </td>
+
+                                                                    <td class="sCellVM" colspan="2">
+                                                                        <b>Structural Calculation Check</b>
+                                                                    </td>
+                                                                    <td class="sCell" colspan="1">
+                                                                        <input type="hidden" name="structCalcCheck" value="" id="structCalcCheck">
+                                                                        <input type="button" class="inputMediumButton" name="structCalcCheck" value="N/A" onclick="toggleStructCalcCheck(this)">
+                                                                    </td>
+
+                                                                </tr>
+
+
+
+                                                                <tr class="sRow2">
+
+                                                                    <td class="sTh" colspan="2">
+                                                                        Results of All Checking Items from TO
+                                                                    </td>
+                                                                    <td class="sCell">
+                                                                        <input type="button" disabled="" class="inputMediumButton" style="width:100px;" name="recordItemResultTO" value="Not OK">
+                                                                    </td>
+
+
+                                                                    <td class="sTh" colspan="2">
+                                                                        Results of All Checking Items from PO
+                                                                    </td>
+                                                                    <td class="sCell" colspan="1">
+
+
+                                                                        <input type="hidden" name="recordItemResult" value="" id="recordItemResult">
+                                                                        <input type="button" class="inputMediumButton" name="recordItemResult" value="OK / Not OK" id="allItemsOkBtn" style="width:100px;" onclick="toggleOkNullBtn(this)">
+
+
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <script type="text/javascript">
+                                                                    hasItemRemarks[0] = false;
+                                                                </script>
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <br>
+
+
+                                                    <br>
+
+                                                    <div class="sList" id="recommendation">
+                                                        <table class="inputTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th  class="sTh" colspan="6">
+                                                                        Recommendation
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                <tr class="sRow">
+
+                                                                    <td style="width: 75px; padding: 20px; text-align: center">
+                                                                        <input style="width:75px;height:75px;" type="radio" name="recommendResult" value="A" checked="checked" onclick="" id="recommendResultAck">
+                                                                        <span class="bigText"> Accept </span>
+                                                                    </td>
+                                                                    <td style="width: 75px; padding: 20px; text-align: center">
+                                                                        <input style="width:75px;height:75px;" type="radio" name="recommendResult" value="R" onclick="" id="recommendResultRef" class="inputBigRadio">
+                                                                        <span class="bigText"> Refuse </span>
+                                                                    </td>
+                                                                    <td style="width: 75px; padding: 20px; text-align: center">
+                                                                        <input style="width:75px;height:75px;" type="radio" name="recommendResult" value="W" onclick="" id="recommendResultRef" class="inputBigRadio">
+                                                                        <span class="bigText"> Withdrawn </span>
+                                                                    </td>
+                                                                    <!-- <td class="sCell" style="width: 145px; padding: 20px; text-align: center">
+      <input type="radio" name="recommendResult" value="C" onclick="" id="recommendResultCond" style="background:url('/SMM/images/spacer.gif')" class="inputBigRadio">
+      <span class="bigText"> Conditional Accept </span>
+    </td> -->
+
+                                                                    <td style="width: 75px; padding: 20px; text-align: center">
+                                                                        <input style="width:75px;height:75px;" type="radio" name="recommendResult" value="W" onclick="" id="recommendResultRef" class="inputBigRadio">
+                                                                        <span class="bigText"> Expiry </span>
+                                                                    </td>
+
+                                                                    <td class="sCell" style="padding: 6px;">
+                                                                        <b>Remark:</b>
+                                                                        <br>
+                                                                        <textarea name="recommendRemarks" id="recommendRemarks" style="width: 100%; height: 120px" class="inputTextarea remark"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th valign="top" class="fLabel">Date of result letter :</th>
+                                                                    <td colspan="6" valign="top" class="fText">
+                                                                        09/10/2018
+                                                                    </td>
+
+
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <br>
+
+
+
+                                                    <div class="sList" id="letter">
+                                                        <table class="inputTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="sTh" colspan="2">
+                                                                        Letter
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                            <tbody>
+                                                                <tr class="sRow">
+                                                                    <td class="sCellVM">
+                                                                        <b>Reason for Refuse :</b>
+                                                                    </td>
+                                                                    <td class="sCellVM">
+                                                                        <textarea name="letterReason" id="letterReason" style="overflow:auto; height:44px; width:96%" class="inputTextarea remark reasonForRefuseDropDownList" alt="ReasonForRefuse"></textarea>
+                                                                        <button id="icon0" class="reasonForRefuseDropDownListIcon" style="border:0px;padding:0px;margin:0px;height:50px;width:15px;vertical-align:top;margin-left:-5px" onclick="return false;">▼</button>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="sRow">
+                                                                    <td class="sCellVM">
+                                                                        <b>Remarks Date of result letter :</b>
+                                                                    </td>
+                                                                    <td class="sCellVM">
+                                                                        <textarea name="letterRemarks" id="letterRemarks" style="width:100%; height:30px;" class="inputTextarea remark"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <br>
+
+                                                    <div class="sList">
+                                                   
+                                                    </div>
+
+
+                                                    <br>
+                                                     <table class="inputTable">
+                                                         <tfoot>
+                                                             <tr>
+                                                                 <td>
+                                                                     <input type="button" value="Export validation data for mail merge" name="btnNext" id="btnNext" class="inputButton" onclick="exportExcel('SMM0201aTable')" )">
+                                                                     <input type="button" value="Export validation data for Excel" name="btnExcel" id="btnExcel" class="inputButton" onclick="exportExcel('SMM0201aTable')" )">
+
+                                                                     <input type="button" onclick="genAuditForm('8a8591a66643a00b016656ca76650016','savePO')" value="Audit Form" class="inputButton" name="btnAuditForm" id="btnAuditForm">
+
+
+                                                                     <input type="button" onclick="genAdvisoryLetter('8a8591a66643a00b016656ca76650016','savePO')" value="Advisory Letter" class="inputButton" name="btnAuditForm" id="btnAuditForm">
+
+                                                                     <select name="selectedLetter" id="AdvisoryLetter" class="inputSelect" style="width:auto">
+                                                                         <option value="8a8591a650d7041d0150d742ef01000b">TEST</option>
+
+                                                                         <option value="8a8591a650cbb8eb0150cbd40c19012f">test12</option>
+                                                                     </select>
+
+                                                                     <input type="button" onclick="loadContentPage('SMM0201')" value="View Comments" class="inputButton" name="btnViewComments" id="btnViewComments">
+
+
+                                                                     <input type="button" onclick="loadContentPage('SMM0201')" value="Rollback to TO" name="btnRollbackToTO" id="btnRollbackToTO" class="inputButton">
+                                                                     <input type="button" onclick="loadContentPage('SMM0201')" value="For SPO Advice" name="btnPassToSPO" id="btnPassToSPO" class="inputButton">
+
+
+                                                                     <input type="button" onclick="loadContentPage('SMM0201')" value="Save as Draft" name="btnSave" id="btnSave" class="inputButton">
+
+
+
+
+                                                                     <input class="inputButton" type="button" id="btnSubmit" name="btnSubmit" value="Confirm Process Complete" onclick="confirmSubmitToDo('submitPO', 'BCIS Block ID or BD ref. (4+2) is empty. Are you sure to continue?')">
+
+                                                                 </td>
+                                                             </tr>
+                                                         </tfoot>
+                                                     </table>
+
+                                                    <div class="btnSet btnSetTypeA">
+                                                        <div class="left">
+
+                                                        </div>
+                                                        <div class="right">
+
+                                                           
+
+                                                        </div>
+                                                    </div>
+  
+                                                    <div id="SMMDivHide" class="hide">
+
+                                                        <table class="resultTable" id="SMM0201aTable">
+                                                            <colgroup>
+                                                                <col width="64" span="113" style="width:48pt">
+                                                            </colgroup>
+                                                            <tbody>
+                                                                <tr height="21" style="height:15.75pt">
+                                                                    <td height="21" width="64" style="height:15.75pt;width:48pt">Submissio<span style="display:none">n No.</span></td>
+                                                                    <td width="64" style="width:48pt">Form Code</td>
+                                                                    <td width="64" style="width:48pt">Received <span style="display:none">Date</span></td>
+                                                                    <td width="64" style="width:48pt">Expirty Da<span style="display:none">te</span></td>
+                                                                    <td width="64" style="width:48pt">Validation <span style="display:none">Result</span></td>
+                                                                    <td width="64" style="width:48pt">Remarks</td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        SPO Endo<span style="display:none">
+                                                                            rsement
+                                                                            Date
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">Letter Rea<span style="display:none">son</span></td>
+                                                                    <td width="64" style="width:48pt">Letter Re<span style="display:none">marks</span></td>
+                                                                    <td width="64" style="width:48pt">Signboard <span style="display:none">Address</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        Location o<span style="display:none">
+                                                                            f
+                                                                            Signboard
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">Depscripti<span style="display:none">on</span></td>
+                                                                    <td width="64" style="width:48pt">Facade</td>
+                                                                    <td width="64" style="width:48pt">Type</td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        Bottom fix<span style="display:none">
+                                                                            ing at
+                                                                            Floor
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        Top fixing<span style="display:none">
+                                                                            at
+                                                                            Floor
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">Display Ar<span style="display:none">ea</span></td>
+                                                                    <td width="64" style="width:48pt">Projection</td>
+                                                                    <td width="64" style="width:48pt">Heigh of S<span style="display:none">ignboard</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        Clearance <span style="display:none">
+                                                                            above
+                                                                            ground
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">LED/TV</td>
+                                                                    <td width="64" style="width:48pt">Building P<span style="display:none">ortion</span></td>
+                                                                    <td width="64" style="width:48pt">RVD No.</td>
+                                                                    <td width="64" style="width:48pt">RV Block <span style="display:none">ID</span></td>
+                                                                    <td width="64" style="width:48pt">BCIS Bloc<span style="display:none">k ID</span></td>
+                                                                    <td width="64" style="width:48pt">BCIS Distr<span style="display:none">ict</span></td>
+                                                                    <td width="64" style="width:48pt">BD ref. (4<span style="display:none">+2)</span></td>
+                                                                    <td width="64" style="width:48pt">Owner Chi<span style="display:none">nese Name</span></td>
+                                                                    <td width="64" style="width:48pt">Owner En<span style="display:none">glish Name</span></td>
+                                                                    <td width="64" style="width:48pt">Owner Ad<span style="display:none">dress</span></td>
+                                                                    <td width="64" style="width:48pt">Owner Em<span style="display:none">ail</span></td>
+                                                                    <td width="64" style="width:48pt">Owner Co<span style="display:none">ntact No</span></td>
+                                                                    <td width="64" style="width:48pt">Owner Fax<span style="display:none"> NO</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Chin<span style="display:none">ese Name</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Engl<span style="display:none">ish Name</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Add<span style="display:none">ress</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Ema<span style="display:none">il</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Cont<span style="display:none">act No</span></td>
+                                                                    <td width="64" style="width:48pt">PAW Fax <span style="display:none">NO</span></td>
+                                                                    <td width="64" style="width:48pt">IO Chinese<span style="display:none"> Name</span></td>
+                                                                    <td width="64" style="width:48pt">IO English<span style="display:none"> Name</span></td>
+                                                                    <td width="64" style="width:48pt">IO Address</td>
+                                                                    <td width="64" style="width:48pt">IO Email</td>
+                                                                    <td width="64" style="width:48pt">IO Contact<span style="display:none"> No</span></td>
+                                                                    <td width="64" style="width:48pt">IO Fax NO</td>
+                                                                    <td width="64" style="width:48pt">IO PBP N<span style="display:none">ame</span></td>
+                                                                    <td width="64" style="width:48pt">IO PBP C<span style="display:none">ontact No</span></td>
+                                                                    <td width="64" style="width:48pt">IO PRC N<span style="display:none">ame</span></td>
+                                                                    <td width="64" style="width:48pt">IO PRC C<span style="display:none">ontact No</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        AP Certifi<span style="display:none">
+                                                                            cation
+                                                                            No
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">AP Chines<span style="display:none">e Name</span></td>
+                                                                    <td width="64" style="width:48pt">AP Englis<span style="display:none">h Name</span></td>
+                                                                    <td width="64" style="width:48pt">AP EN_A<span style="display:none">DDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">AP EN_A<span style="display:none">DDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">AP EN_A<span style="display:none">DDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">AP EN_A<span style="display:none">DDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">AP EN_A<span style="display:none">DDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">AP CN_A<span style="display:none">DDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">AP CN_A<span style="display:none">DDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">AP CN_A<span style="display:none">DDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">AP CN_A<span style="display:none">DDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">AP CN_A<span style="display:none">DDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">AP Contac<span style="display:none">t No</span></td>
+                                                                    <td width="64" style="width:48pt">AP Fax No</td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        RSE Certif<span style="display:none">
+                                                                            ication
+                                                                            No
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">RSE Chine<span style="display:none">se Name</span></td>
+                                                                    <td width="64" style="width:48pt">RSE Engli<span style="display:none">sh Name</span></td>
+                                                                    <td width="64" style="width:48pt">RSE EN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">RSE EN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">RSE EN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">RSE EN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">RSE EN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">RSE CN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">RSE CN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">RSE CN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">RSE CN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">RSE CN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">RSE Conta<span style="display:none">ct No</span></td>
+                                                                    <td width="64" style="width:48pt">RSE Fax <span style="display:none">No</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        RGE Certi<span style="display:none">
+                                                                            fication
+                                                                            No
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">RGE Chin<span style="display:none">ese Name</span></td>
+                                                                    <td width="64" style="width:48pt">RGE Engli<span style="display:none">sh Name</span></td>
+                                                                    <td width="64" style="width:48pt">RGE EN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">RGE EN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">RGE EN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">RGE EN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">RGE EN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">RGE CN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">RGE CN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">RGE CN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">RGE CN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">RGE CN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">RGE Cont<span style="display:none">act No</span></td>
+                                                                    <td width="64" style="width:48pt">RGE Fax <span style="display:none">No</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        PRC Certif<span style="display:none">
+                                                                            ication
+                                                                            No
+                                                                        </span>
+                                                                    </td>
+                                                                    <td width="64" style="width:48pt">PRC Chine<span style="display:none">se Name</span></td>
+                                                                    <td width="64" style="width:48pt">PRC Engli<span style="display:none">sh Name</span></td>
+                                                                    <td width="64" style="width:48pt">PRC EN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">PRC EN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">PRC EN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">PRC EN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">PRC EN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">PRC CN_<span style="display:none">ADDRESS_LINE1</span></td>
+                                                                    <td width="64" style="width:48pt">PRC CN_<span style="display:none">ADDRESS_LINE2</span></td>
+                                                                    <td width="64" style="width:48pt">PRC CN_<span style="display:none">ADDRESS_LINE3</span></td>
+                                                                    <td width="64" style="width:48pt">PRC CN_<span style="display:none">ADDRESS_LINE4</span></td>
+                                                                    <td width="64" style="width:48pt">PRC CN_<span style="display:none">ADDRESS_LINE5</span></td>
+                                                                    <td width="64" style="width:48pt">PRC Conta<span style="display:none">ct No</span></td>
+                                                                    <td width="64" style="width:48pt">PRC Fax <span style="display:none">No</span></td>
+                                                                    <td width="64" style="width:48pt">
+                                                                        PRC AS C<span style="display:none">
+                                                                            hinese
+                                                                            Name
+                                                                        </span>
+                                                                    </td>
+                                                                    <td colspan="3" width="192" style="mso-ignore:colspan;width:144pt">
+                                                                        PRC AS English
+                                                                        Name
+                                                                    </td>
+                                                                </tr>
+                                                                <tr height="21" style="height:15.75pt">
+                                                                    <td height="21" style="height:15.75pt">SC181000<span style="display:none">01</span></td>
+                                                                    <td>SC01</td>
+                                                                    <td class="xl65" align="right">9/10/2018</td>
+                                                                    <td></td>
+                                                                    <td>Accept</td>
+                                                                    <td colspan="19" style="mso-ignore:colspan"></td>
+                                                                    <td align="right">123</td>
+                                                                    <td>A</td>
+                                                                    <td></td>
+                                                                    <td>Ch name</td>
+                                                                    <td>Eng name</td>
+                                                                    <td colspan="84" style="mso-ignore:colspan"></td>
+                                                                </tr>
+                                                                <!--[if supportMisalignedColumns]-->
+                                                                <tr height="0" style="display:none">
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                    <td width="64" style="width:48pt"></td>
+                                                                </tr>
+                                                                <!--[endif]-->
+                                                            </tbody>
+                                                        </table>
+
+
+
+                                                    </div>
+
+
+
+
+
+

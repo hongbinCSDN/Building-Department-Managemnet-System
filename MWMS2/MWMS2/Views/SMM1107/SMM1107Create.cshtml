@@ -1,0 +1,84 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+<h3>
+  Create Validation Option
+</h3>
+
+
+<br>
+@using (Html.BeginForm("SMM1107Create", "SMM1107", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="sList">
+        <table class="inputTable">
+
+
+            <tbody>
+                <tr>
+                    <th>
+                        Code* :
+                    </th>
+                    <td>
+
+                        @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject",@required="required" } })
+                        @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+                        @*<input name="systemValueCode" value="" style="width:300px" class="inputText" type="text">*@
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <th>
+                        Description :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "DESCRIPTION", } })
+                        @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+                        @*<input name="systemValueDescription" value="" style="width:300px;" class="inputText" type="text">*@
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Ordering :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "ORDERING", @type = "number", @min = "0" } })
+                        @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+
+                        @*<input name="systemValueOrdering" value="" onfocus="inputMaskOnFocus(this, event, 'N')" style="width:90px;" class="inputText" type="text">*@
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Active :
+                    </th>
+                    <td>
+
+                        @Html.RadioButtonFor(model => model.IS_ACTIVE, "Y", new { id = "systemValueActive", @class = "inputRadio",@checked="checked" }) Active<br />
+
+                        @Html.RadioButtonFor(model => model.IS_ACTIVE, "N", new { id = "systemValueActive", @class = "inputRadio" }) Inactive<br />
+
+
+                        @*<input name="systemValueActive" value="Y" checked="checked" id="systemValueActive" class="inputRadio" type="radio">
+                            Active
+                            <input name="systemValueActive" value="N" id="systemValueActive" class="inputRadio" type="radio">
+                            In Active*@
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <div class="btnSet btnSetTypeA">
+                            <div class="right">
+                                <input type="submit" class="ConfirmBtn" id="Confirm" value="Confirm" />
+                                @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="" type="button">*@
+                                <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1107", "SMM1107")"' type="button">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+}

@@ -1,0 +1,15 @@
+create table P_MW_FILEREF (
+    uuid VARCHAR2(36),
+    MW_RECORD_ID VARCHAR2(36),
+    FILEREF_FOUR VARCHAR2(4),
+	FILEREF_TWO VARCHAR2(2),
+	BLK_ID VARCHAR2(20),
+	UNIT_ID VARCHAR2(20),
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint P_MW_FILEREF_PK primary key (uuid)
+);
+
+alter table P_MW_FILEREF add RRM_SYN_STATUS VARCHAR2(36);

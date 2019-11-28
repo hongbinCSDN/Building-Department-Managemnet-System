@@ -1,0 +1,100 @@
+﻿
+<h3>Scan</h3>
+
+
+
+    <div class="sList">
+        <font color="#FF0000"></font>
+        <table class="inputTable">
+            
+
+            <thead><tr><th colspan="2"><b>DSN Information</b></th></tr></thead>
+            <tbody>
+                <tr>
+                    <th class="fLabel" width="150px">DSN :</th>
+                    <td class="fField">
+                        &nbsp;D0000748833
+                        <select style="width:auto" name="barcode" onchange="goToDsnDetail('D0000748833')"></select>
+                        <!--
+            -->
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <th class="fLabel">No. of Sub-document :</th>
+                    <td class="fField">
+                        <input type="text" name="noOfSubGroup" id="noOfSubGroup" value="0">
+
+                        <input class="inputButton" type="button" id="" name="" value="Print Barcode for sub-document" onclick="printBarcode()">
+
+
+
+                        <input class="inputButton" type="button" id="" name="" value="Print Barcode for additional sub-document" onclick="printAdditionalBarcode()">
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Form :</th>
+                    <td class="fField"></td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Submission Type :</th>
+                    <td class="fField"></td>
+                </tr>
+
+                <tr>
+                    <th class="fLabel">SSP Submitted :</th>
+                    <td class="fField">
+
+                        <label>
+                            <input type="radio" name="sspSubmitted" value="Y" disabled=""> Yes
+                        </label>
+                        &nbsp;
+                        <label>
+                            <input type="radio" name="sspSubmitted" value="N" disabled="">
+                            No
+                        </label>
+                    </td>
+                </tr>
+
+
+
+            </tbody>
+        </table>
+        <br>
+    </div><br>
+
+    <div>
+        <table width="100%" class="resultTable" cellpadding="0" cellspacing="0" border="0">
+           
+                <thead>
+                    <tr>
+                        <th>Document S/N</th>
+                        <th>Document Type</th>
+                        <th>Total Page</th>
+                        <th>Submission Date</th>
+                        <th>View Image</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+       
+        </table>
+    </div>
+
+    <div class="btnSet btnSetTypeA">
+        <div class="right">
+         
+        </div>
+    </div>
+    <table class="inputTable"><tfoot><tr><td>
+    <input class="inputButton" type="button" id="btnRefresh" name="btnRefresh" value="Refresh"  onclick="goToDsnDetail('D0000748833')">
+
+
+
+    <input class="inputButton" type="button" id="btnCompleteScan" name="btnCompleteScan" value="Complete Scan"  onclick="search1()" disabled="">
+
+
+    <input class="inputButton" type="button" id="btnBack" name="btnBack" value="Back"  onclick="loadContentPage('PEM0203')">
+</td></tr></tfoot></table>

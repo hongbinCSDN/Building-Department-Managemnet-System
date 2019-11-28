@@ -1,0 +1,105 @@
+﻿<form name="reportForm" id="reportForm" method="post" action="/Registration/report.do?method=LoadReport&amp;registrationType=CGC">
+	<input name="registrationType" value="CGC" id="registrationType" type="hidden">
+	<input name="popReport" value="Load_GCC_RPT0010b" id="popReport" type="hidden">
+
+	<input id="reg_type" name="reg_type" value="CGC" type="hidden">
+	<input id="REPORT_NAME" name="REPORT_NAME" value="RPT0010b_CGC" type="hidden">
+
+	<table>
+     <tbody><tr>
+   	   <td>Date of Gazette (dd/mm/yyyy)</td>
+       <td> <input name="gaz_fr_date" value="" id="gaz_fr_date" class="inputText" style="width:80px;" maxlength="10" onblur="checkDate(this)" type="text">
+	        		<span id="err_gaz_fr_date" class="err" style="color:Red;display:none;">Invalid date</span>
+        </td>
+       <td> &nbsp; </td>
+       <td>to</td>
+       <td>
+		<input name="gaz_to_date" value="" id="gaz_to_date" class="inputText" style="width:80px;" maxlength="10" onblur="checkDate(this)" type="text">
+	        		<span id="err_gaz_to_date" class="err" style="color:Red;display:none;">Invalid date</span>
+       </td>
+       <td>
+    	<button id="oParamsSubmit" type="button" onclick="viewReport(0)">View Report</button></td>
+      </tr>
+      <tr>
+        <td>Category</td>
+        <td colspan="5">
+         <select name="ctr_code" id="ctr_code">
+         
+            <option value="GBC" selected="selected">Registered General Building Contractors</option> <option value="RC">RC</option> <option value="RVC">RVC</option> <option value="SC">Specialist Contractor</option> <option value="SC(D)">Registered Specialist Contractors (Demolition Works)</option> <option value="SC(F)">Registered Specialist Contractors (Foundation Works)</option> <option value="SC(GI)">Registered Specialist Contractors (Ground Investigation Field Works)</option> <option value="SC(SF)">Registered Specialist Contractors (Site Formation Works)</option> <option value="SC(V)">Registered Specialist Contractors (Ventilation Works)</option>
+		 </select>
+     	</td>
+      </tr>
+	</tbody></table>
+
+<br>
+	<table width="500" border="1">
+      <tbody><tr>
+      
+        <td>|&lt;&lt;</td>
+        <td>&lt;</td>
+        
+		<td> 1 of 1 </td>
+     
+		
+  		<td>&gt;</td>
+        <td>&gt;&gt;|</td>
+		
+		
+        <td>Export Format: 
+        	<select name="reportType" id="reportType">
+				<option value="PDF">PDF</option>
+				<option value="EXCEL">EXCEL</option>
+				<option value="HTML">HTML</option>
+			</select>
+			<input name="Export" value="Export" onclick="generateReport()" type="button"></td>
+        
+        	
+     </tr>
+    </tbody></table>
+    
+ <br>
+  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr>
+	  <td>
+		<a name="JR_PAGE_ANCHOR_0_1"></a>
+<table style="width: 595px" cellspacing="0" cellpadding="0" border="0" bgcolor="white">
+<tbody><tr>
+  <td><img alt="" src="images/px" style="width: 40px; height: 1px;"></td>
+  <td><img alt="" src="images/px" style="width: 305px; height: 1px;"></td>
+  <td><img alt="" src="images/px" style="width: 110px; height: 1px;"></td>
+  <td><img alt="" src="images/px" style="width: 100px; height: 1px;"></td>
+  <td><img alt="" src="images/px" style="width: 40px; height: 1px;"></td>
+</tr>
+<tr valign="top">
+  <td colspan="5"><img alt="" src="images/px" style="width: 595px; height: 41px;"></td>
+</tr>
+<tr valign="top">
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+  <td colspan="3" style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; text-align: center;"><span style="font-family: Arial; color: #000000; font-size: 12.0px;">BUILDINGS ORDINANCE (Chapter 123)</span></td>
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+</tr>
+<tr valign="top">
+  <td><img alt="" src="images/px" style="width: 40px; height: 34px;"></td>
+  <td colspan="3" style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px;">Pursauant to Section 8A(3) of the Buildings Ordinance, a list of the names of the contractors in each register kept by the Building Authority is hereby published.</span></td>
+  <td><img alt="" src="images/px" style="width: 40px; height: 34px;"></td>
+</tr>
+<tr valign="top">
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+  <td colspan="3" style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><img alt="" src="images/px" border="0"></td>
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+</tr>
+<tr valign="top">
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+  <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">COMPANY NAME</span></td>
+  <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; "><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Registration No.</span></td>
+  <td style="padding-top: 2px; padding-left: 2px; padding-bottom: 2px; padding-right: 2px; text-align: right;"><span style="font-family: Arial; color: #000000; font-size: 10.0px; font-weight: bold;">Date of Expiry</span></td>
+  <td><img alt="" src="images/px" style="width: 40px; height: 20px;"></td>
+</tr>
+<tr valign="top">
+  <td colspan="5"><img alt="" src="images/px" style="width: 595px; height: 707px;"></td>
+</tr>
+</tbody></table>
+	  </td>
+  	</tr>
+   </tbody></table>
+</form>

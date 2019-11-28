@@ -1,0 +1,143 @@
+﻿  
+        <h3>
+            Print Barcode
+        </h3>   
+        <font color="#FF0000">&nbsp;&nbsp;<br> </font>
+        <div class="sList">
+            <table class="inputTable">
+                <thead>
+                    <tr>
+                        <th >
+                            Generate New Barcode for Incoming Document
+                        </th>
+                    </tr>
+                   </thead>
+                <tbody>
+                    <tr class="sRow2">
+                        <td class="sCell" style="padding: 0px;">
+
+                            <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                <tbody>
+                                    <tr>
+
+                                        <td class="fField">
+
+                                            <input class="inputButton" type="button" id="" name="" value="Generate New Document S/N" style="width: 200px; vertical-align: middle" onclick="generateIncomingBarcodeByType()">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <div class="sList">
+            <table class="inputTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Re-print Barcode
+                        </th>
+                    </tr>
+                    </thead>
+                <tbody>
+                    <tr class="sRow2">
+                        <td class="sCell" style="padding: 0px;">
+                            <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                <tbody>
+                                    <tr>
+                                        <td class="fLabel" style="width: 200px">
+                                            Existing document S/N. :
+                                        </td>
+                                        <td class="fField">
+                                            <input type="text" name="barcodeNumber" id="barcodeNumber" value="" style="width: 290px">
+                                            <input class="inputButton" type="button" id="" name="" value="Generate" style="width: 100px; vertical-align: middle" onclick="generateIncomingBarcodeByNumber()">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <div id="printArea">
+            <img src="http://10.5.17.38:80/pem/registry/generateBarcode.action?barcodeMsg=D0000748834" height="60px" width="100px">
+        </div>
+        <br>
+        <div class="btnSet">
+            <div class="right">
+
+                <applet code="jzebra.JZebraApplet.class" archive="http://10.5.17.38:80/pem/jzebra.jar" width="0" height="0">
+                    <param name="DSN_NO" value="D0000748834">
+                    <param name="configtype" value="URL">
+                    <param name="configpath" value="http://10.5.17.38:80/pem/preview-raw-commands.txt">
+                    <param name="autoprint" value="true">
+                    <param name="printername" value="jzebra">
+                    <param name="showicon" value="false">
+                    <param name="buttontext" value="">
+                    <param name="linefeed" value="\r">
+                </applet>
+
+            </div>
+        </div>
+        <iframe id="printFrame" height="35px" width="100px" src="http://10.5.17.38:80/pem/registry/barcode.jsp?barcodeMsg=D0000748834" style="border: 0; position: absolute; width: 0px; height: 0px; left: 0px; top: 0px;"></iframe>
+
+        <div class="sList">
+            <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr class="sRow2">
+                        <td class="sCell" style="padding: 0px;">
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <td class="fLabel" style="width: 200px">
+                                            Document S/N :
+                                        </td>
+                                        <td class="fField">
+                                            <input type="text" disabled="disabled" name="barcodeNumber" value="D0000748834" style="width: 150px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fLabel" style="width: 200px">
+                                            Ref. No. :
+                                        </td>
+                                        <td class="fField">
+                                            <input type="text" name="mwNo" value="" style="width: 150px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fLabel" style="width: 200px">
+                                            Received Date :
+                                        </td>
+                                        <td class="fField">
+                                            <input class="inputText inputCalendar" type="text" name="issuedDate" value="19/10/2018" style="width:90px;" readonly="">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btnSet btnSetTypeA">
+            <div class="right">
+                <input type="hidden" name="barcodeNum" value="D0000748834" style="width: 290px">
+                <input type="hidden" name="mwNo" value="" style="width: 290px">
+                <input class="inputButton" type="button" id="" name="" value="Submit" style="width: 100px; vertical-align: right" onclick="saveIncomingBarcode()">
+            </div>
+        </div>
+
+    
+
+

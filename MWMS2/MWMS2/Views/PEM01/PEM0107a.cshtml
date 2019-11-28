@@ -1,0 +1,550 @@
+﻿
+<h3>
+    Search - Update Information <br>
+
+    <input name="errorMsg" id="errorMsg" value="" type="hidden">
+</h3>
+
+<table class="inputTable">
+    <thead><tr><th colspan="4">Search Criteria</th></tr></thead>
+    <tbody>
+        <tr>
+            <th>Counter :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="radio" id="counter1" name="searchCounter" value="1">
+                <label for="counter1">Kwun Tong</label>
+                &nbsp;
+                <input type="radio" id="counter2" name="searchCounter" value="2">
+                <label for="counter2">Pioneer Centre</label>
+                &nbsp;
+                <input type="radio" id="counter3" name="searchCounter" value="3">
+                <label for="counter3">E-Submission</label>
+                &nbsp;
+                <input type="radio" id="counter" name="searchCounter" value="" checked>
+                <label for="counter">All</label>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Nature :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="radio" id="natureSUBMISSION" name="searchNature" value="SUBMISSION">
+                <label for="natureSUBMISSION">Submission</label>
+                &nbsp;
+                <input type="radio" id="natureE-SUBMISSION" name="searchNature" value="E-SUBMISSION">
+                <label for="natureE-SUBMISSION">E-Submission</label>
+                &nbsp;
+                <input type="radio" id="natureDIRECT RETURN" name="searchNature" value="DIRECT RETURN">
+                <label for="natureDIRECT RETURN">Direct Return</label>
+                &nbsp;
+                <input type="radio" id="natureWITHDRAWAL" name="searchNature" value="WITHDRAWAL">
+                <label for="natureWITHDRAWAL">Withdrawal</label>
+                &nbsp;
+                <input type="radio" id="natureICU" name="searchNature" value="ICU">
+                <label for="natureICU">ICU</label>
+                &nbsp;
+                <input type="radio" id="nature" name="searchNature" value="" checked="checked">
+                <label for="nature">All</label>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Received Date :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                From
+                <input type="text" class="inputDate" name="searchReceivedDate1" id="searchReceivedDate1" value="">
+
+                To
+                <input type="text" class="inputDate" name="searchReceivedDate2" id="searchReceivedDate2" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Letter Date :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                From
+                <input type="text" class="inputDate" name="searchLetterDate1" id="searchLetterDate1" value="">
+
+                To
+                <input type="text" class="inputDate" name="searchLetterDate2" id="searchLetterDate2" value="">
+                <br>
+                <input type="checkbox" name="searchIsLetterDateNull" id="searchIsLetterDateNull" value="N">(如tick此，可check未出信的cases!!)
+
+            </td>
+        </tr>
+
+        <!--<tr><th>EFSS Submission Reference No.</td><td class="fField" colspan="3" style="vertical-align:middle">&nbsp;<input type="text" name="searchEfssRefNo" id="searchEfssRefNo" value=""/></td></tr>  -->
+        <tr><th>File Reference No. :</th><td class="fField" colspan="3">&nbsp;<input type="text" name="searchFileRefNo" id="searchFileRefNo" value=""></td></tr>
+
+        <tr><th>DSN :</th><td class="fField" colspan="3">&nbsp;<input type="text" name="searchDsn" id="searchDsn" value=""></td></tr>
+        <tr><th>MW No :</th><td class="fField" colspan="3">&nbsp;<input type="text" name="searchMwNo" id="searchMwNoText" value="">"MW140100001" 或 "140100001" 都得!</td></tr>
+        <tr><th>Form No :</th><td class="fField" colspan="3">&nbsp;<input type="text" name="searchFormNo" id="searchFormNoText" value="">"MW01" 或 "01" 都得!</td></tr>
+
+        <tr>
+            <th>開工 :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                From
+                <input type="text" class="inputDate" name="searchCommDate1" id="searchCommDate1" value="">
+
+                To
+                <input type="text" class="inputDate" name="searchCommDate2" id="searchCommDate2" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>完工 :</th>
+            <td class="fField">
+                &nbsp;
+                <input type="text" class="inputDate" name="searchCompDate1" id="searchCompDate1" value="">
+
+                <br>(如入"null"，可check未入完工的cases!!)
+            </td>
+            <th>完工2 :</th>
+            <td class="fField">
+                &nbsp;
+                <input type="text" class="inputDate" name="searchCompDate2" id="searchCompDate2" value="">
+
+            </td>
+        </tr>
+
+        <tr><th>MW Item :</th><td class="fField" colspan="3">&nbsp;<input type="text" name="searchMwItem" id="searchMwItem" value=""></td></tr>
+
+        <tr>
+            <th>Strengthening of PBBW :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchStrengOfPBBWY" name="searchStrengOfPBBW" value="Y">
+                <label for="searchStrengOfPBBWY">Y</label>
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchStrengOfPBBWN" name="searchStrengOfPBBW" value="N">
+                <label for="searchStrengOfPBBWN">N</label>
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchStrengOfPBBW" name="searchStrengOfPBBW" value="" checked="checked">
+                <label for="searchStrengOfPBBW">All</label>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Audit Selected :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="radio" id="searchAuditRelatedY" name="searchAuditRelated" value="Y">
+                <label for="searchAuditRelatedY">Y</label>
+                &nbsp;
+                <input type="radio" id="searchAuditRelatedN" name="searchAuditRelated" value="N">
+                <label for="searchAuditRelatedN">N</label>
+                &nbsp;
+                <input type="radio" id="searchAuditRelated" name="searchAuditRelated" value="" checked="checked">
+                <label for="searchAuditRelated">All</label>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Order Related :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchOrderRelatedY" name="searchOrderRelated" value="Y">
+                <label for="searchOrderRelatedY">Y</label>
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchOrderRelatedN" name="searchOrderRelated" value="N">
+                <label for="searchOrderRelatedN">N</label>
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchOrderRelated" name="searchOrderRelated" value="" checked="checked">
+                <label for="searchOrderRelated">All</label>
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>SDF Related :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSdfRelatedY" name="searchSdfRelated" value="Y">
+                Y
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSdfRelatedN" name="searchSdfRelated" value="N">
+                N
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSdfRelated" name="searchSdfRelated" value="" checked="checked">
+                All
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Signboard Related :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSignboardRelatedY" name="searchSignboardRelated" value="Y">
+                Y
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSignboardRelatedN" name="searchSignboardRelated" value="N">
+                N
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSignboardRelated" name="searchSignboardRelated" value="" checked="checked">
+                All
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>SSP Related :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSspRelatedY" name="searchSspRelated" value="Y">
+                Y
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSspRelatedN" name="searchSspRelated" value="N">
+                N
+                &nbsp;
+                <input class="inputRadio" type="radio" id="searchSspRelated" name="searchSspRelated" value="" checked="checked">
+                All
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Referral Date :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" class="inputDate" name="searchReferralDate" id="searchReferralDate" value="">
+
+                <br>(如入"null"，可check未做referral的cases!!)
+            </td>
+        </tr>
+
+        <tr>
+            <th>PBP No. :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" onblur="onPbpNoBlur(this);" name="searchPbpNo" id="searchPbpNo" value="">1=AP(A) | 2=AP(E) | 3=AP(S) [其他就要全打，如RI(A)。]
+            </td>
+        </tr>
+
+        <tr>
+            <th>PRC No. :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" onblur="onPrcNoBlur(this);" name="searchPrcNo" id="searchPrcNo" value="">1=GBC   | 2=MWC  | 3=MWC(W) [其他就要全打，如SC(D)。]
+            </td>
+        </tr>
+
+        <tr>
+            <th>Address :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchAddress" id="searchAddress" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Building :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchBuilding" id="searchBuilding" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Street :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchStreet" id="searchStreet" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Street No :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchStreetNo" id="searchStreetNo" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Floor :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchFloor" id="searchFloor" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Unit :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchUnit" id="searchUnit" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>PAW :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchPaw" id="searchPaw" value="">
+                <br>如入"*"，可找出但凡有入PAW資料的cases!!!
+            </td>
+        </tr>
+
+        <tr>
+            <th>PAW Contact :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchPawContact" id="searchPawContact" value="">
+                <br>如果係FAX，只打號碼，不要隔格。
+            </td>
+        </tr>
+
+        <tr>
+            <th>I.O./Mgt :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchIoMgt" id="searchIoMgt" value="">
+                <br>如入"*"，可找出但凡有入I.O.資料的cases!!!
+            </td>
+        </tr>
+
+        <tr>
+            <th>I.O./Mgt Contact :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchIoMgtContact" id="searchIoMgtContact" value="">
+                <br>如果係FAX，只打號碼，不要隔格。
+            </td>
+        </tr>
+
+        <tr>
+            <th>Remark :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+                <input type="text" name="searchRemark" id="searchRemark" value="">
+            </td>
+        </tr>
+
+
+        <tr>
+            <th>Language :</th>
+            <td class="fField" colspan="3">
+                &nbsp;
+
+                <input class="inputRadio" type="radio" id="searchLanguageC" name="searchLanguage" value="C">
+                <label for="searchLanguageC">中文</label>
+
+                <input class="inputRadio" type="radio" id="searchLanguageE" name="searchLanguage" value="E">
+                <label for="searchLanguageE">English</label>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="inputTable"><tfoot><tr><td>
+
+    <input value="Update" id="Update" onclick="loadContentPage('PEM0107')" type="button">
+    <input value="Cancel" id="Cancel" onclick="loadContentPage('PEM0107')" type="button">
+  
+        <input value="Confirm Delete!" id="DeleteBtn" onclick="PEM0107a()" type="button">
+        <input value="Generate Letter" id="GenerateLetterBtn" onclick="location.href='/img/PEM0104.pdf'" type="button">
+
+
+
+</td></tr></tfoot></table>
+
+<table class="inputTable">
+    <thead>
+        <tr>
+            <th class="sTh1">
+                PBP &amp; PRC Information
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr class="sRow2">
+            <td class="sCell" style="padding: 0px;">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PBP No
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                &nbsp;
+                                                <span style="color:red">No PBP Appointed</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PBP Name
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <input name="searchPbpNoEname" id="searchPbpNoEname" value="" type="hidden">
+                                                <br>
+
+                                                <input name="searchPbpNoCname" id="searchPbpNoCname" value="" type="hidden">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="50%" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PBP Fax
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <input name="searchPbpNoFax" id="searchPbpNoFax" value="" type="hidden">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PBP Address
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <br>
+
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell" style="padding: 0px;">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PRC No
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                &nbsp;
+                                                <span style="color:red">No PRC Appointed</span>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PRC Name
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <input name="searchPrcNoEname" id="searchPrcNoEname" value="" type="hidden">
+                                                <br>
+
+                                                <input name="searchPrcNoCname" id="searchPrcNoCname" value="" type="hidden">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="50%" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PRC Fax
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <input name="searchPrcNoFax" id="searchPrcNoFax" value="" type="hidden">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" valign="top">
+                                <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fLabel" width="140px" align="right">
+                                                PRC Address
+                                            </td>
+                                            <td class="fField">
+                                                &nbsp;
+
+                                                <br>
+
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+						</div>

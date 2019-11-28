@@ -1,0 +1,955 @@
+﻿
+	      <table id="Table12" class="inputTable">
+	        <tbody><tr>
+	          <th >File Reference :</th>
+	          <td >	4/6816/56(11)</td>
+	          <th >BR No. :</th>
+	          <td > 02046466</td>
+	        </tr>
+	        <tr>
+	          <th >Company Name :</th>
+	          <td style="FONT-WEIGHT: bold" colspan="3">xx (Luen Hop) Refrigeration Co., Ltd.</td>
+	        </tr>
+	        <tr>
+	          <th >Company Name<span class="smallprint"> (Chn)</span> :</th>
+	          <td colspan="3">xx冷氣工程有限公司</td>
+	        </tr>
+	        <tr>
+	          <th >Date of application :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	          <th >Registration No. :</th>
+	          <td >'V'20</td>
+	        </tr>
+	        <tr>
+	          <th >Date of gazette :</th>
+	          <td >17/03/1972</td>
+	          <th >Date of registration :</th>
+	          <td >17/03/1972</td>
+	        </tr>
+	        <tr>
+	          <th >Extended date of expiry :</th>
+	          <td ></td>
+	          <th >Date of expiry :</th>
+	          <td >30/06/1998</td>
+	        </tr>
+	        <tr>
+	          <th >Date of retention application :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	          <th >Date of retention :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	        </tr>
+	        <tr>
+	          <th >Date of restoration application :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	          <th >Date of restoration :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	        </tr>
+	        <tr>
+	          <th >Date of removal :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	          <th >Date of approval :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	        </tr>
+	        <tr>
+	          <th >Vetting Date :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	          <th >Date of mail :</th>
+	          <td ><input type="text" class="inputDate" /></td>
+	        </tr>
+	        <tr>
+	          <td colspan="4"><div class="title1">&nbsp;</div></td>
+	        </tr>
+	        <tr>
+	          <td colspan="4">Address (English) :</td>
+	        </tr>
+	        <tr>
+	          <td colspan="4"><span id="txtAddr1" style="font-weight:bold;">Ground Floor,</span><br>
+	            <span id="txtAddr2" style="font-weight:bold;">1a xx xx Lane,</span><br>
+	            <span id="txtAddr3" style="font-weight:bold;">Wan xx,</span><br>
+	            <span id="txtAddr4" style="font-weight:bold;">Hong Kong.</span><br>
+	            <span id="txtAddr5" style="font-weight:bold;"></span></td>
+	        </tr>
+	      </tbody></table>
+	      <br>
+          <table class="inputTable">
+              <tbody>
+
+                  <tr>
+                      <th class="editHeader">Select process :</th>
+                      <td colspan="3" class="editHeader">
+
+                          <select name="selectedProcess" onchange="processOnChange(this)" id="ddType"style="width:auto">
+                              <option value="">- Select Type of Process -</option>
+                              <option value="1">New Registration</option>
+                              <option value="6">New Registration (confirm issue of cert)</option>
+                              <option value="2">Retention</option>
+                              <option value="7">Retention (confirm issue of cert)</option>
+                              <option value="3">Restoration</option>
+                              <option value="8">Restoration (confirm issue of cert)</option>
+                              <option value="4">Re-registration</option>
+                              <option value="5">Removal</option>
+                          </select>
+                      </td>
+                   
+                  </tr>
+
+
+                  <tr>
+                      
+                      <th style="WIDTH: 137px" width="137">Date of application :</th>
+                      <td>
+                          <input type="text" class="inputDate" /> <span id="err_dateApplicationNewReg" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                      <th style="WIDTH: 137px" width="137">Form used :</th>
+                      <td>
+                          <select name="applicationFormUUIDNewReg" id="applicationFormUUIDNewReg" class="inputSelectNoWidth"style="width:auto">
+                              <option value="">- Select -</option>
+                              <option value="8a85932a25bf97680125bf9768be0000">BA1</option>
+                              <option value="8a85932a25bf97680125bf9768ce0001">BA1A</option>
+                              <option value="8a85932a25bf97680125bf9768ce0002">BA1B</option>
+                              <option value="8a85932a25bf97680125bf9768ce0003" selected="selected">BA2</option>
+                              <option value="8a85932a25bf97680125bf9768ce0004">BA24</option>
+                              <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option>
+                              <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option>
+                              <option value="8a85932a25bf97680125bf9768ce0007">BA2C</option>
+                              <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option>
+                              <option value="8a85932a25bf97680125bf9768ce0009">NA</option>
+                              <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option>
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+              
+                      <th style="WIDTH: 137px" width="137">Validity period :</th>
+                      <td>
+                          <select name="periodOfValidityUUIDNewReg" onchange="calculateDate()" id="periodOfValidityUUIDNewReg" class="inputSelectNoWidth" style="width:auto">
+                              <option value="">- Select -</option>
+                              <option value="8a85932a25bf9d8b0125bf9d8b3d0002" selected="selected">3</option>
+                              <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                          </select>
+                      </td>
+                      <td colspan="2">&nbsp;</td>
+                  </tr>
+                  <tr>
+             
+                      <th>Date of Registration :</th>
+                      <td>
+                          <input type="text" class="inputDate" /> <span id="err_dateRegistrationNewReg" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+
+
+                      <th>Date of Gazette :</th>
+                      <td>
+                          <input name="dateGazetteNewReg" maxlength="10" value="17/03/1972" onblur="checkDate(this)" id="dateGazetteNewReg" class="inputDate" type="text">
+                          <span id="err_dateGazetteNewReg" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                  </tr>
+                  <tr>
+                
+                      <th style="WIDTH: 137px" width="137">Date of Approval :</th>
+                      <td>
+                          <input name="dateApprovalNewReg" maxlength="10" value="" onblur="checkDate(this)" id="dateApprovalNewReg" class="inputDate" type="text">
+                          <span id="err_dateApprovalNewReg" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                      </td>
+                      <th style="WIDTH: 137px" width="137">Extended Date of Expiry :</th>
+                      <td>
+                          <input name="dateExtendedExpiryNewReg" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="dateExtendedExpiryNewReg" class="inputDate" type="text">
+                          <span id="err_dateExtendedExpiryNewReg" class="err" style="color:Red;display:none;">Invalid date</span>
+
+
+                      </td>
+                  </tr>
+    
+                  <tr>
+                     
+                      <td colspan="4"><u>Print Parameters :</u></td>
+                  </tr>
+                  <tr>
+               
+                      <th>Issue Date :</th>
+                      <td colspan="3">
+                          <input name="reportIssueDateNewRegistration" maxlength="10" value="" onblur="checkDate(this)" id="reportIssueDateNewRegistration" class="inputDate" type="text">
+                          <span id="err_reportIssueDateNewRegistration" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                  </tr>
+                  <tr>
+               
+                      <th>Last Document Received Date :</th>
+                      <td colspan="3">
+                          <input name="reportRcvdDateNewRegistration" maxlength="10" value="" onblur="checkDate(this)" id="reportRcvdDateNewRegistration" class="inputDate" type="text">
+                          <span id="err_reportRcvdDateNewRegistration" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                          &nbsp;
+                      </td>
+                  </tr>
+                  <tr>
+               
+                      <th>Signature Name :</th>
+                      <td colspan="3">
+                          <select name="reportAuthorityUUIDNewRegistration" id="reportAuthorityUUIDNewRegistration" class="inputSelectNoWidth"style="width:auto">
+                              <option value="">- Select -</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin</option>
+                              <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung</option>
+                              <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei</option>
+                              <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching</option>
+                              <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto</option>
+                              <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung</option>
+                              <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching</option>
+                              <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai</option>
+                              <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung</option>
+                              <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah</option>
+                          </select>
+                          <br>
+                      </td>
+                  </tr>
+                  <tr>
+                  
+                  </tr>
+                  <tr>
+
+               
+                      <td colspan="4">
+                          <img src="images/form.gif">&nbsp;
+                          <a id="btnPrintCert" href="\img\CRM0205.txt" download="">Export Certificate (RPT0011b)</a>
+                      </td>
+                  </tr>
+                  <tr>
+                   
+                      <td id="TD2" colspan="4">
+                          <img src="images/form.gif">&nbsp;
+                          <a id="btnPrintLtr1" href="\img\CRM0205.txt" download="">Export Letter: Application for Inclusion (MMD0005b)</a>
+                      </td>
+                  </tr>
+                  <tr>
+               
+                      <td id="TD4" colspan="4">
+                          <img src="images/print.gif" id="imgLtr2">&nbsp;
+
+                          <a id="btnPrintLtr2" href="javascript:printNotice()">Print Notice (RPT0010b)</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input name="reportLang" value="E" checked="checked" id="reportLangE" type="radio">
+                          <label> English </label>
+                          <input name="reportLang" value="C" id="reportLangC" type="radio">
+                          <label> Chinese </label>
+                      </td>
+                  </tr>
+                  <tr> </tr>
+                  </tbody>
+              <tfoot>
+                  <tr>
+                      <td colspan="4">
+                          &nbsp;
+                          <input name="btnSave" value=" Save " onclick="loadContentPage('CRM0205')" id="btnSave" type="button">
+                          &nbsp;
+                          <input name="btnCancel" value="Finish" id="btnCancel" onclick="loadContentPage('CRM0205')" type="button">
+                      </td>
+                  </tr>
+              </tfoot>
+              </table>
+
+
+
+
+
+
+
+
+
+              <!--<tr>
+                  <td style="PADDING-LEFT: 8px; PADDING-BOTTOM: 15px">
+                      <table id="Table7">
+                          <tbody>
+
+                              <tr>
+                                  <td colspan="3" align="left">
+                                      <span id="lblError" style="color:Green;">
+
+
+                                      </span>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td style="FONT-SIZE: 5px" colspan="3"></td>
+                              </tr>
+                          </tbody>
+                      </table>
+
+                      <div id="processContent">
+                          <div id="pnlNewReg" style="">
+                              <table id="tblNewReg" width="100%" cellspacing="0" cellpadding="2" border="0"></table>
+
+
+                              <table id="Table3" width="720" cellspacing="0" cellpadding="2" border="0"></table>
+                          </div>
+                          <div id="pnlNewRegConf" style="display: none;">
+                              <table id="tblNewRegConf" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td>
+                                              <input name="confirmMailNewRegConfirm" value="on" class="inputCheckbox" type="checkbox">
+                                              <label for="chkNewRegConfirm">Confirmation on issue of Certificate</label>
+                                          </td>
+
+                                          <td style="WIDTH: 137px" width="137">Date of Mail :</td>
+                                          <td>
+                                              <input name="dateMailNewRegConfirm" maxlength="10" value="" onblur="checkDate(this)" id="dateMailNewRegConfirm" class="inputDate" type="text">
+                                              <span id="err_dateMailNewRegConfirm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlRetention" style="display: none;">
+                              <table id="tblRetention" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of application :</td>
+                                          <td>
+                                              <input name="dateApplicationRet" maxlength="10" value="" onchange="calculateDate()" onblur="checkDate(this)" id="dateApplicationRet" class="inputDate" type="text">
+                                              <span id="err_dateApplicationRet" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+
+                                          <td style="WIDTH: 137px" width="137">Form used :</td>
+                                          <td>
+                                              <select name="applicationFormUUIDRet" id="applicationFormUUIDRet" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf97680125bf9768be0000">BA1</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0001">BA1A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0002">BA1B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0003" selected="selected">BA2</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0004">BA24</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0007">BA2C</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0009">NA</option>
+                                                  <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option>
+                                              </select>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Validity period :</td>
+                                          <td>
+                                              <select name="periodOfValidityUUIDRet" onchange="calculateDate()" id="periodOfValidityUUIDRet" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0002" selected="selected">3</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                                              </select>
+
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of approval :</td>
+                                          <td>
+                                              <input name="dateApprovalRet" maxlength="10" value="" onblur="checkDate(this)" id="dateApprovalRet" class="inputDate" type="text">
+                                              <span id="err_dateApprovalRet" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of retention :</td>
+                                          <td>
+                                              <input name="dateRetentionRet" maxlength="10" value="30/06/1998" onchange="calculateDate()" onblur="checkDate(this)" id="dateRetentionRet" class="inputDate" type="text">
+                                              <span id="err_dateRetentionRet" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of retention application :</td>
+                                          <td>
+                                              <input name="dateRetentionApplicationRet" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="dateRetentionApplicationRet" class="inputDate" type="text">
+                                              <span id="err_dateRetentionApplicationRetg" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td colspan="2" rowspan="2" valign="top">
+                                              <table cellspacing="0" cellpadding="0" bordercolor="lightgrey" border="1">
+                                                  <tbody>
+                                                      <tr>
+                                                          <td valign="top">
+                                                              Missing items :<br>
+                                                              <table id="retentDocID" style="height:80px;width:254px;" border="0">
+                                                                  <tbody>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemNullRet" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_0">NULL</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemChequeRet" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_1">Cheque</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemPRCRet" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_2">Professional Registration Certificate</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemOthersRet" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_3">Others</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemIncompleteFormRet" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_4">Incomplete Form</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                  </tbody>
+                                                              </table>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Vetting Date :</td>
+                                          <td>
+                                              <input name="dateVettingRet" maxlength="10" value="25/10/2018" onblur="checkDate(this)" id="dateVettingRet" class="inputDate" type="text">
+                                              <span id="err_dateVettingRet" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Extended Date of Expiry :</td>
+                                          <td>
+                                              <input name="dateExtendedExpiryRet" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="dateExtendedExpiryRet" class="inputDate" type="text">
+                                              <span id="err_dateExtendedExpiryRet" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+
+
+                              <table id="Table3" width="720" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td colspan="2" align="left"><hr width="99%" size="2" color="darkgray"></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td colspan="2"><u>Print Parameters :</u></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Issue Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportIssueDateRetention" maxlength="10" value="" onblur="checkDate(this)" id="reportIssueDateRetention" class="inputDate" type="text">
+                                              <span id="err_reportIssueDateRetention" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Last Document Received Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportRcvdDateRetention" maxlength="10" value="" onblur="checkDate(this)" id="reportRcvdDateRetention" class="inputDate" type="text">
+                                              <span id="err_reportRcvdDateRetention" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                              &nbsp;
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Signature Name :</td>
+                                          <td>
+                                              <select name="reportAuthorityUUIDRetention" id="reportAuthorityUUIDRetention" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin</option>
+                                                  <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung</option>
+                                                  <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei</option>
+                                                  <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching</option>
+                                                  <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto</option>
+                                                  <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching</option>
+                                                  <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai</option>
+                                                  <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah</option>
+                                              </select>
+                                              <br>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td style="FONT-SIZE: 5px" colspan="3">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+
+                                   
+                                          <td colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintCert" href="javascript:exportCertificate()">Export Certificate (RPT0011b)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD1" width="10"></td>
+                                          <td id="TD2" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('MMD0008b_1')">Export Letter: Retention of Registration in the Register (MMD0008b_1)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD3" width="10"></td>
+                                          <td id="TD4" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('MMD0008b_2')">Export Letter: Retention of Registration in the Register (MMD0008b_2)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD5" width="10"></td>
+                                          <td id="TD6" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('FAX_TEMPLATE_RETENTION')">Export Letter: Fax Template</a>
+                                          </td>
+                                      </tr>
+                                      <tr> </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlRetentConf" style="display: none;">
+                              <table id="tblRetentConf" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td>
+                                              <input name="confirmMailRetConfirm" value="on" class="inputCheckbox" type="checkbox">
+                                              <label for="chkRetentConfirmRetConfirm">Confirmation on issue of Certificate</label>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of mail :</td>
+                                          <td>
+                                              <input name="dateMailRetConfirm" maxlength="10" value="" onblur="checkDate(this)" id="dateMailRetConfirm" class="inputDate" type="text">
+                                              <span id="err_dateMailRetConfirm" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlRestoration" style="display: none;">
+                              <table id="tblRestoration" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of application :</td>
+                                          <td>
+                                              <input name="dateApplicationRes" maxlength="10" value="" onchange="calculateDate()" onblur="checkDate(this)" id="dateApplicationRes" class="inputDate" type="text">
+                                              <span id="err_dateApplicationRes" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Form used :</td>
+                                          <td>
+                                              <select name="applicationFormUUIDRes" id="applicationFormUUIDRes" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf97680125bf9768be0000">BA1</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0001">BA1A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0002">BA1B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0003" selected="selected">BA2</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0004">BA24</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0007">BA2C</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0009">NA</option>
+                                                  <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option>
+                                              </select>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Validity period :</td>
+                                          <td>
+                                              <select name="periodOfValidityUUIDRes" onchange="calculateDate()" id="periodOfValidityUUIDRes" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0002" selected="selected">3</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                                              </select>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of approval :</td>
+                                          <td>
+                                              <input name="dateApprovalRes" maxlength="10" value="" onblur="checkDate(this)" id="dateApprovalRes" class="inputDate" type="text">
+                                              <span id="err_dateApprovalRes" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of restoration :</td>
+                                          <td>
+                                              <input name="dateRestorationRes" maxlength="10" value="" onchange="calculateDate()" onblur="checkDate(this)" id="dateRestorationRes" class="inputDate" type="text">
+                                              <span id="err_dateRestorationRes" class="err" style="color:Red;display:none;">Invalid date</span>
+
+
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of restoration application :</td>
+                                          <td>
+                                              <input name="dateRestorationApplicationRes" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="dateRestorationApplicationRes" class="inputDate" type="text">
+                                              <span id="err_dateRestorationApplicationRes" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td colspan="2" rowspan="2" valign="top">
+                                              <table cellspacing="0" cellpadding="0" bordercolor="lightgrey" border="1">
+                                                  <tbody>
+                                                      <tr>
+                                                          <td valign="top">
+                                                              Missing items :<br>
+                                                              <table id="restoreDocID" style="height:80px;width:254px;" border="0">
+                                                                  <tbody>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemNullRes" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_0">NULL</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemChequeRes" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_1">Cheque</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemPRCRes" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_2">Professional Registration Certificate</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemOthersRes" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_3">Others</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>
+                                                                              <input name="missItemIncompleteFormRes" value="on" class="inputCheckbox" type="checkbox">
+                                                                              <label for="retentDocID_4">Incomplete Form</label>
+                                                                          </td>
+                                                                      </tr>
+                                                                  </tbody>
+                                                              </table>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Vetting Date :</td>
+                                          <td>
+                                              <input name="dateVettingRes" maxlength="10" value="25/10/2018" onblur="checkDate(this)" id="dateVettingRes" class="inputDate" type="text">
+                                              <span id="err_dateVettingRes" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Extended Date of Expiry :</td>
+                                          <td>
+                                              <input name="dateExtendedExpiryRes" maxlength="10" value="" onblur="checkDate(this)" disabled="disabled" id="dateExtendedExpiryRes" class="inputDate" type="text">
+                                              <span id="err_dateExtendedExpiryRes" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                          <td colspan="2"></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+
+
+
+                              <table id="Table3" width="720" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td colspan="2" align="left"><hr width="99%" size="2" color="darkgray"></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td colspan="2"><u>Print Parameters :</u></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Issue Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportIssueDateRestoration" maxlength="10" value="" onblur="checkDate(this)" id="reportIssueDateRestoration" class="inputDate" type="text">
+                                              <span id="err_reportIssueDateRestoration" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Last Document Received Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportRcvdDateRestoration" maxlength="10" value="" onblur="checkDate(this)" id="reportRcvdDateRestoration" class="inputDate" type="text">
+                                              <span id="err_reportRcvdDateRestoration" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Signature Name :</td>
+                                          <td>
+                                              <select name="reportAuthorityUUIDRestoration" id="reportAuthorityUUIDRestoration" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin</option>
+                                                  <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung</option>
+                                                  <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei</option>
+                                                  <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching</option>
+                                                  <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto</option>
+                                                  <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching</option>
+                                                  <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai</option>
+                                                  <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah</option>
+                                              </select>
+                                              <br>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td style="FONT-SIZE: 5px" colspan="3">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+
+                                   
+                                          <td colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintCert" href="javascript:exportCertificate()">Export Certificate (RPT0011b)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD1" width="10"></td>
+                                          <td id="TD2" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('MMD0009b')">Export Letter: Restoration of Registration in the Register (MMD0009b)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD5" width="10"></td>
+                                          <td id="TD6" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('FAX_TEMPLATE_RETENTION')">Export Letter: Fax Template</a>
+                                          </td>
+                                      </tr>
+                                      <tr> </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlRestoreConf" style="display: none;">
+                              <table id="tblRestoreConf" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td>
+
+                                              <input name="confirmMailResConfirm" value="on" class="inputCheckbox" type="checkbox">
+
+                                              <label for="chkRestoreConfirm">Confirmation on issue of Certificate</label>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of mail :</td>
+                                          <td>
+                                              <input name="dateMailResConfirm" maxlength="10" value="" onblur="checkDate(this)" id="dateMailResConfirm" class="inputDate" type="text">
+                                              <span id="err_dateMailResConfirm" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlReRegistration" style="display: none;">
+                              <table id="tblReRegistration" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of application :</td>
+                                          <td>
+                                              <input name="dateApplicationReReg" maxlength="10" value="" onblur="checkDate(this)" id="dateApplicationReReg" class="inputDate" type="text">
+                                              <span id="err_dateApplicationReReg" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Form used :</td>
+                                          <td>
+
+                                              <select name="applicationFormUUIDReReg" id="applicationFormUUIDReReg" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf97680125bf9768be0000">BA1</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0001">BA1A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0002">BA1B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0003" selected="selected">BA2</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0004">BA24</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0007">BA2C</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option>
+                                                  <option value="8a85932a25bf97680125bf9768ce0009">NA</option>
+                                                  <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option>
+                                              </select>
+
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Validity period :</td>
+                                          <td>
+
+                                              <select name="periodOfValidityUUIDReReg" id="periodOfValidityUUIDReReg" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0002" selected="selected">3</option>
+                                                  <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                                              </select>
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Registration no. :</td>
+                                          <td>
+
+                                              <input name="registrationNumberReReg" value="'V'20" id="registrationNumberReReg" style="width:150px;" class="inputText" type="text">
+
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlRemoval" style="display: none;">
+                              <table id="Table9" width="100%" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td style="WIDTH: 137px" width="137">Date of Removal :</td>
+                                          <td>
+
+                                              <input name="dateRemovalRemoval" maxlength="10" value="" onblur="checkDate(this)" id="dateRemovalRemoval" class="inputDate" type="text">
+                                              <span id="err_dateRemovalRemoval" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                              &nbsp;
+                                          </td>
+                                          <td style="WIDTH: 137px" width="137">Date of mail :</td>
+                                          <td>
+
+                                              <input name="dateMailRemoval" maxlength="10" value="" onblur="checkDate(this)" id="dateMailRemoval" class="inputDate" type="text">
+                                              <span id="err_dateMailRemoval" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+
+
+
+                              <table id="Table3" width="720" cellspacing="0" cellpadding="2" border="0">
+                                  <tbody>
+                                      <tr>
+                                   
+                                          <td colspan="2" align="left"><hr width="99%" size="2" color="darkgray"></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td colspan="2"><u>Print Parameters :</u></td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Issue Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportIssueDateRemoval" maxlength="10" value="" onblur="checkDate(this)" id="reportIssueDatRemoval" class="inputDate" type="text">
+                                              <span id="err_reportIssueDateRemoval" class="err" style="color:Red;display:none;">Invalid date</span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Last Document Received Date :</td>
+                                          <td colspan="3">
+                                              <input name="reportRcvdDateRemoval" maxlength="10" value="" onblur="checkDate(this)" id="reportRcvdDateRemoval" class="inputDate" type="text">
+                                              <span id="err_reportRcvdDateRemoval" class="err" style="color:Red;display:none;">Invalid date</span>
+
+                                              &nbsp;
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                   
+                                          <td>Signature Name :</td>
+                                          <td>
+                                              <select name="reportAuthorityUUIDRemoval" id="reportAuthorityUUIDRemoval" class="inputSelectNoWidth">
+                                                  <option value="">- Select -</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000a">CHAN Suk-yin</option>
+                                                  <option value="8a8591a227aa2b4e0127dbe2afb87f61">CHAU Kwai-fong Frankie</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0013">CHENG Wai-yee</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0014">CHEUNG Lai Sze</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0011">CHEUNG Tin-cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0015">HA Chun-lung</option>
+                                                  <option value="8a8591a2321f7a8e01324d6984f91ab7">KONG Yuk-yin Kristy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0002">LAI Shui-piu</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b000e">LAI Shuk-mei</option>
+                                                  <option value="8a8591a23a728b5d013ab50ccf823a6a">LAM Kin-ching</option>
+                                                  <option value="8a8591a22da30f20012db5ba62f12388">LAU Wing-hung Otto</option>
+                                                  <option value="8a8591a25501306b01554dd6b6ea270d">LEUNG Chi-keung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d2b0000">LEUNG Sham-yee, Wendy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0005">LO Lai-sim Cindy</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0003">MAK Wan-ching</option>
+                                                  <option value="8a8591a25ad1829f015af9273dc15031">TEE Lee-wai</option>
+                                                  <option value="8a8591a2314c2def0131bb86d3850bbc">WONG Ka-yan</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0012">YEUNG Chun-wing</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0010">YU Tak-Cheung</option>
+                                                  <option value="8a85932a25bfb05d0125bfb05d3b0001">YU Wing-wah</option>
+                                              </select>
+                                              <br>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td style="FONT-SIZE: 5px" colspan="3">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD1" width="10"></td>
+                                          <td id="TD2" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('MMD0007b_1')">Export Letter: Removal of Contractor in the Register (MMD0007b_1)</a>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td id="TD1" width="10"></td>
+                                          <td id="TD2" colspan="2">
+                                              <img src="images/form.gif">&nbsp;
+                                              <a id="btnPrintLtr1" href="javascript:exportLetterWithCode('MMD0007b_2')">Export Memo: Memo of removal of Contractor in the Register (MMD0007b_2)</a>
+                                          </td>
+                                      </tr>
+
+                                      <tr> </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          <div id="pnlPrint" style="">
+
+
+                          </div>
+                      </div>
+                      <script>processHideAll()</script>
+                  </td>
+              </tr>
+
+              </tbody>
+
+          </table>
+	      <br>-->

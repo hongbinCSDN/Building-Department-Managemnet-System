@@ -1,0 +1,11 @@
+﻿create table P_mw_modification_related_mwno (
+    uuid VARCHAR2(36),
+    modification_id VARCHAR2(36),
+    mw_no VARCHAR2(36),
+    created_by VARCHAR2(20) not null,
+    created_date date not null,
+    modified_by VARCHAR2(20) not null,
+    modified_date date not null,
+    constraint P_mw_modification_related_mwno_PK primary key (uuid)
+)
+ALTER TABLE P_MW_MODIFICATION_RELATED_MWNO ADD  CONSTRAINT P_MW_MODI_RELATED_MWNO_FK FOREIGN KEY (MODIFICATION_ID) REFERENCES P_MW_MODIFICATION(UUID);

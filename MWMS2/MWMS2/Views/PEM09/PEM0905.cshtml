@@ -1,0 +1,547 @@
+﻿
+
+
+
+<table class="inputTable">
+    <thead>
+        <tr>
+            <th colspan="4" class="sTh1">Search Criteria</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <tr>
+            <th style="width:130px">Type of Report :</th>
+            <td>
+                <select name="typeOfReport" style="width:auto">
+
+                    <option selected="'selected'" value="">
+
+                        -All-
+                    </option>
+
+                    <option value="Enquiry">
+
+                        Enquiry
+                    </option>
+
+                    <option value="Complaint">
+
+                        Complaint
+                    </option>
+
+                </select>
+            </td>
+            <th style="width:130px">Status :</th>
+            <td>
+                <select style="width:auto" name="statusId">
+
+                    <option selected="'selected'" value="">
+
+                        -All-
+                    </option>
+
+                    <option value="Outstanding">
+
+                        In Progress
+                    </option>
+
+                    <option value="Interim Replied">
+
+                        Interim Reply Sent
+                    </option>
+
+                    <option value="Endorsed">
+
+                        Endorsed
+                    </option>
+
+                    <option value="Closed">
+
+                        Closed
+                    </option>
+
+                </select>
+
+            </td>
+
+        </tr>
+        <tr>
+            <th style="width:130px"> Channel of Receipt :</th>
+            <td colspan="3">
+                <select name="channel" style="width:auto">
+
+                    <option selected="'selected'" value="">
+
+                        -All-
+                    </option>
+
+                    <option value="Telephone">
+
+                        Telephone
+                    </option>
+
+                    <option value="Email">
+
+                        Email
+                    </option>
+
+                    <option value="Fax">
+
+                        Fax
+                    </option>
+
+                    <option value="Letter">
+
+                        Letter
+                    </option>
+
+                    <option value="Memo">
+
+                        Memo
+                    </option>
+
+                    <option value="Record Form">
+
+                        Record Form
+                    </option>
+
+                    <option value="Others">
+
+                        Others
+                    </option>
+
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <th style="width:130px">Related Ref. No. :</th>
+            <td><input type="text" name="refNo" value="" style="width:120px;"></td>
+            <th>Received Date :</th>
+            <td style="white-space:nowrap">
+                From
+                <input class="inputDate" type="text" id="fromDate" name="fromDate" value="" title="to:toDate" readonly="">
+                To
+                <input class="inputDate" type="text" id="toDate" name="toDate" value="" title="from:fromDate" readonly="">
+            </td>
+        </tr>
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4">
+                <input class="inputButton" type="button" id="btnGenerate" name="btnGenerate" value="Generate" onclick="loadContentPage('PEM0905a')">
+                <input class="inputButton" type="button" id="btnGenerate2" name="btnGenerate2" value="Export" onclick="exportExcel('PEM0905aTable')">
+            </th>
+        </tr>
+    </tfoot>
+</table>
+         
+
+
+<div id="PEMHideDiv" class="hide">
+    <table class="resultTable" id="PEM0905aTable">
+        <thead>
+            <tr>
+                <th >Reference No.</th>
+                <th >Received Date</th>
+                <th >Reply/Action Date</th>
+                <th >Subject Matter</th>
+                <th >Channel of Enquiry</th>
+                <!-- <th  >Action</th> -->
+                <th >Status</th>
+                <th >Handling Officer</th>
+            </tr>
+            </thead>
+        <tbody>
+            <tr >
+                <td >
+                    Enq110100010&nbsp;
+                </td>
+                <td >
+                    31/12/2010&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq110100509&nbsp;
+                </td>
+                <td >
+                    18/1/2011&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq110200173&nbsp;
+                </td>
+                <td >
+                    9/2/2011&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq110200334&nbsp;
+                </td>
+                <td >
+                    15/2/2011&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq140902639&nbsp;
+                </td>
+                <td >
+                    17/9/2014&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq151004143&nbsp;
+                </td>
+                <td >
+                    27/10/2015&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq111001908&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq140401867&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq170700011&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq121000004&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;(ICC)
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    TS Leung, admin&nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq170100040&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq110300602&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq140705432&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq161000106&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq150302463&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr >
+                <td >
+                    Enq141205720&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+                <td >
+                    Telephone&nbsp;
+                </td>
+                <td >
+                    Outstanding&nbsp;
+                </td>
+                <td >
+                    &nbsp;
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+

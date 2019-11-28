@@ -1,0 +1,55 @@
+﻿﻿@model MWMS2.Areas.Admin.Models.PEMUpdateJobAssignmentSearchModel
+
+@using (Html.BeginForm("PEM1116Save", "PEM11", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.wftuUuid)
+    <div style="text-align: right; width: 100%;">
+        Last Modified Date:
+        @Html.DisplayFor(model => model.SYS_POST.LAST_MODIFIED_DT)
+    </div>
+    <div style="text-align: right; width: 100%;">
+        Last Modified By:
+        @Html.DisplayFor(model => model.SYS_POST.BD_PORTAL_LOGIN)
+    </div>
+
+    <div class="sList w3-border displayForm" id="searchCriteria">
+        @Html.HiddenFor(model => model.UUID)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Reference No.: </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DisplayFor(model => model.RefNo, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "UUID" } })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Record Type: </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DisplayFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "recType" } })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Current Handle User: </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DisplayFor(model => model.User, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "recUser" } })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">New Handle User:    </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DropDownListFor(model => model.NewHandler, Model.NewHandlerList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="btn btn-default backButton" type="button"><i class="fa fa-times"></i> Cancel</button>
+            <button type="submit" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>
+        </div>
+
+    </div>
+}

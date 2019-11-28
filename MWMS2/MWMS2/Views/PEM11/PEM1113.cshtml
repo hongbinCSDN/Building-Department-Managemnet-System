@@ -1,0 +1,61 @@
+﻿<div class="panelHeader">
+    Update Minor Work Record
+</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m4 s4">
+                Reference No. :
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button">Search</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+    <div id="resultPanel">
+
+    </div>
+</div>
+<script>
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchMWNumberMapping"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [{
+                displayName: "MW Number", columnName: "REFERENCE_NO"
+            }]
+        });
+    });
+
+
+    function cancel() {
+        window.location.href = domId("rootPath").value + "/Admin/Para";
+    }
+</script>
+
+@*<table class="inputTable">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    Update minor work record
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    Reference No. :
+                </th>
+                <td>
+                    <input type="text" name="refNo" value="" style="width: 290px">
+                </td>
+            </tr>
+        </tbody>
+        <tfoot><tr><th colspan="2">   <input class="inputButton" type="button" id="" name="" value="Submit" onclick="getMwRecordDetail()"></th></tr></tfoot>
+
+    </table>*@

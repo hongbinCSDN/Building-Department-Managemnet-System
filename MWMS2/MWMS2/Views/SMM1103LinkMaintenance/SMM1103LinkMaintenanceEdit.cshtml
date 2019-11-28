@@ -1,0 +1,60 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+<h3>Link Maintenance</h3>
+<br>
+@using (Html.BeginForm("SMM1103LinkMaintenanceEdit", "SMM1103LinkMaintenance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <th>Link Code<span class="asterix">*</span> :</th>
+                <td>
+                    @Html.TextBoxFor(model => model.CODE, new { @readonly = "readonly", id = "" })
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>URL :</th>
+
+                <td>
+                    @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    Ordering :
+                </th>
+                <td>
+                    @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "ORDERING", @type = "number", @min = "0" } })
+                    @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+
+                    @*<input name="systemValueOrdering" value="" onfocus="inputMaskOnFocus(this, event, 'N')" style="width:90px;" class="inputText" type="text">*@
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <div class="btnSet btnSetTypeA">
+                        <div class="right">
+                            <input type="submit" class="SaveBtn" id="Save" value="Save" />
+                            @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="" type="button">*@
+                            <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1103LinkMaintenance", "SMM1103LinkMaintenance")"' type="button">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table> 
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}

@@ -1,0 +1,319 @@
+﻿
+<form name="mwCompanySearchForm" id="mwCompanySearchForm" method="post" action="/Registration/searchCMW.do?method=SearchMwCompany" class="mwCompanySearchForm">
+    <input type="hidden" name="registrationType" value="CMW" id="registrationType">
+
+    <input type="hidden" name="userAccessRight" value="W" id="userAccessRight">
+
+
+    <table id="Table3" class="inputTable">
+        <tbody>
+            <tr>
+                <th>File Reference :</th>
+                <td width="210px"><input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+                <th>Registration No. :</th>
+                <td><input type="text" name="displayCertificateNo" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th>Company Name <span class="smallprint">(Eng) </span>:</th>
+                <td><input type="text" name="displayCompanyNameEng" maxlength="50" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+                <th><span class="smallprint">(Chn)</span> :</th>
+                <td><input type="text" name="displayCompanyNameChn" maxlength="50" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th>Address <span class="smallprint">(Eng)</span> :</th>
+                <td><input type="text" name="displayAddressEng" maxlength="50" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+                <th><span class="smallprint">(Chn)</span> :</th>
+                <td><input type="text" name="displayAddressChn" maxlength="50" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th valign="top">Surname :</th>
+                <td valign="top"><input type="text" name="displaySurname" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+                <th valign="top">Given Name :</th>
+                <td valign="top">
+                    <input type="text" name="displayGivenName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText">
+                    <br>
+                    <span class="smallprint">
+                        <input id="displayIsKeyword" type="checkbox" name="displayIsKeyword">
+                        <label for="chkKeyworkSrch">Keyword Search</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th valign="top">Chinese Name :</th>
+                <td colspan="3" valign="top"><input type="text" name="displayChineseName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width:200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th valign="top">PNRC :</th>
+                <td valign="top">
+                    <select name="displayPNRC" id="displayPNRC" class="inputSelect">
+                        <option value="">-- Select --</option>
+                        <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0003">BY EMAIL</option>
+                        <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                    </select>
+                </td>
+                <th valign="top">Services in Building Safety :</th>
+                <td valign="top">
+                    <select name="displayBsItem" id="displayBsItem" class="inputSelect"style="width:auto">
+                        <option value="">-- Select --</option>
+                        <option value="8a85932a25bfa01a0125bfa01af0014a">-</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Type of Date :</th>
+                <td>
+                    <select name="displayDateType" id="displayDateType"  class="inputSelect" style="width:auto">
+                        <option value="">- Select Type of Date -</option>
+                        <option value="applicationDate">Date of Application</option>
+                        <option value="registrationDate">Date of Registration</option>
+                        <option value="gazetteDate">Date of Gazette</option>
+                        <option value="expiryDate">Date of Expiry</option>
+                        <option value="removalDate">Date of Removal</option>
+                        <option value="retentionDate">Date of Renewal</option>
+                        <option value="restoreDate">Date of Restoration</option>
+                        <option value="approvalDate">Date of Approval</option>
+                    </select>
+                </td>
+                <td colspan="2">
+                    from&nbsp;
+                    <input type="text" name="displayDateFrom" maxlength="10" value="" onblur="checkDate(this)" id="displayDateFrom" class="inputDate"title="to:displayDateTo">
+                    <span id="err_displayDateFrom" class="err" style="color:Red;display:none;">Invalid date</span>
+                    &nbsp;to&nbsp;
+                    <input type="text" name="displayDateTo" maxlength="10" value="" onblur="checkDate(this)" id="displayDateTo"    class="inputDate"title="from:displayDateFrom">
+                    <span id="err_displayDateTo" class="err" style="color:Red;display:none;">Invalid date</span>
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <th>Minor Work Capability :</th>
+                <td>
+
+                    <select name="displayMwClass" id="displayMwClass" class="inputSelect">
+                        <option value="">- Select Minor Work Class -</option>
+
+                        <option value="Class 1" title="I">I</option>
+
+                        <option value="Class 2" title="II">II</option>
+
+                        <option value="Class 3" title="III">III</option>
+                    </select>
+                </td>
+                <td colspan="2">
+
+                    <select name="displayMwType" id="displayMwType" class="inputSelect"style="width:auto">
+                        <option value="">- Select Minor Work Type -</option>
+
+                        <option value="Type A" title="Type A">Type A</option>
+
+                        <option value="Type B" title="Type B">Type B</option>
+
+                        <option value="Type C" title="Type C">Type C</option>
+
+                        <option value="Type D" title="Type D">Type D</option>
+
+                        <option value="Type E" title="Type E">Type E</option>
+
+                        <option value="Type F" title="Type F">Type F</option>
+
+                        <option value="Type G" title="Type G">Type G</option>
+
+                        <option value="Type H" title="Type H">Type H</option>
+                    </select>
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="button" name="btnSearch" value="Search" onclick="searchForm()" id="btnSearch" accesskey="S">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" name="btnReset" value="Reset" onclick="loadContentPage('CRM0107')" id="btnReset">
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="2"><span id="lblMsg" style="color:Crimson;"></span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+
+        //var mwClass = CE.$("displayMwClass");
+        //var mwType = CE.$("displayMwType");
+
+        //function selectOptionOnLoad(){
+        //	CE.selectGroup(mwClass, mwType);
+        //}
+        // window.addLoadEvent(function() { selectOptionOnLoad(); });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script>
+            function recordView(recordUUID){
+                thisForm = document.getElementById('mwCompanySearchForm');
+            thisForm.action = 'searchCMW.do?method=ViewMwCompany&recordUUID=' + recordUUID;
+            thisForm.submit();
+        }
+        function setPrevPage(){
+                thisForm = document.getElementById('mwCompanySearchForm');
+            thisForm.action = 'searchCMW.do?method=SetPage&page=-1#contentList'
+            thisForm.submit();
+        }
+        function setNextPage(){
+                thisForm = document.getElementById('mwCompanySearchForm');
+            thisForm.action = 'searchCMW.do?method=SetPage&page=1#contentList'
+            thisForm.submit();
+        }
+        function setSort(orderby, seq, prevOrder){
+            if(seq == "desc" || (orderby != prevOrder && prevOrder != "")){
+                seq = "asc";
+            }else{
+                seq = "desc";
+            }
+            thisForm = document.getElementById('mwCompanySearchForm');
+            thisForm.action = 'searchCMW.do?method=SearchMwCompany&orderBy=' + orderby + '&seq=' + seq + '#contentList';
+            thisForm.submit();
+        }
+    </script>
+
+    <a name="contentList"></a>
+    <input type="hidden" name="searchFileReference" value="" id="searchFileReference">
+    <input type="hidden" name="searchCertificateNo" value="" id="searchCertificateNo">
+    <input type="hidden" name="searchCompanyNameEng" value="" id="searchCompanyNameEng">
+    <input type="hidden" name="searchCompanyNameChn" value="" id="searchCompanyNameChn">
+    <input type="hidden" name="searchAddressEng" value="" id="searchAddressEng">
+    <input type="hidden" name="searchAddressChn" value="" id="searchAddressChn">
+    <input type="hidden" name="searchSurname" value="" id="searchSurname">
+    <input type="hidden" name="searchGivenName" value="" id="searchGivenName">
+    <input type="hidden" name="searchPNRC" value="" id="searchPNRC">
+    <input type="hidden" name="searchBsItem" value="" id="searchBsItem">
+    <input type="hidden" name="searchDateType" value="" id="searchDateType">
+    <input type="hidden" name="searchDateFrom" value="" id="searchDateFrom">
+    <input type="hidden" name="searchDateTo" value="" id="searchDateTo">
+    <input type="hidden" name="searchMwClass" value="" id="searchMwClass">
+    <input type="hidden" name="searchMwType" value="" id="searchMwType">
+    <input type="hidden" name="maxPage" value="1973" id="maxPage">
+    <input type="hidden" name="orderBy" value="file_reference_no" id="orderBy">
+    <input type="hidden" name="seq" value="asc" id="seq">
+
+    <table id="CRMHideDiv" class="resultTable hide">
+        <thead>
+            <tr class="grid-header" style="height:19px;">
+                <th style="width:200px">         File Reference</th>
+                <th style="width:350px">     Company Name</th>
+                <th style="width:200px">         Registration No.</th>
+                <th style="width:150px"> Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2010</a></td>
+                <td>xx xx ELECTRIC &amp; WATER CO</td>
+                <td>MWC 1/2010</td>
+                <td>Active</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2011</a></td>
+                <td>xx xx FURNITURE DESIGN &amp; DECORATION CO</td>
+                <td>MWC 1/2011</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2012</a></td>
+                <td>xx ENGINEERING COMPANY</td>
+                <td></td>
+                <td>Withdrawn</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2013</a></td>
+                <td>xx NGAI ENGINEERING CO</td>
+                <td>MWC 1/2013</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2014</a></td>
+                <td>xx xx ARTS ADVERTISING CO.</td>
+                <td>MWC 1/2014</td>
+                <td>Application in progress</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2015</a></td>
+                <td>xx ENGINEERING LIMITED</td>
+                <td>MWC 1/2015</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2016</a></td>
+                <td>xx xx ENGINEERING LIMITED</td>
+                <td>MWC 1/2016</td>
+                <td>Active</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 1/2017</a></td>
+                <td>xx xx ALUMINIUM ENGINEERING</td>
+                <td>MWC 1/2017</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 10/2010</a></td>
+                <td>x xx FUNG CO LTD</td>
+                <td>MWC 10/2010</td>
+                <td>Active</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript:loadContentPage("CRM0107a")'>MWC 10/2011</a></td>
+                <td>xx SECURITY SYSTEMS LIMITED</td>
+                <td>MWC 10/2011</td>
+                <td>Removed</td>
+            </tr>
+
+
+    </table>
+    </div>
+
+
+</form>
+      
+
+
+
+

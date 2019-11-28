@@ -1,0 +1,104 @@
+﻿
+      <table class="inputTable">
+
+              <tbody>
+              <tr>
+                <th >Result Type :</th>
+                <td ><span id="lblType" style="font-weight:bold;">Interview</span></td>
+              </tr>
+              <tr>
+                <th>Interview / Assessment No. :</th>
+                <td><span id="lblIntervNo" style="font-weight:bold;">2013-16251-MWCRC-O285</span></td>
+              </tr>
+              <tr>
+                <th>Interview Date :</th>
+                <td><span id="lblIntervDate" style="font-weight:bold;">09/12/2013</span>&nbsp;</td>
+              </tr>
+              <tr>
+                <th>Interview Time :</th>
+                <td><span id="lblIntervTime" style="font-weight:bold;">02:15 PM</span></td>
+              </tr>
+              <tr>
+                <th>Name :</th>
+                <td><span id="lblName" style="font-weight:bold;">LAU xx xx</span></td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <th>Result :<span class="asterix">*</span></th>
+                <td><select style="width:auto" name="SSystemValue" id="SSystemValue"><option value="">- Select -</option>
+                     <option value="8a85932a25bf9adf0125bf9adf180000">ACCEPTED</option> <option value="8a85932a25bf9adf0125bf9adf280001">BRING-UP</option> <option value="8a85932a25bf9adf0125bf9adf280002">DEFERRED</option> <option value="8a85932a25bf9adf0125bf9adf280003">NO OBJECTION IN PRINCIPLE</option> <option value="8a85932a25bf9adf0125bf9adf280004">ABSENT WITH NOTIFICATION</option> <option value="8a85932a25bf9adf0125bf9adf280005">REFUSED</option> <option value="8a85932a25bf9adf0125bf9adf280006">ABSENT</option> <option value="8a85932a25bf9adf0125bf9adf280007">null</option> <option value="8a8591a24c037988014c068eb6144023">WITHDRAWN</option></select>
+                  &nbsp; <span id="rqdVal3" controltovalidate="ddResult" errormessage="Please select a result." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a result.</span></td>
+              </tr>
+              <tr>
+                <th>Result Date :<span class="asterix">*</span><br>
+                  <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span></th>
+                <td><input name="resultDate" maxlength="10" value="" onblur="checkDate(this)" id="resultDate" style="width:80px;" class="inputText" type="text">
+	        		<span id="err_resultDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                </td>
+              </tr>
+              <tr>
+                <th>Absent :</th>
+                <td><select style="width:auto" name="isAbsent" id="isAbsent"><option value="N"> No</option>
+                    <option value="Y"> Yes</option></select></td>
+              </tr>
+
+  			  
+              <tr>
+                <th>MW Apply :</th>
+                <td>
+					 <textarea name="mwApply" rows="3" style="width:400px;" class="inputTextarea"></textarea>
+
+				</td>
+              </tr> 
+              <tr>
+                <th>MW Approved :</th>
+                <td>
+					 <textarea name="mwApproved" rows="3" style="width:400px;" class="inputTextarea"></textarea>
+
+				</td>
+              </tr> 
+              
+             
+              <tr>
+                <th>Remarks :</th>
+                <td>
+	                <input name="remarks" maxlength="60" value="" id="remarks" style="width:528px;" class="inputText" type="text">
+                </td>
+              </tr>
+                  <tr>
+                    <th>Upload Assessment Form :</th>
+                    <td colspan="3" width="537">
+	                  <input name="assessmentRes" value="" id="assessmentRes"  class="inputFile" type="file">
+	                  &nbsp;&nbsp;
+	                  <a href="javascript:upload()"></a>
+	                  &nbsp;
+                      &nbsp;
+                      <input id="view_form" name="btnVeiw" value=" View " style="display:none" onclick="showImage();" type="button">
+                      <img id="delete_form" style="cursor:pointer;display:none" onclick="javascript:deleteForm();" src="images/delete.gif" alt="Delete" border="0">
+                      <br> 
+                    </td>
+                  </tr>
+              <tr>
+                <td colspan="2" width="764">&nbsp;</td>
+              </tr>
+            </tbody>
+      
+              <tfoot>
+                  <tr>
+                      <td colspan="4" class="editfooter">
+
+
+                          <input name="btnSave" value=" Save " onclick="loadContentPage('CRM0313')" type="button">
+                          &nbsp;
+
+
+                          <input name="btnCancel" value="Cancel" id="btnCancel" onclick="loadContentPage('CRM0313')" type="button">
+                      </td>
+                  </tr>
+
+              </tfoot>
+      </table>
+
+  

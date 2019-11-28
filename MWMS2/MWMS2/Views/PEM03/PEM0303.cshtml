@@ -1,0 +1,786 @@
+
+ <table class="inputTable">
+   <thead>
+       <tr>
+           <th colspan="2">Search Criteria<button class="w3-right" onclick="window.location='?pageCode=CMN01'">Quick Search</button></th>
+       </tr>
+   </thead>
+    <tbody>
+        <tr>
+
+            <th>Reference No. :</th>
+            <td>
+                <select style="width:auto" name="typeOfRefNo">
+
+                    <option value="MW">MW</option>
+                    <option value="VS">VS</option>
+
+                </select>
+
+                <input type="hidden" name="typeList[0].value" value="MW">
+                <input type="hidden" name="typeList[0].label" value="MW">
+
+                <input type="hidden" name="typeList[1].value" value="VS">
+                <input type="hidden" name="typeList[1].label" value="VS">
+                <input class="inputText" type="text" id="noOfRefNo" name="noOfRefNo" value="" style="width:120px;">
+            </td>
+        </tr>
+        <tr>
+            <th>DSN :</th>
+            <td>
+                <input class="inputText" type="text" id="searchDSN" name="searchDSN" value="">
+            </td>
+        </tr>
+        <tr>
+            <th>Submission Nature :</th>
+            <td>
+
+                <select name="submissionNature">
+
+                    <option selected="'selected'" value="">-All-</option>
+
+                    <option value="SUBMISSION">Submission</option>
+
+                    <option value="E-SUBMISSION">eSubmission</option>
+                    <option value="ENQUIRY">ENQUIRY</option>
+                    <option value="COMPLAINT">COMPLAINT</option>
+                    <option value="ICU">ICU</option>
+
+                    <option value="DIRECT RETURN">Direct Return</option>
+
+                    <option value="REVISED CASE">Revised Case</option>
+
+                    <option value="WITHDRAWAL">Withdrawal</option>
+
+
+                </select>
+
+                <input type="hidden" name="submissionNatureList[0].value" value="">
+                <input type="hidden" name="submissionNatureList[0].label" value="-All-">
+
+                <input type="hidden" name="submissionNatureList[1].value" value="SUBMISSION">
+                <input type="hidden" name="submissionNatureList[1].label" value="Submission">
+
+                <input type="hidden" name="submissionNatureList[2].value" value="E-SUBMISSION">
+                <input type="hidden" name="submissionNatureList[2].label" value="eSubmission">
+
+                <input type="hidden" name="submissionNatureList[3].value" value="ICU">
+                <input type="hidden" name="submissionNatureList[3].label" value="ICU">
+
+                <input type="hidden" name="submissionNatureList[4].value" value="DIRECT RETURN">
+                <input type="hidden" name="submissionNatureList[4].label" value="Direct Return">
+
+                <input type="hidden" name="submissionNatureList[5].value" value="REVISED CASE">
+                <input type="hidden" name="submissionNatureList[5].label" value="Revised Case">
+
+                <input type="hidden" name="submissionNatureList[6].value" value="WITHDRAWAL">
+                <input type="hidden" name="submissionNatureList[6].label" value="Withdrawal">
+
+            </td>
+        </tr>
+        <tr>
+            <th>Audit/Non Audit :</th>
+            <td>
+                <select name="submitAudit">
+
+                    <option selected="'selected'" value="">-All-</option>
+
+                    <option value="Y">Audit</option>
+
+                    <option value="N">Non Audit</option>
+
+                </select>
+
+                <input type="hidden" name="auditTypeList[0].value" value="">
+                <input type="hidden" name="auditTypeList[0].label" value="-All-">
+
+                <input type="hidden" name="auditTypeList[1].value" value="Y">
+                <input type="hidden" name="auditTypeList[1].label" value="Audit">
+
+                <input type="hidden" name="auditTypeList[2].value" value="N">
+                <input type="hidden" name="auditTypeList[2].label" value="Non Audit">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Submission Type :</th>
+            <td>
+                <select name="submitType">
+
+                    <option sel ected="'selected'" value="">-All-</option>
+
+                    <option value="MW Submission">MW Submission</option>
+
+                    <option value="Validation Scheme">Validation Scheme</option>
+
+                </select>
+
+                <input type="hidden" name="submitTypeList[0].value" value="">
+                <input type="hidden" name="submitTypeList[0].label" value="-All-">
+
+                <input type="hidden" name="submitTypeList[1].value" value="MW Submission">
+                <input type="hidden" name="submitTypeList[1].label" value="MW Submission">
+
+                <input type="hidden" name="submitTypeList[2].value" value="Validation Scheme">
+                <input type="hidden" name="submitTypeList[2].label" value="Validation Scheme">
+
+            </td>
+        </tr>
+
+
+
+        <tr style="display:none;">
+            <th>Item No. :</th>
+            <td>
+                <input class="inputText" type="text" id="itemNo" name="itemNo" value="" style="width:90px;">
+            </td>
+        </tr>
+        <tr style="display:none;">
+            <th>Class</th>
+            <td>
+                <select name="classCode">
+
+                    <option selected="'selected'" value="">-All-</option>
+
+                    <option value="CLASS_I">Class I</option>
+
+                    <option value="CLASS_II">Class II</option>
+
+                    <option value="CLASS_III">Class III</option>
+
+                </select>
+
+                <input type="hidden" name="classCodeList[0].value" value="">
+                <input type="hidden" name="classCodeList[0].label" value="-All-">
+
+                <input type="hidden" name="classCodeList[1].value" value="CLASS_I">
+                <input type="hidden" name="classCodeList[1].label" value="Class I">
+
+                <input type="hidden" name="classCodeList[2].value" value="CLASS_II">
+                <input type="hidden" name="classCodeList[2].label" value="Class II">
+
+                <input type="hidden" name="classCodeList[3].value" value="CLASS_III">
+                <input type="hidden" name="classCodeList[3].label" value="Class III">
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Order No./ Direction<br />/ Notice No./ BD reference :
+            </th>
+            <td>
+                <label>
+
+                    <input class="inputRadio" type="radio" id="itemInfoType" name="itemInfoType" value="P" checked=""> Prefix
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="itemInfoType" name="itemInfoType" value="W"> Wild card
+                </label>
+                <br>
+                <input type="text" name="itemInfo" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Status :</th>
+            <td>
+                <select name="status">
+
+                    <option selected="'selected'" value="">- Select -</option>
+
+                    <option value="In Progress">In Progress</option>
+
+                    <option value="Completed">Completed</option>
+
+                </select>
+
+                <input type="hidden" name="statusList[0].value" value="">
+                <input type="hidden" name="statusList[0].label" value="- Select -">
+
+                <input type="hidden" name="statusList[1].value" value="In Progress">
+                <input type="hidden" name="statusList[1].label" value="In Progress">
+
+                <input type="hidden" name="statusList[2].value" value="Completed">
+                <input type="hidden" name="statusList[2].label" value="Completed">
+            </td>
+        </tr>
+        <tr>
+            <th>Received Date :</th>
+            <td>
+                From
+                <input class="inputCalendar" type="text" id="submitFromDate" name="submitFromDate" value="" title="to:submitToDate" style="width:85px;" readonly="">
+                To
+                <input class="inputCalendar" type="text" id="submitToDate" name="submitToDate" value="" style="width:90px;" title="from:submitFromDate" readonly="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Commencement Date :</th>
+            <td>
+                From
+                <input class="inputCalendar" type="text" id="commenceFromDate" name="commenceFromDate" value="" title="to:commenceToDate" style="width:85px;" readonly="">
+                To
+                <input class="inputCalendar" type="text" id="commenceToDate" name="commenceToDate" value="" style="width:90px;" title="from:commenceFromDate" readonly="">
+            </td>
+        </tr>
+        <tr>
+            <th>Completion Date :</th>
+            <td>
+                From
+                <input class="inputCalendar" type="text" id="completeFromDate" name="completeFromDate" value="" title="to:completeToDate" style="width:85px;" readonly="">
+                To
+                <input class="inputCalendar" type="text" id="completeToDate" name="completeToDate" value="" style="width:90px;" title="from:completeFromDate" readonly="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>File Reference No. :</th>
+            <td>
+                <input class="inputText" type="text" id="searchFileRefNo" name="searchFileRefNo" value="" style="width:120px;">
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" ">Item No. / Type of MW :</th>
+            <td align="left" style="padding-left:4px;">
+                <input class="inputRadio" type="radio" name="defaultMwItemVersion" value="1" onchange="reloadMwItemList()" checked="">Version 1
+                <input class="inputRadio" type="radio" name="defaultMwItemVersion" value="2" onchange="reloadMwItemList()">Version 2
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="width:162px;"></td>
+            <td align="left" style="padding-left:4px;">
+                <div class="scrollTableDivLower" style="height:250px;width:250px;text-align:left;float:left;overflow:auto;">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td valign="top" style="width:70px;">
+
+                                    <table>
+                                        <tbody>
+                                            <tr><td>Class I</td></tr>
+                                            <tr><td><input type="checkbox" id="grp1_checkall" class="mwGroup checkAll" value="">-All-</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type A" class="mwGroup" value="1.28|1.29|1.30|1.31|1.10|1.1|1.12|1.13|1.2|1.3|1.4|1.5|1.6|1.7|1.8|1.9|1.37|1.44|1.41|1.42|1.43|1.38|1.39|1.40|1.14|1.15|1.16|1.17|1.18|1.19|1.27|1.32|1.33|1.34|1.35|1.11|1.45|1.46|1.47|1.48|1.49|1.50|1.51|1.52">Type A</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type B" class="mwGroup" value="1.17">Type B</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type C" class="mwGroup" value="1.20|1.24|1.23|1.21|1.22">Type C</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type D" class="mwGroup" value="1.36|1.26|1.25">Type D</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type E" class="mwGroup" value="1.28|1.19|1.5|1.18|1.27|1.29">Type E</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type F" class="mwGroup" value="1.31">Type F</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp1_Type G" class="mwGroup" value="1.10|1.24|1.30|1.32|1.33|1.40|1.9|1.5|1.38|1.39|1.37|1.34">Type G</td></tr>
+
+
+                                            <tr><td><input type="checkbox" id="item_1.1" class="itemNo" value="1.1">1.1</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.2" class="itemNo" value="1.2">1.2</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.3" class="itemNo" value="1.3">1.3</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.4" class="itemNo" value="1.4">1.4</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.5" class="itemNo" value="1.5">1.5</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.6" class="itemNo" value="1.6">1.6</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.7" class="itemNo" value="1.7">1.7</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.8" class="itemNo" value="1.8">1.8</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.9" class="itemNo" value="1.9">1.9</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.10" class="itemNo" value="1.10">1.10</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.11" class="itemNo" value="1.11">1.11</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.12" class="itemNo" value="1.12">1.12</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.13" class="itemNo" value="1.13">1.13</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.14" class="itemNo" value="1.14">1.14</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.15" class="itemNo" value="1.15">1.15</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.16" class="itemNo" value="1.16">1.16</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.17" class="itemNo" value="1.17">1.17</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.18" class="itemNo" value="1.18">1.18</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.19" class="itemNo" value="1.19">1.19</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.20" class="itemNo" value="1.20">1.20</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.21" class="itemNo" value="1.21">1.21</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.22" class="itemNo" value="1.22">1.22</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.23" class="itemNo" value="1.23">1.23</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.24" class="itemNo" value="1.24">1.24</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.25" class="itemNo" value="1.25">1.25</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.26" class="itemNo" value="1.26">1.26</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.27" class="itemNo" value="1.27">1.27</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.28" class="itemNo" value="1.28">1.28</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.29" class="itemNo" value="1.29">1.29</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.30" class="itemNo" value="1.30">1.30</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.31" class="itemNo" value="1.31">1.31</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.32" class="itemNo" value="1.32">1.32</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.33" class="itemNo" value="1.33">1.33</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.34" class="itemNo" value="1.34">1.34</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.35" class="itemNo" value="1.35">1.35</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.36" class="itemNo" value="1.36">1.36</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.37" class="itemNo" value="1.37">1.37</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.38" class="itemNo" value="1.38">1.38</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.39" class="itemNo" value="1.39">1.39</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.40" class="itemNo" value="1.40">1.40</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.41" class="itemNo" value="1.41">1.41</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.42" class="itemNo" value="1.42">1.42</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.43" class="itemNo" value="1.43">1.43</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.44" class="itemNo" value="1.44">1.44</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.45" class="itemNo" value="1.45">1.45</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.46" class="itemNo" value="1.46">1.46</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.47" class="itemNo" value="1.47">1.47</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.48" class="itemNo" value="1.48">1.48</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.49" class="itemNo" value="1.49">1.49</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.50" class="itemNo" value="1.50">1.50</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.51" class="itemNo" value="1.51">1.51</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_1.52" class="itemNo" value="1.52">1.52</td></tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                                <td valign="top" style="width:70px;">
+
+                                    <table>
+                                        <tbody>
+                                            <tr><td>Class II</td></tr>
+                                            <tr><td><input type="checkbox" id="grp2_checkall" class="mwGroup checkAll" value="">-All-</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type A" class="mwGroup" value="2.35|2.4|2.1|2.2|2.5|2.6|2.7|2.8|2.9|2.10|2.11|2.12|2.31|2.32|2.33|2.34|2.3|2.39|2.15|2.16|2.17|2.13|2.14|2.40|2.36|2.37|2.38|2.42|2.41|2.43|2.44|2.45|2.46|2.47|2.48|2.49|2.50|2.51|2.52|2.53|2.54|2.55|2.56">Type A</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type B" class="mwGroup" value="2.17|2.15">Type B</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type C" class="mwGroup" value="2.25|2.24|2.18|2.26|2.19|2.27|2.22|2.23|2.20|2.21">Type C</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type D" class="mwGroup" value="2.29|2.36|2.28|2.1|2.30|2.4|2.3">Type D</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type E" class="mwGroup" value="2.31|2.2">Type E</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type F" class="mwGroup" value="2.34|2.33">Type F</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp2_Type G" class="mwGroup" value="2.9|2.32|2.12|2.24|2.25|2.26|2.27|2.31|2.4|2.37|2.38|2.39|2.2|2.40">Type G</td></tr>
+
+
+                                            <tr><td><input type="checkbox" id="item_2.1" class="itemNo" value="2.1">2.1</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.2" class="itemNo" value="2.2">2.2</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.3" class="itemNo" value="2.3">2.3</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.4" class="itemNo" value="2.4">2.4</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.5" class="itemNo" value="2.5">2.5</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.6" class="itemNo" value="2.6">2.6</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.7" class="itemNo" value="2.7">2.7</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.8" class="itemNo" value="2.8">2.8</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.9" class="itemNo" value="2.9">2.9</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.10" class="itemNo" value="2.10">2.10</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.11" class="itemNo" value="2.11">2.11</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.12" class="itemNo" value="2.12">2.12</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.13" class="itemNo" value="2.13">2.13</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.14" class="itemNo" value="2.14">2.14</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.15" class="itemNo" value="2.15">2.15</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.16" class="itemNo" value="2.16">2.16</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.17" class="itemNo" value="2.17">2.17</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.18" class="itemNo" value="2.18">2.18</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.19" class="itemNo" value="2.19">2.19</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.20" class="itemNo" value="2.20">2.20</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.21" class="itemNo" value="2.21">2.21</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.22" class="itemNo" value="2.22">2.22</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.23" class="itemNo" value="2.23">2.23</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.24" class="itemNo" value="2.24">2.24</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.25" class="itemNo" value="2.25">2.25</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.26" class="itemNo" value="2.26">2.26</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.27" class="itemNo" value="2.27">2.27</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.28" class="itemNo" value="2.28">2.28</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.29" class="itemNo" value="2.29">2.29</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.30" class="itemNo" value="2.30">2.30</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.31" class="itemNo" value="2.31">2.31</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.32" class="itemNo" value="2.32">2.32</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.33" class="itemNo" value="2.33">2.33</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.34" class="itemNo" value="2.34">2.34</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.35" class="itemNo" value="2.35">2.35</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.36" class="itemNo" value="2.36">2.36</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.37" class="itemNo" value="2.37">2.37</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.38" class="itemNo" value="2.38">2.38</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.39" class="itemNo" value="2.39">2.39</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.40" class="itemNo" value="2.40">2.40</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.41" class="itemNo" value="2.41">2.41</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.42" class="itemNo" value="2.42">2.42</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.43" class="itemNo" value="2.43">2.43</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.44" class="itemNo" value="2.44">2.44</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.45" class="itemNo" value="2.45">2.45</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.46" class="itemNo" value="2.46">2.46</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.47" class="itemNo" value="2.47">2.47</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.48" class="itemNo" value="2.48">2.48</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.49" class="itemNo" value="2.49">2.49</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.50" class="itemNo" value="2.50">2.50</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.51" class="itemNo" value="2.51">2.51</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.52" class="itemNo" value="2.52">2.52</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.53" class="itemNo" value="2.53">2.53</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.54" class="itemNo" value="2.54">2.54</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.55" class="itemNo" value="2.55">2.55</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_2.56" class="itemNo" value="2.56">2.56</td></tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                                <td valign="top" style="width:70px;">
+
+                                    <table>
+                                        <tbody>
+                                            <tr><td>Class III</td></tr>
+                                            <tr><td><input type="checkbox" id="grp3_checkall" class="mwGroup checkAll" value="">-All-</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type A" class="mwGroup" value="3.38|3.52|3.36|3.35|3.34|3.33|3.31|3.15|3.13|3.12|3.11|3.10|3.9|3.8|3.7|3.6|3.5|3.4|3.3|3.1|3.14|3.37|3.51|3.50|3.49|3.48|3.47|3.46|3.45|3.44|3.32|3.24|3.25|3.26|3.27|3.28|3.29|3.30|3.40|3.41|3.42|3.39|3.43">Type A</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type B" class="mwGroup" value="3.12|3.2">Type B</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type C" class="mwGroup" value="3.19|3.21|3.17|3.18|3.20|3.16|3.22">Type C</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type D" class="mwGroup" value="3.23|3.24">Type D</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type E" class="mwGroup" value="3.27|3.34|3.30|3.15|3.25|3.36|3.37|3.38|3.29|3.2|3.28|3.35|3.14|3.26">Type E</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type F" class="mwGroup" value="3.31">Type F</td></tr>
+
+                                            <tr><td><input type="checkbox" id="grp3_Type G" class="mwGroup" value="3.33|3.21|3.1|3.2|3.4|3.7|3.8|3.10|3.18|3.19|3.30|3.32|3.24|3.22|3.20|3.5|3.26">Type G</td></tr>
+
+
+                                            <tr><td><input type="checkbox" id="item_3.1" class="itemNo" value="3.1">3.1</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.2" class="itemNo" value="3.2">3.2</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.3" class="itemNo" value="3.3">3.3</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.4" class="itemNo" value="3.4">3.4</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.5" class="itemNo" value="3.5">3.5</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.6" class="itemNo" value="3.6">3.6</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.7" class="itemNo" value="3.7">3.7</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.8" class="itemNo" value="3.8">3.8</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.9" class="itemNo" value="3.9">3.9</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.10" class="itemNo" value="3.10">3.10</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.11" class="itemNo" value="3.11">3.11</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.12" class="itemNo" value="3.12">3.12</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.13" class="itemNo" value="3.13">3.13</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.14" class="itemNo" value="3.14">3.14</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.15" class="itemNo" value="3.15">3.15</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.16" class="itemNo" value="3.16">3.16</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.17" class="itemNo" value="3.17">3.17</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.18" class="itemNo" value="3.18">3.18</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.19" class="itemNo" value="3.19">3.19</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.20" class="itemNo" value="3.20">3.20</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.21" class="itemNo" value="3.21">3.21</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.22" class="itemNo" value="3.22">3.22</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.23" class="itemNo" value="3.23">3.23</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.24" class="itemNo" value="3.24">3.24</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.25" class="itemNo" value="3.25">3.25</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.26" class="itemNo" value="3.26">3.26</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.27" class="itemNo" value="3.27">3.27</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.28" class="itemNo" value="3.28">3.28</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.29" class="itemNo" value="3.29">3.29</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.30" class="itemNo" value="3.30">3.30</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.31" class="itemNo" value="3.31">3.31</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.32" class="itemNo" value="3.32">3.32</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.33" class="itemNo" value="3.33">3.33</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.34" class="itemNo" value="3.34">3.34</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.35" class="itemNo" value="3.35">3.35</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.36" class="itemNo" value="3.36">3.36</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.37" class="itemNo" value="3.37">3.37</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.38" class="itemNo" value="3.38">3.38</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.39" class="itemNo" value="3.39">3.39</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.40" class="itemNo" value="3.40">3.40</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.41" class="itemNo" value="3.41">3.41</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.42" class="itemNo" value="3.42">3.42</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.43" class="itemNo" value="3.43">3.43</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.44" class="itemNo" value="3.44">3.44</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.45" class="itemNo" value="3.45">3.45</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.46" class="itemNo" value="3.46">3.46</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.47" class="itemNo" value="3.47">3.47</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.48" class="itemNo" value="3.48">3.48</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.49" class="itemNo" value="3.49">3.49</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.50" class="itemNo" value="3.50">3.50</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.51" class="itemNo" value="3.51">3.51</td></tr>
+
+                                            <tr><td><input type="checkbox" id="item_3.52" class="itemNo" value="3.52">3.52</td></tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+    <thead>
+
+        <tr>
+            <th colspan="2" class="sTh2">Location of the minor works carried out</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <th style="width:40%">Location of Minor Work :</th>
+            <td><input class="inputText" type="text" id="locationOfMw" name="locationOfMw" value="" style="width:300px;"></td>
+        </tr>
+        <tr>
+            <th>Street :</th>
+            <td>
+                <input class="inputText ac_input" type="text" id="street" name="ownerAddress.streetOrVillage" value="" style="width: 300px;" autocomplete="off">
+                <input class="inputText" type="hidden" id="street_code" name="ownerAddress.streetCode" value="">
+            </td>
+        </tr>
+        <tr>
+            <th>Street No. :</th>
+            <td>
+                <input class="inputText ac_input" type="text" id="street_no" name="ownerAddress.streetNo" value="" style="width: 120px;" autocomplete="off">
+                <input class="inputText" type="hidden" id="block_id" name="ownerAddress.blockID" value="">
+            </td>
+        </tr>
+        <tr>
+            <th>Building/Block :</th>
+            <td><input class="inputText" type="text" id="block_name" name="ownerAddress.buildingName" value="" style="width: 300px;"></td>
+        </tr>
+        <tr>
+            <th>Floor :</th>
+            <td>
+                <input class="inputText ac_input" type="text" value="" id="floor" name="ownerAddress.floor" style="width:120px" autocomplete="off">
+
+                <input class="inputText" type="hidden" id="hidden_floor" name="hidden_floor" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Unit :</th>
+            <td><input class="inputText ac_input" type="text" value="" id="unit" name="ownerAddress.flat" style="width:300px" autocomplete="off"></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th class="sTh2">Appointed Person :</th>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>English Name :</th>
+            <td><input maxlength="500" class="inputText" type="text" id="professionalList[0].englishName" name="professionalList[0].englishName" value="" style="width:200px;"></td>
+        </tr>
+        <tr>
+            <th>Chinese Name :</th>
+            <td><input class="inputText" type="text" id="professionalList[0].chineseName" name="professionalList[0].chineseName" value="" style="width:200px;"></td>
+        </tr>
+        <tr>
+            <th>Certificate of Registration No. :</th>
+            <td><input class="inputText" type="text" id="professionalList[0].certificationNo" name="professionalList[0].certificationNo" value="" style="width:120px;"></td>
+        </tr>
+    </tbody>
+    <thead>
+
+
+        <tr>
+            <th colspan="2" class="sTh2">Appointed Person</th>
+            
+        </tr>
+
+        <tr>
+            <th colspan="2">Prescribed Registered Contractor</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>English Name :</th>
+            <td><input maxlength="500" class="inputText" type="text" id="professionalList[1].englishName" name="professionalList[1].englishName" value="" style="width:250px;"></td>
+        </tr>
+        <tr>
+            <th>Chinese Name :</th>
+            <td><input class="inputText" type="text" id="professionalList[1].chineseName" name="professionalList[1].chineseName" value="" style="width:250px;"></td>
+        </tr>
+        <tr>
+            <th>Certificate of Registration No. :</th>
+            <td><input class="inputText" type="text" id="professionalList[1].certificationNo" name="professionalList[1].certificationNo" value="" style="width:150px;"></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <input class="inputButton" type="button" id="exportButton" name="" value="Export" onclick="exportExcel('PEM0303Table')">
+                <input class="inputButton" type="button" id="searchButton" name="" value="Search" onclick="searchPEM0303()">
+            </td>
+        </tr>
+    </tfoot>
+</table>
+                                            
+                                            
+<table id="PEM0303Table" class="resultTable">
+    <thead>
+        <tr>
+            <th colspan="6">Results</th>
+        </tr>
+
+        <tr>
+            <th class="sTh" width="100">Ref No.</th>
+            <th class="sTh" width="100">Item No.</th>
+            <th class="sTh" width="100">Commencement Date</th>
+            <th class="sTh" width="100">Completion Date</th>
+            <th class="sTh">Location of Minor Work</th>
+        </tr>
+        </thead>
+    <tbody></tbody>
+</table>
+<div class="left">
+
+

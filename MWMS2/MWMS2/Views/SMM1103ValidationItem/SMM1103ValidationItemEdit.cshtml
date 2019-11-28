@@ -1,0 +1,75 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+
+@section scripts {
+    <script type="text/javascript">
+
+
+            function DeleteValidationItem()
+            {
+
+                if (confirm("Are you sure to delete this item"))
+                {
+                     location.href = "@Url.Action("SMM1103ValidationItemDelete", new {id = Model.UUID})";
+                }
+            }
+
+        
+        </script>
+}
+
+
+
+
+    @using (Html.BeginForm("SMM1103ValidationItemEdit", "SMM1103ValidationItem", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <th>
+                        Validation Item<span class="asterix">*</span>:
+                    </th>
+                    <td>
+
+                        @Html.TextBoxFor(model => model.CODE, new { @readonly = "readonly", id = "" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Corresponding MW Item:</th>
+
+                    <td>
+                        @Html.DropDownListFor(model => model.DESCRIPTION, (IEnumerable<SelectListItem>)ViewBag.MWItems, new { style = "width:auto", id = "MWItem" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Ordering :
+                    </th>
+                    <td>
+                        @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", @type = "number", @min = "0", id = "Subject" } })
+                        @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+
+                        @*<input name="systemValueOrdering" value="" onfocus="inputMaskOnFocus(this, event, 'N')" style="width:90px;" class="inputText" type="text">*@
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+
+
+                        <input class="inputButton" id="delete" name="" value="Delete" onclick="javascript:DeleteValidationItem()" type="button">
+
+                        <input type="submit" class="SaveBtn" id="Save" value="Save" />
+                        @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="" type="button">*@
+                        <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1103ValidationItem", "SMM1103ValidationItem")"' type="button">
+
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div style="display:none">
+            @Html.EditorForModel()
+        </div>
+    }

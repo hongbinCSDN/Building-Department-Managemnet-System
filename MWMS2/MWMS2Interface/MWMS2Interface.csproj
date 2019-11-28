@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E38F2D11-7034-4C24-8BBB-DC97926B5000}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MWMS2Interface</RootNamespace>
+    <AssemblyName>MWMS2Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MWMS2Interface.Bravo</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ghostscript.NET, Version=1.2.1.0, Culture=neutral, PublicKeyToken=f85051de34525b59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ghostscript.NET.1.2.1\lib\net40\Ghostscript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.18.3.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BCIS.cs" />
+    <Compile Include="Constant\ApplicationConstant.cs" />
+    <Compile Include="DisplayGrid.cs" />
+    <Compile Include="DRMS.cs" />
+    <Compile Include="EntityDRMS\EntityFilter.cs" />
+    <Compile Include="Bravo.cs" />
+    <Compile Include="Entity\C_QP_COUNT.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ModelProcessing.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelProcessing.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ModelProcessing.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ModelProcessing.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelProcessing.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_ADDRESS.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_FILEREF.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_RECORD.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_RECORD_ADDRESS_INFO.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_RECORD_ITEM.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\P_MW_SCANNED_DOCUMENT.cs">
+      <DependentUpon>ModelProcessing.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FPIS.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QPCount.cs" />
+    <Compile Include="QPCountModel.cs" />
+    <Compile Include="Services\Common.cs" />
+    <Compile Include="Utility\CommonUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Entity\ModelProcessing.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelProcessing.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entity\ModelProcessing.edmx.diagram">
+      <DependentUpon>ModelProcessing.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="SQL\compressdmp.cmd" />
+    <None Include="SQL\CopyDataToHATable.bat" />
+    <None Include="SQL\oracle_dump_script2.cmd" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Entity\ModelProcessing.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelProcessing.edmx</DependentUpon>
+      <LastGenOutput>ModelProcessing.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\ModelProcessing.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelProcessing.edmx</DependentUpon>
+      <LastGenOutput>ModelProcessing.cs</LastGenOutput>
+    </Content>
+    <Content Include="SQL\par.txt" />
+    <Content Include="SQL\sql.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

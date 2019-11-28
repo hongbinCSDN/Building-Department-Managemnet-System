@@ -1,0 +1,345 @@
+
+<table class="inputTable" >
+
+                    <tbody>
+                        <tr>
+                            <th  style="width:25%">PO Post :</th>
+                            <td class="fField" style="width:25%">
+
+
+
+                                <select class="inputSelect" id="searchPoPost" name="searchPoPost" style="width: 160px" onchange="onChangePoPost()">
+                                    <option value=""></option>
+                                    <option value="" selected="selected"></option>
+
+                                    <option value="BSMW2">
+                                        BSMW2
+
+
+                                    </option>
+
+                                    <option value="BSMW6">
+                                        BSMW6
+
+
+                                    </option>
+
+                                    <option value="BSMW3">
+                                        BSMW3
+
+
+                                    </option>
+
+                                    <option value="SEMW3">
+                                        SEMW3
+
+
+                                    </option>
+
+                                    <option value="SEMW4">
+                                        SEMW4
+
+
+                                    </option>
+
+                                    <option value="SEMW1">
+                                        SEMW1
+
+
+                                    </option>
+
+                                    <option value="SEMW5">
+                                        SEMW5
+
+
+                                    </option>
+
+                                </select>
+
+                                <!--
+                                <input class="inputText" type="text"
+                                id="searchPoPost" name="searchPoPost"
+                                value=""/>
+                                -->
+                            </td>
+                            <th  >PO :</th>
+                            <td class="fField">
+
+                                <input type="text" class="inputText" id="searchPo" name="searchPo" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th >PO Contact :</th>
+                            <td class="fField" colspan="3">
+
+                                <input type="text" class="inputText" id="searchPoContact" name="searchPoContact" value="">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th >DSN :</th>
+                            <td colspan="3" class="fField">
+
+                                <input class="inputText" type="text" style="width:150px" id="searchDsn" name="searchDsn" value="">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="fField"></td>
+                            <td class="fField">
+                                <input class="inputButton" type="button" id="btnAddToList" name="btnAddToList" value="Add to List"  onclick="addToList();">
+                            </td>
+                            <td class="fField" colspan="2" style="text-align: right">
+                                <input class="inputButton" type="button" id="btnSearch" name="btnSearch" value="Search List / Refresh" onclick="onSearch();">
+                                &nbsp;
+                                <input class="inputButton" type="button" id="btnReset" name="btnReset" value="Reset"  onclick="loadContentPage('PEM0106')">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <table class="inputTable" style="width:0px;">
+        <tbody>
+            <tr>
+                <th  colspan="4">
+                    Advisory Letters Short-listed
+                    <input class="inputButton" type="button" id="btnExport" name="btnExport" value="Export"  onclick="exportExcel('PEM106ALetterList');">
+                    <!--<input class="inputButton" type="button" id="btnExport" name="btnExport" value="Export" style="width:80px;" onclick="onExport();">-->
+                </th>
+                <!--
+                <td  style="width:25%">
+
+                    <input class="inputButton" type="button" id="btnExport" name="btnExport"
+                     value="Export" style="width:80px;" onclick="onExport();" />
+
+                </td>
+                <td  style="width:25%"></td>
+                <td  style="width:25%"></td>
+                 -->
+            </tr>
+            <tr>
+                <th  style="width:25%">
+                    Search DSN :
+                </th>
+                <td class="fField" style="width:25%">
+                    <input class="inputText" type="text" name="inputEditDsn" id="inputEditDsn" value="">
+                </td>
+                <td style="width:25%">
+                    <input class="inputButton" type="button" id="btnEditDSN" name="btnEditDSN" value="Search"onclick="loadContentPage('PEM0106a');">
+                </td>
+                <td style="width:25%"></td>
+            </tr>
+        </tbody>
+    </table>
+
+        <table class="resultTable" id="PEM106ALetterList" >
+
+            <!--<!--<table id="ackTable" width="100%" border="0" cellspacing="0" cellpadding="0">-->
+            <thead id="ackTableThead">
+                <tr id="ackTableColumnName">
+                    <!--<th class="sTh">&nbsp;</th>-->
+                    <th style="width: 60px">PO Post</th>
+                    <th style="width: 60px">DSN</th>
+                    <th style="width: 60px">Received Date</th>
+                    <th style="width: 60px">Letter Date</th>
+                    <th style="width: 60px">MW No.</th>
+                    <th style="width: 50px">Form</th>
+                    <th style="width: 60px">PBP</th>
+                    <th style="width: 60px">PRC</th>
+                    <th style="width: 150px">Address</th>
+                    <th style="width: 150px">MW Items</th>
+             
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr class="sRow1">
+                    <!--<td class="sCell">
+
+
+
+                        <a href="javascript:onEdit('D0000748416')">Edit</a>
+
+
+                </td>-->
+                    <td class="sCell">CSOMW</td>
+                    <td class="sCell">
+                        <a href="javascript:loadContentPage('PEM0106a')">D0000748416</a>
+                    </td>
+                    <td class="sCell">11/10/2016</td>
+                    <td class="sCell">11/10/2016&nbsp;</td>
+                    <td class="sCell">MW161000101</td>
+                    <td class="sCell">MW01</td>
+                    <td class="sCell">AP(A) 94/95&nbsp;</td>
+                    <td class="sCell">GBC 525/99&nbsp;</td>
+                    <td class="sCell"></td>
+                    <td class="sCell"></td>
+                    <!--
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+                -->
+                    <!--
+                <td class="sCell">
+
+                    <input type="checkbox" name="checkedDsns" id="checkedDsns" onclick="onCheckEach(this)">
+
+                </td>
+                -->
+                </tr>
+
+                <tr class="sRow2">
+                    <!--<td class="sCell">
+
+
+
+                        <a href="javascript:onEdit('D0000748430')">Edit</a>
+
+
+                </td>-->
+                    <td class="sCell">BSMW2</td>
+                    <td class="sCell">
+                        <a href="javascript:loadContentPage('PEM0106a')">D0000748430</a>
+                    </td>
+                    <td class="sCell">28/11/2016</td>
+                    <td class="sCell">28/11/2016&nbsp;</td>
+                    <td class="sCell">MW161100007</td>
+                    <td class="sCell">MW01</td>
+                    <td class="sCell">SOMW1&nbsp;</td>
+                    <td class="sCell">&nbsp;</td>
+                    <td class="sCell"></td>
+                    <td class="sCell"></td>
+                    <!--
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+                -->
+                    <!--
+                <td class="sCell">
+
+                    <input type="checkbox" name="checkedDsns" id="checkedDsns" onclick="onCheckEach(this)">
+
+                </td>
+                -->
+                </tr>
+
+                <tr class="sRow1">
+                    <!--<td class="sCell">
+
+
+
+                        <a href="javascript:onEdit('D0000748138')">Edit</a>
+
+
+                </td>-->
+                    <td class="sCell">CSOMW</td>
+                    <td class="sCell">
+                        <a href="javascript:loadContentPage('PEM0106a')">D0000748138</a>
+                    </td>
+                    <td class="sCell">04/08/2016</td>
+                    <td class="sCell">04/08/2016&nbsp;</td>
+                    <td class="sCell">MW160800006</td>
+                    <td class="sCell">MW01</td>
+                    <td class="sCell">AP(A) 94/95&nbsp;</td>
+                    <td class="sCell">GBC 525/99&nbsp;</td>
+                    <td class="sCell">
+
+
+
+                        fdgdfgd
+
+
+                    </td>
+                    <td class="sCell">3.27/</td>
+                    <!--
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+
+
+
+
+                            <td class="sCell">N</td>
+
+
+                -->
+                    <!--
+                <td class="sCell">
+
+                    <input type="checkbox" name="checkedDsns" id="checkedDsns" onclick="onCheckEach(this)">
+
+                </td>
+                -->
+                </tr>
+
+
+            </tbody>
+        </table>

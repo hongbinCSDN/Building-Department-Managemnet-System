@@ -1,0 +1,246 @@
+﻿    <form name="mwIndividualSearchForm" id="mwIndividualSearchForm" method="post" action="/Registration/searchIMW.do?method=LoadMwIndividualList" class="mwIndividualSearchForm">
+    <input type="hidden" name="registrationType" value="IMW" id="registrationType">
+
+    <input type="hidden" name="userAccessRight" value="W" id="userAccessRight">
+
+
+    <div class="title1"><h3>Minor Work Individual Application &gt; Advanced Search</h3></div>
+
+    <table id="Table3" class="inputTable">
+        <tbody>
+            <tr>
+                <th>File Reference :</th>
+                <td><input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText"></td>
+                <th style="WIDTH : 108px">Registration No. :</th>
+                <td><input type="text" name="displayCertificateNo" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th>HKID :</th>
+                <td><input type="text" name="displayHkid" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText"></td>
+                <th style="WIDTH : 108px">Passport No.<span class="smallprint"> :</span></th>
+                <td><input type="text" name="displayPassport" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText"></td>
+            </tr>
+            <tr>
+                <th valign="top">Surname :</th>
+                <td valign="top"><input type="text" name="displaySurname" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText"></td>
+                <th valign="top">Given Name :</th>
+                <td valign="top">
+                    <input type="text" name="displayGivenName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputText">
+                </td>
+            </tr>
+            <tr>
+                <th>Chinese Name :</th>
+                <td>
+                    <input type="text" name="displayChineseName" maxlength="6" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="font-size :10pt;font-weight :bold;width :200px;" class="inputText">
+                </td>
+                <td style="WIDTH : 108px"></td>
+                <td>
+                    <span class="smallprint">
+                        <input id="displayIsKeyword" type="checkbox" name="displayIsKeyword">
+                        <label for="chkKeyworkSrch">Keyword Search</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th valign="top">Services in Building Safety :</th>
+                <td valign="top">
+                    <select name="displayBsItem" id="displayBsItem" class="inputSelect"style="width :auto">
+                        <option value="">-- Select --</option>
+                        <option value="8a85932a25bfa01a0125bfa01af0014b">-</option>
+                    </select>
+                </td>
+                <th style="WIDTH : 108px">PNAP :</th>
+                <td>
+                    <select name="displayPNAP" id="displayPNAP" class="inputSelect"style="width :auto">
+                        <option value="">-- Select --</option>
+                        <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0003">BY EMAIL</option>
+                        <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th> Type of Date :</th>
+                <td>
+                    <select name="displayDateType" id="displayDateType"  class="inputSelect"style="width :auto">
+                        <option value="">- Select Type of Date -</option>
+                        <option value="applicationDate">Date of Application</option>
+                        <option value="registrationDate">Date of Registration</option>
+                        <option value="gazetteDate">Date of Gazette</option>
+                        <option value="expiryDate">Date of Expiry</option>
+                        <option value="removalDate">Date of Removal</option>
+                        <option value="retentionDate">Date of Renewal</option>
+                        <option value="restoreDate">Date of Restoration</option>
+                        <option value="approvalDate">Date of Approval</option>
+                    </select>
+                </td>
+                <td colspan="3">
+                    from&nbsp;
+                    <input type="text" name="displayDateFrom" maxlength="10" value="" onblur="checkDate(this)" id="displayDateFrom" class="inputDate" title="to :displayDateTo">
+                    <span id="err_displayDateFrom" class="err" style="color :Red;display :none;">Invalid date</span>
+                    &nbsp;to&nbsp;
+                    <input type="text" name="displayDateTo" maxlength="10" value="" onblur="checkDate(this)" id="displayDateTo"class="inputDate" title="from :displayDateFrom">
+                    <span id="err_displayDateTo" class="err" style="color :Red;display :none;">Invalid date</span>
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <th>Sex :</th>
+                <td>
+                    <select name="displayGender" id="displayGender" class="inputSelect"style="width :auto">
+                        <option value="">- Select -</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                    </select>
+                </td>
+                <th style="WIDTH : 108px">Minor Work Capability(Item) :</th>
+                <td><input type="text" name="displayMwItem" maxlength="4" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :100px;" class="inputText"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="button" name="btnSearch" value="Search" onclick="searchForm()" id="btnSearch" accesskey="S" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" name="btnReset" value="Reset" id="btnReset" onclick="loadContentPage('CRM0108')">
+                </td>
+
+            </tr>
+        </tfoot>
+    </table>
+
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <table id="CRMHideDiv" class="resultTable hide">
+        <thead>
+            <tr class="grid-header" style="height :19px;">
+                <th style="width :200px">          File Reference</th>
+                <th style="width :250px">  Name</th>
+                <th style="width :100px">      Category</th>
+                <th style="width :200px">          Registration No.</th>
+                <th style="width :150px">  Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript :loadContentPage("CRM0108a")'>MWC(W) 1/2010</a></td>
+                <td>WONG xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2010</td>
+                <td>Active</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript :loadContentPage("CRM0108a")'>MWC(W) 1/2011</a></td>
+                <td>LEE xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2011</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href='javascript :loadContentPage("CRM0108a")'>MWC(W) 1/2012</a></td>
+                <td>LIN xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2012</td>
+                <td>Certificate prepared</td>
+            </tr>
+
+            <tr>
+
+                <td><a href='javascript :loadContentPage("CRM0108a")'>MWC(W) 1/2013</a></td>
+                <td>LAU xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2013</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href="javascript :recordView('8a8591a2429e8ae501437014c7980aab')">MWC(W) 1/2014</a></td>
+                <td>LEUNG xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2014</td>
+                <td>Inactive</td>
+            </tr>
+
+            <tr>
+
+                <td><a href="javascript :recordView('8a8591a24a719bef014ab94188ea3eb5')">MWC(W) 1/2015</a></td>
+                <td>CHAN xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2015</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href="javascript :recordView('8a8591a251656f7b01520b733e4220e5')">MWC(W) 1/2016</a></td>
+                <td>CHU xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2016</td>
+                <td>Active</td>
+            </tr>
+
+            <tr>
+
+                <td><a href="javascript :recordView('8a8591a25944e0330159675b55ea5e7a')">MWC(W) 1/2017</a></td>
+                <td>TAM xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 1/2017</td>
+                <td>Active</td>
+            </tr>
+
+            <tr class="grid-alt-item">
+
+                <td><a href="javascript :recordView('8a8591a2264b936001264ea6054b0047')">MWC(W) 10/2010</a></td>
+                <td>TSANG xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 10/2010</td>
+                <td>Application in progress</td>
+            </tr>
+
+            <tr>
+
+                <td><a href="javascript :recordView('8a8591a22da30f20012dbadabbac6047')">MWC(W) 10/2011</a></td>
+                <td>LIU xx xx</td>
+                <td>MWC(W)</td>
+                <td>MWC(W) 10/2011</td>
+                <td>Certificate prepared</td>
+            </tr>
+
+
+
+
+        </tbody>
+    </table>
+    </div>
+
+</form>
+  
+       

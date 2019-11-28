@@ -1,0 +1,121 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1112PendingTransferModel
+
+<div class="panelHeader">
+    Pending Transfer
+</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m4 s4">
+                Reference No.
+            </div>
+            <div class="w3-col l6 m6 s6">
+                @Html.TextBoxFor(model => model.Ref_No)
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button" >Search</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+    <div id="resultPanel">
+       
+    </div>
+    <div class="w3-container footer" id="transferFooter" style="display:none;">
+        <input type="checkbox" id="checkAll" class="checkAll" onclick="checkAll()" /> <label>Select ALL</label> 
+        <button id="transferBtn" class="btn btn-default" type="button" onclick="transfer()">Transfer</button>
+    </div>
+</div>
+<script>
+    var searchPendingTransfer;
+    var refNoList = [];
+    domReady(function () {
+        searchPendingTransfer = new searcher({
+            searchPath: "SearchPendingTransfer"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Reference No.", columnName: "REF_NO"
+                }
+                ,
+                {
+                    displayName: "Item No.", columnName: "MW_ITEM_CODE"
+                }
+                ,
+                {
+                    displayName: "Completed / Total", columnName: "COMPLETE_TOTAL"
+                }
+                ,
+                {
+                    displayName: "image transfer", formater: function (row, idx) {
+                        var span = document.createElement('span');
+                        span.id = row.REF_NO;
+                        span.innerHTML = "<input type='checkbox' id='check_" + row.REF_NO + "' onclick = 'SetRefNo(" + '"#check_' + row.REF_NO + '","' + row.REF_NO +'"' + ")'/>";
+                        return span;
+                    }
+                }
+            ]
+            , onAfterSearch: function (r) {
+                refNoList = []
+                if (r.Data.length > 0) {
+                    attr("transferFooter", "style", "display:''")
+                }
+                else
+                    attr("transferFooter", "style", "display:none")
+            }   
+        });
+    });
+
+    
+
+    function checkAll() {
+        var div = document.getElementById("resultPanel");
+        var spans = div.getElementsByTagName("span");
+        if ($('#checkAll').is(":checked")) {
+            for (i = 0; i < spans.length; i++) {
+                refNoList.push(spans[i].id);
+            }
+        }
+        else
+            refNoList = [];
+    }
+
+    function SetRefNo(id, RefNo) {
+        if ($(id).is(":checked")) {
+            refNoList.push(RefNo);
+        }
+        else {
+            var index = refNoList.indexOf(RefNo)
+            if (index > -1)
+                refNoList.splice(index, 1);
+        }
+    }
+
+    function transfer() {
+        $.ajax({
+            url: "SavePendingTransfer"
+            , type: "POST"
+            , data: {
+                RefNoList: refNoList
+            }
+            , success: function (data) {
+                if (data != null && data.Result == "SUCCESS") {
+                    searchPendingTransfer.search();
+                    alert(data.Message);
+                }
+                else {
+                    alert(data.Message);
+                }
+            }
+            
+        });
+    }
+
+    function cancel() {
+        window.location.href = domId("rootPath").value + "/Admin/Para";
+    }
+</script>
+
+
+

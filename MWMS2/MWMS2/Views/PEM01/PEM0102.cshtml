@@ -1,0 +1,3571 @@
+
+
+
+<div class="w3-row">
+	<div class="w3-col l4 m4 w3-yellow w3-center" id="1" style="border-right:1px solid #FFF" onclick="onClickTab('Incoming')">Incoming - Influx</div>
+	<div class="w3-col l4 m4 w3-green w3-center" id="2" style="border-right:1px solid #FFF" onclick="onClickTab('Outgoing')">Outgoing - Output</div>
+	<div class="w3-col l4 m4 w3-green w3-center" onclick="onClickTab('SDM')">SDM</div>
+</div>
+
+
+
+        
+        
+<table class="inputTable">
+    <tbody>
+        <tr>
+            <td class="fLabel" style="width: 120px;font-weight:bold; font-size: 16px; padding:2px; text-align:center; color:#444444">
+                October 2018
+            </td>
+            <td class="fLabel" style="text-align:left">
+                <select name="selectedMonth" size="1" style="max-width: 200px;">
+
+                    <option value="1">
+                        January
+                    </option>
+
+                    <option value="2">
+                        February
+                    </option>
+
+                    <option value="3">
+                        March
+                    </option>
+
+                    <option value="4">
+                        April
+                    </option>
+
+                    <option value="5">
+                        May
+                    </option>
+
+                    <option value="6">
+                        June
+                    </option>
+
+                    <option value="7">
+                        July
+                    </option>
+
+                    <option value="8">
+                        August
+                    </option>
+
+                    <option value="9">
+                        September
+                    </option>
+
+                    <option selected="'selected'" value="10">
+                        October
+                    </option>
+
+                    <option value="11">
+                        November
+                    </option>
+
+                    <option value="12">
+                        December
+                    </option>
+
+                </select>
+                <select name="selectedYear" size="1" style="max-width:120px" >
+
+                    <option value="2013">
+                        2013
+                    </option>
+
+                    <option value="2014">
+                        2014
+                    </option>
+
+                    <option value="2015">
+                        2015
+                    </option>
+
+                    <option value="2016">
+                        2016
+                    </option>
+
+                    <option value="2017">
+                        2017
+                    </option>
+
+                    <option selected="'selected'" value="2018">
+                        2018
+                    </option>
+
+                    <option value="2019">
+                        2019
+                    </option>
+
+                    <option value="2020">
+                        2020
+                    </option>
+
+                    <option value="2021">
+                        2021
+                    </option>
+
+                    <option value="2022">
+                        2022
+                    </option>
+
+                </select>
+                <input class="inputButton" type="button" value="Go" onclick="searchReport('G','Incoming')">
+                <input class="inputButton" type="button" value="< Previous Month"  onclick="searchReport('P','Incoming', '2018','10')">
+                <input class="inputButton" type="button" value="Next Month >"  onclick="searchReport('N','Incoming', '2018','10')">
+
+                <input class="inputButton" type="button" value="Today" onclick="searchReport('C','Incoming')">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+        <table class="inputTable">
+            <tbody>
+                <tr class="calendar-row">
+
+                    <td class="calendar-day-head">
+                        Monday
+                    </td>
+
+                    <td class="calendar-day-head">
+                        Tuesday
+                    </td>
+
+                    <td class="calendar-day-head">
+                        Wednesday
+                    </td>
+
+                    <td class="calendar-day-head">
+                        Thursday
+                    </td>
+
+                    <td class="calendar-day-head">
+                        Friday
+                    </td>
+
+                    <td class="calendar-day-head">
+                        Weekend
+                    </td>
+
+                </tr>
+
+
+
+                <tr class="calendar-row">
+
+
+
+
+
+
+
+
+
+                    <td class="calendar-day">
+                        <div class="day-number">1</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(1, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(1, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(1, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(1, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">2</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(2, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(2, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(2, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(2, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">3</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(3, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(3, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(3, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(3, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">4</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(4, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(4, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(4, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(4, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">5</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(5, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(5, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(5, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(5, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-weekend">
+                        <div class="summary">Weekly Summary</div>
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+                                        <a href="javascript:void(0)" onclick="exportDataByDatePeriod(6, 'T',0, 1, 'F')">0</a>
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+                                        0
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr class="calendar-row"></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr>
+                    <td class="calendar-day">
+                        <div class="day-number">8</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(8, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(8, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(8, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(8, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">9</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(9, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(9, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(9, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(9, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">10</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(10, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(10, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(10, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(10, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">11</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(11, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(11, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(11, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(11, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-today">
+                        <div class="day-number">12</div>
+
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(12, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(12, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(12, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(12, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-weekend">
+                        <div class="summary">Weekly Summary</div>
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+                                        <a href="javascript:void(0)" onclick="exportDataByDatePeriod(13, 'T',0, 2, 'F')">0</a>
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+                                        0
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr class="calendar-row"></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr>
+                    <td class="calendar-day">
+                        <div class="day-number">15</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(15, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(15, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(15, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(15, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">16</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(16, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(16, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(16, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(16, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">17</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(17, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(17, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(17, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(17, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">18</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(18, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(18, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(18, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(18, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">19</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(19, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(19, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(19, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(19, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-weekend">
+                        <div class="summary">Weekly Summary</div>
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+                                        <a href="javascript:void(0)" onclick="exportDataByDatePeriod(20, 'T',0, 3, 'F')">0</a>
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+                                        0
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr class="calendar-row"></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr>
+                    <td class="calendar-day">
+                        <div class="day-number">22</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(22, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(22, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(22, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(22, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">23</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(23, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(23, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(23, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(23, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">24</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(24, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(24, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(24, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(24, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">25</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(25, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(25, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(25, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(25, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">26</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(26, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(26, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(26, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(26, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-weekend">
+                        <div class="summary">Weekly Summary</div>
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+                                        <a href="javascript:void(0)" onclick="exportDataByDatePeriod(27, 'T',0, 4, 'F')">0</a>
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+                                        0
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+                    </td>
+                </tr>
+                <tr></tr>
+                <tr class="calendar-row"></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr>
+                    <td class="calendar-day">
+                        <div class="day-number">29</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(29, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(29, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(29, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(29, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">30</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(30, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(30, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(30, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(30, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day">
+                        <div class="day-number">31</div>
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(31, 'T',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(31, 'D',0)">0</a>
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(31, 'O',0)">0</a>
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+
+                                        <a href="javascript:void(0)" onclick="exportData(31, 'A', 0)">0</a>
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </td>
+                    <td class="calendar-day-np">&nbsp;</td>
+
+
+
+
+
+
+
+
+                    <td class="calendar-day-np">&nbsp;</td>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <td class="calendar-weekend">
+                        <div class="summary">Weekly Summary</div>
+
+
+
+                        <br>
+
+
+                        <table cellpadding="0" cellspacing="0" width="98%" border="1" style="background: transparent;">
+                            <tbody>
+                                <tr style="background: transparent;">
+                                    <td>&nbsp;</td>
+                                    <td>rec</td>
+                                    <td>od</td>
+                                    <td>os</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>PC</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>KT</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ES</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+                                <tr style="background: #ffffff;">
+                                    <td>TTL</td>
+                                    <td>
+
+
+                                        <a href="javascript:void(0)" onclick="exportDataByDatePeriod(0, 'T',0, 5, 'F')">0</a>
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>D-Le</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr style="background: transparent;">
+                                    <td>ORe</td>
+                                    <td>
+
+
+                                        0
+
+
+
+                                    </td>
+
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <!--
+                                <tr style = 'background: transparent;'><td>KT</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ES</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: #ffffff;'>  <td>TTL</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>D-Le</td><td>0</td><td>0</td><td>0</td></tr>
+                                <tr style = 'background: transparent;'><td>ORe</td><td>0</td><td>0</td><td>0</td></tr>
+                                 -->
+
+
+                                <tr style="background: transparent;">
+                                    <td>Audit</td>
+                                    <td colspan="3">
+
+
+
+                                        0
+
+
+
+
+                                    </td>
+                                </tr>
+                                <tr style="background: transparent;"><td>ICU</td><td colspan="3">0</td></tr>
+                                <tr style="background: transparent;"><td>CR:</td><td colspan="3">0</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+<table class="inputTable">
+    <tbody>
+        <tr>
+            <th>
+                Form Type Received
+                <br>Nature IN ('SUBMISSION','E-SUBMISSION',
+                <br>'DIRECT RETURN','REVISED CASE','WITHDRAWAL')
+            </th>
+            <th>No. of Submission</th>
+            <th>No. of Audit Selected</th>
+        </tr>
+
+
+
+
+        <tr>
+            <td colspan="2">Total Selected / Total Submission</td>
+            <td>
+                0 /
+                <a href="javascript:void(0)" onclick="exportDataByDatePeriod('', 'T',0, '', 'Y')">0</a>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">Percentage</td>
+            <td>
+
+
+
+                -
+
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                Accumulated Total No. of MW Submission
+                (MW01, MW02, MW03, MW04, MW05, MW06, MW11 &amp; MW12)
+                selected for audit in year <b>2018</b> (as at 12/10/2018) : <b>10 </b>
+            </td>
+        </tr>
+    </tbody>
+</table>

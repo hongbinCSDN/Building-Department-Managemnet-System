@@ -1,0 +1,26 @@
+create or replace noneditionable function C_APPLICANT_OFFENSE_COURSE_TOTALSCORE
+(
+       W_WL_UUID in varchar2
+)
+return number
+IS
+total_value number;
+Begin
+  Select (
+
+    (Select  SUM(NVL(wto.score,0)) from W_WL wl inner join W_WL_TYPE_OF_OFFENSE wto on wl.uuid = wto.wl_uuid
+    Where wl.uuid = W_WL_UUID )
+    -
+    ( Select SUM(NVL(apsc.course_score,0)) from C_APPLICANT_SCORING_COURSE apsc
+    Where apsc.c_applicant_scoring_id = (
+                                    Select distinct aps.uuid from W_WL wl inner join C_APPLICANT_SCORING aps
+                                    on wl.registration_no = aps.registration_no and wl.as_uuid = aps.as_uuid
+                                    and wl.remark = aps.remark
+                                    and wl.category = aps.category
+                                    Where
+                                    wl.uuid = W_WL_UUID) )
+
+    )  total INTO total_value from dual;
+
+    return NVL(total_value,0);
+End C_APPLICANT_OFFENSE_COURSE_TOTALSCORE;

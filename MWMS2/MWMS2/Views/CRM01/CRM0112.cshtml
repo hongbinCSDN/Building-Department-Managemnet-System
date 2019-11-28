@@ -1,0 +1,518 @@
+﻿
+   
+<form name="qualifiedPersonSearchForm" id="qualifiedPersonSearchForm" method="post" action="/Registration/searchQP.do?method=LoadQualifiedPersonList" class="qualifiedPersonSearchForm">
+    <input type="hidden" name="registrationType" value="" id="registrationType">
+
+    <input type="hidden" name="userAccessRight" value="W" id="userAccessRight">
+
+
+    <div class="title1"> <h3>Qualified Person &gt; Advanced Search</h3></div>
+
+    <table id="Table3" class="inputTable">
+        <tbody>
+            <tr>
+                <th style="width :150px;">File Reference :</th>
+                <td style="width :275px"><input type="text" name="displayFileReference" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+                <th style="WIDTH : 108px">Registration No. :</th>
+                <td><input type="text" name="displayCertificateNo" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+            </tr>
+            <tr>
+                <th>HKID :</th>
+                <td><input type="text" name="displayHkid" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+                <th style="WIDTH : 108px">Passport No.<span class="smallprint"> :</span></th>
+                <td><input type="text" name="displayPassport" maxlength="20" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+            </tr>
+            <tr>
+                <th>Surname :</th>
+                <td><input type="text" name="displaySurname" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+                <th>Given Name :</th>
+                <td>
+                    <input type="text" name="displayGivenName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate">
+                </td>
+            </tr>
+            <tr>
+                <th>Chinese Name :</th>
+                <td colspan="3"><input type="text" name="displayChineseName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate"></td>
+            </tr>
+
+            <tr>
+                <th>Company Name :</th>
+                <td>
+                    <input type="text" name="displayCompanyName" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate">
+                </td>
+                <th>BR Number :</th>
+
+                <td>
+                    <input type="text" name="displayBR" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" style="width :200px;" class="inputDate">
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <th rowspan="9">QP Type :</th>
+</tr>
+                                <tr>
+                                    <td>
+                                        <input class="inputCheckbox" id="displayAP" type="checkbox" name="displayAP" value="AP">
+                                        <label>AP</label>
+                                    </td>
+                                    <th>
+                                        QP Card
+                                    </th>
+                                    <td >
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="inputCheckbox" id="displayRSE" type="checkbox" name="displayRSE" value="RSE">
+                                        <label>RSE</label>
+                                    </td>
+                                 
+                                    <th>
+                                        Serial No. :
+                                    </th>
+                                     
+                                    <td>
+                                        <input type="text" name="serialNoQp" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" class="inputDate">
+
+                                    </td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayIR" class="inputCheckbox" type="checkbox" name="displayIR" value="IR">
+                                        <label>RI</label>
+                                    </td>
+                                    <th>
+                                        Issue Date :<br />
+
+                                        <span style="FONT-SIZE : 7pt; COLOR : dimgray">(dd/mm/yyyy)</span>
+
+
+                                    </th>
+                                    <td>
+                                        <input type="text" name="serialNoQp"  class="inputDate">
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayRGBC" class="inputCheckbox" type="checkbox" name="displayRGBC" value="CGC">
+                                        <label>RGBC</label>
+                                    </td>
+
+
+                                    <th>
+                                        Expiry Date : <br>
+                                        <span style="FONT-SIZE : 7pt; COLOR : dimgray">(dd/mm/yyyy)</span>
+                                     
+                                      
+                                    </th>
+                                    <td>
+                                        <input type="text" name="expiryDateQp" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)" class="inputDate">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayRMWC" class="inputCheckbox" type="checkbox" name="displayRMWC_A" value="IMW_A">
+                                        <label>RMWC(Company) - Type A</label>
+                                    </td>
+                                    <th rowspan="4">
+                                        Return Date : <br>
+                                        <span style="FONT-SIZE : 7pt; COLOR : dimgray">(dd/mm/yyyy)</span>
+                                      </th>
+                                    <td rowspan="4">
+                                        <input type="text" name="returnDateQp" maxlength="40" value="" onkeydown="enterToSubmit(searchForm, this, event)"  class="inputDate">
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayRMWC" class="inputCheckbox" type="checkbox" name="displayRMWC_G" value="IMW_G">
+                                        <label>RMWC(Company) - Type G</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayRMWC" class="inputCheckbox" type="checkbox" name="displayRMWC_36" value="IMW_36">
+                                        <label>RMWC(Individual) - Item 3.6</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="displayRMWC" class="inputCheckbox" type="checkbox" name="displayRMWC_37" value="IMW_37">
+                                        <label>RMWC(Individual) - Item 3.7</label>
+                                    </td>
+                                </tr>
+             
+
+
+
+             
+                      
+
+            <tr>
+                <th>
+                    <label>Interested in Providing Services of QP :</label>
+                </th>
+                <td colspan="3">
+                    <select name="willingnessQp" id="willingnessQp" class="inputSelect"style="width :auto">
+                        <option value="">- All -</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                        <option value="I">No Indication</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="button" name="btnSearch" value="Search" onclick="searchForm()" id="btnSearch" accesskey="S">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" name="btnReset" value="Reset" onclick="loadContentPage('CRM0112')" id="btnReset">
+                </td>
+
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+        function recordView(recordUUID, regType) {
+            thisForm = document.getElementById('qualifiedPersonSearchForm');
+            if (regType == 'CGC') {
+                thisForm.action = 'searchCGC.do?method=ViewContractor&recordUUID=' + recordUUID;
+            } else if (regType == 'CMW') {
+                thisForm.action = 'searchCMW.do?method=ViewMwCompany&recordUUID=' + recordUUID;
+            } else if (regType == 'IMW') {
+                thisForm.action = 'searchIMW.do?method=ViewMwIndividual&recordUUID=' + recordUUID;
+            } else {
+                thisForm.action = 'searchIP.do?method=ViewProfessional&recordUUID=' + recordUUID;
+            }
+            thisForm.submit();
+        }
+
+        function setPrevPage() {
+            thisForm = document.getElementById('qualifiedPersonSearchForm');
+            thisForm.action = 'searchQP.do?method=SetPage&page=-1#contentList'
+            thisForm.submit();
+        }
+        function setNextPage() {
+            thisForm = document.getElementById('qualifiedPersonSearchForm');
+            thisForm.action = 'searchQP.do?method=SetPage&page=1#contentList'
+            thisForm.submit();
+        }
+        function setSort(orderby, seq, prevOrder) {
+            if (seq == "desc" || (orderby != prevOrder && prevOrder != "")) {
+                seq = "asc";
+            } else {
+                seq = "desc";
+            }
+            thisForm = document.getElementById('qualifiedPersonSearchForm');
+            thisForm.action = 'searchQP.do?method=SearchQualifiedPerson&pageNumber=0&orderBy=' + orderby + '&seq=' + seq + '#contentList';
+            thisForm.submit();
+        }
+    </script>
+    <a name="contentList"></a>
+    <input type="hidden" name="searchFileReference" value="" id="searchFileReference">
+    <input type="hidden" name="searchCertificateNo" value="" id="searchCertificateNo">
+    <input type="hidden" name="searchHkid" value="" id="searchHkid">
+    <input type="hidden" name="searchPassport" value="" id="searchPassport">
+    <input type="hidden" name="searchGender" value="" id="searchGender">
+    <input type="hidden" name="searchChineseName" value="" id="searchChineseName">
+    <input type="hidden" name="searchSurname" value="" id="searchSurname">
+    <input type="hidden" name="searchGivenName" value="" id="searchGivenName">
+    <input type="hidden" name="searchPNAP" value="" id="searchPNAP">
+    <input type="hidden" name="searchAP" value="" id="searchAP">
+    <input type="hidden" name="searchRSE" value="" id="searchRSE">
+    <input type="hidden" name="searchIR" value="" id="searchIR">
+    <input type="hidden" name="searchRGBC" value="" id="searchRGBC">
+    <input type="hidden" name="searchRMWC" value="" id="searchRMWC">
+    <input type="hidden" name="searchRMWC_A" value="" id="searchRMWC_A">
+    <input type="hidden" name="searchRMWC_G" value="" id="searchRMWC_G">
+    <input type="hidden" name="searchRMWC_36" value="" id="searchRMWC_36">
+    <input type="hidden" name="searchRMWC_37" value="" id="searchRMWC_37">
+    <input type="hidden" name="searchOrderBy" value="" id="searchOrderBy">
+    <input type="hidden" name="searchOrderAsc" value="" id="searchOrderAsc">
+    <input type="hidden" name="oldForm" value="QP" id="oldForm">
+    <input type="hidden" name="currentPage" value="0" id="currentPage">
+
+    <input type="hidden" name="maxPage" value="1026" id="maxPage">
+    <input type="hidden" name="orderBy" value="file_reference_no" id="orderBy">
+    <input type="hidden" name="seq" value="asc" id="seq">
+
+
+    <table id="CRMHideDiv" class="resultTable hide">
+        <thead>
+            <tr class="grid-header" style="height :19px;">
+                <th style="width :130px">       File Reference</th>
+                <th style="width :260px">       Name</th>
+                <th style="width :260px">   Chinese Name</th>
+                <!-- <td style="width :50px"><a href="javascript:setSort('code', 'asc', 'file_reference_no')">Category</a></td> -->
+                <th style="width :130px">       Registration No.</th>
+                <th style="width :100px">       Interested in Providing Services of QP</th>
+                <th style="width :130px">       Expiry Date</th>
+
+                <th style="width :130px">       QP Card Issue Date</th>
+                <th style="width :130px">               QP Card Expiry Date</th>
+                <th style="width :130px">       QP Card Serial No.</th>
+                <th style="width :130px">               QP Card Return Date</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="grid-alt-item">
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>KONG xx xx</td>
+                <td>江xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>TAM xx xx</td>
+                <td>譚xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr class="grid-alt-item">
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>AU xx xx</td>
+                <td>區xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>LAW xx xx</td>
+                <td>羅xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr class="grid-alt-item">
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>CHEUNG xx xx</td>
+                <td>張xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2002</a></td>
+
+                <td>CHUK xx xx</td>
+                <td>祝xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2002</td>
+                <td>Yes</td>
+                <td>23/12/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr class="grid-alt-item">
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2005</a></td>
+
+                <td>WONG xx xx</td>
+                <td>王xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2005</td>
+                <td>No Indication</td>
+                <td>07/01/2020</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2007</a></td>
+
+                <td>LI xx xx</td>
+                <td>李xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2007</td>
+                <td>Yes</td>
+                <td>06/12/2019</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr class="grid-alt-item">
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/2008</a></td>
+
+                <td>TONG xx xx </td>
+                <td>唐xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/2008</td>
+                <td>No Indication</td>
+                <td>28/04/2020</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+            <tr>
+
+
+
+                <td><a href='javascript:loadContentPage("CRM0112a")'>GBC 1/99</a></td>
+
+                <td>LUI xx xx</td>
+                <td>呂xx</td>
+                <!-- <td>GBC</td> -->
+                <td>GBC 1/99</td>
+                <td>No Indication</td>
+                <td>06/11/2018</td>
+
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+    </div>
+
+</form>
+       

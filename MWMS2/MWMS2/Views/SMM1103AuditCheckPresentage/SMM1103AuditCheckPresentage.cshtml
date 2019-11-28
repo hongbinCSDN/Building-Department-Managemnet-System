@@ -1,0 +1,63 @@
+﻿
+@model MWMS2.Dao.B_S_AUDIT_CHECK_PERCENTAGE
+
+
+<h3> Audit check % </h3>
+<br />
+<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    @ViewBag.LatestModified_Date
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    @ViewBag.LatestModified_By
+</div>
+@using (Html.BeginForm("SMM1103AuditCheckPresentage", "SMM1103AuditCheckPresentage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="sList">
+        <table class="inputTable">
+
+
+            <tbody>
+                <tr>
+                    <th>
+                        Year :
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(model => model.YEAR, (IEnumerable<SelectListItem>)ViewBag.Year, new { style = "width:auto", id = "Year" })
+
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Percentage :
+                    </th>
+                    <td>
+                        @Html.TextBoxFor(model => model.PERCENTAGE, new { style = "width:200px;",  id = "" }) %
+                    </td>
+                </tr>
+             
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" id="submit" value="Submit" />
+                        @*<input class="inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="loadContentPage('SMM1107')" type="button">*@
+                        <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SMM1107","SMM1107")"' type="button">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br>

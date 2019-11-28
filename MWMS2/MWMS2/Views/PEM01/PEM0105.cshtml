@@ -1,0 +1,264 @@
+
+<table class="inputTable">
+  <thead >
+    <tr>
+      <th colspan="4">Search Criteria</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Received Date :</th>
+      <td colspan="3">
+        <input type="text" style="max-width:90px" />
+      </td>
+    </tr>
+    <tr>
+      <th>TO Post :</th>
+      <td>
+        <input type="text" style="max-width:120px"/>e.g. SOMW1</td>
+      <th>TO :</th>
+      <td>
+        <input type="text" style="max-width:120px"/>
+      </td>
+    </tr>
+    <tr>
+      <th>PO Post :</th>
+      <td>
+        <input type="text" style="max-width:120px"/>
+      </td>
+      <th>PO :</td>
+      <td>
+        <input type="text" style="max-width:120px"/>
+      </td>
+    </tr>
+    <tr>
+      <th>TO Contact :</th>
+      <td>
+        <input type="text" style="max-width:120px"/>
+      </td>
+      <th>Tentative Letter Date :</th>
+      <td>
+        <input type="text" style="max-width:120px"/>
+      </td>
+    </tr>
+    <tr>
+      <th>DSN :</th>
+      <td colspan="3">
+        <input type="text" style="max-width:120px"/>
+      </td>
+    </tr>
+  
+  </tbody>
+
+  <tfoot>
+      <tr>
+          <td colspan="2">
+              <input type="button" value="Add to list" onclick="searchDWLetter()" />
+          </td>
+          <td colspan="2">
+              <input type="button" value="Search / Refresh" onclick="searchDWLetter()" />
+              <input type="button" value="Reset" onclick="loadContentPage('PEM0105')" />
+          </td>
+      </tr>
+  </tfoot>
+</table>
+
+
+<table class="inputTable" style="width:0px;">
+    <tbody>
+        <tr>
+            <th class="sTh1" colspan="4">
+                DW Letters Short-listed
+                <input class="inputButton" type="button" id="btnExportDwLetter" name="btnExportDwLetter" value="Export" onclick="exportExcel('PEM105DWLetterList');">
+            </th>
+            <!--
+            <td style="width:25%">
+
+                <input class="inputButton" type="button" id="btnExport" name="btnExport"
+                 value="Export" style="width:80px;" onclick="onExport();" />
+
+            </td>
+            <td style="width:25%"></td>
+            <td style="width:25%"></td>
+             -->
+        </tr>
+        <tr>
+            <th style="width:25%">
+                Search DSN :
+            </th>
+            <td class="fField" style="width:25%">
+                <input class="inputText" type="text" name="inputEditDsn" id="inputEditDsn" value="">
+            </td>
+            <td style="width:25%">
+                <input class="inputButton" type="button" id="btnEditDSN" name="btnEditDSN" value="Search"  onclick="javascript:loadContentPage('PEM0105a');">
+                <!--<input class="inputButton" type="button" id="btnEditDSN" name="btnEditDSN" value="Search" style="width:80px;" onclick="dwLetterEditDSN();">-->
+            </td>
+            <td style="width:25%"></td>
+        </tr>
+    </tbody>
+</table>
+               
+ 
+<table class="resultTable" id="PEM105DWLetterList">
+  
+    <thead>
+      <tr>
+        <th>Document S/N</th>
+        <th>Nature</th>
+        <th>Form</th>
+        <th>Received Date</th>
+        <th>Letter Date</th>
+        <th>PBP</th>
+        <th>PRC</th>
+        <th>Address</th>
+        <th>TO</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748687</a>
+      </td>
+      <td>DIRECT RETURN</td>
+      <td>MW01</td>
+      <td>09/05/2017</td>
+      <td>09/05/2017</td>
+      <td></td>
+      <td></td>
+      <td>
+
+
+                        address ..<img /></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748657</a>
+      </td>
+      <td>DIRECT RETURN</td>
+      <td>MW03</td>
+      <td>16/03/2017</td>
+      <td>16/03/2017</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748659</a>
+      </td>
+      <td>DIRECT RETURN</td>
+      <td>MW03</td>
+      <td>16/03/2017</td>
+      <td>16/03/2017</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748620</a>
+      </td>
+      <td>DIRECT RETURN</td>
+      <td>MW01</td>
+      <td>17/02/2017</td>
+      <td>17/02/2017</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748430</a>
+      </td>
+      <td>SUBMISSION</td>
+      <td>MW01</td>
+      <td>28/11/2016</td>
+      <td>28/11/2016</td>
+      <td>SOMW1</td>
+      <td></td>
+      <td></td>
+      <td>SOMW1</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000748416</a>
+      </td>
+      <td>SUBMISSION</td>
+      <td>MW01</td>
+      <td>11/10/2016</td>
+      <td>11/10/2016</td>
+      <td>AP(A) 94/95</td>
+      <td>GBC 525/99</td>
+      <td></td>
+      <td>SOMW1</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000727667</a>
+      </td>
+      <td>SUBMISSION</td>
+      <td>MW03</td>
+      <td>17/05/2016</td>
+      <td>17/05/2016</td>
+      <td></td>
+      <td>GBC 59/98       </td>
+      <td>
+
+
+                            NEAR DIS..<img /></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000650674</a>
+      </td>
+      <td>SUBMISSION</td>
+      <td>MW03</td>
+      <td>10/09/2015</td>
+      <td>10/09/2015</td>
+      <td></td>
+      <td>MWC 1103/2010   </td>
+      <td>
+
+
+                            葵涌葵富路7-1..<img /></td>
+      <td>SOMW1</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000650711</a>
+      </td>
+      <td>SUBMISSION</td>
+      <td>MW03</td>
+      <td>10/09/2015</td>
+      <td>10/09/2015</td>
+      <td></td>
+      <td>MWC 225/2010    </td>
+      <td>
+
+
+                            將軍澳廣場3A座..<img /></td>
+      <td>SOMW1</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="javascript:loadContentPage('PEM0105a')">D0000616339</a>
+      </td>
+      <td>DIRECT RETURN</td>
+      <td>MW03</td>
+      <td>03/06/2015</td>
+      <td>08/06/2015</td>
+      <td></td>
+      <td>MWC 148/2010</td>
+      <td>
+
+
+                            九龍觀塘大業街3..<img /></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

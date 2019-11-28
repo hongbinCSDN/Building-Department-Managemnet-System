@@ -1,0 +1,2 @@
+Insert Into P_S_System_type(UUID,TYPE,Created_By,Created_Date,Modified_By,Modified_Date)
+Select sys_guid() , 'Irregularities' , 'Dive' , Sysdate ,'Dive' , Sysdate  From dual;

@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="PScan.UCDocument"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PScan"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="110" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <CheckBox Name="CheckBoxAuditCase" Width="200" IsEnabled="False">Audit case</CheckBox>
+            <CheckBox Name="CheckBoxSignboardRelated" Width="200" IsEnabled="False">Signboard related</CheckBox>
+            <CheckBox Name="CheckBoxOrderRelated" Width="200" IsEnabled="False">Order related</CheckBox>
+            <CheckBox Name="CheckBoxSSPIncluded" Width="200" IsEnabled="False">SSP included</CheckBox>
+        </WrapPanel>
+        <StackPanel Grid.Column="1"  Grid.Row="0">
+            <Button Margin="10,10,10,10"  Content="Upload" Name="ButtonUpload" Click="ButtonUpload_Click"   />
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="330"  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <WrapPanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="300">
+                
+                
+                <Label Content="Document Details :" MinWidth="300"/>
+
+                <Label Content="MW Submission No. :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxMwSubmissionNo" MaxLength="11" IsEnabled="False"/>
+
+
+                <Label Content="DSN :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxDsn" MaxLength="11" IsEnabled="False"/>
+
+                <Label Content="Submission / Letter Date :" HorizontalContentAlignment="Left" Width="200"/>
+                <DatePicker  HorizontalAlignment="Right"  Width="200" Name="DatePickerSubmissionLetterDate"/>
+
+                <Label Content="Form :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxForm"/>
+
+                <Label Content="MW Item No. :" HorizontalContentAlignment="Left" Width="200"/>
+                <ListBox HorizontalAlignment="Right" Width="300" Name="ComboBoxMwItemNo" Height="100" SelectionMode="Multiple"/>
+
+                <Label Content="Document Type :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxDocumentType" SelectionChanged="ComboBoxDocumentType_SelectionChanged"/>
+
+                <Label Content="BD File Ref. :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxBdFileRef"/>
+
+                <Label Content="Work Location :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxWorkLocation"/>
+
+                <Label Content="File Classification :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxFileClassification"/>
+
+                <Label Content="Origin of Record :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxOriginOfRecord"/>
+
+                <Label Content="Type of Correspondence :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxTypeOfCorrespondence"/>
+
+                <Label Content="Location of Record :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxLocationOfRecord"/>
+
+                <Label Content="Selected for MW Audit Check :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxSelectedForMwAuditCheck"/>
+
+                <Label Content="Backlog Upload :" HorizontalContentAlignment="Left" Width="200"/>
+                <ComboBox HorizontalAlignment="Right" Width="300" Name="ComboBoxBacklogUpload"></ComboBox>
+
+                <Label Content="EFFS Submission No. :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxEffsSubmissionNo"/>
+
+                <Label Content="Document Control Stage :" HorizontalContentAlignment="Left" Width="200"/>
+                <TextBox HorizontalAlignment="Right" Width="300" Name="TextBoxDocumentControlStage" MaxLength="1" LostFocus="TextBoxDocumentControlStage_LostFocus" TextChanged="TextBoxDocumentControlStage_TextChanged"/>
+            </WrapPanel>
+        </ScrollViewer>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="5" HorizontalAlignment="Stretch" />
+        <TabControl Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="TabControlSubDocument" >
+            
+        </TabControl>
+    </Grid>
+</UserControl>

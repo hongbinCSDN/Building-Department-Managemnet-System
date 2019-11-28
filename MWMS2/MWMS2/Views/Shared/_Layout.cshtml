@@ -1,0 +1,371 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Buildings Department - Minor Works Management System 2.0</title>
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/js")
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+    @*<meta http-equiv="X-UA-Compatible" content="IE=Edge">*@
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript">
+
+        function SearcherSubmit()
+        {
+            if (event.keyCode == 13)
+            {
+                var searchButton = document.getElementsByClassName("searchButton");
+                searchButton = searchButton.length == 0 ? null : searchButton[0];
+                if (searchButton != null) {
+                    searchButton.click();
+                }
+
+            }
+            
+        }
+
+        var aa = {};
+        //  redirectToIndex();
+        //  function redirectToIndex()
+        //  {
+        //      //window.location.href = "?pageCode=CMN01" ;
+        //      var a = getUrlParameters();
+        //
+        //      if (a.pageCode == undefined) {
+        //
+        //          window.location.href = "?pageCode=CMN01";}
+        //
+        //
+        //  }
+
+        function loadTopMenu(menu) {
+            alert("123");
+            if (menu == null) return;
+            var topbar1 = domId("topbar2");
+            for (var i = 0; i < menu.child.length; i++) {
+                var lv1 = menu.child[i];
+                if (lv1.child != null && lv1.child.length > 0) {
+                    var lv1Element = dom_(topbar1, "div", { "addClass": "w3-dropdown-hover" });
+                    var lv1Btn = dom_(lv1Element, "button", { id: "menu_" + lv1.code, "addClass": "w3-button" });
+                    var lv1BtnIcon = dom_(lv1Btn, "span", { "html": lv1.text });
+                    var lv1BtnIcon = dom_(lv1Btn, "li", { "addClass": "fa fa-caret-down" });
+
+                    var lv1subTopElement = dom_(lv1Element, "div", { "addClass": "w3-dropdown-content w3-bar-block w3-white w3-card-4 subTopMenu" });
+                    var lv1subTopElement2 = dom_(lv1subTopElement, "div", { "addClass": "w3-row" });
+                    for (var j = 0; j < lv1.child.length; j++) {
+                        var adiv = dom_(lv1subTopElement2, "div", [{ "addClass": "w3-col" }, { "addClass": "l3 m6" }]);
+
+                        var a = dom_(adiv, "a", [{ id: "menu_" + lv1.child[j].code }, { "html": "- " + lv1.child[j].text }, { "href": "/" + lv1.child[j].code.substring(0, 7) + "/" + lv1.child[j].code.substring(0, 7) + "/" + "?pageCode=" + lv1.child[j].code }]);
+                    }
+                } else {
+                    var lv1Element = dom_(topbar1, "div", { "addClass": "w3-dropdown-hover" });
+                    var lv1Btn = dom_(lv1Element, "button", { id: "menu_" + lv1.code, "addClass": "w3-button" });
+
+                    var lv1BtnIcon = dom_(lv1Btn, "span", { "html": lv1.text });
+                    var pageCode = lv1.code;
+                    attr(lv1Btn, "onclick", {
+                        parameters: pageCode, callback: function (d, p, e) {
+                            //console.log(p);
+                            window.location = "/" + p.substring(0, 7) + "/" + p.substring(0, 7) + "/?pageCode=" + p;
+                        }
+                    });
+                }
+            }
+        }
+        function highlightMenu(code) {
+            var current = All_MENU[code];
+            while (current != null) {
+                attr("menu_" + current.code, "addClass", "focus");
+                current = current.parent;
+            }
+        }
+
+        //function loadContent(code) { //return;
+        //	//if (selectedPage == null) return;
+
+        //	$.ajax({
+        //		method: "GET"
+        //		, url:+ code + ".htm"
+        //		, success: function (rs) { attr("content", "html", rs);
+        //		datepickize('.inputDate');
+        //		dataTableize($('.resultTable').not(".hide"));
+        //		/*
+        //		$('.resultTable').DataTable({
+        //			"paging":   true
+        //			, "ordering": false
+        //			, "info":     false
+        //			, "searching": false
+        //			, "bLengthChange": false
+        //			, "scrollX": true
+
+        //		});
+        //*/
+        //		}
+        //		, error: function (ajaxContext) {
+        //			attr("content", "html", "<b>cannot load file : " + code + ".htm   </b>");
+
+
+        //		}
+        //	});
+        //}
+
+
+        function loadNavigator(code) {
+            var nList = [];
+            var current = All_MENU[code];
+            while (current != null) {
+                nList.push(current);
+                current = current.parent;
+            }
+            var navigator = domId("navigator");
+            console.log(nList.length);
+            if (nList.length > 0) for (var i = nList.length - 1; i >= 0; i--) {
+                var a = dom_(navigator, "a", [{ html: nList[i].text }, { "href": "?pageCode=" + nList[i].code }]);
+                if (i != 0) {
+                    dom_(navigator, "span", [{ html: "&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;" }]);
+                } else {
+                    //attr(a,)
+                }
+            } else { attr(navigator, "display", "none"); }
+        }
+
+
+        $(document).ready(function () {
+            var p = getUrlParameters();
+            if (p != null && p.pageCode != null) {
+                var pCode = p.pageCode;
+                pCode = pCode.split("#")[0];
+                pCode = pCode.split("?")[0];
+                var pCode2 = pCode;
+                if (pCode != null && pCode.length > 7) pCode2 = pCode.substring(0, 7);
+                var rootMenu = getRootMenu(pCode2);
+                //loadTopMenu(rootMenu);
+                highlightMenu(pCode2);
+                loadNavigator(pCode2);
+                ///datepickize('.inputDate');
+                ///dataTableize($('.resultTable').not(".hide"));
+                //loadContent(pCode);
+            }
+            datepickize('.inputDate');
+            numberBox('.inputNumber');
+            upperCaseBox('.inputUpperCase');
+
+            //dataTableize($('.resultTable').not(".hide").not(".noinit"));
+
+        });
+
+
+        /*
+        function dataTableize(jq) {
+            if (typeof jq === "string") jq = $(jq);
+            jq.addClass("stripe hover row-border order-column cell-border");
+            jq.DataTable({
+                destroy: true,
+                "paging": true
+                , "ordering": false
+                , "info": false
+                , "searching": false
+                , "bLengthChange": false
+                , "scrollX": true
+            });
+        }*/
+
+
+
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+
+
+    </script>
+
+
+
+
+</head>
+
+<body onkeyup="SearcherSubmit()">
+    @Html.Hidden("rootPath", HttpRuntime.AppDomainAppVirtualPath, new { id = "rootPath" })
+
+    @Html.Hidden("functionCode", MWMS2.Utility.SessionUtil.CurrentFunction.CODE, new { id = "functionCode" })
+    
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+
+
+
+    <div id="topbar0" class="w3-bar w3-card">
+
+        <table class="w3-table" style="width:720px; float:left; height:90px">
+            <tr>
+                <td><img src="@HttpRuntime.AppDomainAppVirtualPath/img/logo.png" style="width:80px"></td>
+                <td style="width:100%; padding-left:5px;"><span class="textBD">Buildings Department</span><br><span class="textMWMS">Minor Works Management System 2.0 (<script>document.write(window.AppName)</script>)</span></td>
+            </tr>
+        </table>
+
+
+        <table class="w3-right" style="padding-right:20px;padding-top:10px;">
+            <tr>
+                <td>
+                 
+                    <a onclick="javascript:goTo('/MWMS2/CMN/Logout',[{name:'pageCode',value:'LOGOUT'}])" style="margin-left:10px;" class="w3-bar-item w3-button w3-right" title="Log Out">
+                        <i style="font-size:48px" class="fa fa-sign-out-alt"></i>
+                    </a>
+                    <a onclick="javascript:goTo('/MWMS2/CMN/CMN03/Index',[{name:'pageCode',value:'PROFILE'}])" style="margin-left:10px;" class="w3-bar-item w3-button w3-right" title="User Profile">
+                        <i style="font-size:48px" class="fa fa-user"></i>
+                    </a>
+                    <a onclick="javascript:goTo('/MWMS2/CMN/CMN02',[{name:'pageCode',value:'SEARCH'}])" style="margin-left:10px;" class="w3-bar-item w3-button w3-right" title="Public Search">
+                        <i style="font-size:48px" class="fa fa-search "></i>
+                    </a>
+                       @foreach (var func in MWMS2.Utility.SessionUtil.IconFunctions)
+                    {
+                        if (@func.CODE == "ADMIN")
+                        {
+                            if (MWMS2.Utility.AuthUtil.CanViewUserManagement)
+                            {
+                                <a onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])" style="margin-left:10px;" class="w3-bar-item w3-button w3-right" title="@func.DESCRIPTION">
+                                    <i style="font-size:48px" class="fa @func.ICON"></i>
+                                </a>
+                            }
+
+                        }
+                        @*else
+                        {
+                            <a onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])" style="margin-left:10px;" class="w3-bar-item w3-button w3-right" title="@func.DESCRIPTION">
+                                <i style="font-size:48px" class="fa @func.ICON"></i>
+                            </a>
+                        }*@
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @foreach (var func in MWMS2.Utility.SessionUtil.ModuleFunctions)
+                    {
+                        <a onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])" class="w3-bar-item w3-button w3-right">
+                            <i class="fa fa-edit"></i>&nbsp;@func.DESCRIPTION
+                        </a>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+
+    <div id="topbar1" class="w3-bar w3-card"></div>
+
+
+
+    <div id="topbar2" class="w3-bar w3-card">
+        @foreach (var func in MWMS2.Utility.SessionUtil.CurrentModule.Childs)
+        {
+            <div class="w3-dropdown-hover">
+                <span id="menu_CRM01" class="w3-button">
+                    @if (func.URL != null && func.URL != "")
+                    {
+                        <span onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</span>
+                    }
+                    else
+                    {
+                        <span>@func.DESCRIPTION</span>
+                    }
+                    @if (func.Childs != null && func.Childs.Count > 0)
+                    {
+                        <span class="fa fa-caret-down"></span>
+                    }
+                </span>
+                @if (func.Childs != null && func.Childs.Count > 0)
+                {
+                    <div class="w3-dropdown-content w3-card-4">
+                        @foreach (var func2 in func.Childs)
+                        {
+                            <div onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func2.URL',[{name:'pageCode',value:'@func2.CODE'}])">@func2.DESCRIPTION </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+
+    <div id="mainContainer" class="w3-container">
+        <div id="navigator" class="w3-container w3-round-medium ">
+            @{
+                List<MWMS2.Entity.SYS_FUNC> funcs = new List<MWMS2.Entity.SYS_FUNC>();
+                MWMS2.Entity.SYS_FUNC f = MWMS2.Utility.SessionUtil.CurrentFunction;
+                while (true) { if (f == null) { break; } funcs.Insert(0, f); f = f.SYS_FUNC2; }
+            }
+            @for (int i = 0; i < funcs.Count; i++)
+            {
+                if (i != 0)
+                {
+                    <span>&nbsp;&gt;&nbsp;</span>
+                }
+                if (@funcs[i].URL == null || @funcs[i].URL == "")
+                {
+                    <span>@funcs[i].DESCRIPTION</span>
+                }
+                else
+                {
+                    <span class="link" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@funcs[i].URL_TRUN',[{name:'pageCode',value:'@funcs[i].CODE'}])">@funcs[i].DESCRIPTION</span>
+                }
+
+            }
+        </div>
+
+
+        <div id="content" class="w3-container">
+            @RenderBody()
+
+            <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+        </div>
+    </div>
+    <div id="topbar3" class="w3-bar w3-card">© 2020 Buildings Department | <span style="cursor:pointer; text-decoration: underline;" onclick="document.getElementById('id01').style.display='block'">Privacy policy</span> <span>Version:V20191108</span></div>
+
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4">
+            <div>
+                <header class="w3-container" style="color: #fff !important; background-color: #0C6390 !important; height: 50px;">
+                    <span onclick="document.getElementById('id01').style.display='none'"
+                          class="w3-button w3-display-topright">&times;</span>
+                    <h2>Privacy policy</h2>
+                </header>
+                <div class="w3-container" style="font-size:18px">
+                    <br>The information contained in the system is classified as ''RESTRICTED'' with reference to the HKSAR Government Security Regulations.
+                    You are advised to handle the information and material in accordance with the rules and guidelines as stipulated.
+                    For details please refer to the document 'Regulations of the Government of the Hong Kong Special Administrative Region, Volume 5, Security Regulations'.
+                    A copy of the document can be download at HKSAR - Security Regulations .
+                    <br><br>
+                </div>
+                <footer class="w3-container" style="color: #fff !important; background-color: #0C6390 !important; height: 50px;">
+                    <p></p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

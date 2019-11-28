@@ -1,0 +1,702 @@
+﻿<table class="inputTable">
+    <thead>
+        <tr>
+            <th class="sTh">Submission Information</th>
+            <th colspan="3" class="sThRight">
+
+
+                <input class="sBtn" type="button" id="btnEditButton" name="btnEditButton" value="Edit" onclick="loadContentPage('PEM0301cEdit')">
+
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <th class="fLabel" style="width: 200px">Ref. No. :</th>
+            <td class="fText">MW160302973</td>
+            <th class="fLabel" style="width: 200px">Form No. :</th>
+            <td class="fText">MW01</td>
+
+
+        </tr>
+
+        <tr>
+            <th class="fLabel" style="width: 200px">Previous MW No. :</th>
+            <td class="fText"><br></td>
+            <th class="fLabel" style="width: 200px">File Reference No. :</th>
+            <td class="fText">/</td>
+
+        </tr>
+
+        <tr>
+            <th class="fLabel" style="width: 200px; height: 50px">
+                Received Date
+
+
+             :</th>
+            <td class="fText">21/3/2016</td>
+            <th class="fLabel" style="width: 200px; height: 50px">
+                Location/Address of the proposed minor works are to be carried out
+
+             :</th>
+            <td class="fText">
+                錦華樓 xxx號 親民街 西貢 NT
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <th class="fLabel">
+                Commencement Date
+
+             :</th>
+            <td class="fText">29/3/2016</td>
+            <th rowspan="2" class="fLabel">
+                Completion Date
+             :</th>
+            <td rowspan="2" class="fText"></td>
+        </tr>
+        <tr class="fLabel">
+            <th class="fLabel" style="width: 200px">Requirements :</th>
+            <td class="fText">
+                1
+                Indicator for version 1 MW Item (Before Effective date of the law in 2017)
+                <input type="hidden" name="selectOfReqCode" id="selectOfReqCode" value="1">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="sList" id="submittedDoc">
+
+
+
+
+
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="6" class="sTh1">Submitted Document</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sTh2" style="width: 150px">Document Type</th>
+                <th class="sTh2" style="width: 100px">Received Date</th>
+                <th class="sTh2" style="width: 100px">Document S/N</th>
+                <th class="sTh2">Document Title</th>
+                <th class="sTh2" style="width: 100px">View Image</th>
+                <th class="sTh2" style="width: 100px">Folder Type</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr class="sRow2">
+                <td class="fField">
+                    Plan
+                    <input type="hidden" name="docList[0].uuid" value="663E342F3313471FA10D6072494286BB">
+                </td>
+                <td class="fField">21/3/2016</td>
+                <td class="fField">D0000709940C</td>
+                <td class="fField">MW01</td>
+                <td class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940C')" alt="ico"></td>
+                <td class="fField">
+                    <select name="docList[0].folderType">
+
+                        <option selected="selected" value="Public">Public</option>
+
+                        <option value="Private">Private</option>
+
+                    </select>
+                </td>
+            </tr>
+
+            <tr class="sRow2">
+                <td class="fField">
+                    Form
+                    <input type="hidden" name="docList[1].uuid" value="BE8C6F6288E9437B9F60265D24685317">
+                </td>
+                <td class="fField">21/3/2016</td>
+                <td class="fField">D0000709940A</td>
+                <td class="fField">MW01</td>
+                <td class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940A')" alt="ico"></td>
+                <td class="fField">
+                    <select name="docList[1].folderType">
+
+                        <option value="Public">Public</option>
+
+                        <option selected="selected" value="Private">Private</option>
+
+                    </select>
+                </td>
+            </tr>
+
+            <tr class="sRow2">
+                <td class="fField">
+                    Photo
+                    <input type="hidden" name="docList[2].uuid" value="C2652DAD06F84DF9AF9FED8545135FD2">
+                </td>
+                <td class="fField">21/3/2016</td>
+                <td class="fField">D0000709940B</td>
+                <td class="fField">MW01</td>
+                <td class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940B')" alt="ico"></td>
+                <td class="fField">
+                    <select name="docList[2].folderType">
+
+                        <option selected="selected" value="Public">Public</option>
+
+                        <option value="Private">Private</option>
+
+                    </select>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnSaveFolderTypeSubmittedDoc" name="btnSaveFolderTypeSubmittedDoc" value="Save" onclick="saveFolderType('')">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="6" class="sTh1">Issued Correspondence</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sTh2" style="width: 150px">Letter Type</th>
+                <th class="sTh2" style="width: 100px">Issued Date</th>
+                <th class="sTh2" style="width: 100px">Document S/N</th>
+                <th class="sTh2">Letter Template No.</th>
+                <th class="sTh2" style="width: 100px">View Image</th>
+                <th class="sTh2" style="width: 100px">Folder Type</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr class="sRow2">
+                <td class="fField">
+
+                    <input type="hidden" name="uuidList[0]" value="EE90F96B45D340C6AC29ACD9FD000BA0">
+                </td>
+                <td class="fField">21/3/2016</td>
+                <td class="fField">D0000710582</td>
+                <td class="fField"></td>
+                <td class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000710582')" alt="ico"></td>
+                <td class="fField">
+                    <select name="folderTypeSelected[0]">
+
+                        <option value="Public">Public</option>
+
+                        <option selected="selected" value="Private">Private</option>
+
+                    </select>
+                </td>
+            </tr>
+
+
+    </table>
+
+    <table class="inputTable">
+
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnSaveFolderTypeIssuedCor" name="btnSaveFolderTypeIssuedCor" value="Save" style="width:80px;" onclick="saveFolderType('Letter')">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+    <div class="sList" id="mwItemInfo">
+
+
+
+
+        <script type="text/javascript">
+<!--
+            function maximizeItem() {
+                var el = document.getElementById("itemHist");
+                el.style.display = (el.style.display != 'none' ? 'none' : 'block');
+            }
+            //-->
+        </script>
+
+
+
+
+
+
+        <table class="resultTable">
+
+
+
+            <thead>
+                <tr>
+                    <th colspan="6" class="sTh1">Details of the Minor Work</th>
+              
+                </tr>
+
+                <tr class="sRow2">
+                    <th class="sTh2">Item sequence</th>
+                    <th class="sTh2">Minor Work item</th>
+                    <th class="sTh2">Type</th>
+                    <th class="sTh2">Description</th>
+                    <th class="sTh2">
+                        Relevant Order/ Direction/ Notice No./ BD Reference No.
+
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="sRow2">
+                    <td class="sCell">
+                        1
+                        &nbsp; in &nbsp;
+
+
+
+                        MW01
+
+
+
+
+
+                    </td>
+                    <td class="sCell">
+                        1.17
+                        &nbsp;
+                    </td>
+                    <td class="sCell">
+
+
+
+                        MW01
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell">
+                        按照原本設計,於大廈外牆位置,修葺懸臂式平板
+                        &nbsp;
+                    </td>
+                    <td class="sCell">
+
+                        &nbsp;
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+        </table>
+    </div>
+
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnHistory" name="btnHistory" value="History" onclick="maximizeItem()">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sList">
+    <table class="inputTable">
+        <thead>
+            <tr>
+                <th class="sTh" colspan="4">
+                    Location/ Address of the proposed minor works are to be carried
+                    out
+                </th>
+            </tr>
+            <tr>
+                <th class="sTh1">
+                    Building/Address
+                </th>
+                <th class="sTh1">
+                    Floor
+                </th>
+                <th class="sTh1">
+                    Unit
+                </th>
+                <th class="sTh1">
+                    &nbsp;
+                </th>
+            </tr>
+
+
+
+        <tbody>
+            <tr class="sRow2">
+                <td class="sCell">
+                    xxx xxx  STREET
+                    xxxx CENTRE
+                    &nbsp;
+                </td>
+                <td class="sCell">
+                    G/F
+                    &nbsp;
+                </td>
+                <td class="sCell">
+
+                    &nbsp;
+                </td>
+                <td class="sCell">
+                    &nbsp;
+                </td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+    <table class="inputTable">
+        <thead>
+            <tr>
+                <th colspan="4  " class="sTh1">
+                    Add relevant address
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="sRow2">
+
+            <tr>
+                <th class="fLabel">
+                    Street/Road/Village :
+                </th>
+                <td class="fField">
+                    <input class="inputText ac_input" type="text" id="street" name="defaultAddress.streetOrVillage" value="xxx xx  STREET " style="width: 300px;" maxlength="500" autocomplete="off">
+                    <input class="inputText" type="hidden" id="street_code" name="defaultAddress.streetCode" value="2386">
+                </td>
+                <th class="fLabel" style="width: 150px">
+                    Street Number :
+                </th>
+                <td class="fField">
+                    <input class="inputText ac_input" type="text" id="street_no" name="defaultAddress.streetNo" value="63" style="width: 300px;" maxlength="500" autocomplete="off">
+                    <input class="inputText" type="hidden" id="block_id" name="defaultAddress.blockID" value="">
+                </td>
+            </tr>
+            <tr>
+                <th class="fLabel">
+                    Building/Estate :
+                </th>
+                <td class="fField">
+                    <input class="inputText" type="text" id="block_name" name="defaultAddress.buildingName" value="xxx CENTRE" style="width: 300px;" maxlength="500">
+                </td>
+                <th rowspan="2" class="fLabel" style="width: 150px">
+                    Floor :
+                </th>
+                <td rowspan="2" class="fField">
+                    <input class="inputText ac_input" type="text" id="floor" name="defaultAddress.floor" value="G/F" style="width: 300px;" maxlength="20" autocomplete="off">
+                    <input class="inputText" type="hidden" id="hidden_floor" name="hidden_floor" value="G/F">
+                </td>
+            </tr>
+            <tr>
+                <th class="fLabel">
+                    Flat/Room :
+                </th>
+                <td class="fField">
+                    <input class="inputText ac_input" type="text" id="unit" name="defaultAddress.flat" value="" style="width: 300px;" maxlength="500" autocomplete="off">
+                    <input class="inputText" type="hidden" id="hidden_unit" name="hidden_unit" value="">
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="fmFld" align="right">
+                    <input class="inputButton" type="button" id="btnAdd" name="btnAdd" value="Add" style="width: 80px;" onclick="addAddress()">
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+      
+                      
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="inputTable">
+    <thead>
+        <tr>
+            <th class="sTh" colspan="4">
+                Details of the Minor Work
+            </th>
+        </tr>
+        <!--
+        <tr>
+            <td class="" colspan="4">Selection of requirement:
+                <select onchange="onChangeRequirement()" name=selectOfReq id="selectOfReq" size="1" style="width: 500px;">
+
+                            <option
+                            value="1">Indicator for version 1 MW Item (Before Effective date of the law in 2017)
+                        </option>
+
+                            <option
+                            value="2">Indicator for version 2 MW Item (After Effective date of the law in 2017)
+                        </option>
+
+                </select>
+
+                            8a85bda0537f33180153a69ebd5576bb
+
+                            8a85bda0537f33180153a69ebd5576bc
+
+            </td>
+        </tr>
+        -->
+    </thead>
+</table>
+
+
+
+
+                <table class="inputTable">
+                    <thead>
+                        <tr>
+                            <th class="label">
+                                Item No.
+                            </th>
+
+
+                            <th style="background-color:yellow" class="text">
+                                <a  id="8a85bda0537f33180153a69ebd5576bb" class="url2">
+                                    1.24
+                                </a>
+                            </th>
+
+                            <th class="text">
+                                <a id="8a85bda0537f33180153a69ebd5576bc" class="url1">
+                                    1.22
+                                </a>
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                </table>
+     
+
+
+
+
+
+                <table class="inputTable">
+                    <thead>
+                        <tr>
+                            <th class="sTh" style="width:40px">&nbsp;</th>
+                            <th class="sTh">&nbsp;</th>
+                            <th class="sTh" style="width:30px">NA</th>
+                            <th class="sTh" style="width:30px">Yes</th>
+                            <th class="sTh" style="width:30px">No</th>
+                            <th class="sTh" style="width:90px">More Info. Req.</th>
+                            <th class="sTh" style="width:270px">Remarks</th>
+                            <th class="sTh" style="width:150px">Remarks(PO)</th>
+                        </tr>
+                        </thead>
+                    <tbody>
+                        <tr class="sRow2 8a8593472789193101278919320a0179">
+                            <td class="sCell">1&nbsp;</td>
+                            <td class="sCell">Work Locations &amp; descriptions in Part A clearly provided</td>
+                            <td class="sCell">&nbsp;</td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="Y" id="8a8593472789193101278919320a0179Y" name="8a8593472789193101278919320a0179"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="N" id="8a8593472789193101278919320a0179N" name="8a8593472789193101278919320a0179"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="M" id="8a8593472789193101278919320a0179M" name="8a8593472789193101278919320a0179"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a0179_rmk" name="8a8593472789193101278919320a0179_rmk"></textarea></td>
+                            <td class="sCell"><textarea style="width:150px" disabled="disabled" class="inputTextarea remark" id="8a8593472789193101278919320a0179_rmkPO"></textarea></td>
+                        </tr>
+                        <tr class="sRow2 8a8593472789193101278919320a017a">
+                            <td class="sCell">2&nbsp;</td>
+                            <td class="sCell">Work Locations &amp; descriptions in Part A in line with plans</td>
+                            <td class="sCell">&nbsp;</td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="Y" id="8a8593472789193101278919320a017aY" name="8a8593472789193101278919320a017a"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="N" id="8a8593472789193101278919320a017aN" name="8a8593472789193101278919320a017a"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="M" id="8a8593472789193101278919320a017aM" name="8a8593472789193101278919320a017a"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a017a_rmk" name="8a8593472789193101278919320a017a_rmk"></textarea></td>
+                            <td class="sCell"><textarea style="width:150px" disabled="disabled" class="inputTextarea remark" id="8a8593472789193101278919320a017a_rmkPO"></textarea></td>
+                        </tr>
+                        <tr class="sRow2 8a8593472789193101278919320a017b">
+                            <td class="sCell">3&nbsp;</td>
+                            <td class="sCell">Work Locations &amp; descriptions in Part A in line with photos before commencement</td>
+                            <td class="sCell">&nbsp;</td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="Y" id="8a8593472789193101278919320a017bY" name="8a8593472789193101278919320a017b"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="N" id="8a8593472789193101278919320a017bN" name="8a8593472789193101278919320a017b"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="M" id="8a8593472789193101278919320a017bM" name="8a8593472789193101278919320a017b"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a017b_rmk" name="8a8593472789193101278919320a017b_rmk"></textarea></td>
+                            <td class="sCell"><textarea style="width:150px" disabled="disabled" class="inputTextarea remark" id="8a8593472789193101278919320a017b_rmkPO"></textarea></td>
+                        </tr>
+                        <tr class="sRow2 8a8593472789193101278919320a017c">
+                            <td class="sCell">4&nbsp;</td>
+                            <td class="sCell">Nature of work</td>
+                            <td class="sCell" colspan="4">
+                                <select class="inputSelect" id="8a8593472789193101278919320a017c" name="8a8593472789193101278919320a017c">
+                                    <option value="Alteration">Alteration</option>
+                                    <option value="Alteration (Reinstatement)">Alteration (Reinstatement)</option>
+                                    <option value="Alteration (Repair)">Alteration (Repair)</option>
+                                    <option value="Alteration (Strengthening)">Alteration (Strengthening)</option>
+                                    <option value="Erection">Erection</option>
+                                    <option value="Erection (Addition)">Erection (Addition)</option>
+                                    <option value="Erection (Construction)">Erection (Construction)</option>
+                                    <option value="Replacement">Replacement</option>
+                                    <option value="Erection (Formation)">Erection (Formation)</option>
+                                    <option value="Erection (Installation)">Erection (Installation)</option>
+                                    <option value="Erection (Laying)">Erection (Laying)</option>
+                                    <option value="Removal">Removal</option>
+                                </select>
+                            </td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a017c_rmk" name="8a8593472789193101278919320a017c_rmk"></textarea></td>
+                            <td class="sCell">&nbsp;</td>
+                        </tr>
+                        <tr class="sRow2 8a8593472789193101278919320a017d">
+                            <td class="sCell">5&nbsp;</td>
+                            <td class="sCell">No. of work (structure)</td>
+                            <td class="sCell" colspan="4"><input class="inputText" type="text" id="8a8593472789193101278919320a017d" name="8a8593472789193101278919320a017d" style="width:80px"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a017d_rmk" name="8a8593472789193101278919320a017d_rmk"></textarea></td>
+                            <td class="sCell">&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+<table class="inputTable">
+    <thead>
+                        <tr>
+                            <th class="sTh" colspan="2">Requirements:-</th>
+                            <th class="sTh" >&nbsp;</th>
+                            <th class="sTh" >Accept</th>
+                            <th class="sTh" >Not Accept</th>
+                            <th class="sTh" >More Info. Req.</th>
+                            <th class="sTh" >Remarks</th>
+                            <th class="sTh" >Remarks(PO)</th>
+                        </tr>
+        </thead>
+    <tbody>
+                        <tr class="sRow2 8a8593472789193101278919320a0184">
+                            <td class="sCell">a&nbsp;</td>
+                            <td class="sCell">Work for any signboard (other than removal of spread footing of outdoor signboard)</td>
+                            <td class="sCell">&nbsp;</td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="Y" id="8a8593472789193101278919320a0184Y" name="8a8593472789193101278919320a0184"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="N" id="8a8593472789193101278919320a0184N" name="8a8593472789193101278919320a0184"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="M" id="8a8593472789193101278919320a0184M" name="8a8593472789193101278919320a0184"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a0184_rmk" name="8a8593472789193101278919320a0184_rmk"></textarea></td>
+                            <td class="sCell"><textarea style="width:150px" disabled="disabled" class="inputTextarea remark" id="8a8593472789193101278919320a0184_rmkPO"></textarea></td>
+                        </tr>
+                        <tr class="sRow2 8a8593472789193101278919320a0185">
+                            <td class="sCell">b&nbsp;</td>
+                            <td class="sCell">Work not fall within item 11 of Part 2 of Schedule 2 or item 2.24, 2.25, 2.26, 2.27, 3.16, 3.17, 3.18, 3.19, 3.20, 3.21 or 3.22</td>
+                            <td class="sCell">&nbsp;</td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="Y" id="8a8593472789193101278919320a0185Y" name="8a8593472789193101278919320a0185"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="N" id="8a8593472789193101278919320a0185N" name="8a8593472789193101278919320a0185"></td>
+                            <td class="sCell"><input class="inputRadio" type="radio" value="M" id="8a8593472789193101278919320a0185M" name="8a8593472789193101278919320a0185"></td>
+                            <td class="sCell"><textarea class="inputTextarea remark" id="8a8593472789193101278919320a0185_rmk" name="8a8593472789193101278919320a0185_rmk"></textarea></td>
+                            <td class="sCell"><textarea style="width:150px" disabled="disabled" class="inputTextarea remark" id="8a8593472789193101278919320a0185_rmkPO"></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td>
+                <input class="inputButton" type="button" id="btnDraft" name="btnDraft" value="Back" onclick="loadContentPage('PEM0301c4PSAC')">
+                <input class="inputButton" type="button" id="btnDraft" name="btnDraft" value="Save as Draft" onclick="loadContentPage('PEM0301c5AFC')">
+
+
+
+
+
+                <input class="inputButton" type="button" id="" name="" value="Next Item" onclick="loadContentPage('PEM0301c5.1AFC')">
+
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="btnSet btnSetTypeA">
+    <div class="left">
+
+    </div>
+    <div class="right">
+
+
+
+
+    </div>
+</div>

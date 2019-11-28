@@ -1,0 +1,249 @@
+﻿
+
+UPDATE SYS_FUNC SET url ='/Admin/SMMSysParaMan/Index' WHERE uuid ='100701'
+
+2019-07-15 
+alter table b_sv_record add S_CHK_VS_NO varchar2(10 byte);
+alter table b_sv_record add S_CHK_INSP_DATE varchar2(10 byte);
+alter table b_sv_record add S_CHK_WORK_DATE varchar2(10 byte);
+alter table b_sv_record add S_CHK_SIGNBOARD varchar2(10 byte);
+alter table b_sv_record add S_CHK_SIG varchar2(10 byte);
+alter table b_sv_record add S_CHK_SIG_DATE varchar2(10 byte);
+alter table b_sv_record add S_CHK_MW_ITEM_NO varchar2(10 byte);
+alter table b_sv_record add S_CHK_SUPPORT_DOC varchar2(10 byte);
+alter table b_sv_record add S_CHK_SBO_PWA_AP varchar2(10 byte);
+alter table b_sv_record add S_CHK_OTHERS varchar2(1000 byte);
+
+alter table b_sv_record add P_CHK_APP_AP_MW_ITEM varchar2(10 byte);
+alter table b_sv_record add P_CHK_VAL_AP varchar2(10 byte);
+alter table b_sv_record add P_CHK_SIG_AP varchar2(10 byte);
+alter table b_sv_record add P_CHK_VAL_RSE varchar2(10 byte);
+alter table b_sv_record add P_CHK_SIG_RSE varchar2(10 byte);
+alter table b_sv_record add P_CHK_VAL_RI varchar2(10 byte);
+alter table b_sv_record add P_CHK_SIG_RI varchar2(10 byte);
+alter table b_sv_record add P_CHK_VAL_PRC varchar2(10 byte);
+alter table b_sv_record add P_CHK_SIG_AS varchar2(10 byte);
+alter table b_sv_record add P_CHK_CAP_AS_MW_ITEM varchar2(10 byte);
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE SYS_FUNC ADD (ICON  VARCHAR2(200) NULL);
+
+ALTER TABLE w_wl ADD (AS_UUID  VARCHAR2(36) NULL);
+
+
+UPDATE MWMS2.SYS_FUNC
+SET ICON = 'fa-cog'
+WHERE SYS_FUNC_ID = '1000';
+
+UPDATE MWMS2.SYS_FUNC
+SET ICON = 'fa-search'
+WHERE SYS_FUNC_ID = '1001';
+
+UPDATE MWMS2.SYS_FUNC
+SET ICON = 'fa-user'
+WHERE SYS_FUNC_ID = '1002';
+
+UPDATE MWMS2.SYS_FUNC
+SET ICON = 'fa-sign-out-alt'
+WHERE SYS_FUNC_ID = '1003';
+
+
+
+
+
+
+
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/PEM01/PEM0101/?pageCode=PEM0101'
+WHERE SYS_FUNC_ID = '2000';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/SMM0101/SMM0101/?pageCode=SMM0101'
+WHERE SYS_FUNC_ID = '3000';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/CRM01/CRM0101/?pageCode=CRM0101'
+WHERE SYS_FUNC_ID = '4000';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/WarningLetter/WN/WN'
+WHERE SYS_FUNC_ID = '5000';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_GCA/Index'
+WHERE SYS_FUNC_ID = '4101';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_PA/Index'
+WHERE SYS_FUNC_ID = '4102';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_CNV/Index'
+WHERE SYS_FUNC_ID = '4103';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_DFR/Index'
+WHERE SYS_FUNC_ID = '4104';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_MWCA/Index'
+WHERE SYS_FUNC_ID = '4105';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_MWIA/Index'
+WHERE SYS_FUNC_ID = '4106';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_RIA/Index'
+WHERE SYS_FUNC_ID = '4107';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_QP/Index'
+WHERE SYS_FUNC_ID = '4108';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_CIHR/Index'
+WHERE SYS_FUNC_ID = '4109';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_CTICR/Index'
+WHERE SYS_FUNC_ID = '4110';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_RCR/Index'
+WHERE SYS_FUNC_ID = '4111';
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn01Search_RPR/Index'
+WHERE SYS_FUNC_ID = '4112';
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_CA/Index'        WHERE SYS_FUNC_ID = 4201  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_UAS/Index'       WHERE SYS_FUNC_ID = 4202  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_PM/Index'        WHERE SYS_FUNC_ID = 4203  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_PM10P/Index'     WHERE SYS_FUNC_ID = 4204  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_MFT/Index'       WHERE SYS_FUNC_ID = 4205  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_Export/Index'    WHERE SYS_FUNC_ID = 4206  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_RPT/Index'       WHERE SYS_FUNC_ID = 4207  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_RPT_PARA/Index'  WHERE SYS_FUNC_ID = 4208  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_GCN/Index'       WHERE SYS_FUNC_ID = 4209  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_MRA/Index'       WHERE SYS_FUNC_ID = 4210  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_IC/Index'        WHERE SYS_FUNC_ID = 4211  ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn02GCA_IR/Index'        WHERE SYS_FUNC_ID = 4212  ;
+
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_PA/Index'         WHERE SYS_FUNC_ID = 4301 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_UAS/Index'   	  WHERE SYS_FUNC_ID = 4302 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_PM/Index'         WHERE SYS_FUNC_ID = 4303 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_Export/Index'     WHERE SYS_FUNC_ID = 4304 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_RPT/Index'        WHERE SYS_FUNC_ID = 4305 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_GCN/Index'        WHERE SYS_FUNC_ID = 4306 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_MRA/Index'        WHERE SYS_FUNC_ID = 4307 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_IC/Index'         WHERE SYS_FUNC_ID = 4308 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn03PA_IR/Index'         WHERE SYS_FUNC_ID = 4309 ;
+
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_MWCA/Index'     WHERE SYS_FUNC_ID = 4401;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_UAS/Index'      WHERE SYS_FUNC_ID = 4402;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_PM/Index'       WHERE SYS_FUNC_ID = 4403;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_Export/Index'   WHERE SYS_FUNC_ID = 4404;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_RPT/Index'      WHERE SYS_FUNC_ID = 4405;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_GCN/Index'      WHERE SYS_FUNC_ID = 4406;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_MRA/Index'      WHERE SYS_FUNC_ID = 4407;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_IC/Index'       WHERE SYS_FUNC_ID = 4408;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn04MWCA_IR/Index'       WHERE SYS_FUNC_ID = 4409;
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_MWIA/Index'     WHERE SYS_FUNC_ID = 4501 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_UAS/Index'      WHERE SYS_FUNC_ID = 4502 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_PM/Index'       WHERE SYS_FUNC_ID = 4503 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_Export/Index'   WHERE SYS_FUNC_ID = 4504 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_RPT/Index'       WHERE SYS_FUNC_ID = 4505 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_GCN/Index'      WHERE SYS_FUNC_ID = 4506 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_MRA/Index'      WHERE SYS_FUNC_ID = 4507 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_IC/Index'       WHERE SYS_FUNC_ID = 4508 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn05MWIA_IR/Index'       WHERE SYS_FUNC_ID = 4509 ;
+
+UPDATE SYS_FUNC SET URL = '/CMN/Logout'     WHERE SYS_FUNC_ID = '1003' ;
+
+
+UPDATE MWMS2.SYS_FUNC
+SET URL = '/Registration/Fn06AS_DB/Index'
+WHERE SYS_FUNC_ID = '4601';
+
+
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn06CMM_MP/Index'  WHERE SYS_FUNC_ID = 4701 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn06CMM_CP/Index'  WHERE SYS_FUNC_ID = 4702 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn06CMM_CMM/Index' WHERE SYS_FUNC_ID = 4703 ;
+UPDATE SYS_FUNC SET URL = '/Registration/Fn06CMM_CG/Index'  WHERE SYS_FUNC_ID = 4704 ;
+
+UPDATE SYS_FUNC SET URL = '/Registration/Fn07CNV_CNV/Index'  WHERE SYS_FUNC_ID = 4801;
+
+COMMIT;
+
+
+
+ALTER TABLE MOD_BD106 RENAME TO P_MOD_BD106;
+
+ALTER TABLE MW_DIRECT_RETURN RENAME TO P_MW_DIRECT_RETURN;
+ALTER TABLE MW_DIRECT_RETURN_IRREGULARITIES RENAME TO P_MW_DIRECT_RETURN_IRREGULARITIES;
+
+
+ALTER TABLE P_MOD_BD106
+ADD CONSTRAINT P_MOD_BD106_PK PRIMARY KEY (UUID);
+
+ALTER TABLE P_MW_DIRECT_RETURN
+ADD CONSTRAINT P_MW_DIRECT_RETURN_pk PRIMARY KEY (UUID);
+
+ALTER TABLE P_MW_DIRECT_RETURN_IRREGULARITIES
+ADD CONSTRAINT P_MW_DIRECT_RETURN_IRREGULARITIES_pk PRIMARY KEY (UUID);
+
+ALTER TABLE P_MW_MODIFICATION
+ADD CONSTRAINT P_MW_MODIFICATION_pk PRIMARY KEY (UUID);
+
+ALTER TABLE P_MW_MODIFICATION_NO
+ADD CONSTRAINT P_MW_MODIFICATION_NO_pk PRIMARY KEY (UUID);
+
+
+
+
+
+ALTER TABLE MW_RECORD_AL_FOLLOW_UP RENAME TO P_MW_RECORD_AL_FOLLOW_UP;
+
+ALTER TABLE MW_RECORD_AL_FOLLOW_UP_OFFENCES RENAME TO P_MW_RECORD_AL_FOLLOW_UP_OFFENCES;
+
+ALTER TABLE MW_RECORD_REFERRED_TO_LSS_EBD RENAME TO P_MW_RECORD_REFERRED_TO_LSS_EBD;
+
+ALTER TABLE MW_RECORD_WL_FOLLOW_UP RENAME TO P_MW_RECORD_WL_FOLLOW_UP;
+
+
+
+
+
+
+
+
+
+
+

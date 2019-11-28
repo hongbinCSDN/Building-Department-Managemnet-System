@@ -1,0 +1,13 @@
+alter table b_WF_TASK_USER drop column user_id;
+alter table b_WF_TASK_USER add sys_post_id VARCHAR2(36);
+alter table b_WF_TASK_USER add constraint b_WF_TASK_USER_sys_post_id_FK foreign key (sys_post_id) references sys_post(uuid);
+
+alter table b_s_scu_team drop column SYS_POST_ID;
+alter table b_s_scu_team add SYS_POST_ID VARCHAR2(36);
+alter table b_s_scu_team add constraint b_s_scu_team_SYS_POST_ID_FK foreign key (sys_post_id) references sys_post(uuid);
+
+drop table p_dsn_requestid;
+drop table p_processTransaction;
+drop table p_wfInstActivity;
+drop table p_wftask;
+drop table p_wftaskuser;

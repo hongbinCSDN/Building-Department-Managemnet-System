@@ -1,0 +1,152 @@
+﻿
+    <form name="reportForm" id="reportForm" method="post" action="report.do?method=viewReport&amp;popReport=LoadViewer" target="bd_wind">
+        <input type="hidden" name="REPORT_NAME" value="caseInHand">
+
+
+                        <div class="title1"><h3>Cases In Hand Report</h3></div>
+
+                                        <table id="Table10" class="inputTable" >
+                                            <tbody>
+                                                <tr>
+                                                    <th style="WIDTH : 112px">File Reference :</th>
+                                                    <td colspan="3">
+                                                        <input type="text" id="fileReference" name="fileReference" maxlength="20" style="width :170px;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th><span id="Label4">Vetting Officer :</span></th>
+                                                    <td>
+                                                        <select name="vettingOfficer" id="vettingOfficer"style="width :auto">
+                                                            <option value="">- All -</option>
+                                                            <option value="BS/Reg1">BS/Reg1</option>
+                                                            <option value="BS/Reg2">BS/Reg2</option>
+                                                            <option value="BS/Reg3">BS/Reg3</option>
+                                                            <option value="SE/Reg1">SE/Reg1</option>
+                                                            <option value="SE/Reg2">SE/Reg2</option>
+                                                            <option value="SE/Reg3">SE/Reg3</option>
+                                                            <option value="SE/Reg4">SE/Reg4</option>
+                                                            <option value="SE/Reg5">SE/Reg5</option>
+                                                            <option value="SE/Reg6">SE/Reg6</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="WIDTH : 110px">Received Date :</th>
+                                                    <td>
+                                                        from &nbsp;
+                                                        <input type="text" name="received_fr_date" value="" id="received_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                                        <span id="err_received_fr_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                        &nbsp;to&nbsp;
+                                                        <input type="text" name="received_to_date" value="" id="received_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                                        <span id="err_received_to_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="WIDTH : 110px">Due Date :</th>
+                                                    <td>
+                                                        from &nbsp;
+                                                        <input type="text" name="due_fr_date" value="" id="due_fr_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                                        <span id="err_due_fr_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                        &nbsp;to&nbsp;
+                                                        <input type="text" name="due_to_date" value="" id="due_to_date" class="inputDate" maxlength="10" onblur="checkDate(this)">
+                                                        <span id="err_due_to_date" class="err" style="color :Red;display :none;">Invalid date</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th nowrap="nowrap"><span>Type of Registers :</span></th>
+                                                    <td>
+                                                        <select id="category" name="category"style="width :auto">
+                                                            <option value="AP" type="ip">AP</option>
+                                                            <option value="RSE" type="ip">RSE</option>
+                                                            <option value="RGE" type="ip">RGE</option>
+                                                            <option value="RI" type="ip">RI</option>
+                                                            <option value="GBC" type="gbc">GBC</option>
+                                                            <option value="SC(D)" type="gbc">SC(D)</option>
+                                                            <option value="SC(F)" type="gbc">SC(F)</option>
+                                                            <option value="SC(GI)" type="gbc">SC(GI)</option>
+                                                            <option value="SC(SF)" type="gbc">SC(SF)</option>
+                                                            <option value="SC(V)" type="gbc">SC(V)</option>
+                                                            <option value="MWC" type="mwc">RMWC</option>
+                                                            <option value="MWC(P)" type="mwc">RMWC(P)</option>
+                                                            <option value="MWC(W)" type="mwcw">RMWC(W)</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th nowrap="nowrap"><span>Type of Application :</span></th>
+                                                    <td>
+                                                        <select id="application_type_gbc" class="application_type" style="display : none;">
+                                                            <option value="">- All -</option>
+                                                            <option value="BA1">BA1</option>
+                                                            <option value="BA1A">BA1A</option>
+                                                            <option value="BA1B">BA1B</option>
+                                                            <option value="BA2">BA2</option>
+                                                            <option value="BA24">BA24</option>
+                                                            <option value="BA2A">BA2A</option>
+                                                            <option value="BA2B">BA2B</option>
+                                                            <option value="BA2C">BA2C</option>
+                                                            <option value="LETTER">LETTER</option>
+                                                            <option value="NA">NA</option>
+                                                            <option value="QP Card">QP Card</option>
+                                                        </select>
+                                                        <select id="application_type_mwc" class="application_type" style="display : none;">
+                                                            <option value="">- All -</option>
+                                                            <option value="BA25">BA25</option>
+                                                            <option value="BA25A">BA25A</option>
+                                                            <option value="BA25B">BA25B</option>
+                                                            <option value="BA25C">BA25C</option>
+                                                            <option value="BA25D">BA25D</option>
+                                                            <option value="BA25E">BA25E</option>
+                                                            <option value="BA25F">BA25F</option>
+                                                            <option value="BA25G">BA25G</option>
+                                                            <option value="QP Card">QP Card</option>
+                                                        </select>
+                                                        <select id="application_type_ip" class="application_type" style="display : inline-block; width :auto">
+                                                            <option value="">- All -</option>
+                                                            <option value="BA1">BA1</option>
+                                                            <option value="BA1A">BA1A</option>
+                                                            <option value="BA1B">BA1B</option>
+                                                            <option value="BA2">BA2</option>
+                                                            <option value="BA24">BA24</option>
+                                                            <option value="BA2A">BA2A</option>
+                                                            <option value="BA2B">BA2B</option>
+                                                            <option value="BA2C">BA2C</option>
+                                                            <option value="LETTER">LETTER</option>
+                                                            <option value="NA">NA</option>
+                                                            <option value="QP Card">QP Card</option>
+                                                        </select>
+                                                        <select id="application_type_mwcw" class="application_type" style="display : none;">
+                                                            <option value="">- All -</option>
+                                                            <option value="BA26">BA26</option>
+                                                            <option value="BA26A">BA26A</option>
+                                                            <option value="BA26B">BA26B</option>
+                                                            <option value="BA26C">BA26C</option>
+                                                            <option value="BA26D">BA26D</option>
+                                                            <option value="QP Card">QP Card</option>
+                                                            <option value="CONVERT">CONVERT</option>
+                                                        </select>
+                                                        <input type="hidden" name="application_type" value="">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                        <table class="inputTable">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="img/print.gif">
+                                        <a href="javascript:printCaseInHandReport()">Export Cases In Hand Report</a>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+           
+    </form>
+       
+
+
+
+

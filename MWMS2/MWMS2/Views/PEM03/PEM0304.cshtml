@@ -1,0 +1,249 @@
+﻿
+            <table class="inputTable">
+                <thead>
+                    <tr >
+                        <th colspan="2">Search Criteria</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Location of the minor works carried out</th>
+                    </tr>
+                    </thead>
+                <tbody>
+                    <tr>
+                        <th >Street/Road/Village :</th>
+                        <td>
+                            <input class="inputText searchTextField ac_input" type="text" id="street" name="searchStreet" value="" style="max-width: 300px;" onkeyup="searchTextFieldInput(this)" autocomplete="off">
+                            <input class="inputText" type="hidden" id="street_code" name="searchStreetCode" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >Street Number/ Lot Number :</th>
+                        <td>
+                            <input class="inputText searchTextField ac_input" type="text" id="street_no" name="searchStreetNo" value="" style="max-width: 120px;" onkeyup="searchTextFieldInput(this)" autocomplete="off">
+                            <input class="inputText" type="hidden" id="block_id" name="searchBlockID" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >Building/Estate :</th>
+                        <td><input class="inputText searchTextField" type="text" id="block_name" name="searchBuildingName" value="" style="max-width: 300px;" onkeyup="searchTextFieldInput(this)"></th>
+                    </tr>
+                    <tr>
+                        <th >Floor :</th>
+                        <td>
+                            <input class="inputText searchTextField ac_input" type="text" id="floor" name="searchFloor" value="" style="max-width: 300px;" onkeyup="searchTextFieldInput(this)" autocomplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th >Flat/Room :</th>
+                        <td>
+                            <input class="inputText searchTextField ac_input" type="text" id="unit" name="searchFlat" value="" style="max-width: 300px;" onkeyup="searchTextFieldInput(this)" autocomplete="off">
+
+                            <input class="inputText" type="hidden" id="hidden_floor" name="hidden_floor" value="">
+                        </td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                <tr><td colspan="2"><input class="inputButton" type="submit" id="btnSearch" name="" value="Search"  onclick="searchPEM0304()"></td></tr></tfoot>
+            </table>
+                               
+                               <br />
+
+            <table class="resultTable" id="PEM0304Table">
+                <thead>
+                    <tr>
+                        <th class="sTh1" colspan="7">Searched Records</th>
+                    </tr>
+                    <tr>
+                        <th >Ref No.</th>
+                        <th >Item No.</th>
+                        <th >Status</th>
+                        <th >Received Date</th>
+                        <th >Commencement Date</th>
+                        <th >Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <table class="resultTable hide"id="PEMHideDiv" >
+                <thead>
+                    <tr>
+                        <th >DSN/ ICC No.</th>
+                        <th >Ref. No.</th>
+                        <th >Date of Assignment</th>
+                        <th >Final Reply Due Date</th>
+                        <th >Final Reply Remaining Days</th>
+                        <th >Interim Reply Due Date</th>
+                        <th >Interim Reply Remaining Days</th>
+                        <th >Interim Reply Date</th>
+                        <th >Title</th>
+                        <th >Channel</th>
+                        <th >Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!--<tbody id="PEMHideDiv" class="hide">-->
+                    <tr class="sRow1">
+                        <th class="sCell">
+                            1-268169162&nbsp;
+                        </th>
+                        <th class="sCell">
+
+
+                            <a href="javascript:loadContentPage('PEM0305a')">
+                                Enq101200003
+                            </a>
+
+
+
+                            &nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            31/12/2010&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            30/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2815&nbsp;
+                        </th>
+                        <!-- <th class="sCell">
+
+                &nbsp;
+            </th> -->
+
+                        <th class="sCell">
+
+                            3/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2835&nbsp;
+                        </th>
+                        <th></th>
+                        <th class="sCell">
+
+                            註冊小型工程承建商&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            Telephone&nbsp;
+                        </th>
+                        <th class="sCell">
+                            Endorsed&nbsp;
+                        </th>
+                    </tr>
+
+                    <tr class="sRow2">
+                        <th class="sCell">
+                            1-268251405&nbsp;
+                        </th>
+                        <th class="sCell">
+
+
+                            <a href="javascript:loadContentPage('PEM0305a')">
+                                Enq101200004
+                            </a>
+
+
+
+                            &nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            31/12/2010&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            30/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2815&nbsp;
+                        </th>
+                        <!-- <th class="sCell">
+
+        &nbsp;
+    </th> -->
+
+                        <th class="sCell">
+
+                            3/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2835&nbsp;
+                        </th>
+                        <th></th>
+                        <th class="sCell">
+
+                            : 查詢是否要申請小型工程承建商的註冊 &nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            Others&nbsp;
+                        </th>
+                        <th class="sCell">
+                            Endorsed&nbsp;
+                        </th>
+                    </tr>
+                    <tr class="sRow1">
+                        <th class="sCell">
+                            1-268258366&nbsp;
+                        </th>
+                        <th class="sCell">
+
+
+                            <a href="javascript:loadContentPage('PEM0305a')">
+                                Enq101200005
+                            </a>
+
+
+
+                            &nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            31/12/2010&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            30/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2815&nbsp;
+                        </th>
+                        <!-- <th class="sCell">
+
+        &nbsp;
+    </th> -->
+
+                        <th class="sCell">
+
+                            4/1/2011&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            -2835&nbsp;
+                        </th>
+                        <th></th>
+                        <th class="sCell">
+
+                            查詢以下工程是否受小型工程監管制度所監管&nbsp;
+                        </th>
+                        <th class="sCell">
+
+                            Telephone&nbsp;
+                        </th>
+                        <th class="sCell">
+                            Endorsed&nbsp;
+                        </th>
+                    </tr>
+
+                </tbody>
+            </table>

@@ -1,0 +1,82 @@
+﻿<div class="panelHeader">
+    Update Submission Record
+</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m3 s3">
+                Reference No. :
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <input id="refNo" type="text" />
+            </div>
+            <div  class="w3-col l3 m3 s3">
+                <div id="errorMessage" class="w3-left" style="color:red;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button" onclick="Search()">Search</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+    <div id="resultPanel">
+
+    </div>
+</div>
+<script>
+    //domReady(function () {
+    //    new searcher({
+    //        searchPath: "SearchMWNumberMapping"
+    //        , searchTable: "searchCriteria"
+    //        , resultPanel: "resultPanel"
+    //        , Columns: [{
+    //            displayName: "MW Number", columnName: "REFERENCE_NO"
+    //        }]
+    //    });
+    //});
+
+
+    function cancel() {
+        window.location.href = domId("rootPath").value + "/Admin/Para";
+    }
+
+    function Search() {
+        if ($('#refNo').val() == null || $('#refNo').val() == '') {
+            attr("errorMessage", "html", "Please input the reference no..");
+            return;
+        }
+        $.ajax({
+            url: "SearchSubmissionRecord"
+            , type: "POST"
+            , data: {
+                refNo: $('#refNo').val()
+            }
+            , success: function (data) {
+                console.log(data);
+                if (data.Data != null && data.Result == 'SUCCESS') {
+                    goTo("PEM1115Detail", [{ name: 'uuid', value:data.Data}])
+                } else {
+                    attr("errorMessage", "html", data.Message)
+                }
+            }
+        });
+    }
+</script>
+
+@*<table class="inputTable">
+        <thead>
+            <tr><th colspan="2">Update submission record</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Reference No. :</th>
+                <td>
+                    <input type="text" name="refNo" value="">
+                </td>
+            </tr>
+        </tbody>
+        <tfoot><tr><th colspan="2"><input type="button" value="Submit" onclick="loadContentPage('PEM1115a')" /></th></tr></tfoot>
+    </table>*@
+

@@ -1,0 +1,370 @@
+create or replace PROCEDURE
+      "C_REGISTERED_PERSON_REPORT" 
+( 
+  rpt_key IN VARCHAR2,
+  condition IN VARCHAR2,
+  logic IN VARCHAR2
+) AS
+
+tmp_table varchar2(32767);
+tmp_insert varchar2(32767);
+tmp_delete varchar2(32767);
+c VARCHAR2(1000);
+type array is table of varchar2(32767) index by binary_integer;
+TYPE ref_cursor IS REF CURSOR;
+ind_table ref_cursor;
+--type array2 is table of array index by binary_integer;
+c_array array;
+item_array array;
+type_array array;
+item_cnt NUMBER;
+type_cnt NUMBER;
+file_reference_no VARCHAR2(32767);
+name VARCHAR2(32767);
+hkid VARCHAR2(32767);
+category VARCHAR2(32767);
+class VARCHAR2(32767);
+mtype VARCHAR2(32767);
+role VARCHAR2(32767);
+item VARCHAR2(32767);
+area VARCHAR2(32767);
+Estatus VARCHAR2(32767);
+Disciplines VARCHAR2(32767);
+is_correct NUMBER;
+is_grp_correct NUMBER;
+has_role NUMBER;
+has_class NUMBER;
+has_type NUMBER;
+has_item NUMBER;
+role_ok NUMBER;
+class_ok NUMBER;
+type_ok NUMBER;
+item_ok NUMBER;
+array_ok array;
+random VARCHAR2(20);
+line_no NUMBER;
+UserName VARCHAR2(20);
+todate date;
+sitem VARCHAR2(32767);
+query_with_mwitem VARCHAR2(32767);
+query_without_mwitem VARCHAR2(32767);
+query VARCHAR2(32767);
+i NUMBER;
+
+--CURSOR ind_table IS 
+BEGIN
+	
+	query_with_mwitem := 'SELECT * FROM ( 
+	SELECT iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS name,
+	app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, '''' AS class,
+	'''' AS mtype, '''' AS role, listagg(sitem.CODE, '','')  AS item, area.ENGLISH_DESCRIPTION as area
+    ,status.ENGLISH_DESCRIPTION as Estatus,CATCODED.CODE as Disciplines
+	FROM C_IND_APPLICATION iapp
+	LEFT JOIN C_APPLICANT app ON iapp.APPLICANT_ID = app.UUID 
+	LEFT JOIN C_IND_CERTIFICATE icer ON icer.MASTER_ID = iapp.UUID 
+    LEFT JOIN C_IND_QUALIFICATION IndQual on iapp.UUID = IndQual.master_id
+    LEFT JOIN C_IND_QUALIFICATION_DETAIL IndQualDetail on IndQual.UUID = IndQualDetail.IND_QUALIFICATION_ID
+    LEFT JOIN C_S_CATEGORY_CODE_DETAIL CATCODED on CATCODED.uuid = IndQualDetail.S_CATEGORY_CODE_DETAIL_ID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON icer.CATEGORY_ID = scat.UUID 
+	LEFT JOIN C_S_SYSTEM_VALUE status ON icer.APPLICATION_STATUS_ID = status.UUID
+	LEFT JOIN C_IND_APPLICATION_MW_ITEM mwitem ON mwitem.MASTER_ID = iapp.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sitem ON sitem.UUID = mwitem.ITEM_DETAILS_ID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = iapp.REGION_CODE_ID
+	WHERE status.CODE = ''1''
+	AND ((icer.EXPIRY_DATE IS NOT NULL and icer.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(icer.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (icer.EXPIRY_DATE < CURRENT_DATE)))
+	GROUP BY iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID ,
+	app.HKID || app.PASSPORT_NO , scat.code , '''',
+	'''' , '''', area.ENGLISH_DESCRIPTION,status.ENGLISH_DESCRIPTION,CATCODED.CODE
+	UNION ALL
+	SELECT file_reference_no, name, hkid, category, min(class) AS class, mtype, role, item, area, Estatus, Disciplines FROM
+	( 
+	SELECT capp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS
+	name, app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, sclass.code AS class,
+	stype.code AS mtype, srole.code AS role, '''' AS item, area.ENGLISH_DESCRIPTION as area,
+    capp_status.ENGLISH_DESCRIPTION as Estatus,'''' as Disciplines
+	FROM C_COMP_APPLICATION capp
+	LEFT JOIN C_COMP_APPLICANT_INFO cinfo ON cinfo.MASTER_ID = capp.UUID
+	LEFT JOIN C_APPLICANT app ON cinfo.APPLICANT_ID = app.UUID
+	LEFT JOIN C_COMP_APPLICANT_MW_ITEM mitem ON mitem.COMPANY_APPLICANTS_ID = cinfo.UUID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON capp.CATEGORY_ID = scat.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE srole ON cinfo.APPLICANT_ROLE_ID = srole.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE capp_status ON capp.APPLICATION_STATUS_ID = capp_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE app_status ON cinfo.APPLICANT_STATUS_ID = app_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sclass ON mitem.ITEM_CLASS_ID = sclass.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE stype ON mitem.ITEM_TYPE_ID = stype.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = capp.REGION_CODE_ID
+	WHERE capp_status.CODE = ''1''
+	AND app_status.CODE = ''1''
+	AND ((capp.EXPIRY_DATE IS NOT NULL and capp.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(capp.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (capp.EXPIRY_DATE < CURRENT_DATE)))
+	) 
+	GROUP BY file_reference_no, name, hkid, category, mtype, role, item, area, Estatus, Disciplines)';
+
+	query_without_mwitem := 'SELECT * FROM ( 
+	SELECT iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS name,
+	app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, '''' AS class,
+	'''' AS mtype, '''' AS role, '''' AS item, area.ENGLISH_DESCRIPTION as area
+    ,status.ENGLISH_DESCRIPTION as Estatus,CATCODED.CODE as Disciplines
+	FROM C_IND_APPLICATION iapp
+	LEFT JOIN C_APPLICANT app ON iapp.APPLICANT_ID = app.UUID 
+	LEFT JOIN C_IND_CERTIFICATE icer ON icer.MASTER_ID = iapp.UUID
+    LEFT JOIN C_IND_QUALIFICATION IndQual on iapp.UUID = IndQual.master_id
+    LEFT JOIN C_IND_QUALIFICATION_DETAIL IndQualDetail on IndQual.UUID = IndQualDetail.IND_QUALIFICATION_ID
+    LEFT JOIN C_S_CATEGORY_CODE_DETAIL CATCODED on CATCODED.uuid = IndQualDetail.S_CATEGORY_CODE_DETAIL_ID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON icer.CATEGORY_ID = scat.UUID 
+	LEFT JOIN C_S_SYSTEM_VALUE status ON icer.APPLICATION_STATUS_ID = status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = iapp.REGION_CODE_ID
+	WHERE status.CODE = ''1''
+	AND ((icer.EXPIRY_DATE IS NOT NULL and icer.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(icer.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (icer.EXPIRY_DATE < CURRENT_DATE)))
+	GROUP BY iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID ,
+	app.HKID || app.PASSPORT_NO , scat.code , '''',
+	'''' , '''', area.ENGLISH_DESCRIPTION,status.ENGLISH_DESCRIPTION,CATCODED.CODE
+	UNION ALL
+	SELECT file_reference_no, name, hkid, category, min(class) AS class, mtype, role, item, area, Estatus, Disciplines FROM
+	( 
+	SELECT capp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS
+	name, app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, sclass.code AS class,
+	stype.code AS mtype, srole.code AS role, '''' as item, area.ENGLISH_DESCRIPTION as area
+    ,capp_status.ENGLISH_DESCRIPTION as Estatus,''''as Disciplines
+	FROM C_COMP_APPLICATION capp
+	LEFT JOIN C_COMP_APPLICANT_INFO cinfo ON cinfo.MASTER_ID = capp.UUID
+	LEFT JOIN C_APPLICANT app ON cinfo.APPLICANT_ID = app.UUID
+	LEFT JOIN C_COMP_APPLICANT_MW_ITEM mitem ON mitem.COMPANY_APPLICANTS_ID = cinfo.UUID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON capp.CATEGORY_ID = scat.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE srole ON cinfo.APPLICANT_ROLE_ID = srole.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE capp_status ON capp.APPLICATION_STATUS_ID = capp_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE app_status ON cinfo.APPLICANT_STATUS_ID = app_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sclass ON mitem.ITEM_CLASS_ID = sclass.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE stype ON mitem.ITEM_TYPE_ID = stype.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = capp.REGION_CODE_ID
+	WHERE capp_status.CODE = ''1''
+	AND app_status.CODE = ''1''
+	AND ((capp.EXPIRY_DATE IS NOT NULL and capp.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(capp.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (capp.EXPIRY_DATE < CURRENT_DATE)))
+	) 
+	GROUP BY file_reference_no, name, hkid, category, mtype, role, area, item, Estatus, Disciplines)';
+    
+	line_no := 1;
+    UserName:='admin';
+    todate:= sysdate;
+	item_cnt := 1;
+	type_cnt := 1;
+	i := 1;
+
+	c := condition;
+	WHILE instr(c, ',') > 0 LOOP
+		IF instr(c, ',') = 0 THEN 
+			c_array(i) := c;
+			--array_ok(i) := '0';
+			--EXIT;
+		ELSE
+			c_array(i) := substr(c, 1, instr(c, ',') - 1);
+			c := substr(c, length(c_array(i)) + 2);
+			--array_ok(i) := '0';
+		END IF;
+		i := i + 1;
+	END LOOP;
+	c_array(i) := c;
+	
+	
+	
+	FOR i IN 1..c_array.count LOOP
+		IF instr(c_array(i), 'MWC(W)') > 0 THEN
+			c_array(i) := REPLACE(c_array(i), 'And|');
+			c_array(i) := REPLACE(c_array(i), 'Or|');
+			sitem := c_array(i);
+
+			IF(instr(sitem, '|')) > 0 THEN
+				WHILE instr(sitem, '|') > 0 LOOP
+					item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'), instr(sitem, '|') - instr(sitem, 'Item'));
+					sitem := substr(sitem, instr(sitem, '|') + 1);
+					item_cnt := item_cnt + 1;	
+				END LOOP;
+				item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'));
+				item_cnt := item_cnt + 1;
+			ELSE
+				item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'));
+				item_cnt := item_cnt + 1;
+			END IF;
+		END IF;
+	END LOOP;
+	
+	
+	FOR i IN 1..c_array.count LOOP
+		IF instr(c_array(i), 'MWC(P)') > 0 OR (instr(c_array(i), 'MWC') > 0 AND instr(c_array(i), 'MWC(W)') = 0) THEN
+			
+			c_array(i) := REPLACE(c_array(i), 'And|');
+			c_array(i) := REPLACE(c_array(i), 'Or|');
+			sitem := c_array(i);
+
+			IF(instr(sitem, '|')) > 0 THEN
+				WHILE instr(sitem, '|') > 0 LOOP
+					type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'), instr(sitem, '|') - instr(sitem, 'Type'));
+					sitem := substr(sitem, instr(sitem, '|') + 1);
+					type_cnt := type_cnt + 1;
+				END LOOP;
+				type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'));
+				type_cnt := type_cnt + 1;
+			ELSE
+				type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'));
+				type_cnt := type_cnt + 1;
+			END IF;
+		END IF;
+	END LOOP;
+	
+	IF(instr(condition, 'MWC(W)') > 0) THEN
+		query := query_with_mwitem;
+	ELSE
+		query := query_without_mwitem;
+	END IF;
+
+  --open ind_table;
+  OPEN ind_table FOR query;
+    fetch ind_table into file_reference_no, name, hkid, category, class, mtype, role, item, area, Estatus, Disciplines;
+    
+    while ind_table%found LOOP
+    
+    	
+       FOR j IN 1..c_array.count LOOP
+         is_correct := 0;
+         has_role := 0;
+		 has_class := 0;
+		 has_type := 0;
+		 has_item := 0;
+		 role_ok := 0;
+		 class_ok := 0;
+		 type_ok := 0;
+		 item_ok := 0;
+	  	 c := c_array(j);
+	  	 
+	  	 
+	  	 
+	  	 IF instr(c, category) > 0 THEN
+	  	 	--IF instr(c, 'MWC(P)') > 0 AND category <> 'MWC(P)' THEN 
+	  	 	--	EXIT;
+	  	 	--END IF;
+	  	 	--IF instr(c, 'MWC(W)') > 0 AND category <> 'MWC(W)' THEN 
+	  	 	--	EXIT;
+	  	 	--END IF;
+	  	 
+	  	 	IF instr(c, 'AS') > 0 OR instr(c, 'TD') > 0 THEN 
+	  	 		has_role := 1;
+	  	 	ELSE
+	  	 		role_ok := 1;	
+	  	 	END IF;
+	  	 	IF instr(c, 'Class') > 0 THEN
+	  	 		has_class := 1;
+	  	 	ELSE
+	  	 		class_ok := 1;	
+	  	 	END IF;
+	  	 	IF instr(c, 'Type') > 0 THEN
+	  	 		has_type := 1;
+	  	 	ELSE
+	  	 		type_ok := 1;
+	  	 	END IF;
+	  	 	IF instr(c, 'Item') > 0 THEN
+	  	 		has_item := 1;
+	  	 	ELSE
+	  	 		item_ok := 1;
+	  	 	END IF;
+	  	 	
+	  	 	
+	  	 	
+	  	 	--if condition contain role
+	  	 	IF has_role = 1 THEN 
+		  	 	IF instr(c, 'AS') > 0 OR instr(c, 'TD') > 0 THEN 
+			  	 	IF instr(c, 'AS') > 0 THEN 
+				  	 	IF role = 'AS' THEN 
+				  	 		role_ok := 1;
+				  	 	ELSE
+				  	 		role_ok := 0;
+				  	 	END IF;
+				  	 END IF;
+			  	 	 IF instr(c, 'TD') > 0 THEN 
+			  	 	 	IF role = 'TD' THEN 
+				  	 		role_ok := 1;
+				  	 	ELSE
+				  	 		role_ok := 0;
+				  	 		--EXIT;
+				  	 	END IF;
+			  	 	 END IF;
+		  	 	END IF;
+	  	 	END IF;
+	  	 	
+	  	 	--DBMS_OUTPUT.PUT_LINE(c || '/' || class);
+	  	 	
+	  	 	--if condition contain class
+	  	 	IF has_class = 1 THEN
+	  	 		IF instr(c, class) > 0 THEN 
+	  	 			class_ok := 1;
+	  	 			
+	  	 		ELSE 
+	  	 			class_ok := 0;
+	  	 			--EXIT;
+	  	 		END IF;
+	  	 	END IF;
+	  	 	
+	  	 	--if condition conatin type
+	  	 	IF has_type = 1 THEN
+	  	 		type_ok := 0;
+	  	 		FOR i IN 1..type_array.count LOOP
+	  	 			--IF instr(mtype, type_array(i)) > 0 THEN 
+	  	 			IF mtype = type_array(i) THEN
+	  	 				type_ok := 1;
+	  	 				EXIT;
+	  	 			END IF;
+	  	 		END LOOP;
+	  	 	END IF;
+	  	 	
+	  	 	--if condition conatin item
+	  	 	IF has_item = 1 THEN
+	  	 		item_ok := 0;
+	  	 		FOR i IN 1..item_array.count LOOP
+	  	 			IF instr(item, item_array(i) || ',') > 0 THEN 
+	  	 				item_ok := 1;
+	  	 				EXIT;
+	  	 			END IF;
+	  	 		END LOOP;
+	  	 	END IF;
+	  	 	
+	  	 	
+	  	 	IF role_ok = 1 AND class_ok = 1 AND type_ok = 1 AND item_ok = 1 THEN 
+	  	 		is_correct := 1;
+	  	 	END IF;
+
+	  	  	IF is_correct = 1 THEN
+	  	  		EXIT;
+	  	  	END IF;
+	  	 END IF;
+	   END LOOP;
+	   
+	   
+	   IF is_correct = 1 THEN 
+	   	  --	tmp_insert := 'INSERT INTO REPORT_RPR VALUES(REPORT_SEQ.nextval, ''' || rpt_key || ''', ''' || file_reference_no || ''', ''' || name || ''', ''' || hkid || ''', ''' || category || ''', ''' || class || ''', ''' || mtype || ''', ''' || role || ''', ''' || line_no || ''', ''' || item || ''', ''' || area || ''')';
+	   		--EXECUTE IMMEDIATE tmp_insert;	
+	   		   	 	tmp_insert := 'INSERT INTO C_REPORT_RPR VALUES(REPORT_SEQ.nextval, :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17)';
+
+	   		EXECUTE IMMEDIATE tmp_insert USING rpt_key, file_reference_no, name, hkid, category, class, mtype, role, line_no, item, area, Disciplines, UserName, todate, UserName, todate, Estatus;
+	   	
+	   	
+
+	   END IF;
+	   
+       fetch ind_table into file_reference_no, name, hkid, category, class, mtype, role, item, area, Estatus, Disciplines;
+    END LOOP;	
+  close ind_table;
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+ RAISE ;
+
+END C_REGISTERED_PERSON_REPORT;
+
+
+
+---

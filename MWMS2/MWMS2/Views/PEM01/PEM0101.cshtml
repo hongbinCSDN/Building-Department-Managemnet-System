@@ -1,0 +1,595 @@
+﻿
+<table class="inputTable">
+    <thead>
+        <tr><th colspan="4"><b>Submission Info</b></th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Counter :</th>
+            <td colspan="3">
+                &nbsp;&nbsp;|
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.counter0" name="mwAckLetterVo.base.counter" value="1" checked="">
+                <label for="mwAckLetterVo.base.counter0">Kwun Tong</label>&nbsp;|
+
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.counter1" name="mwAckLetterVo.base.counter" value="2">
+                <label for="mwAckLetterVo.base.counter1">Pioneer Centre</label>&nbsp;|
+
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.counter2" name="mwAckLetterVo.base.counter" value="3">
+                <label for="mwAckLetterVo.base.counter2">E-submission</label>&nbsp;|
+            </td>
+        </tr>
+
+        <tr>
+            <th>Nature :</th>
+            <td colspan="3">
+                &nbsp;&nbsp;|
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.nature0" name="mwAckLetterVo.base.nature" value="SUBMISSION" checked="">
+                <label for="mwAckLetterVo.base.nature0">SUBMISSION</label>&nbsp;|
+
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.nature1" name="mwAckLetterVo.base.nature" value="E-SUBMISSION">
+                <label for="mwAckLetterVo.base.nature1">E-SUBMISSION</label>&nbsp;|
+
+                <!--&nbsp;<input type="radio" id="mwAckLetterVo.base.nature2" name="mwAckLetterVo.base.nature" value="DIRECT RETURN">
+                <label for="mwAckLetterVo.base.nature2">DIRECT RETURN</label>&nbsp;|-->
+                &nbsp;<input type="radio" id="mwAckLetterVo.base.nature3" name="mwAckLetterVo.base.nature" value="ICU">
+                <label for="mwAckLetterVo.base.nature3">ICU</label>&nbsp;|
+
+
+            </td>
+        </tr>
+
+        <tr id="additionTr1" class="hide" style="display:none">
+            <th>TO Post :</th>
+            <td>
+                <input style="text-transform: uppercase;" class="inputText" name="mwAckLetterVo.base.toPost" id="mwAckLetterVo.base.toPost" size="10" type="text" value="">&nbsp;e.g. SOMW1
+            </td>
+            <th>TO :</th>
+            <td>
+                <input class="inputText" name="mwAckLetterVo.base.teo" id="mwAckLetterVo.base.teo" size="10" type="text" value="">
+            </td>
+        </tr>
+        <tr id="additionTr2" class="hide" style="display:none">
+            <th>PO Post :</th>
+            <td>
+                <input style="text-transform: uppercase;" class="inputText" name="mwAckLetterVo.base.poPost" id="mwAckLetterVo.base.poPost" size="10" type="text" value="">
+            </td>
+            <th>PO :</th>
+            <td>
+                <input class="inputText" name="mwAckLetterVo.base.po" id="mwAckLetterVo.base.po" size="40" type="text" value="">
+            </td>
+        </tr>
+        <tr id="additionTr3" class="hide" style="display:none">
+            <th>TO Contact :</th>
+            <td>
+                <input class="inputText" name="mwAckLetterVo.base.toContact" id="mwAckLetterVo.base.toContact" size="10" type="text" value="">
+            </td>
+            <th>Tentative Letter Date :</th>
+            <td>
+                <input type="text" class="inputText dateTip" size="10" name="mwAckLetterVo.tentativeLetterDate" id="mwAckLetterVo.tentativeLetterDate" value="">
+                &nbsp;e.g. 31/01/2014
+            </td>
+        </tr>
+
+        <tr>
+            <th>Received Date :</th>
+            <td style="width:180px">
+                <input type="text" class="inputDate" maxlength="10" name="mwAckLetterVo.receivedDate" id="mwAckLetterVo.receivedDate" value="18/10/2018">
+                <input class="inputButton" type="button" value="Search" onclick="onSearchByDate()">
+            </td>
+            <th>Letter Date :</th>
+            <td>
+
+
+                <input type="text" class="inputDate" maxlength="10" name="mwAckLetterVo.letterDate" id="mwAckLetterVo.letterDate" value="18/10/2018">
+
+
+                <input type="checkbox" name="mwAckLetterVo.base.receivedDateFixed" id="mwAckLetterVo.base.receivedDateFixed" value="Y">
+
+
+                Fixed?
+                <br>(如果只是補入資料，請刪去Letter Date!!)
+            </td>
+        </tr>
+
+        <tr>
+            <th>DSN :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText" maxlength="11" name="mwAckLetterVo.base.dsn" id="mwAckLetterVo.base.dsn" value="" style="color: rgb(255, 0, 0); font-weight: bold;">
+                <span id="dsnChecking" class="hide">Checking..</span>
+                <label id="dsnUneditableStatus"></label>
+            </td>
+        </tr>
+
+        <tr>
+            <th>MW No. :</th>
+            <td style="width:180px">
+
+                <span class="displayText" id="mwAckLetterVo.base.mwNo.label"></span>
+                <input type="hidden" name="mwAckLetterVo.base.mwNo" id="mwAckLetterVo.base.mwNo" value="">
+
+            </td>
+            <th>File Reference No. :</th>
+            <td>
+
+
+                <input type="text" style="width: 60px;" class="inputText" maxlength="4" name="mwAckLetterVo.base.filerefFour" id="mwAckLetterVo.base.filerefFour" value="">/
+
+                <input type="text" style="width: 35px;" class="inputText" maxlength="2" name="mwAckLetterVo.base.filerefTwo" id="mwAckLetterVo.base.filerefTwo" value="">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Form No. :</th>
+            <td>
+
+
+                <span class="displayText" id="mwAckLetterVo.base.formNo.label"></span>
+                <input style="text-transform: uppercase;" type="text" name="mwAckLetterVo.base.formNo" id="mwAckLetterVo.base.formNo" class="hideSpan" value="">
+
+            </td>
+
+            <th><!-- MW NO. For Strengthening: --> Strengthening of PBBW :</th>
+            <td>
+
+                <input type="radio" id="mwAckLetterVo.base.strengtheningOfPBBW_Y" name="mwAckLetterVo.base.strengtheningOfPBBW" value="Y">
+                <label for="mwAckLetterVo.base.strengtheningOfPBBW_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.strengtheningOfPBBW_N" name="mwAckLetterVo.base.strengtheningOfPBBW" value="N" checked="">
+                <label for="mwAckLetterVo.base.strengtheningOfPBBW_N">N</label>
+            </td>
+        </tr>
+
+        <tr>
+            <th>完成工程日期 :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputDate" maxlength="10" name="mwAckLetterVo.compDate" id="mwAckLetterVo.compDate" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>MW Items :</th>
+            <td colspan="3">
+
+
+                <input style="text-transform: uppercase;" type="text" class="inputText" maxlength="100" name="mwAckLetterVo.base.itemDisplay" id="mwAckLetterVo.base.itemDisplay" value="">
+                <br>
+                MW02/MW04 後加的III級項目，就咁打返嗰個項目就得，如"3.27/"。MW11 &amp; MW12 都係。
+            </td>
+        </tr>
+
+        <tr>
+            <th>Order Related :</th>
+            <td>
+
+
+                <input type="radio" id="mwAckLetterVo.base.orderRelated_Y" name="mwAckLetterVo.base.orderRelated" value="Y">
+                <label for="mwAckLetterVo.base.orderRelated_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.orderRelated_N" name="mwAckLetterVo.base.orderRelated" value="N" checked="">
+                <label for="mwAckLetterVo.base.orderRelated_N">N</label>
+
+            </td>
+
+
+            <th>SSP included :</th>
+            <td>
+
+
+                <input type="radio" id="mwAckLetterVo.base.ssp_Y" name="mwAckLetterVo.base.ssp" value="Y">
+                <label for="mwAckLetterVo.base.ssp_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.ssp_N" name="mwAckLetterVo.base.ssp" value="N" checked="">
+                <label for="mwAckLetterVo.base.ssp_N">N</label>
+
+            </td>
+        </tr>
+
+
+        <tr style="display:none;" class="Signboard_SDF">
+            <th>Signboard :</th>
+            <td>
+
+
+                <input type="radio" id="mwAckLetterVo.base.signboardRelated_Y" name="mwAckLetterVo.base.signboardRelated" value="Y" disabled="">
+                <label for="mwAckLetterVo.base.signboardRelated_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.signboardRelated_N" name="mwAckLetterVo.base.signboardRelated" value="N" checked="" disabled="">
+                <label for="mwAckLetterVo.base.signboardRelated_N">N</label>
+
+            </td>
+
+
+            <th>SDF Related :</th>
+            <td>
+
+
+                <span class="displayText" id="mwAckLetterVo.base.ssp.label"></span>
+                <!--
+                <input type="radio" id="mwAckLetterVo.base.ssp_Y" name="mwAckLetterVo.base.ssp" value="Y"/>
+                <label for="mwAckLetterVo.base.ssp_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.ssp_N" name="mwAckLetterVo.base.ssp" value="N" checked/>
+                <label for="mwAckLetterVo.base.ssp_N">N</label>
+                -->
+            </td>
+        </tr>
+
+
+        <tr>
+            <th>PBP No. :</th>
+            <td>
+
+
+                <input style="text-transform: uppercase; max-width:200px" type="text" class="inputText" maxlength="16" name="mwAckLetterVo.base.pbpNo" id="mwAckLetterVo.base.pbpNo" value="">
+                <br>
+                1=AP(A) | 2=AP(E) | 3=AP(S)<br> [其他就要全打，如RI(A)。]
+            </td>
+            <th>PBP Email :</th>
+            <th>
+                <input type="text" />
+            </th>
+
+        </tr>
+
+        <tr>
+            <th>PRC No. :</th>
+            <td>
+
+
+                <input style="text-transform: uppercase; max-width:200px" type="text" class="inputText" maxlength="16" name="mwAckLetterVo.base.prcNo" id="mwAckLetterVo.base.prcNo" value="">
+                <br>
+                1=GBC&nbsp;&nbsp;&nbsp;| 2=MWC&nbsp;&nbsp;| 3=MWC(W) [其他就要全打，如SC(D)。]
+            </td>
+            <th>PRC Email :</th>
+            <th>
+                <input type="text" />
+            </th>
+
+        </tr>
+
+        <tr>
+            <th>展開工程日期 :</th>
+            <td>
+
+
+                <input type="text" class="inputDate" maxlength="10" name="mwAckLetterVo.commDate" id="mwAckLetterVo.commDate" value="">
+            </td>
+
+            <th>Previous MW No. :</th>
+            <td>
+
+
+                <input type="text" class="inputText" maxlength="11" name="mwAckLetterVo.base.previousRelatedMwNo" id="mwAckLetterVo.base.previousRelatedMwNo" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>Address :</th>
+            <td colspan="3">
+
+
+
+                <input type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.address" id="mwAckLetterVo.base.address" value="">
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <th>Street :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText ui-autocomplete-input" maxlength="255" size="100" name="mwAckLetterVo.base.street" id="mwAckLetterVo.base.street" value="" autocomplete="off">
+
+            </td>
+        </tr>
+        <tr>
+            <th>Street No :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText ui-autocomplete-input" maxlength="255" size="100" name="mwAckLetterVo.base.streetNo" id="mwAckLetterVo.base.streetNo" value="" autocomplete="off">
+
+            </td>
+        </tr>
+        <tr>
+            <th>Building :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.building" id="mwAckLetterVo.base.building" value="">
+
+            </td>
+        </tr>
+        <tr>
+            <th>Floor :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText ui-autocomplete-input" maxlength="255" size="100" name="mwAckLetterVo.base.floor" id="mwAckLetterVo.base.floor" value="" autocomplete="off">
+
+            </td>
+        </tr>
+        <tr>
+            <th>Unit :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText ui-autocomplete-input" maxlength="255" size="100" name="mwAckLetterVo.base.unit" id="mwAckLetterVo.base.unit" value="" autocomplete="off">
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <th>PAW :</th>
+            <td colspan="3">
+
+
+                <input style="text-transform: uppercase;" type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.paw" id="mwAckLetterVo.base.paw" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>PAW Contact :</th>
+            <td colspan="3">
+
+
+                <input style="text-transform: uppercase;" type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.pawContact" id="mwAckLetterVo.base.pawContact" value=""><br>如果係FAX，只打號碼，不要隔格。
+            </td>
+        </tr>
+
+        <tr>
+            <th>I.O./Mgt. :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.ioMgt" id="mwAckLetterVo.base.ioMgt" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>I.O./Mgt. Contact :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.ioMgtContact" id="mwAckLetterVo.base.ioMgtContact" value=""><br>如果係FAX，只打號碼，不要隔格。
+            </td>
+        </tr>
+
+        <tr>
+            <th>Remarks :</th>
+            <td colspan="3">
+
+
+                <input type="text" class="inputText" maxlength="255" size="100" name="mwAckLetterVo.base.remark" id="mwAckLetterVo.base.remark" value="">
+
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Repeated? :
+
+
+                <input type="checkbox" value="Y" name="mwAckLetterVo.base.repeated" id="mwAckLetterVo.base.repeated">
+
+
+
+            </th>
+            <td>
+
+
+                <input type="radio" id="mwAckLetterVo.base.language_1" name="mwAckLetterVo.base.language" value="CHT">
+                <label for="mwAckLetterVo.base.language_1">中文</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.language_2" name="mwAckLetterVo.base.language" value="ENG" checked="">
+                <label for="mwAckLetterVo.base.language_2">English</label>
+
+            </td>
+
+            <td>
+
+
+                <input type="radio" id="mwAckLetterVo.base.fileType_1" name="mwAckLetterVo.base.fileType" value="PDF" checked="">
+                <label for="mwAckLetterVo.base.fileType_1">pdf</label>
+                &nbsp;|
+                <input type="radio" id="mwAckLetterVo.base.fileType_2" name="mwAckLetterVo.base.fileType" value="DOCX">
+                <label for="mwAckLetterVo.base.fileType_2">docx</label>
+
+            </td>
+            <td>
+                BARCODE/ QR CODE :
+
+                <input type="radio" id="mwAckLetterVo.base.barcode_Y" name="mwAckLetterVo.base.barcode" value="Y">
+                <label for="mwAckLetterVo.base.barcode_Y">Y</label>
+                &nbsp;|&nbsp;
+                <input type="radio" id="mwAckLetterVo.base.barcode_N" name="mwAckLetterVo.base.barcode" value="N" checked="">
+                <label for="mwAckLetterVo.base.barcode_N">N</label>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td colspan="3" style="text-align:right">
+                <input class="inputButton" type="button" value="Save" onclick="onSave()">&nbsp;
+                <input class="inputButton" onclick="loadContentPage('PEM0101')" type="reset" value="Reset">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<table id="SearchDsnTable" class="inputTable">
+    <tbody>
+        <tr>
+            <th>Submission Received</th>
+            <th style="text-align:right">Search DSN :</th>
+            <td style="text-align:right" width="110px"><input type="text" name="searchRecordByDsn" id="searchRecordByDsn" class="inputText" maxlength="11" size="13" style="text-transform:uppercase"></td>
+            <td style="text-align:right" width="70px"><input class="inputButton" type="button" value="Search" onclick="loadContentPage('PEM0104a')"></td>
+        </tr>
+    </tbody>
+</table>
+<table id="PEMHideDiv" class="resultTable hide">
+
+    <thead id="ackTableThead">
+
+
+        <tr id="ackTableColumnName">
+            <th>&nbsp;</th>
+            <th>DSN</th>
+            <th>MW No.</th>
+            <th>Form</th>
+            <th>Received Date</th>
+            <th>Letter Date</th>
+            <th>PBP</th>
+            <th>PRC</th>
+            <th>Address</th>
+            <th title="Audit Related" id="auditRelatedDesc">A</th>
+            <th title="Order Related" id="orderRelatedDesc">O</th>
+            <th title="Signboard Related" id="signboardRelatedDesc">S</th>
+            <th title="SSP" id="ssp">P</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody id="ackTableTbody">
+        <tr class="sRow2">
+            <td class="sCell">Submitted</td>
+            <td class="sCell">D0000748430&nbsp;</td>
+            <td class="sCell">MW161100007&nbsp;</td>
+            <td class="sCell">MW01&nbsp;</td>
+            <td class="sCell">28/11/2016&nbsp;</td>
+            <td class="sCell">28/11/2016&nbsp;</td>
+            <td class="sCell">SOMW1&nbsp;</td>
+            <td class="sCell">&nbsp;</td>
+            <td class="sCell">&nbsp;</td>
+            <td class="sCell">N&nbsp;</td>
+            <td class="sCell">N&nbsp;</td>
+            <td class="sCell">N&nbsp;</td>
+            <td class="sCell">N&nbsp;</td>
+            <td class="sCell">
+                <input type="button" value="print" class="inputButton" onclick="location.href='/img/PEM0101.pdf'" target="_blank">
+            </td>
+        </tr>
+    </tbody>
+
+
+</table>
+
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>DSN</th>
+            <th>MW NO.</th>
+            <th>FORM</th>
+            <th>RECEIVED DATE</th>
+            <th>LETTER DATE</th>
+            <th>PBP</th>
+            <th>PRC</th>
+            <th>ADDRESS</th>
+            <th>Audit<br />(AFC)</th>
+            <th>Audit<br />(SAC)</th>
+            <th>Audit<br />(PSAC)</th>
+            <th>O</th>
+            <th>S</th>
+            <th>P</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><button>Edit</button></td>
+            <td>D0000123456</td>
+            <td>MW181100001</td>
+            <td>MW01</td>
+            <td>13/11/2018</td>
+            <td>13/11/2018</td>
+            <td>AP(A) 11/17</td>
+            <td>GBC 11/2017</td>
+            <td>彌敦道</td>
+            <td class="fieldY">Y</td>
+            <td class="fieldY">Y</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td><button>Print</button></td>
+        </tr>
+        <tr>
+            <td><button>Edit</button></td>
+            <td>D0000123457</td>
+            <td>MW181100002</td>
+            <td>MW01</td>
+            <td>12/11/2018</td>
+            <td>12/11/2018</td>
+            <td>AP(A) 12/17</td>
+            <td>GBC 12/2017</td>
+            <td>彌敦道</td>
+            <td class="fieldY">Y</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td><button>Print</button></td>
+        </tr>
+        <tr>
+            <td><button>Edit</button></td>
+            <td>D0000123458</td>
+            <td>MW181100003</td>
+            <td>MW01</td>
+            <td>11/11/2018</td>
+            <td>11/11/2018</td>
+            <td>AP(A) 13/17</td>
+            <td>GBC 13/2017</td>
+            <td>彌敦道</td>
+            <td class=" fieldY">Y</td>
+            <td class="fieldY">Y</td>
+            <td class="fieldY">Y</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td><button>Print</button></td>
+        </tr>
+        <tr>
+            <td><button>Edit</button></td>
+            <td>D0000123459</td>
+            <td>MW181100004</td>
+            <td>MW01</td>
+            <td>10/11/2018</td>
+            <td>10/11/2018</td>
+            <td>AP(A) 10/17</td>
+            <td>GBC 10/2017</td>
+            <td>彌敦道</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td>N</td>
+            <td><button>Print</button></td>
+        </tr>
+    </tbody>
+</table>
+<style>
+    .fieldY {
+        background-color: rgb(255,136,166,1);
+    }
+</style>
+<!--
+
+ 1 3 5 6 = AFC >> SAC
+ 1 3 = PSAC
+ 1.42 144 = AFC +SAC
+  -->

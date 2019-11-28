@@ -1,0 +1,1304 @@
+﻿
+
+                    <table class="inputTable">
+                        <thead>
+                            <tr>
+                                <th class="label" style="width:180px">Checklist Summary :</th>
+                                <th class="text"><a class="url2">Specified Form Checklist Summary</a> :</th>
+                                <!--
+                                <td class="text"><a class="url1">Minor Work Item Checklist Summary</a></td>
+                                -->
+                            </tr>
+                        </thead>
+                    </table>
+
+    <div class="sList">
+
+
+
+        <script type="text/javascript">function editSubmissionInformation(mwRecordUUID, taskId, verId, checkPage) {
+	var dsn = 'D0000748827';
+	var windowOpened = null;
+	try{
+		var url = 'http://10.5.17.38:80/pem/verificationEdit/verificationEditForm.action' + '?dsn=' + dsn + '&t=' + new Date().getTime();
+		windowOpened = window.showModalDialog(url, null, 'dialogWidth=1024px;dialogHeight=700px;status=yes');
+
+		if(windowOpened.ACTION == 'SAVE') {
+		document.acknowledgementForm.action='http://10.5.17.38:80/pem/acknowledgement/specifiedChecklistSummary.action?uuid=' + mwRecordUUID + '&PEMtaskId=' + taskId +  '&SAVE_DRIFT=ITEM';
+		document.acknowledgementForm.method="POST";
+		document.acknowledgementForm.target="_self";
+		document.acknowledgementForm.submit();
+
+
+			//window.location = 'http://10.5.17.38:80/pem/acknowledgement/specifiedChecklistSummary.action?uuid=' + mwRecordUUID + '&PEMtaskId=' + taskId + '&verId=' + verId + '&SAVE_DRIFT=Y';
+		}
+	}catch(e){}
+}</script>
+        <div class="sList">
+            <table class="inputTable">
+                <thead>
+                    <tr>
+                        <th colspan="4" class="sTh">Submission Information: :</th>
+                        <td class="sThRight"></td>
+                    </tr>
+                    </thead>
+
+                <tbody>
+               
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="fLabel" style="width:200px">Ref No. :</th>
+                                                        <td class="fText">MW180900004</td>
+                                                        <th class="fLabel">Form No. :</th>
+                                                        <td class="fText">MW01</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th class="fLabel" style="width: 200px">Previous MW No. :</th>
+                                                        <td class="fText"><br></td>
+                                                        <th class="fLabel">File Reference No. :</th>
+                                                        <td class="fText">/</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th class="fLabel" style="width:200px;height:50px">
+                                                            Received Date
+
+                                                         :</th>
+                                                        <td class="fText">20/9/2018</td>
+                                                        <th  class="fLabel" style="width:200px;height:50px">
+                                                            Location/Address of the proposed minor works are to be carried out
+
+                                                         :</th>
+                                                        <td class="fText">
+                                                            Mong Kow/<br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="fLabel">
+                                                            Commencement Date
+
+                                                         :</th>
+                                                        <td class="fText"></td>
+                                                        <th class="fLabel">
+                                                            Completion Date
+
+                                                         :</th>
+                                                        <td class="fText"></td>
+                                                    </tr>
+                                                    <tr class="fLabel">
+                                                        <th class="fLabel" >Requirements :</th>
+                                                        <td colspan="3" class="fText"></td>
+                                                        <input name="specifiedMwRecordSelectOfReqCode" id="specifiedMwRecordSelectOfReqCode" value="" type="hidden">
+                                                        <input name="specifiedMwRecordSelectOfReqDesc" id="specifiedMwRecordSelectOfReqDesc" value="" type="hidden">
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td valign="top">
+                                            <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                                                <tbody>
+                                                    <tr>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                
+                                                    </tr>
+                                                    <tr>
+                                                      
+                                                    </tr>
+                                                    <tr>
+                                                    
+                                                    </tr>
+                                                    <!-- <tr>
+                                          <td class="fLabel">EFSS Submission Reference No.</td>
+                                          <td class="fText"></td>
+                                        </tr>
+                                         -->
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="sList" id="submittedDoc">
+        <!--
+
+
+
+
+
+
+        <table width="100%" class="sList" cellpadding="0" cellspacing="0" border="0" >
+              <tr>
+                <td class="sTh1" >Submitted Document</td>
+              </tr>
+              <tr class="sRow2">
+                <td><table width="100%" cellpadding="0" cellspacing="0" border="0" >
+                <tr class="sRow2">
+                  <td  >Document Type</td>
+                  <td  >Received Date</td>
+                  <td  >Document S/N</td>
+                  <td  >Document Title</td>
+                  <td  >View Image</td>
+                  <td  >Folder Type</td>
+                </tr>
+
+
+                <input type="hidden" name="docList[0].uuid" value="E10A2649136548C2BD5377932D5FFF14"/>
+                <tr class="sRow2">
+                  <td  >Letter</td>
+                  <td  >20/9/2018</td>
+                  <td  >D0000748827C</td>
+                  <td  >Email</td>
+                  <td  ><img  style="cursor: pointer;" src="images/ico_view.gif" onclick="openFile('D0000748827C')"/></td>
+                  <td  >Public</td>
+                </tr>
+
+
+              </table></td>
+              </tr>
+            </table>
+
+             <table width="100%" class="sList" cellpadding="0" cellspacing="0" border="0" >
+              <tr>
+                <td class="sTh1" >Issued Correspondence</td>
+              </tr>
+              <tr class="sRow2">
+                <td><table width="100%" cellpadding="0" cellspacing="0" border="0" >
+                <tr class="sRow2">
+                  <td  >Letter Type</td>
+                  <td  >Issued Date</td>
+                  <td  >Document S/N</td>
+                  <td  >Letter Template No.</td>
+                  <td  >View Image</td>
+                  <td  >Folder Type</td>
+                </tr>
+
+              </table></td>
+              </tr>
+            </table>
+
+         -->
+
+
+        <script type="text/javascript">function saveFolderType(docType) {
+		$("#acknowledgementForm").ajaxSubmit({
+			url: "http://10.5.17.38:80//pem/verification/saveFolderType.action?docType=" + docType,
+			type: "POST",
+			success: function(){
+				alert("Save Successfully!");
+			}});
+	}</script>
+
+
+
+                        <table class="resultTable">
+
+                            <thead>
+                          
+                                <tr>
+                                    <th colspan="6" class="sTh1">Submitted Document </th>
+                                </tr>
+                            
+                            <tr class="sRow2">
+                                <th>Document Type </th>
+                                <th>Received Date </th>
+                                <th>Document S/N </th>
+                                <th>Document Title </th>
+                                <th>View Image </th>
+                                <th>Folder Type </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="sRow2">
+                                    <td>
+                                        Letter
+                                        <input name="docList[0].uuid" value="E10A2649136548C2BD5377932D5FFF14" type="hidden">
+                                    </td>
+                                    <td>20/9/2018</td>
+                                    <td>D0000748827C</td>
+                                    <td>Email</td>
+                                    <td><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000748827C')" alt="ico"></td>
+                                    <td>
+                                        <select name="docList[0].folderType">
+
+                                            <option selected="selected" value="Public">Public</option>
+
+                                            <option value="Private">Private</option>
+
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+        <div class="btnSet btnSetTypeA">
+            <div class="right">
+                <input class="inputButton" id="btnSaveFolderTypeSubmittedDoc" name="btnSaveFolderTypeSubmittedDoc" value="Save" onclick="saveFolderType('')" disabled="disabled" type="button">
+            </div>
+        </div>
+     
+                        <table class="resultTable">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" class="sTh1">Issued Correspondence </th>
+                                </tr>
+                                <tr class="sRow2">
+                                    <th>Letter Type </th>
+                                    <th>Issued Date </th>
+                                    <th>Document S/N </th>
+                                    <th>Letter Template No. </th>
+                                    <th>View Image </th>
+                                    <th>Folder Type </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="sRow2">
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                
+
+        <div class="btnSet btnSetTypeA">
+            <div class="right">
+                <input class="inputButton" id="btnSaveFolderTypeIssuedCor" name="btnSaveFolderTypeIssuedCor" value="Save"  onclick="saveFolderType('Letter')" disabled="disabled" type="button">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="sList" id="mwItemInfo">
+
+
+
+
+
+
+
+
+                        <div class="sList">
+                            <table class="resultTable">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" class="sTh1">Details of the minor work </th>
+                                    </tr>
+                                    <tr class="sRow2">
+                                        <th>Item sequence </th>
+                                        <th>Minor Work item </th>
+                                        <th>Type </th>
+                                        <th>Description </th>
+                                        <th>
+                                            Relevant Order/ Direction/ Notice No./ BD Reference No.
+
+                                         </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="sRow2">
+                                        <td class="sCell">
+                                            1
+                                            &nbsp; in &nbsp;
+
+
+
+                                            MW01
+
+
+                                        </td>
+                                        <td class="sCell">
+                                            1.1
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+
+
+
+                                            MW01
+
+
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">Erection or alteration of any internal staircase that is not used as a means of escape or a means of access for firefighting and rescue &nbsp; </td>
+                                        <td class="sCell">N &nbsp; </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+      
+
+        <!-- ************************************************** -->
+        <!--                                                    -->
+        <!-- Particulars of PBP                                 -->
+        <!--                                                    -->
+        <!-- ************************************************** -->
+        <div class="sList" id="pbpInfo">
+
+
+
+
+                            <table class="resultTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sTh1" colspan="4">Particulars of PBP </th>
+                                        <th class="sTh1">Result </th>
+                                    </tr>
+
+                                    <tr class="sRow2">
+                                        <th >PBP </th>
+                                        <th >Certification of Registration No. </th>
+                                        <th >English Name </th>
+                                        <th >Chinese Name </th>
+                                        <th >Name of PBP </th>
+                                    </tr>
+                                    </thead>
+                                <tbody>
+                                    <tr class="sRow2">
+                                        <td class="sCell">
+
+                                            AP/RI
+
+
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            <label>
+                                                <input class="inputRadio" id="pbpApInfoName" name="formChecklist.pbpApInfoName" disabled="" value="O" type="radio">
+                                                OK
+                                            </label>
+                                            <label>
+                                                <input class="inputRadio" id="pbpApInfoName" name="formChecklist.pbpApInfoName" disabled="" value="N" checked="checked" type="radio">
+                                                Not OK
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sRow2">
+                                        <td class="sCell">
+                                            RSE&nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            <label>
+                                                <input class="inputRadio" id="pbpRseInfoName" name="formChecklist.pbpRseInfoName" disabled="" value="O" ondblclick="javascript:clearValue('pbpRseInfoName')" type="radio">
+                                                OK
+                                            </label>
+                                            <label>
+                                                <input class="inputRadio" id="pbpRseInfoName" name="formChecklist.pbpRseInfoName" disabled="" value="N" ondblclick="javascript:clearValue('pbpRseInfoName')" type="radio">
+                                                Not OK
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sRow2">
+                                        <td class="sCell">
+                                            RGE&nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            <label>
+                                                <input class="inputRadio" id="pbpRgeInfoName" name="formChecklist.pbpRgeInfoName" disabled="" value="O" ondblclick="javascript:clearRadio(this)" type="radio">
+                                                OK
+                                            </label>
+                                            <label>
+                                                <input class="inputRadio" id="pbpRgeInfoName" name="formChecklist.pbpRgeInfoName" disabled="" value="N" ondblclick="javascript:clearRadio(this)" type="radio">
+                                                Not OK
+                                            </label>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+     
+
+        </div>
+        <!-- ************************************************** -->
+        <!-- End                                                -->
+        <!-- Particulars of PBP                                  -->
+        <!--                                                    -->
+        <!-- ************************************************** -->
+        <!-- ************************************************** -->
+        <!--                                                    -->
+        <!-- Particulars of PRC                                 -->
+        <!--                                                    -->
+        <!-- ************************************************** -->
+        <div class="sList" id="prcInfo">
+            <!--
+
+            -->
+
+                            <table class="resultTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sTh1" colspan="3">Particulars of PRC </th>
+                                        <th class="sTh1">Result </th>
+                                        <th class="sTh1" colspan="2">Particulars of AS </th>
+                                        <th class="sTh1">Result </th>
+                                    </tr>
+
+                                    <tr class="sRow2">
+                                        <th >Certification of Registration No. </th>
+                                        <th >English Name of PRC </th>
+                                        <th >Chinese Name of PRC </th>
+                                        <th  style="width: 120px">Name of PRC </th>
+                                        <th >English Name of AS </th>
+                                        <th >Chinese Name of AS </th>
+                                        <th  style="width: 120px">Name of AS </th>
+                                    </tr>
+
+                                    <tr class="sRow2">
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td></td>
+                                        <td>
+
+                                        </td>
+                                        <!--<td class="sCell">
+                                            <label>
+                                                <input class="inputRadio" id="prcInfoName" name="formChecklist.prcInfoName" disabled="" value="O" ondblclick="javascript:clearRadio(this)" type="radio">
+                                                OK
+                                            </label>
+                                            <label>
+                                                <input class="inputRadio" id="prcInfoName" name="formChecklist.prcInfoName" disabled="" value="N" ondblclick="javascript:clearRadio(this)" checked="checked" type="radio">
+                                                Not OK
+                                            </label>
+                                        </td>-->
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <td class="sCell">
+                                            &nbsp;
+                                        </td>
+                                        <!--<td class="sCell">
+                                            <label>
+                                                <input class="inputRadio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" disabled="" value="O" ondblclick="javascript:clearRadio(this)" type="radio">
+                                                OK
+                                            </label>
+                                            <label>
+                                                <input class="inputRadio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" disabled="" value="N" ondblclick="javascript:clearRadio(this)" checked="checked" type="radio">
+                                                Not OK
+                                            </label>
+                                        </td>-->
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+ 
+        </div>
+        <!-- ************************************************** -->
+        <!-- End                                                -->
+        <!-- Particulars of PRC                                 -->
+        <!--                                                    -->
+        <!-- ************************************************** -->
+
+
+
+    </div>
+
+    <br>
+
+    <div class="sList">
+        <input name="mwRecordFormChecklistPo.uuid" value="8a8591a665eae8a80165f66f9d5c0088" type="hidden">
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th class="sTh" style="width:20px" rowspan="2">&nbsp; </th>
+                    <th class="sTh" rowspan="2">Form Checking items </th>
+                    <th class="sTh" colspan="2">Checking Result </th>
+                    <th class="sTh" rowspan="2">TO Remarks (ADMIN) </th>
+                    <th class="sTh" colspan="2">PO Agreement </th>
+                    <th class="sTh" rowspan="2">PO Remarks (ADMIN) </th>
+                </tr>
+
+
+
+
+                <tr>
+                    <th class="sTh" style="width:30px">Not OK </th>
+                    <th class="sTh" style="width:30px">OK </th>
+                    <th class="sTh" style="width:30px">Agreed </th>
+                    <th class="sTh" style="width:30px">Not Agreed </th>
+                </tr>
+
+
+
+
+
+             
+                <tr><th class="sTh">&nbsp; </th><th class="sTh" colspan="7">Submission Information Checking </th></tr>
+
+            </thead>
+         <!--bug-->   <!--<tbody>
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">1<input name="specifiedMwRecordFormChecklist[1].itemName" value="InfoNot" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Notification
+                        <input name="specifiedMwRecordFormChecklist[1].checkingItemsDescription" value="Notification" type="hidden">
+                        &nbsp;
+                    </td>
+                    <td class="sCell" colspan="2">
+
+                        Conditional
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_InfoNot" name="mwRecordFormChecklistPo.InfoNot" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_InfoNot" name="mwRecordFormChecklistPo.InfoNot" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_InfoNot" name="mwRecordFormChecklistPo.InfoNotRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+                <tr class="sRow2">
+                    <td class="sCell">2 <input name="specifiedMwRecordFormChecklist[2].itemName" value="InfoOther" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Other Information
+                        <input name="specifiedMwRecordFormChecklist[2].checkingItemsDescription" value="Other Information" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[2].toChecking" name="specifiedMwRecordFormChecklist[2].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[2].toChecking" name="specifiedMwRecordFormChecklist[2].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_InfoOther" name="mwRecordFormChecklistPo.InfoOther" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_InfoOther" name="mwRecordFormChecklistPo.InfoOther" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_InfoOther" name="mwRecordFormChecklistPo.InfoOtherRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">3 <input name="specifiedMwRecordFormChecklist[3].itemName" value="apDetailValid" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Particulars of appointed AP/RI = Particulars of signed AP/RI<font color="red"><br>The names of appointed AP/RI and signed AP/RI are blank</font>
+                        <input name="specifiedMwRecordFormChecklist[3].checkingItemsDescription" value="Particulars of appointed AP/RI = Particulars of signed AP/RI<font color='red'><br />The names of appointed AP/RI and signed AP/RI are blank</font>" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[3].toChecking" name="specifiedMwRecordFormChecklist[3].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[3].toChecking" name="specifiedMwRecordFormChecklist[3].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_apDetailValid" name="mwRecordFormChecklistPo.apDetailValid" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_apDetailValid" name="mwRecordFormChecklistPo.apDetailValid" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_apDetailValid" name="mwRecordFormChecklistPo.apDetailValidRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">4 <input name="specifiedMwRecordFormChecklist[4].itemName" value="prcDetailValid" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Particulars of appointed PRC = Particulars of signed PRC<font color="red"><br>The names of appointed PRC and signed PRC are blank</font>
+                        <input name="specifiedMwRecordFormChecklist[4].checkingItemsDescription" value="Particulars of appointed PRC = Particulars of signed PRC<font color='red'><br />The names of appointed PRC and signed PRC are blank</font>" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[4].toChecking" name="specifiedMwRecordFormChecklist[4].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[4].toChecking" name="specifiedMwRecordFormChecklist[4].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_prcDetailValid" name="mwRecordFormChecklistPo.prcDetailValid" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_prcDetailValid" name="mwRecordFormChecklistPo.prcDetailValid" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_prcDetailValid" name="mwRecordFormChecklistPo.prcDetailValidRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+                <tr><td class="sTh">&nbsp;</td><td class="sTh" colspan="7">PBP Checking</td></tr>
+
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Checking of AP/RI</td></tr>
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">6 <input name="specifiedMwRecordFormChecklist[8].itemName" value="PbpApSign" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Signature of AP/RI
+                        <input name="specifiedMwRecordFormChecklist[8].checkingItemsDescription" value="Signature of AP/RI" type="hidden">
+
+
+                        <br>Specimen Signature:<img style="cursor: pointer;" src="images/ico_view.gif" onclick="openSignatureFile('8a8591a665eae8a80165f668deef005d')">
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[8].toChecking" name="specifiedMwRecordFormChecklist[8].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[8].toChecking" name="specifiedMwRecordFormChecklist[8].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PbpApSign" name="mwRecordFormChecklistPo.PbpApSign" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PbpApSign" name="mwRecordFormChecklistPo.PbpApSign" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PbpApSign" name="mwRecordFormChecklistPo.PbpApSignRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">7 <input name="specifiedMwRecordFormChecklist[9].itemName" value="PbpApSignatureDate" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        AP/RI Signature Date
+                        <input name="specifiedMwRecordFormChecklist[9].checkingItemsDescription" value="AP/RI Signature Date" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[9].toChecking" name="specifiedMwRecordFormChecklist[9].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[9].toChecking" name="specifiedMwRecordFormChecklist[9].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PbpApSignatureDate" name="mwRecordFormChecklistPo.PbpApSignatureDate" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PbpApSignatureDate" name="mwRecordFormChecklistPo.PbpApSignatureDate" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PbpApSignatureDate" name="mwRecordFormChecklistPo.PbpApSignatureDateRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+                <input name="specifiedMwRecordFormChecklist[10].itemName" value="Title" type="hidden">
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Checking of RSE</td></tr>
+
+
+
+
+
+
+
+                <input name="specifiedMwRecordFormChecklist[11].itemName" value="Title" type="hidden">
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Checking of RGE</td></tr>
+
+
+
+
+
+
+
+                <input name="specifiedMwRecordFormChecklist[12].itemName" value="Title" type="hidden">
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Other Checking</td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">8 <input name="specifiedMwRecordFormChecklist[13].itemName" value="PbpOther" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Other Information
+                        <input name="specifiedMwRecordFormChecklist[13].checkingItemsDescription" value="Other Information" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[13].toChecking" name="specifiedMwRecordFormChecklist[13].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[13].toChecking" name="specifiedMwRecordFormChecklist[13].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PbpOther" name="mwRecordFormChecklistPo.PbpOther" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PbpOther" name="mwRecordFormChecklistPo.PbpOther" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PbpOther" name="mwRecordFormChecklistPo.PbpOtherRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+                <input name="specifiedMwRecordFormChecklist[14].itemName" value="Title" type="hidden">
+                <tr><td class="sTh">&nbsp;</td><td class="sTh" colspan="7">PRC Checking</td></tr>
+
+
+
+
+
+
+
+                <input name="specifiedMwRecordFormChecklist[15].itemName" value="Title" type="hidden">
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Checking of PRC</td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">9 <input name="specifiedMwRecordFormChecklist[16].itemName" value="PrcValid" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Validity of appointed PRC
+                        <input name="specifiedMwRecordFormChecklist[16].checkingItemsDescription" value="Validity of appointed PRC" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[16].toChecking" name="specifiedMwRecordFormChecklist[16].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[16].toChecking" name="specifiedMwRecordFormChecklist[16].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcValid" name="mwRecordFormChecklistPo.PrcValid" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcValid" name="mwRecordFormChecklistPo.PrcValid" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcValid" name="mwRecordFormChecklistPo.PrcValidRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">10 <input name="specifiedMwRecordFormChecklist[17].itemName" value="PrcCap" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Capability of appointed PRC
+                        <input name="specifiedMwRecordFormChecklist[17].checkingItemsDescription" value="Capability of appointed PRC" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[17].toChecking" name="specifiedMwRecordFormChecklist[17].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[17].toChecking" name="specifiedMwRecordFormChecklist[17].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcCap" name="mwRecordFormChecklistPo.PrcCap" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcCap" name="mwRecordFormChecklistPo.PrcCap" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcCap" name="mwRecordFormChecklistPo.PrcCapRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+                <tr class="sRow2">
+                    <td class="sCell">11 <input name="specifiedMwRecordFormChecklist[18].itemName" value="PrcAsValid" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Validity of Authorized Signatory
+                        <input name="specifiedMwRecordFormChecklist[18].checkingItemsDescription" value="Validity of Authorized Signatory" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[18].toChecking" name="specifiedMwRecordFormChecklist[18].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[18].toChecking" name="specifiedMwRecordFormChecklist[18].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcAsValid" name="mwRecordFormChecklistPo.PrcAsValid" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcAsValid" name="mwRecordFormChecklistPo.PrcAsValid" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcAsValid" name="mwRecordFormChecklistPo.PrcAsValidRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">12 <input name="specifiedMwRecordFormChecklist[19].itemName" value="PrcAsSign" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Signature Of AS
+                        <input name="specifiedMwRecordFormChecklist[19].checkingItemsDescription" value="Signature Of AS" type="hidden">
+
+
+                        <br>Specimen Signature:<img style="cursor: pointer;" src="images/ico_view.gif" onclick="openSignatureFile('8a8591a665eae8a80165f668deef0060')">
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[19].toChecking" name="specifiedMwRecordFormChecklist[19].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[19].toChecking" name="specifiedMwRecordFormChecklist[19].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcAsSign" name="mwRecordFormChecklistPo.PrcAsSign" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcAsSign" name="mwRecordFormChecklistPo.PrcAsSign" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcAsSign" name="mwRecordFormChecklistPo.PrcAsSignRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">13 <input name="specifiedMwRecordFormChecklist[20].itemName" value="PrcAsOther" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Availability of other suitable AS<br>
+                        <input name="specifiedMwRecordFormChecklist[20].checkingItemsDescription" value="Availability of other suitable AS<br/>" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[20].toChecking" name="specifiedMwRecordFormChecklist[20].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[20].toChecking" name="specifiedMwRecordFormChecklist[20].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcAsOther" name="mwRecordFormChecklistPo.PrcAsOther" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcAsOther" name="mwRecordFormChecklistPo.PrcAsOther" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcAsOther" name="mwRecordFormChecklistPo.PrcAsOtherRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">14 <input name="specifiedMwRecordFormChecklist[21].itemName" value="PrcSignatureDate" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        PRC Signature Date
+                        <input name="specifiedMwRecordFormChecklist[21].checkingItemsDescription" value="PRC Signature Date" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[21].toChecking" name="specifiedMwRecordFormChecklist[21].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[21].toChecking" name="specifiedMwRecordFormChecklist[21].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcSignatureDate" name="mwRecordFormChecklistPo.PrcSignatureDate" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcSignatureDate" name="mwRecordFormChecklistPo.PrcSignatureDate" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcSignatureDate" name="mwRecordFormChecklistPo.PrcSignatureDateRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+                <input name="specifiedMwRecordFormChecklist[22].itemName" value="Title" type="hidden">
+                <tr class="sRow1"><td class="sCell">&nbsp;</td><td class="sCell" colspan="7">Other Checking</td></tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <tr class="sRow2">
+                    <td class="sCell">15 <input name="specifiedMwRecordFormChecklist[23].itemName" value="PrcOther" type="hidden">&nbsp;</td>
+                    <td class="sCell">
+                        Other Information
+                        <input name="specifiedMwRecordFormChecklist[23].checkingItemsDescription" value="Other Information" type="hidden">
+
+
+                        &nbsp;
+                    </td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="specifiedMwRecordFormChecklist[23].toChecking" name="specifiedMwRecordFormChecklist[23].toChecking" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="O" id="specifiedMwRecordFormChecklist[23].toChecking" name="specifiedMwRecordFormChecklist[23].toChecking" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="" name="" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="Y" id="poAgreement1_PrcOther" name="mwRecordFormChecklistPo.PrcOther" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><input class="inputRadio" value="N" id="poAgreement2_PrcOther" name="mwRecordFormChecklistPo.PrcOther" disabled="" type="radio">&nbsp;</td>
+                    <td class="sCell"><textarea class="inputTextarea remark" id="poRemarks_PrcOther" name="mwRecordFormChecklistPo.PrcOtherRmk" style="width:200px" readonly=""></textarea>&nbsp;</td>
+                </tr>
+
+
+
+
+
+
+                
+
+            </tbody>-->
+        </table>
+    </div>
+    <br>
+    <div class="sList">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th class="sTh" style="width:20px" rowspan="2">&nbsp; </th>
+                    <th class="sTh" style="width:20px" rowspan="2">&nbsp; </th>
+                    <th class="sTh" rowspan="2">Item Checking items </th>
+                    <th class="sTh" colspan="2">Checking Result </th>
+                    <th class="sTh" rowspan="2">TO Remarks (ADMIN) </th>
+                    <th class="sTh" colspan="2">PO Agreement </th>
+                    <th class="sTh" rowspan="2">PO Remarks (ADMIN) </th>
+                </tr>
+
+
+
+                <tr>
+                    <th class="sTh" style="width:20px">Not Accept </th>
+                    <th class="sTh" style="width:20px">More information required </th>
+                    <th class="sTh" style="width:20px">Agreed </th>
+                    <th class="sTh" style="width:20px">Not Agreed </th>
+                </tr>
+
+            </thead> <!--bug-->
+            <!--<tbody>
+        <tr class="sRow2">
+            <td class="sCell" style="width:50px" rowspan="7">
+                1)&nbsp;1.1 in &nbsp;
+
+
+                MW01
+
+            </td>
+            <td class="sCell" style="width:20px" rowspan="7"><b>1.1&nbsp;</b></td>
+            <input name="itemsGroup[0].itemSize" value="7" type="hidden">
+            <input name="itemsGroup[0].itemCode" value="1.1" type="hidden">
+
+
+            <input name="itemsGroup[0].itemChecklistItemsList[0].uuid" value="8a8591a665eae8a80165f66bd9ef007c" type="hidden">
+            <input name="itemsGroup[0].itemChecklistItemsList[0].SMwItemChecklistItem.checklistNo" value="1" type="hidden">
+            <input name="itemsGroup[0].itemChecklistItemsList[0].SMwItemChecklistItem.description" value="Works Locations &amp; descriptions in Part A clearly provided" type="hidden">
+            <input name="itemsGroup[0].itemChecklistItemsList[0].SMwItemChecklistItem.checklistType" value="RADIO_1" type="hidden">
+            <input name="itemsGroup[0].itemChecklistItemsList[0].answer" value="N" type="hidden">
+
+
+
+
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                1
+                .&nbsp;
+                Works Locations &amp; descriptions in Part A clearly provided
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[0].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[0].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[0].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[0].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[0].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[0].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+        <input name="itemsGroup[0].itemChecklistItemsList[1].uuid" value="8a8591a665eae8a80165f66bd9ef007d" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[1].SMwItemChecklistItem.checklistNo" value="2" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[1].SMwItemChecklistItem.description" value="Work Locations &amp; descriptions in Part A in line with plans" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[1].SMwItemChecklistItem.checklistType" value="RADIO_1" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[1].answer" value="N" type="hidden">
+
+
+
+
+        <tr class="sRow2">
+            <td class="sCell">
+                2
+                .&nbsp;
+                Work Locations &amp; descriptions in Part A in line with plans
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[1].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[1].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[1].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[1].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[1].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[1].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+        <input name="itemsGroup[0].itemChecklistItemsList[2].uuid" value="8a8591a665eae8a80165f66bd9ef007e" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[2].SMwItemChecklistItem.checklistNo" value="3" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[2].SMwItemChecklistItem.description" value="Work Locations &amp; descriptions in Part A in line with photos before commencement" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[2].SMwItemChecklistItem.checklistType" value="RADIO_1" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[2].answer" value="N" type="hidden">
+
+
+
+
+        <tr class="sRow2">
+            <td class="sCell">
+                3
+                .&nbsp;
+                Work Locations &amp; descriptions in Part A in line with photos before commencement
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[2].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[2].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[2].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[2].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[2].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[2].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+        <input name="itemsGroup[0].itemChecklistItemsList[3].uuid" value="8a8591a665eae8a80165f66bd9ef0082" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[3].SMwItemChecklistItem.checklistNo" value="a" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[3].SMwItemChecklistItem.description" value="Staircase does not form part of MOE /MOA" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[3].SMwItemChecklistItem.checklistType" value="RADIO_1" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[3].answer" value="N" type="hidden">
+
+
+
+
+        <tr class="sRow2">
+            <td class="sCell">
+                a
+                .&nbsp;
+                Staircase does not form part of MOE /MOA
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[3].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[3].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[3].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[3].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[3].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[3].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+        <input name="itemsGroup[0].itemChecklistItemsList[4].uuid" value="8a8591a665eae8a80165f66bd9ef0083" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[4].SMwItemChecklistItem.checklistNo" value="b" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[4].SMwItemChecklistItem.description" value="No additional load to cantilevered slab" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[4].SMwItemChecklistItem.checklistType" value="RADIO_1" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[4].answer" value="N" type="hidden">
+
+
+
+
+        <tr class="sRow2">
+            <td class="sCell">
+                b
+                .&nbsp;
+                No additional load to cantilevered slab
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[4].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[4].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[4].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[4].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[4].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[4].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+        <input name="itemsGroup[0].itemChecklistItemsList[5].uuid" value="8a8591a665eae8a80165f66bd9ef0084" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[5].SMwItemChecklistItem.checklistNo" value="c" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[5].SMwItemChecklistItem.description" value="Involved alteration on structural elements of simply supported beam not of pre-stressed construction or support column, flat slab or ribbed beam" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[5].SMwItemChecklistItem.checklistType" value="RADIO_2" type="hidden">
+        <input name="itemsGroup[0].itemChecklistItemsList[5].answer" value="N" type="hidden">
+
+
+
+
+        <tr class="sRow2">
+            <td class="sCell">
+                c
+                .&nbsp;
+                Involved alteration on structural elements of simply supported beam not of pre-stressed construction or support column, flat slab or ribbed beam
+            </td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" checked="'checked'" disabled="" id="NN" name="itemsGroup[0].itemChecklistItemsList[5].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="M" disabled="" id="NM" name="itemsGroup[0].itemChecklistItemsList[5].answer" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="" name="itemsGroup[0].itemChecklistItemsList[5].remarks" style="width:200px" readonly=""></textarea>&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="Y" id="poAgreement1_" name="itemsGroup[0].itemChecklistItemsList[5].poAgreement" checked="'checked'" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:20px;text-align:center;">&nbsp;<input class="inputRadio" value="N" id="poAgreement2_" name="itemsGroup[0].itemChecklistItemsList[5].poAgreement" disabled="" type="radio">&nbsp;</td>
+            <td class="sCell" style="width:150px">&nbsp;<textarea class="inputTextarea remark" id="poRemark_" name="itemsGroup[0].itemChecklistItemsList[5].poRemark" style="width:140px" readonly=""></textarea>&nbsp;</td>
+        </tr>
+
+
+
+
+
+
+
+    </tbody>-->
+        </table>
+    </div>
+    <br>
+
+    <div class="sList" id="recommendation">
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th class="sTh" colspan="4">Recommendation </th>
+                </tr>
+                </thead>
+            <tbody>
+                <tr>
+                    <td class="sCell" style="padding:20px">
+                        <input class="inputRadio" value="O" id="recommedationApplication" name="summaryChecklist.recommedationApplication" checked="'checked'" disabled="" type="radio">Acknowledgement
+
+                    </td>
+                    <td class="sCell" style="padding:20px">
+                        <input class="inputRadio" value="N" id="recommedationApplication" name="summaryChecklist.recommedationApplication" disabled="" type="radio">Refusal
+                    </td>
+                    <td class="sCell" style="padding:20px">
+                        <input class="inputRadio" value="C" id="recommedationApplication" name="summaryChecklist.recommedationApplication" disabled="" type="radio">Conditional
+                    </td>
+                    <td class="sCell" style="width:150px">
+                        Remark:<br>
+                        <textarea class="inputTextarea remark" id="summaryChecklist.remark" name="summaryChecklist.remark" style="width:140px" readonly=""></textarea>&nbsp;
+                    </td>
+                </tr>
+
+                <!--
+          <tr class="sTh">
+              <td class="sTh" colspan="4">Pre-commencement Site Audit Result</td>
+          </tr>
+          <tr>
+              <td class="sCell" style="padding:20px">
+              <input class="inputRadio" type="radio" value="InOrder" id="preCommencementSiteAuditI" name="summaryChecklist.preCommencementSiteAudit"  />
+              InOrder	</td>
+              <td class="sCell" style="padding:20px">
+              <input class="inputRadio" type="radio" value="Fail" id="preCommencementSiteAuditF" name="summaryChecklist.preCommencementSiteAudit"  />
+              Fail</td>
+              <td class="sCell" style="padding:20px"></td>
+          </tr>
+          -->
+
+                <tr>
+                    <td class="sCell" style="padding:20px">
+
+                        <input class="inputCheckBox" id="form02D7" name="summaryChecklist.slMwg02Required" value="Y" type="checkbox"> SL-MWG02 required
+
+                    </td>
+                    <td class="sCell" style="padding:20px"></td>
+                    <td class="sCell" style="padding:20px"></td>
+                </tr>
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="btnSet btnSetTypeA">
+        <div class="right">
+
+
+
+            <input class="inputButton" id="" name="" value="Next >>"  onclick="loadContentPage('PEM0501b')" type="button">
+        </div>
+    </div>
+    <br>
+    <br>
+    <!-- InstanceEndEditable -->

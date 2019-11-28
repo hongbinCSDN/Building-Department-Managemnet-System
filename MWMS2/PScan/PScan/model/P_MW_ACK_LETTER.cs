@@ -1,0 +1,67 @@
+﻿
+using System;
+public partial class P_MW_ACK_LETTER
+{
+    public string UUID { get; set; }
+    public string PAW_CONTACT { get; set; }
+    public string COUNTER { get; set; }
+    public string NATURE { get; set; }
+    public Nullable<System.DateTime> RECEIVED_DATE { get; set; }
+    public Nullable<System.DateTime> LETTER_DATE { get; set; }
+    public string DSN { get; set; }
+    public string MW_NO { get; set; }
+    public string FORM_NO { get; set; }
+    public Nullable<System.DateTime> COMP_DATE { get; set; }
+    public string MW_ITEM { get; set; }
+    public string SSP { get; set; }
+    public string PBP_NO { get; set; }
+    public string PRC_NO { get; set; }
+    public Nullable<System.DateTime> COMM_DATE { get; set; }
+    public string ADDRESS { get; set; }
+    public string PAW { get; set; }
+    public string IO_MGT { get; set; }
+    public string IO_MGT_CONTACT { get; set; }
+    public string REMARK { get; set; }
+    public string REPEATED { get; set; }
+    public string LANGUAGE { get; set; }
+    public string FILE_TYPE { get; set; }
+    public string RECEIVED_DATE_FIXED { get; set; }
+    public string PREVIOUS_RELATED_MW_NO { get; set; }
+    public string STREET { get; set; }
+    public string STREET_NO { get; set; }
+    public string BUILDING { get; set; }
+    public string FLOOR { get; set; }
+    public string UNIT { get; set; }
+    public string AUDIT_RELATED { get; set; }
+    public string ORDER_RELATED { get; set; }
+    public string SIGNBOARD_RELATED { get; set; }
+    public string SDF_RELATED { get; set; }
+    public Nullable<System.DateTime> REFERRAL_DATE { get; set; }
+    public string BARCODE { get; set; }
+    public string TO_POST { get; set; }
+    public string TEO { get; set; }
+    public string PO_POST { get; set; }
+    public string PO { get; set; }
+    public string TO_CONTACT { get; set; }
+    public Nullable<System.DateTime> TENTATIVE_LETTER_DATE { get; set; }
+    public string PROCESSING { get; set; }
+    public string CREATED_BY { get; set; }
+    public System.DateTime CREATED_DATE { get; set; }
+    public string MODIFIED_BY { get; set; }
+    public System.DateTime MODIFIED_DATE { get; set; }
+    public string SUBMITTED { get; set; }
+    public string ITEM_DISPLAY { get; set; }
+    public string IN_DW_LIST { get; set; }
+    public string IN_AL_LIST { get; set; }
+    public string FILEREF_FOUR { get; set; }
+    public string FILEREF_TWO { get; set; }
+    public string EFSS_REF_NO { get; set; }
+    public string EMAIL_OF_PRC { get; set; }
+    public string EMAIL_OF_PAW { get; set; }
+    public string SUPERSEDING_MW_REF_NO { get; set; }
+    public string EMAIL_OF_PBP { get; set; }
+    public string SITE_AUDIT_RELATED { get; set; }
+    public string PRE_SITE_AUDIT_RELATED { get; set; }
+    public Nullable<decimal> ADR_UNIT_ID { get; set; }
+    public Nullable<decimal> ADR_BLK_ID { get; set; }
+}

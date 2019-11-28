@@ -1,0 +1,277 @@
+﻿<table id="Table4" width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody><tr>
+    <td style="PADDING-RIGHT: 5px; PADDING-LEFT: 8px"><div class="title1"><h3>Meeting &amp; Room Arrangement</h3></div>
+      <table class="inputTable">
+        <tbody><tr>
+          <td style="PADDING-LEFT: 8px"><table id="Table3" width="770" cellspacing="0" cellpadding="2" border="0">
+              <tbody><tr>
+                <td colspan="2"><span id="lblError" style="color:Red;">
+                
+                </span></td>
+              </tr>
+              <tr>
+                <td style="HEIGHT: 16px" colspan="2" width="764" valign="top"></td>
+                
+              </tr>
+              
+              
+              <tr>
+                <td width="110">Interview Date:<span class="asterix">*</span><br>
+                  <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span></td>
+                <td width="629"><input name="interviewDate" maxlength="10" value="15/10/2017" onblur="checkDate(this)" id="interviewDate" style="width:80px;" class="inputText" type="text">
+	        		<span id="err_interviewDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                  <input name="btnLoadMeet" value="Load Meeting Groups" onclick="loadGroup()" id="btnLoadMeet" class="smallprint" style="width:140px;" type="button">
+                  &nbsp; <span id="rqdVal1" controltovalidate="txtIntervDate" errormessage="Please enter an interview date." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter an interview date.</span><span id="cmpVal1" controltovalidate="txtIntervDate" errormessage="Invalid date." display="Dynamic" type="Date" dateorder="dmy" cutoffyear="2029" century="2000" evaluationfunction="CompareValidatorEvaluateIsValid" operator="DataTypeCheck" style="color:Red;display:none;">Invalid date.</span></td>
+              </tr>
+              <tr>
+                <td width="110">Session:<span class="asterix">*</span></td>
+                <td width="629"><select name="SSystemValue" id="SSystemValue"><option value="">- Select -</option>
+                     <option value="8a85932a25bf9f330125bf9f337e0000" selected="selected">AM</option> <option value="8a85932a25bf9f330125bf9f338e0001">PM</option></select>
+                  &nbsp; <span id="rqdVal2" controltovalidate="ddSession" errormessage="Please select a session." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a session.</span></td>
+              </tr>
+              <tr>
+                <td width="110">Room:<span class="asterix">*</span></td>
+                <td width="629"><select name="SRoom" id="SRoom"><option value="">- Select -</option>
+                     <option value="8a8591a23b073e11013b213830f9684a" selected="selected">Room 2109</option> <option value="8a8591a23b261dc7013b3a709b613293">Room 1817A</option> <option value="8a8591a23b261dc7013b3a70c4643296">Room 1813</option> <option value="8a8591a23b261dc7013b3a70f12e3299">Room 1816</option> <option value="8a85932a25bfafe50125bfafe56b0000">ROOM 2117</option> <option value="8a85932a25bfafe50125bfafe56b0001">ROOM 2118</option> <option value="8a85932a25bfafe50125bfafe56b0002">ROOM 2116</option> <option value="8a85932a25bfafe50125bfafe56b0003">2116A</option> <option value="8a85932a25bfafe50125bfafe56b0004">2116B</option> <option value="8a8591a23a728b5d013abfe08de62e61">ROOM 1817A</option> <option value="8a8591a23a728b5d013abfe0be682ea0">ROOM 1816</option> <option value="8a8591a23a728b5d013abfe0df022ea3">ROOM 1813</option> <option value="8a8591a23a728b5d013abfe0fbf42ea6">ROOM 106A</option> <option value="8a8591a23a728b5d013abfe10e6b2ea9">ROOM 106B</option> <option value="8a8591a23a728b5d013abfe11e242eac">ROOM 106C</option></select>
+                  &nbsp; <span id="rqdVal3" controltovalidate="ddRoom" errormessage="Please select a room." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a room.</span></td>
+              </tr>
+              
+              <tr>
+                <td width="110">Committee Group :<span class="asterix">*</span></td>
+                <td width="629">
+                	<select name="meeting" onchange="getMemberList(this)" id="meeting"><option value="">- Select -</option></select>
+                  &nbsp; <span id="rqdVal4" controltovalidate="ddMeetNo" errormessage="Please select a meeting group." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a meeting group.</span></td>
+              </tr>
+              <tr>
+                <td width="110">Cancel Meeting:</td>
+                
+                <td width="629"><select name="isCancel" id="isCancel"><option value="N">No</option>
+                    <option value="Y">Yes</option></select></td>
+              </tr>
+              <tr>
+                <td colspan="2" width="764">&nbsp;</td>
+              </tr>
+             
+            </tbody></table>
+            
+            <table class="search" id="Table7" style="background-color: #EFF3FF" width="750" cellspacing="0" cellpadding="3" border="0">
+			<tbody><tr>
+				<td><div style="FONT-WEIGHT: bold; PADDING-BOTTOM: 5px; COLOR: #52616b">Member List for 
+	                    Meeting Group</div></td>
+			</tr>
+	        <tr>
+	          <td style="PADDING:5px"><div id="searchMember">
+	                <table id="Table5" class="searchform" width="100%" cellspacing="0" cellpadding="3" border="0">
+	                <tbody><tr>
+	                  <td colspan="4" style="vertical-align:middle;background:#CCC" "=""><label>
+	                      <input name="searchMemberSelection" value="M" checked="checked" onclick="setSearch(this.value)" id="searchMemberSelectionM" type="radio">
+	                      By Committee Group</label>
+	                    &nbsp; </td>
+	                </tr>
+	                <tr>
+	                  <td style="padding-left:30px"><table id="Table3" width="100%" cellspacing="0" cellpadding="2" border="0">
+	                      <tbody><tr>
+	                        <td colspan="4" style="vertical-align:middle; font-weight:bold">Please select :</td>
+	                      </tr>
+	                      <tr>
+	                        <td>Panel:</td>
+	                        <td><select name="searchPanel" id="searchPanel" style="width:100px;"><option value="8a85932a25bfa01a0125bfa01a150000">CRC</option></select></td>
+	                        <td>Year:</td>
+	                        <td><select name="searchYear" id="searchYear" style="width:100px;"><option value="2019">2019</option>
+			                    
+			                    	<option value="2018">2018</option>
+			                    
+			                    	<option value="2017">2017</option>
+			                    
+			                    	<option value="2016">2016</option>
+			                    
+			                    	<option value="2015">2015</option>
+			                    
+			                    	<option value="2014">2014</option>
+			                    
+			                    	<option value="2013">2013</option>
+			                    
+			                    	<option value="2012">2012</option>
+			                    
+			                    	<option value="2011">2011</option>
+			                    
+			                    	<option value="2010">2010</option>
+			                    
+			                    	<option value="2009">2009</option>
+			                    
+			                    	<option value="2008">2008</option></select></td>
+	                      </tr>
+	                      <tr>
+	                        <td>Committee:</td>
+	                        <td><select name="searchCommittee" id="searchCommittee" style="width:100px;"><option value="8a85932a25bfa01a0125bfa01a250008">GBC</option> <option value="8a85932a25bfa01a0125bfa01a350009">SC</option> <option value="8a85932a25bfa01a0125bfa01a35000a">SC(D)</option> <option value="8a85932a25bfa01a0125bfa01a35000b">SC(F)</option> <option value="8a85932a25bfa01a0125bfa01a35000c">SC(GI)</option> <option value="8a85932a25bfa01a0125bfa01a35000d">SC(SF)</option> <option value="8a85932a25bfa01a0125bfa01a35000e">SC(V)</option></select></td>
+	                        <td>Committee Group:</td>
+	                        <td><select name="searchGroup" id="searchGroup" style="width:100px;"><option value="A">A</option>
+			                    
+			                    	<option value="B">B</option>
+			                    
+			                    	<option value="C">C</option>
+			                    
+			                    	<option value="D">D</option>
+			                    
+			                    	<option value="E">E</option>
+			                    
+			                    	<option value="F">F</option>
+			                    
+			                    	<option value="G">G</option>
+			                    
+			                    	<option value="H">H</option>
+			                    
+			                    	<option value="I">I</option>
+			                    
+			                    	<option value="J">J</option>
+			                    
+			                    	<option value="K">K</option>
+			                    
+			                    	<option value="L">L</option>
+			                    
+			                    	<option value="M">M</option>
+			                    
+			                    	<option value="N">N</option>
+			                    
+			                    	<option value="O">O</option>
+			                    
+			                    	<option value="P">P</option>
+			                    
+			                    	<option value="Q">Q</option>
+			                    
+			                    	<option value="R">R</option>
+			                    
+			                    	<option value="S">S</option>
+			                    
+			                    	<option value="T">T</option>
+			                    
+			                    	<option value="U">U</option>
+			                    
+			                    	<option value="V">V</option>
+			                    
+			                    	<option value="W">W</option>
+			                    
+			                    	<option value="X">X</option>
+			                    
+			                    	<option value="Y">Y</option>
+			                    
+			                    	<option value="Z">Z</option></select></td>
+	                      </tr>
+	                      <tr>
+	                        <td>Month:</td>
+	                        <td><select name="searchMonth" id="searchMonth" style="width:100px;"><option value="1">1</option>
+			                    
+			                    	<option value="2">2</option>
+			                    
+			                    	<option value="3">3</option>
+			                    
+			                    	<option value="4">4</option>
+			                    
+			                    	<option value="5">5</option>
+			                    
+			                    	<option value="6">6</option>
+			                    
+			                    	<option value="7">7</option>
+			                    
+			                    	<option value="8">8</option>
+			                    
+			                    	<option value="9">9</option>
+			                    
+			                    	<option value="10">10</option>
+			                    
+			                    	<option value="11">11</option>
+			                    
+			                    	<option value="12">12</option></select></td>
+	                      </tr>
+	                    </tbody></table></td>
+	                </tr>
+	                <tr>
+	                  <td colspan="4" style="vertical-align:middle; background:#CCC"><label>
+	                      <input name="searchMemberSelection" value="S" onclick="setSearch(this.value)" id="searchMemberSelectionS" type="radio">
+	                      One-By-One</label></td>
+	                </tr>
+	                <tr>
+	                  <td style="padding-left:30px"><table id="Table3" width="100%" cellspacing="0" cellpadding="2" border="0">
+	                      <tbody><tr>
+						  <td>Surname:</td> 
+						  <td><input name="searchSurname" maxlength="20" value="" onkeydown="enterToSubmit(searchMember, this, event)" id="searchSurname" style="width:100px;" class="inputText" disabled="" type="text"></td> 
+				          <td>Given Name:</td> 
+				          <td><input name="searchGivenName" maxlength="30" value="" onkeydown="enterToSubmit(searchMember, this, event)" id="searchGivenName" style="width:100px;" class="inputText" disabled="" type="text"></td> 
+				        </tr> 
+	                    </tbody></table>
+					  </td>
+	                </tr>
+	              </tbody></table>
+	              <div style="padding:5px">
+	                <input onclick="searchMember()" name="btnSearch" value="Search" id="btnSearch" accesskey="S" style="width:72px;" type="button">
+	              </div>
+	              <table id="Table8" width="100%" cellspacing="0" cellpadding="0" border="0">
+	                <tbody><tr>
+	                  <td><table class="grid" rules="all" id="dgSearch" style="border-color:LightGrey;border-collapse:collapse;" width="100%" cellspacing="0" cellpadding="3" bordercolor="LightGrey" border="1">
+	                      <tbody><tr class="grid-header" style="height:19px;">
+	                        <td><input name="dgSearch:_ctl2:checkAll" id="dgSearch__ctl2_checkAll" onclick="CheckAll(this);" type="checkbox"></td>
+	                        <td>Name</td>
+	                        <td>Rank</td>
+	                        <td>Post</td>
+	                        <td>Career</td>
+	                      </tr>
+	                      
+                 		  
+                 		  <tr align="center"> 
+			      <td colspan="9">
+			      
+			      	&lt; Prev
+			      
+			      &nbsp;
+			      
+			      	Next &gt;
+			      
+			      </td> 
+			    </tr> 
+	                    </tbody></table></td>
+	                </tr>
+	                <tr>
+	                  <td style="padding:5px"><input onclick="addMember()" name="btnAdd" value="Add to Member List" id="btnAdd" class="smallprint" style="width:140px;" type="button"></td>
+	                </tr>
+	              </tbody></table>
+	            </div></td>
+	        </tr>
+	      </tbody></table>
+            <div id="memberList">
+              <br>
+              <div style="FONT-WEIGHT: bold; PADDING-BOTTOM: 5px; COLOR: #52616b">
+              Member List for Meeting Group</div>
+              <table class="grid" rules="all" id="dgSearch" style="border-color:LightGrey;border-collapse:collapse;" width="100%" cellspacing="0" cellpadding="3" bordercolor="LightGrey" border="1">
+                <tbody><tr class="grid-header" style="height:19px;">
+                  <td>Name</td>
+                  <td>HKID/
+                    Passport No </td>
+                  <td>Rank</td>
+                  <td>Post</td>
+                  <td>Career</td>
+                  <td>Role</td>
+                  <td>Absent</td>
+                  <td>&nbsp;</td>
+                </tr>
+                
+                
+              </tbody></table>
+            </div>
+	 		<br>
+			</td>
+        </tr>
+        	  
+        <tr>
+          <td class="editfooter">
+          	
+	     		<input name="btnSave" value=" Save " onclick="saveRoom();" id="btnSave" accesskey="S" type="button">
+            	&nbsp;
+            
+            	
+            <input name="btnCancel" value="Cancel" id="btnCancel" accesskey="C" onclick="cancel()" type="button">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+        </tr>
+      </tbody></table>
+      <br></td>
+  </tr>
+</tbody></table>

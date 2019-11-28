@@ -1,0 +1,118 @@
+﻿
+                                            <table class="inputTable">
+                                                <thead>
+                                                    <tr><th colspan="2">Assign New Document S/N</th></tr>
+                                                    </thead>
+                                                <tbody>
+                                                    <tr id="dsn_tr" style="display:none">
+                                                        <th class="fLabel">Document S/N  : </th>
+                                                        <td class="fText">
+                                                            <!--
+                <input type="text"
+                name="newDsnByAutoGen"
+                value=""
+                id="newDsnByAutoGen"
+                style="width:150px" />
+
+                <input type="button"
+                value="Print"
+                class="inputButton"
+                style="width:80px;"
+                onclick="generateOldBarcodeFromInput()"/>
+                <span style="color:red" id="errMsg" name="errMsg"></span>
+                -->
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="fLabel" style="width:250px">Document Type  : </th>
+                                                        <td class="fText">
+                                                            <input type="hidden" id="newFormDocumentType" name="newFormDocumentType">
+                                                            <input checked="" type="radio" id="newFormDocumentTypeF" name="newFormDocumentTypeRadio" value="F">Form&nbsp;&nbsp;&nbsp;
+                                                            <input type="radio" id="newFormDocumentTypeE" name="newFormDocumentTypeRadio" value="E">Enquiry&nbsp;&nbsp;&nbsp;
+                                                            <input type="radio" id="newFormDocumentTypeC" name="newFormDocumentTypeRadio" value="C">Complaint
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th id="NoLabel" class="fLabel">Form No.  : </th>
+                                                        <td class="fText">
+                                                            <input type="text" name="newFormNoByAutoGen" value="" id="newFormNoByAutoGen" style="width:150px">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            VS for MW01 and MW03 :
+                                                        </th>
+                                                        <td><input type="checkbox" /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th rowspan="2" class="fLabel">Ref. Number.  : </th>
+                                                        <td class="fText">
+
+
+                                                            <input type="radio" name="newFormNoType" id="newFormNoTypeA" value="A" style="background-color: rgb(204, 204, 204);">Generate<br>
+                                                            <input type="radio" name="newFormNoType" id="newFormNoTypeM" value="M" style="background-color: rgb(204, 204, 204);">Input
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fText">
+                                                            <input type="text" name="newMwNo" id="newMwNo" style="width: 150px; background-color: rgb(204, 204, 204);" disabled="">
+
+                                                            <br><span style="color:red" id="errMsg" name="errMsg"></span>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td class="fLabel">&nbsp;</td>
+                                                        <td class="fText">
+
+                                                            <!--<input type="button" id="AssignPrintButton" name="AssignPrintButton" value="Assign &amp; Print" class="inputButton" style="width:150px;" onclick="assignNewDsn(true)">-->
+                                                            <input type="button" id="AssignPrintButton" name="AssignPrintButton" value="Assign &amp; Print" class="inputButton"  onclick="searchPEM0213()">
+
+
+                                                            <input type="button" value="Cancel" style="display:none" id="cancelButton" name="cancelButton" class="inputButton" onclick="cancel()">
+                                                        </td>
+                                                    </tr>
+                                                    <!--  <tr>
+        <td rowspan="2" class="fLabel" >Audit Percentage: </td>
+            <td>
+              Class I: 5% <br/>
+             Class II: 5% <br/>
+            Class III: 5% <br/>
+                   VS: 5%
+            </td>
+        </tr>-->
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="sList" id="resultTable">
+            <table id="PEM0213Table" class="resultTable">
+                <thead>
+                    <tr><th  colspan="6">Summary</th></tr>
+                    <tr>
+                        <th  style="width:75px">Date</th>
+                        <th  style="width:75px">Time</th>
+                        <th >Document S/N</th>
+                        <th >Ref. No.</th>
+                        <th >Form No.</th>
+                        <th >&nbsp;</th>
+                    </tr>
+                    </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+   
+
+</body>
+</html> 

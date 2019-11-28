@@ -1,0 +1,788 @@
+﻿<div class="w3-row">
+    <div class="w3-col l4 m4 w3-green w3-center" style="border-right:1px solid #FFF" onclick="onClickTab('Incoming')">Incoming - Influx</div>
+    <div class="w3-col l4 m4 w3-green w3-center" style="border-right:1px solid #FFF" onclick="onClickTab('Outgoing')">Outgoing - Output</div>
+    <div class="w3-col l4 m4 w3-yellow w3-center" onclick="onClickTab('SDM')">SDM</div>
+</div>
+
+
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td style="white-space: nowrap;">
+                From &nbsp;&nbsp;
+                <input class="inputDate" type="text" id="sdmReportData.selectedFromDate" name="sdmReportData.selectedFromDate" value="1/1/2018" readonly="">
+                &nbsp;
+                To
+                &nbsp;&nbsp;
+                <input class="inputDate" type="text" id="sdmReportData.selectedToDate" name="sdmReportData.selectedToDate" value="20/11/2018"   readonly="">
+                &nbsp;&nbsp;
+                <input class="inputButton" type="button" id="btnSelect" name="btnSelect" value="Submit" onclick="searchReportSDM()">
+                <input class="inputButton" type="button" id="btnFreeze" name="btnFreeze" value="Freeze" onclick="freezeReportSDM()">
+            </td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+<div class="reportLayout">
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <td>
+                    Last freezing
+                    <input type="hidden" id="frozenDataListId" name="frozenDataListId" value="">
+                    <select style="max-width:200px;" class="inputSelect" id="loadFreezeId" name="loadFreezeId" onchange="onChangeSelectFreeze()"></select>
+                    <input class="inputButton" type="button" id="btnLoadFreeze" name="btnLoadFreeze" value="Load"  onclick="loadFreeze();" disabled="">
+                    <input class="inputButton" type="button" id="btnExportFreeze" name="btnExportFreeze" value="Export Frozen Data"  onclick="exportFreeze();" disabled="">
+
+                    <input class="inputButton" type="button" id="btnArchive" name="btnArchive" value="Archive" onclick="archiveFrozenDataList()">
+
+                    <!--
+                    <input class="inputButton" type="button" id="btnArchive" name="btnArchive"
+                     value="Archive2" style="width:160px;" onclick="archiveFrozenData()" />	-->
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="resultTable" style="display:none" id="frozenDataTable" width="550">
+        <thead>
+            <tr class="sTableHeader">
+                <th colspan="2">Frozen Data List</th>
+            </tr>
+        </thead>
+        
+        <tbody></tbody>
+    </table>
+    <br>
+
+    <table class="inputTable">
+        <tbody>
+            
+            <tr>
+                <td class="bold">
+                    From 1/1/2018 to 20/11/2018
+                    <span style="color:#FF2200">(timelog as at 28/8/2017 15:01:05 )</span>,
+                    the breakdown of MW submissions received are as follows:-
+                </td>
+            </tr>
+            <tr><td class="bold">C1.1.1 MW Submission</td></tr>
+            </tbody>
+</table>
+            
+    <table class="resultTable">
+        <thead>
+            <tr class="sTableHeader">
+                <th width="250">Period (Receipt Date)</th>
+                <th width="250">Received</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1/1/2011 - 31/12/2011</td>
+                <td>
+                    40,062
+                </td>
+            </tr>
+
+            <tr>
+                <td>1/1/2012 - 31/12/2012</td>
+                <td>
+                    66,517
+                </td>
+            </tr>
+
+            <tr>
+                <td>1/1/2013 - 31/12/2013</td>
+                <td>
+                    87,938
+                </td>
+            </tr>
+
+            <tr>
+                <td>1/1/2014 - 31/12/2014</td>
+                <td>
+                    106,829
+                </td>
+            </tr>
+
+            <tr>
+                <td>1/1/2015 - 31/12/2015</td>
+                <td>
+                    98,013
+                </td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>
+                Clearance of backlog submissions received in 2013 or before have been completed.
+            </td></tr>      </tfoot>
+         </table>
+           
+    <table class="resultTable">
+        <thead>
+            <tr class="sTableHeader">
+                <th>Period (Receipt Date)</th>
+                <th>Received</th>
+                <th>Acknowledged<br>(over counter)</th>
+                <th>Acknowledged<br>(by fax)</th>
+                <th>Returned<br>by fax<sup>Note 1</sup></th>
+                <th>Returned<br>over counter</th>
+            </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <td>1/1/2018 - 20/11/2018</td>
+                <td>
+                    35
+                </td>
+                <td>
+                    29
+                </td>
+                <td>
+                    2
+                </td>
+                <td>
+                    3
+                </td>
+                <td>
+                    6
+                </td>
+            </tr>
+            <tr>
+                <td>Weekly average [ 324 days ]</td>
+                <td>
+                    1
+                </td>
+                <td>
+                    1
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    0
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+                    <!--
+                    MWIS related MW Submissions Directly Submitted to MBI Section.
+                    <br/>
+                    <table class="sTableLine">
+                    <tr class ="sTableHeader">
+                        <th width="250">Period (Receipt Date)</th>
+                        <th width="250">Received</th>
+                    </tr>
+                    <tr>
+                        <td>1/1/2018 - 20/11/2018</td>
+                        <td>0</td>
+                        <input type="hidden" name="noOfReceived" id="noOfReceived" value="0"/>
+                    </tr>
+                    </table>
+                    -->
+      
+                    <table class="inputTable" >
+                        <!--
+                        <tr>
+                            <th class="sTableHeader" colspan='2'>
+                                Total No. of Submission Received from 1/1/2011 to 20/11/2018 :
+                            </th>
+                            <td width = '250'>
+                                399,394
+                                </td>
+                                <input type="hidden" name="sdmReportData.totalReceivedSubmission" value="399394" />
+
+
+                        </tr>
+                        <tr>
+                            <td colspan='3'>&nbsp;
+                            </td>
+                        </tr>
+                        -->
+                        <tbody>
+                            <tr>
+                                <td>C1.1.2</td>
+                                <td>
+                                    No. of Submissions related to Order/Notice/Directions<sup>Note 2</sup> received<br>
+                                    in the period from 1/1/2018 to 20/11/2018
+                                </td>
+                                <td>
+                                    0&nbsp;(
+                                    0%)
+                                    <input type="hidden" name="sdmReportData.orderNotice" value="0">
+                                </td>
+
+
+                            </tr>
+                            <tr><td colspan="3">&nbsp;</td></tr>
+                            <tr>
+                                <td>C1.1.3</td>
+                                <td>
+                                    Ratio of Class I, II, III Submissions<sup>Note 3</sup>
+                                    received
+                                    <br>in the period from 1/1/2018 to 20/11/2018
+                                </td>
+                                <td>
+                                    94 : 6 : 0
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>C1.1.4</td>
+                                <td colspan="2">Validation Scheme - Household MW</td>
+                            </tr>
+                          </tbody>
+                        </table>
+    
+                    <table class="resultTable">
+                        <thead>
+                            <tr class="sTableHeader">
+                                <th>Period (Receipt Date)</th>
+                                <th>No. of Structures Validated</th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+                                <td>1/1/2011 - 31/12/2013</td>
+                                <td>
+                                    68
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>1/1/2014 - 31/12/2014</td>
+                                <td>
+                                    8
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>1/1/2015 - 31/12/2015</td>
+                                <td>
+                                    109
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>1/1/2016 - 23/8/2016</td>
+                                <td>
+                                    32
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Total</td>
+                                <td>
+                                    217
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    
+
+
+
+                    <h3>
+                        C1.1.5 MW Submissions Related to Particular MW Items
+                    </h3>
+                    <table class="resultTable">
+                        <thead>
+                            <tr class="sTableHeader">
+                                <th rowspan="2"> MW Items</th>
+                                <th colspan="8" style="font-weight:bold; text-align:center">No. of Submissions</th>
+                            </tr>
+                            <tr class="sTableHeader">
+                                <th colspan="2" style="text-align:center;" width="13%">Aug to Dec 2013</th>
+
+                                <th colspan="2" style="text-align:center" width="13%">2014-01-01 -<br>2014-12-31</th>
+
+                                <th colspan="2" style="text-align:center" width="13%">2015-01-01 -<br>2015-12-31</th>
+
+                                <th colspan="2" style="text-align:center" width="13%">1/1/2018 -<br>20/11/2018</th>
+                            </tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Windows (MW Items 2.8, 2.9, 3.6 &amp; 3.7)
+                                </td>
+                                <td>
+                                    10,958
+                                </td>
+                                <td>(35%)</td>
+
+
+                                <td>
+                                    32,027
+                                </td>
+                                <td>(30%)</td>
+
+                                <td>
+                                    18,244
+                                </td>
+                                <td>(19%)</td>
+
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+                            <tr>
+                                <td>Rendering &amp; Tiling (MW Items 2.34)</td>
+                                <td>
+                                    6,478
+                                </td>
+                                <td>(21%)</td>
+
+
+                                <td>
+                                    24,302
+                                </td>
+                                <td>(23%)</td>
+
+                                <td>
+                                    23,701
+                                </td>
+                                <td>(24%)</td>
+
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+                            <tr>
+                                <td>Repair of Structural Element (MW Items 1.17 &amp; 2.17)</td>
+                                <td>
+                                    2,392
+                                </td>
+                                <td>(8%)</td>
+
+
+                                <td>
+                                    11,348
+                                </td>
+                                <td>(11%)</td>
+
+                                <td>
+                                    15,822
+                                </td>
+                                <td>(16%)</td>
+
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+                            <tr>
+                                <td>Aboveground Drainage (MW Items 2.30, 3.23 &amp; 3.24)</td>
+                                <td>
+                                    2,545
+                                </td>
+                                <td>(8%)</td>
+
+
+                                <td>
+                                    10,104
+                                </td>
+                                <td>(9%)</td>
+
+                                <td>
+                                    13,095
+                                </td>
+                                <td>(13%)</td>
+
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+                            <tr>
+                                <td>A/C Supporting Frame (MW Items 1.28, 1.29, 3.27 &amp; 3.28)</td>
+                                <td>
+                                    4,293
+                                </td>
+                                <td>(14%)</td>
+
+                                <td>
+                                    9,934
+                                </td>
+                                <td>(9%)</td>
+
+                                <td>
+                                    8,756
+                                </td>
+                                <td>(9%)</td>
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+                            <tr>
+                                <td>Drying Rack (MW Items 3.29 &amp; 3.30)</td>
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+
+                                <td>
+                                    287
+                                </td>
+                                <td>(0.3%)</td>
+
+                                <td>
+                                    348
+                                </td>
+                                <td>(0.4%)</td>
+
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    (0%)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Canopy (MW Items 1.27 &amp; 3.25)</td>
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+
+                                <td>
+                                    589
+                                </td>
+                                <td>(0.6%)</td>
+
+                                <td>
+                                    499
+                                </td>
+                                <td>(0.5%)</td>
+
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    (0%)
+                                </td>
+                            </tr>
+                            </tbody>
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th class="sTableHeader" colspan="2" style="text-align:center">Oct 2012 to Dec 2013</th>
+
+                                <th class="sTableHeader" colspan="2" style="text-align:center">2014-01-01 -<br>2014-12-31</th>
+
+                                <th class="sTableHeader" colspan="2" style="text-align:center">2015-01-01 -<br>2015-12-31</th>
+
+                                <th class="sTableHeader" colspan="2" style="text-align:center">1/1/2018 to 20/11/2018</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>SDF (MW Items 1.41 to 1.44, 3.39 to 3.42)</td>
+                                <td>
+                                    2,489
+                                </td>
+                                <td></td>
+
+                                <td>
+                                    3,606
+                                </td>
+                                <td>(3%)</td>
+
+                                <td>
+                                    4,064
+                                </td>
+                                <td>(4%)</td>
+
+                                <td>
+                                    0
+                                </td>
+                                <td>(0%)</td>
+                            </tr>
+
+                            <tr>
+                                <td>Signboard Related (MW Items 1.20 to 1.24, 2.18 to 2.27, 3.16 to 3.22)</td>
+                                <td>N/A</td>
+                                <td></td>
+
+                                <td>
+                                    5,001
+                                </td>
+                                <td>(5%)</td>
+
+                                <td>
+                                    5,712
+                                </td>
+                                <td>(6%)</td>
+
+                                <td>
+                                    1
+                                </td>
+                                <td>(3%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            
+                    <table class="resultTable">
+                        <thead>
+                            <tr class="sTableHeaderBlue">
+                                <th rowspan="2">Individual MW / PBBW Item No.</th>
+                                <th colspan="2">No of Submissions</th>
+                            </tr>
+
+                            <tr class="sTableHeaderBlue">
+                                <th colspan="2">
+                                    1/1/2018 - 20/11/2018
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" style="max-width:200px;" name="sdmReportData.searchMwItemNo" value="">
+                                    <input class="inputButton" type="button" value="Search" onclick="searchReportSDM()">
+                                    <input class="inputButton" type="button" id="" name="" value="Export" onclick="exportStatisticsSDM()">
+                                </td>
+                                <td><label id="">0</label></td>
+                                <td>(<label id="">0</label>%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+           
+                    <table class="inputTable" >
+                        <tbody>
+                            <tr>
+                                <td width="80px">Note 1</td>
+                                <td>Submissions that were returned by fax as they failed the screening check.</td>
+                            </tr>
+                            <tr>
+                                <td>Note 2</td>
+                                <td>Submissions related to Order, Notice, Direction, etc. and passed to EBD, MBID or SBCU</td>
+                            </tr>
+                            <tr>
+                                <td>Note 3</td>
+                                <td>Class I includes Form MW01, MW02 and MW11; Class II includes Form MW03, MW04 and MW12; Class III includes Form MW05.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+         
+                    <h3>
+                        Statistics about e-form submission (From 2014-01-01 to 2014-12-31)
+
+                    </h3>  
+                    <table class="resultTable">
+                        <thead>
+                            <tr class="sTableHeader">
+                                <th rowspan="1" width="300">Counter</th>
+                                <th colspan="1">Barcode Forms with 100% typed</th>
+                                <th colspan="1">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                            </tr>
+                            <tr class="sTableHeader"></tr>
+                            </thead>
+                        <tbody>
+                            <tr>
+                                <td>Kwun Tong</td>
+                                <td>3,090</td>
+                                <td>60,648</td>
+                            </tr>
+                            <tr>
+                                <td>Pioneer Centre</td>
+                                <td>1,639</td>
+                                <td>40,739</td>
+                            </tr>
+                       
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                                    * Statistics of Barcode Forms with 100% typed are only available from 2014-07-10.
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                                    ** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.
+                                </td>
+                            </tr>
+                   
+                            </tbody>
+                        <thead>
+
+
+                            <tr class="sTableHeader"></tr>
+                            <tr class="sTableHeader">
+                                <th rowspan="1">Counter</th>
+                                <th colspan="1">Barcode Forms</th>
+                                <th colspan="1">Non-Barcode Forms</th>
+                            </tr>
+                            <tr class="sTableHeader"></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>E-counter via e-mail</td>
+                                <td>278</td>
+                                <td>435</td>
+                            </tr>
+                        
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+                                <td>5,007</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+           
+                    <h3>
+                        Statistics about e-form submission (From 2015-01-01 to 2015-12-31)
+                    </h3>
+    
+                    <table class="resultTable">
+                        <thead>
+                            <tr class="sTableHeader">
+                                <th rowspan="1" width="300">Counter</th>
+                                <th colspan="1">Barcode Forms with 100% typed</th>
+                                <th colspan="1">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                            </tr>
+
+                        </thead>
+                     
+                        <tr class="sTableHeader"></tr>
+                        <tbody>
+                            <tr>
+                                <td>Kwun Tong</td>
+                                <td>10,180</td>
+                                <td>76,669</td>
+                            </tr>
+                            <tr>
+                                <td>Pioneer Centre</td>
+                                <td>829</td>
+                                <td>8,019</td>
+                            </tr>
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                                    ** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            </tbody>
+                        <thead>
+
+                            <tr class="sTableHeader"></tr>
+                            <tr class="sTableHeader">
+                                <th rowspan="1">Counter</th>
+                                <th colspan="1">Barcode Forms</th>
+                                <th colspan="1">Non-Barcode Forms</th>
+                            </tr>
+                            <tr class="sTableHeader"></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>E-counter via e-mail</td>
+                                <td>1,766</td>
+                                <td>528</td>
+                            </tr>
+                         
+                            <tr>
+                                <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+                                <td>12,775</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+  <br />
+
+
+  <h3>
+      Statistics about e-form submission (From 1/1/2018 to 20/11/2018)
+ 
+  </h3>
+  <table class="resultTable">
+      <thead>
+          <tr class="sTableHeader">
+              <th rowspan="2" width="300">Counter</th>
+              <th colspan="1">Barcode Forms with 100% typed</th>
+              <th colspan="1">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+          </tr>
+          <tr class="sTableHeader">
+              <th>1/1/2018 to 20/11/2018</th>
+              <th>1/1/2018 to 20/11/2018</th>
+          </tr>
+          </thead>
+      <tbody>
+          <tr>
+              <td>Kwun Tong</td>
+              <td>0&nbsp;&nbsp;&nbsp;</td>
+              <td>34&nbsp;&nbsp;&nbsp;</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>Pioneer Centre</td>
+              <td>0&nbsp;&nbsp;&nbsp;</td>
+              <td>1&nbsp;&nbsp;&nbsp;</td>
+              <td></td>
+          </tr>
+          <tr><td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="2"></td></tr>
+          <tr><td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.</td></tr>
+          <tr><td>&nbsp;</td></tr>
+          </tbody>
+      <thead>
+          <tr class="sTableHeader"></tr>
+          <tr class="sTableHeader">
+              <th rowspan="2">Counter</th>
+              <th colspan="1">Barcode Forms</th>
+              <th colspan="1">Non-Barcode Forms</th>
+          </tr>
+          <tr class="sTableHeader">
+              <th>1/1/2018 to 20/11/2018</th>
+              <th>1/1/2018 to 20/11/2018</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>e-counter via e-mail</td>
+              <td>0&nbsp;&nbsp;&nbsp;</td>
+              <td>0&nbsp;&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+              <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+              <td>0&nbsp;&nbsp;&nbsp;(0.0%)</td>
+              <td></td>
+          </tr>
+          <tr></tr>
+
+      </tbody>
+  </table>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</div>

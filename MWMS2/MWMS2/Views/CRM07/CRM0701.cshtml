@@ -1,0 +1,187 @@
+﻿@model IEnumerable<MWMS2.Dao.S_SYSTEM_VALUE>
+
+
+
+<div class="title1"><h3> Applicant Role</h3></div>
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td>
+                <input type="button" name="btnNew" value="New Role" id="btnNew" onclick="loadContentPage('CRM0701a')">
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<br>
+<br>
+<table class="resultTable" >
+    <thead>
+        <tr class="grid-header" style="height:19px;">
+            <th>Code</th>
+            <th>Registration Type</th>
+            <th>English Description</th>
+            <th>Chinese Description</th>
+            <th>Ordering</th>
+            <th>Is Active</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr class="row1">
+            <td><a href="javascript:loadContentPage('CRM0701a')">A2</a></td>
+
+            <td>General Contractor</td>
+            <td>Authorized Signatory (Req.2)</td>
+            <td></td>
+            <td>1</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row2">
+            <td><a href="javascript:javascript:loadContentPage('CRM0701a')">AS</a></td>
+
+            <td>General Contractor</td>
+            <td>Authorized Signatory (AS)</td>
+            <td></td>
+            <td>2</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row1">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bf956e0125bf956e460002')">OO</a></td>
+
+            <td>General Contractor</td>
+            <td>Other Officer (Req.3)</td>
+            <td></td>
+            <td>3</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row2">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bf956e0125bf956e460003')">T2</a></td>
+
+            <td>General Contractor</td>
+            <td>Technical Director (Req.2)</td>
+            <td></td>
+            <td>4</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row1">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bf956e0125bf956e460004')">T3</a></td>
+
+            <td>General Contractor</td>
+            <td>Technical Director (Req.3)</td>
+            <td></td>
+            <td>5</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row2">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bf956e0125bf956e550005')">T5</a></td>
+
+            <td>General Contractor</td>
+            <td>Technical Director (Req.5)</td>
+            <td></td>
+            <td>6</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row1">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bf956e0125bf956e550006')">TD</a></td>
+
+            <td>General Contractor</td>
+            <td>Technical Director (TD)</td>
+            <td></td>
+            <td>7</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row2">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bfa01a0125bfa01ad1010a')">AS</a></td>
+
+            <td>MW Company</td>
+            <td>Authorized Signatory (AS)</td>
+            <td></td>
+            <td>2</td>
+            <td>Yes</td>
+        </tr>
+
+        <tr class="row1">
+            <td><a href="javascript:applicantRoleEdit('8a85932a25bfa01a0125bfa01ad1010b')">TD</a></td>
+
+            <td>MW Company</td>
+            <td>Technical Director (TD)</td>
+            <td></td>
+            <td>6</td>
+            <td>Yes</td>
+        </tr>
+
+
+    </tbody>
+</table>
+<br>
+<!-- InstanceEndEditable -->
+<table class="resultTable">
+    <thead>
+        <tr class="grid-header" style="height:19px;">
+            <th>Code</th>
+            <th>Registration Type</th>
+            <th>English Description</th>
+            <th>Chinese Description</th>
+            <th>Ordering</th>
+            <th>Is Active</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CODE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REGISTRATION_TYPE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ENGLISH_DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CHINESE_DESCRIPTION)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ORDERING)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_ACTIVE)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.CREATED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATED_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODIFIED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODIFIED_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S_SYSTEM_TYPE.TYPE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S_SYSTEM_VALUE2.REGISTRATION_TYPE)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UUID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UUID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UUID })
+            </td>*@
+        </tr>
+        }
+    </tbody>
+</table>

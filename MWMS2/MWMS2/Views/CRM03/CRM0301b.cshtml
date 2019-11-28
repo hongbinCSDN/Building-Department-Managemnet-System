@@ -1,0 +1,1798 @@
+﻿<h3>New Professional Application</h3>
+
+
+
+<table id="Table6" style="BORDER-BOTTOM: #dedfde 1px solid" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td style="PADDING-RIGHT: 5px; PADDING-LEFT: 8px" valign="top">
+          
+                <table id="tblTabs" class="inputTable">
+                    <thead>
+                        <tr>
+                            <th id="td1" class="tab" style="background-color:yellow" align="center"><a href="javascript:setTab('professionalInfo');">Personal Info</a></th>
+                            <th id="td2" class="untab" style="" align="center"><a href="javascript:setTab('professionalQuali');">Qualifications</a></th>
+                            <th id="td3" class="untab" style="" align="center"><a href="javascript:setTab('professionalCert');">Certificate Info</a></th>
+                            <th id="td4"></th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+
+                <table id="Table9" class="inputTable">
+                    <tbody>
+                        <tr>
+                            <td style="WIDTH: 325px"></td>
+                            <td class="smallprint" align="right">
+
+
+                                Last Updated:&nbsp;&nbsp;04/09/2017 03:57 PM
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="Table4" class="inputTable">
+                    <tbody>
+                        <tr>
+                            <th>File Ref. :<span class="asterix">*</span></th>
+                            <td colspan="3">
+                                <input name="fileReferenceNo" maxlength="20" value="" id="fileReferenceNo" style="font-size:10pt;font-weight:bold;width:161px;" class="inputText" type="text">
+
+                                <input name="btnGetEform" onclick="javascript:loadContentPage('CRM03EForm')" value="E-form" id="btnGetEform" title="Get E-form." class="smallprint" style="width:130px;" type="button">
+
+                            </td>
+
+                        </tr>
+                        <tr nowrap="nowrap">
+                            <th>HKID :<span class="asterix">*</span></th>
+                            <td>
+                                <input name="hkid" maxlength="20" value="" id="hkid" style="font-size:10pt;font-weight:bold;width:152px;" class="inputText" type="text">
+                                <input name="btnGetId" onclick="getApplicantById()" value="Get HKID/Passport No" id="btnGetId" title="Get info for specified HKID or passport." class="smallprint" type="button">
+                                <a href="javascript:loadContentPage('CRM03HKID')">
+                                    <img src="images/form.gif" alt="Application with same HKID / Passport No." border="0">
+                                </a>
+                                <span id="cusValHkid" controltovalidate="txtHkid" errormessage="Invalid HKID." display="Dynamic" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">Invalid HKID.</span>
+                            </td>
+                            <th style="WIDTH: 96px">Passport No.<span class="smallprint"> :</span></th>
+                            <td>
+                                <input name="passportNo" maxlength="20" value="" id="passportNo" style="font-size:10pt;font-weight:bold;width:161px;" class="inputText" type="text">
+                                <br>
+                                <span class="smallprint" style="FONT-SIZE: 7pt; COLOR: dimgray">
+                                    If not a HKID
+                                    holder, enter passport no.
+                                </span><br>
+                                <span id="RegularExpressionValidator9" controltovalidate="txtPassport" errormessage="Only letters, numbers, and the characters ()- are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="^[\w \(\)\-]*$" style="color:Red;display:none;">Only letters, numbers, and the characters ()- are allowed.</span>
+                            </td>
+                        </tr>
+                      <tr><th>Date of Birth :</th> <td colspan="3"><input type="text" class="inputDate" /></td></tr>
+                        <tr>
+                            <th>Title :</th>
+                            <td>
+                                <select style="width:auto" name="title" id="title" style="font-size:10pt;font-weight:bold;width:96px;">
+                                    <option value="">- Select -</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0000">Mr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0001">Miss</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0002">Dr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0003">Mrs</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0004">Ir</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0005">Unknown</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0006">Ir Dr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0007">Prof</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0008" selected="selected">Ms</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0009">Ir Prof</option>
+                                    <option value="8a8591a23bb69c9b013bb71fd3120bfa">Sr</option>
+                                    <option value="8a8591a23db07dfe013dfd5ee1ec4537">Ir Sr</option>
+                                </select>
+                            </td>
+                            <th>Sex :</th>
+                            <td>
+
+                                <select style="width:auto" name="gender" id="gender" style="font-size:10pt;font-weight:bold;width:96px;">
+                                    <option value="">- Select -</option>
+                                    <option value="M">M</option>
+                                    <option value="F" selected="">F</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Surname :<span class="asterix">*</span></th>
+                            <td>
+                                <input name="surname" maxlength="40" value="" id="surname" style="font-size:10pt;font-weight:bold;width:240px;" class="inputText" type="text">
+
+                                <a href="javascript:popupWinds('applicant.do?method=DisplayHistory&amp;uuid=8a85932a25bfb3270125bfb32d4320f5', '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=580, height=400')">
+                                    <img name="appHistory" id="appHistory" src="images/form.gif" alt="History of Applicant Name" border="0">
+                                </a>
+
+                                <br>
+                                <span id="RequiredFieldValidator1" controltovalidate="txtSurname" errormessage="Please enter a surname." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a surname.</span><span id="RegularExpressionValidator10" controltovalidate="txtSurname" errormessage="Only letters and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\,\. ]*" style="color:Red;display:none;">Only letters and space are allowed.</span>
+                            </td>
+                            <th style="WIDTH: 96px">Given Name :<span class="asterix">*</span></th>
+                            <td>
+                                <input name="givenNameOnId" maxlength="60" value="" id="givenNameOnId" style="font-size:10pt;font-weight:bold;width:260px;" class="inputText" type="text">
+                                <span id="RequiredFieldValidator2" controltovalidate="txtGivenName" errormessage="Please enter a given name." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a given name.</span><span id="RegularExpressionValidator11" controltovalidate="txtGivenName" errormessage="Only letters and the characters -, and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\-\,\. ]+" style="color:Red;display:none;">Only letters and the characters -, and space are allowed.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Chinese Name :
+            </td>
+            <td>
+                <input name="chineseName" maxlength="6" value="" id="chineseName" style="font-size:10pt;font-weight:bold;width:96px;" class="inputText" type="text">
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="indInfo" style="display:;">
+    <table id="Table5" class="inputTable">
+        <tbody>
+            <tr>
+                <td colspan="2">
+                    <table id="Table10" width="100%" class="inputTable">
+                        <tbody>
+                            <tr>
+                                <th style="WIDTH: 120px" width="120">Communication Language :<span class="asterix">*</span></th>
+                                <td width="253">
+
+                                    <select style="width:auto" name="correspondenceLangId" id="correspondenceLangId" class="inputSelectNoWidth">
+                                        <option value="E" selected="">English</option>
+                                        <option value="C">Chinese</option>
+                                    </select>
+
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="385">
+                    Correspondence Address
+                </td>
+                <td width="385">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td width="385">
+                    <span class="smallprint">(English)</span>:&nbsp;&nbsp;
+                    <input name="btnCopyOAddrE" value="Copy from Office Address" onclick="copyEngOfficeAddrToHome()" id="btnCopyOAddrE" class="smallprint" type="button">
+                </td>
+                <td width="385">
+                    <span class="smallprint">(Chinese)</span>:&nbsp;&nbsp;
+                    <input name="btnCopyOAddrC" value="Copy from Office Address" onclick="copyChnOfficeAddrToHome()" id="btnCopyOAddrC" class="smallprint" type="button">
+                </td>
+            </tr>
+            <tr>
+                <td width="385">
+                    <input name="englishHomeAddress1" maxlength="40" value="" id="englishHomeAddress1" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishHomeAddress2" maxlength="40" value="" id="englishHomeAddress2" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishHomeAddress3" maxlength="40" value="," id="englishHomeAddress3" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishHomeAddress4" maxlength="40" value="" id="englishHomeAddress4" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishHomeAddress5" maxlength="40" value="" id="englishHomeAddress5" style="width:360px;" class="inputText" type="text">
+                </td>
+                <td width="400">
+                    <input name="chineseHomeAddress1" maxlength="30" value="" id="chineseHomeAddress1" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseHomeAddress2" maxlength="30" value="" id="chineseHomeAddress2" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseHomeAddress3" maxlength="30" value="" id="chineseHomeAddress3" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseHomeAddress4" maxlength="30" value="" id="chineseHomeAddress4" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseHomeAddress5" maxlength="30" value="" id="chineseHomeAddress5" style="width:360px;" class="inputText" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td style="FONT-SIZE: 1px" colspan="2" width="770">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="Table10" width="770" class="inputTable">
+        <tbody>
+            <tr>
+                <th style="WIDTH: 76px" width="76">C/o :</th>
+                <td width="670">
+                    <input name="englishCareOf" maxlength="150" value="" id="englishCareOf" style="width:653px;" class="inputText" type="text">
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 76px" width="76">C/o<span class="smallprint"> (Chn)</span> :</th>
+                <td width="670">
+                    <input name="chineseCareOf" maxlength="50" value="" id="chineseCareOf" style="width:390px;" class="inputText" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td style="FONT-SIZE: 1px" colspan="2" width="770"></td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="Table11" width="770" class="inputTable">
+        <tbody>
+            <tr>
+                <td width="385">
+                    Office Address<span class="smallprint"> (English)</span>:
+                    <input name="btnCopyHAddrE" value="Copy from Corr. Address" onclick="copyEngHomeAddrToOffice()" id="btnCopyHAddrE" type="button">
+                </td>
+                <td width="385">
+                    <span class="smallprint">(Chinese)</span>:
+                    <input name="btnCopyHAddrC" value="Copy from Corr. Address" onclick="copyChnHomeAddrToOffice()" id="btnCopyHAddrC" type="button">
+                </td>
+            </tr>
+            <tr>
+                <td width="385">
+                    <input name="englishOfficeAddress1" maxlength="40" value="" id="englishOfficeAddress1" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishOfficeAddress2" maxlength="40" value="" id="englishOfficeAddress2" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishOfficeAddress3" maxlength="40" value="" id="englishOfficeAddress3" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishOfficeAddress4" maxlength="40" value="" id="englishOfficeAddress4" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="englishOfficeAddress5" maxlength="40" value="" id="englishOfficeAddress5" style="width:360px;" class="inputText" type="text">
+                </td>
+                <td width="400">
+                    <input name="chineseOfficeAddress1" maxlength="40" value="" id="chineseOfficeAddress1" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseOfficeAddress2" maxlength="40" value="" id="chineseOfficeAddress2" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseOfficeAddress3" maxlength="40" value="" id="chineseOfficeAddress3" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseOfficeAddress4" maxlength="40" value="" id="chineseOfficeAddress4" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseOfficeAddress5" maxlength="40" value="" id="chineseOfficeAddress5" style="width:360px;" class="inputText" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" width="770"><hr width="100%" size="2" color="#336699"></td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="Table8" width="770" class="inputTable">
+
+
+        <input name="postTo" value="H" id="postTo" class="hidden" type="hidden">
+
+        <!--
+        <tr>
+          <td style="WIDTH: 115px">Correspondence Address :</td>
+          <td colspan="3">
+
+
+            <select style="width:auto" name="postTo" id="postTo" style="width:96px;"><option value="H" selected>Corr.</option>
+              <option value="O" >Office</option></select></td>
+        </tr>
+         -->
+
+        <tbody>
+            <tr style="display:none">
+                <td>Region Code: &nbsp;</td>
+                <td style="FONT-SIZE: 1px" colspan="4">
+
+                    <select style="width:auto" name="regionCode" id="regionCode" style="width:192px;" class="inputSelectNoWidth">
+                        <option value="">- Select Region Code -</option>
+                        <option value="8a85932a25bfa01a0125bfa01af00166">Central &amp; Western District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000167">Eastern District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000168">Southern District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000169">Wan Chai District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016a">Kowloon City District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016b">Kwun Tong District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016c">Sham Shui Po District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016d">Wong Tai Sin District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016e">Yau Tsim Mong District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b00016f">Islands District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000170">Kwai Tsing District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000171">North District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000172">Sai Kung District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000173">Sha Tin District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000174">Tai Po District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000175">Tsuen Wan District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000176">Tuen Mun District</option>
+                        <option value="8a85932a25bfa01a0125bfa01b000177">Yuen Long District</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th style="WIDTH: 115px">Emergency Nos. :</th>
+                <td colspan="3">
+                    1)
+                    <input name="emergencyNo1" maxlength="22" value="" id="emergencyNo1" style="width:175px;" class="inputText" type="text">
+                    &nbsp;&nbsp;2)
+                    <input name="emergencyNo2" maxlength="22" value="" id="emergencyNo2" style="width:175px;" class="inputText" type="text">
+                    &nbsp;&nbsp;3)
+                    <input name="emergencyNo3" maxlength="22" value="" id="emergencyNo3" style="width:175px;" class="inputText" type="text">
+                    <br>
+                    <span id="RegularExpressionValidator12" controltovalidate="txtEmrgNo1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                        Invalid telephone no. 1.<br>
+                    </span> <span id="RegularExpressionValidator4" controltovalidate="txtEmrgNo2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                        Invalid telephone no. 2.<br>
+                    </span> <span id="RegularExpressionValidator14" controltovalidate="txtEmrgNo3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no. 3.</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">Telephone Nos. :<span class="asterix">*</span></th>
+                <td colspan="3">
+                    1)
+                    <input name="telephoneNo1" maxlength="22" value="" id="telephoneNo1" style="width:175px;" class="inputText" type="text">
+                    &nbsp;
+                    2)
+                    <input name="telephoneNo2" maxlength="22" value="" id="telephoneNo2" style="width:175px;" class="inputText" type="text">
+                    &nbsp;
+                    3)
+                    <input name="telephoneNo3" maxlength="22" value="" id="telephoneNo3" style="width:175px;" class="inputText" type="text">
+                    <br>
+                    <span id="RequiredFieldValidator5" controltovalidate="txtTel1" errormessage="Please enter at least one  telephone no.<br>" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">
+                        Please enter at least one  telephone no.<br>
+                    </span> <span id="RegularExpressionValidator1" controltovalidate="txtTel1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                        Invalid telephone no. 1.<br>
+                    </span> <span id="RegularExpressionValidator3" controltovalidate="txtTel2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                        Invalid telephone no. 2.<br>
+                    </span> <span id="RegularExpressionValidator13" controltovalidate="txtTel3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no. 3.</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">Fax Nos. :</th>
+                <td colspan="3">
+                    1)
+                    <input name="faxNo1" maxlength="20" value="" id="faxNo1" style="width:175px;" class="inputText" type="text">
+                    &nbsp;
+                    2)
+                    <input name="faxNo2" maxlength="20" value="" id="faxNo2" style="width:175px;" class="inputText" type="text">
+                    <br>
+                    <span id="RegularExpressionValidator5" controltovalidate="txtFax1" errormessage="Invalid fax no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                        Invalid fax no. 1.<br>
+                    </span> <span id="RegularExpressionValidator6" controltovalidate="txtFax2" errormessage="Invalid fax no. 2." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid fax no. 2.</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">Email :</th>
+                <td colspan="3">
+                    <input name="email" maxlength="80" value="" id="email" style="width:583px;" class="inputText" type="text">
+                    <br>
+                    <span id="RegularExpressionValidator8" controltovalidate="txtEmail" errormessage="Invalid email address." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="\w+([-+.&amp;]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" style="color:Red;display:none;">Invalid email address.</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">Remarks :</th>
+                <td colspan="3">
+                    <textarea name="remarks" rows="3" id="remarks" style="width:584px;" class="textarea"></textarea>
+                    <br>
+                    <span id="Regularexpressionvalidator7" controltovalidate="txtRemarks" errormessage="You can enter a maximum of 500 characters." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="(.|\n){0,500}" style="color:Red;display:none;">You can enter a maximum of 500 characters.</span>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">PNAP :</th>
+                <td colspan="3">
+                    <select style="width:auto" name="practiceNotes" id="practiceNotes" style="width:144px;">
+                        <option value="">- Select PNAP -</option>
+                        <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0003" selected="selected">BY EMAIL</option>
+                        <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                        <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th style="WIDTH: 115px">Qualifications :</th>
+                <td colspan="3">
+                    <textarea name="qualification" rows="3" style="width:584px;" class="textarea"></textarea>
+                    <br>
+                    <span id="Regularexpressionvalidator15" controltovalidate="txtOldQual" errormessage="You can enter a maximum of 500 characters." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="(.|\n){0,500}" style="color:Red;display:none;">You can enter a maximum of 500 characters.</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="indQual" style="display:none;">
+    <div id="uclQual_pnlGrid" style="display:;">
+        <table id="Table1" class="inputTable">
+            <tbody>
+                <tr>
+                    <td><input name="uclQual:btnAdd" value="New Qualification" id="uclQual_btnAdd" class="smallprint" onclick="javascript:qualificationFrom('new');" type="button"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="resultTable hide" id="CRM0302QuTable">
+            <thead>
+                <tr class="grid-header" style="height:19px;">
+                    <th>&nbsp;</th>
+                    <th>PRB</th>
+                    <th>Category Code</th>
+                    <th>Registration No.</th>
+                    <th nowrap="nowrap">Expiry Date</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+        </table>
+    </div>
+    <div id="uclQual_pnlForm" style="display:none;">
+
+        <table class="inputTable">
+            <tbody>
+                <tr>
+
+                    <th style="WIDTH:150px">
+                        PRB :<span class="asterix">*</span>
+                    </th>
+                    <td>
+                        <select style="width:auto" name="prbId" onchange="verifyQcode(this);" id="prbId" style="196px;">
+                            <option value="">- Select PRB-</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60000">AP/RSE</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60001">ARB</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60002">ERB</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60003">ERB (GEL)</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60004">ERB(CVL/STR)</option>
+                            <option value="8a85932a25bf9e880125bf9e88f60005">SRB</option>
+                        </select>
+                        <script>
+                            $(document).ready(function () {
+                                if (full_qcodeList == "") {
+                                    var _val = $("#prbCategoryCode").val();
+                                    $("#prbCategoryCode").val("");
+                                    full_qcodeList = $("#prbCategoryCode").html();
+                                    $("#prbCategoryCode").val(_val);
+                                }
+                                var selectedPrb = $("#prbId").find(":selected").text();
+                                if (selectedPrb == "AP/RSE" || selectedPrb == "ERB (GEL)" || selectedPrb == "ERB(CVL/STR)") {
+                                    var _flag = false;
+                                    $("#prbCategoryCode option").each(function () {
+                                        if ($(this).text() == "RI(A)" || $(this).text() == "RI(E)" || $(this).text() == "RI(S)") {
+                                            $(this).remove();
+                                            _flag = true;
+                                        }
+                                        if (_flag) {
+                                            $("#div_dd :checkbox").attr("checked", false);
+                                            $("#div_dd").empty();
+                                            //$("#prbCategoryCode").val("");
+                                        }
+                                    });
+                                } else if (selectedPrb == "ARB") {
+                                    var _flag = false;
+                                    $("#prbCategoryCode option").each(function () {
+                                        if ($(this).text() == "RI(S)" || $(this).text() == "RI(E)") {
+                                            $(this).remove();
+                                            _flag = true;
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                        }
+                                        /*if(_flag){
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                            //$("#prbCategoryCode").val("");
+                                        }*/
+                                    });
+                                } else if (selectedPrb == "SRB") {
+                                    var _flag = false;
+                                    $("#prbCategoryCode option").each(function () {
+                                        if ($(this).text() == "RI(A)" || $(this).text() == "RI(E)") {
+                                            $(this).remove();
+                                            _flag = true;
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                        }
+                                        if (_flag) {
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                            //$("#prbCategoryCode").val("");
+                                        }
+                                    });
+                                } else if (selectedPrb == "ERB") {
+                                    var _flag = false;
+                                    $("#prbCategoryCode option").each(function () {
+                                        if ($(this).text() == "RI(S)" || $(this).text() == "RI(A)") {
+                                            $(this).remove();
+                                            _flag = true;
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                        }
+                                        if (_flag) {
+                                            //$("#div_dd :checkbox").attr("checked", false);
+                                            //$("#div_dd").empty();
+                                            //$("#prbCategoryCode").val("");
+                                        }
+                                    });
+                                }
+                            });
+                        </script>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Qualification Code :<span class="asterix">*</span></th>
+                    <td>
+                        <div style="width:360px">
+                            <select style="width:auto" name="prbCategoryCode" onchange="refreshQualificationCode()" id="prbCategoryCode" style="96px;">
+                                <option value="">- Select -</option>
+                                <option value="8a85932a25bfae310125bfae31620000">AP(A)</option>
+                                <option value="8a85932a25bfae310125bfae31620001">AP(E)</option>
+                                <option value="8a85932a25bfae310125bfae31620002">AP(S)</option>
+                                <option value="8a85932a25bfae310125bfae31620003">API</option>
+                                <option value="8a85932a25bfae310125bfae31620004">APII</option>
+                                <option value="8a85932a25bfae310125bfae31720005">APIII</option>
+                                <option value="8a85932a25bfae310125bfae31720008">RGE</option>
+                                <option value="8a85934932fb8d6c0132fb927ec20002">RI(A)</option>
+                                <option value="8a85934932fb8d6c0132fb9382860003">RI(E)</option>
+                                <option value="8a85934932fb8d6c0132fb940cd40004">RI(S)</option>
+                                <option value="8a85932a25bfae310125bfae31720009">RSE</option>
+                            </select>
+
+
+
+                            <select style="width:auto" name="prbQualificationType" id="prbQualificationType" style="96px;">
+                                <option value="">- Select -</option>
+                                <option value="8a85935e334329500133432aee7a0015">APA</option>
+                                <option value="8a85935e334329500133432aee7a0016">APE</option>
+                                <option value="8a85935e334329500133432aee7a0017">APS</option>
+                                <option value="8a85935e334329500133432aee7a0018">RSE</option>
+                            </select>
+
+
+
+
+                        </div>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <th>Registration No. :<span class="asterix">*</span></th>
+                    <td><input name="prbRegistrationNo" maxlength="50" value="" id="prbRegistrationNo" style="width:200px" class="inputText" type="text"></td>
+                </tr>
+                <tr>
+                    <th>Expiry Date :</th>
+                    <td>
+                        <input name="prbExpiryDate" maxlength="10" value="" onblur="checkDate(this)" id="prbExpiryDate" class="inputDate" type="text">
+                        <span id="err_prbExpiryDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <th>
+                        Disciplines/ Divisions
+                    </th>
+                    <td colspan="3"></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+
+
+
+
+
+        <input name="uclApplicants:btnSaveQuali" value="Save" onclick="saveQualification()" id="uclApplicants_btnSaveAppl" class="smallprint" type="button">
+        &nbsp;
+        <input name="uclApplicants:btnCancelQuali" value="Cancel" id="uclApplicants_btnCancelAppl" class="smallprint" onclick="saveQualification()" type="button">
+        <br>
+        <br>
+    </div>
+</div>
+
+<div id="indCert" style="display:none;">
+    <div id="uclCert_pnlGrid" style="display:;">
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <td><span id="uclCert_lblCertGridError" style="color:Red;"></span></td>
+                </tr>
+                <tr>
+                    <td><input name="uclCert:btnAdd" value="New Certificate" id="uclQual_btnAdd" class="smallprint" onclick="javascript:certificateFrom('new');" type="button"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="resultTable hide" id="CRM0302CertTable">
+            <thead>
+                <tr class="grid-header" style="height:19px;">
+                    <th>&nbsp;</th>
+                    <th>Category</th>
+                    <th>Period&nbsp;of Validity</th>
+                    <th>Date of Application</th>
+                    <th>Date of Registration</th>
+                    <th>Date of Expiry</th>
+                    <th>Date of Retention</th>
+                    <th>Date of Restoration</th>
+                    <th>Date of Removal</th>
+                    <th>Form Used</th>
+                    <th nowrap="nowrap">Remarks</th>
+                    <th>Specimen Signature</th>
+
+                    <th>QP Card <br>Serial No</th>
+
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+            </tbody>
+        </table>
+    </div>
+
+    <div id="uclCert_pnlEdit" style="display:none;">
+        <table id="Table3" width="100%" class="inputTable">
+            <thead>
+
+                <tr>
+                    <th colspan="4"><b>Current Registration Information</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="WIDTH: 132px">Category Code :<span class="asterix">*</span></th>
+                    <td>
+                        <select style="width:auto" name="categoryCode" onchange="updateRegistrationNo()" id="categoryCode" style="width:104px;">
+                            <option value="">- Select -</option>
+                            <option value="8a85932a25bfae310125bfae31620000">AP(A)</option>
+                            <option value="8a85932a25bfae310125bfae31620001">AP(E)</option>
+                            <option value="8a85932a25bfae310125bfae31620002">AP(S)</option>
+                            <option value="8a85932a25bfae310125bfae31620003">API</option>
+                            <option value="8a85932a25bfae310125bfae31620004">APII</option>
+                            <option value="8a85932a25bfae310125bfae31720005">APIII</option>
+                            <option value="8a85932a25bfae310125bfae31720008">RGE</option>
+                            <option value="8a85934932fb8d6c0132fb927ec20002">RI(A)</option>
+                            <option value="8a85934932fb8d6c0132fb9382860003">RI(E)</option>
+                            <option value="8a85934932fb8d6c0132fb940cd40004">RI(S)</option>
+                            <option value="8a85932a25bfae310125bfae31720009">RSE</option>
+                        </select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator11" controltovalidate="uclCert_ddCtgCode" errormessage="Please select a category code." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a category code.</span>
+                    </td>
+                    <td colspan="2">
+                        <input name="useOldCategoryCode" value="on" id="useOldCategoryCode" class="inputCheckbox" type="checkbox"><label for="uclCert_chkOldCat">Use old category code</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="WIDTH: 132px">Registration No. :</th>
+                    <td>
+                        <input name="certificationNo" maxlength="20" value="" id="certificationNo" style="width:176px" class="inputText" type="text">
+                    </td>
+                    <th style="WIDTH: 160px">Expiry of <br>Registration on  :</th>
+                    <td>
+                        <input name="expiryDate" maxlength="10" value="" onblur="checkDate(this)" id="expiryDate" class="inputDate" type="text">
+                        <span id="err_expiryDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="WIDTH: 132px">Last Application submitted on  :</th>
+                    <td>
+                        <input name="applicationDate" maxlength="10" value="" onblur="checkDate(this)" id="applicationDate" class="inputDate" type="text">
+                        <span id="err_applicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <th style="WIDTH: 160px">Specified Form Submitted :</th>
+                    <td>
+                        <select style="width:auto" name="applicationForm" id="applicationForm" style="width:104px;">
+                            <option value="">- Select -</option>
+                            <option value="8a85932a25bf97e50125bf97e5410000">BA1</option>
+                            <option value="8a85932a25bf97e50125bf97e5510001">BA1A</option>
+                            <option value="8a85932a25bf97e50125bf97e5510002">BA1B</option>
+                            <option value="8a85932a25bf97e50125bf97e5510003">BA2</option>
+                            <option value="8a85932a25bf97e50125bf97e5510004">BA24</option>
+                            <option value="8a85932a25bf97e50125bf97e5510005">BA2A</option>
+                            <option value="8a85932a25bf97e50125bf97e5510006">BA2B</option>
+                            <option value="8a85932a25bf97e50125bf97e5510007">BA2C</option>
+                            <option value="8a85932a25bf97e50125bf97e5510008">LETTER</option>
+                            <option value="8a85932a25bf97e50125bf97e5510009">NA</option>
+                            <option value="6D0F09FA4E3B414DBC7DC4B91ADCBCE5">QP Card</option>
+                        </select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator1" controltovalidate="uclCert_ddForm" errormessage="Please select a form." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a form.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="WIDTH: 132px">Period of Validity :<span class="asterix">*</span></th>
+                    <td>
+                        <select style="width:auto" name="periodOfValidity" id="periodOfValidity" style="width:104px;">
+                            <option value="">- Select -</option>
+                            <option value="8a85932a25bf9d8b0125bf9d8b3d0002">3</option>
+                            <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                        </select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator9" controltovalidate="uclCert_ddPeriod" errormessage="Please select a period of validity." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a period of validity.</span>
+                    </td>
+                    <th style="WIDTH: 132px">Status  :<span class="asterix">*</span></th>
+                    <td>
+                        <select style="width:auto" name="applicationStatus" id="applicationStatus" class="inputSelectNoWidth">
+                            <option value="">- Select -</option>
+                            <option value="8a85932a25bf968e0125bf968ef80000">Active</option>
+                            <option value="8a85932a25bf968e0125bf968ef80001">Application in progress</option>
+                            <option value="8a85932a25bf968e0125bf968ef80003">Certificate prepared</option>
+                            <option value="8a85932a25bf968e0125bf968ef80006">Removed</option>
+                            <option value="8a85932a25bf968e0125bf968ef80007">Inactive</option>
+                            <option value="8a85932a25bf968e0125bf968ef80008">Withdrawn</option>
+                            <option value="8a8593a2607d43b301607d65d68a0001">test3162</option>
+                        </select>
+                        <span id="uclCert_RequiredFieldValidator2" controltovalidate="uclCert_ddStatus" errormessage="RequiredFieldValidator" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a status</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="WIDTH: 132px">Specimen Signature&nbsp; :</th>
+                    <td colspan="3">
+                        <input name="fileNonrestricted" value="" id="fileNonrestricted" style="width:376px" class="inputFile" type="file">
+                        &nbsp;
+
+                        <a href="javascript:upload()"></a>
+                        &nbsp;
+                        <img id="delete_signature" style="cursor:pointer;display:none" onclick="javascript:deleteSignature();" src="images/delete.gif" alt="Delete" border="0">
+
+                        <br>
+                        <span id="eformfilepath"></span>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="4"><b>Professional Registration Board Information</b></th>
+                </tr>
+            </thead>
+        </table>
+        <table id="uclQual_dgQual" class="resultTable hide">
+
+            <thead>
+                <tr class="grid-header">
+                    <th>PRB</th>
+                    <th nowrap="nowrap">Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+
+                    <td>Architect Registration Board</td>
+                    <td>30/06/2015</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th colspan="4"><b>First Registration Information</b></th>
+                </tr>
+            <thead>
+            <tbody>
+                <tr>
+                    <th style="WIDTH: 132px">Date of first Registration  :</th>
+                    <td>
+                        <input name="registrationDate" maxlength="10" value="" onblur="checkDate(this)" id="registrationDate" class="inputDate" type="text">
+                        <span id="err_registrationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <th style="WIDTH: 132px">Date of Gazette  :</th>
+                    <td>
+                        <input name="gazetteDate" maxlength="10" value="" onblur="checkDate(this)" id="gazetteDate" class="inputDate" type="text">
+                        <span id="err_gazetteDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="WIDTH: 132px">Date of Approval  :</th>
+                    <td>
+                        <input name="approvalDate" maxlength="10" value="" onblur="checkDate(this)" id="approvalDate" class="inputDate" type="text">
+                        <span id="err_approvalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="4"><b>Last Retention Information</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="WIDTH: 132px">Retention Application submitted on  :</th>
+                    <td>
+                        <input name="retentionApplicationDate" maxlength="10" value="" onblur="checkDate(this)" id="retentionApplicationDate" class="inputDate" type="text">
+                        <span id="err_retentionApplicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <th style="WIDTH: 132px">Retention commenced on  :</th>
+                    <td>
+                        <input name="retentionDate" maxlength="10" value="" onblur="checkDate(this)" id="retentionDate" class="inputDate" type="text">
+                        <span id="err_retentionDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="4"><b>Last Restoration Information</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="WIDTH: 132px">Restoration Application submitted on  :</th>
+                    <td>
+                        <input name="restorationApplicationDate" maxlength="10" value="" onblur="checkDate(this)" id="restorationApplicationDate" class="inputDate" type="text">
+                        <span id="err_restorationApplicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <th style="WIDTH: 132px">Restoration commenced on  :</th>
+                    <td>
+                        <input name="restoreDate" maxlength="10" value="" onblur="checkDate(this)" id="restoreDate" class="inputDate" type="text">
+                        <span id="err_restoreDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="4"><b>Other Information</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="WIDTH: 132px">Removed from register on  :</th>
+                    <td>
+                        <input name="removalDate" maxlength="10" value="" onblur="checkDate(this)" id="removalDate" class="inputDate" type="text">
+                        <span id="err_removalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                    <th style="WIDTH: 132px">Extended date of expiry :</th>
+                    <td>
+                        <input name="extendedDate" maxlength="10" value="" onblur="checkDate(this)" id="extendedDate" class="inputDate" type="text">
+                        <span id="err_extendedDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">Remarks :</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <textarea name="certRemarks" rows="3" style="width:696px;" class="textarea"></textarea>
+                        <br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr width="100%" size="1" color="darkgray" align="left">
+        <input name="uclCert:btnSaveCert" value="Save" onclick="saveCertificate()" id="uclCert_btnSaveCert" class="smallprint" type="button">
+        &nbsp;
+        <input name="uclCert:btnCancelCert" value="Cancel" onclick="setTab('professionalCert');" id="uclCert_btnCancelCert" class="smallprint" type="button">
+        <br>
+        <br>
+    </div>
+</div>
+
+
+<table class="inputTable">
+
+
+    <tfoot>
+        <tr>
+            <td class="editfooter" height="32">
+
+                <input name="btnSave" value="Save Application" onclick="loadContentPage('CRM0302a')" id="btnSave" accesskey="S" type="button">
+                &nbsp;
+
+
+                <input name="btnCancel" value="Cancel" id="btnCancel" onclick="loadContentPage('CRM0301')" accesskey="C" type="button">
+
+                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+
+
+                
+
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<table id="Table9" class="inputTable">
+                <thead>
+                    <tr>
+                        <th id="td1" class="tab"  align="center"><a href="javascript:setTab('professionalInfo');">Personal Info</a></th>
+                        <th id="td2" class="untab"align="center"><a href="javascript:setTab('professionalQuali');">Qualifications</a></th>
+                        <th id="td3" class="untab"align="center"><a href="javascript:setTab('professionalCert');">Certificate Info</a></th>
+
+
+                        <th id="td5" style="FONT-WEIGHT: bold; FONT-SIZE: 10pt" align="right"></th>
+                    </tr>
+                </thead>
+
+
+              <tbody><tr>
+                <th >File Ref. :<span class="asterix">*</span></th>
+                  <td colspan="3">
+                    <input name="fileReferenceNo" maxlength="20" value="" id="fileReferenceNo" style="font-size:10pt;font-weight:bold;width:161px;" class="inputText" type="text">
+
+                    <input name="btnGetEform" onclick="javascript:loadContentPage('CRM03Eform')" value="E-form" id="btnGetEform" title="Get E-form." class="smallprint"  type="button">
+
+                  </td>
+
+              </tr>
+              <tr nowrap="nowrap">
+                <th >HKID :<span class="asterix">*</span></th>
+                <td>
+                  <input name="hkid" maxlength="20" value="" id="hkid" style="font-size:10pt;font-weight:bold;width:152px;" class="inputText" type="text">
+                  <input name="btnGetId" onclick="getApplicantById()" value="Get HKID/Passport No" id="btnGetId" title="Get info for specified HKID or passport." class="smallprint" type="button">
+                  <a href="javascript:getSameHkidApp()">
+                      <img src="images/form.gif" alt="Application with same HKID / Passport No." border="0">
+                  </a>
+                  <span id="cusValHkid" controltovalidate="txtHkid" errormessage="Invalid HKID." display="Dynamic" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">Invalid HKID.</span></td>
+                <th >Passport No.<span class="smallprint"> :</span></th>
+                <td>
+                    <input name="passportNo" maxlength="20" value="" id="passportNo" style="font-size:10pt;font-weight:bold;width:161px;" class="inputText" type="text">
+                  <br>
+                  <span class="smallprint" style="FONT-SIZE: 7pt; COLOR: dimgray">If not a HKID
+                  holder, enter passport no.</span><br>
+                  <span id="RegularExpressionValidator9" controltovalidate="txtPassport" errormessage="Only letters, numbers, and the characters ()- are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="^[\w \(\)\-]*$" style="color:Red;display:none;">Only letters, numbers, and the characters ()- are allowed.</span></td>
+              </tr>
+              <tr>
+                <th >Title :</th>
+                <td>
+                   <select name="title" id="title" style="width:auto"><option value="">- Select -</option>
+                     <option value="8a85932a25bf9f910125bf9f919c0000">Mr</option> <option value="8a85932a25bf9f910125bf9f919c0001">Miss</option> <option value="8a85932a25bf9f910125bf9f919c0002">Dr</option> <option value="8a85932a25bf9f910125bf9f919c0003">Mrs</option> <option value="8a85932a25bf9f910125bf9f919c0004">Ir</option> <option value="8a85932a25bf9f910125bf9f919c0005">Unknown</option> <option value="8a85932a25bf9f910125bf9f919c0006">Ir Dr</option> <option value="8a85932a25bf9f910125bf9f919c0007">Prof</option> <option value="8a85932a25bf9f910125bf9f919c0008">Ms</option> <option value="8a85932a25bf9f910125bf9f919c0009">Ir Prof</option> <option value="8a8591a23bb69c9b013bb71fd3120bfa">Sr</option> <option value="8a8591a23db07dfe013dfd5ee1ec4537">Ir Sr</option></select>
+                </td>
+                <th >Sex :</th>
+                <td>
+
+                  <select name="gender" id="gender"  style="width:auto"><option value="">- Select -</option>
+                    <option value="M">M</option>
+                    <option value="F">F</option></select></td>
+              </tr>
+              <tr>
+                <th >Surname :<span class="asterix">*</span></th>
+                <td>
+                  <input name="surname" maxlength="40" value="" id="surname" style="font-size:10pt;font-weight:bold;width:240px;" class="inputText" type="text">
+
+                  <br>
+                  <span id="RequiredFieldValidator1" controltovalidate="txtSurname" errormessage="Please enter a surname." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a surname.</span><span id="RegularExpressionValidator10" controltovalidate="txtSurname" errormessage="Only letters and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\,\. ]*" style="color:Red;display:none;">Only letters and space are allowed.</span></td>
+                <th >Given Name :<span class="asterix">*</span></th>
+                <td>
+                  <input name="givenNameOnId" maxlength="60" value="" id="givenNameOnId" style="font-size:10pt;font-weight:bold;width:260px;" class="inputText" type="text">
+                  <span id="RequiredFieldValidator2" controltovalidate="txtGivenName" errormessage="Please enter a given name." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a given name.</span><span id="RegularExpressionValidator11" controltovalidate="txtGivenName" errormessage="Only letters and the characters -, and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\-\,\. ]+" style="color:Red;display:none;">Only letters and the characters -, and space are allowed.</span></td>
+              </tr>
+              <tr>
+                <th >Chinese Name :</th>
+                <td>
+                  <input name="chineseName" maxlength="6" value="" id="chineseName" style="font-size:10pt;font-weight:bold;width:96px;" class="inputText" type="text">
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+
+
+            </tbody></table>
+
+            <div id="indInfo" style="display:;">
+              <table id="Table5" class="inputTable">
+                  <tbody>
+                      <tr>
+                          <th>Communication Language :<span class="asterix">*</span></th>
+                          <td>
+
+                              <select style="width:auto"  name="correspondenceLangId" id="correspondenceLangId" class="inputSelectNoWidth">
+                                  <option value="E" selected="">English</option>
+                                  <option value="C">Chinese</option>
+                              </select>
+
+                          </td>
+
+                      </tr>
+
+
+                      <tr>
+                          <th >
+                              Correspondence Address
+                          </th>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td width="385">
+                              <span class="smallprint">(English)</span>:&nbsp;&nbsp;
+                              <input name="btnCopyOAddrE" value="Copy from Office Address" onclick="copyEngOfficeAddrToHome()" id="btnCopyOAddrE" class="smallprint" type="button">
+                          </td>
+                          <td width="385">
+                              <span class="smallprint">(Chinese)</span>:&nbsp;&nbsp;
+                              <input name="btnCopyOAddrC" value="Copy from Office Address" onclick="copyChnOfficeAddrToHome()" id="btnCopyOAddrC" class="smallprint" type="button">
+                          </td>
+                      </tr>
+
+                      <tr>
+                          <td width="385">
+                              <input name="englishHomeAddress1" maxlength="40" value="" id="englishHomeAddress1" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishHomeAddress2" maxlength="40" value="" id="englishHomeAddress2" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishHomeAddress3" maxlength="40" value="" id="englishHomeAddress3" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishHomeAddress4" maxlength="40" value="" id="englishHomeAddress4" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishHomeAddress5" maxlength="40" value="" id="englishHomeAddress5" style="width:360px;" class="inputText" type="text">
+                          </td>
+                          <td width="400">
+                              <input name="chineseHomeAddress1" maxlength="30" value="" id="chineseHomeAddress1" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseHomeAddress2" maxlength="30" value="" id="chineseHomeAddress2" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseHomeAddress3" maxlength="30" value="" id="chineseHomeAddress3" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseHomeAddress4" maxlength="30" value="" id="chineseHomeAddress4" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseHomeAddress5" maxlength="30" value="" id="chineseHomeAddress5" style="width:360px;" class="inputText" type="text">
+                          </td>
+                      </tr>
+
+
+                      <tr>
+                          <th style="WIDTH: 76px" width="76">C/o :</th>
+                          <td width="670">
+                              <input name="englishCareOf" maxlength="150" value="" id="englishCareOf" style="width:653px;" class="inputText" type="text">
+                          </td>
+                      </tr>
+                      <tr>
+                          <th style="WIDTH: 76px" width="76">C/o<span class="smallprint"> (Chn)</span> :</th>
+                          <td width="670">
+                              <input name="chineseCareOf" maxlength="50" value="" id="chineseCareOf" style="width:390px;" class="inputText" type="text">
+                          </td>
+                      </tr>
+
+                      <tr>
+                          <th width="385">
+                              Office Address<span class="smallprint"> (English)</span>:
+                              <input name="btnCopyHAddrE" value="Copy from Corr. Address" onclick="copyEngHomeAddrToOffice()" id="btnCopyHAddrE" class="smallprint"  type="button">
+                          </th>
+                          <td width="385">
+                              <span class="smallprint">(Chinese)</span>:
+                              <input name="btnCopyHAddrC" value="Copy from Corr. Address" onclick="copyChnHomeAddrToOffice()" id="btnCopyHAddrC" class="smallprint"  type="button">
+                          </td>
+                      </tr>
+                      <tr>
+                          <th width="385">
+                              <input name="englishOfficeAddress1" maxlength="40" value="" id="englishOfficeAddress1" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishOfficeAddress2" maxlength="40" value="" id="englishOfficeAddress2" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishOfficeAddress3" maxlength="40" value="" id="englishOfficeAddress3" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishOfficeAddress4" maxlength="40" value="" id="englishOfficeAddress4" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="englishOfficeAddress5" maxlength="40" value="" id="englishOfficeAddress5" style="width:360px;" class="inputText" type="text">
+                          </th>
+                          <td width="400">
+                              <input name="chineseOfficeAddress1" maxlength="40" value="" id="chineseOfficeAddress1" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseOfficeAddress2" maxlength="40" value="" id="chineseOfficeAddress2" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseOfficeAddress3" maxlength="40" value="" id="chineseOfficeAddress3" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseOfficeAddress4" maxlength="40" value="" id="chineseOfficeAddress4" style="width:360px;" class="inputText" type="text">
+                              <br>
+                              <input name="chineseOfficeAddress5" maxlength="40" value="" id="chineseOfficeAddress5" style="width:360px;" class="inputText" type="text">
+                          </td>
+                      </tr>
+                      <tr>
+                          <td colspan="2" width="770"><hr width="100%" size="2" color="#336699"></td>
+                      </tr>
+
+                      <tr>
+                          <th >Emergency Nos. :</th>
+                          <td colspan="3">
+                              1)
+                              <input name="emergencyNo1" maxlength="22" value="" id="emergencyNo1" style="width:175px;" class="inputText" type="text">
+                              &nbsp;&nbsp;2)
+                              <input name="emergencyNo2" maxlength="22" value="" id="emergencyNo2" style="width:175px;" class="inputText" type="text">
+                              &nbsp;&nbsp;3)
+                              <input name="emergencyNo3" maxlength="22" value="" id="emergencyNo3" style="width:175px;" class="inputText" type="text">
+                              <br>
+                              <span id="RegularExpressionValidator12" controltovalidate="txtEmrgNo1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                  Invalid telephone no. 1.<br>
+                              </span> <span id="RegularExpressionValidator4" controltovalidate="txtEmrgNo2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                  Invalid telephone no. 2.<br>
+                              </span> <span id="RegularExpressionValidator14" controltovalidate="txtEmrgNo3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no. 3.</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >Telephone Nos. :<span class="asterix">*</span></th>
+                          <td colspan="3">
+                              1)
+                              <input name="telephoneNo1" maxlength="22" value="" id="telephoneNo1" style="width:175px;" class="inputText" type="text">
+                              &nbsp;
+                              2)
+                              <input name="telephoneNo2" maxlength="22" value="" id="telephoneNo2" style="width:175px;" class="inputText" type="text">
+                              &nbsp;
+                              3)
+                              <input name="telephoneNo3" maxlength="22" value="" id="telephoneNo3" style="width:175px;" class="inputText" type="text">
+                              <br>
+                              <span id="RequiredFieldValidator5" controltovalidate="txtTel1" errormessage="Please enter at least one  telephone no.<br>" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">
+                                  Please enter at least one  telephone no.<br>
+                              </span> <span id="RegularExpressionValidator1" controltovalidate="txtTel1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                  Invalid telephone no. 1.<br>
+                              </span> <span id="RegularExpressionValidator3" controltovalidate="txtTel2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                  Invalid telephone no. 2.<br>
+                              </span> <span id="RegularExpressionValidator13" controltovalidate="txtTel3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no. 3.</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >Fax Nos. :</th>
+                          <td colspan="3">
+                              1)
+                              <input name="faxNo1" maxlength="20" value="" id="faxNo1" style="width:175px;" class="inputText" type="text">
+                              &nbsp;
+                              2)
+                              <input name="faxNo2" maxlength="20" value="" id="faxNo2" style="width:175px;" class="inputText" type="text">
+                              <br>
+                              <span id="RegularExpressionValidator5" controltovalidate="txtFax1" errormessage="Invalid fax no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">
+                                  Invalid fax no. 1.<br>
+                              </span> <span id="RegularExpressionValidator6" controltovalidate="txtFax2" errormessage="Invalid fax no. 2." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid fax no. 2.</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >Email :</th>
+                          <td colspan="3">
+                              <input name="email" maxlength="80" value="" id="email" style="width:583px;" class="inputText" type="text">
+                              <br>
+                              <span id="RegularExpressionValidator8" controltovalidate="txtEmail" errormessage="Invalid email address." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="\w+([-+.&amp;]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" style="color:Red;display:none;">Invalid email address.</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >Remarks :</th>
+                          <td colspan="3">
+                              <textarea name="remarks" rows="3" id="remarks" style="width:584px;" class="textarea"></textarea>
+                              <br>
+                              <span id="Regularexpressionvalidator7" controltovalidate="txtRemarks" errormessage="You can enter a maximum of 500 characters." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="(.|\n){0,500}" style="color:Red;display:none;">You can enter a maximum of 500 characters.</span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >PNAP :</th>
+                          <td colspan="3">
+                              <select name="practiceNotes" id="practiceNotes" style="width:auto">
+                                  <option value="">- Select PNAP -</option>
+                                  <option value="8a8591a23832afa201384fdfebf435e9">BY SMS</option>
+                                  <option value="8a85932a25bf9e120125bf9e12bc0003">BY EMAIL</option>
+                                  <option value="8a8591a23832afa201384fe0187035ea">NOT WISH</option>
+                                  <option value="8a85932a25bf9e120125bf9e12bc0004">N/A</option>
+                              </select>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th >Qualifications :</th>
+                          <td colspan="3">
+                              <textarea name="qualification" rows="3" style="width:584px;" class="textarea"></textarea>
+                              <br>
+                              <span id="Regularexpressionvalidator15" controltovalidate="txtOldQual" errormessage="You can enter a maximum of 500 characters." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="(.|\n){0,500}" style="color:Red;display:none;">You can enter a maximum of 500 characters.</span>
+                          </td>
+                      </tr>
+                  </tbody></table>
+
+
+              <table id="Table8" class="inputTable">
+
+
+
+
+                 <tbody><tr style="display:none">
+                  <td>Region Code: &nbsp;</td>
+                  <td style="FONT-SIZE: 1px" colspan="4">
+
+                    <select name="regionCode" id="regionCode" style="width:192px;" class="inputSelectNoWidth"><option value="">- Select Region Code -</option>
+                       <option value="8a85932a25bfa01a0125bfa01af00166">Central &amp; Western District</option> <option value="8a85932a25bfa01a0125bfa01b000167">Eastern District</option> <option value="8a85932a25bfa01a0125bfa01b000168">Southern District</option> <option value="8a85932a25bfa01a0125bfa01b000169">Wan Chai District</option> <option value="8a85932a25bfa01a0125bfa01b00016a">Kowloon City District</option> <option value="8a85932a25bfa01a0125bfa01b00016b">Kwun Tong District</option> <option value="8a85932a25bfa01a0125bfa01b00016c">Sham Shui Po District</option> <option value="8a85932a25bfa01a0125bfa01b00016d">Wong Tai Sin District</option> <option value="8a85932a25bfa01a0125bfa01b00016e">Yau Tsim Mong District</option> <option value="8a85932a25bfa01a0125bfa01b00016f">Islands District</option> <option value="8a85932a25bfa01a0125bfa01b000170">Kwai Tsing District</option> <option value="8a85932a25bfa01a0125bfa01b000171">North District</option> <option value="8a85932a25bfa01a0125bfa01b000172">Sai Kung District</option> <option value="8a85932a25bfa01a0125bfa01b000173">Sha Tin District</option> <option value="8a85932a25bfa01a0125bfa01b000174">Tai Po District</option> <option value="8a85932a25bfa01a0125bfa01b000175">Tsuen Wan District</option> <option value="8a85932a25bfa01a0125bfa01b000176">Tuen Mun District</option> <option value="8a85932a25bfa01a0125bfa01b000177">Yuen Long District</option></select>
+                </td></tr>
+
+
+              </tbody></table>
+            </div>
+
+            <div id="indQual" style="display:none;">
+              <div id="uclQual_pnlGrid" style="display:;">
+                <table id="Table1" class="inputTable">        <tbody><tr>
+                    <td><input name="uclQual:btnAdd" value="New Qualification" id="uclQual_btnAdd" class="smallprint"  onclick="javascript:qualificationFrom('new');" type="button"></td>
+                  </tr>
+                </tbody></table>
+                <table class="resultTable" id="dgList">
+                    <thead>
+                        <tr class="grid-header" style="height:19px;">
+                            <th>&nbsp;</th>
+                            <th>PRB</th>
+                            <th>Category Code</th>
+                            <th>Registration No.</th>
+                            <th nowrap="nowrap">Expiry Date</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                    <tbody></tbody>
+                </table>
+              </div>
+              <div id="uclQual_pnlForm" style="display:none;">
+
+                <table id="Tableq" width="100%" cellspacing="0" cellpadding="2" border="0">
+                <tbody><tr>
+                 <td width="50%">
+                   <table id="Table3" width="100%" cellspacing="0" cellpadding="2" border="0">
+                      <tbody><tr>
+                        <td style="WIDTH:150px">PRB :<span class="asterix">*</span>
+                        </td>
+                        <td>
+                            <select name="prbId" onchange="verifyQcode(this);" id="prbId" style="196px;"><option value="">- Select PRB-</option>
+                                 <option value="8a85932a25bf9e880125bf9e88f60000">AP/RSE</option> <option value="8a85932a25bf9e880125bf9e88f60001">ARB</option> <option value="8a85932a25bf9e880125bf9e88f60002">ERB</option> <option value="8a85932a25bf9e880125bf9e88f60003">ERB (GEL)</option> <option value="8a85932a25bf9e880125bf9e88f60004">ERB(CVL/STR)</option> <option value="8a85932a25bf9e880125bf9e88f60005">SRB</option></select>
+                            <script>
+                                $(document).ready(function(){
+                                    if(full_qcodeList == ""){
+                                        var _val = $("#prbCategoryCode").val();
+                                        $("#prbCategoryCode").val("");
+                                        full_qcodeList = $("#prbCategoryCode").html();
+                                        $("#prbCategoryCode").val(_val);
+                                    }
+                                    var selectedPrb = $("#prbId").find(":selected").text();
+                                    if(selectedPrb == "AP/RSE" || selectedPrb == "ERB (GEL)" || selectedPrb == "ERB(CVL/STR)"){
+                                        var _flag = false;
+                                        $("#prbCategoryCode option").each(function(){
+                                            if($(this).text() == "RI(A)" || $(this).text() == "RI(E)" || $(this).text() == "RI(S)"){
+                                                $(this).remove();
+                                                _flag = true;
+                                            }
+                                            if(_flag){
+                                                $("#div_dd :checkbox").attr("checked", false);
+                                                $("#div_dd").empty();
+                                                //$("#prbCategoryCode").val("");
+                                            }
+                                        });
+                                    } else if(selectedPrb == "ARB"){
+                                        var _flag = false;
+                                        $("#prbCategoryCode option").each(function(){
+                                            if($(this).text() == "RI(S)" || $(this).text() == "RI(E)"){
+                                                $(this).remove();
+                                                _flag = true;
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                            }
+                                            /*if(_flag){
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                                //$("#prbCategoryCode").val("");
+                                            }*/
+                                        });
+                                    } else if(selectedPrb == "SRB"){
+                                        var _flag = false;
+                                        $("#prbCategoryCode option").each(function(){
+                                            if($(this).text() == "RI(A)" || $(this).text() == "RI(E)"){
+                                                $(this).remove();
+                                                _flag = true;
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                            }
+                                            if(_flag){
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                                //$("#prbCategoryCode").val("");
+                                            }
+                                        });
+                                    } else if(selectedPrb == "ERB"){
+                                        var _flag = false;
+                                        $("#prbCategoryCode option").each(function(){
+                                            if($(this).text() == "RI(S)" || $(this).text() == "RI(A)"){
+                                                $(this).remove();
+                                                _flag = true;
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                            }
+                                            if(_flag){
+                                                //$("#div_dd :checkbox").attr("checked", false);
+                                                //$("#div_dd").empty();
+                                                //$("#prbCategoryCode").val("");
+                                            }
+                                        });
+                                    }
+                                });
+                            </script>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Qualification Code :<span class="asterix">*</span></td>
+                        <td>
+                        <div style="width:360px">
+                        <select name="prbCategoryCode" onchange="refreshQualificationCode()" id="prbCategoryCode" style="96px;"><option value="">- Select -</option>
+                           <option value="8a85932a25bfae310125bfae31620000">AP(A)</option> <option value="8a85932a25bfae310125bfae31620001">AP(E)</option> <option value="8a85932a25bfae310125bfae31620002">AP(S)</option> <option value="8a85932a25bfae310125bfae31620003">API</option> <option value="8a85932a25bfae310125bfae31620004">APII</option> <option value="8a85932a25bfae310125bfae31720005">APIII</option> <option value="8a85932a25bfae310125bfae31720008">RGE</option> <option value="8a85934932fb8d6c0132fb927ec20002">RI(A)</option> <option value="8a85934932fb8d6c0132fb9382860003">RI(E)</option> <option value="8a85934932fb8d6c0132fb940cd40004">RI(S)</option> <option value="8a85932a25bfae310125bfae31720009">RSE</option></select>
+
+
+
+                            <select name="prbQualificationType" id="prbQualificationType" style="96px;"><option value="">- Select -</option>
+                           <option value="8a85935e334329500133432aee7a0015">APA</option> <option value="8a85935e334329500133432aee7a0016">APE</option> <option value="8a85935e334329500133432aee7a0017">APS</option> <option value="8a85935e334329500133432aee7a0018">RSE</option></select>
+
+
+
+
+                        </div>
+                        </td>
+
+
+                      </tr>
+                      <tr>
+                        <td>Registration No. :<span class="asterix">*</span></td>
+                        <td><input name="prbRegistrationNo" maxlength="50" value="" id="prbRegistrationNo" style="width:200px" class="inputText" type="text"></td>
+                      </tr><tr>
+                        <td>Expiry Date :</td>
+                        <td><input name="prbExpiryDate" maxlength="10" value="" onblur="checkDate(this)" id="prbExpiryDate" style="width:80px;" class="inputText" type="text">
+                        <span id="err_prbExpiryDate" class="err" style="color:Red;display:none;">Invalid date</span></td>
+                      </tr>
+
+                    </tbody></table>
+                </td>
+                 <td width="50%">
+                    <div>
+                        <table cellspacing="3" cellpadding="0" border="0">
+                           <tbody>
+                            <tr>
+                              <td>
+                                Disciplines/ Divisions
+                               </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                <div id="div_dd" class="scrollTableDivLower" style="height:100px; width:250px">
+                                     <table class="scrollTable" cellspacing="0" cellpadding="0" border="0"> <tbody></tbody></table>
+                                 </div>
+                                 </td>
+                              </tr>
+                            </tbody></table>
+
+
+                    </div>
+                </td>
+               </tr>
+               <tr>
+                        <td colspan="2"><hr width="100%" size="1" color="#AAAAAA"></td>
+               </tr>
+             </tbody></table>
+
+
+                    <input name="uclApplicants:btnSaveQuali" value="Save" onclick="saveQualification()" id="uclApplicants_btnSaveAppl" class="smallprint" style="width:72px;" type="button">
+                &nbsp;
+                <input name="uclApplicants:btnCancelQuali" value="Cancel" id="uclApplicants_btnCancelAppl" class="smallprint" style="width:72px;" onclick="setTab('professionalQuali');" type="button">
+                <br>
+                <br>
+              </div>
+            </div>
+
+            <div id="indCert" style="display:none;">
+              <div id="uclCert_pnlGrid" style="display:;">
+                <table id="Table1" style="PADDING-BOTTOM: 8px; PADDING-TOP: 3px" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  <tbody><tr>
+                    <td><span id="uclCert_lblCertGridError" style="color:Red;"></span></td>
+                  </tr>
+                  <tr>
+                    <td><input name="uclCert:btnAdd" value="New Certificate" id="uclQual_btnAdd" class="smallprint" style="width:120px;" onclick="javascript:certificateFrom('new');" type="button"></td>
+                  </tr>
+                </tbody></table>
+                <table class="resultTable" id="uclCert_dgCert">
+                    <thead>
+                        <tr class="grid-header" style="height:19px;">
+                            <th>&nbsp;</th>
+                            <th>Category</th>
+                            <th>Period&nbsp;of Validity</th>
+                            <th>Date of Application</th>
+                            <th>Date of Registration</th>
+                            <th>Date of Expiry</th>
+                            <th>Date of Retention</th>
+                            <th>Date of Restoration</th>
+                            <th>Date of Removal</th>
+                            <th>Form Used</th>
+                            <th nowrap="nowrap">Remarks</th>
+                            <th>Specimen Signature</th>
+
+                            <th>QP Card <br>Serial No</th>
+
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                    <tbody></tbody>
+                </table>
+              </div>
+
+              <div id="uclCert_pnlEdit" style="display:none;">
+                  <table id="Table3" width="100%" cellspacing="0" cellpadding="2" border="0">
+                    <tbody><tr>
+                      <td colspan="4"><span id="uclCert_lblCertEditError" style="color:Red;"></span></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Current Registration Information</b></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Category Code :<span class="asterix">*</span></td>
+                      <td>
+                        <select name="categoryCode" onchange="updateRegistrationNo()" id="categoryCode" style="width:104px;"><option value="">- Select -</option>
+                            <option value="8a85932a25bfae310125bfae31620000">AP(A)</option> <option value="8a85932a25bfae310125bfae31620001">AP(E)</option> <option value="8a85932a25bfae310125bfae31620002">AP(S)</option> <option value="8a85932a25bfae310125bfae31620003">API</option> <option value="8a85932a25bfae310125bfae31620004">APII</option> <option value="8a85932a25bfae310125bfae31720005">APIII</option> <option value="8a85932a25bfae310125bfae31720008">RGE</option> <option value="8a85934932fb8d6c0132fb927ec20002">RI(A)</option> <option value="8a85934932fb8d6c0132fb9382860003">RI(E)</option> <option value="8a85934932fb8d6c0132fb940cd40004">RI(S)</option> <option value="8a85932a25bfae310125bfae31720009">RSE</option></select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator11" controltovalidate="uclCert_ddCtgCode" errormessage="Please select a category code." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a category code.</span></td>
+                      <td colspan="2">
+                        <input name="useOldCategoryCode" value="on" id="useOldCategoryCode" class="inputCheckbox" type="checkbox"><label for="uclCert_chkOldCat">Use old category code</label>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Registration No. :</td>
+                      <td>
+                        <input name="certificationNo" maxlength="20" value="" id="certificationNo" style="width:176px" class="inputText" type="text">
+                      </td>
+                      <td style="WIDTH: 160px">Expiry of <br>Registration on  :</td>
+                      <td>
+                        <input name="expiryDate" maxlength="10" value="" onblur="checkDate(this)" id="expiryDate" style="width:80px;" class="inputText" type="text">
+                            <span id="err_expiryDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Last Application submitted on  :</td>
+                      <td><input name="applicationDate" maxlength="10" value="" onblur="checkDate(this)" id="applicationDate" style="width:80px;" class="inputText" type="text">
+                            <span id="err_applicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                      <td style="WIDTH: 160px">Specified Form Submitted :</td>
+                      <td>
+                        <select name="applicationForm" id="applicationForm" style="width:104px;"><option value="">- Select -</option>
+                            <option value="8a85932a25bf97e50125bf97e5410000">BA1</option> <option value="8a85932a25bf97e50125bf97e5510001">BA1A</option> <option value="8a85932a25bf97e50125bf97e5510002">BA1B</option> <option value="8a85932a25bf97e50125bf97e5510003">BA2</option> <option value="8a85932a25bf97e50125bf97e5510004">BA24</option> <option value="8a85932a25bf97e50125bf97e5510005">BA2A</option> <option value="8a85932a25bf97e50125bf97e5510006">BA2B</option> <option value="8a85932a25bf97e50125bf97e5510007">BA2C</option> <option value="8a85932a25bf97e50125bf97e5510008">LETTER</option> <option value="8a85932a25bf97e50125bf97e5510009">NA</option> <option value="6D0F09FA4E3B414DBC7DC4B91ADCBCE5">QP Card</option></select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator1" controltovalidate="uclCert_ddForm" errormessage="Please select a form." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a form.</span></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Period of Validity :<span class="asterix">*</span></td>
+                      <td>
+                        <select name="periodOfValidity" id="periodOfValidity" style="width:104px;"><option value="">- Select -</option>
+                           <option value="8a85932a25bf9d8b0125bf9d8b3d0002">3</option> <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option></select>
+                        &nbsp; <span id="uclCert_RequiredFieldValidator9" controltovalidate="uclCert_ddPeriod" errormessage="Please select a period of validity." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a period of validity.</span></td>
+                      <td style="WIDTH: 132px">Status  :<span class="asterix">*</span></td>
+                      <td>
+                          <select name="applicationStatus" id="applicationStatus" class="inputSelectNoWidth"><option value="">- Select -</option>
+                              <option value="8a85932a25bf968e0125bf968ef80000">Active</option> <option value="8a85932a25bf968e0125bf968ef80001">Application in progress</option> <option value="8a85932a25bf968e0125bf968ef80003">Certificate prepared</option> <option value="8a85932a25bf968e0125bf968ef80006">Removed</option> <option value="8a85932a25bf968e0125bf968ef80007">Inactive</option> <option value="8a85932a25bf968e0125bf968ef80008">Withdrawn</option> <option value="8a8593a2607d43b301607d65d68a0001">test3162</option></select>
+                        <span id="uclCert_RequiredFieldValidator2" controltovalidate="uclCert_ddStatus" errormessage="RequiredFieldValidator" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a status</span></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Specimen Signature&nbsp; :</td>
+                      <td colspan="3"><input name="fileNonrestricted" value="" id="fileNonrestricted" style="width:376px" class="inputFile" type="file">
+                          &nbsp;
+
+                          <a href="javascript:upload()"><img src="images/upload.gif" alt="Upload" style="height:15px;width:14px;" border="0"></a>
+                          &nbsp;
+                          <img id="delete_signature" style="cursor:pointer;display:none" onclick="javascript:deleteSignature();" src="images/delete.gif" alt="Delete" border="0">
+
+                           <br>
+                           <span id="eformfilepath"></span>
+                          </td>
+
+
+                    </tr>
+
+                    <tr>
+                      <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Professional Registration Board Information</b></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                      <table class="grid" rules="all" id="uclQual_dgQual" style="border-color:LightGrey;border-collapse:collapse;" cellspacing="0" cellpadding="3" bordercolor="LightGrey" border="1">
+                          <tbody><tr class="grid-header" style="height:19px;">
+                            <td>PRB</td>
+                            <td nowrap="nowrap">Expiry Date</td>
+                          </tr>
+
+                        </tbody></table>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>First Registration Information</b></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Date of first Registration  :</td>
+                      <td><input name="registrationDate" maxlength="10" value="" onblur="checkDate(this)" id="registrationDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_registrationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                      <td style="WIDTH: 132px">Date of Gazette  :</td>
+                      <td><input name="gazetteDate" maxlength="10" value="" onblur="checkDate(this)" id="gazetteDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_gazetteDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Date of Approval  :</td>
+                      <td><input name="approvalDate" maxlength="10" value="" onblur="checkDate(this)" id="approvalDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_approvalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Last Retention Information</b></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Retention Application submitted on  :</td>
+                      <td><input name="retentionApplicationDate" maxlength="10" value="" onblur="checkDate(this)" id="retentionApplicationDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_retentionApplicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                      <td style="WIDTH: 132px">Retention commenced on  :</td>
+                      <td><input name="retentionDate" maxlength="10" value="" onblur="checkDate(this)" id="retentionDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_retentionDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Last Restoration Information</b></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Restoration Application submitted on  :</td>
+                      <td><input name="restorationApplicationDate" maxlength="10" value="" onblur="checkDate(this)" id="restorationApplicationDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_restorationApplicationDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                      <td style="WIDTH: 132px">Restoration commenced on  :</td>
+                      <td><input name="restoreDate" maxlength="10" value="" onblur="checkDate(this)" id="restoreDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_restoreDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><hr width="100%" size="2" color="#336699"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4"><b>Other Information</b></td>
+                    </tr>
+                    <tr>
+                      <td style="WIDTH: 132px">Removed from register on  :</td>
+                      <td><input name="removalDate" maxlength="10" value="" onblur="checkDate(this)" id="removalDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_removalDate" class="err" style="color:Red;display:none;">Invalid date</span></td>
+                      <td style="WIDTH: 132px">Extended date of expiry :</td>
+                      <td><input name="extendedDate" maxlength="10" value="" onblur="checkDate(this)" id="extendedDate" style="width:80px;" class="inputText" type="text">
+                    <span id="err_extendedDate" class="err" style="color:Red;display:none;">Invalid date</span></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">Remarks :</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4">
+                        <textarea name="certRemarks" rows="3" style="width:696px;" class="textarea"></textarea>
+                        <br>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                  <hr width="100%" size="1" color="darkgray" align="left">
+                  <input name="uclCert:btnSaveCert" value="Save" onclick="saveCertificate()" id="uclCert_btnSaveCert" class="smallprint" style="width:72px;" type="button">
+                  &nbsp;
+                  <input name="uclCert:btnCancelCert" value="Cancel" onclick="setTab('professionalCert');" id="uclCert_btnCancelCert" class="smallprint" style="width:72px;" type="button">
+                  <br>
+                  <br>
+                </div>
+            </div>
+
+            <div id="indBS" style="display:none;">
+              <table id="Table10" class="inputTable">
+              <tbody><tr>
+                <td style="WIDTH: 250px">
+                    <label>Interested in Providing Services of QP :</label>
+                </td>
+                <td>
+                    <select name="willingnessQp" id="willingnessQp" class="inputSelect"><option value="Y" selected="selected">Yes</option> <option value="N">No</option> <option value="I">No Indication</option></select>
+                </td>
+                <td style="WIDTH: 180px">
+                    <label>Interested in Providing Services in Fire Safety :</label>
+                </td>
+                <td>
+                    <select name="interestedFSS" id="interestedFSS" class="inputSelect"><option value="Y" selected="selected">Yes</option> <option value="N">No</option> <option value="I">No Indication</option></select>
+                </td>
+
+              </tr>
+
+
+              <tr>
+                <th>C/o :</th>
+                <td colspan="3">
+                    <input name="englishBsCareOf" maxlength="150" value="" id="englishBsCareOf" style="width:500px;" class="inputText" type="text">
+                </td>
+              </tr>
+              <tr>
+                <th>C/o<span class="smallprint"> (Chn)</span> :</th>
+                <td colspan="3">
+                    <input name="chineseBsCareOf" maxlength="50" value="" id="chineseBsCareOf" style="font-size:10pt;width:390px;" class="inputText" type="text">
+                </td>
+              </tr>
+              <tr>
+                  <td style="FONT-SIZE: 1px" colspan="4"></td>
+              </tr>
+              </tbody></table>
+              <table id="Table3" width="770" cellspacing="0" cellpadding="2" border="0">
+                <tbody><tr>
+                  <th colspan="2">Address (Eng):
+                    <input name="uclBS:btnCopyAddr" value="Copy from correspondance address" onclick="copyEngAddrToBs()" id="uclBS_btnCopyAddr" class="smallprint" style="width:215px;" type="button"></th>
+                  <th colspan="2">Address (Chn):
+                    <input name="uclBS:btnCopyChnAddr" value="Copy from correspondance address" onclick="copyChnAddrToBs()" id="uclBS_btnCopyChnAddr" class="smallprint" style="width:215px;" type="button"></th>
+                </tr>
+                <tr>
+                  <td style="WIDTH: 254px" colspan="2" width="254">
+                    <input name="englishBsAddress1" maxlength="40" value="" id="englishBsAddress1" style="width:360px;" class="inputText" type="text">
+                    <input name="englishBsAddress2" maxlength="40" value="" id="englishBsAddress2" style="width:360px;" class="inputText" type="text">
+                    <input name="englishBsAddress3" maxlength="40" value="" id="englishBsAddress3" style="width:360px;" class="inputText" type="text">
+                    <input name="englishBsAddress4" maxlength="40" value="" id="englishBsAddress4" style="width:360px;" class="inputText" type="text">
+                    <input name="englishBsAddress5" maxlength="40" value="" id="englishBsAddress5" style="width:360px;" class="inputText" type="text">
+                  </td>
+                  <td colspan="2">
+                    <input name="chineseBsAddress1" maxlength="30" value="" id="chineseBsAddress1" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseBsAddress2" maxlength="30" value="" id="chineseBsAddress2" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseBsAddress3" maxlength="30" value="" id="chineseBsAddress3" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseBsAddress4" maxlength="30" value="" id="chineseBsAddress4" style="width:360px;" class="inputText" type="text">
+                    <br>
+                    <input name="chineseBsAddress5" maxlength="30" value="" id="chineseBsAddress5" style="width:360px;" class="inputText" type="text">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="FONT-SIZE: 1px" colspan="4">&nbsp;</td>
+                </tr>
+                <tr>
+                  <th>Telephone No. :</th>
+                  <td>
+                    <input name="bsTelephoneNo1" maxlength="22" value="" id="bsTelephoneNo1" style="width:175px;" class="inputText" type="text">
+                   <input style="display:none" value="Copy" onclick="copyTelToBSTel()" class="smallprint" type="button">
+                    <br>
+                    <span id="uclBS_RegularExpressionValidator4" controltovalidate="uclBS_txtBSTel" errormessage="Invalid telephone no." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid telephone no.</span></td>
+                  <th >Fax No.: </th>
+                  <td>
+                    <input name="bsFaxNo1" maxlength="20" value="" id="bsFaxNo1" style="width:175px;" class="inputText" type="text">
+                    <input style="display:none" value="Copy" onclick="copyFaxNoToBSFaxNo()" class="smallprint" type="button">
+                    <span id="uclBS_RegularExpressionValidator5" controltovalidate="uclBS_txtBSFax" errormessage="Invalid fax no." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color:Red;display:none;">Invalid fax no.</span></td>
+                </tr>
+                <tr style="display:none">
+                  <td >Region Code :</td>
+                  <td>
+                    <select name="bsRegionCode" id="bsRegionCode" style="width:192px;" class="inputSelectNoWidth"><option value="">- Select Region Code -</option>
+                       <option value="8a85932a25bfa01a0125bfa01af00166">Central &amp; Western District</option> <option value="8a85932a25bfa01a0125bfa01b000167">Eastern District</option> <option value="8a85932a25bfa01a0125bfa01b000168">Southern District</option> <option value="8a85932a25bfa01a0125bfa01b000169">Wan Chai District</option> <option value="8a85932a25bfa01a0125bfa01b00016a">Kowloon City District</option> <option value="8a85932a25bfa01a0125bfa01b00016b">Kwun Tong District</option> <option value="8a85932a25bfa01a0125bfa01b00016c">Sham Shui Po District</option> <option value="8a85932a25bfa01a0125bfa01b00016d">Wong Tai Sin District</option> <option value="8a85932a25bfa01a0125bfa01b00016e">Yau Tsim Mong District</option> <option value="8a85932a25bfa01a0125bfa01b00016f">Islands District</option> <option value="8a85932a25bfa01a0125bfa01b000170">Kwai Tsing District</option> <option value="8a85932a25bfa01a0125bfa01b000171">North District</option> <option value="8a85932a25bfa01a0125bfa01b000172">Sai Kung District</option> <option value="8a85932a25bfa01a0125bfa01b000173">Sha Tin District</option> <option value="8a85932a25bfa01a0125bfa01b000174">Tai Po District</option> <option value="8a85932a25bfa01a0125bfa01b000175">Tsuen Wan District</option> <option value="8a85932a25bfa01a0125bfa01b000176">Tuen Mun District</option> <option value="8a85932a25bfa01a0125bfa01b000177">Yuen Long District</option></select>
+
+                <input value="Copy" onclick="copyRegionCodeToBSRegionCode()" class="smallprint" style="width:50px;" type="button">
+
+
+                   </td>
+                  <td ">Email Address: </td>
+                  <td>
+                   <input name="bsEmailAddress" maxlength="80" value="" id="bsEmailAddress" style="width:175px;" class="inputText" type="text">
+
+
+                    <input value="Copy" onclick="copyEmailToBSEmail()" class="smallprint" style="width:50px;" type="button">
+
+
+                   </td>
+                </tr>
+                <tr>
+                  <td style="FONT-SIZE: 1px" colspan="4" width="133">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="4">
+                    <table class="grid" rules="all" id="dgBS" style="border-color:LightGrey;border-collapse:collapse;" cellspacing="0" cellpadding="3" bordercolor="LightGrey" border="1">
+                        <tbody><tr class="grid-header" style="height:19px;">
+                          <td><input name="bsCheckAll" id="bsCheckAll" onclick="CheckAll(this);" type="checkbox"></td>
+                          <td nowrap="nowrap">BS Code</td>
+                          <td>Description</td>
+                        </tr>
+
+                            <tr class="grid-alt-item" id="bsNotesResultList_0">
+
+                          <td>
+
+                                 <input name="bsNotesResultList" id="bsNotesResultList_0" value="8a85932a25bf98d50125bf98d53e0003" type="checkbox">
+
+                          </td>
+                          <td nowrap="nowrap">1</td>
+                          <td>denotes those persons who are interested in providing services in the removal of unauthorized building works and carrying out necessary consequential reinstatement works</td>
+                        </tr>
+
+                            <tr id="bsNotesResultList_1">
+
+                          <td>
+
+                                 <input name="bsNotesResultList" id="bsNotesResultList_1" value="8a85932a25bf98d50125bf98d53e0005" type="checkbox">
+
+                          </td>
+                          <td nowrap="nowrap">2</td>
+                          <td>denotes those persons who are interested in providing services in maintenance and repair of buildings and drainage</td>
+                        </tr>
+
+                            <tr class="grid-alt-item" id="bsNotesResultList_2">
+
+                          <td>
+
+                                 <input name="bsNotesResultList" id="bsNotesResultList_2" value="8a85932a25bf98d50125bf98d53e0007" type="checkbox">
+
+                          </td>
+                          <td nowrap="nowrap">3</td>
+                          <td>denotes those persons who are interested in providing services in maintenance and repair of slopes associated with buildings</td>
+                        </tr>
+
+                            <tr id="bsNotesResultList_3">
+
+                          <td>
+
+                                 <input name="bsNotesResultList" id="bsNotesResultList_3" value="8a85932a25bf98d50125bf98d53e0009" type="checkbox">
+
+                          </td>
+                          <td nowrap="nowrap">4</td>
+                          <td>denotes those persons who are interested in providing services in maintenance and repair of aluminium windows</td>
+                        </tr>
+
+                            <tr class="grid-alt-item" id="bsNotesResultList_4">
+
+                          <td>
+
+                                 <input name="bsNotesResultList" id="bsNotesResultList_4" value="8a85932a25bf98d50125bf98d53e0001" type="checkbox">
+
+                          </td>
+                          <td nowrap="nowrap">-</td>
+                          <td>denotes that disclosure of information is not consented by the data subject</td>
+                        </tr>
+
+
+                       </tbody></table>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+
+
+
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td>
+                <input name="btnSave" value="Save Application" onclick="loadContentPage('CRM0301')" id="btnSave" accesskey="S" type="button">
+                &nbsp;
+
+
+                <input name="btnCancel" value="Cancel" id="btnCancel" onclick="loadContentPage('CRM0301')" accesskey="C" type="button">
+
+            </td>
+        </tr>
+    </tfoot>
+</table>-->

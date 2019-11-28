@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MWMS2.Entity.B_S_SYSTEM_VALUE>
+
+
+
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        <input class="inputButton" id="" name="" value="Add" onclick='location.href="@Url.Action("SMM1108Create", "SMM1108")"' type="button">
+    </div>
+</div>
+<br>
+
+
+<table class="resultTable">
+    <thead>
+        <tr >
+            <th>
+
+            </th>
+            <th class="sTh">
+              No.
+            </th>
+            <th class="sTh">
+                Code
+            </th>
+            <th class="sTh">
+                Description
+            </th>
+
+          
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                <input class="inputButton" id="" name="" value="Delete" onclick='location.href="@Url.Action("SMM1108Delete", "SMM1108",new { id=item.UUID })"' type="button">
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORDERING)
+            </td>
+            <td>
+
+                @Html.ActionLink(item.CODE, "SMM1108Edit", "SMM1108", new { id = item.UUID }, null)
+                @*@Html.DisplayFor(modelItem => item.REGISTRATION_NO)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPTION)
+            </td>
+
+          
+        </tr>
+            }
+        }
+    </tbody>
+</table>

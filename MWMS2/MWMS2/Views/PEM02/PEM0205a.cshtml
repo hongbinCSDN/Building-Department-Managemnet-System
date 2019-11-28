@@ -1,0 +1,171 @@
+
+    <div class="sList">
+        <script>
+		$(document).ready(function(){
+			$("#biuuu_button").click(function(){
+			$("#myPrintArea").printArea();
+			});
+
+			if(docCount == 0) {
+				document.getElementById('submitButton').disabled = 'disabled';
+				document.getElementById('submitButton2').disabled = 'disabled';
+				document.getElementById('uploadAlert').style.display = 'inline';
+			} else  {
+				document.getElementById('uploadAlert').style.display = 'none';
+			}
+
+			var confirmedElements = $("input[type='radio']:checked");
+
+			if(docCount > 0 && confirmedElements.length &&
+			document.getElementById('myPrintArea').innerHTML.indexOf('img') >= 0) {
+				document.getElementById('refreshButton').disabled = true;
+				document.getElementById('submitButton').disabled = true;
+			}
+		});
+        </script>
+        <table class="inputTable">
+        <thead>
+                <tr>
+                    <th colspan="2">Confirm Scanned Documents</th>
+                </tr>
+           </thead>
+            <tbody>
+                <tr>
+                    <th>Document S/N</th>
+                    <td>&nbsp;D0000172163</td>
+                </tr>
+                <tr>
+                    <th>Submission Type</th>
+                    <td>&nbsp;Incoming Correspondence</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+<br />
+
+    <div class="sList">
+        <table class="resultTable">
+         
+            <thead>
+                <tr>
+                    <th class="sTh">SubDSN</th>
+                    <th class="sTh">Document Type</th>
+                    <th class="sTh">Total Page</th>
+                    <th class="sTh">Date</th>
+                    <th class="sTh">View</th>
+                    <th class="sTh">Confirm</th>
+                    <!--<th class="sTh" style="visibility:hidden">Confirm</th>-->
+                </tr>
+            </thead>
+                <tr class="sRow1" id="uploadAlert" style="display: none;">
+                    <td colspan="7" style="color:red">
+                        Please scan document(s) before submit.
+                    </td>
+                </tr>
+
+
+
+                <tr class="sRow2">
+
+
+                    <td>
+                        &nbsp;D0000172163
+                        <input type="hidden" name="subDsnList[0].subDsn" value="D0000172163">
+                    </td>
+                    <td>
+                        &nbsp;Letter
+                        <input type="hidden" name="subDsnList[0].docType" value="Letter">
+                    </td>
+                    <td>
+                        &nbsp;1
+                        <input type="hidden" name="subDsnList[0].totalPage" value="1">
+                    </td>
+                    <td>
+                        &nbsp;11/3/2013
+                        <input type="hidden" name="subDsnList[0].date" value="11/3/2013">
+                    </td>
+                    <td>
+                        <img style="cursor: pointer;" src="images/ico_view.gif" onclick="openFile('D0000172163')">
+
+                    </td>
+                    <td style="text-align:center">
+                        <input class="inputRadio" type="radio" id="mwItemCode" name="subDsnList[0].status" value="CONFIRMED" checked="">
+                    </td>
+
+
+
+
+                </tr>
+
+           
+        </table>
+    </div>
+
+    <div class="btnSet btnSetTypeA">
+        <div class="right">
+               </div>
+    </div>
+    <br>
+
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+
+                <td>
+                    <input class="inputButton" type="button" id="submitButton" name="submitButton" value="Submit"     onclick="loadContent('PEM0205')">
+                    <input class="inputButton" type="button" id="refreshButton" name="refreshButton" value="Refresh"  onclick="loadContent('PEM0205')">
+
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="sList">
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th class="subheader" colspan="2">Assign Ref. No.</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+
+                <tr>
+                    <th width="150px">Ref. No. :</th>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Ref. No. Barcode :</th>
+                    <td>
+                        <div id="myPrintArea">
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <!-- <input class="inputButton" type="button" id="print_button" name="print_button" value="Print" onclick="printBarcode()"/> -->
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- InstanceBeginEditable name="locButton" -->
+    <div class="btnSet btnSetTypeA">
+        <div class="right">
+
+          
+        </div>
+    </div>
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+
+                <td>
+                    <input class="inputButton" type="button" id="" name="" value="Cancel" onclick="loadContentPage('PEM0205a')">
+                </td>
+            </tr>
+        </tfoot>
+    </table>

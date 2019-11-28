@@ -1,0 +1,669 @@
+﻿
+
+<h3>New General Contractor Application</h3>
+
+
+<table id="tblTabs" class="inputTable" style="width :100%">
+    <thead>
+        <tr>    
+            <th id="td1" style="background-color:yellow" class="tab"><a href="javascript:setTab('companyInfo');">Company Info</a></th>
+            <th colspan="3" id="td2" class="untab"><a href="javascript:setTab('companyApplicant');">Applicants</a></th>
+
+
+
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <th nowrap="nowrap">File Reference :<span class="asterix">*</span></th>
+            <td colspan="3">
+                <select name="registrationType" id="registrationType" class="inputSelectNoWidth"style="width :auto">
+                    <option value="">- Select -</option>
+                    <option value="8a85932a25bfae310125bfae31720006">GBC</option>
+                    <option value="8a85932a25bfae310125bfae31720007">RC</option>
+                    <option value="8a85932a25bfae310125bfae3172000a">RVC</option>
+                    <option value="8a85932a25bfae310125bfae3172000b">SC</option>
+                    <option value="8a85932a25bfae310125bfae3172000c">SC(D)</option>
+                    <option value="8a85932a25bfae310125bfae3172000d">SC(F)</option>
+                    <option value="8a85932a25bfae310125bfae3172000e">SC(GI)</option>
+                    <option value="8a85932a25bfae310125bfae3172000f">SC(SF)</option>
+                    <option value="8a85932a25bfae310125bfae31720010">SC(V)</option>
+                </select>
+    
+              
+                <input type="text" name="fileRefSuffix" maxlength="20" value="" id="fileRefSuffix"  class="inputText">
+          
+         
+
+                <input type="button" name="btnGetEform" onclick="javascript : loadContentPage('CRM0201c')" value="E-form" id="btnGetEform" title="Get E-form." class="smallprint" >
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <th>BR Number :<span class="asterix">*</span></th>
+            <td width="400">
+                <input type="text" name="brNo" maxlength="8" value="" onkeypress="return onKeyPressOnlyNumbers(event);" id="brNo" style="font-size :10pt;font-weight :bold;width :88px;" class="inputText">
+                <a href="javascript :loadContentPage('CRM0201b')">
+                    <img src="images/form.gif" alt="Company with same BR No." border="0">
+                </a>
+
+                <input type="button" name="btnGetInfo" onclick="javascript :getCompanyByBr()" value="Get Company info" id="btnGetInfo" title="Get info for specified Company." class="smallprint" >
+
+            </td>
+
+            <th colspan="2" >Branch :
+           
+                <input type="text" name="branchNo" maxlength="3" value="" onkeypress="return onKeyPressOnlyNumbers(event);" id="branchNo" style="font-size :10pt;font-weight :bold;width :48px;" class="inputText">
+               
+            </th>
+        </tr>
+        <tr>
+            <th style="WIDTH : 147px" width="147">
+                Company Name <span class="smallprint">(Eng)</span> :<span class="asterix">
+       
+                </span>
+            </th>
+            <td width="641" colspan="3">
+                <input type="text" name="englishCompanyName" maxlength="150" value="" id="englishCompanyName" style="font-size :10pt;font-weight :bold;width :590px;" class="inputText">
+
+            </td>
+        </tr>
+        <tr>
+            <th >Company Name <span class="smallprint">(Chn)</span> :<br></th>
+            <td width="641">
+                <input type="text" name="chineseCompanyName" maxlength="50" value="" id="chineseCompanyName" style="font-size :10pt;width :300px;" class="inputText">
+            </td>
+            <th width="100">Application Status :<span class="asterix">*</span></th>
+            <td width="200">
+                <select name="applicationStatus" id="applicationStatus"  class="inputSelectNoWidth"style="width :auto">
+                    <option value="">- Select -</option>
+                    <option value="8a85932a25bf968e0125bf968ef80000">Active</option>
+                    <option value="8a85932a25bf968e0125bf968ef80001">Application in progress</option>
+                    <option value="8a85932a25bf968e0125bf968ef80003">Certificate prepared</option>
+                    <option value="8a85932a25bf968e0125bf968ef80006">Removed</option>
+                    <option value="8a85932a25bf968e0125bf968ef80007">Inactive</option>
+                    <option value="8a85932a25bf968e0125bf968ef80008">Withdrawn</option>
+                    <option value="8a8593a2607d43b301607d65d68a0001">test3162</option>
+                </select>
+                <span id="RequiredFieldValidator4" controltovalidate="ddAppStatus" errormessage="Please select the Application Stutus." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color :Red;display :none;">Please select the Application Stutus.</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4"><hr width="100%" color="#336699" size="2"></td>
+        </tr>
+    </tbody>
+    <tbody id="compInfo" style="display:">
+        <tr>
+            <th>Company Type :</th>
+            <td>
+                <select name="companyType" id="companyType" class="inputSelectNoWidth"style="width :auto">
+                    <option value="">- Select Company Type -</option>
+                    <option value="8a85932a25bf99990125bf9999a80000">Limited Company</option>
+                    <option value="8a85932a25bf99990125bf9999b70001">Unlimited Company</option>
+                    <option value="8a85932a25bf99990125bf9999b70002">Partnership Company</option>
+                </select>
+                &nbsp; <span id="RequiredFieldValidator8" controltovalidate="ddCompanyType" errormessage="Please select a company type." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color :Red;display :none;">Please select a company type.</span>
+            </td>
+            <td width="210"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th width="117">Applicant Name :</th>
+            <td colspan="3">
+                <input type="text" name="applicantName" maxlength="60" value="" id="applicantName" style="width :344px;" class="inputText">
+            </td>
+        </tr>
+        <tr>
+            <th width="117">C/o :</th>
+            <td colspan="3">
+                <input type="text" name="englishCareOf" maxlength="150" value="" id="englishCareOf" style="width :633px;">
+            </td>
+        </tr>
+        <tr>
+            <th width="117">C/o<span class="smallprint"> (Chn)</span> :</th>
+            <td colspan="3">
+                <input type="text" name="chineseCareOf" maxlength="50" value="" id="chineseCareOf" style="font-size :10pt;width :390px;">
+            </td>
+        </tr>
+       
+        <tr >
+            <td class="editform-alt" >Address (Eng) :</td>
+            <td colspan="3" class="editform-alt">Address (Chn) :</td>
+        </tr>
+        <tr>
+            <td  class="editform-alt" >
+                <input type="text" name="englishAddress1" maxlength="40" value="" id="englishAddress1" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="englishAddress2" maxlength="40" value="" id="englishAddress2" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="englishAddress3" maxlength="40" value="" id="englishAddress3" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="englishAddress4" maxlength="40" value="" id="englishAddress4" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="englishAddress5" maxlength="40" value="" id="englishAddress5" style="width :360px" class="inputText">
+            </td>
+            <td colspan="3" class="editform-alt">
+                <input type="text" name="chineseAddress1" maxlength="30" value="" id="chineseAddress1" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="chineseAddress2" maxlength="30" value="" id="chineseAddress2" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="chineseAddress3" maxlength="30" value="" id="chineseAddress3" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="chineseAddress4" maxlength="30" value="" id="chineseAddress4" style="width :360px" class="inputText">
+                <br>
+                <input type="text" name="chineseAddress5" maxlength="30" value="" id="chineseAddress5" style="width :360px" class="inputText">
+            </td>
+        </tr>
+      
+
+
+
+        <tr style="display :none">
+            <td>Region Code : &nbsp;</td>
+            <td style="FONT-SIZE : 1px" colspan="4">
+
+                <select name="regionCode" id="regionCode" style="width :192px;" class="inputSelectNoWidth">
+                    <option value="">- Select Region Code -</option>
+                    <option value="8a85932a25bfa01a0125bfa01af00166">Central &amp; Western District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000167">Eastern District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000168">Southern District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000169">Wan Chai District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016a">Kowloon City District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016b">Kwun Tong District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016c">Sham Shui Po District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016d">Wong Tai Sin District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016e">Yau Tsim Mong District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b00016f">Islands District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000170">Kwai Tsing District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000171">North District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000172">Sai Kung District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000173">Sha Tin District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000174">Tai Po District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000175">Tsuen Wan District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000176">Tuen Mun District</option>
+                    <option value="8a85932a25bfa01a0125bfa01b000177">Yuen Long District</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">Telephone No. :<span class="asterix">*</span></th>
+            <td colspan="3">
+                1)
+                <input type="text" name="telephoneNo1" maxlength="22" value="" id="telephoneNo1" style="width :175px;" class="inputText">
+                &nbsp;2)
+                <input type="text" name="telephoneNo2" maxlength="22" value="" id="telephoneNo2" style="width :175px;" class="inputText">
+                &nbsp;3)
+                <input type="text" name="telephoneNo3" maxlength="22" value="" id="telephoneNo3" style="width :175px;" class="inputText">
+                <br>
+                <span id="RequiredFieldValidator5" controltovalidate="txtTel1" errormessage="Please enter at least one  telephone no.<br>" display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color :Red;display :none;">
+                    Please enter at least one  telephone no.<br>
+                </span> <span id="RegularExpressionValidator1" controltovalidate="txtTel1" errormessage="Invalid telephone no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color :Red;display :none;">
+                    Invalid telephone no. 1.<br>
+                </span> <span id="RegularExpressionValidator3" controltovalidate="txtTel2" errormessage="Invalid telephone no. 2.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color :Red;display :none;">
+                    Invalid telephone no. 2.<br>
+                </span> <span id="RegularExpressionValidator4" controltovalidate="txtTel3" errormessage="Invalid telephone no. 3." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color :Red;display :none;">Invalid telephone no. 3.</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">Fax No. :</th>
+            <td colspan="3">
+                1)
+                <input type="text" name="faxNo1" maxlength="20" value="" id="faxNo1" style="width :175px;" class="inputText">
+                &nbsp;2)
+                <input type="text" name="faxNo2" maxlength="20" value="" id="faxNo2" style="width :175px;" class="inputText">
+                <br>
+                <span id="RegularExpressionValidator5" controltovalidate="txtFax1" errormessage="Invalid fax no. 1.<br>" display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color :Red;display :none;">
+                    Invalid fax no. 1.<br>
+                </span> <span id="RegularExpressionValidator6" controltovalidate="txtFax2" errormessage="Invalid fax no. 2." display="Dynamic" enabled="False" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[\d ]*" style="color :Red;display :none;">Invalid fax no. 2.</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">Email :</th>
+            <td colspan="3">
+                <input type="text" name="emailAddress" maxlength="80" value="" id="emailAddress" style="width :583px;" class="inputText">
+                <br>
+                <span id="RegularExpressionValidator8" controltovalidate="txtEmail" errormessage="Invalid email address." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="\w+([-+.&amp;]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" style="color :Red;display :none;">Invalid email address.</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">Old File Ref. :</th>
+            <td width="190"><input type="text" name="oldFileReference" maxlength="20" value="" id="oldFileReference" style="width :148px;" class="inputText"></td>
+            <th width="125">Period of Validity :<span class="asterix">*</span></th>
+            <td width="290">
+                <select name="periodOfValidity" id="periodOfValidity" style="width :auto">
+                    <option value="">- Select -</option>
+                    <option value="8a85932a25bf9d8b0125bf9d8b3d0002">3</option>
+                    <option value="8a85932a25bf9d8b0125bf9d8b3d0004">5</option>
+                </select>
+                <br>
+                <span id="RequiredFieldValidator6" controltovalidate="ddPeriod" errormessage="Please select a period of validity." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color :Red;display :none;">Please select a period of validity.</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">
+                Date of Application :<br>
+                <span style="FONT-SIZE : 7pt; COLOR : dimgray">(dd/mm/yyyy)</span>
+            </th>
+            <td width="190">
+                <input type="text" name="applicationDate" maxlength="10" value="" onblur="CalDueDate(this)" id="applicationDate"    class="inputDate" />
+                <span id="err_applicationDate" class="err" style="color :Red;display :none;">Invalid date</span>
+            </td>
+            <th width="125">Form Used :<span class="asterix">*</span></th>
+            <td width="290">
+                <select name="formUsed" id="formUsed"  class="inputSelectNoWidth"style="width :auto">
+                    <option value="">- Select -</option>
+                    <option value="8a85932a25bf97680125bf9768be0000">BA1</option>
+                    <option value="8a85932a25bf97680125bf9768ce0001">BA1A</option>
+                    <option value="8a85932a25bf97680125bf9768ce0002">BA1B</option>
+                    <option value="8a85932a25bf97680125bf9768ce0003">BA2</option>
+                    <option value="8a85932a25bf97680125bf9768ce0004">BA24</option>
+                    <option value="8a85932a25bf97680125bf9768ce0005">BA2A</option>
+                    <option value="8a85932a25bf97680125bf9768ce0006">BA2B</option>
+                    <option value="8a85932a25bf97680125bf9768ce0007">BA2C</option>
+                    <option value="8a85932a25bf97680125bf9768ce0008">LETTER</option>
+                    <option value="8a85932a25bf97680125bf9768ce0009">NA</option>
+                    <option value="4DA8022B208D4CABB9957CF330E53A66">QP Card</option>
+                </select>
+                <span id="RequiredFieldValidator10" controltovalidate="ddForm" errormessage="Please select a form." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color :Red;display :none;">Please select a form.</span>
+            </td>
+        </tr>
+        <tr>
+            <th style="WIDTH : 137px">
+                Due Date :<br>
+                <span style="FONT-SIZE : 7pt; COLOR : dimgray">(dd/mm/yyyy)</span>
+            </th>
+            <td colspan="3">
+                <input type="text" name="dueDate" maxlength="10" value="" onblur="checkDate(this)" id="dueDate" class="inputDate" />
+                <span id="err_dueDate" class="err" style="color :Red;display :none;">Invalid date</span>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+<div id="companyApplicant" style="display:none">
+    <div id="uclApplicants_pnlGrid">
+        <input type="button" name="uclApplicants:btnAdd" value="New Applicant" id="uclApplicants_btnAdd" class="smallprint" onclick="javascript:applicantFrom('new');">
+        <table id="CRM0201aResultTable" class="resultTable hide">
+            <thead>
+                <tr class="grid-header">
+                    <th>&nbsp;</th>
+                    <th nowrap="nowrap">
+                        HKID /<br>
+                        Passport No.
+                    </th>
+                    <th>Title</th>
+                    <th>Name</th>
+                    <th nowrap="nowrap">Sex</th>
+                    <th nowrap="nowrap">Role</th>
+                    <th>Status</th>
+                    <th>Date of Acceptance</th>
+                    <th>Date of Removal</th>
+                    <th>Date of withdraw</th>
+
+
+
+                    <th>QP Card <br>Issue Date</th>
+                    <th>QP Card <br>Expiry Date</th>
+                    <th>QP Card <br>Serial No.</th>
+                    <th>QP Card <br>Return Date</th>
+
+                    <th>Remarks</th>
+                    <th>Specimen Signature</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+            <div id="uclApplicants_pnlEdit" style="display:none">
+                <table id="Table3" class="inputTable">
+                    <tbody>
+                        <tr>
+                            <td width="648" colspan="4"><span id="uclApplicants_lblApplEditError" style="color:Red;"></span></td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Communication Language :<span class="asterix">*</span></th>
+                            <td width="240">
+
+                                <select style="width:auto" name="correspondenceLangId" id="correspondenceLangId" class="inputSelectNoWidth">
+                                    <option value="E" selected="">English</option>
+                                    <option value="C">Chinese</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Role :<span class="asterix">*</span></th>
+                            <td width="240">
+                                <select style="width:auto" name="applicantRole" onchange="roleOnChange(this)" id="applicantRole" style="width:96px;" class="inputSelectNoWidth">
+                                    <option value="">- Select -</option>
+                                    <option value="8a85932a25bf956e0125bf956e260000">A2</option>
+                                    <option value="8a85932a25bf956e0125bf956e460001">AS</option>
+                                    <option value="8a85932a25bf956e0125bf956e460002">OO</option>
+                                    <option value="8a85932a25bf956e0125bf956e460003">T2</option>
+                                    <option value="8a85932a25bf956e0125bf956e460004">T3</option>
+                                    <option value="8a85932a25bf956e0125bf956e550005">T5</option>
+                                    <option value="8a85932a25bf956e0125bf956e550006">TD</option>
+                                </select>
+                                <br>
+                                <span id="uclApplicants_RequiredFieldValidator4" controltovalidate="uclApplicants_ddRole" errormessage="Please select an applicant role." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select an applicant role.</span>
+                            </td>
+
+
+
+
+
+                            <input type="hidden" name="supportedById" value="" class="hidden">
+                            <input type="hidden" name="supportedToId" value="" class="hidden">
+
+                            <th id="SupportedByLabel" style="display:none" width="120">Supported By: </th>
+                            <td id="SupportedByField" style="display:none">
+                                <input type="text" name="supportedByName" value="" readonly="readonly" id="supportedByName" style="width:200px;" class="inputText">
+                                <input type="button" name="btnSelect" value="Select" id="btnSelect" style="width:60px;" onclick="selectSupport()">
+                            </td>
+                            <th id="SupportToLabel" style="display:none" width="120">Supporting To: </th>
+                            <td id="SupportToField" style="display:none">
+                                <input type="text" name="supportedToName" value="" readonly="readonly" id="supportedToName" style="width:200px;" class="inputText">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">HKID :<span class="asterix">*</span></th>
+                            <td width="537" colspan="3">
+                                <input type="text" name="hkid" maxlength="13" value="" id="hkid" style="width:161px;" class="inputText">
+                                &nbsp;
+                                <input type="button" onclick="getApplicantById()" name="uclApplicants:btnGetId" value="Get HKID/Passport No." id="uclApplicants_btnGetId" title="Get info for specified HKID or passport." class="smallprint" >
+                                &nbsp; <span id="uclApplicants_cusValHkid" controltovalidate="uclApplicants_txtHkid" errormessage="Invalid HKID." display="Dynamic" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">Invalid HKID.</span>
+                                <a href="javascript:getSameHkidInd()">
+                                    <img src="images/form.gif" alt="Application with same HKID / Passport No." border="0">
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Passport No.<span class="smallprint"> :</span></th>
+                            <td width="300">
+                                <input type="text" name="passportNo" maxlength="25" value="" id="passportNo" style="width:161px;" class="inputText">
+                                &nbsp; <span id="uclApplicants_RegularExpressionValidator1" controltovalidate="uclApplicants_txtPassport" errormessage="Only letters, numbers, and the characters ()- are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="^[\w \(\)\-]*$" style="color:Red;display:none;">Only letters, numbers, and the characters ()- are allowed.</span><br>
+                                <span class="smallprint">If not a HKID holder, enter passport no.</span>
+                            </td>
+                            <td style="WIDTH:128px; text-align:right"><input type="checkbox" name="isPooling" value="on" class="inputCheckbox">Pooling</td>
+
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Title :</th>
+                            <td width="240">
+                                <select style="width:auto" name="applicantTitle" id="applicantTitle" style="width:96px;" class="inputSelectNoWidth">
+                                    <option value="">- Select -</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0000">Mr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0001">Miss</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0002">Dr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0003">Mrs</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0004">Ir</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0005">Unknown</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0006">Ir Dr</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0007">Prof</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0008">Ms</option>
+                                    <option value="8a85932a25bf9f910125bf9f919c0009">Ir Prof</option>
+                                    <option value="8a8591a23bb69c9b013bb71fd3120bfa">Sr</option>
+                                    <option value="8a8591a23db07dfe013dfd5ee1ec4537">Ir Sr</option>
+                                </select>
+                            </td>
+                            <th width="320">
+                                Sex:
+
+
+
+
+                                <select style="width:auto" name="gender" id="gender" style="font-size:10pt;font-weight:bold;width:96px;">
+                                    <option value="">- Select -</option>
+                                    <option value="M">M</option>
+                                    <option value="F">F</option>
+                                </select>
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Surname :<span class="asterix">*</span></th>
+                            <td width="537" colspan="3">
+                                <input type="text" name="surname" maxlength="40" value="" id="surname" style="width:305px;" class="inputText">
+
+                                &nbsp; <span id="uclApplicants_RequiredFieldValidator9" controltovalidate="uclApplicants_txtSurname" errormessage="Please enter a surname." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a surname.</span> <span id="uclApplicants_RegularExpressionValidator2" controltovalidate="uclApplicants_txtSurname" errormessage="Only letters are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\,\. ]+" style="color:Red;display:none;">Only letters are allowed.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Given&nbsp;Name :<span class="asterix">*</span></th>
+                            <td width="537" colspan="3">
+                                <input type="text" name="givenNameOnId" maxlength="60" value="" id="givenNameOnId" style="width:305px;" class="inputText">
+
+                                <span id="uclApplicants_RequiredFieldValidator3" controltovalidate="uclApplicants_txtGivenName" errormessage="Please enter a given name." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please enter a given name.</span> <span id="uclApplicants_RegularExpressionValidator3" controltovalidate="uclApplicants_txtGivenName" errormessage="Only letters and the characters -, and space are allowed." display="Dynamic" evaluationfunction="RegularExpressionValidatorEvaluateIsValid" validationexpression="[a-zA-Z\-\,\. ]+" style="color:Red;display:none;">Only letters and the characters -, and space are allowed.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Chinese Name :</th>
+                            <td width="537" colspan="3">
+                                <input type="text" name="chineseName" maxlength="6" value="" id="chineseName" style="width:96px;" class="inputText">
+                            </td>
+                        </tr>
+
+                        <!-- Residential -->
+                        <tr>
+                            <td colspan="6">
+                                <table id="ResidentialAddressTable" cellspacing="0" cellpadding="2" width="825" bgcolor="#e7dfe7" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="editform-alt" style="WIDTH: 377px">Residential Address (Eng) :</td>
+                                            <td class="editform-alt">Residential Address (Chn) :</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="editform-alt" style="WIDTH: 377px">
+                                                <input type="text" name="residentialAddressEng1" maxlength="40" value="" id="residentialAddressEng1" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressEng2" maxlength="40" value="" id="residentialAddressEng2" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressEng3" maxlength="40" value="" id="residentialAddressEng3" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressEng4" maxlength="40" value="" id="residentialAddressEng4" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressEng5" maxlength="40" value="" id="residentialAddressEng5" style="width:360px" class="inputText">
+                                            </td>
+                                            <td class="editform-alt">
+                                                <input type="text" name="residentialAddressChi1" maxlength="30" value="" id="residentialAddressChi1" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressChi2" maxlength="30" value="" id="residentialAddressChi2" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressChi3" maxlength="30" value="" id="residentialAddressChi3" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressChi4" maxlength="30" value="" id="residentialAddressChi4" style="width:360px" class="inputText">
+                                                <br>
+                                                <input type="text" name="residentialAddressChi5" maxlength="30" value="" id="residentialAddressChi5" style="width:360px" class="inputText">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="editform-alt" style="FONT-SIZE: 1px" colspan="2">&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="180">Office <br> Telephone No. :</th>
+                            <td colspan="2">
+                                <input type="text" name="officeTel" maxlength="22" value="" id="officeTel" style="width:175px;" class="inputText">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="180">Mobile <br> Telephone No. :</th>
+                            <td colspan="2">
+                                <input type="text" name="mobileTel" maxlength="22" value="" id="mobileTel" style="width:175px;" class="inputText">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="180">Residential <br> Telephone No. :</th>
+                            <td colspan="2">
+                                <input type="text" name="resTel" maxlength="22" value="" id="resTel" style="width:175px;" class="inputText">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="117">Email :</th>
+                            <td colspan="4">
+                                1)&nbsp;<input type="text" name="email1" maxlength="80" value="" id="email1" style="width:360px;" class="inputText"><br>
+
+                                2)&nbsp;<input type="text" name="email2" maxlength="80" value="" id="email2" style="width:360px;" class="inputText">
+                            </td>
+                        </tr>
+                        <!-- end Residential-->
+
+
+
+                        <script>
+                            function roleOnChange(thisObj) {
+                                var selectedText = CE.selected(thisObj, "text");
+                                if (selectedText == "TD" || selectedText == "T2" || selectedText == "T3" || selectedText == "T5") {
+                                    CE.$("SupportedByLabel").style.display = "";
+                                    CE.$("SupportedByField").style.display = "";
+                                    CE.$("SupportToLabel").style.display = "none";
+                                    CE.$("SupportToField").style.display = "none";
+                                } else if (selectedText == "A2" || selectedText == "AS" || selectedText == "OO") {
+                                    CE.$("SupportedByLabel").style.display = "none";
+                                    CE.$("SupportedByField").style.display = "none";
+                                    CE.$("SupportToLabel").style.display = "";
+                                    CE.$("SupportToField").style.display = "";
+                                } else {
+                                    CE.$("SupportedByLabel").style.display = "none";
+                                    CE.$("SupportedByField").style.display = "none";
+                                    CE.$("SupportToLabel").style.display = "none";
+                                    CE.$("SupportToField").style.display = "none";
+                                }
+                            }
+                            roleOnChange(document.getElementById('applicantRole'));
+                        </script>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">
+                                Date of Acceptance :<br>
+                                <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span>
+                            </th>
+                            <td width="240">
+                                <input type="text" name="acceptDate" maxlength="10" value="" onblur="checkDate(this)" id="acceptDate" style="width:80px;" class="inputText">
+                                <span id="err_acceptDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                                &nbsp;
+                            </td>
+                            <th width="120">Status :<span class="asterix">*</span></th>
+                            <td width="200">
+                                <select style="width:auto" name="applicantStatus" id="applicantStatus" class="inputSelectNoWidth">
+                                    <option value="">- Select -</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80000">Active</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80001">Application in progress</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80003">Certificate prepared</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80006">Removed</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80007">Inactive</option>
+                                    <option value="8a85932a25bf968e0125bf968ef80008">Withdrawn</option>
+                                    <option value="8a8593a2607d43b301607d65d68a0001">test3162</option>
+                                </select>
+                                <br>
+                                <span id="uclApplicants_RequiredFieldValidator1" controltovalidate="uclApplicants_ddStatus" errormessage="Please select a status." display="Dynamic" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;display:none;">Please select a status.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Remarks :</th>
+                            <td width="240" rowspan="3">
+                                <textarea name="remarks" id="remarks" style="width: 200px; height: 80px;"></textarea>
+                                <!--<input type="text" name="remarks" maxlength="20" value="" id="remarks" style="width:160px;" class="inputText">-->
+                            </td>
+                            <th width="120">
+                                Date of Removal :<br>
+                                <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span>
+                            </th>
+                            <td width="200">
+                                <input type="text" name="removalDate" maxlength="10" value="" onblur="checkDate(this)" id="removalDate" style="width:80px;" class="inputText">
+                                <span id="err_removalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- <td style="WIDTH: 128px" width="128"></td> -->
+                            <td width="240"></td>
+                            <th>
+                                Date of withdraw :<br>
+                                <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span>
+                            </th>
+                            <td>
+                                <input type="text" name="interviewWithdrawnDate" maxlength="10" value="" onblur="checkDate(this)" id="interviewWithdrawnDate" style="width:80px;" class="inputText">
+                                <span id="err_interviewWithdrawnDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!--<td style="WIDTH: 128px" width="128"></td>  -->
+                            <td width="240"></td>
+                            <th>
+                                <font face="sө">
+                                    Date of Refusal :<br>
+                                    <span style="FONT-SIZE: 7pt; COLOR: dimgray">(dd/mm/yyyy)</span>
+                                </font>
+                            </th>
+                            <td>
+                                <input type="text" name="interviewRefusalDate" maxlength="10" value="" onblur="checkDate(this)" id="interviewRefusalDate" style="width:80px;" class="inputText">
+                                <span id="err_interviewRefusalDate" class="err" style="color:Red;display:none;">Invalid date</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="WIDTH: 128px" width="128">Specimen Signature :</th>
+                            <td width="537" colspan="3">
+                                <input type="file" name="fileNonrestricted" value="" id="fileNonrestricted" style="width:376px" class="inputFile">
+                                &nbsp; /&nbsp;
+                                <input type="button" name="selectImage" value="select image" onclick="javascript:selectImageList();" id="selectImage" class="smallprint">
+                                <input type="hidden" name="copyFileCompApplicantInfoUUID" value="" id="copyFileCompApplicantInfoUUID" class="hidden">
+                                <input type="hidden" name="copyFileRegType" value="" id="copyFileRegType" class="hidden">
+
+
+                                <img id="delete_signature" style="cursor:pointer;display:none" onclick="javascript:deleteSignature();" src="images/delete.gif" alt="Delete" border="0">
+                                &nbsp; <br>
+                                <span id="uclApplicants_lblUploadError" style="color:Red;"></span>
+                            </td>
+                        </tr>
+                        <tr></tr>
+
+
+
+                    </tbody>
+                </table>
+
+
+                <hr align="left" width="75%" color="darkgray" size="1">
+                <input type="button" name="uclApplicants:btnSaveAppl" value="Draft Submit" onclick="saveApplicant()" id="uclApplicants_btnSaveAppl" class="smallprint" style="width:172px;">
+                &nbsp;
+                <input type="button" name="uclApplicants:btnCancelAppl" value="Back" id="uclApplicants_btnCancelAppl" class="smallprint"  onclick="saveApplicant('companyApplicant');">
+                <br>
+                <br>
+            </div>
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td colspan="4" class="editfooter">
+
+
+
+                <input type="button" name="btnSave" value="Save Application" onclick="loadContentPage('CRM0201')" id="btnSave" accesskey="S" >
+             
+
+
+
+                <input type="button" name="btnCancel" value="Back" id="btnCancel" onclick="loadContentPage('CRM0201')" accesskey="C" >
+
+
+
+
+            </td>
+        </tr>
+
+    </tfoot>
+</table>
+
+
+
+
+
+
+
+

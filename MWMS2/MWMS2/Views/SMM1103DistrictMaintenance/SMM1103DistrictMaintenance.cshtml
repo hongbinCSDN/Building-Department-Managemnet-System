@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MWMS2.Models.ModelSystemValue>
+
+<h3>District Maintenance</h3>
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        <input class="inputButton" id="" name="" value="Create District" onclick="location.href='@Url.Action("SMM1103DistrictMaintenanceCreate", "SMM1103DistrictMaintenance")'" type="button">
+    </div>
+</div>
+<br>
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>District Code</th>
+            <th>District Name</th>
+            <th>Region</th>
+            <th>Ordering</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                        @Html.ActionLink(item.CODE, "SMM1103DistrictMaintenanceEdit", "SMM1103DistrictMaintenance", new { id = item.UUID }, null)
+                        @*@Html.DisplayFor(modelItem => item.REGISTRATION_NO)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ORDERING)
+                    </td>
+
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>

@@ -1,0 +1,1007 @@
+﻿
+<table class="inputTable">
+    <thead>
+        <tr>
+            <th class="label">Checking &gt;</th>
+            <th class="text"><a id="formInfo">Submission Information Checking</a></th>
+            <th class="text"><a id="formPbp" class="">PBP Checking</a></th>
+            <th class="text" style="background-color:yellow"><a id="formPrc" class="">PRC Checking</a></th>
+            <th class="text" style="width:350px">&nbsp;</th>
+            <th class="sCell" align="right">Status: draft</th>
+        </tr>
+    </thead>
+</table>
+<div class="sList" id="caseInfo">
+    <table class="inputTable">
+        <thead>
+            <tr>
+                <th class="sTh">Submission Information</th>
+                <th colspan="3" class="sThRight">
+
+
+                    <input class="sBtn" type="button" id="btnEditButton" name="btnEditButton" value="Edit" onclick="loadContentPage('PEM0301cEdit')">
+
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th class="fLabel" style="width: 200px">Ref. No. :</th>
+                <td class="fText">MW160302973</td>
+                <th class="fLabel" style="width: 200px">Form No. :</th>
+                <td class="fText">MW01</td>
+
+
+            </tr>
+
+            <tr>
+                <th class="fLabel" style="width: 200px">Previous MW No. :</th>
+                <td class="fText"><br></td>
+                <th class="fLabel" style="width: 200px">File Reference No. :</th>
+                <td class="fText">/</td>
+
+            </tr>
+
+            <tr>
+                <th class="fLabel" style="width: 200px; height: 50px">
+                    Received Date
+
+
+                 :</th>
+                <td class="fText">21/3/2016</td>
+                <th class="fLabel" style="width: 200px; height: 50px">
+                    Location/Address of the proposed minor works are to be carried out
+
+                 :</th>
+                <td class="fText">
+                    錦華樓 xx號 親民街 西貢 NT
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <th class="fLabel">
+                    Commencement Date
+
+                 :</th>
+                <td class="fText">29/3/2016</td>
+                <th rowspan="2" class="fLabel">
+                    Completion Date
+                 :</th>
+                <td rowspan="2" class="fText"></td>
+            </tr>
+            <tr class="fLabel">
+                <th class="fLabel" style="width: 200px">Requirements :</th>
+                <td class="fText">
+                    1
+                    Indicator for version 1 MW Item (Before Effective date of the law in 2017)
+                    <input type="hidden" name="selectOfReqCode" id="selectOfReqCode" value="1">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<!--
+<input type="hidden" value="" id="defaulthataVersion"/>
+<input type="hidden" value="false" id="selectOfVersion"/>
+-->
+<script>
+    /*
+    var selectOfVersion = document.getElementById('selectOfVersion').value;
+    if (selectOfVersion == 'true'){
+        document.getElementById("dataVersion").disabled = true;}
+    else{
+        document.getElementById("dataVersion").disabled = false;}
+    */
+</script>
+
+
+
+<div class="sList" id="mwInfo" style="display: none;">
+    <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <th class="sTh1">Location/Address of the proposed minor works are to be carried out</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sCell" style="padding: 0px;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th class="fLabel" style="width:200px">Location of Minor Works</th>
+                                <th class="fText"></th>
+                            </tr>
+
+                            <tr>
+                                <th class="fLabel">Address</th>
+                                <th class="fText">   錦華樓 18-32號 親民街 西貢 NT</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </th>
+            </tr>
+
+            <tr>
+                <th class="sTh1">Particulars of the person who arranged for the minor works to be carried out</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sCell" style="padding:0px;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th style="width:50%" valign="top">
+                                    <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="fLabel" style="width:200px">English Name:</th>
+                                                <th class="fText">xxxx (HONG KONG) LIMITED&nbsp;</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Chinese Name:</th>
+                                                <th class="fText">xx(香港)有限公司</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Correspondence Address</th>
+                                                <th class="fText">       </th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Contact No.</th>
+                                                <th class="fText">xxxxxxxx</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </th>
+                                <th valign="top">
+                                    <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="fLabel" style="width:200px">HKID/BR/Passport No.</th>
+                                                <th class="fText">xxxxxxx-xxx-xx-xx-9</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Country of Issue:</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Email Address:</th>
+                                                <th class="fText">xx@xx.COM.HK</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Fax No.</th>
+                                                <th class="fText">xxxxxxxx</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </th>
+            </tr>
+
+            <tr>
+                <th class="sTh1">Particulars of the person for whom the signboard is to be erected</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sCell" style="padding:0px;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th style="width:50%" valign="top">
+                                    <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="fLabel" style="width:200px">English Name:</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Chinese Name:</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Correspondence Address</th>
+                                                <th class="fText">       </th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Contact No.</th>
+                                                <th class="fText"></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </th>
+                                <th valign="top">
+                                    <table width="100%" border="0" cellpadding="2" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th class="fLabel" style="width:200px">HKID/BR/Passport No.</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Country of Issue:</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Email Address:</th>
+                                                <th class="fText"></th>
+                                            </tr>
+
+                                            <tr>
+                                                <th class="fLabel">Fax No.</th>
+                                                <th class="fText"></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="sList" id="submittedDoc">
+
+
+
+
+
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="6" class="sTh1">Submitted Document</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sTh2" style="width: 150px">Document Type</th>
+                <th class="sTh2" style="width: 100px">Received Date</th>
+                <th class="sTh2" style="width: 100px">Document S/N</th>
+                <th class="sTh2">Document Title</th>
+                <th class="sTh2" style="width: 100px">View Image</th>
+                <th class="sTh2" style="width: 100px">Folder Type</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr class="sRow2">
+                <th class="fField">
+                    Plan
+                    <input type="hidden" name="docList[0].uuid" value="663E342F3313471FA10D6072494286BB">
+                </th>
+                <th class="fField">21/3/2016</th>
+                <th class="fField">D0000709940C</th>
+                <th class="fField">MW01</th>
+                <th class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940C')" alt="ico"></th>
+                <th class="fField">
+                    <select name="docList[0].folderType">
+
+                        <option selected="selected" value="Public">Public</option>
+
+                        <option value="Private">Private</option>
+
+                    </select>
+                </th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="fField">
+                    Form
+                    <input type="hidden" name="docList[1].uuid" value="BE8C6F6288E9437B9F60265D24685317">
+                </th>
+                <th class="fField">21/3/2016</th>
+                <th class="fField">D0000709940A</th>
+                <th class="fField">MW01</th>
+                <th class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940A')" alt="ico"></th>
+                <th class="fField">
+                    <select name="docList[1].folderType">
+
+                        <option value="Public">Public</option>
+
+                        <option selected="selected" value="Private">Private</option>
+
+                    </select>
+                </th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="fField">
+                    Photo
+                    <input type="hidden" name="docList[2].uuid" value="C2652DAD06F84DF9AF9FED8545135FD2">
+                </th>
+                <th class="fField">21/3/2016</th>
+                <th class="fField">D0000709940B</th>
+                <th class="fField">MW01</th>
+                <th class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000709940B')" alt="ico"></th>
+                <th class="fField">
+                    <select name="docList[2].folderType">
+
+                        <option selected="selected" value="Public">Public</option>
+
+                        <option value="Private">Private</option>
+
+                    </select>
+                </th>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnSaveFolderTypeSubmittedDoc" name="btnSaveFolderTypeSubmittedDoc" value="Save" onclick="saveFolderType('')">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="6" class="sTh1">Issued Correspondence</th>
+            </tr>
+
+            <tr class="sRow2">
+                <th class="sTh2" style="width: 150px">Letter Type</th>
+                <th class="sTh2" style="width: 100px">Issued Date</th>
+                <th class="sTh2" style="width: 100px">Document S/N</th>
+                <th class="sTh2">Letter Template No.</th>
+                <th class="sTh2" style="width: 100px">View Image</th>
+                <th class="sTh2" style="width: 100px">Folder Type</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr class="sRow2">
+                <th class="fField">
+
+                    <input type="hidden" name="uuidList[0]" value="EE90F96B45D340C6AC29ACD9FD000BA0">
+                </th>
+                <th class="fField">21/3/2016</th>
+                <th class="fField">D0000710582</th>
+                <th class="fField"></th>
+                <th class="fField"><img style="cursor:pointer;" src="images/ico_view.gif" onclick="openFile('D0000710582')" alt="ico"></th>
+                <th class="fField">
+                    <select name="folderTypeSelected[0]">
+
+                        <option value="Public">Public</option>
+
+                        <option selected="selected" value="Private">Private</option>
+
+                    </select>
+                </th>
+            </tr>
+
+
+    </table>
+
+    <table class="inputTable">
+
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnSaveFolderTypeIssuedCor" name="btnSaveFolderTypeIssuedCor" value="Save" style="width:80px;" onclick="saveFolderType('Letter')">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+    <div class="sList" id="mwItemInfo">
+
+
+
+
+        <script type="text/javascript">
+<!--
+            function maximizeItem() {
+                var el = document.getElementById("itemHist");
+                el.style.display = (el.style.display != 'none' ? 'none' : 'block');
+            }
+            //-->
+        </script>
+
+
+
+
+
+
+        <table class="resultTable">
+
+
+
+            <thead>
+                <tr>
+                    <th colspan="6" class="sTh1">Details of the Minor Work</th>
+               
+                </tr>
+
+                <tr class="sRow2">
+                    <th class="sTh2">Item sequence</th>
+                    <th class="sTh2">Minor Work item</th>
+                    <th class="sTh2">Type</th>
+                    <th class="sTh2">Description</th>
+                    <th class="sTh2">
+                        Relevant Order/ Direction/ Notice No./ BD Reference No.
+
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="sRow2">
+                    <th class="sCell">
+                        1
+                        &nbsp; in &nbsp;
+
+
+
+                        MW01
+
+
+
+
+
+                    </th>
+                    <th class="sCell">
+                        1.17
+                        &nbsp;
+                    </th>
+                    <th class="sCell">
+
+
+
+                        MW01
+
+
+                        &nbsp;
+                    </th>
+                    <th class="sCell">
+                        按照原本設計,於大廈外牆位置,修葺懸臂式平板
+                        &nbsp;
+                    </th>
+                    <th class="sCell">
+
+                        &nbsp;
+                    </th>
+
+                </tr>
+
+            </tbody>
+
+
+        </table>
+    </div>
+
+    <table class="inputTable">
+        <tfoot>
+            <tr>
+                <th>
+                    <input class="inputButton" type="button" id="btnHistory" name="btnHistory" value="History" onclick="maximizeItem()">
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+    <div id="PEM0301cTable" style="display:none">
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th colspan="6" class="sTh1">Minor Work Item</th>
+                </tr>
+
+                <tr>
+                    <th class="fLabel">Item No.</th>
+                    <th class="fLabel">Description</th>
+                    <th class="fLabel">Relevant Order/Direction/Notice/BD Reference No.</th>
+
+            </thead>
+            <tbody>
+
+
+                <tr>
+                    <th class="sCell">&nbsp;1.17</th>
+                    <th class="sCell">&nbsp;按照原本設計,於大廈外牆位置,修葺懸臂式平板</th>
+                    <th class="sCell">&nbsp;</th>
+
+
+
+                </tr>
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ************************************************** -->
+<!--                                                    -->
+<!-- Particulars of PBP                                 -->
+<!--                                                    -->
+<!-- ************************************************** -->
+<div class="sList" id="pbpInfo" style="display: none;">
+    <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <th>
+                    <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th class="sTh1" colspan="4">Particulars of PBP</th>
+                                <th class="sTh1">Result</th>
+                                <th class="sTh1 sThRight"></th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sTh2">PBP</th>
+                                <th class="sTh2">Certification of Registration No.</th>
+                                <th class="sTh2">English Name</th>
+                                <th class="sTh2">Chinese Name</th>
+                                <th class="sTh2" colspan="2">Name of PBP</th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sCell">
+
+                                    AP/RI
+
+
+                                    &nbsp;
+                                </th>
+                                <th class="sCell">
+                                    AP(A)  2083/65&nbsp;
+                                </th>
+                                <th class="sCell">
+                                    SHUN KUI CHUNG&nbsp;
+                                </th>
+                                <th class="sCell">
+                                    沈鉅忠&nbsp;
+                                </th>
+                                <th class="sCell" colspan="2">
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpApInfoName" name="formChecklist.pbpApInfoName" value="O">
+                                        OK
+                                    </label>
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpApInfoName" name="formChecklist.pbpApInfoName" value="N" checked="checked">
+                                        Not OK
+                                    </label>
+                                    <font color="#FF0000">Certification of Registration No. Not Found!</font>
+                                </th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sCell">RSE&nbsp;</th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell" colspan="2">
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpRseInfoName" name="formChecklist.pbpRseInfoName" value="O" ondblclick="javascript:clearValue('pbpRseInfoName')" disabled="disabled">
+                                        OK
+                                    </label>
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpRseInfoName" name="formChecklist.pbpRseInfoName" value="N" ondblclick="javascript:clearValue('pbpRseInfoName')" disabled="disabled">
+                                        Not OK
+                                    </label>
+
+                                </th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sCell">RGE&nbsp;</th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell">
+                                    &nbsp;
+                                </th>
+                                <th class="sCell" colspan="2">
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpRgeInfoName" name="formChecklist.pbpRgeInfoName" value="O" ondblclick="javascript:clearRadio(this)" disabled="disabled">
+                                        OK
+                                    </label>
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="pbpRgeInfoName" name="formChecklist.pbpRgeInfoName" value="N" ondblclick="javascript:clearRadio(this)" disabled="disabled">
+                                        Not OK
+                                    </label>
+
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- ************************************************** -->
+<!-- End                                                -->
+<!-- Particulars of PBP                                  -->
+<!--                                                    -->
+<!-- ************************************************** -->
+<!-- ************************************************** -->
+<!--                                                    -->
+<!-- Particulars of PRC                                 -->
+<!--                                                    -->
+<!-- ************************************************** -->
+<div class="sList" id="prcInfo" style="display: none;">
+    <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <th>
+                    <table class="sTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th class="sTh1" colspan="3">Particulars of PRC</th>
+                                <th class="sTh1">Result</th>
+                                <th class="sTh1" colspan="2">Particulars of AS</th>
+                                <th class="sTh1">Result</th>
+                                <th class="sTh1 sThRight"></th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sTh2">Certification of Registration No.</th>
+                                <th class="sTh2">English Name of PRC</th>
+                                <th class="sTh2">Chinese Name of PRC</th>
+                                <th class="sTh2" style="width: 120px">Name of PRC</th>
+                                <th class="sTh2">English Name of AS</th>
+                                <th class="sTh2">Chinese Name of AS</th>
+                                <th class="sTh2" style="width: 120px" colspan="2">Name of AS</th>
+                            </tr>
+
+                            <tr class="sRow2">
+                                <th class="sCell">
+                                    GBC 3/2009&nbsp;
+                                </th>
+                                <th class="sCell">
+                                    SMART ON CONSTRUCTION (HONG KONG) LIMITED&nbsp;&nbsp;<br><font color="red">CRM: SMART ON CONSTRUCTION (HONG KONG) LIMITED </font>
+                                </th>
+                                <th class="sCell">
+                                    駿安建築(香港)有限公司&nbsp;
+                                </th>
+                                <th class="sCell">
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="prcInfoName" name="formChecklist.prcInfoName" value="O" ondblclick="javascript:clearRadio(this)">
+                                        OK
+                                    </label>
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="prcInfoName" name="formChecklist.prcInfoName" value="N" ondblclick="javascript:clearRadio(this)" checked="checked">
+                                        Not OK
+                                    </label>
+                                    <font color="#FF0000">Names are not identical</font>
+                                </th>
+                                <th class="sCell">
+                                    LI CHI KONG, ANDY&nbsp;<font color="red"><br>CRM: LI Chi Kong Andy</font>
+                                </th>
+                                <th class="sCell">
+                                    李志剛&nbsp;
+                                </th>
+                                <th class="sCell" colspan="2">
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" value="O" ondblclick="javascript:clearRadio(this)">
+                                        OK
+                                    </label>
+                                    <label>
+                                        <input class="inputRadio" type="radio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" value="N" ondblclick="javascript:clearRadio(this)" checked="checked">
+                                        Not OK
+                                    </label>
+                                    <font color="#FF0000">Names are not identical</font>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- ************************************************** -->
+<!-- End                                                -->
+<!-- Particulars of PRC                                 -->
+<!--                                                    -->
+<!-- ************************************************** -->
+
+<br>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th class="sTh1" colspan="3">Particulars of PRC</th>
+            <th class="sTh1">Result</th>
+            <th class="sTh1" colspan="2">Particulars of AS</th>
+            <th class="sTh1">Result</th>
+         
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sTh2">Certification of Registration No.</th>
+            <th class="sTh2">English Name of PRC</th>
+            <th class="sTh2">Chinese Name of PRC</th>
+            <th class="sTh2" style="width: 120px">Name of PRC</th>
+            <th class="sTh2">English Name of AS</th>
+            <th class="sTh2">Chinese Name of AS</th>
+            <th class="sTh2" style="width: 120px" colspan="2">Name of AS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="sRow2">
+            <th class="sCell">
+                GBC 3/2009&nbsp;
+            </th>
+            <th class="sCell">
+                SMART ON CONSTRUCTION (HONG KONG) LIMITED&nbsp;&nbsp;<br><font color="red">CRM: SMART ON CONSTRUCTION (HONG KONG) LIMITED </font>
+            </th>
+            <th class="sCell">
+                駿安建築(香港)有限公司&nbsp;
+            </th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcInfoName" name="formChecklist.prcInfoName" value="O" ondblclick="javascript:clearRadio(this)">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcInfoName" name="formChecklist.prcInfoName" value="N" ondblclick="javascript:clearRadio(this)" checked="checked">
+                    Not OK
+                </label>
+                <font color="#FF0000">Certification of Registration No. Not Found!</font>
+            </th>
+            <th class="sCell">
+                LI CHI KONG, ANDY&nbsp;<font color="red"><br>CRM: LI Chi Kong Andy</font>
+            </th>
+            <th class="sCell">
+                李志剛&nbsp;
+            </th>
+            <th class="sCell" colspan="2">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" value="O" ondblclick="javascript:clearRadio(this)">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcInfoAsName" name="formChecklist.prcInfoAsName" value="N" ondblclick="javascript:clearRadio(this)" checked="checked">
+                    Not OK
+                </label>
+                <font color="#FF0000">Certification of Registration No. Not Found!</font>
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th class="sTh" style="width:400px">PRC Checking</th>
+            <th class="sTh">Result</th>
+            <th class="sTh" style="width:300px">Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="sRow2">
+            <th class="sCell"><b>Validity of appointed PRC</b></th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcValidO" name="formChecklist.prcValid" value="O">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcValidN" name="formChecklist.prcValid" value="N" checked="checked">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcValidRmk" name="formChecklist.prcValidRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sCell"><b>Capability of appointed PRC</b></th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcCapO" name="formChecklist.prcCap" value="O" checked="checked">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcCapN" name="formChecklist.prcCap" value="N">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcCapRmk" name="formChecklist.prcCapRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sCell"><b>Validity of Authorized Signatory</b></th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsValidO" name="formChecklist.prcAsValid" value="O" checked="checked">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsValidN" name="formChecklist.prcAsValid" value="N">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcAsValidRmk" name="formChecklist.prcAsValidRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sCell">
+                <b>Signature Of AS</b>
+                <br>
+                Specimen Signature: <img style="cursor:pointer;" src="images/ico_view.gif" onclick="openSignatureFile('8a85bda0537f331801539ce7dec152d9')" alt="ico">
+            </th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsSignO" name="formChecklist.prcAsSign" value="O">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsSignN" name="formChecklist.prcAsSign" value="N" checked="checked">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcAsSignRmk" name="formChecklist.prcAsSignRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sCell">
+                <b>Availability of other suitable AS</b>
+                <br>
+                LI Chi Kong Andy <img style="cursor:pointer;" src="images/ico_view.gif" onclick="openAsFile('8a85932a25bfcfe60125bfd025660ce8')" alt="ico"><br>
+            </th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsOtherO" name="formChecklist.prcAsOther" value="O" checked="checked" disabled="">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcAsOtherN" name="formChecklist.prcAsOther" value="N" disabled="">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcAsOtherRmk" name="formChecklist.prcAsOtherRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+        <tr class="sRow2">
+            <th class="sCell">
+                <b>PRC Signature Date</b>
+                <br>
+                &nbsp;&nbsp;2016-03-16
+            </th>
+            <th class="sCell">
+                <label>
+                    <input class="inputRadio" type="radio" id="prcSignatureDateO" name="formChecklist.prcSignatureDate" value="O">
+                    OK
+                </label>
+                <label>
+                    <input class="inputRadio" type="radio" id="prcSignatureDateN" name="formChecklist.prcSignatureDate" value="N" checked="checked">
+                    Not OK
+                </label>
+            </th>
+            <th class="sCell">
+<textarea class="inputTextarea remark" id="prcSignatureDateRmk" name="formChecklist.prcSignatureDateRmk" rows="5" cols="20"></textarea>
+            </th>
+        </tr>
+
+    </tbody>
+    <thead>
+        <tr class="sRow1">
+            <th class="sCell" colspan="3">Other Checking</th>
+        </tr>
+
+    </thead>
+<tbody>
+    <tr class="sRow2">
+        <th class="sCell"><b>Other Information</b></th>
+        <th class="sCell">
+            <label>
+                <input class="inputRadio" type="radio" id="prcOtherO" name="formChecklist.prcOther" value="O" checked="checked">
+                OK
+            </label>
+            <label>
+                <input class="inputRadio" type="radio" id="prcOtherN" name="formChecklist.prcOther" value="N">
+                Not OK
+            </label>
+        </th>
+        <th class="sCell">
+<textarea class="inputTextarea remark" id="prcOthermk" name="formChecklist.prcOtherRmk" rows="5" cols="20"></textarea>
+        </th>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<div class="btnSet btnSetTypeA">
+    <div class="left">
+
+
+    </div>
+    <div class="right">
+
+
+
+
+
+
+    </div>
+</div>
+
+<table class="inputTable">
+    <tfoot>
+        <tr>
+            <td>
+
+                <input class="inputButton" type="button" id="btnPreviousItem" name="btnPreviousItem" value="Previous Item" onclick="loadContentPage('PEM0301c1')">
+
+
+                <input class="inputButton" type="button" id="btnDraft" name="btnDraft" value="Save as Draft" onclick="saveForm()">
+
+
+                <input class="inputButton" type="button" id="btnSubmit" name="btnSubmit" value="Submit" onclick="loadContentPage('PEM0301c4PSAC')">
+
+
+            </td>
+        </tr>
+    </tfoot>
+</table>

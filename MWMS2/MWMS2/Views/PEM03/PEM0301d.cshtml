@@ -1,0 +1,580 @@
+﻿
+    <h3>Enquiry Handling Page</h3>
+    <h3> Case Information </h3>
+
+    <div class="sList">
+        <!-- <font color="#FF0000"></font> -->
+
+        <table class="inputTable">
+            <thead>
+             
+                </thead>
+            <tbody>
+                <tr>
+                    <th class="fLabel">Ref No.:</th>
+                    <td class="fField">&nbsp;Enq110100784</td>
+                    <th class="fLabel" width="150px">ICC No.:</th>
+                    <td class="fField">&nbsp;</td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Subject Matter:</th>
+                    <td class="fField">&nbsp;</td>
+                    <th class="fLabel" width="150px">Channel:</th>
+                    <td class="fField">&nbsp;Email</td>
+                </tr>
+                <tr>
+                    <th class="fLabel">Received Date:</th>
+                    <td class="fField"><input class="inputCalendar" type="text" id="submissionDate" name="submissionDate" value="17/1/2011" style="width:150px" readonly=""></td>
+
+                    <th class="fLabel">Final Reply Due Date:</th>
+                    <td class="fField"><input class="inputCalendar" type="text" id="closeDate" name="closeDate" value="16/2/2011" style="width:150px" readonly=""></td>
+                </tr>
+            </tbody>
+        </table>
+     
+    </div>
+    <!--<h2 class="h2" > Contact Information </h2>
+    <div class="sList" >
+      <table width="100%" class="sTable" cellpadding="0" cellspacing="0" border="0" >
+        <tr class="sRow2">
+          <td class="sCell" style="padding:0px;" ><table border="0" width="100%" cellpadding="2" cellspacing="1" >
+              <td class="sCell" style="padding:0px;" ><table class="dataForm" border="0" width="100%" cellpadding="2" cellspacing="1" >
+                    <tr>
+                      <td class="fLabel" width="100px">Contact No.</td>
+                      <td class="fField" width="100px">&nbsp;2799 7209</td>
+                      <td class="fLabel" width="100px">Name:</td>
+                      <td class="fField" width="100px">&nbsp;Christine Cheung, Wing Kee (H.K.) Engineering Co. Ltd.
+                       <input class="inputText" type="text" name="name" id="name" value="Christine Cheung, Wing Kee (H.K.) Engineering Co. Ltd. " style="width:150px" /> </td>
+                       <td class="fLabel" width="100px">Last Name:</td>
+                      <td class="fField"><input class="inputText" type="text" name="lastName" id="lastName" value="" style="width:150px" /></td>
+                    </tr>
+                    <tr>
+                       <td class="fLabel" >Mobile</td>
+                      <td class="fField"><input class="inputText" type="text" name="mobile" id="mobile" value="" style="width:150px" /></td>
+                      <td class="fLabel" width="100px">Fax:</td>
+                      <td class="fField" width="100px">&nbsp;2755 0851</td>
+                      <td class="fLabel" width="100px">E-mail:</td>
+                      <td class="fField" width="100px">&nbsp;wingkeehkengineeringcoltd@yahoo.com.hk</td>
+                    </tr>
+                    <tr>
+                      <td class="fLabel" width="100px">Address</td>
+                      <td class="fField" colspan="5">&nbsp;</td>
+                    </tr>
+                  </table></td>
+            </table></td>
+        </tr>
+      </table>
+    </div>-->
+
+    <h3>Image(s)</h3>
+    <div class="sList">
+
+                        <table class="inputTable" >
+                            <tbody>
+                                <tr>
+                                    <th class="fLabel" style="width: 180px">Incoming :</th>
+                                    <td class="fField">
+
+                                        D0000000407<img style="cursor: pointer;" src="images/ico_view.gif" onclick="openFileByDsn('D0000000407')">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="fLabel">Outgoing :</th>
+                                    <td class="fField"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+    </div>
+
+    <!-- <h2 class="h2" > Enquiry Handling Checklist </h2> -->
+    <div class="sList">
+        <table class="inputTable">
+            <thead>
+                <tr>
+                    <th class="sTh" style="width:20px">&nbsp;</th>
+                    <th class="sTh">&nbsp;</th>
+                    <th class="sTh">&nbsp;</th>
+                </tr>
+                </thead>
+            <tbody>
+                <tr class="sRow2">
+                    <th class="sCell">1.</th>
+                    <th class="sCell">Revert to Document Sorting :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="reAssignRequired1" name="reAssignRequired" value="Y" onclick="reloadPage()">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="reAssignRequired2" name="reAssignRequired" value="N" onclick="reloadPage()">
+                        No
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">2.</th>
+                    <th class="sCell">Follow up by other divisions/ sections/ units/ required :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="referralToRequired1" name="referralToRequired" value="Y">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="referralToRequired2" name="referralToRequired" value="N">
+                        No
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" style="text-align:right">Request Due Date :</th>
+                    <td class="sCell" colspan="2"><input class="inputCalendar" type="text" id="referralDueDate" name="referralDueDate" value="" readonly=""></td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" colspan="2">
+                        <div class="sList">
+                            <table class="resultTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sTh1">Section/Unit/Division</th>
+                                        <th class="sTh1">Officer</th>
+                                        <th class="sTh1">Result</th>
+                                        <th class="sTh1">DSN</th>
+                                        <th class="sTh1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody><tr id="PEM0301d1" style="display:none"><td><input type="text" /></td><td><input type="text" /></td><td><input type="text" /></td><td>D0000001</td><td></td></tr></tbody>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input class="inputButton" type="button" id="" name="" value="Add" style="width:70px;" onclick="javascript:searchPEM0301d()">
+                        </div>
+                    </th>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">3.</th>
+                    <th class="sCell">Internal comment (MWU) required :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="structuralCommentRequired1" name="structuralCommentRequired" value="Y">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="structuralCommentRequired2" name="structuralCommentRequired" value="N">
+                        No
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <td class="sCell">&nbsp;</td>
+                    <td class="sCell" colspan="2">
+                        <div class="sList">
+                            <table class="resultTable">
+                                <thead>
+                                    <tr>
+                                        <th class="sTh1">Request Due Date :</th>
+                                        <th class="sTh1">Comment</th>
+                                    </tr>
+                                    </thead>
+
+                                <tbody>
+                                    <tr id="PEM0301d2" style="display:none">
+                                        <td><input type="date" /></td>
+                                        <td><input type="text" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input class="inputButton" type="button" id="" name="" value="Add" style="width:70px;" onclick="javascript:searchPEM0301d2()">
+                        </div>
+                    </td>
+                </tr>
+                <!-- <tr class="sRow2" >
+          <td class="sCell" >&nbsp;</td>
+          <td class="sCell" style="text-align:right" >Request Due Date</td>
+          <td class="sCell" colspan="2"><input class="inputCalendar" type="text" id="structuralDueDate" name="structuralDueDate"
+                                value="" /></td>
+        </tr> -->
+                <tr class="sRow2">
+                    <th class="sCell">4.</th>
+                    <th class="sCell"> interim reply required :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="interimReplyRequired1" name="interimReplyRequired" value="Y">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="interimReplyRequired2" name="interimReplyRequired" value="N">
+                        No
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" style="text-align:right">Reply :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="interimReplyBy1" name="interimReplyBy" value="Letter">
+                        Letter &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="interimReplyBy1" name="interimReplyBy" value="Email">
+                        Email
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" colspan="2">
+                        <div class="right">
+                            <input class="inputButton" type="button" id="" name="" value="Draft Interim Reply" onclick="javascript:popup('http://10.5.17.38:80/pem/task/draftLetter.action?reply=interimReply&amp;uuid='+'8a85bda02dda8571012dda93a51d001d')"><img style="cursor: pointer;" src="images/ico_view.gif" onclick="openFileByDsn('')">
+                        </div>
+                        <!-- <textarea class="inputTextarea" id="draftInterimReply" name="draftInterimReply"  style="width:900px; height:100px;"  ></textarea>-->
+                    </th>
+                </tr>
+                <!-- <tr class="sRow2" >
+           <td class="sCell" >&nbsp;</td>
+           <td class="sCell" style="text-align:right" >Interim reply completed & recommended </td>
+           <td class="sCell" ><input class="inputRadio" type="radio" id="interimReplyCompleted1" name="interimReplyCompleted" value="Y"
+             />
+             Yes &nbsp; &nbsp;
+             <input class="inputRadio" type="radio" id="interimReplyCompleted2" name="interimReplyCompleted" value="N"
+             />
+             No</td>
+         </tr>
+          <tr class="sRow2" >
+           <td class="sCell" >5.</td>
+           <td class="sCell" >Audit required</td>
+           <td class="sCell" ><input class="inputRadio" type="radio" id="auditRequired1" name="auditRequired" value="Y"
+             />
+             Yes &nbsp; &nbsp;
+             <input class="inputRadio" type="radio" id="auditRequired2" name="auditRequired" value="N"
+             />
+             No</td>
+         </tr>
+        <tr class="sRow2" >
+           <td class="sCell" >6.</td>
+           <td class="sCell" >Site inspection required</td>
+           <td class="sCell" ><input class="inputRadio" type="radio" id="siteInspectionRequired1" name="siteInspectionRequired" value="Y"
+             />
+             Yes &nbsp; &nbsp;
+             <input class="inputRadio" type="radio" id="siteInspectionRequired2" name="siteInspectionRequired" value="N"
+             />
+             No</td>
+         </tr>
+         <tr class="sRow2" >
+           <td class="sCell" >&nbsp;</td>
+           <td class="sCell" style="text-align:right" >Assign Officer</td>
+           <td class="sCell" ><select name="assignOfficer" >
+
+                                                   <option
+
+                                                       value="1942">
+                                                       Amy Wong
+                                                   </option>
+
+                                                   <option
+
+                                                       value="12">
+                                                       LEUNG Wing Tai
+                                                   </option>
+
+                                                   <option
+
+                                                       value="17">
+                                                       LF WU
+                                                   </option>
+
+                                                   <option
+
+                                                       value="16">
+                                                       Andrew Ng
+                                                   </option>
+
+                                                   <option
+
+                                                       value="6">
+                                                       Steve Ng
+                                                   </option>
+
+                                                   <option
+
+                                                       value="11">
+                                                       WONG Chung Yin
+                                                   </option>
+
+                                           </select>
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[0].value"
+                                                   value="1942" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[0].label"
+                                                   value="Amy Wong" />
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[1].value"
+                                                   value="12" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[1].label"
+                                                   value="LEUNG Wing Tai" />
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[2].value"
+                                                   value="17" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[2].label"
+                                                   value="LF WU" />
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[3].value"
+                                                   value="16" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[3].label"
+                                                   value="Andrew Ng" />
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[4].value"
+                                                   value="6" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[4].label"
+                                                   value="Steve Ng" />
+
+                                               <input type="hidden"
+                                                   name="assignOfficerList[5].value"
+                                                   value="11" />
+                                               <input type="hidden"
+                                                   name="assignOfficerList[5].label"
+                                                   value="WONG Chung Yin" />
+                                           </td>
+         </tr>
+         <tr class="sRow2" >
+           <td class="sCell" >&nbsp;</td>
+           <td class="sCell" style="text-align:right" >Site Inspection Records (Open)</td>
+           <td class="sCell" ><input class="inputRadio" type="radio" id="siteInspectionRecordOpen1" name="siteInspectionRecordOpen" value="Y"
+              disabled
+            />
+             Yes &nbsp; &nbsp;
+             <input class="inputRadio" type="radio" id="siteInspectionRecordOpen2" name="siteInspectionRecordOpen" value="N"
+              disabled
+            />
+             No</td>
+         </tr>
+         <tr class="sRow2" >
+           <td class="sCell" >&nbsp;</td>
+           <td class="sCell" colspan="2" >Site Inspection Record
+             <textarea class="inputTextarea" id="siteInspectionRecord" name="siteInspectionRecord"  style="width:900px; height:100px;"  disabled
+            ></textarea></td>
+         </tr>
+         <tr class="sRow2" >
+           <td class="sCell" >7.</td>
+           <td class="sCell" >Photos attached </td> -->
+                <!-- <td class="sCell" ><input class="inputCheckBox" type="checkbox"
+                id="photoAttached"
+                name="photoAttached" value="Y"
+
+            /> </td> -->
+                <!-- </tr>
+        <tr class="sRow2" >
+          <td class="sCell" >&nbsp;</td>
+          <td class="sCell" colspan="2" ><div class="sList" >
+              <table width="100%" class="sTable" cellpadding="0" cellspacing="0" border="0" >
+                <tr>
+                  <td class="sTh1" >Photo No.</td>
+                  <td class="sTh1" >Description </td>
+                  <td class="sTh1" >&nbsp;</td>
+                </tr>
+
+                          </table>
+            </div></td>
+        </tr> -->
+                <tr class="sRow2">
+                    <th class="sCell">5.</th>
+                    <th class="sCell"> Reply required :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="replyRequired1" name="replyRequired" value="Y">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="replyRequired2" name="replyRequired" value="N">
+                        No
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" style="text-align:right">Reply : </th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="replyBy1" name="replyBy" value="Letter">
+                        Letter &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="replyBy2" name="replyBy" value="Email">
+                        Email
+                    </td>
+                </tr>
+
+
+                <!-- <tr class="sRow2">
+          <td class="sCell" >&nbsp;</td>
+          <td class="sCell" style="padding:0px;" colspan="2" ><table border="0" cellpadding="2" cellspacing="1" >
+            <tr>
+              <td class="fLabel" style="width:200px; text-align:right">Template</td>
+              <td class="fField">
+                  <select class="inputSelect" id="templateType" name="templateType" onchange="switchTemplateType()"
+                       >
+                      <option value="">- Select -</option>
+
+                          <option
+
+                              value="Acknowledgement">
+                              Acknowledgement
+                          </option>
+
+                          <option
+
+                              value="Conditional">
+                              Conditional
+                          </option>
+
+                          <option
+
+                              value="Refusal">
+                              Refusal
+                          </option>
+
+                          <option
+
+                              value="IO Notification">
+                              IO Notification
+                          </option>
+
+                          <option
+
+                              value="Audit Reply">
+                              Audit Reply
+                          </option>
+
+                          <option
+
+                              value="D-Letter">
+                              D-Letter
+                          </option>
+
+                          <option
+
+                              value="Referral">
+                              Referral
+                          </option>
+
+                  </select>
+
+                      <input type="hidden" name="templateTypeList[0].value" value="Acknowledgement" />
+                      <input type="hidden" name="templateTypeList[0].label" value="Acknowledgement" />
+
+                      <input type="hidden" name="templateTypeList[1].value" value="Conditional" />
+                      <input type="hidden" name="templateTypeList[1].label" value="Conditional" />
+
+                      <input type="hidden" name="templateTypeList[2].value" value="Refusal" />
+                      <input type="hidden" name="templateTypeList[2].label" value="Refusal" />
+
+                      <input type="hidden" name="templateTypeList[3].value" value="IO Notification" />
+                      <input type="hidden" name="templateTypeList[3].label" value="IO Notification" />
+
+                      <input type="hidden" name="templateTypeList[4].value" value="Audit Reply" />
+                      <input type="hidden" name="templateTypeList[4].label" value="Audit Reply" />
+
+                      <input type="hidden" name="templateTypeList[5].value" value="D-Letter" />
+                      <input type="hidden" name="templateTypeList[5].label" value="D-Letter" />
+
+                      <input type="hidden" name="templateTypeList[6].value" value="Referral" />
+                      <input type="hidden" name="templateTypeList[6].label" value="Referral" />
+
+
+              </td>
+              <td class="fField">
+              <input type="hidden" name="letterInfo.name" value=""/>
+                  <select name="letterInfo.letterid" onchange="chooseTemplate()"
+                      >
+                      <option value="">- Select -</option>
+
+                  </select>
+
+
+
+              </td>
+            </tr>
+          </table></td>
+        </tr> -->
+
+                <tr class="sRow2">
+                    <td class="sCell">
+                        &nbsp;
+                        <!--
+
+
+                        <script type="text/javascript">
+                            WYSIWYG.attach('draftReplyTemplate');
+                        </script>
+
+                 -->
+                    </td>
+                    <td class="sCell" colspan="2">
+                        <div class="right">
+                            <input class="inputButton" type="button" id="" name="" value="Draft Reply Template" onclick="javascript:popup('http://10.5.17.38:80/pem/task/draftLetter.action?reply=reply&amp;uuid='+'8a85bda02dda8571012dda93a51d001d')"><img style="cursor: pointer;" src="images/ico_view.gif" onclick="openFileByDsn('')">
+                        </div>
+                        <!-- Draft Reply Template
+                  <textarea class="inputTextarea" id="draftReplyTemplate" name="draftReplyTemplate"  style="width:900px; height:600px;" ></textarea> -->
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" style="text-align:right">Recommend action :</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="recommendOnActionTaken1" name="recommendOnActionTaken" value="Enforcement">
+                        Enforcement &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="recommendOnActionTaken2" name="recommendOnActionTaken" value="Prosecution">
+                        Prosecution &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="recommendOnActionTaken3" name="recommendOnActionTaken" value="Disciplinary">
+                        Disciplinary Action &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="recommendOnActionTaken4" name="recommendOnActionTaken" value="No Further Action">
+                        No Further Action &nbsp; &nbsp;
+                    </td>
+                </tr>
+                <tr class="sRow2">
+                    <th class="sCell">&nbsp;</th>
+                    <th class="sCell" style="text-align:right">Reply completed &amp; recommended</th>
+                    <td class="sCell">
+                        <input class="inputRadio" type="radio" id="replyCompleted1" name="replyCompleted" value="Y" disabled="">
+                        Yes &nbsp; &nbsp;
+                        <input class="inputRadio" type="radio" id="replyCompleted2" name="replyCompleted" value="N" disabled="">
+                        No
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+
+                        <input class="inputButton" type="button" id="" name="" value="Previous" onclick="loadContentPage('PEM0305a')">
+                        <input class="inputButton" type="button" name="" value="View &amp; Add Comment" onclick="loadContentPage('PEM0301d1')">
+                        <input class="inputButton" type="button" id="" name="" value="Save As Draft" onclick="loadContentPage('PEM0301d')">
+                        <input class="inputButton" type="button" id="" name="" value="Submit" onclick="loadContentPage('PEM0301')">
+
+
+
+
+
+
+
+                        <input class="inputButton" type="button" id="" name="" value="Cancel" style="width:130px;" onclick="loadContentPage('PEM0301')">
+
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="btnSet btnSetTypeA">
+        <div class="left">
+           
+        </div>
+        <div class="right">
+
+
+
+
+            <!--
+
+
+       <input class="inputButton" type="button" name="" value="View & Add Comment" style="width:150px;" onclick="javascript:popup1('http://10.5.17.38:80/pem/comment/addComment.action?recordId='+'8a85bda02dda8571012dda93a51d001d'+'&recordType='+'MwGeneralRecord'+'&userPost='+'PO')"/>
+
+       -->
+            <!-- c:if test="false"-->
+
+
+        </div>
+    </div>
+    <br>
+    <br>
+    <!-- InstanceEndEditable -->
+</div>

@@ -1,0 +1,12 @@
+-- Add field
+alter table p_s_mw_item_checklist_item add code VARCHAR2(150);
+
+-- Update field
+update p_s_mw_item_checklist_item set code= uuid||'-'||mw_item_version || '-'|| mw_item_no||'-'||CHECKLIST_TYPE
+
+
+insert into SYS_FUNC(uuid,parent_id,code,description,url,seq,use_type,able_show,able_list,able_view_details,able_create,able_edit,able_delete,is_active)
+values('2206','2200','2206','Search by audit result','MWProcessing/Fn03TSK_SBAR/Index','2206','MENU_ITEM','Y','Y','Y','Y','Y','Y','Y');
+
+insert into SYS_ROLE_FUNC(UUID,SYS_ROLE_ID,SYS_FUNC_ID,CAN_LIST,CAN_VIEW_DETAILS,CAN_CREATE,CAN_EDIT,CAN_DELETE)
+values(sys_guid(),'1','2206','Y','Y','Y','Y','Y');
