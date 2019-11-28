@@ -1,0 +1,97 @@
+﻿@model MWMS2.Areas.Registration.Models.CRMDataExportModel
+
+<form id="inputForm" method="post" action="ExportData">
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Category :</div>
+                <div class="w3-col l9 m12 s12">
+                    @foreach (var item in Model.CATEGORY_CODE_List_FOR_CHECK_BOX())
+                    {
+                        <input type="checkbox" value="@item.Text" name="SelectedCategoryList" id="@item.Value" />
+                        @Html.Label(item.Text, new { @for = @item.Value })
+
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PNRC :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.DropDownListFor(model => model.PNRC, Model.PRACTICE_NOTES_List)
+                </div>
+            </div>
+        </div>
+
+        @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                Select Data To Export :
+            </div>
+        </div>*@
+        <div class="panelHeader"> Select Data To Export :</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <label>
+                    @Html.EditorFor(model => model.exportOfficeInfo)
+                    Telephone Nos. & Email & Fax Nos.
+                </label>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <label>
+                    @Html.EditorFor(model => model.exportEmergencyNo)
+                    Emergency Nos.
+                </label>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <label>
+                    @Html.EditorFor(model => model.exportCorrAddress)
+                    Correspondence Address, PNRC
+                </label>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <label>
+                    @Html.EditorFor(model => model.exportBuildingSafety)
+                    Building Safety (includes address, telephone nos, remark notes)
+                </label>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <label>
+                    @Html.EditorFor(model => model.exportPRBQualification)
+                    PRB Qualification
+                </label>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            <button id="exportBtn" class="searchButton btn btn-default" type="button">
+                <i class="fa fa-print"></i> Export
+            </button>
+        </div>
+
+    </div>
+
+</form>
+<script type="text/javascript">
+    domReady(function () {
+        attr("exportBtn", "onclick", {
+            parameters: {}, callback: function () {
+                thisForm = document.getElementById('inputForm');
+                $("#inputForm").attr('action', 'ExportApplicationData');
+                $("#inputForm").submit();
+
+            }
+        });
+    });
+</script>

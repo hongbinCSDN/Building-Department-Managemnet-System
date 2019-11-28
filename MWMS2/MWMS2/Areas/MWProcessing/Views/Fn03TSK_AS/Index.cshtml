@@ -1,0 +1,163 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_ASModel
+
+<div class="panelHeader">
+    @*Search Criteria*@
+    Location of the minor works carried out
+</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Street/Road/Village :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.StreetRoadVillage)
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Street Number/ Lot Number :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.StreetLotNumber)
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Building/Estate :		</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.BuildingEstate)
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Floor :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.Floor)
+
+            </div>
+        </div>
+
+    </div><div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Flat/Room :		</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.FlatRoom)
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+<br />
+<div id="resultPanel1"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchMwRecordByAddress"
+            , exportPath: "ExcelRecord"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Ref No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo(domId("rootPath").value + "/MWProcessing/ComSubmission/SubmissionInfoPage?backTo=Fn03TSK_AS/Index", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , {
+                    displayName: "Item No.", columnName: "ITEMCODE"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+                , {
+                    displayName: "Received Date", columnName: "RECEIVED_DATE"
+                }
+                , {
+                    displayName: "Commencement Date", columnName: "COMMENCEMENT_DATE"
+                }
+                , {
+                    displayName: "Completion Date", columnName: "COMPLETION_DATE"
+                }
+            ]
+        });
+
+        new searcher({
+            searchPath: "SearchMWGeneralRecordByAddress"
+            //, exportPath: "ExcelGR"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel1"
+            , Columns: [
+                {
+                    displayName: "DSN/ICC No.", columnName: "DSN_ICCNO"
+                }
+                , {
+                    displayName: "Ref No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/EnquiryFormReadOnly", [{ name: "id", value: row.UUID }]);
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , {
+                    displayName: "Data of Assignment", columnName: "RECEIVE_DATE"
+                }
+                , {
+                    displayName: "Final Reply Due Date", columnName: "FinalReplyDueDate"
+                }
+                , {
+                    displayName: "Final Reply Remaining Days", columnName: "FinalReplyRemainingDays"
+                }
+                , {
+                    displayName: "Interim Reply Due Date", columnName: "INTERIM_REPLY_DUE_DATE"
+                }
+                , {
+                    displayName: "Interim Reply Remaining Days", columnName: "InterimReplyRemainingDays"
+                }
+                , {
+                    displayName: "Interim Reply Date", columnName: "INTERIM_REPLY_DATE"
+                }
+                , {
+                    displayName: "Title", columnName: "CASE_TITLE"
+                }
+                , {
+                    displayName: "Channel", columnName: "CHANNEL"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+            ]
+        });
+
+        atcpAddress2({
+             streetName: "StreetRoadVillage"
+            , streetNo: "StreetLotNumber"
+            , building: "BuildingEstate"
+            , floor: "Floor"
+            , unit: "FlatRoom"
+        });
+    });
+</script>

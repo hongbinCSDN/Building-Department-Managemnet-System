@@ -1,0 +1,149 @@
+﻿@*@model MWMS2.Entity.B_S_USER_GROUP
+
+
+    <h3>
+        Edit Role :
+    </h3>
+    <div style="text-align: right; width: 100%;">
+        Last Modified Date:
+        @Html.DisplayFor(model => model.MODIFIED_DATE)
+    </div>
+    <div style="text-align: right; width: 100%;">
+        Last Modified By:
+        @Html.DisplayFor(model => model.MODIFIED_BY)
+    </div>
+
+
+    @using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <table class="inputTable">
+            <tbody>
+                <tr>
+                    <th>Role Name:</th>
+                    <td>
+                        @Html.TextBoxFor(model => model.CODE, new { style = "width:200px;", id = "CODE" })
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>Description:</th>
+                    <td>
+                        @Html.TextBoxFor(model => model.DESCRIPTION, new { style = "width:200px;", id = "DESCRIPTION" })
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Status :
+                    </th>
+                    <td>
+                        @{
+
+                            @Html.RadioButtonFor(model => model.STATUS, "ACTIVE", new { @class = "inputRadio" }) } Active<br />
+                        @{
+
+                            @Html.RadioButtonFor(model => model.STATUS, "INACTIVE", new { @class = "inputRadio" }) } Inactive<br />
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>
+            Assigned Privilege
+        </h3>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        Module
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Module)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@item.UUID" class="v_UserGroup_CheckBox" name="v_Module_CheckBox" id=@item.UUID />
+                        </td>
+                        <td>
+                            <label for="">@item.DESCRIPTION</label>
+                        </td>
+                    </tr>
+                    foreach (var Func in item.B_S_FUNCTION)
+                    {
+                        var selected = "";
+                        foreach (var SelectedFunc in ViewBag.SelectedFunction)
+                        {
+                            if (SelectedFunc.FUNCTION_ID == Func.UUID)
+                            {
+                                selected = "checked";
+                            }
+                        }
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" @selected value="@Func.UUID" class="v_UserGroup_CheckBox" name="v_Func_CheckBox" id=@Func.UUID />
+
+                                <label for="">@Func.DESCRIPTION</label>
+                            </td>
+                        </tr>
+
+                    }
+
+                }
+            </tbody>
+
+
+        </table>
+        @*<table class="resultTable">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        Module
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.ModuleFunction)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@item.module.UUID" class="v_UserGroup_CheckBox" name="v_Module_CheckBox" id=@item.module.UUID />
+                        </td>
+                        <td>
+                            <label for="">@item.module.DESCRIPTION</label>
+                        </td>
+                    </tr>
+                    foreach (var Func in item.function.B_S_MODULE.B_S_FUNCTION)
+                    {
+                        var selected = "";
+                        foreach (var SelectedFunc in ViewBag.SelectedFunction)
+                        {
+                            if (SelectedFunc.FUNCTION_ID == Func.UUID)
+                            {
+                                selected = "checked";
+                            }
+                        }
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" @selected value="@Func.UUID" class="v_UserGroup_CheckBox" name="v_Func_CheckBox" id=@Func.UUID />
+
+                                <label for="">@Func.DESCRIPTION</label>
+                            </td>
+                        </tr>
+
+                    }
+
+                }
+            </tbody>
+
+
+        </table>}*@

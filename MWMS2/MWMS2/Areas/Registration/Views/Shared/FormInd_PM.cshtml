@@ -1,0 +1,506 @@
+﻿@model MWMS2.Models.ProcessMonitorDisplayModel
+
+    <form id="inputForm" method="post" action="Save" enctype="multipart/form-data">
+        <input type="hidden" name="perSuppleDocumentDate" id="perSuppleDocumentDate" value="">
+        @Html.HiddenFor(model => model.C_IND_PROCESS_MONITOR.UUID)
+        @Html.HiddenFor(model => model.C_IND_APPLICATION.UUID)
+        @Html.HiddenFor(model => model.C_IND_CERTIFICATE.UUID)
+        @Html.HiddenFor(model => model.C_S_CATEGORY_CODE.UUID)
+        @Html.HiddenFor(model => model.C_S_CATEGORY_CODE.CATEGORY_GROUP_ID)
+        @Html.HiddenFor(model => model.RegType)
+
+        <script type="text/javascript">
+
+            function backhome() {
+                goTo("Index");
+            }
+            function CalDueDate(o, RegType) {
+                if (RegType == "MWIA") {
+                    var rType = "";
+                    //var toa = document.getElementById("applicationFormUUID");
+                    var selectedQP = document.getElementById("Q").checked;
+                    if (selectedQP == true) {
+                        rType = "Y"
+                    }
+                }
+
+                //for( i = 0; i < toa.length ; i++){
+                // var text = toa.options[i].text;
+                // var selected = toa.options[i].selected;
+                // if(text == "QP Card"&& selected){
+                //  rType = "Y"
+                // }
+                //}
+
+                var rDate = o.value;
+                var dueDate = document.getElementById("dueDate").value;
+                if (rDate != "" && dueDate == "") {
+                    var delimChar = "/";
+                    var d, m, y;
+
+                    if (rDate.indexOf(".") != -1) {
+                        delimChar = ".";
+                    } else if (rDate.indexOf("-") != -1) {
+                        delimChar = "-";
+                    }
+                    if (rType != "Y") {
+                        var delim1 = rDate.indexOf(delimChar);
+                        var delim2 = rDate.lastIndexOf(delimChar);
+                        d = parseInt(rDate.substring(0, delim1), 10);
+                        m = parseInt(rDate.substring(delim1 + 1, delim2), 10) - 1;
+                        y = parseInt(rDate.substring(delim2 + 1), 10);
+
+                        var rD = new Date(y, m, d);
+
+                        var typeOfApp = $("#applicationFormUUID option:selected").text();
+
+                        if (RegType == "IMW") {
+                            if ("BA26" == typeOfApp) {
+                                d = d + 85;
+                                dDate = new Date(y, m, d);
+                            } else {
+                                dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                if (10 == m && 30 == d) {
+                                    dDate.setDate(dDate.getDate() - 2);
+                                } else {
+                                    dDate.setDate(dDate.getDate() - 1);
+                                }
+                            }
+
+                        }
+                        else {
+                            d = d + 120;
+                            dDate = new Date(y, m, d);
+                            //dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 4));
+                        }
+                        var dateStr = (dDate.getDate() < 10 ? "0" : "") + dDate.getDate() + "/" + ((dDate.getMonth() + 1) < 10 ? "0" : "") + (dDate.getMonth() + 1) + "/" + dDate.getFullYear();
+                        $.ajax({
+                            type: "POST",
+                            url: domId("rootPath").value +'/Registration/Fn02GCA_PM/ProcDueDate',
+                            data: {
+                                dateStr: dateStr, rType: rType
+                            },
+                            success: function (data) {
+                                if (data != "") {
+                                    document.getElementById("dueDate").value = data;
+                                }
+                            }
+                        });
+                    } else {
+                        var delim1 = rDate.indexOf(delimChar);
+                        var delim2 = rDate.lastIndexOf(delimChar);
+                        d = parseInt(rDate.substring(0, delim1), 10);
+                        m = parseInt(rDate.substring(delim1 + 1, delim2), 10);
+                        y = parseInt(rDate.substring(delim2 + 1), 10);
+
+                        var date = new Date(y, m, d);
+
+                        var dateStr = (date.getDate() < 10 ? "0" : "") + date.getDate() + "/" + ((date.getMonth()) < 10 ? "0" : "") + (date.getMonth()) + "/" + date.getFullYear();
+                        $.ajax({
+                            type: "POST",
+                            url: domId("rootPath").value +'/Registration/Fn02GCA_PM/ProcDueDate',
+                            data: {
+                                dateStr: dateStr, rType: rType
+                            },
+                            success: function (data) {
+                                if (data != "") {
+                                    document.getElementById("dueDate").value = data;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+            function checkSupDocDate(o, RegType, SuppleDocumentDate) {
+                var rDate = document.getElementById("receivedIndDate").value;
+                //get form No
+                var typeOfApp = $("#applicationFormUUID option:selected").text();
+
+                if (o.value != SuppleDocumentDate) {
+                    if (o.value != ("") && rDate != ("")) {
+                        var delimChar = "/";
+                        var d, m, y;
+
+                        if (rDate.indexOf(".") != -1) {
+                            delimChar = ".";
+                        } else if (rDate.indexOf("-") != -1) {
+                            delimChar = "-";
+                        }
+
+                        var delim1 = rDate.indexOf(delimChar);
+                        var delim2 = rDate.lastIndexOf(delimChar);
+                        d = parseInt(rDate.substring(0, delim1), 10);
+                        m = parseInt(rDate.substring(delim1 + 1, delim2), 10) - 1;
+                        y = parseInt(rDate.substring(delim2 + 1), 10);
+
+                        var rD = new Date(y, m, d);
+                        var lDate = o.value;
+                        if (lDate.indexOf(".") != -1) {
+                            delimChar = ".";
+                        } else if (lDate.indexOf("-") != -1) {
+                            delimChar = "-";
+                        }
+
+                        var delim1 = lDate.indexOf(delimChar);
+                        var delim2 = lDate.lastIndexOf(delimChar);
+                        d = parseInt(lDate.substring(0, delim1), 10);
+                        m = parseInt(lDate.substring(delim1 + 1, delim2), 10) - 1;
+                        y = parseInt(lDate.substring(delim2 + 1), 10);
+
+                        var lD = new Date(y, m, d);
+
+                        var dDate = new Date();
+                        $("#C_IND_PROCESS_MONITOR_OS_DATE").val("");
+                        if (confirm("Update Due Date?")) {
+                            if (rD >= lD) {
+                                if (RegType == "IMW") {
+                                    if ("BA26" == typeOfApp) {
+                                        d = d + 85;
+                                        dDate = new Date(y, m, d);
+                                    } else {
+                                        //dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                        dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                        if (10 == m && 30 == d) {
+                                            dDate.setDate(dDate.getDate() - 2);
+                                        } else {
+                                            dDate.setDate(dDate.getDate() - 1);
+                                        }
+                                    }
+                                } else {
+                                    //PA
+                                    //dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 4));
+                                    d = d + 120;
+                                    dDate = new Date(y, m, d);
+                                }
+                            }
+                            else {
+                                if (RegType == "IMW") {
+                                    if ("BA26" == typeOfApp) {
+                                        d = d + 85;
+                                        dDate = new Date(y, m, d);
+                                    } else {
+                                        //dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                        dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                        if (10 == m && 30 == d) {
+                                            dDate.setDate(dDate.getDate() - 2);
+                                        } else {
+                                            dDate.setDate(dDate.getDate() - 1);
+                                        }
+                                    }
+                                } else {
+                                    //dDate = new Date(new Date(lD).setMonth(lD.getMonth() + 4));
+                                    d = d + 120;
+                                    dDate = new Date(y, m, d);
+                                }
+                            }
+                            var dateStr = (dDate.getDate() < 10 ? "0" : "") + dDate.getDate() + "/" + ((dDate.getMonth() + 1) < 10 ? "0" : "") + (dDate.getMonth() + 1) + "/" + dDate.getFullYear();
+                            $.ajax({
+                                type: "POST",
+                                url: domId("rootPath").value +'/Registration/Fn02GCA_PM/ProcDueDate',
+                                data: { dateStr: dateStr },
+                                success: function (data) {
+                                    if (data != "") {
+                                        document.getElementById("dueDate").value = data;
+                                    }
+                                }
+                            });
+                        }
+                        $("#osDate").val("");
+                    }
+                } else {
+                    if (o.value != ("") && rDate == ("")) {
+                        var delimChar = "/";
+                        var d, m, y;
+
+                        var lDate = o.value;
+                        if (lDate.indexOf(".") != -1) {
+                            delimChar = ".";
+                        } else if (lDate.indexOf("-") != -1) {
+                            delimChar = "-";
+                        }
+
+                        var delim1 = lDate.indexOf(delimChar);
+                        var delim2 = lDate.lastIndexOf(delimChar);
+                        d = parseInt(lDate.substring(0, delim1), 10);
+                        m = parseInt(lDate.substring(delim1 + 1, delim2), 10) - 1;
+                        y = parseInt(lDate.substring(delim2 + 1), 10);
+
+                        var lD = new Date(y, m, d);
+                        var dDate = new Date();
+                        if (confirm("Update Due Date?")) {
+
+                            if (RegType == "IMW") {
+                                if ("BA26" == typeOfApp) {
+                                    d = d + 85;
+                                    dDate = new Date(y, m, d);
+                                } else {
+                                    //dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                    dDate = new Date(new Date(rD).setMonth(rD.getMonth() + 3));
+                                    if (10 == m && 30 == d) {
+                                        dDate.setDate(dDate.getDate() - 2);
+                                    } else {
+                                        dDate.setDate(dDate.getDate() - 1);
+                                    }
+                                }
+                            }
+                            else {
+                                //dDate = new Date(new Date(lD).setMonth(lD.getMonth() + 4));
+                                d = d + 120;
+                                dDate = new Date(y, m, d);
+                            }
+                            var dateStr = (dDate.getDate() < 10 ? "0" : "") + dDate.getDate() + "/" + ((dDate.getMonth() + 1) < 10 ? "0" : "") + (dDate.getMonth() + 1) + "/" + dDate.getFullYear();
+                            $.ajax({
+                                type: "POST",
+                                url: domId("rootPath").value +'/Registration/Fn02GCA_PM/ProcDueDate',
+                                data: { dateStr: dateStr },
+                                success: function (data) {
+                                    if (data != "") {
+                                        document.getElementById("dueDate").value = data;
+                                    }
+                                }
+                            });
+
+                            //document.getElementById("dueDate").value = dateStr;
+                        }
+                        document.getElementById("osDate").value = "";
+                    }
+                }
+            }
+            $("document").ready(function () {
+                attr("saveButton", "onclick", {
+                    callback: function () {
+                        attr("inputForm", "addClass", "saving");
+                        $.post("Validate", $("#inputForm").serialize(), function (data) {
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                domId("inputForm").submit();
+                            }
+                            else {
+                                attr("inputForm", "dropClass", "saving");
+                                showErrorMessage(data.ErrorMessages);
+                                console.log(data);
+                            }
+                        }, "json");
+                    }
+                });
+            })
+            function setPreDate() {
+                //document.getElementById("perSuppleDocumentDate").value = document.getElementById("suppleDocumentDate").value;
+                $("#perSuppleDocumentDate").val($("#suppleDocumentDate").val());
+            }
+        </script>
+
+        @if (Model.RegType == "IP")
+        {
+            <div class="panelHeader">Professional Application &gt; Update Process Monitor</div>
+        }
+        else
+        {
+            <div class="panelHeader">MW Individual Application &gt; Update Process Monitor</div>
+        }
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Applicant Name:</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.CandidateName, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">File Reference :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.C_IND_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Category Code :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.C_S_CATEGORY_CODE.CODE, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            @if (Model.RegType == "IMW")
+            {
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Applicant Apply Type :</div>
+                        <div class="w3-col l9 m6 s12">
+                            @foreach (var item in Model.IndAppApplyByType)
+                            {
+                                string tmp = "";
+                                if (item.Selected == true)
+                                { tmp = "checked"; }
+
+                                <input type="radio" value="@item.Value" @tmp name="SelectedAppApplyType" id="@item.Value" class="applyStatus" />
+                                @Html.Label(item.Text, new { @for = @item.Value })
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Date of Received:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RECEIVED_DATE, new { @id = "receivedIndDate", @class = "inputDate", @onblur = "CalDueDate(this,'" + Model.RegType + "')" })</div>
+                    <div class="w3-col l3 m6 s12">Date of Withdrawal:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.WITHDRAWAL_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Due Date:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.DUE_DATE, new { @class = "inputDate", @id = "dueDate" })</div>
+                    <div class="w3-col l3 m6 s12">Removal Date:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REMOVAL_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Type of Application:</div>
+                    @if (Model.RegType == "IP")
+                    {
+                        <div class="w3-col l2 m6 s12">
+                            @Html.DropDownListFor(model => model.IPAppList, Model.IPTypeOfAppList, new { @id = "applicationFormUUID", onchange = "changeApplyStatus()" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="w3-col l2 m6 s12">
+                            @Html.DropDownListFor(model => model.MWIAAppList, Model.MWIATypeOfAppList, new { @id = "applicationFormUUID", onchange = "changeApplyStatusCMW()" })
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Vetting Officer:</div>
+                    <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.C_IND_PROCESS_MONITOR.VETTING_OFFICER, Model.VetIndOfficerList, new { @id = "vettingOfficer" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Audit Check:</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.AUDIT)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Latest Date of Supplementary Documents:</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.SUPPLE_DOCUMENT_DATE, new { @class = "inputDate", @onfocus = "setPreDate()", @onblur = "checkSupDocDate(this,'" + Model.RegType + Model.SuppleDocumentDate + "')" })</div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Reference :</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12"> Date of Ask:</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REFERENCE_ASK_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Reg. Board :</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12"> Date of Ask:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REGISTRATION_ASK_DATE, new { @class = "inputDate" })</div>
+                    <div class="w3-col l3 m6 s12"> Date of Reply:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REGISTRATION_REPLY_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Interview for Review Application :</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12"> Date of Notify:</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.INTERVIEW_NOTIFY_DATE, new { @class = "inputDate" })</div>
+                    <div class="w3-col l3 m6 s12"> Date of Interview/Assessment :</div>
+                    <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.INTERVIEW_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12"> Due Date of Interview/Assessment :</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.INTERVIEW_DUEDATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Result Letter (Issue Date) :</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l2 m6 s12"> Date of Accept:</div>
+                    <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_ACCEPT_DATE, new { @class = "inputDate" })</div>
+
+                    <div class="w3-col l2 m6 s12"> Date of Defer:</div>
+                    @if (Model.RegType == "IMW")
+                    {
+                        <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_DEFER_DATE, new { @readonly = "readonly"  })</div>
+                    }
+                    else
+                    {
+                        <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_DEFER_DATE, new { @class = "inputDate"})</div>
+                    }
+                    <div class="w3-col l2 m6 s12"> Date of Refuse :</div>
+                    <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_REFUSE_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l2 m6 s12"> End of Defer Date:</div>
+                    @if (Model.RegType == "IMW")
+                    {
+                        <div class="w3-col l2 m6 s12"> @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.DEFER_DATE, new { @readonly = "readonly"  })</div>
+                    }
+                    else
+                    {
+                        <div class="w3-col l2 m6 s12"> @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.DEFER_DATE, new { @class = "inputDate"})</div>
+                    }
+                    <div class="w3-col l2 m6 s12"> Date of Notification Letter:</div>
+                    <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.NOTIFICATION_LETTER_DUEDATE, new { @class = "inputDate" })</div>
+                    <div class="w3-col l2 m6 s12"> Date of O/S:</div>
+                    <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.OS_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Gazette :</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12"> Date of Gazette:</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.GAZETTE_DATE, new { @class = "inputDate" })</div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                @*<input type="button" value="Save" id="saveButton" class="saveButton btn btn-default" />*@
+                @if (MWMS2.Utility.AuthUtil.CanEdit)
+                { <button value="Save" type="button" id="saveButton" class="saveButton btn btn-default"> <i class="fa fa-save"></i> Save</button>}
+                @if (Model.pmUUID != null && MWMS2.Utility.AuthUtil.CanDelete)
+                {
+                    <button class="btnDel btn btn-default" type="button" onclick='goTo("Delete", [{ name: "id", value:"@Model.pmUUID"  }]);' value="delete"> <i class="fa fa-trash"></i> Delete</button>
+                }
+                <button class="btn btn-default backButton" type="button"> Cancel</button>
+            </div>
+        </div>
+    </form>

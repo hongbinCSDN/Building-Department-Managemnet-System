@@ -1,0 +1,130 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Category Code Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveCC", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_CATEGORY_CODE.UUID, new { id = "UUID" })
+    @Html.HiddenFor(model => model.SystemType)
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Code:</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE.CODE, new { id = "C_S_CATEGORY_CODE_CODE" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category Group:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_CATEGORY_CODE.CATEGORY_GROUP_ID, Model.getSystemCategoryCode())
+                    @Html.HiddenFor(model => model.C_S_CATEGORY_CODE.C_S_SYSTEM_VALUE.CODE)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Registration Type :</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_CATEGORY_CODE.REGISTRATION_TYPE, Model.getSRegistrationType())
+                    @Html.HiddenFor(model => model.C_S_CATEGORY_CODE.REGISTRATION_TYPE)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE.ENGLISH_DESCRIPTION)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE.CHINESE_DESCRIPTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Sub Title Description (Eng):</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE.ENGLISH_SUB_TITLE_DESCRIPTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Sub Title Description (Chn):</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE.CHINESE_SUB_TITLE_DESCRIPTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Is Active</div>
+                <div class="w3-col l8 m6 s12">@Html.CheckBoxFor(o => o.Active)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-container">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexCC", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+</form>
+  
+
+@*}*@
+
+    <script>
+
+        //hide building safety code if is old record
+        $(document).ready(function () {
+            
+            var UUID = $('#UUID').val();
+
+            if (UUID == '' || UUID == null) {
+                //alert(UUID);
+                $('#C_S_CATEGORY_CODE_CODE').removeAttr('disabled');
+
+            }
+            else {
+                // alert(UUID);
+                $('#C_S_CATEGORY_CODE_CODE').attr('disabled', 'disabled');
+
+            }
+
+        });
+
+        function onSaveForm() {
+            $.post("SaveCC", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("IndexCC", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+        }
+
+
+    </script>
+

@@ -1,0 +1,202 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn01SCUR_EASearchModel
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    @*@Html.HiddenFor(x => x.reload)*@
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">EFSS Submission No. : </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.EfssNo)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Status.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Status, Model.StatusList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Reference No. : </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.SCNo)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">DSN No. : </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.DSN)
+            </div>
+        </div>
+    </div>
+    <div class="displayForm">
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+</div>
+
+<form id="appForm">
+    <div id="resultPanel">
+    </div>
+</form>
+
+<script type="text/javascript">
+    function index() {
+        //window.location.href = domId("rootPath").value + "/Signboard/Fn01SCUR_EA/Index#SEARCH";
+        //history.go(0);
+        location.href = location.href;
+    }
+
+    var searcher;
+    domReady(function () {
+        //if (domId("reload").value == true) {
+        //    searcher.search();
+        //}
+
+        searcher = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "EFSS_ID"
+            , Columns: [
+                { displayName: "EFSS Submission No.", columnName: "EFSS_SUBMISSIONNO" },
+                { displayName: "File Reference (4+2)", columnName: "EFSS_FOURPLUSTWO" },
+                { displayName: "Form No.", columnName: "FORM_CODE" },
+                {
+                    displayName: "Submission No.", 
+                    formater: function (row) {
+                        if (row.FORM_CODE == "SC01" || row.FORM_CODE == "SC02" || row.FORM_CODE == "SC03") { // disable input
+                            var input = dom("input");
+                            attr(input, "type", "text");
+                            attr(input, "value", row.MAP_SC_NO);
+                            attr(input, "disabled", "true");
+                            attr(input, "style", "border: none; border-color: transparent; background: none; color: black; font-size: 18px;");
+                            return input;
+                        }
+                        else if ((row.FORM_CODE == "SC01C" || row.FORM_CODE == "SC02C") && row.MAP_SC_NO == null) { // enable input
+                            var input = dom("input");
+                            attr(input, "type", "text");
+                            attr(input, "id", "sc_no:" + row.EFSS_ID);
+                            var span = dom("span");
+                            var div = dom("div");
+                            attr(div, "style", "color: red");
+                            attr(div, "id", "ErrMsg:" + row.EFSS_ID);
+                            span.appendChild(input);
+                            span.appendChild(div);
+                            return span;
+                        }
+                        else if ((row.FORM_CODE == "SC01C" || row.FORM_CODE == "SC02C") && row.MAP_SC_NO != null) { // disable input
+                            var input = dom("input");
+                            attr(input, "type", "text");
+                            attr(input, "value", row.MAP_SC_NO);
+                            attr(input, "disabled", "true");
+                            attr(input, "style", "border: none; border-color: transparent; background: none; color: black; font-size: 18px;");
+                            return input;
+                        }
+                    }
+                },
+                { displayName: "DSN No.", columnName: "MAP_DSN" },
+                {
+                    displayName: "",
+                    formater: function (row) {
+                        if (row.FORM_CODE == "SC01" || row.FORM_CODE == "SC02" || row.FORM_CODE == "SC03") {
+                            var button = createButton(row.FORM_CODE + " (Validation/ Alteration/ Strengthening)", "fa-edit", [{
+                                "onclick": {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        if (row == null) return;
+                                        onSubmitForm(row.EFSS_ID, row.FORM_CODE);
+                                    }
+                                }
+                            }]);
+                            if (row.MAP_SC_NO != null) { // assigned SC No.
+                                attr(button, "disabled", "true");
+                                attr(button, "class", "btn btn-default disableBtnClass");
+                            }
+                            return button;
+                        }
+                        else if (row.FORM_CODE == "SC01C" || row.FORM_CODE == "SC02C") {
+                            var button =  createButton(row.FORM_CODE, "fa-edit", [{
+                                "onclick": {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        if (row == null) return;
+                                        assignCompletion(row.EFSS_ID, row.FORM_CODE);
+                                    }
+                                }
+                            }]);
+                            if (row.MAP_SC_NO != null) { // assigned SC No.
+                                attr(button, "disabled", "true");
+                                attr(button, "class", "btn btn-default disableBtnClass");
+                            }
+                            return button;
+                        }
+                    }
+
+                }
+            ]
+        }).search();
+
+        function onSubmitForm(EfssId, formType) {
+            //alert("submit!");
+            //goTo("ReceiveForm", [{ name: "EFSS_ID", value: EfssId }, { name: "FORM_CODE", value: formType }]);
+
+            $.ajax({
+                type: "POST",
+                url: 'ReceiveForm',
+                data: {
+                    EFSS_ID: EfssId,
+                    FORM_CODE: formType
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.ErrMsg == null) {
+                        //window.location = "/Signboard/Fn01SCUR_EA/Index";
+                        //index();
+                        searcher.search();
+                    }
+                    else {
+                        //document.getElementById("ErrMsg:" + EfssId).innerHTML = data.ErrMsg;
+                        alert(data.ErrMsg);
+                    }
+                }
+
+            });
+        }
+
+        function assignCompletion(EfssId, formType) {
+            var input_submission_no = document.getElementById("sc_no:" + EfssId).value;
+            $.ajax({
+                type: "POST",
+                url: 'ReceiveCompleteForm',
+                data: {
+                    EFSS_ID: EfssId,
+                    FORM_CODE: formType,
+                    INPUT_SUBMISSION_NO: input_submission_no
+                },
+                success: function (data) {
+                    console.log(data);                   
+                    if (data.ErrMsg == null) {
+                        //window.location = "/Signboard/Fn01SCUR_EA/Index";
+                        //searcher.search();
+                        //index();
+                        searcher.search();
+                    }
+                    else {
+                        document.getElementById("ErrMsg:" + EfssId).innerHTML = data.ErrMsg;
+                    }
+                }
+
+            });
+
+            //goTo("ReceiveCompleteForm", [{ name: "EFSS_ID", value: EfssId }, { name: "FORM_CODE", value: formType }, { name: "INPUT_SUBMISSION_NO", value: input_submission_no }]);
+        }
+    });
+
+
+</script>

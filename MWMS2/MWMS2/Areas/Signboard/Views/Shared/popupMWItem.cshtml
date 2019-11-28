@@ -1,0 +1,79 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+
+<script>
+    function Add()
+    {
+
+        var a = document.getElementById("NewMWItem").value;
+        var b = document.getElementById("NewMWItemDes").value;
+        var c = document.getElementById("NewMWItemOrder").value;
+        window.opener.addMWItemCallback(a,b,c);
+        window.close();
+
+    }
+    function Save()
+    {
+        var a = document.getElementById("NewMWItem").value;
+        var b = document.getElementById("NewMWItemDes").value;
+        var c = document.getElementById("NewMWItemOrder").value;
+        var e = document.getElementById("NewMWItemUUID").value;
+        window.opener.saveMWItemCallback(a, b, c,e);
+        window.close();
+
+    }
+</script>
+
+<div class="panelHeader">
+    The proposed signboard minor works are to be carried out
+    @{
+        if (Model.NewMWItemUUID == null)
+        {
+            <button onclick="Add()" type="button">Add MW Item</button>
+        }
+        else
+        {
+            <button onclick="Save()" type="button">Save MW Item</button>
+        }
+    }
+
+</div>
+
+<div class="displayForm">
+    @Html.HiddenFor(x => x.NewMWItemUUID)
+    <div style="overflow-x:auto">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>
+                     Item    
+                    </th>
+
+                    <th>
+                      Description
+                    </th>
+                    <th>
+                      Order / Direction / Notice / BD Reference No.
+                    </th>
+                 
+                </tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td>
+                @Html.DropDownListFor(x=>x.NewMWItem,Model.GetMWItemList)
+            </td>
+            <td>
+                @Html.TextAreaFor(x=>x.NewMWItemDes)
+            </td>
+            <td>
+                @Html.TextAreaFor(x=>x.NewMWItemOrder)
+            </td>
+        </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

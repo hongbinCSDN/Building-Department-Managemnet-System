@@ -1,0 +1,99 @@
+﻿
+@model IEnumerable<MWMS2.Entity.B_S_LETTER_TEMPLATE>
+<h3>Letter Template</h3>
+<br />
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        @*<input class="inputButton" id="" name="" value="Create Letter Template" onclick="location.href='@Url.Action("SPMLetterTemplateCreate", "SPMLetterTemplate")'" type="button">*@
+        <button class="btn btn-default" id="" name="" value="Create Letter Template" onclick="location.href='@Url.Action("SPMLetterTemplateCreate", "SPMLetterTemplate")'" type="button"><i class="far fa-plus-square"></i> Create Letter Template</button>
+    </div>
+</div>
+<br />
+<form id="inputForm" method="post" action="SPMLetterTemplateDownload">
+    <input id="docid" name="docid" value="" type="hidden"/>
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Edit</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Letter Name</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Letter Type</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Form Code</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Result</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">File</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input class="btn btn-default inputButton" id="" name="" value="Edit" onclick='location.href="@Url.Action("SPMLetterTemplateEdit", "SPMLetterTemplate", new { id = item.UUID })"' type="button"></td>
+                        <td>@Html.DisplayFor(modelItem => item.LETTER_NAME)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LETTER_TYPE)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FORM_CODE)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RESULT)</td>
+                        <td>
+                            <a onclick="downloadLetter('@item.UUID')" class="fileLink">@item.FILE_NAME</a></td>
+                            @*<td>@Html.ActionLink(item.FILE_NAME, "SPMLetterTemplateDownload", "SPMLetterTemplate", new { docid = item.UUID }, null)</td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <br />
+    <h3>
+        Tag Reference
+    </h3>
+
+    <table class="resultTable" style="table-layout:fixed; width: 100% !important">
+        <thead>
+            <tr>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Code</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewBag.TagRef != null)
+                {
+                    foreach (var item in ViewBag.TagRef)
+                    {
+                        <tr>
+                            <td style="word-wrap: break-word; white-space: normal; font-weight: bold;">@item.CODE</td>
+                            <td style="word-wrap: break-word; white-space: normal;">@item.DESCRIPTION</td>
+                        </tr>}
+                }
+            }
+        </tbody>
+
+    </table>
+</form>
+    <script>
+        function downloadLetter(docid) {
+            document.getElementById("docid").value = docid;
+            $.ajax({
+                type: "POST",
+                url: 'checkFileExist',
+                data: { docid: docid },
+                success: function (data) {
+                    console.log(data);
+                    if (data != null && data.Result == "SUCCESS") {
+                        var form = document.getElementById("inputForm");
+                        form.submit();
+
+                    } else {
+                        alert(data.Message[0]);
+                    }
+                }
+            });
+        }
+    </script>
+
+<style>
+    .fileLink {
+        text-decoration: underline;
+    }
+    .fileLink:hover {
+        cursor: pointer;
+    }
+</style>

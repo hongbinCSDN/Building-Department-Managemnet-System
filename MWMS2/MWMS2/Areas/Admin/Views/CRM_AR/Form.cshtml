@@ -1,0 +1,112 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_ARDisplayModel
+
+<div class="panelHeader">Applicant Role Maintenance</div>
+
+@using (Html.BeginForm("Save", "CRM_AR", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_SYSTEM_VALUE.UUID)
+    <div id="searchCriteria">
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_S_SYSTEM_VALUE.CODE)</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_S_SYSTEM_VALUE.CODE)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Registration Type :</div>
+                <div class="w3-col l3 m6 s12">
+                    <select disabled>
+                        <option>@Html.DisplayFor(o => o.RegType)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Eng) :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_S_SYSTEM_VALUE.ENGLISH_DESCRIPTION)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Chn) :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_S_SYSTEM_VALUE.CHINESE_DESCRIPTION)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Ordering :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_S_SYSTEM_VALUE.ORDERING)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Is Active</div>
+
+                @*<div class="w3-col l8 m6 s12">@Html.EditorFor(o => o.IsActive)</div>
+               
+                @*<div class="w3-col l8 m6 s12">@Html.CheckBoxFor(o => o.IsActive)</div>*@
+
+
+                <div class="w3-col l8 m6 s12">@Html.CheckBoxFor(o => o.IsActive)</div>
+
+
+                @*<div class="w3-col l8 m6 s12">
+
+                
+                    @Html.CheckBoxFor(x=>x.IsActive)*@
+                @*</div>*@
+            </div>
+        </div>
+
+
+
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="submit" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save </button>}
+            @*<button onclick="window.location='/Admin/CRM_AR/Index'" class="searchButton btn btn-default" type="button"> Save </button>*@
+        <button onclick="goTo('Index')" class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+    </div>
+
+}
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

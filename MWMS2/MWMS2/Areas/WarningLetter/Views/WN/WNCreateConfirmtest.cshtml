@@ -1,0 +1,35 @@
+﻿
+@model MWMS2.Models.ModelWN
+
+
+<h2>WNCreateConfirm</h2>
+
+
+@using (Html.BeginForm("WNCreateConfirm", "WN", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    foreach (var item in Model.M_WL_TYPE_OF_OFFENSE)
+    {
+
+        <input checked type="checkbox" name="v_Offense_Type_CheckBox" value="@item.WL_TYPE_OF_OFFENSE_ENG" id=@item.UUID /><label for="Offence011">@item.WL_TYPE_OF_OFFENSE_ENG</label>
+
+        @Html.HiddenFor(m => item.WL_TYPE_OF_OFFENSE_ENG);
+        @Html.EditorFor(m => item.WL_TYPE_OF_OFFENSE_ENG);
+        @Html.DisplayFor(m => item.WL_TYPE_OF_OFFENSE_ENG)
+        @Html.Display(item.WL_TYPE_OF_OFFENSE_ENG);
+    }
+
+    <p><input type="submit" id="MyFormSubmit" /></p>
+}
+
+@Html.HiddenFor(m => m.M_WL_TYPE_OF_OFFENSE)
+@{ foreach (var item in Model.M_WL_TYPE_OF_OFFENSE)
+    {
+        @Html.DisplayFor(m => item.WL_TYPE_OF_OFFENSE_ENG)
+        @Html.Display(item.WL_TYPE_OF_OFFENSE_ENG);
+    }
+}
+@Html.ActionLink("Home", "WNCreateConfirm", Model)
+@*<input type="submit" id="Create" value="Create" />
+    <input type="button" onclick='location.href="@Url.Action("WN","WN")"' value="Cancel" />*@
+<input type="button" onclick='location.href="@Url.Action("WN", "WN")"' value="Cancel" />
+<input type="button" onclick='location.href="@Url.Action("WNCreateConfirm", "WN", Model)"' value="Confirm" />

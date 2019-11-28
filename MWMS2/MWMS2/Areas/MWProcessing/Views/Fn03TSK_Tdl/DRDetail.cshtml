@@ -1,0 +1,565 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_TdlSearchModel
+@using System.Globalization;
+
+<form id="inputForm" class="w3-container w3-border">
+    <div class="letterTable" id="Eng">
+        @Html.HiddenFor(m=>Model.DR.LANGUAGE)
+        @Html.HiddenFor(m=>Model.DR.RECEIVED_DATE)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+
+                <div class="w3-left-align">
+                    @if (Model.DR.LANGUAGE == "CH")
+                    {
+                        <span>@Model.V_CRM_INFO.CHINESE_NAME</span>
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CN_ADDRESS_LINE1))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.CN_ADDRESS_LINE1</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CN_ADDRESS_LINE2))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.CN_ADDRESS_LINE2</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CN_ADDRESS_LINE3))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.CN_ADDRESS_LINE3</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CN_ADDRESS_LINE4))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.CN_ADDRESS_LINE4</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CN_ADDRESS_LINE5))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.CN_ADDRESS_LINE5</span>
+                        }
+
+                    }
+                    else
+                    {
+                        <span>@Model.V_CRM_INFO.SURNAME @Model.V_CRM_INFO.GIVEN_NAME</span>
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EN_ADDRESS_LINE1))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.EN_ADDRESS_LINE1</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EN_ADDRESS_LINE2))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.EN_ADDRESS_LINE2</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EN_ADDRESS_LINE3))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.EN_ADDRESS_LINE3</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EN_ADDRESS_LINE4))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.EN_ADDRESS_LINE4</span>
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EN_ADDRESS_LINE5))
+                        {
+                            <br />
+                            <span>@Model.V_CRM_INFO.EN_ADDRESS_LINE5</span>
+                        }
+                    }
+
+
+                </div>
+
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @if (Model.DR.LANGUAGE == "EN")
+                {
+                    <div class="w3-right-align">
+                        <div>
+                            @*@DateTime.Now.ToString("dd MMMM, yyyy", CultureInfo.CreateSpecificCulture("en-GB")) ;*@
+                            @(Model.DR.RECEIVED_DATE == null ? DateTime.Now.ToString("dd MMMM, yyyy", CultureInfo.CreateSpecificCulture("en-GB"))
+                                                                                                                : Model.DR.RECEIVED_DATE.Value.ToString("dd MMMM, yyyy", CultureInfo.CreateSpecificCulture("en-GB")))
+                        </div>
+                    </div>
+
+                    <div class="w3-right-align">
+                        @*<input type="text" class="inputDate flatpickr-input">*@
+                        @Html.TextBoxFor(model => model.DR.RECEIVED_DATE, new { @class = "inputDate flatpickr-input" })
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+        <br>
+        <br>
+        <br>
+
+        @*<div class="w3-right-align">
+                @if (Model.DR.LANGUAGE == "CH")
+                {
+                    <b>( @Model.Languages[0].DESCRIPTION )</b>
+
+                }
+                else
+                {
+                    <b>( @Model.Languages[0].DESCRIPTION_E )</b>
+
+                }
+            </div>
+
+            <br>
+            <br>
+            <br>*@
+
+        <div class="w3-right-align">
+            @if (Model.DR.LANGUAGE == "CH")
+            {
+                <b>( @Model.Languages[0].DESCRIPTION @Model.V_CRM_INFO.FAX_NO)</b>
+            }
+            else
+            {
+                <b>( @Model.Languages[0].DESCRIPTION_E @Model.V_CRM_INFO.FAX_NO)</b>
+            }
+        </div>
+
+        <br>
+        <br>
+
+        @if (Model.DR.LANGUAGE == "CH")
+        {
+            <div> @Model.Languages[1].DESCRIPTION </div>
+        }
+        else
+        {
+            <div> @Model.Languages[1].DESCRIPTION_E </div>
+        }
+
+
+        @if (Model.DR.LANGUAGE == "CH")
+        {
+            <div class="w3-center"> @Model.Languages[2].DESCRIPTION &nbsp;@Model.DR.DSN</div>
+        }
+        else
+        {
+            <div class="w3-center"> @Model.Languages[2].DESCRIPTION_E &nbsp;@Model.DR.DSN</div>
+        }
+        @Html.HiddenFor(m => m.DR.UUID)
+        @Html.HiddenFor(m => m.DR.DSN)
+        <div class="w3-center">
+            @if (Model.DR.LANGUAGE == "CH")
+            {
+                <span>
+                    @string.Format(Model.Languages[3].DESCRIPTION.ToString(), Model.DR.FORM_TYPE)
+                </span>
+            }
+            else
+            {
+                <span>@Model.Languages[3].DESCRIPTION_E </span>
+
+                <span> @Model.DR.FORM_TYPE</span>
+            }
+            @Html.HiddenFor(m => m.DR.FORM_TYPE)
+            @Html.HiddenFor(m => m.DR.HANDING_STAFF_1)
+            @Html.HiddenFor(m => m.DR.HANDING_STAFF_2)
+            @Html.HiddenFor(m => m.DR.HANDING_STAFF_3)
+            @Html.HiddenFor(m => m.DR.FORM_TYPE)
+            @Html.HiddenFor(m => m.DR.CONTRACTOR_REG_NO)
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l2"></div>
+            <div class="w3-center w3-col l8 m12 s12">
+                @Html.TextAreaFor(m => m.DR.ADDRESS, new { cols = "80", rows = "2", @readonly = "readonly" })
+                @*<textarea name="mwAckLetterVo.base.address" cols="80" rows="2" onkeypress="return textAreaMaxLength(this, 333);" onblur="onBlurTextAreaMaxLength(this, 333)">@Model.DR.ADDRESS</textarea>*@
+            </div>
+
+        </div>
+
+        <br>
+        <div>
+            @if (Model.DR.LANGUAGE == "CH")
+            {
+                <span>
+                    @string.Format(Model.Languages[4].DESCRIPTION, DateTime.Now.ToString("yyyy年MM月dd日"))
+                </span>
+
+            }
+            else
+            {
+                <span>
+                    @string.Format(Model.Languages[4].DESCRIPTION_E, DateTime.Now.ToString("dd MMMM, yyyy", CultureInfo.CreateSpecificCulture("en-GB")))
+                </span>
+
+            }
+
+        </div>
+
+
+
+
+        <!--1.-->
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @for (int i = 0; i < Model.ListCheckbox.Count(); i++)
+                {
+                    <div class="w3-col l6 m12 s12">
+                        <div class="checkBoxCodeDiv">
+                            @Html.CheckBoxFor(m => m.ListCheckbox[i].IsChecked, new { })
+                            <span>@Model.ListCheckbox[i].Code</span>
+                            @Html.HiddenFor(m => m.ListCheckbox[i].UUID)
+                            @Html.HiddenFor(m => m.ListCheckbox[i].SystemTypeID)
+                            @Html.HiddenFor(m => m.ListCheckbox[i].Code)
+                            @Html.HiddenFor(m => m.ListCheckbox[i].IsActive)
+                        </div>
+                        <div class="checkBoxDescriptionDiv">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                <textarea cols="60" class="checkItemText" style="height: 10px;" readonly name="checkItemText" id="mwDwLetterItems[0].itemText" onkeypress="return textAreaMaxLength(this, 333);" onblur="onBlurTextAreaMaxLength(this, 333)">@Model.ListCheckbox[i].Description_C.Substring(Model.ListCheckbox[i].Description_C.IndexOf(".")+1)</textarea>
+                            }
+                            else
+                            {
+                                <textarea cols="60" class="checkItemText" name="checkItemText" readonly id="mwDwLetterItems[0].itemTextE">@Model.ListCheckbox[i].Description_E</textarea>
+                            }
+
+
+
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <br />
+
+        <!--2.-->
+        <div class="w3-row">
+            <div class="w3-col l1 m1 s1">2.</div>
+            @if (Model.DR.LANGUAGE == "CH")
+            {
+                <div class="w3-col l11 m11 s11">@Model.DWRemark2.DESCRIPTION</div>
+            }
+            else
+            {
+                <div class="w3-col l11 m11 s11">@Model.DWRemark2.DESCRIPTION_E</div>
+            }
+        </div>
+        <br />
+
+        <!--3.-->
+        <div class="w3-row">
+            <div class="w3-col l1 m1 s1">
+
+                @*<input name="mwDwLetterRemark3.checked" checked="" value="Y" type="checkbox">*@
+                @Html.CheckBoxFor(m => m.DWRemark3.IsChecked)
+                @Html.HiddenFor(m => m.DWRemark3.UUID)
+                @Html.HiddenFor(m => m.DWRemark3.SystemTypeID)
+                @Html.HiddenFor(m => m.DWRemark3.IsActive)
+                3.
+            </div>
+            <div class="w3-col l11 m11 s11">
+                @if (Model.DR.LANGUAGE == "CH")
+                {
+                    <textarea name="mwDwLetterRemark3.itemTextE" id="remark3" readonly onkeypress="return textAreaMaxLength(this, 333);" onblur="onBlurTextAreaMaxLength(this, 333)">@Model.DWRemark3.Description_C</textarea>
+                }
+                else
+                {
+                    <textarea name="mwDwLetterRemark3.itemTextE" id="remark3" readonly onkeypress="return textAreaMaxLength(this, 333);" onblur="onBlurTextAreaMaxLength(this, 333)">@Model.DWRemark3.Description_E</textarea>
+                }
+
+            </div>
+        </div>
+        <br />
+
+        <!--4.-->
+        <div class="w3-row">
+            <div class="w3-col l1 m1 s1">4.</div>
+            <div class="w3-col l11 m11 s11">
+                @if (Model.DR.LANGUAGE == "CH")
+                {
+                    <span>
+                        @Model.Languages[5].DESCRIPTION.Replace("《Contact Number》", Model.P_S_TO_DETAILS.TO_CONTACT).Replace("《SO/TO》",  Model.P_S_TO_DETAILS.TO_NAME_CHI)
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @Model.Languages[5].DESCRIPTION_E.Replace("《Contact Number》", Model.P_S_TO_DETAILS.TO_CONTACT).Replace("《SO/TO》", Model.P_S_TO_DETAILS.TO_NAME_ENG)
+                    </span>
+                }
+            </div>
+        </div>
+
+
+        <br>
+        <br>
+
+        <div class="w3-row">
+            <table border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="60%"></td>
+                        <td style="text-align:center">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                <span>
+                                    @Model.Languages[6].DESCRIPTION
+                                </span>
+                                <br />
+                                <span>
+                                    @Model.P_S_TO_DETAILS.PO_NAME_CHI
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    @Model.Languages[6].DESCRIPTION_E
+                                </span>
+                                <br />
+                                <span>
+                                    @Model.P_S_TO_DETAILS.PO_NAME_ENG
+                                </span>
+                            }
+
+                            <br>
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60%"></td>
+
+                        <td style="text-align:center">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                <span>
+                                    (代行)
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60%"></td>
+                        <td style="text-align:center">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                @*<span>
+                                        @Model.Languages[7].DESCRIPTION 123
+                                    </span>*@
+                            }
+                            else
+                            {
+                                @*<span>
+                                    @Model.Languages[7].DESCRIPTION_E
+                                </span>*@
+                            }
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60%">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                if (@Model.DR.RECEIVED_DATE != null)
+                                {
+                                    <span> @Model.DR.RECEIVED_DATE.Value.ToString("yyyy 年 MM 月 dd 日")</span>
+                                }
+
+                            }
+                        </td>
+                        <td style="text-align:center">
+                            @if (Model.DR.LANGUAGE == "CH")
+                            {
+                                @*<span>
+                                        @Model.Languages[8].DESCRIPTION
+                                    </span>*@
+                            }
+                            else
+                            {
+                                <span>
+                                    @Model.Languages[8].DESCRIPTION_E
+                                </span>
+                            }
+
+                        </td>
+                    </tr>
+
+                    <tr><td colspan="4"></td></tr>
+                    <tr><td colspan="4"></td></tr>
+                </tbody>
+            </table>
+            <br>
+
+        </div>
+
+
+
+        <!--Screening-->
+        @*<div>
+
+                <input type="checkbox" name="screening" value="Y">
+                @if (Model.DR.LANGUAGE == "CH")
+                {
+                    <span>
+                        @Model.Languages[9].DESCRIPTION
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @Model.Languages[9].DESCRIPTION_E
+                    </span>
+                }
+                ?
+
+                &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+
+
+                <input type="checkbox" name="preliminary" value="Y">
+                @if (Model.DR.LANGUAGE == "CH")
+                {
+                    <span>
+                        @Model.Languages[10].DESCRIPTION
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @Model.Languages[10].DESCRIPTION_E
+                    </span>
+                }
+                ?
+            </div>*@
+
+        <!--Language-->
+        <div>
+            @*<label>
+                    @Html.RadioButtonFor(m => m.DR.LANGUAGE, "CH", new { @class = "w3-radio" })中文&nbsp;|&nbsp;
+                </label>
+                <label>
+                    @Html.RadioButtonFor(m => m.DR.LANGUAGE, "EN", new { @class = "w3-radio" })English
+                </label>*@
+            @*<input type="radio" name="mwAckLetterVo.base.language" value="CHT">中文&nbsp;|&nbsp;
+                <input type="radio" name="mwAckLetterVo.base.language" value="ENG" checked="">English*@
+        </div>
+        <div>
+            <label>@Html.RadioButtonFor(m => m.FileType, "P", new { @class = "w3-radio", @id = "TypePdf" }) pdf</label>&nbsp;&nbsp;|&nbsp;
+            <label>@Html.RadioButtonFor(m => m.FileType, "D", new { @class = "w3-radio", @id = "TypeWord" }) docx</label>
+        </div>
+
+
+    </div>
+
+</form>
+@*<table class="w3-right">
+        <tfoot>
+            <tr>
+                <td class="">
+                    <input type="button" value="Download" onclick="onDownload()">&nbsp;
+                    <input type="button" value="Update" onclick="PEM0301ChangeLan()">&nbsp;
+                    <input type="button" value="Cancel" onclick="loadContentPage('PEM0301')">
+                    <input type="button" value="Remove from TO to do list" onclick="">
+                </td>
+            </tr>
+        </tfoot>
+    </table>*@
+
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button id="downloadBtn" class="btn btn-default" type="button"><i class=""></i> Download</button>
+        <button id="updateBtn" class="btn btn-default" type="button"><i class=""></i> Update</button>
+        <button id="cancelBtn" class="btn btn-default" type="button"><i class=""></i> Cancel</button>
+        <button id="removeBtn" class="btn btn-default" type="button"><i class=""></i> Remove from TO to do list</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("downloadBtn", "onclick", { parameters: {}, callback: onDownloadForm });
+        attr("updateBtn", "onclick", { parameters: {}, callback: onUpdateForm });
+        attr("cancelBtn", "onclick", { parameters: {}, callback: onCancelForm });
+        attr("removeBtn", "onclick", { parameters: {}, callback: onRemoveForm });
+    });
+
+    function onRemoveForm() {
+        attr("inputForm", "addClass", "saving");
+        $.post("RemoveFromTDL", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo(domId("rootPath").value +"/MWProcessing/Fn03TSK_Tdl/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+    function onCancelForm() {
+        goTo(domId("rootPath").value +"/MWProcessing/Fn03TSK_Tdl/Index", null);
+    }
+
+    function onUpdateForm() {
+        attr("inputForm", "addClass", "saving");
+
+
+
+        $.post("UpdateDRDetail", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert("Update Successfully.");
+                goTo("DRDetail", [{ name: "uuid", value: "@Model.DR.UUID" }]);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+    function onDownloadForm()
+    {
+        attr("inputForm", "addClass", "saving");
+
+        $.post("UpdateDRDetail", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                downloadForm();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+
+        
+    }
+
+    function downloadForm() {
+        var fileCheckBox;
+        console.log(document.getElementById('TypePdf').checked);
+        if (document.getElementById('TypePdf').checked == true) {
+            fileCheckBox = 'P'
+        }
+        else {
+            fileCheckBox = 'D'
+        }
+        var language = $("#DR_LANGUAGE").val();
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        dlForm.action = domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/DownloadDRDetail";
+        dom_(dlForm, "input", { "type": "hidden", "name": "uuid", "value": "@Model.DR.UUID" });
+        dom_(dlForm, "input", { "type": "hidden", "name": "fileType", "value": fileCheckBox });
+        dom_(dlForm, "input", { "type": "hidden", "name": "language", "value": language });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+</script>

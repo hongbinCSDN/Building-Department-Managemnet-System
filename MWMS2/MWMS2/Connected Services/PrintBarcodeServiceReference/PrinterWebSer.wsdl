@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="PrintBarcodeLabel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DSN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PrintBarcodeLabelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PrintBarcodeLabelResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PrintBarcodeLabelSoapIn">
+    <wsdl:part name="parameters" element="tns:PrintBarcodeLabel" />
+  </wsdl:message>
+  <wsdl:message name="PrintBarcodeLabelSoapOut">
+    <wsdl:part name="parameters" element="tns:PrintBarcodeLabelResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PrinterWebSerSoap">
+    <wsdl:operation name="PrintBarcodeLabel">
+      <wsdl:input message="tns:PrintBarcodeLabelSoapIn" />
+      <wsdl:output message="tns:PrintBarcodeLabelSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PrinterWebSerSoap" type="tns:PrinterWebSerSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PrintBarcodeLabel">
+      <soap:operation soapAction="http://tempuri.org/PrintBarcodeLabel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrinterWebSerSoap12" type="tns:PrinterWebSerSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PrintBarcodeLabel">
+      <soap12:operation soapAction="http://tempuri.org/PrintBarcodeLabel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PrinterWebSer">
+    <wsdl:port name="PrinterWebSerSoap" binding="tns:PrinterWebSerSoap">
+      <soap:address location="http://localhost:50854/PrinterWebSer.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrinterWebSerSoap12" binding="tns:PrinterWebSerSoap12">
+      <soap12:address location="http://localhost:50854/PrinterWebSer.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

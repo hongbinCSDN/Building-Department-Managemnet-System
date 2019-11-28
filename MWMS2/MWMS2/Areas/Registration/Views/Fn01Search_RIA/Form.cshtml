@@ -1,0 +1,243 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_RIADisplayModel
+
+<div class="panelHeader">@ViewBag.Title</div>
+<div class="displayForm">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_APPLICANT.NAME) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_APPLICANT.NAME)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_APPLICANT.CHINESE_NAME) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_APPLICANT.CHINESE_NAME)</div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Registration No.:</div>
+            <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.CERTIFICATION_NO)</div>
+
+            <div class="w3-col l3 m6 s12">Date of Expiry:</div>
+            <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.EXPIRY_DATE)</div>
+        </div>
+    </div>
+
+    @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12">@Html.LabelFor(o => o.C_S_SYSTEM_VALUEs_BS) :</div>
+            </div>
+        </div>*@
+    <div class="panelHeader">@Html.LabelFor(o => o.C_S_SYSTEM_VALUEs_BS) :</div>
+
+
+
+
+    @if (Model.C_S_SYSTEM_VALUEs_BS.Count > 0)
+    {
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Type of services</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model.C_S_SYSTEM_VALUEs_BS)
+                {
+                    <tr>
+                        <td>@o.CODE</td>
+                        <td>@o.ENGLISH_DESCRIPTION</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+        <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.QP_DISPLAY) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.QP_DISPLAY)</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.BS_TELEPHONE_NO1) :</div>
+            <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.BS_TELEPHONE_NO1)</div>
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.BS_FAX_NO1) :</div>
+            <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.BS_FAX_NO1)</div>
+        </div>
+    </div>
+
+
+    <div class="panelHeader">Address :</div>
+    @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">Address :</div>
+        </div>*@
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m6 s12" style="text-align:left">@Html.LabelFor(o => o.C_ADDRESS_English)</div>
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_ADDRESS_Chinese)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m6 s12" style="text-align:left">@Html.Raw(Model.C_ADDRESS_English.ADDRESS_FULL_HTML_DISPLAY)</div>
+            <div class="w3-col l6 m6 s12">@Html.Raw(Model.C_ADDRESS_Chinese.ADDRESS_FULL_HTML_DISPLAY)</div>
+        </div>
+    </div>
+    <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.EMERGRNCY_NOS_DISPLAY) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.EMERGRNCY_NOS_DISPLAY)</div>
+        </div>
+    </div>
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.TELEPHONE_NOS_DISPLAY) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.TELEPHONE_NOS_DISPLAY)</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.FAX_NOS_DISPLAY) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.FAX_NOS_DISPLAY)</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_IND_APPLICATION.EMAIL) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.EMAIL)</div>
+        </div>
+    </div>
+    
+    <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Registration Status:</div>
+            <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_S_CATEGORY_CODE.CODE)</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">HKID / Passport No.:</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DisplayFor(model => model.C_APPLICANT.HKID_PASSPORT_DISPLAY)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12"> Professional Qualifications at PRB:</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DisplayFor(model => model.C_S_SYSTEM_VALUE_AppStatus.ENGLISH_DESCRIPTION)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+
+        <div class="w3-col l6 m12 s12">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>Category	</th>
+                        <th>Specimen Signature	</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(o => o.C_S_CATEGORY_CODE.CODE)</td>
+                        <td style="text-align:center">
+                            @*@if (string.IsNullOrWhiteSpace(Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED)){*@
+                            @if (!string.IsNullOrWhiteSpace(Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED))
+                            {
+                                @*@Html.ActionLink("Get Signature Images", "GetSignImg", null, new { filepath = Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED }, new { @class = "ImageClass" })*@
+
+                                <button class="btn btn-default" type="button" onclick="GetCRMImage('@Model.C_IND_CERTIFICATE.UUID')"> <i class="far fa-file-image"></i></button>
+
+                            }
+                            @*@Html.ActionLink("Get Signature Images", "GetSignImg", null, new { filepath = Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED }, new { @class = "ImageClass" })*@
+                            @*}*@
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <table class="resultTable" cellspacing="0" cellpadding="3" rules="all" bordercolor="LightGrey" border="1"
+                   id="dgList" style="border-color:LightGrey;border-collapse:collapse;" width="800">
+                <thead>
+                    <tr>
+                        <th>PRB</th>
+                        <th>Registration No.</th>
+                        <th>Expiry Date</th>
+                        <th>Disciplines / Divisions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model.C_IND_QUALIFICATIONs)
+                    {
+                        <tr>
+                            <td>@o.C_S_SYSTEM_VALUE1.ENGLISH_DESCRIPTION</td>
+                            <td>@o.REGISTRATION_NUMBER</td>
+                            <td>@o.MODIFIED_DATE</td>
+                            <td>@o.EXPIRY_DATE</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="w3-container footer">
+        @*, [{name:'doSearch',value: 'Y'}]*@
+        <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+<script>
+    function GetCRMImage(uuid) {
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }], true);
+    }
+
+</script>

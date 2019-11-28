@@ -1,0 +1,136 @@
+﻿
+@model  MWMS2.Areas.MWProcessing.Models.Fn12RD_DtmModel
+
+
+
+
+
+<form id="inputForm" method="post">
+
+
+    <div id="searchCriteria" class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s6">Document to be delivered to MWU :</div>
+                <div class="w3-col l6 m6 s6">
+                    <label style="font-size: 30px;"> @Model.DSN_LIST.Count  </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s6">Document Serial No. :</div>
+                <div class="w3-col l6 m6 s6">
+
+                    @Html.TextBoxFor(model => model.DSN, new { id = "dsnNumber", style = "width:200px", }) (Scan Barcode)
+
+                    <font color="#FF0000">@Model.errorMsg</font>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button" id="rollBackBtn">Roll Back</button>
+            <button class=" btn btn-default" type="button" id="confirmDeliveryBtn">Confirm Delivery</button>
+        </div>
+
+    </div>
+
+    <br />
+
+
+    <div style="overflow-y:scroll; height:400px;overflow: -moz-scrollbars-vertical;">
+        <div class="w3-border displayForm">
+            <table class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Document S/N
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.DSN_LIST.Count(); ++i)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(m => m.DSN_LIST[i].CREATED_DATE)
+                                @Html.Label(Model.DSN_LIST[i].CREATED_DATE.ToString() ?? "")
+                            </td>
+                            <td>
+                                @Html.Label(Model.DSN_LIST[i].CREATED_DATE.ToString("HH:MM") ?? "")
+                                
+                            </td>
+                            <td>
+                                @Html.HiddenFor(m => m.DSN_LIST[i].DSN)
+                                @Html.Label(Model.DSN_LIST[i].DSN.ToString() ?? "")
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </DIV>
+
+
+
+</form>
+
+
+    <script type="text/javascript">
+        domReady(function () {
+            attr("rollBackBtn", "onclick", { parameters: {}, callback: rollBack });
+            attr("confirmDeliveryBtn", "onclick", { parameters: {}, callback: confirmDelivery });
+            attr("dsnNumber", "onkeyup", { parameters: {}, callback: checkEnter });
+            $('#dsnNumber').focus();
+        });
+
+        function rollBack() {
+            $("#inputForm").attr('action', 'rollBack');
+            $("#inputForm").submit();
+        }
+        function confirmDelivery() {
+            $("#inputForm").attr('action', 'confirmDelivery');
+            $("#inputForm").submit();
+        }
+
+        function deliveryCounted() {
+            $("#inputForm").attr('action', 'deliveryCounted');
+            $("#inputForm").submit();
+        }
+
+        function checkEnter(evt) {
+            var characterCode;
+            var e = (window.event) ? window.event : evt;
+            if (e && e.which) {
+                characterCode = e.which;
+            } else {
+                characterCode = e.keyCode;
+            }
+            if (characterCode == 13) {
+                e.returnValue = false;
+                e.cancelBubble = true;
+                return deliveryCounted();
+            } else {
+                return true;
+            }
+        }
+
+    </script>

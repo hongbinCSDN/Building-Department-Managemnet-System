@@ -1,0 +1,177 @@
+﻿@model MWMS2.Models.InterviewResultSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Year :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Year, Model.yearList)
+                @*<select>
+                        <option>- All -</option>
+                        <option>2019</option>
+                        <option>2018</option>
+                        <option>2017</option>
+                        <option>2016</option>
+                        <option>2015</option>
+                        <option>2014</option>
+                        <option>2013</option>
+                        <option>2012</option>
+                        <option>2011</option>
+                        <option>2010</option>
+                        <option>2009</option>
+                        <option>2008</option>
+                    </select>*@
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12"> Date :</div>
+            <div class="w3-col l6 m12 s12">
+                From &nbsp; @Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                To &nbsp; @Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+                @*<input type="text" class="inputDate" />*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Group :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Group, Model.showGroupList)
+                @*<select>
+                        <option>- All -</option>
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                        <option>E</option>
+                        <option>F</option>
+                        <option>G</option>
+                        <option>H</option>
+                        <option>I</option>
+                        <option>J</option>
+                        <option>K</option>
+                        <option>L</option>
+                        <option>M</option>
+                        <option>N</option>
+                        <option>O</option>
+                        <option>P</option>
+                        <option>Q</option>
+                        <option>R</option>
+                        <option>S</option>
+                        <option>T</option>
+                        <option>U</option>
+                        <option>V</option>
+                        <option>W</option>
+                        <option>X</option>
+                        <option>Y</option>
+                        <option>Z</option>
+                    </select>*@
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Type :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Type, Model.showTypeList)
+                @*<select>
+                        <option>- All -</option>
+                        <option>MWCRC</option>
+                    </select>*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Surname. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.SurnName)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Given Name. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.GivenName)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRef)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Interview / Assessment  No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.InterviewNo)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">HKID . :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.HKID)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Passport No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.PassportNo)
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "INTERVIEW_DATE"
+            , Columns: [
+                {
+                    displayName: "Interview Date", columnName: "INTERVIEW_DATE_DISPLAY"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            alert("Clicked XX  : " + row.INTERVIEW_DATE); alert("Clicked UUID  : " + row.UUID);
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "Interview/Assessment No", columnName: "INTERVIEW_NUMBER" }
+                , { displayName: "Type", columnName: "INTERVIEW_TYPE" }
+                , { displayName: "Name", columnName: "FULL_NAME" }
+                , { displayName: "Role", columnName: "ROLE" }
+                , { displayName: "Result Date", columnName: "RESULT_DATE" }
+                , { displayName: "Result", columnName: "RESULT" }
+                , { displayName: "Absent", columnName: "IS_ABSENT" }
+
+
+                //, { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                //, { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+                //, { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+
+            ]
+        });
+    });
+</script>
+

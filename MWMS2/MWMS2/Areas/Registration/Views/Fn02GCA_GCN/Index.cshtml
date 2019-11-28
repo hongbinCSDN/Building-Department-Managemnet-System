@@ -1,0 +1,70 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_GCNSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRef)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Company Name :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.ComName)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        searching =    new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                {
+                    displayName: "File Ref.", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            //alert("Clicked UUID  : " + row.UUID);
+                            goTo("Form", [{ name: "id", value: row.UUID }, { name: "type", value: row.CONVICTIONTYPE }]);
+                        } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                , { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+
+                , { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+                //, {
+                //    displayName: "Name", columnName: "NAME"
+                //    , click: function (row) {
+                //        try {
+                //            if (row == null) return;
+                //            goTo("Form", [{ name: "id", value: row.UUID }, { name: "type", value: row.CONVICTIONTYPE }]);
+                //        } catch (err) { }
+                //    }
+                //}
+
+            ]
+        });
+       
+    });
+</script>

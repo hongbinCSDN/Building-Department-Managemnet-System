@@ -1,0 +1,33 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04PRT_TBESSearchModel
+
+
+<div class="panelHeader">
+    Search Criteria
+</div>
+<form action="SearchTBES" method="post" id="reportForm">
+    <div id="searchCriteria">
+        <div class="displayForm" style="overflow-x:auto">
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Receive Date
+                    </div>
+                    <div class="w3-col l9 m6 s12">
+                        @Html.TextBoxFor(model => model.PeriodDate, new { @class = "inputDate" })
+                    </div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">   To-Be-Expired(month) :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.To_Be_Expiry_Month, new { @Value = "3",@type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <button type="submit" class="searchButton btn btn-default" id="MRSearchBtn">
+                    <i class="fa fa-print"></i> Export Report
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,163 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_StatisticsModel
+<style>
+    .calendar-table td {
+        text-align: center;
+        width: 105%;
+    }
+
+    .day-number {
+        white-space: nowrap;
+    }
+
+    .calendar-visibility-hidden {
+        visibility: hidden;
+    }
+
+    .export_button_a {
+        color: blue;
+    }
+</style>
+
+<div class="panelHeader">
+    Submission Info
+</div>
+
+<div id="StatisticsContent">
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l4 m4 w3-green w3-yellow w3-center tablink" id="incomingNav" href="#" onclick="openStatistics(event, 'influx');">Incoming - Influx</div>
+            <div class="w3-col l4 m4 w3-green w3-center tablink" href="#" id="outgoingNav" onclick="openStatistics(event, 'output');">Outgoing - Output</div>
+            <div class="w3-col l4 m4 w3-green w3-center tablink" href="#" id="sdmNav" onclick="openStatistics(event, 'sdm');">SDM</div>
+        </div>
+
+        <div id="influx" class="w3-border statistics">
+
+        </div>
+
+        <div id="output" style="display:none;" class="w3-border statistics">
+
+        </div>
+
+        <div id="sdm" style="display:none;" class="w3-border statistics">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        var incomingNavClick
+            , outgoingNavClick
+            , sdmNavClick;
+
+        incomingNavClick = function () {
+            $.ajax({
+                url: domId("rootPath").value + "/MWProcessing/Fn01LM_Statistics/StatisticsIncoming"
+                , type: "POST"
+                , data: {
+                    View: "Incoming"
+                }
+                , beforeSend: function () {
+                    attr("influx", "html", "Loading...")
+                }
+                , success: function (data) {
+                    $("#influx").html(data);
+                }
+            });
+        };
+
+        outgoingNavClick = function () {
+            obj = document.getElementById("PartialOutgoing")
+            //if (!obj) {
+            $.ajax({
+                url: domId("rootPath").value + "/MWProcessing/Fn01LM_Statistics/StatisticsOutgoing"
+                , type: "POST"
+                , data: {
+                    View: "Outgoing"
+                }
+                , beforeSend: function () {
+                    attr("output", "html", "Loading...")
+                }
+                , success: function (data) {
+                    $("#output").html(data);
+                }
+            })
+            //}
+        }
+
+        sdmNavClick = function () {
+            obj = document.getElementById("PartialSDM")
+            //if (!obj) {
+            $.ajax({
+                url: domId("rootPath").value + "/MWProcessing/Fn01LM_Statistics/StatisticsSDM"
+                , type: "POST"
+                , data: {
+                    View: "SDM"
+                }
+                , beforeSend: function () {
+                    attr("sdm", "html", "Loading...")
+                }
+                , success: function (data) {
+                    $("#sdm").html(data);
+                }
+            })
+            //}
+        };
+
+        $("#incomingNav").on("click", function () {
+            incomingNavClick();
+        });
+
+        $("#outgoingNav").on("click", function () {
+            outgoingNavClick();
+        });
+
+        $("#sdmNav").on("click", function () {
+            sdmNavClick();
+        });
+        incomingNavClick();
+    });
+
+    function openStatistics(evt, statisticsName) {
+        //console.log(evt, statisticsName);
+        var i, x, tablinks;
+        x = document.getElementsByClassName("statistics");
+        //console.log(x);
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-yellow", "");
+        }
+        document.getElementById(statisticsName).style.display = "block";
+        evt.currentTarget.className += " w3-yellow";
+    }
+
+    function Export(received_date, exportReportType, exportType) {
+        $.ajax({
+            url: domId("rootPath").value + "/MWProcessing/Fn01LM_Statistics/Export",
+            type: "POST",
+            data: {
+                Received_Date: received_date,
+                ExportReportType: exportReportType,
+                ExportType: exportType
+            },
+            success: function (d) {
+                if (d != null && d.key != null) {
+                    if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                    if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                    dlForm.method = "post";
+                    dlForm.target = "dlFrame";
+                    dlForm.action = "Export";
+                    dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                    dlForm.submit();
+                    attr(dlForm, "html", "");
+                    //dropClass(exportingDom, "exporting");
+                }
+            }
+        })
+    }
+
+</script>

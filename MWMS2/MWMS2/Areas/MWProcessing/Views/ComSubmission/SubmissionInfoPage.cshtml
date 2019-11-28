@@ -1,0 +1,820 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_SSModel
+
+<div class="panelHeader">Submission Information</div>
+
+<div class="displayForm" id="searchCriteria">
+    @Html.HiddenFor(model => model.P_MW_REFERENCE_NO.REFERENCE_NO)
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Minor Work No./VS No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Document Processing
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.MW_PROGRESS_STATUS_CODE
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Commencement Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @(Model.P_MW_RECORD.COMMENCEMENT_DATE != null ? Convert.ToDateTime(Model.P_MW_RECORD.COMMENCEMENT_DATE).ToString("dd/MM/yyyy") : "")
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Completion Date(Latest Reported)
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @(Model.PemCompetionDate != null ? Convert.ToDateTime(Model.P_MW_RECORD.COMPLETION_DATE).ToString("dd/MM/yyyy") : "")
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                File Reference No
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.FILEREF_FOUR / @Model.P_MW_RECORD.FILEREF_TWO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Completion Date(Acknowledged)
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.COMPLETION_DATE
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Address of minor works carried out
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.AddressCarriedOut
+            </div>
+            <div class="w3-col l3 m12 s12">
+                RVD No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.PERMIT_NO
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Total no. of premises under the Form
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.NO_OF_PREMISES
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Previous MW No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_REFERENCE_NO.CATEGORY_CODE
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panelHeader">Privacy Information: Particulars of Person who arranged to carry out works</div>
+
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                English Name
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.NAME_ENGLISH
+            </div>
+            <div class="w3-col l3 m12 s12">
+                HKID/B.R./Passport No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.ID_NUMBER
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Chinese Name
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.NAME_CHINESE
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Country of Issue
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.ID_ISSUE_COUNTRY
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Correspondence Address
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.CorrespondenceAddress
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Email Address
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.EMAIL
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Contact No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.CONTACT_NO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Fax No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OWNER.FAX_NO
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panelHeader">Privacy Information: Particulars of the person for whom the signboard is to be erected</div>
+
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                English Name
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.NAME_ENGLISH
+            </div>
+            <div class="w3-col l3 m12 s12">
+                HKID/B.R./Passport No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.ID_NUMBER
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Chinese Name
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.NAME_CHINESE
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Country of Issue
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.ID_ISSUE_COUNTRY
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Correspondence Address
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.CorrespondenceAddressOfSignboard
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Email Address
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.EMAIL
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Contact No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.CONTACT_NO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Fax No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.SIGNBOARD.FAX_NO
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panelHeader">Minor Work Item</div>
+
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <table class="w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Item No.
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Relevant Order/Direction/Notice No./BD Reference No.
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ItemList)
+                    {
+                        <tr>
+                            <td class="w3-padding">
+                                @item.MW_ITEM_CODE
+                            </td>
+                            <td class="w3-padding">
+                                @item.LOCATION_DESCRIPTION
+                            </td>
+                            <td class="w3-padding">
+                                @item.RELEVANT_REFERENCE
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="w3-container footer">
+                <button id="mwHistoryBtn" class="btn btn-default w3-right" onclick="clickHistory()" type="button">History</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divFianlItem" hidden class="w3-border displayForm">
+    <div class="panelHeader">
+        Minor Work Item
+    </div>
+    <table id="tableFinalItem" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Item No.
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Relevant Order/ Direction/ Notice No./ BD Reference No.
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.FinalP_MW_RECORD_ITEMs)
+            {
+                <tr>
+                    <td>
+                        @item.MW_ITEM_CODE
+                    </td>
+                    <td style="white-space: normal;width: 500px;">
+                        @item.LOCATION_DESCRIPTION
+                    </td>
+                    <td>
+                        @item.RELEVANT_REFERENCE
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<br />
+
+<div class="panelHeader">Prescribed Building Professional & Prescribed Registered Contractor</div>
+
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <table class="w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            PBP/PRC
+                        </th>
+                        <th>
+                            Certificate of Registration No.
+                        </th>
+                        <th>
+                            English Name
+                        </th>
+                        <th>
+                            Chinese Name
+                        </th>
+                        <th>
+                            English Name of AS
+                        </th>
+                        <th>
+                            Chinese Name of AS
+                        </th>
+                        <th>
+                            Privacy Tel No.
+                        </th>
+                        <th>
+                            Info Fax No.
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ProfessionalList)
+                    {
+                        <tr>
+                            <td class="w3-padding">
+                                @item.IdentifyFlag
+                            </td>
+                            <td class="w3-padding">
+                                @item.CertificationNo
+                            </td>
+                            <td class="w3-padding">
+                                @item.EnglishName
+                            </td>
+                            <td class="w3-padding">
+                                @item.ChineseName
+                            </td>
+                            <td class="w3-padding">
+                                @item.ApEnglishName
+                            </td>
+                            <td class="w3-padding">
+                                @item.ApChineseName
+                            </td>
+                            <td class="w3-padding">
+                                @item.ContactNo
+                            </td>
+                            <td class="w3-padding">
+                                @item.FaxNo
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="w3-container footer">
+                <button id="mwHistoryBtn" class="btn btn-default w3-right" type="button">History</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panelHeader">Submitted Document</div>
+<div class="displayForm">
+    <div id="submissionDocResultPanel"></div>
+    <table id="NicTable" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Document Type
+                </th>
+                <th>
+                    Received Date
+                </th>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Document Title
+                </th>
+                <th>
+                    View Image
+                </th>
+                <th>
+                    Folder Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsNIC.Count(); i++)
+            {
+                string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH;
+                <tr>
+                    @Html.HiddenFor(model => model.P_MW_SCANNED_DOCUMENTsNIC[i].UUID)
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOCUMENT_TYPE
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DSN_SUB
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOC_TITLE
+                    </td>
+                    <td>
+                        @*<a onclick="popupWind('DownloadFile?path=@Url.Content(filePath)')"><img src="~/img/view.gif" /></a>*@
+                        <a onclick="openNewTab(domId('rootPath').value + '/Doc/Download', [{name: 'fileType', value: 'PEM'}, {name: 'fileUuid', value: '@filePath'}])"><img src="~/img/view.gif" /></a>
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="panelHeader">Issued Correspondence</div>
+
+<div class="displayForm">
+    <div id="issuedResultPanel"></div>
+    <table id="IcTable" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Letter Type
+                </th>
+                <th>
+                    Issued Date
+                </th>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Letter Template No.
+                </th>
+                <th>
+                    View Image
+                </th>
+                <th>
+                    Folder Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsIC.Count(); i++)
+            {
+                string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH;
+                <tr>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DOCUMENT_TYPE
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DSN_SUB
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].TEMPLATE_NO
+                    </td>
+                    <td>
+                        @*<a onclick="popupWind('DownloadFile?path=@Url.Content(filePath)')"><img src="~/img/view.gif" /></a>*@
+                        <a onclick="openNewTab(domId('rootPath').value + '/Doc/Download', [{name: 'fileType', value: 'PEM'}, {name: 'fileUuid', value: '@filePath'}])"><img src="~/img/view.gif" /></a>
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="panelHeader">Processing Handling</div>
+
+<div class="displayForm">
+    <table class="w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Processing Form
+                </th>
+                <th>
+                    DSN
+                </th>
+                <th>
+                    Submission Nature
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Remarks
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ProcessingList)
+            {
+                <tr>
+                    <td class="w3-padding">
+                        <a href="javascript:void(0);" onclick="processingFormDetail('@item.UUID')">@item.S_FORM_TYPE_CODE</a>
+                    </td>
+                    <td class="w3-padding">
+                        @item.MW_DSN
+                    </td>
+                    <td class="w3-padding">
+                        @item.CLASS_CODE
+                    </td>
+                    <td class="w3-padding">
+                        @item.CREATED_DATE
+                    </td>
+                    <td class="w3-padding"></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div class="displayForm">
+    <table id="tableHandlingDetail" class="w3-hoverable resultTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Handling Officers</th>
+                <th>Processing Pages</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>TO:</td>
+            <td>
+                <div id="div_v_TO" style="display:none;">
+                    <img id="v_to" src="~/img/view.gif" onclick="viewTO('TO')" />
+                    Verification Checklist
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>PO:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SPO:</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<div class="panelHeader">Particulars of OC/Management Company</div>
+
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Name
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.NAME_ENGLISH
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Fax No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.FAX_NO
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Correspondence Address
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OIAddress.ENGLISH_DISPLAY
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Contact No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.CONTACT_NO
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Name of Representative of PRC
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.PRC
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Contact No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.PRC_CONTACT_NO
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Name of Representative of PBP
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.PBP
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Contact No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.OI.PBP_CONTACT_NO
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="panelHeader">Item 3.6 /WI1 form</div>
+<div id="WIform"></div>
+
+<div class="panelHeader">Modification</div>
+<div id="Modification">
+
+</div>
+
+<div class="panelHeader">File Reference</div>
+<div id="FileRefer">
+
+</div>
+
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button id="backBtn" class="btn btn-default" type="button">Back</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchWI1Form"
+            , searchTable: "searchCriteria"
+            , resultPanel: "WIform"
+            , Columns: [
+                {
+                    displayName: "BLOCK ID", columnName: "BLOCK_ID"
+                }
+                ,
+                {
+                    displayName: "UNIT ID", columnName: "UNIT_ID"
+                }
+                ,
+                {
+                    displayName: "NATURE", columnName: "NATURE"
+                }
+                ,
+                {
+                    displayName: "RECEIVED DATE", columnName: "RECEIVED_DATE"
+                }
+                ,
+                {
+                    displayName: "FORM TYPE", columnName: "FORM_TYPE"
+                }
+                ,
+                {
+                    displayName: "MW NO.", columnName: "MW_NO"
+                }
+                ,
+                {
+                    displayName: "PBP", columnName: "PBP"
+                }
+                ,
+                {
+                    displayName: "PRC", columnName: "PRC"
+                }
+                ,
+                {
+                    displayName: "WORK LOCATION", columnName: "WORK_LOCATION"
+                }
+                ,
+                {
+                    displayName: "Commencement Date", columnName: "COMM_DATE"
+                }
+                ,
+                {
+                    displayName: "Completion Date", columnName: "COMP_DATE"
+                }
+                ,
+                {
+                    displayName: "PAW", columnName: "PAW"
+                }
+                ,
+                {
+                    displayName: "PAW CONTACT", columnName: "PAW_CONTACT"
+                }
+                ,
+                {
+                    displayName: "LETTER DATE", columnName: "LETTER_DATE"
+                }
+                ,
+                {
+                    displayName: "UMW NOTICE NO", columnName: "UMW_NOTICE_NO"
+                }
+                ,
+                {
+                    displayName: "BD REF", columnName: "BD_REF"
+                }
+                ,
+                {
+                    displayName: "V SUBMISSION CASE NO", columnName: "V_SUBMISSION_CASE_NO"
+                }
+                ,
+                {
+                    displayName: "STATUTORY NOTICE NO", columnName: "STATUTORY_NOTICE_NO"
+                }
+            ]
+        }).goToPage();
+
+        new searcher({
+            searchPath: "SearchModData"
+            , searchTable: "searchCriteria"
+            , resultPanel: "Modification"
+            , Columns: [
+                {
+                    displayName: "Mod. Ref. No", columnName: "REFERENCE_NO"
+                }
+                ,
+                {
+                    displayName: "Email Address", columnName: "EMAIL"
+                }
+                ,
+                {
+                    displayName: "DSN", columnName: "DSN"
+                }
+            ]
+        }).goToPage();
+
+        new searcher({
+            searchPath: domId("rootPath").value + "/MWProcessing/ComSubmission/SearchFileRefer"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "FileRefer"
+            , Columns: [
+                {
+                    displayName: "File Reference(4+2)", columnName: "FILE_REF"
+                }
+                , {
+                    displayName: "Block ID", columnName: "BLK"
+                }
+                , {
+                    displayName: "Unit ID", columnName: "UNIT"
+                }
+            ]
+        }).goToPage();
+    });
+
+    domReady(function () {
+        var event_backTo;
+
+        event_backTo = function () {
+            var url = domId("rootPath").value + "/MWProcessing/" + getQueryVariable("backTo");
+            goTo(url, null);
+        };
+
+        attr("backBtn", "onclick", { parameters: {}, callback: event_backTo });
+    });
+
+    function processingFormDetail(r_uuid) {
+        $.post(domId("rootPath").value + "/MWProcessing/ComSubmission/CheckIsVeri", { id: r_uuid }, function (data) {
+            console.log(data.Data.V_UUID);
+            $("#tableHandlingDetail").css("display", "table");
+            if (data.Data.V_UUID != null && data.Data.V_UUID != "") {
+                $("#div_v_TO").css("display", "block");
+                $("#v_to").data("r_uuid", r_uuid);
+                $("#v_to").data("v_uuid", data.Data.V_UUID);
+            } else {
+                $("#div_v_TO").css("display", "none");
+            }
+        }, "json");
+
+    }
+
+    function viewTO(type) {
+        var r_uuid = $("#v_to").data("r_uuid");
+        var v_uuid = $("#v_to").data("v_uuid");
+        goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Verification", [{ name: "R_UUID", value: r_uuid }, { name: "V_UUID", value: v_uuid }, { name: "IsReadonly", value: "true" }]);
+    }
+
+    function clickHistory() {
+        var divFianlItem = document.getElementById("divFianlItem");
+        divFianlItem.hidden = !divFianlItem.hidden;
+
+    }
+</script>

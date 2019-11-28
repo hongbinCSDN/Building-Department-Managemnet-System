@@ -1,0 +1,229 @@
+﻿@model MWMS2.Models.CMNSearch
+
+@*@model IEnumerable<MWMS2.Dao.WL>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SUBJECT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CATEGORY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REGISTRATION_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MW_SUBMISSION_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MW_ITEMS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.COMP_CONTRACTOR_NAME_ENG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.COMP_CONTRACTOR_NAME_CHI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CREATION_DATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SECTION_UNIT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AUTHOR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FILE_REF_FOUR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FILE_REF_TWO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WL_ISSUED_BY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.POST)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CASE_OFFICER)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RELATED_TO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SOURCE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LETTER_ISSUE_DATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LETTER_FILE_PATH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AUTHORIZED_SIGNATURE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.STATUS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REMARK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CREATED_DATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CREATED_BY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MODIFIED_DATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MODIFIED_BY)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBJECT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATEGORY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REGISTRATION_NO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MW_SUBMISSION_NO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MW_ITEMS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COMP_CONTRACTOR_NAME_ENG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COMP_CONTRACTOR_NAME_CHI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATION_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SECTION_UNIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AUTHOR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FILE_REF_FOUR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FILE_REF_TWO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WL_ISSUED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.POST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CASE_OFFICER)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RELATED_TO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SOURCE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LETTER_ISSUE_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LETTER_FILE_PATH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AUTHORIZED_SIGNATURE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.STATUS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.REMARK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATED_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODIFIED_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODIFIED_BY)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UUID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UUID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UUID })
+            </td>
+        </tr>
+        }
+
+    </table>*@
+
+    <h3>Search</h3>
+    @*@using (Html.BeginForm())
+    {
+    @Html.TextBoxFor(s => s.CMNSearchKeyWord);
+    <input type="submit" value="Generate report" />
+    }*@
+
+
+    @*<form style="margin-left:10px;" method="post" action="/CMN/GetSearchKeyword">
+        <div class="form-group">
+            <label for="exampleInputEmail1">學號</label>
+            <input type="text" class="form-control" id="CMNSearchKeyWord" name="CMNSearchKeyWord" aria-describedby="emailHelp" placeholder="Enter email" value="@Model.CMNSearchKeyWord">
+            <small id="emailHelp" class="form-text text-muted">請輸入數字</small>
+        </div> <button type="submit" class="btn btn-primary">確定</button>
+    </form>*@
+
+
+
+
+    @*@using (Ajax.BeginForm("m_GetSearchKeyword", "MWMS2", new AjaxOptions { }))
+    {
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CMNSearchKeyWord)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CMNSearchKeyWord)
+    </div>
+    <p>
+        <input type="submit" value="Calculate" />
+    </p>
+    }*@
+
+
+    <form style="margin-left:10px;" method="post" action="/CMN/GetSearchKeyword">
+        <div class="w3-card" style="padding:50px;height:100%; text-align:center; ">
+
+            <div class="">
+                <input onclick="CMN01_changeType(2)" type="radio" value="2" name="searchType" id="searchType2" checked><label for="searchType2" onclick="CMN01_changeType(2)">Minor Works Record Search</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input onclick="CMN01_changeType(1)" type="radio" value="1" name="searchType" id="searchType1"><label for="searchType1" onclick="CMN01_changeType(1)">Registers Search</label>
+            </div>
+            <br>
+            <input type="text" style="max-width:1000px;font-size:16px;" id="CMNSearchKeyWord" name="CMNSearchKeyWord" placeholder="Street / 4+2 / Reference No.(e.g. MW No.) / DSN..."></input>
+            <button class="btn btn-default" type="submit" onclick="CMM01Search()" style="margin-left:-8px;"><i class="fa fa-search"></i></button>
+
+            <br /><br />
+            <button class="btn btn-default" type="submit" onclick="CMN01AdvanceSearch()" style="margin-left:-8px;"><i class="fa fa-search"></i>Advanced Search</button>
+
+
+
+
+        </div>
+    </form>

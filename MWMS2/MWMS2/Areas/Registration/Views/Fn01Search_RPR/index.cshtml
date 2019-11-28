@@ -1,0 +1,937 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_RPRSearchModel
+@Html.HiddenFor(model => model.mwItemStr, new { @id = "mwItemStr" })
+<style>
+.sTable{
+	background:#000;	
+}
+.sTable td{
+	background:#FFF;	
+}
+.scrollTableDivUpper {
+	border:1px solid #999999;
+	overflow:hidden;
+	height:22px;
+	width:100%
+}
+.scrollTableDivUpper TD {
+	border-right:0px solid #999999;
+	border-bottom:0px solid #999999;
+	/*font-size:10px;*/
+	font-weight:normal;
+}
+.scrollTable .scrollTableHeader TD {
+	background-color:#CCCCCC;
+	color:black;
+	font-weight:bold;
+	background-image:url(../images/spacer.gif);
+	height:22px;
+	vertical-align:top !important;
+}
+.scrollTableDivLower {
+	border:1px solid #999999;
+	border-top:1px solid #999999;
+	overflow:auto;
+	background-color:#FFFFFF;
+}
+.scrollTableDivLower TD {
+	border-right:0px solid #999999;
+	border-bottom:0px solid #999999;
+	/*font-size:11px;*/
+	font-weight:normal
+}
+.scrollTable {
+}
+.scrollTable TD {
+	color:black;
+	padding:0px 5px 0px 5px;
+	border:0px solid red;
+	height:18px
+}
+.scrollTable .row1 TD {
+	color:black
+}
+.scrollTable .row2 TD {
+	color:black
+}
+.scrollTable .row1 .col1 {
+	color:black
+}
+.scrollTable .row2 .col1 {
+	color:black
+}
+.scrollTable .cellType1 {
+	text-align:center
+}
+.scrollTable .row1 .cellType1 {
+	text-align:center
+}
+.scrollTable .row2 .cellType1 {
+	text-align:center
+}
+.scrollTable .checkBoxCol {
+	width:30px;
+	vertical-align:top;
+	text-align:center
+}
+</style>
+
+<script>
+    var list1 = new Array();
+    //list1[0] = '';
+    //list1[1] = 'All(And)';
+    list1[0] = '(A)';
+    list1[1] = '(E)';
+    list1[2] = '(S)';
+    var list2 = new Array();
+    //list2[0] = '';
+    //list2[1] = 'All(And)';
+    list2[0] = '(D)';
+    list2[1] = '(F)';
+    list2[2] = '(GI)';
+    list2[3] = '(SF)';
+    list2[4] = '(V)';
+    var list3 = new Array();
+    //list3[0] = '';
+    //list3[1] = 'All(And)';
+    list3[0] = '(A)';
+    list3[1] = '(B)';
+    list3[2] = '(C)';
+    list3[3] = '(D)';
+    list3[4] = '(E)';
+    list3[5] = '(F)';
+    list3[6] = '(G)';
+    //list4
+    //var list4 = $('#mwItemStr');
+    var mwType = [
+        "Plumber",
+        "Electrical Fitter",
+        "Eletrical Worker <br/>(Air-conditioning Installation)",
+        "Electrical Worker<br/>(Neon Sign Installation)",
+        "Communication System Mechanic / Electronics Mechanic",
+        "Refrigeration/<br/>Air-conditioning / Ventilation Mechanic / Refrigeration/<br/>Air-conditioning/ Ventilation Mechanic <br/>(Air System) /<br/>(Unitary System) / <br/>(Water System) Refrigeration /<br/>Air-conditioning MechanicRefrigeration/<br/>Air-conditioning Mechanic (Electrical Control)",
+        "Demolition Worker / Demolition Worker (Unauthorized Building Works)",
+        "Metal Worker",
+        "Window Frame Installer",
+        "Painter and Decorator",
+        "Joiner",
+        "Marble Worker",
+        "Glazier",
+        "Curtain Wall Installer",
+        "Bricklayer",
+        "Plasterer",
+        "Tiler",
+        "Concrete Repairer (Spalling Concrete)",
+        "Group A",
+        "Group B",
+        "Group C",
+        "Group D",
+        "Group E",
+        "Group F",
+        "Group G"
+    ];
+
+    var mwItem = [
+        ["3.14", "3.23", "3.24"],
+        ["3.2", "3.15", "3.26", "3.27", "3.28", "3.34", "3.35"],
+        ["3.2", "3.26", "3.27", "3.28", "3.34", "3.35"],
+        ["3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.22"],
+        ["3.8", "3.9", "3.10"],
+        ["3.2", "3.26", "3.27", "3.28", "3.34", "3.35"],
+        ["3.1", "3.2", "3.4", "3.5", "3.7", "3.8", "3.10", "3.13", "3.18", "3.19", "3.20", "3.21", "3.22", "3.24", "3.26", "3.30", "3.32", "3.33"],
+        ["3.2", "3.3", "3.9", "3.10", "3.13", "3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.22", "3.25", "3.26", "3.27", "3.28", "3.29", "3.30", "3.31", "3.33", "3.34", "3.35", "3.36", "3.37", "3.38"],
+        ["3.3", "3.6", "3.7", "3.13", "3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.25", "3.26", "3.29", "3.30", "3.31", "3.33", "3.36", "3.37", "3.38"],
+        ["3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.25", "3.26", "3.29", "3.30", "3.36", "3.37", "3.38"],
+        ["3.3", "3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.31"],
+        ["3.3", "3.17", "3.20", "3.21", "3.31", "3.41", "3.42"],
+        ["3.3", "3.6", "3.7"],
+        ["3.6", "3.7"],
+        ["3.11", "3.12", "3.39", "3.40", "3.41", "3.42"],
+        ["3.39", "3.40", "3.41", "3.42"],
+        ["3.39", "3.40", "3.41", "3.42"],
+        ["3.41", "3.42"],
+        ["3.1", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15", "3.24", "3.25", "3.26", "3.27", "3.28", "3.29", "3.30", "3.31", "3.32", "3.33", "3.34", "3.35", "3.36", "3.37", "3.38"],
+        ["3.2", "3.12"],
+        ["3.16", "3.17", "3.18", "3.19", "3.20", "3.21", "3.22"],
+        ["3.23", "3.24"],
+        ["3.2", "3.14", "3.15", "3.25", "3.26", "3.27", "3.28", "3.29", "3.30", "3.34", "3.35", "3.36", "3.37", "3.38"],
+        ["3.31"],
+        ["3.1", "3.2", "3.4", "3.5", "3.7", "3.8", "3.10", "3.18", "3.19", "3.20", "3.21", "3.22", "3.24", "3.26", "3.30", "3.32", "3.33"]
+    ];
+
+    eval($('#mwItemStr').val());
+
+
+    $('document').ready(function () {
+        var app_list = $(".application_type");
+        var sub_list = $(".sub_type");
+        $(app_list).not(":eq(0)").attr("disabled", true);
+        $(sub_list).not(":eq(0)").attr("disabled", true);
+
+        $(app_list).change(function () {
+
+            switch ($(this).find(":selected").attr("list")) {
+                case "1":
+                    addOption($(sub_list).eq($(app_list).index(this)), ['And', 'Or']);
+                    break;
+                case "2":
+                    addOption($(sub_list).eq($(app_list).index(this)), ['And', 'Or']);
+                    break;
+                case "3":
+                    addOption($(sub_list).eq($(app_list).index(this)), ['And', 'Or']);
+                    break;
+                case "4":
+                    addOption($(sub_list).eq($(app_list).index(this)), ['And', 'Or']);
+                    break;
+                default:
+                    addOption($(sub_list).eq($(app_list).index(this)), null);
+                    break;
+            }
+
+            var _i = $(app_list).index(this);
+            if ($(app_list).eq(_i + 1).val() == "" || $(this).val() == "") {
+                $(app_list).attr("disabled", false);
+                $(sub_list).attr("disabled", false);
+                for (var i = _i; i < $(app_list).length; i++) {
+                    var _tar = i + 1;
+                    if ($(this).val() != "") {
+                        _tar++;
+                    }
+                    $(app_list).eq(_tar).attr("disabled", true).val("");
+                    $(sub_list).eq(_tar).find("option").remove();
+                    $(sub_list).eq(_tar).attr("disabled", true);
+                    hideMwItem($(".mwItem").eq(_tar));
+                    hideMwItem($(".mwType").eq(_tar));
+                    hideMwItem($(".scType").eq(_tar));
+                    hideMwItem($(".apType").eq(_tar));
+                    //$(".mwItem").eq(_tar).hide();
+                }
+            }
+
+            $(".at" + _i).remove();
+            console.log("###" + $(this).find(":selected").val());
+            if ($(this).val() != "MWC(W)" || $(this).val().indexOf("MWC - ") != -1 || $(this).val().indexOf("MWC(P) - ") != -1 || $(this).val().indexOf("SC") != -1 || $(this).val().indexOf("AP") != -1 || $(this).val().indexOf("RI") != -1) {
+                $("#rc_orderBy").append("<option class='at" + _i + "' value='" + $(this).find(":selected").val() + "'>" + $(this).find(":selected").val() + "</option>");
+            } else {
+                var has_mwcw = false;
+                $("#rc_orderBy").find("option").each(function () {
+                    if ($(this).val() == "MWC(W)") {
+                        has_mwcw = true;
+                        return false;
+                    }
+                });
+                if (!has_mwcw) {
+                    $("#rc_orderBy").append("<option class='at" + _i + "' value='" + $(this).find(":selected").val() + "'>" + $(this).find(":selected").val() + "</option>");
+                }
+            }
+
+            if ($(this).val() == "MWC(W)") {
+                $(".mwItem").eq(_i).show();
+                $(".mwItemList").eq(_i).show();
+            } else {
+                hideMwItem($(".mwItem").eq(_i));
+                hideMwItem($(".mwItemList").eq(_i));
+            }
+
+            if ($(this).val().indexOf("MWC - ") != -1 || $(this).val().indexOf("MWC(P) - ") != -1) {
+                $(".mwType").eq(_i).show();
+            } else {
+                hideMwItem($(".mwType").eq(_i));
+            }
+
+            if ($(this).val().indexOf("SC") != -1) {
+                $(".scType").eq(_i).show();
+            } else {
+                hideMwItem($(".scType").eq(_i));
+            }
+
+            if ($(this).val().indexOf("AP") != -1 || $(this).val().indexOf("RI") != -1) {
+                $(".apType").eq(_i).show();
+            } else {
+                hideMwItem($(".apType").eq(_i));
+            }
+
+        });
+
+        $(sub_list).change(function () {
+
+            var app_list = $(".application_type");
+            var sub_list = $(".sub_type");
+
+            if ($(app_list).eq($(sub_list).index(this)).val() == "MWC(W)") {
+                return;
+            }
+
+            var _i = $(sub_list).index($(this));
+            //var _type = $(".at" + _i).val() + $(this).val();
+            var _type = $(app_list).eq($(sub_list).index(this)).find(":selected").val() + $(this).val().replace("All", "");
+
+            $(".at" + _i).remove();
+            $("#rc_orderBy").append("<option class='at" + _i + "' value='" + _type + "'>" + _type + "</option>");
+        });
+
+        initMwItem();
+        initMwType();
+        initScType();
+        initApType();
+
+        var str = "<table cellspacing='1' cellpadding='1' board='0' >";
+        str += "<tr><td><input type='checkbox' class='checkAll' onclick='checkAll2(this)' /></td><td>-Check All-</td></tr>";
+        $(mwType).each(function (i, e) {
+            //str += "<option value='"+ i +"' title='"+ e +"'>"+ e +"</option>";
+            str += "<tr><td valign='top'><input type='checkbox' value='" + i + "' onclick='itemSelection(this);' /></td><td>" + e + "</td></tr></div>";
+        });
+        str += "<table>";
+        $(".mwItemList").append(str);
+
+        $(".mwItemList :checkbox").click(function () {
+            var _selected = $(this).closest("table").find(":checked").not(".checkAll");
+            var _i = $(".mwItemList").index($(this).closest("div"));
+            $(".mwItem").eq(_i).find(":checked").not(".checkAll").removeAttr("checked");
+            //$(".mwItem").eq(_i).find(":checked").attr("checked", false);
+
+            if ($(this).val() == "on") {
+                //_i = $(".mwItemList").index($(this).parent());
+                if ($(this).attr("checked")) {
+                    $(".mwItem").eq(_i).find(":checkbox").attr("checked", true);
+                } else {
+                    $(".mwItem").eq(_i).find(":checkbox").removeAttr("checked");
+                }
+                return;
+            }
+
+            $(_selected).each(function (i, e) {
+                var fillItem = mwItem[parseInt($(e).val())];
+                if (fillItem.length > 0) {
+                    $(".mwItem").eq(_i).find(":checkbox").each(function (j, f) {
+                        if ($.inArray($(f).val().replace("Item ", ""), fillItem) != -1) {
+                            $(f).attr("checked", true);
+                        } else {
+                            //$(f).attr("checked", false);
+                        }
+                    });
+                } else {
+                    $(".mwItem").eq(_i).find(":checkbox").removeAttr("checked");
+                }
+            });
+
+        });
+
+        hideMwItem($(".mwItemList"));
+
+    });
+
+    function hideMwItem(mwItemList) {
+        $(mwItemList).find(":checked").removeAttr("checked");
+        $(mwItemList).hide();
+    }
+
+    function initMwItem() {
+        var _html = "";
+        for (var i = 0; i < list4.length; i++) {
+            _html += "<div><input type='checkbox'  value='" + list4[i] + "' onclick='mwcwOrderBy(this);' />" + list4[i] + "</div>";
+        }
+        _html += "";
+        $(".mwItem").append(_html);
+        hideMwItem($(".mwItem"));
+    }
+
+    function initMwType() {
+        var _html = "";
+        for (var i = 0; i < list3.length; i++) {
+            _html += "<div><input type='checkbox'  value='" + list3[i] + "' onclick='mwcwOrderBy(this);' />" + list3[i] + "</div>";
+        }
+        _html += "";
+        $(".mwType").append(_html);
+        hideMwItem($(".mwType"));
+    }
+
+    function initScType() {
+        var _html = "";
+        for (var i = 0; i < list2.length; i++) {
+            _html += "<div><input type='checkbox'  value='" + list2[i] + "' onclick='mwcwOrderBy(this);' />" + list2[i] + "</div>";
+        }
+        _html += "";
+        $(".scType").append(_html);
+        hideMwItem($(".scType"));
+    }
+
+    function initApType() {
+        var _html = "";
+        for (var i = 0; i < list1.length; i++) {
+            _html += "<div><input type='checkbox'  value='" + list1[i] + "' onclick='mwcwOrderBy(this);' />" + list1[i] + "</div>";
+        }
+        _html += "";
+        $(".apType").append(_html);
+        hideMwItem($(".apType"));
+    }
+
+    function mwcwOrderBy(_this) {
+        //if (!_this.checked) {
+        //    //$(_this).parent().parent().find(":checkbox").is(".checkAlls").prop("checked", false);
+        //    $(_this).parent().parent().find(".checkAlls").prop("checked", false);
+        //}
+        var checkboxList = $(_this).parent().parent().find(":checkbox").not(".checkAlls");
+        console.log(checkboxList);
+        for (i = 0; i < checkboxList.length; i++) {
+            console.log(checkboxList[i].checked);
+            if (checkboxList[i].checked == false) {
+                $(_this).parent().parent().find(".checkAlls").prop("checked", false);
+                return;
+            }
+        }
+        $(_this).parent().parent().find(".checkAlls").prop("checked", true);
+        //;
+        //var _i = $(".mwItem").index($(_this).parent().parent());
+        //$(".at" + _i).remove();
+        //$("#rc_orderBy").append("<option class='at"+ _i +"' value='"+ _this.value +"'>" + _this.value + "</option>");
+    }
+
+    function addOption(e, l) {
+        $(e).empty();
+        if (l != null) {
+            $(l).each(function (i) {
+                $(e).append("<option value='" + l[i].replace("(And)", "") + "'>" + l[i] + "</option>");
+            });
+        }
+    }
+
+    function checkAll(_this) {
+        ////var checked = $(_this).attr("checked") == undefined ? false : true;
+        //var checked = $(_this).get(0).checked;//("checked") ? true : false;
+        ////alert(checked);
+        //if (checked) {
+        //    $(_this).parent().find(":checkbox").not(".checkAll").attr("checked", "checked");
+        //} else {
+        //    $(_this).parent().find(":checkbox").not(".checkAll").removeAttr("checked");
+        //}
+       
+        var res = _this.className.split(" ");
+        console.log("***" + $(_this).parent().find(":checkbox").not(".checkAll"));
+        var checked = $('.' + res[1] + ':checked').val() == undefined ? false : true;
+        $(_this).parent().find(":checkbox").not(".checkAll").prop("checked", checked);
+    }
+
+    function checkAll2(_this) {
+
+        var checked = $(_this).get(0).checked;
+        if (checked) {
+            $(_this).closest("table").find(":checkbox").not(".checkAll").prop("checked", true);
+        } else {
+            $(_this).closest("table").find(":checkbox").not(".checkAll").prop("checked",false);
+        }
+    }
+
+    function itemSelection(_this) {
+
+    }
+    function exportExcel() {
+        if (!CheckApplicationType())
+            return; 
+
+        var has_option = false;
+        thisForm = document.getElementById('reportForm');
+
+        $(".application_type").each(function () {
+            //check for at least select one criteria
+            if ($(this).val() != "") {
+                has_option = true;
+                return false;
+            };
+        });
+        if (!has_option) {
+            alert("Please select Registered Type");
+            return;
+        }
+
+        var orderBy = $("#rc_orderBy").find(":selected").val();
+        var subOrderBy = orderBy;
+        if (subOrderBy.lastIndexOf("Item") != -1) {
+            subOrderBy = subOrderBy.substr(subOrderBy.lastIndexOf("Item"));
+        } else {
+            if (subOrderBy.lastIndexOf("(") != -1) {
+                subOrderBy = subOrderBy.substr(subOrderBy.lastIndexOf("(")).replace("(P)", "").replace("(W)", "");
+                if (subOrderBy.indexOf("(") == -1) {
+                    subOrderBy = "";
+                }
+            } else {
+                subOrderBy = "";
+            }
+        }
+        $(".application_type").each(function (i, e) {
+            //MWC(W) sub type handle
+            if ($(this).val() == "MWC(W)") {
+                var _mwItem = "";
+                $(".mwItem").eq(i).find(":checked").not(".checkAll").each(function () {
+                    _mwItem += $(this).val() + "|";
+                });
+                _mwItem = _mwItem.substr(0, _mwItem.length - 1);
+                var submitVal = $(".sub_type").eq(i).val() + "|" + _mwItem;
+                $(".hd_subType").eq(i).val(submitVal);
+
+                if (_mwItem == "") {
+                    $(".hd_subType").eq(i).val($(".sub_type").eq(i).val());
+                }
+            } else {
+                if ($(this).val().indexOf("MWC - ") != -1 || $(this).val().indexOf("MWC(P) - ") != -1) {
+                    var _mwType = "";
+                    $(".mwType").eq(i).find(":checked").not(".checkAll").each(function () {
+                        _mwType += $(this).val() + "|";
+                    });
+                    _mwType = _mwType.substr(0, _mwType.length - 1);
+                    var submitVal = $(".sub_type").eq(i).val() + "|" + _mwType;
+                    $(".hd_subType").eq(i).val(submitVal);
+
+                    if (_mwType == "") {
+                        $(".hd_subType").eq(i).val($(".sub_type").eq(i).val());
+                    }
+                } else {
+                    if ($(this).val().indexOf("SC - ") != -1) {
+                        var _scType = "";
+                        $(".scType").eq(i).find(":checked").not(".checkAll").each(function () {
+                            _scType += $(this).val() + "|";
+                        });
+                        _scType = _scType.substr(0, _scType.length - 1);
+                        var submitVal = $(".sub_type").eq(i).val() + "|" + _scType;
+                        $(".hd_subType").eq(i).val(submitVal);
+
+                        if (_scType == "") {
+                            $(".hd_subType").eq(i).val($(".sub_type").eq(i).val());
+                        }
+                    } else {
+                        if ($(this).val().indexOf("AP") != -1 || $(this).val().indexOf("RI") != -1) {
+                            var _apType = "";
+                            $(".apType").eq(i).find(":checked").not(".checkAll").each(function () {
+                                _apType += $(this).val() + "|";
+                            });
+                            _apType = _apType.substr(0, _apType.length - 1);
+                            var submitVal = $(".sub_type").eq(i).val() + "|" + _apType;
+                            $(".hd_subType").eq(i).val(submitVal);
+
+                            if (_apType == "") {
+                                $(".hd_subType").eq(i).val($(".sub_type").eq(i).val());
+                            }
+                        } else {
+                            $(".hd_subType").eq(i).val($(".sub_type").eq(i).val());
+                        }
+                    }
+                }
+            }
+        });
+        thisForm.excelReportType.value = 'REG_PERSON';
+        thisForm.rc_suborderBy.value = subOrderBy;
+        thisForm.action = 'exportExcelReport';
+        thisForm.submit();
+    }
+
+    function CheckApplicationType() {
+        for (i = 1; i <= 6; i++) {
+            for (h = i + 1; h <= 7; h++) {
+                if ($('#rc_applicationType' + i).val() != null && $('#rc_applicationType' + i).val() != ''
+                    && $('#rc_applicationType' + h).val() != null && $('#rc_applicationType' + h).val() != '') {
+                    if ($('#rc_applicationType' + i).val() == $('#rc_applicationType' + h).val()) {
+                        alert("Application type can not be repeated.");
+                        return false;
+                    }
+                }
+                
+            }
+        }
+        return true;
+    }
+</script>
+<form action="ExportExcelReport" method="post" id="reportForm" target="_BLANK" enctype="multipart/form-data">
+    <input type="hidden" name="excelReportType" id="excelReportType" />
+    <input type="hidden" name="rc_suborderBy" id="rc_suborderBy" />
+    <input type="hidden" name="rc_subType1" id="rc_subType1" class="hd_subType" />
+    <input type="hidden" name="rc_subType2" id="rc_subType2" class="hd_subType" />
+    <input type="hidden" name="rc_subType3" id="rc_subType3" class="hd_subType" />
+    <input type="hidden" name="rc_subType4" id="rc_subType4" class="hd_subType" />
+    <input type="hidden" name="rc_subType5" id="rc_subType5" class="hd_subType" />
+    <input type="hidden" name="rc_subType6" id="rc_subType6" class="hd_subType" />
+    <input type="hidden" name="rc_subType7" id="rc_subType7" class="hd_subType" />
+    <div class="displayForm" style="overflow-x:auto">
+        <table id="Table2" style="BORDER-BOTTOM: #dedfde 1px solid" cellspacing="0" cellpadding="0" width="100%" border="0">
+            <tr>
+                <td style="PADDING-RIGHT: 5px; PADDING-LEFT: 8px; PADDING-BOTTOM: 8px" valign="top">
+                    <div class="panelHeader">Registered Person Report</div>
+
+                    <table id="Table4" cellspacing="5" cellpadding="0" width="710" border="0" class="searchform">
+                        <tr>
+                            <td>
+                                <table id="Table10" cellspacing="0" cellpadding="1" width="100%" border="0">
+                                    <tr>
+                                        <td>Logic:</td>
+                                        <td>
+                                            <select id="Logic" name="Logic">
+                                                <option value="And">And</option>
+                                                <option value="Or">Or</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select id="rc_applicationType1" name="rc_applicationType1" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType2" name="rc_applicationType2" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType3" name="rc_applicationType3" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType4" name="rc_applicationType4" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType5" name="rc_applicationType5" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType6" name="rc_applicationType6" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="rc_applicationType7" name="rc_applicationType7" class="application_type" style="width:200px;">
+                                                <option value=""></option>
+                                                <option value="AP" list="1">AP</option>
+                                                <option value="RSE">RSE</option>
+                                                <option value="RGE">RGE</option>
+                                                <option value="RI" list="1">RI</option>
+                                                <option value="RGBC - AS">RGBC - AS</option>
+                                                <option value="RGBC - TD">RGBC - TD</option>
+                                                <option value="SC - AS" list="2">SC - AS</option>
+                                                <option value="SC - TD" list="2">SC - TD</option>
+                                                <option value="MWC - AS - Class I, II, III" list="3">MWC - AS - Class I, II, III</option>
+                                                <option value="MWC - AS - Class II, III" list="3">MWC - AS - Class II, III</option>
+                                                <option value="MWC - AS - Class III" list="3">MWC - AS - Class III</option>
+                                                <option value="MWC - TD - Class I, II, III" list="3">MWC - TD - Class I, II, III</option>
+                                                <option value="MWC - TD - Class II, III" list="3">MWC - TD - Class II, III</option>
+                                                <option value="MWC - TD - Class III" list="3">MWC - TD - Class III</option>
+                                                <option value="MWC(P) - AS - Class I, II, III" list="3">MWC(P) - AS - Class I, II, III</option>
+                                                <option value="MWC(P) - AS - Class II, III" list="3">MWC(P) - AS - Class II, III</option>
+                                                <option value="MWC(P) - AS - Class III" list="3">MWC(P) - AS - Class III</option>
+                                                <option value="MWC(P) - TD - Class I, II, III" list="3">MWC(P) - TD - Class I, II, III</option>
+                                                <option value="MWC(P) - TD - Class II, III" list="3">MWC(P) - TD - Class II, III</option>
+                                                <option value="MWC(P) - TD - Class III" list="3">MWC(P) - TD - Class III</option>
+                                                <option value="MWC(W)" list="4">MWC(W)</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            <select id="subType1" name="subType1" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList1" name="div_mwItemList1" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem1" name="div_mwitem1" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem1" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType1" name="div_mwType1" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType1" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType1" name="div_scType1" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input  type="checkbox" class="checkAlls div_scType1" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType1" name="div_apType1" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType1" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType2" name="subType2" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList2" name="div_mwItemList2" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem2" name="div_mwitem2" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem2" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType2" name="div_mwType2" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType2" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType2" name="div_scType2" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType2" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType2" name="div_apType2" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType2" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType3" name="subType3" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList3" name="div_mwItemList3" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem3" name="div_mwitem3" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem3" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType3" name="div_mwType3" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType3" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType3" name="div_scType3" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType3" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType3" name="div_apType3" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType3" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType4" name="subType4" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList4" name="div_mwItemList4" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem4" name="div_mwitem4" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem4" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType4" name="div_mwType4" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType4" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType4" name="div_scType4" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType4" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType4" name="div_apType4" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType4" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType5" name="subType5" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList5" name="div_mwItemList5" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem5" name="div_mwitem5" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem5" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType5" name="div_mwType5" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType5" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType5" name="div_scType5" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType5" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType5" name="div_apType5" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType5" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType6" name="subType6" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList6" name="div_mwItemList6" class="mwItemList scrollTableDivLower" style="height:250px;">
+
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem6" name="div_mwitem6" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem6" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType6" name="div_mwType6" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType6" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType6" name="div_scType6" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType6" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType6" name="div_apType6" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType6" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                            <select id="subType7" name="subType7" class="sub_type" style="width:200px;"></select>
+                                            <div id="div_mwItemList7" name="div_mwItemList7" class="mwItemList scrollTableDivLower" style="height:250px;">
+                                            </div>
+                                            <br />
+                                            <div id="div_mwitem7" name="div_mwitem7" class="mwItem scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwitem7" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_mwType7" name="div_mwType7" class="mwType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_mwType7" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_scType7" name="div_scType7" class="scType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_scType7" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                            <div id="div_apType7" name="div_apType7" class="apType scrollTableDivLower" style="height:250px;">
+                                                <input type="checkbox" class="checkAlls div_apType7" onclick="checkAll(this)" />-Check All-
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sort by:</td>
+                                        <td>
+                                            <select name="rc_orderBy" id="rc_orderBy" style="width:200px;">
+                                                <option value="name">Name</option>
+                                                <option value="hkid">HKID/Passport No.</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left:10px">
+                    <table width="1200" id="Table4" border="0" cellSpacing="0" cellPadding="0">
+                        <tr>
+                            <td align="right">
+                                <div class="w3-container footer">
+                                    @*<a href="javascript:exportExcel()"><i class="fa fa-file-export"></i>Export Registered Person Report</a>*@
+                                    <button onclick="exportExcel()" class="searchButton btn btn-default" type="button" id="btnRPT0008">
+                                        <i class="fa fa fa-print"></i>Export Registered Person Report
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

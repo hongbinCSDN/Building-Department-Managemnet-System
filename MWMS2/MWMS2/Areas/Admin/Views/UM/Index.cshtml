@@ -1,0 +1,141 @@
+﻿@model MWMS2.Areas.Admin.Models.Sys_UMModel
+
+
+<div class="panelHeader">Search Criteria </div>
+<form id="inputForm">
+    <div id="searchCriteria" class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.BD_PORTAL_LOGIN) :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.BD_PORTAL_LOGIN, new { @class = "inputUpperCase" })</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.CODE) :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.CODE , new { @class="inputUpperCase" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.SUPERVISOR_ID) : </div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.SUPERVISOR_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.FAX_NO) : </div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.FAX_NO)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.DSMS_USERNAME) : </div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.DSMS_USERNAME)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.IS_ACTIVE) :</div>
+                <div class="w3-col l3 m6 s12">@Html.DropDownListFor(m => m.SYS_POST.IS_ACTIVE, Model.Status, new { })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.SYS_RANK_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.SYS_RANK_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.EMAIL)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.EMAIL)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.PHONE)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.PHONE)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.RECEIVE_CASE)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.RECEIVE_CASE)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.SYS_UNIT_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.SYS_UNIT_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.Role)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.Role)</div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button class="btn btn-default w3-left" type="button" onclick="CreateUser()"><i class="far fa-plus-square"></i> Create User</button>
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="btn btn-default" type="reset"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+</form>
+<br />
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    function CreateUser() {
+        goTo("EditUser");
+    }
+
+    domReady(function () {
+
+
+        new atcp({
+            id: "SYS_POST_SYS_UNIT_ID", dataSource: "SysUnit", valueKey: "UUID", displayKey: "CODE"
+            , columns: [{ "name": "Section", "key": "SECTION" }, { "name": "Unit", "key": "CODE" }, { "name": "Description", "key": "DESCRIPTION" }]
+        });
+        new atcp({
+            id: "SYS_POST_SYS_RANK_ID", dataSource: "SysRank", valueKey: "UUID", displayKey: "CODE"
+            , columns: [{ "name": "Rank", "key": "RANK_GROUP" }, { "name": "Rank", "key": "CODE" }, { "name": "Description", "key": "DESCRIPTION" }]
+        });
+
+
+        new searcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Portal ID", columnName: "BD_PORTAL_LOGIN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("EditUser", [{ name: "id", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "Post Code", columnName: "CODE"
+                }
+                , {
+                    displayName: "Supervisor", columnName: "SUPERVISOR_ID"
+                }
+                , {
+                    displayName: "Email", columnName: "EMAIL"
+                }
+                , {
+                    displayName: "Fax No.", columnName: "FAX_NO"
+                }
+                , {
+                    displayName: "Phone No.", columnName: "PHONE"
+                }
+                , {
+                    displayName: "DSMS Username", columnName: "DSMS_USERNAME"
+                }
+                , {
+                    displayName: "Receive Case?", columnName: "RECEIVE_CASE"
+                }
+                , {
+                    displayName: "Status", columnName: "IS_ACTIVE"
+                }
+                , {
+                    displayName: "Role", columnName: "SYS_ROLE"
+                }
+                , {
+                    displayName: "Rank", columnName: "SYS_RANK_ID"
+                }
+                , {
+                    displayName: "Unit", columnName: "UNITCODE"
+                }
+            ]
+        }).goToPage();
+
+    });
+</script>

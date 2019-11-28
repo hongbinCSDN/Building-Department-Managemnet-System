@@ -1,0 +1,874 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_RCRSearchModel
+<script>
+    var list0 = new Array();
+    var varList0 = new Array();
+    var textList0 = new Array();
+
+    var list1 = new Array();
+    list1[0] = 'And';
+    list1[1] = 'Or';
+    var textList1 = new Array();
+    textList1[0] = '(D)';
+    textList1[1] = '(F)';
+    textList1[2] = '(GI)';
+    textList1[3] = '(SF)';
+    textList1[4] = '(V)';
+    var varList1 = new Array();
+    varList1[0] = '1';
+    varList1[1] = '2';
+    varList1[2] = '3';
+    varList1[3] = '4';
+    varList1[4] = '5';
+
+    var list2 = new Array();
+    list2[1] = 'And';
+    list2[0] = 'Or';
+    var textList2 = new Array();
+    textList2[0] = '(A)';
+    textList2[1] = '(B)';
+    textList2[2] = '(C)';
+    textList2[3] = '(D)';
+    textList2[4] = '(E)';
+    textList2[5] = '(F)';
+    textList2[6] = '(G)';
+    var varList2 = new Array();
+    varList2[0] = 'A';
+    varList2[1] = 'B';
+    varList2[2] = 'C';
+    varList2[3] = 'D';
+    varList2[4] = 'E';
+    varList2[5] = 'F';
+    varList2[6] = 'G';
+
+    function chkCheck(_this)
+    {
+
+      
+        var i = 0;
+        $(_this).parent().find(":checked").not(".checkAll").each(function () {
+            i++;
+        });
+
+        if (i == $(_this).parent().find(":checkbox").not(".checkAll").length) {
+            console.log($(_this).parent().find(".checkAll"));
+            $(_this).parent().find(".checkAll").prop("checked", true)
+
+        }
+        else
+        {
+            $(_this).parent().find(".checkAll").prop("checked", false)
+        }
+
+    }
+
+
+    function checkAll(_this) {
+   
+        var res = _this.className.split(" ");
+        console.log(res);
+        console.log(res[1]);
+       // console.log($("."+res[1]).attr("checked"));
+        console.log($('.'+res[1]+':checked').val());
+        var checked = $('.' + res[1] + ':checked').val() == undefined ? false : true;
+        //var checked = $(_this).attr("checked") == undefined ? false : true;
+        $(_this).parent().find(":checkbox").not(".checkAll").prop("checked", checked);
+    }
+    //function checkAllTrue(_this) {
+    //    $(_this).parent().find(":checkbox").not(".checkAll").attr("checked", true);
+    //}
+    function changeList(source, target, divGroup) {
+        var list;
+        var varList;
+        var textList;
+        if (false) {
+        } else if (source.value == '') {
+            document.getElementById("btnCSV").style.display = "none";
+            list = list0;
+            varList = varList0;
+            textList = textList0;
+        } else if (source.value == 'GBC') {
+            document.getElementById("btnCSV").style.display = "";
+            list = list0;
+            varList = varList0;
+            textList = textList0;
+        } else if (source.value == 'SC') {
+            document.getElementById("btnCSV").style.display = "none";
+            list = list1;
+            varList = varList1;
+            textList = textList1;
+        } else if (source.value == 'MWC - Class I, II, III') {
+            document.getElementById("btnCSV").style.display = "";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        } else if (source.value == 'MWC - Class II, III') {
+            document.getElementById("btnCSV").style.display = "";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        } else if (source.value == 'MWC - Class III') {
+            document.getElementById("btnCSV").style.display = "";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        } else if (source.value == 'MWC(P) - Class I, II, III') {
+            document.getElementById("btnCSV").style.display = "none";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        } else if (source.value == 'MWC(P) - Class II, III') {
+            document.getElementById("btnCSV").style.display = "none";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        } else if (source.value == 'MWC(P) - Class III') {
+            document.getElementById("btnCSV").style.display = "none";
+            list = list2;
+            varList = varList2;
+            textList = textList2;
+        }
+        target.innerHTML = '';
+        for (var i = 0; i < list.length; i++) {
+
+            var oOption = document.createElement("OPTION");
+            oOption.value = list[i];
+            if (i > 1) {
+                oOption.innerHTML = "(" + list[i] + ")";
+            } else {
+                oOption.innerHTML = list[i];
+            }
+            target.appendChild(oOption);
+        }
+        $(divGroup).html("");
+        if (varList.length > 0) {
+            $(divGroup).show();
+            console.log("***");
+            console.log(divGroup.id);
+            
+            $(divGroup).append('<input value="" type="checkbox" class="checkAll ' + divGroup.id+'" onclick="checkAll(this)" />-Check All-');
+        } else {
+
+            $(divGroup).hide();
+        }
+        for (var i = 0; i < varList.length; i++) {
+            var cCheckBox = document.createElement("INPUT");
+            cCheckBox.type = "checkbox";
+            cCheckBox.value = varList[i];
+
+            cCheckBox.onclick = function () {
+                chkCheck(this);
+            };
+
+            $(divGroup).append('<br/>');
+            $(divGroup).append(cCheckBox);
+            $(divGroup).append(textList[i]);
+        }
+    }
+    $('document').ready(function () {
+        $("#rc_applicationType2").attr("disabled", true);
+        $("#rc_applicationType3").attr("disabled", true);
+        $("#rc_applicationType4").attr("disabled", true);
+        $("#rc_applicationType5").attr("disabled", true);
+        $("#rc_applicationType6").attr("disabled", true);
+        $("#rc_applicationType7").attr("disabled", true);
+        $("#rc_subType2").attr("disabled", true);
+        $("#rc_subType3").attr("disabled", true);
+        $("#rc_subType4").attr("disabled", true);
+        $("#rc_subType5").attr("disabled", true);
+        $("#rc_subType6").attr("disabled", true);
+        $("#rc_subType7").attr("disabled", true);
+
+        $('#rc_subType1').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType2').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType3').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType4').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType5').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType6').change(function () {
+            fillOrderBy();
+        });
+        $('#rc_subType7').change(function () {
+            fillOrderBy();
+        });
+
+        $('#rc_applicationType1').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType1'),
+                document.getElementById('rc_subType1'),
+                document.getElementById('divGroup1')
+            );
+            if ($('#rc_applicationType1').val() == "") {
+                for (var i = 2; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType2").attr("disabled", false);
+                $("#rc_subType2").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType2').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType2'),
+                document.getElementById('rc_subType2'),
+                document.getElementById('divGroup2')
+            );
+            if ($('#rc_applicationType2').val() == "") {
+                for (var i = 3; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType3").attr("disabled", false);
+                $("#rc_subType3").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType3').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType3'),
+                document.getElementById('rc_subType3'),
+                document.getElementById('divGroup3')
+            );
+            if ($('#rc_applicationType3').val() == "") {
+                for (var i = 4; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType4").attr("disabled", false);
+                $("#rc_subType4").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType4').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType4'),
+                document.getElementById('rc_subType4'),
+                document.getElementById('divGroup4')
+            );
+            if ($('#rc_applicationType4').val() == "") {
+                for (var i = 5; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType5").attr("disabled", false);
+                $("#rc_subType5").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType5').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType5'),
+                document.getElementById('rc_subType5'),
+                document.getElementById('divGroup5')
+            );
+            if ($('#rc_applicationType5').val() == "") {
+                for (var i = 6; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType6").attr("disabled", false);
+                $("#rc_subType6").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType6').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType6'),
+                document.getElementById('rc_subType6'),
+                document.getElementById('divGroup6')
+            );
+            if ($('#rc_applicationType6').val() == "") {
+                for (var i = 7; i < 8; i++) {
+                    $("#divGroup" + i).html("");
+                    $("#divGroup" + i).hide();
+                    $("#rc_applicationType" + i).val("");
+                    $("#rc_subType" + i).val("");
+                    $("#rc_applicationType" + i).attr("disabled", true);
+                    $("#rc_subType" + i).attr("disabled", true);
+                    changeList(
+                        document.getElementById('rc_applicationType' + i),
+                        document.getElementById('rc_subType' + i)
+                    );
+                }
+            } else {
+                $("#rc_applicationType7").attr("disabled", false);
+                $("#rc_subType7").attr("disabled", false);
+            }
+            fillOrderBy();
+        });
+        $('#rc_applicationType7').change(function () {
+            changeList(
+                document.getElementById('rc_applicationType7'),
+                document.getElementById('rc_subType7'),
+                document.getElementById('divGroup7')
+            );
+            fillOrderBy();
+        });
+    });
+    function fillOrderBy() {
+        var orderList = new Array();
+        if (document.getElementById('rc_applicationType1').value != "") {
+            var v1 = document.getElementById('rc_applicationType1').value;
+            if (document.getElementById('rc_subType1').value != "") {
+                v1 += " (" + document.getElementById('rc_subType1').value + ")";
+            }
+            orderList.push(v1);
+        }
+        if (document.getElementById('rc_applicationType2').value != "") {
+            var v2 = document.getElementById('rc_applicationType2').value;
+            if (document.getElementById('rc_subType2').value != "") {
+                v2 += " (" + document.getElementById('rc_subType2').value + ")";
+            }
+            orderList.push(v2);
+        }
+        if (document.getElementById('rc_applicationType3').value != "") {
+            var v3 = document.getElementById('rc_applicationType3').value;
+            if (document.getElementById('rc_subType3').value != "") {
+                v3 += " (" + document.getElementById('rc_subType3').value + ")";
+            }
+            orderList.push(v3);
+        }
+        if (document.getElementById('rc_applicationType4').value != "") {
+            var v4 = document.getElementById('rc_applicationType4').value;
+            if (document.getElementById('rc_subType4').value != "") {
+                v4 += " (" + document.getElementById('rc_subType4').value + ")";
+            }
+            orderList.push(v4);
+        }
+        if (document.getElementById('rc_applicationType5').value != "") {
+            var v5 = document.getElementById('rc_applicationType5').value;
+            if (document.getElementById('rc_subType5').value != "") {
+                v5 += " (" + document.getElementById('rc_subType5').value + ")";
+            }
+            orderList.push(v5);
+        }
+        if (document.getElementById('rc_applicationType6').value != "") {
+            var v6 = document.getElementById('rc_applicationType6').value;
+            if (document.getElementById('rc_subType6').value != "") {
+                v6 += " (" + document.getElementById('rc_subType6').value + ")";
+            }
+            orderList.push(v6);
+        }
+        if (document.getElementById('rc_applicationType7').value != "") {
+            var v7 = document.getElementById('rc_applicationType7').value;
+            if (document.getElementById('rc_subType7').value != "") {
+                v7 += " (" + document.getElementById('rc_subType7').value + ")";
+            }
+            orderList.push(v7);
+        }
+        var rc_orderBy = document.getElementById('rc_orderBy');
+        rc_orderBy.innerHTML = '';
+        var oOption1 = document.createElement("OPTION");
+        oOption1.value = "101";
+        oOption1.innerHTML = "Company Name";
+        rc_orderBy.appendChild(oOption1);
+
+        var oOption2 = document.createElement("OPTION");
+        oOption2.value = "102";
+        oOption2.innerHTML = "BR Number";
+        rc_orderBy.appendChild(oOption2);
+        for (var i = 0; i < orderList.length; i++) {
+
+            if (orderList[i] == "") continue;
+            var oOption = document.createElement("OPTION");
+            oOption.value = i;
+            oOption.innerHTML = orderList[i];
+            rc_orderBy.appendChild(oOption);
+
+        }
+    }
+    var index = 0;
+
+    function exportExcel() {
+        var groupType1 = "";
+        var groupType2 = "";
+        var groupType3 = "";
+        var groupType4 = "";
+        var groupType5 = "";
+        var groupType6 = "";
+        var groupType7 = "";
+
+        //return;
+        $('#divGroup1 input:checked').each(function () {
+            groupType1 += $(this).val();
+        });
+        $('#divGroup2 input:checked').each(function () {
+            groupType2 += $(this).val();
+        });
+        $('#divGroup3 input:checked').each(function () {
+            groupType3 += $(this).val();
+        });
+        $('#divGroup4 input:checked').each(function () {
+            groupType4 += $(this).val();
+        });
+        $('#divGroup5 input:checked').each(function () {
+            groupType5 += $(this).val();
+        });
+        $('#divGroup6 input:checked').each(function () {
+            groupType6 += $(this).val();
+        });
+        $('#divGroup7 input:checked').each(function () {
+            groupType7 += $(this).val();
+        });
+        if (groupType1 == "") {
+            //checkAllTrue($('#divGroup1 input').eq(0));
+            $('#divGroup1 input').each(function () {
+                groupType1 += $(this).val();
+            });
+        }
+        if (groupType2 == "") {
+            //checkAllTrue($('#divGroup2 input').eq(0));
+            $('#divGroup2 input').each(function () {
+                groupType2 += $(this).val();
+            });
+        }
+        if (groupType3 == "") {
+            //checkAllTrue($('#divGroup3 input').eq(0));
+            $('#divGroup3 input').each(function () {
+                groupType3 += $(this).val();
+            });
+        }
+        if (groupType4 == "") {
+            //checkAllTrue($('#divGroup4 input').eq(0));
+            $('#divGroup4 input').each(function () {
+                groupType4 += $(this).val();
+            });
+        }
+        if (groupType5 == "") {
+            //checkAllTrue($('#divGroup5 input').eq(0));
+            $('#divGroup5 input').each(function () {
+                groupType5 += $(this).val();
+            });
+        }
+        if (groupType6 == "") {
+            //checkAllTrue($('#divGroup6 input').eq(0));
+            $('#divGroup6 input').each(function () {
+                groupType6 += $(this).val();
+            });
+        }
+        if (groupType7 == "") {
+            //checkAllTrue($('#divGroup7 input').eq(0));
+            $('#divGroup7 input').each(function () {
+                groupType7 += $(this).val();
+            });
+        }
+
+        var has_option = false;
+        $(".application_type").each(function () {
+            if ($(this).val() != "") {
+                has_option = true;
+                return false;
+            };
+        });
+        if (!has_option) {
+            alert("Please select Registered Type");
+            return;
+        }
+        thisForm = document.getElementById('reportForm');
+        thisForm.rc_groupType1.value = groupType1;
+        thisForm.rc_groupType2.value = groupType2;
+        thisForm.rc_groupType3.value = groupType3;
+        thisForm.rc_groupType4.value = groupType4;
+        thisForm.rc_groupType5.value = groupType5;
+        thisForm.rc_groupType6.value = groupType6;
+        thisForm.rc_groupType7.value = groupType7;
+        thisForm.excelReportType.value = 'REG_COMPANY';
+        thisForm.action = 'exportExcelReport';
+        thisForm.target = 'newWin';
+        thisForm.submit();
+    }
+    function exportCSV() {
+        var groupType1 = "";
+        var groupType2 = "";
+        var groupType3 = "";
+        var groupType4 = "";
+        var groupType5 = "";
+        var groupType6 = "";
+        var groupType7 = "";
+
+        //return;
+        $('#divGroup1 input:checked').each(function () {
+            groupType1 += $(this).val();
+        });
+        $('#divGroup2 input:checked').each(function () {
+            groupType2 += $(this).val();
+        });
+        $('#divGroup3 input:checked').each(function () {
+            groupType3 += $(this).val();
+        });
+        $('#divGroup4 input:checked').each(function () {
+            groupType4 += $(this).val();
+        });
+        $('#divGroup5 input:checked').each(function () {
+            groupType5 += $(this).val();
+        });
+        $('#divGroup6 input:checked').each(function () {
+            groupType6 += $(this).val();
+        });
+        $('#divGroup7 input:checked').each(function () {
+            groupType7 += $(this).val();
+        });
+        if (groupType1 == "") {
+            //checkAllTrue($('#divGroup1 input').eq(0));
+            $('#divGroup1 input').each(function () {
+                groupType1 += $(this).val();
+            });
+        }
+        if (groupType2 == "") {
+            //checkAllTrue($('#divGroup2 input').eq(0));
+            $('#divGroup2 input').each(function () {
+                groupType2 += $(this).val();
+            });
+        }
+        if (groupType3 == "") {
+            //checkAllTrue($('#divGroup3 input').eq(0));
+            $('#divGroup3 input').each(function () {
+                groupType3 += $(this).val();
+            });
+        }
+        if (groupType4 == "") {
+            //checkAllTrue($('#divGroup4 input').eq(0));
+            $('#divGroup4 input').each(function () {
+                groupType4 += $(this).val();
+            });
+        }
+        if (groupType5 == "") {
+            //checkAllTrue($('#divGroup5 input').eq(0));
+            $('#divGroup5 input').each(function () {
+                groupType5 += $(this).val();
+            });
+        }
+        if (groupType6 == "") {
+            //checkAllTrue($('#divGroup6 input').eq(0));
+            $('#divGroup6 input').each(function () {
+                groupType6 += $(this).val();
+            });
+        }
+        if (groupType7 == "") {
+            //checkAllTrue($('#divGroup7 input').eq(0));
+            $('#divGroup7 input').each(function () {
+                groupType7 += $(this).val();
+            });
+        }
+
+        var has_option = false;
+        $(".application_type").each(function () {
+            if ($(this).val() != "") {
+                has_option = true;
+                return false;
+            };
+        });
+        if (!has_option) {
+            alert("Please select Registered Type");
+            return;
+        }
+        thisForm = document.getElementById('reportForm');
+        thisForm.rc_groupType1.value = groupType1;
+        thisForm.rc_groupType2.value = groupType2;
+        thisForm.rc_groupType3.value = groupType3;
+        thisForm.rc_groupType4.value = groupType4;
+        thisForm.rc_groupType5.value = groupType5;
+        thisForm.rc_groupType6.value = groupType6;
+        thisForm.rc_groupType7.value = groupType7;
+        thisForm.excelReportType.value = 'REG_COMPANY';
+        thisForm.action = 'exportCSVReport';
+        thisForm.target = 'newWin';
+        thisForm.submit();
+    }
+</script>
+<div class="displayForm" style="overflow-x:auto">
+    <form action="exportExcelReport" method="post" id="reportForm" target="_BLANK">
+        <input type="hidden" name="excelReportType" id="excelReportType" />
+        <input type="hidden" name="rc_groupType1" id="rc_groupType1" />
+        <input type="hidden" name="rc_groupType2" id="rc_groupType2" />
+        <input type="hidden" name="rc_groupType3" id="rc_groupType3" />
+        <input type="hidden" name="rc_groupType4" id="rc_groupType4" />
+        <input type="hidden" name="rc_groupType5" id="rc_groupType5" />
+        <input type="hidden" name="rc_groupType6" id="rc_groupType6" />
+        <input type="hidden" name="rc_groupType7" id="rc_groupType7" />
+
+        <table id="Table2" style="BORDER-BOTTOM: #dedfde 1px solid" cellspacing="0" cellpadding="0" width="100%" border="0">
+            <tr>
+                <td style="PADDING-RIGHT: 5px; PADDING-LEFT: 8px; PADDING-BOTTOM: 8px" valign="top">
+                    <div class="panelHeader">Registered Company Report</div>
+                    <table id="Table4" cellspacing="5" cellpadding="0" width="710" border="0" class="searchform">
+                        <tr>
+                            <td>
+                                <table id="Table10" cellspacing="0" cellpadding="1" width="100%" border="0">
+                                    <tr>
+                                        <td>Logic:</td>
+                                        <td>
+                                            <select name="rc_logic">
+                                                <option value="and">And</option>
+                                                <option value="or">Or</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                        <td>Date (dd/mm/yyyy): </td>
+                                        <td>
+                                            @Html.TextBoxFor(model => model.specifiedDate, new { @class = "inputDate" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                        <td>Registered Type</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType1" id="rc_applicationType1" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType2" id="rc_applicationType2" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType3" id="rc_applicationType3" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType4" id="rc_applicationType4" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType5" id="rc_applicationType5" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType6" id="rc_applicationType6" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="application_type" name="rc_applicationType7" id="rc_applicationType7" style="width:250px">
+                                                <option></option>
+                                                <option value="GBC">RGBC</option>
+                                                <option value="SC">SC</option>
+                                                <option value="MWC - Class I, II, III">MWC - Class I, II, III</option>
+                                                <option value="MWC - Class II, III">MWC - Class II, III</option>
+                                                <option value="MWC - Class III">MWC - Class III</option>
+                                                <option value="MWC(P) - Class I, II, III">MWC(P) - Class I, II, III</option>
+                                                <option value="MWC(P) - Class II, III">MWC(P) - Class II, III</option>
+                                                <option value="MWC(P) - Class III">MWC(P) - Class III</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select name="rc_subType1" id="rc_subType1" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType2" id="rc_subType2" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType3" id="rc_subType3" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType4" id="rc_subType4" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType5" id="rc_subType5" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType6" id="rc_subType6" style="width:250px"></select>
+                                        </td>
+                                        <td>
+                                            <select name="rc_subType7" id="rc_subType7" style="width:250px"></select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            <div id="divGroup1" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup2" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup3" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup4" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup5" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup6" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="divGroup7" class="mwItem scrollTableDivLower" style="height:250px;display:none;background-color:white;overflow-y: auto">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sort by:</td>
+                                        <td colspan="2">
+                                            <select name="rc_orderBy" id="rc_orderBy">
+                                                <option value="101">Company Name</option>
+                                                <option value="102">Br Number</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left:10px">
+                    <table width="1200" id="Table4" border="0" cellSpacing="0" cellPadding="0">
+                        <tr>
+                            <td align="right">
+
+                                <button onclick="exportExcel()" class="searchButton btn btn-default" type="button" id="btnEXCEL">
+                                    <i class="fa fa-print"></i>Export Registered Company Report(EXCEL)
+                                </button>
+
+                            </td>
+
+                            <td align="right">
+                                <div id="btnCSV" style="display:none;">
+                                    <button onclick="exportCSV()" class="searchButton btn btn-default" type="button">
+                                        <i class="fa fa fa-print"></i>Export Registered Company Report(CSV)
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

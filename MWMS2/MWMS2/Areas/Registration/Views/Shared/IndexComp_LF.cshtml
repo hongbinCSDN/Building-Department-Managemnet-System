@@ -1,0 +1,108 @@
+﻿@model MWMS2.Models.LeaveFormSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Reg.No :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.RegNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Company Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.CompName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.SurName)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.ChiName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Start Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.StartDate, new { @class = "inputDate" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">End Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.EndDate, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+
+    </div>
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "compAppInfoMasterId", value: row.MASTERID }, { name: "compAppInfoUUID", value: row.COMPUUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        domReady(function () {
+            searching =   new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: "Reg. No.", columnName: "COMPCERT"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Company Name", columnName: "ENGCOMP" }
+                    , { displayName: "Applicant Name", columnName: "ENGFULLNAME" }
+                    , { displayName: "Role", columnName: "ROLE" }
+                ]
+            }); 
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

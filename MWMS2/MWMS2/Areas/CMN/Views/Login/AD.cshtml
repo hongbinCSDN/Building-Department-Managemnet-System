@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="panelHeader">Login</div>
+
+<form id="inputForm" method="post" action="ExportData">
+    
+     <div class="displayForm" id="searchCriteria">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m3 s3">Portal Name :</div>
+                    <div class="w3-col l9 m9 s9">@Html.TextBox("portalname")</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m3 s3">Passowrd :</div>
+                    <div class="w3-col l9 m9 s9">@Html.TextBox("password")</div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <button class="searchButton btn btn-default" type="button" id="submitBtn">Submit</button>
+
+            </div>
+
+        </div>
+</form>
+
+   
+
+    <script type="text/javascript">
+
+        domReady(function () {
+            attr("submitBtn", "onclick", {
+                parameters: {}, callback: function () {
+                  //  thisForm = document.getElementById('inputForm');
+                    $("#inputForm").attr('action', 'doLogin');
+                    $("#inputForm").submit();
+
+                }
+            });
+
+         
+
+
+        });
+    </script>

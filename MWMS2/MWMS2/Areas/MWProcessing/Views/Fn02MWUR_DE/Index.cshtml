@@ -1,0 +1,86 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeModel
+
+
+<div id="searchCriteria">
+    <div class="panelHeader">Document List</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">No. of Outstanding :</div>
+            <div class="w3-col l6 m12 s12">
+                @Model.Outstanding
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">Search Criteria</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(model => model.SearchDsn) :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.SearchDsn)</div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(model => model.SearchRecordId) :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.SearchRecordId)</div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            @*<div class="w3-col l3 m6 s12">@Html.LabelFor(model => model.SearchReceiveDateFrom) :</div>*@
+            <div class="w3-col l3 m6 s12">MWU Received Date :</div>
+            <div class="w3-col l9 m12 s12">
+                From :@Html.TextBoxFor(model => model.SearchReceiveDateFrom, "", new { @id = "SearchReceiveDateFrom", @class = "inputDate" })
+                To :@Html.TextBoxFor(model => model.SearchReceiveDateTo, "", new { @id = "SearchReceiveDateFrom", @class = "inputDate" })
+            </div>
+            @*<div class="w3-col l3 m6 s12">@Html.LabelFor(model => model.SearchReceiveDateTo) :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.SearchReceiveDateTo)</div>*@
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(model => model.SearchStatus) :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DropDownListFor(m => m.SearchStatus, Model.GetStatus(), new { })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "Document S/N", columnName: "DSN" }
+                , { displayName: "Assignment Date", columnName: "DT" }
+                , { displayName: "Time", columnName: "TI" }
+                , { displayName: "Ref. No.", columnName: "RECORD_ID" }
+                , { displayName: "Form", columnName: "FORM_CODE" }
+                , { displayName: "Status", columnName: "STATUS" }
+
+            ]
+            , ColumnClick: function (row) {
+                if (row.STATUS == "WILL_SCAN") {
+                    goTo("Scanning", [{ name: "P_MW_DSN.UUID", value: row.UUID }]);
+                } else {
+                    goTo("Form", [{ name: "P_MW_DSN.UUID", value: row.UUID }
+                        , { name: "P_MW_DSN.RECORD_ID", value: row.RECORD_ID }
+                        , { name: "P_MW_DSN.DSN", value: row.DSN }]);
+                }
+
+            }
+        });
+    });
+</script>

@@ -1,0 +1,140 @@
+﻿
+@model IEnumerable<MWMS2.Areas.Registration.Models.CertificateDisplayListModel>
+
+@if (MWMS2.Utility.AuthUtil.CanCreate)
+{<button onclick="onLoadCertificate('')" id="CertificateResultTable" class="btn btn-default" type="button"><i class="far fa-plus-square"></i> New Certificate </button>}
+<div style="overflow-x:auto;">
+    <table class="resultTable">
+
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Period of Validity
+                </th>
+                <th>
+                    Date of Application
+                </th>
+                <th>
+                    Date of Registration
+                </th>
+                <th>
+                    Date of Expiry
+                </th>
+                <th>
+                    Date of Retention
+                </th>
+                <th>
+                    Retention	Date of Restoration
+                </th>
+                <th>
+                    Restoration	Date of Removal
+
+                </th>
+                <th>
+                    Form Used
+                </th>
+                <th>
+                    Remarks
+                </th>
+                <th>
+                    Specimen Signature
+                </th>
+                <th>
+                    QP Card
+                    Serial No
+                </th>
+                <th>
+
+                </th>
+
+
+            </tr>
+
+
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr style="@item.isYellow">
+                        <td>
+                            <button onclick="onLoadCertificate('@item.UUID')" id="" class="btn btn-default" type="button"><i class="fa fa-edit"></i> Edit </button>
+                        </td>
+                        <td>
+                            @item.GetCatCodeDescriptionByUUID(item.CATEGORY_CODE)
+                            @*@item.CATEGORY_CODE*@
+                        </td>
+                        <td>
+                            @item.GetSVDescriptionByUUID(item.PERIOD_VADLIDITY_SV_CODE)
+                            @*@item.PERIOD_VADLIDITY_SV_CODE*@
+                        </td>
+                        <td>
+                            @item.APPLICATION_DATE
+                        </td>
+                        <td>
+                            @item.REGISTRATION_DATE
+                        </td>
+                        <td>
+                            @item.EXPIRY_DATE
+                        </td>
+                        <td>
+                            @item.RETENTION_DATE
+                        </td>
+                        <td>
+                            @item.RESTORE_DATE
+                        </td>
+                        <td>
+                            @item.REMOVAL_DATE
+                        </td>
+                        <td>
+                            @item.GetSVDescriptionByUUID(item.APPFORM_SV_CODE)
+
+                        </td>
+                        <td>
+                            @item.REMARKS
+                        </td>
+                        <td>
+                            @{if (!string.IsNullOrWhiteSpace(@item.FILE_PATH_NON_RESTRICTED) || item.UploadDoc != null)
+                                {
+                                    @*<a href="GetSignImg?filepath=@item.FILE_PATH_NON_RESTRICTED"><i class="far fa-file-image"></i></a>*@
+                                    //if (item.UploadDoc[0] != null)
+                                    //{
+                                        <button type="button" onclick="GetCRMImage('@item.UUID')"> <i class="far fa-file-image"></i></button>
+
+                                    //}
+
+                                    //plan to do
+                                    @*<a id='viewimg' href="javascript:popupWind('professional.do?method=displaySignature&certificateId=<%=indCertificate.getUuid()%>&applicationObjectID=<%=applicationObjectID%>')"><img src='images/view.gif' alt='Signature Image' border='0' /></a>*@
+
+
+                                }
+                            }
+                        </td>
+                        <td>
+                            @item.CARD_SERIAL_NO
+                        </td>
+                        <td>
+                            <button onclick="onDeleteCertificate('@item.UUID')" id="" class="btn btn-default" type="button"><i class="fa fa-trash"></i> Delete </button>
+
+                        </td>
+                    </tr>
+
+                }
+
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+
+
+</div>

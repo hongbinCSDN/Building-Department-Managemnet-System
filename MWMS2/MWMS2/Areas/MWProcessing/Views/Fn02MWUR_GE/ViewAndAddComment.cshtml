@@ -1,0 +1,128 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<form id="inputForm">
+    <div class="displayForm">
+        <div class="panelHeader"> Comment</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <table class="w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">
+                                From User
+                            </th>
+                            <th style="width:10%;">
+                                Created Date
+                            </th>
+                            <th style="width:10%;">
+                                Modified Date
+                            </th>
+                            <th style="width:60%;">
+                                Comment
+                            </th>
+                            <th style="width:10%;">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.P_MW_COMMENTs != null)
+                        {
+                            foreach (var comment in Model.P_MW_COMMENTs)
+                            {
+                                <tr>
+                                    <td class="w3-padding">
+                                        @comment.FROM_USER
+                                    </td>
+                                    <td class="w3-padding">
+                                        @comment.CREATED_DATE
+                                    </td>
+                                    <td class="w3-padding">
+                                        @comment.MODIFIED_DATE
+                                    </td>
+                                    <td class="w3-padding">
+                                        <div style=" word-break:break-all;white-space:normal;word-wrap:break-word">
+                                            @Html.Raw(comment.COMMENT_AREA)
+                                        </div>
+                                    </td>
+                                    <td class="w3-padding">
+                                        <button type="button" onclick="onEditComment('@comment.UUID')" class="btn btn-default">Edit</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panelHeader">Add Comment</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @*<div class="w3-col l1 m12 s12 data">
+
+                    </div>*@
+                <div class="w3-col l12 m12 s12 w3-padding">
+                    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.UUID)
+                    @Html.HiddenFor(m => m.P_MW_COMMENT.UUID)
+                    @Html.TextAreaFor(m => m.P_MW_COMMENT.COMMENT_AREA)
+                </div>
+                @*<div class="w3-col l1 m12 s12 data">
+
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="saveBtn" class="btn btn-default" type="button">Save Comment</button>
+            <button id="submitBtn" class="btn btn-default" type="button">Save Comment & Roll Back</button>
+            <button id="cancelBtn" class="btn btn-default" type="button">Cancel</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        var onSaveComment;
+
+        onSaveComment = function () {
+            attr("inputForm", "addClass", "saving");
+            $.post("/MWProcessing/Fn02MWUR_GE/SaveOrEditComment", $("#inputForm").serialize(), function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/ViewAndAddComment/@Model.P_MW_GENERAL_RECORD.UUID", null);
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        };
+
+        attr("saveBtn", "onclick", { parameters: {}, callback: onSaveComment });
+    });
+
+    function onEditComment(id) {
+        attr("inputForm", "addClass", "saving");
+        $.ajax({
+            url: "/MWProcessing/Fn02MWUR_GE/EditComment"
+            , type: "post"
+            , data: { "id": id }
+            , success: function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    console.log(data);
+                    $("#P_MW_COMMENT_UUID").val(data.Data.UUID);
+                    $("#P_MW_COMMENT_COMMENT_AREA").val(data.Data.COMMENT_AREA);
+                    $("#P_MW_COMMENT_COMMENT_AREA").html(data.Data.COMMENT_AREA);
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }
+        }, "json");
+    }
+
+</script>

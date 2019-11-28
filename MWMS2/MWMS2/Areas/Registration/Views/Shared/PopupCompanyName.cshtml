@@ -1,0 +1,46 @@
+﻿@model MWMS2.Areas.Registration.Models.CompanyNamesModel
+<div id="SearchTable">
+    History on changes of company name
+    <br />File reference:	@Html.DisplayFor(o => o.FILE_REFERENCE_NO)
+    <br />Company name:	@Html.DisplayFor(o => o.ENGLISH_COMPANY_NAME)
+    <br />Company name (Chn):@Html.DisplayFor(o => o.ENGLISH_COMPANY_NAME)
+    <br />History list @Html.HiddenFor(o => o.C_COMP_APPLICATION_UUID)
+</div>
+<div id="ResultPanel"></div>
+<script>
+
+    domReady(function () {
+        applicantTableObject = new searcher({
+            searchPath: "CompanyNameSearch"
+            , searchTable: "SearchTable"
+            , resultPanel: "ResultPanel"
+            , Footer: false
+            , Columns: [
+                { columnName: "CREATED_DATE", displayName: "Date" }
+                , { columnName: "ENGLISH_COMPANY_NAME", displayName: "Company Name      " }
+                , { columnName: "CHINESE_COMPANY_NAME", displayName: "Company Name (Chn)" }
+
+                //      { columnName: "V01" , displayName: "Latest Modified Date  " }
+                //    , { columnName: "V02" , displayName: "Application Date      " }
+                //    , { columnName: "V03" , displayName: "Form Type             " }
+                //    , { columnName: "V04" , displayName: "Br No.                " }
+                //    , { columnName: "V05" , displayName: "Company Name (English)" }
+                //    , { columnName: "V06" , displayName: "Company Name (Chinese)" }
+                //    , { columnName: "V07" , displayName: "Address (Eng)         " }
+                //    , { columnName: "V08" , displayName: "Address (Chi)         " }
+                //    , { columnName: "V09" , displayName: "Company Type          " }
+                //    , { columnName: "V10" , displayName: "Applicant Name        " }
+                //    , { columnName: "V11" , displayName: "Tel No.1              " }
+                //    , { columnName: "V12" , displayName: "Tel No.2              " }
+                //    , { columnName: "V13" , displayName: "Tel No.3              " }
+                //    , { columnName: "V14" , displayName: "Fax No. 1             " }
+                //    , { columnName: "V15" , displayName: "Fax No. 2             " }
+                //    , { columnName: "V16" , displayName: "Email                 " }
+            ]
+        }).search();
+    });
+
+</script>
+
+
+

@@ -1,0 +1,61 @@
+﻿@model MWMS2.Areas.Registration.Models.AppHistDisplayModel
+
+
+
+@Html.HiddenFor(o => o.C_COMP_APPLICANT_INFO_MASTER.C_COMP_APPLICANT_INFO.UUID)
+@Html.HiddenFor(o => o.C_COMP_APPLICANT_INFO_MASTER.UUID)
+<script>
+
+
+</script>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        Application History
+        <div id="AppHistViewTable"></div>
+    </div>
+</div>
+<div class="w3-row hr"></div>
+
+<div class="w3-row">
+    MW Capability    Role: @Html.DisplayFor(x => x.ROLE)    Name:  @Html.DisplayFor(x => x.NAME)        HKID: @Html.DisplayFor(x => x.HKID)
+    <div class="w3-col l12 m12 s12">
+
+        <div id="MwCapTable"></div>
+    </div>
+</div>
+
+<div class="w3-row hr"></div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPLICATION_DATE) :</div>
+        <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPLICATION_DATE, new { @class = "inputDate" })</div>
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPLICATION_FORM_ID) :</div>
+        <div class="w3-col l3 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPLICATION_FORM_ID, Model.APPLICATION_FORM_List)
+        </div>
+    </div>
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPROVED_DATE) :</div>
+        <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPROVED_DATE, new { @class = "inputDate" })</div>
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPROVED_BY) :</div>
+        <div class="w3-col l3 m6 s12">@Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPROVED_BY, Model.GetApprovedByList)</div>
+        @*<div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.APPROVED_BY)</div>*@
+    </div>
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.WITHDRAW_DATE) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.WITHDRAW_DATE, new { @class = "inputDate" })</div>
+    </div>
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.REFUSE_DATE) :</div>
+        <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.REFUSE_DATE, new {@onblur="checkRefuseStatus(this)", @class = "inputDate" })</div>
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO_MASTER.REFUSE_BY) :</div>
+        <div class="w3-col l3 m6 s12">@Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO_MASTER.REFUSE_BY,Model.GetApprovedByList)</div>
+        @*<div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO_MASTER.REFUSE_BY)</div>*@
+    </div>
+</div>
+
+<div class="w3-container footer">
+    <button id="saveAppHistButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Confirm</button>
+    <button id="backAppHistButton" class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+</div>

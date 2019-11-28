@@ -1,0 +1,126 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_QSRModel
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#searchBtn').click(function () {
+
+                attr('ClassCode', 'readonly', 'true'); attr('ClassCode', 'style', 'background:#BEBEBE');
+                attr('FromDate', 'readonly', 'true'); attr('ClassCode', 'style', 'background:#BEBEBE');
+                attr('ToDate', 'readonly', 'true'); attr('ClassCode', 'style', 'background:#BEBEBE');
+                //$('#searchCriteria').css('display', 'none');
+                $('#result').css('display', '');
+                $('#searchBtn').css('display', 'none');
+                $('#backBtn').css('display', '');
+            });
+        });
+        function Back() {
+            window.location.href = domId("rootPath").value +"/MWProcessing/Fn10RPT_QSR/Index";
+        }
+    </script>
+
+}
+
+
+
+    <div id="searchCriteria">
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l8 m12 s12">
+                <div class="w3-col l4 m12 s12">Class of Minor Works :	</div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.DropDownListFor(model => Model.ClassCode, new SelectList(Model.ClassCodeList,"Value","Text",Model.ClassCode),new {@name="ClassCode",@id="ClassCode"})
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l8 m12 s12">
+                <div class="w3-col l4 m12 s12">Period :	</div>
+                <div class="w3-col l8 m12 s12">
+                    From    @Html.TextBoxFor(model => model.FromDate, new { @id = "FromDate",@class="inputDate" })    To    @Html.TextBoxFor(model => model.ToDate, new { @id = "ToDate", @class = "inputDate" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-container footer">
+            <button id="exportBtn" class="exportBtn btn btn-default" onclick="Export()">Export</button>
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"> Generate</button>
+            <button id="backBtn" style="display:none" class="btn btn-default" type="button" onclick="Back()"><i class="fa fa-print"></i> Back</button>
+
+        </div>
+
+    </div>
+    <div id="result" style="display:none">
+
+        <br />
+        <div class="panelHeader">
+            Submission
+        </div>
+
+        <div id="resultPanel">
+
+
+        </div>
+    </div>
+<script>
+    function Export() {
+        $.ajax({
+            url: "Excel"
+            , type: "POST"
+            , data: {
+                ClassCode: $('#ClassCode').val()
+                , FromDate: $('#FromDate').val()
+                , ToDate: $('#ToDate').val()
+            }
+            , success: function (d) {
+                if (d != null && d.key != null) {
+                    if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                    if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                    dlForm.method = "post";
+                    dlForm.target = "dlFrame";
+                    dlForm.action = "Excel";
+                    dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                    dlForm.submit();
+                    attr(dlForm, "html", "");
+                    dropClass(exportingDom, "exporting");
+                }
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Submission No.", columnName: "REFERENCE_NO"
+                }
+                ,
+                {
+                    displayName: "Net Increase in Signboard No.", columnName: "INCREASE"
+                }
+                ,
+                {
+                    displayName: "No. of Erection", columnName: "ERECTION"
+                }
+                ,
+                {
+                    displayName: "No. of Alteration", columnName: "ALTERATION"
+                }
+                ,
+                {
+                    displayName: "No. of Removal", columnName: "REMOVAL"
+                }
+            ]
+        });
+    });
+</script>

@@ -1,0 +1,444 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_ExportLetterSearchModel
+
+<form id="inputForm" method="post" action="ExportTemplate">
+    <div class="displayForm" id="displayForm">
+
+        @Html.HiddenFor(model => model.RegType)
+        @Html.HiddenFor(model => model.selectedLetterUuid)
+        @*@Html.HiddenFor(model => model.C_S_EXPORT_LETTER.UUID)*@
+        @*@Html.HiddenFor(model => model.C_COMP_APPLICATION.UUID)
+        @Html.HiddenFor(model => model.C_IND_APPLICATION.UUID)*@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Letter No.:</div>
+                <div class="w3-col l6 m12 s12">
+                    <input type="hidden" id="selectedLetterUuid" />
+                    <div id="selectedLetterUuidDiv">
+
+                        <table class="resultTable" cellspacing="0" cellpadding="3" rules="all" bordercolor="LightGrey" border="1"
+                               id="dgList" style="border-color:LightGrey;border-collapse:collapse;" width="800">
+                            <thead>
+                                <tr class="grid-header">
+                                    <th>uuid</th>
+                                    <th>No.</th>
+                                    <th>Letter No.</th>
+                                    <th>Type</th>
+                                    <th>Remark</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model.LetterNumberList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UUID)
+                                            @Html.HiddenFor(modelItem => item.REGISTRATION_TYPE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CODE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LETTER_NO)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LETTER_NAME)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LETTER_DESCRIPTION)
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+                </div>
+                <button id="exportBtn" class="searchButton btn btn-default" type="button">
+                    <i class="fa fa-download"></i>Download Template File
+                </button>
+            </div>
+        </div>
+
+        <div class="w3-row popUp1 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">File Reference No. : <span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+                <div class="w3-col l9 m12 s12">
+    @Html.TextBoxFor(model => model.FileRef, new { @style = "width: 30%;" })
+                    <div id="error" style="    color: red;    font-size: 16px;    line-height: 14px;"></div>
+    <button onclick="checking()" class="searchButton btn btn-default" type="button" style=""><i class="fa fa-search"></i> Search</button>
+
+
+                 </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUpS1 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">AS:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id ="AS" name="AS"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUpS2 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">TD:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="TD" name="TD"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUpS3 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PRB:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="PRB" name="PRB"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUpS4 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Category:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="CERT" name="Category"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUpS5 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Committee:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="COMMITTEE" name="Committee"></select>
+                </div>
+            </div>
+        </div>
+       
+        <div class="w3-row popUpS6 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Date of Interview/Assessment:</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id ="DIA" name="DIA"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row popUp2 hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Authority Name:</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.AuthName, Model.AuthorityNameList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer popUp2 hide">
+            <button id="exportLetterBtn" class="searchButton btn btn-default" type="button">
+                <i class="fa fa-download"></i>Download Data Source File
+            </button>
+        </div>
+
+
+    </div>
+
+
+
+    <div id="resultPanel"></div>
+</form>
+
+<script type="text/javascript">
+    function selectForm() {
+        thisForm = document.getElementById('exportLetterForm');
+
+        var selectedLetterUuid = document.getElementById('selectedLetterUuid').value;
+       
+
+        
+        
+        $('.popUp1').removeClass("hide");
+        $(".popUp2").removeClass("hide");
+        //
+        //$(".popUpS2").removeClass("hide");
+        //$(".popUpS3").removeClass("hide");
+        //$(".popUpS4").removeClass("hide");
+        //$(".popUpS5").removeClass("hide");
+        //$(".popUpS6").removeClass("hide");
+        //var registrationType = document.getElementById('REGISTRATION_TYPE').value;
+
+        //alert(registrationType);
+        //if (selectedLetterUuid != '') {
+        //    document.getElementById('downloadTemplateDiv').style.display = 'block';
+        //    document.getElementById("generateTbl").style.display = 'block';
+        //    document.getElementById("letterDetailDiv").style.display = 'block';
+        //} else {
+        //    document.getElementById('downloadTemplateDiv').style.display = 'none';
+        //    document.getElementById("generateTbl").style.display = 'none';
+        //    document.getElementById("letterDetailDiv").style.display = 'none';
+        //}
+
+        //$.post(
+        //    '<%=request.getContextPath()%>/exportLetter.do?method=exportLetterDetailSearch&selectedLetterUuid=' + selectedLetterUuid + '&registrationType=' + registrationType
+
+        //    , function cbf(data) {
+
+        //        var result = eval(data);
+        //        document.getElementById("letterDetailDiv").innerHTML = result.detail;
+        //        document.getElementById("companySelect").value = result.companySelect;
+        //        document.getElementById("applicantSelect").value = result.applicantSelect;
+        //        document.getElementById("asSelect").value = result.asSelect;
+        //        document.getElementById("tdSelect").value = result.tdSelect;
+        //        document.getElementById("authoritySelect").value = result.authoritySelect;
+        //        document.getElementById("prbSelect").value = result.prbSelect;
+        //        document.getElementById("certSelect").value = result.certSelect;
+        //        document.getElementById("processMonitorSelect").value = result.processMonitorSelect;
+        //        document.getElementById("interviewCandidatesSelect").value = result.interviewCandidatesSelect;
+        //        document.getElementById("committeeSelect").value = result.committeeSelect;
+
+        //    }
+        //);
+
+    }
+    $(document).ready(function () {
+        $("#selectedLetterUuidDiv").multicolselect({
+            buttonImage: "", //./../../img/view.gi
+            valueCol: 2,
+            hideCol: 0,
+            uuidCol: 0,
+            value: '--Please Select--'
+        })
+    });
+
+    $(document).mouseup(function (e) {
+        var container = $("#selectedLetterUuidDiv");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.hide();
+        }
+    });
+
+
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+    //use as exporting Docx.File
+    domReady(function () {
+        attr("exportBtn", "onclick", {
+            parameters: {}, callback: function () {
+                if (document.getElementById("selectedLetterUuid").value == null || document.getElementById("selectedLetterUuid").value == "")
+                {
+                    alert("Plase Select letter No.");
+                }
+                else
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: 'checkFileExist',
+                        data: 'model:' + $("#inputForm").serialize(),
+                        success: function (data) {
+                            console.log(data);
+                            if (data != null && data.Result == "SUCCESS") {
+                                thisForm = document.getElementById('inputForm');
+                                $("#inputForm").attr('action', 'ExportTemplate');
+                                $("#inputForm").submit();
+                            } else {
+                                alert(data.Message[0]);
+                            }
+                        }
+                    });
+                }
+                
+
+            }
+        });
+    });
+
+    domReady(function () {
+        attr("exportLetterBtn", "onclick", {
+            parameters: {}, callback: function () {
+                thisForm = document.getElementById('inputForm');
+                $("#inputForm").attr('action', 'ExportLetterFunc'); //ExportCertificate  //ExportTemplate
+                $("#inputForm").submit();
+
+            }
+        });
+    });
+
+
+
+    function triggerExport() {
+
+        var FileRef = document.getElementById('FileRef').value;
+        var ExportLetterUuid = document.getElementById('selectedLetterUuid').value;
+
+        var targetUrl = '/Fn02GCA_ExportLetter/ExportLetterFn';
+
+     
+        //bring value and goTo controller
+        $.ajax({
+            type: "POST",
+            url: targetUrl,
+            //contentType: "charset=utf-8;",
+            data: {
+                FileRef: FileRef
+                , ExportLetterUuid: ExportLetterUuid
+
+
+
+            },
+            success: function (data) {
+                
+            }
+        })
+
+    }
+
+
+    //gen .txt file
+    function download(filename, text) {
+        var element = document.createElement('a');
+        //element.setAttribute('href', 'application/msword;charset=utf-8,' + decodeURIComponent(text));
+        element.setAttribute('href', 'data:application/vnd.ms-word;charset=utf-8' + text);
+        //
+        //alert("SS: " + decodeURIComponent(text));
+
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    function checking()
+    {
+        req("CheckFileRef",
+            "inputForm", function (data) {
+                //showErrorMessage(data.ErrorMessages);
+
+                 console.log(data); 
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    document.getElementById("error").innerHTML = "OK";
+                    document.getElementsByClassName("errorText")[0].classList.add("hide");
+                    document.getElementById("error").classList.remove("hide");
+                    document.getElementById("FileRef").classList.remove("errorField");
+                }
+                else {
+                    document.getElementById("error").classList.add("hide");
+                    showErrorMessage(data.ErrorMessages);
+                }
+                   
+
+
+
+
+                req("SearchCompany", [
+                    { name: "selectedLetterUuid", value: domId("selectedLetterUuid").value }
+                    , { name: "FileRef", value: domId("FileRef").value }], function (data2) {
+
+                        console.log(data2);
+                        //alert(data2.AS_Select);
+
+                        if (data2.AS_Select == true) {
+                            $(".popUpS1").removeClass("hide");
+                            var sel = domId("AS");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectASList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectASList[i].Value }, { "html": data2.SelectASList[i].Text }]);
+                            }
+
+                        }
+
+                        if (data2.TD_Select == true) {
+                            $(".popUpS2").removeClass("hide");
+                            var sel = domId("TD");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectTDList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectTDList[i].Value }, { "html": data2.SelectTDList[i].Text }]);
+                            }
+
+                        }
+
+                        if (data2.PRB_Select == true) {
+                            $(".popUpS3").removeClass("hide");
+                            var sel = domId("PRB");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectPRBList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectPRBList[i].Value }, { "html": data2.SelectPRBList[i].Text }]);
+                            }
+
+                        }
+
+                        if (data2.CERT_Select == true) {
+                            $(".popUpS4").removeClass("hide");
+                            var sel = domId("CERT");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectCERTList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectCERTList[i].Value }, { "html": data2.SelectCERTList[i].Text }]);
+                            }
+
+                        }
+
+                        if (data2.COMMITTEE_Select == true) {
+                            $(".popUpS5").removeClass("hide");
+                            var sel = domId("COMMITTEE");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectCOMMITTEEList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectCOMMITTEEList[i].Value }, { "html": data2.SelectCOMMITTEEList[i].Text }]);
+                            }
+
+                        }
+
+                        if (data2.DIA_Select == true) {
+                            $(".popUpS6").removeClass("hide");
+                            var sel = domId("DIA");
+                            sel.innerHTML = "";
+                            dom_(sel, "option", [{ "value": "" }, { "html": "--Select--" }]);
+                            for (var i = 0; i < data2.SelectDIAList.length; i++) {
+                                dom_(sel, "option", [{ "value": data2.SelectDIAList[i].Value }, { "html": data2.SelectDIAList[i].Text }]);
+                            }
+
+                        }
+
+
+
+                    });
+
+
+
+
+
+            });
+    }
+
+    domReady(function () {
+        $("#FileRef").blur(function () {
+           // console.log("test");
+            console.log("***" + domId("FileRef").value);
+            //req("CheckFileRef", [
+            //    { name: "RegType", value: domId("RegType").value }
+            //    , { name: "FileRef", value: domId("FileRef").value }], function (data) {
+            //        showErrorMessage(data.ErrorMessages);
+
+
+           
+           
+        });
+    });
+
+</script>
+
+    

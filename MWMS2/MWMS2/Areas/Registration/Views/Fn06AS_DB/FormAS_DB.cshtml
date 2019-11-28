@@ -1,0 +1,271 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn06AS_DBDisplayModel
+<form id="inputForm" method="post" action="Save" enctype="multipart/form-data">
+    @Html.HiddenFor(model => model.C_APPLICANT.UUID)
+    @Html.HiddenFor(model => model.C_AS_CONSENT.UUID)
+    @Html.HiddenFor(model => model.STATUS)
+    <script type="text/javascript">
+
+        function deleteConsentImg(uuid) {
+            if (confirm('Are you sure you want to delete this image of consent?')) {
+                $.ajax({
+                    url: "/Fn06AS_DB/RemoveConsentImg",
+                    data: { "uuid": uuid },
+                    type: 'post',
+                    success: function (data) {
+                        document.getElementById('elementID').innerHTML = "";
+                    }
+                });
+            }
+        }
+        //function clearPath(){
+        // document.getElementById('upLoadASImage').value = ''
+        //}
+    </script>
+    <div class="panelHeader">&nbsp;Authorized Signatory &gt; Search Authorized Signatory Records</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">HKID/PASSPORT :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.ID)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">English Name :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.EngFullName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Chinese Name :</div>
+                <div class="w3-col l2 m6 s12">
+                    @Html.DisplayFor(model => model.C_APPLICANT.CHINESE_NAME)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Status :</div>
+                <div class="w3-col l2 m6 s12">
+                    @Html.DisplayFor(model => model.STATUS)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Consent :</div>
+                <div class="w3-col l2 m6 s12">
+                    @Html.DropDownListFor(model => model.ConsentStatus, Model.ConsentList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Contact Tel no :</div>
+                <div class="w3-col l2 m6 s12">
+                    @Html.TextBoxFor(model => model.C_AS_CONSENT.CONTACT_TEL_NO, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Class of Minor Works :</div>
+                <div class="w3-col l2 m6 s12">
+                    @Html.DropDownListFor(model => model.ClassOfMW, Model.ClassList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Last Consent Date :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.C_AS_CONSENT.DATE_OF_CONSENT, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">
+                    Specimen Consent Form :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span>
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <input type="file" name="ASdbForm" id="upLoadASImage" style="vertical-align: middle;">
+                    <span id="elementID">
+                        @if (!string.IsNullOrWhiteSpace(Model.FilePath))
+                        {
+                            <a onclick="popupWind('DownloadFile?path=@Url.Content(Model.C_AS_CONSENT.FILE_PATH_NONRESTRICTED)')"><img src="~/img/view.gif" /></a>
+                            <a onclick="javascript:deleteConsentImg('@Model.C_AS_CONSENT.UUID')"><img src="~/img/delete.gif" /></a>
+                            <br />
+
+                        }
+                    </span>
+
+                    <span>Supporting file types: .jpeg, .jpg, .png, .gif, .pdf </span>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="panelHeader">Residential Address</div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12" style="text-align: center;">
+                    English
+                </div>
+                <div class="w3-col l6 m6 s12" style="text-align: center;">
+                    Chinese
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EnglishAddress.ADDRESS_LINE1, new { @readonly = "readonly" })</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.ChinessAddess.ADDRESS_LINE1, new { @readonly = "readonly" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EnglishAddress.ADDRESS_LINE2, new { @readonly = "readonly" })</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.ChinessAddess.ADDRESS_LINE2, new { @readonly = "readonly" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EnglishAddress.ADDRESS_LINE3, new { @readonly = "readonly" })</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.ChinessAddess.ADDRESS_LINE3, new { @readonly = "readonly" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EnglishAddress.ADDRESS_LINE4, new { @readonly = "readonly" })</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.ChinessAddess.ADDRESS_LINE4, new { @readonly = "readonly" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EnglishAddress.ADDRESS_LINE5, new { @readonly = "readonly" })</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.ChinessAddess.ADDRESS_LINE5, new { @readonly = "readonly" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"> Office Telephone No. :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.C_COMP_APPLICANT_INFO.OFFICE_TEL)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"> Mobile Telephone No. :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.C_COMP_APPLICANT_INFO.MOBILE_TEL)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"> Residential Telephone No. :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.C_COMP_APPLICANT_INFO.RES_TEL)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"> Email1 :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.Email1)
+                </div>
+                <div class="w3-col l4 m6 s12"> Email2 :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(model => model.Email2)
+                </div>
+            </div>
+        </div>
+        <div class="w3-col hr"></div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12"><div id="resultPanel2"></div></div>
+            </div>
+        </div>
+        <script>
+            domReady(function () {
+                var draftingTable = new searcher({
+                    searchPath: "ASdata"
+                    , searchTable: "C_APPLICANT_UUID"
+                    , resultPanel: "resultPanel2"
+                    , Sort: "FileRef"
+                    , Footer: false
+                    , Columns: [
+                        { displayName: "File Reference No", columnName: "FILEREF" }
+                        , { displayName: "English Company Name", columnName: "ENG_COMP_NAME" }
+                        , { displayName: "Chinese Company Name", columnName: "CHI_COMP_NAME" }
+                        , { displayName: "Removal Date", columnName: "RMDATE" }
+                        , { displayName: "Status", columnName: "STATUS" }
+                        , {
+                            displayName: "Specimen Signature", formater: function (row) {
+                                var span = dom("span");
+                                var SINGATURE = row.SINGATURE;
+                                var button = createButton("", "fa fa-file", [{
+                                    //"onclick": {//: function (row) {
+                                    //    parameters: { SINGATURE: SINGATURE == null ? null : SINGATURE }, callback: function (d, p, e) {
+                                    //        if (SINGATURE = null) {
+                                    //            goTo("DownloadFile", [{ name: "SINGATURE", value: p.SINGATURE }]);
+                                    //        } else {
+                                    //            alert("File not found.");
+                                    //        }
+                                    //    }
+                                    //}
+                                    "onclick": { parameters: { row: row }, callback: onOpenImage }
+                                }]);
+                                span.appendChild(button);
+                                return span;
+                            }
+                        }
+                    ]
+                }).search();
+                if (domName("SaveSuccess")[0] != null) {
+                    if ("true" == domName("SaveSuccess")[0].value) {
+                        alert("Record save successfully!")
+                    }
+                }
+
+            });
+        </script>
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {
+                <button type="submit" value="Save" id="saveButton" class="btn btn-default"><i class="fa fa-save"></i> Save</button>
+            }
+            <button class="backButton btn btn-default" type="button" onclick="cancel()"> <i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+    @if (Model.ErrorMessage != null)
+    {
+        <script>
+                alert('@Model.ErrorMessage');
+        </script>
+    }
+    @if (Model.SaveSuccess == true)
+    {
+        <script>
+            alert("Record save successfully!");
+        </script>
+    }
+</form>
+
+<script type="text/javascript">
+    function cancel() {
+        goTo(domId("rootPath").value + "/Registration/Fn06AS_DB/Index")
+    }
+
+    function onOpenImage(d, p, e) {
+
+        console.log(p);
+
+        goTo("GetSignImg", [{ name: "uuid", value: p.row.COM_APP_INFO_UUID }], true)
+    }
+</script>

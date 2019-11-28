@@ -1,0 +1,303 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_DRSaveModel
+
+<div class="panelHeader">Receive Direct Return Submission</div>
+<form id="inputForm" method="post">
+    <div id="searchCriteria">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">DSN :</div>
+                <div class="w3-col l3 m12 s12">
+                    @if (Model != null && Model.IsUpdate)
+                    {
+                        @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.DSN, new { @id = "DSN", @readonly = true })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.DSN, new { @id = "DSN" })
+                    }
+
+                    @*@Html.HiddenFor(model => model.P_MW_DIRECT_RETURN.FORM_TYPE, new { @id = "FORM_TYPE" })*@
+                </div>
+                <div class="w3-col l3 m12 s12">Form Type :</div>
+
+                <div class="w3-col l3 m12 s12">
+                    @*@Html.LabelFor(model=>model.P_MW_DIRECT_RETURN.FORM_TYPE)*@
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.FORM_TYPE, new { id = "FormType" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Reg no. of AP/ RI / Contractor :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.CONTRACTOR_REG_NO, new { @id = "CONTRACTOR_REG_NO" })
+                </div>
+                <div class="w3-col l3 m12 s12">Name of AP/ RI / Contractor :</div>
+                <div class="w3-col l3 m12 s12" id="APRIContractorName">
+                    @*@Html.LabelFor(model=>model.P_MW_DIRECT_RETURN.CONTRACTOR_REG_NO)*@
+                    @Html.HiddenFor(model => model.P_MW_DIRECT_RETURN.CONTRACTOR_REG_NO)
+                    @*@Model.P_MW_DIRECT_RETURN.CONTRACTOR_REG_NO*@
+                    <span id="P_MW_DIRECT_RETURN_CONTRACTOR_REG_NO_DISPLAY"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Received Date:</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.RECEIVED_DATE, new { @id = "RECEIVED_DATE", @class = "inputDate" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Address :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.ADDRESS)
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Irregularities :</div>
+                <div class="w3-col l9 m12 s12">
+                    @for (int i = 0; i < Model.IrregularitiesList.Count(); i++)
+                    {
+                        @Html.CheckBoxFor(model => Model.IrregularitiesList[i].IsChecked)
+                        @Html.HiddenFor(model => Model.IrregularitiesList[i].UUID, new { })
+                        @Html.HiddenFor(model => Model.IrregularitiesList[i].Code, new { })
+                        @*@Html.Label(Model.IrregularitiesList[i].Description)*@
+                        @Model.IrregularitiesList[i].Description
+
+                        if (Model.IrregularitiesList[i].Code == "N")
+                        {
+                            @Html.TextBoxFor(model => Model.IrregularitiesList[i].Remark, new { @id = "txtReamrk", @style = "width:80%", @placeholder = "請盡快改正並重新一併呈交。" })
+                        }
+                        <br />
+                    }
+
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Handling staff 1 (Counter Staff) :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.HANDING_STAFF_1, new { @id = "HANDING_STAFF_1" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">Handling staff 2 (TO/SO) :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.HANDING_STAFF_2, new { @id = "HANDING_STAFF_2" })
+                </div>
+                <div class="w3-col l3 m12 s12">Handling staff 3 (PO) :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.HANDING_STAFF_3, new { @id = "HANDING_STAFF_3" })
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">Language :</div>
+                <div class="w3-col l3 m12 s12">
+                    <label>
+                        @Html.RadioButtonFor(m => m.P_MW_DIRECT_RETURN.LANGUAGE, "EN", new { @class = "w3-radio", @checked = "true" })
+                        <span>English&nbsp;|&nbsp;</span>
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.P_MW_DIRECT_RETURN.LANGUAGE, "CH", new { @class = "w3-radio" }) <span>中文</span>
+                    </label>
+
+                    @*@Html.TextBoxFor(model => model.P_MW_DIRECT_RETURN.LANGUAGE, new { @id = "LANGUAGE" })*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @if (Model.P_MW_DIRECT_RETURN != null && !string.IsNullOrEmpty(Model.P_MW_DIRECT_RETURN.DSN))
+            {
+                <input class="UpdateBtn" type="button" id="updateButton" value="Update" />
+            }
+            else
+            {
+                <input class="SaveBtn" type="button" id="saveButton" value="Save" />
+            }
+        </div>
+    </div>
+</form>
+@if (Model.P_MW_DIRECT_RETURN == null || string.IsNullOrEmpty(Model.P_MW_DIRECT_RETURN.DSN))
+{
+    <div id="resultPanel"></div>
+}
+
+
+<script type="text/javascript">
+
+    domReady(function () {
+        attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+    });
+
+    domReady(function () {
+        attr("updateButton", "onclick", { parameters: {}, callback: onUpdateForm });
+    });
+
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveDr", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("drSubmission", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function onUpdateForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("UpdateDr", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+
+    domReady(function () {
+        var dsn = getQueryVariable('DSN');
+        if (dsn != null && dsn != "" && dsn != undefined) {
+            $("#DSN").val(dsn);
+            //req(domId("rootPath").value +"/Fn01LM_DR/AjaxFormByDsn"
+            //    , [{ name: "dsn", value: domId("DSN").value }]
+            //    , function (data) {
+            //        //attr("FormType", "html", data.FULL_NAME_DISPLAY);
+            //        //attr("FORM_TYPE", "value", data.FULL_NAME_DISPLAY);
+            //        $("#FormType").val(data.FULL_NAME_DISPLAY);
+            //    });
+            $.ajax({
+                url: domId("rootPath").value + "/Fn01LM_DR/AjaxFormByDsn",
+                type: 'POST',
+                dataType: "json",
+                data: { dsn: dsn },
+                cache: false,
+                success: function (data) {
+                    $("#FormType").val(data.FULL_NAME_DISPLAY);
+                }
+            });
+
+        }
+        //var form = getQueryVariable('Form');
+        //if (form != null && form != "" && form != undefined) {
+        //    $("#FormType").val(form);
+        //}
+
+        new searcher({
+            searchPath: "drSearchToday"
+            , exportPath: "ExportToday"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "DSN No.", columnName: "DSN" }
+                , { displayName: "Form Type", columnName: "FORM_TYPE" }
+                , { displayName: "Reg no. of AP/ RI / Contractor", columnName: "CONTRACTOR_REG_NO" }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Handling staff 1  (Counter Staff) ", columnName: "HANDING_STAFF_1" }
+                , { displayName: "Handling staff 2  (ACO/TO/SO) ", columnName: "HANDING_STAFF_2" }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("Edit", "fa-edit", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    goTo("Form", [{ name: "id", value: row.UUID }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+        }).goToPage();
+        attr("CONTRACTOR_REG_NO", "onblur", {
+            callback: function (d, p, e) {
+                //req("AjaxAPRIContractorName"
+                //    , [{ name: "regNo", value: domId("CONTRACTOR_REG_NO").value }]
+                //    , function (data) { attr("APRIContractorName", "html", data.FULL_NAME_DISPLAY); });
+
+                $.ajax({
+                    url: domId("rootPath").value + "/Fn01LM_DR/AjaxAPRIContractorName",
+                    type: 'POST',
+                    dataType: "json",
+                    data: { regNo: d.value },
+                    cache: false,
+                    success: function (data) {
+                        $("#P_MW_DIRECT_RETURN_CONTRACTOR_REG_NO").val(data.FULL_NAME_DISPLAY);
+                        $("#P_MW_DIRECT_RETURN_CONTRACTOR_REG_NO_DISPLAY").text(data.FULL_NAME_DISPLAY);
+                    }
+                });
+            }
+        });
+        trigger("CONTRACTOR_REG_NO", "onblur");
+
+
+
+        attr("DSN", "onblur", {
+            callback: function (d, p, e) {
+                $.ajax({
+                    url: domId("rootPath").value + "/Fn01LM_DR/AjaxFormByDsn",
+                    type: 'POST',
+                    dataType: "json",
+                    data: { dsn: d.value },
+                    cache: false,
+                    success: function (data) {
+                        $("#FormType").val(data.FULL_NAME_DISPLAY);
+                    }
+                });
+                //req("AjaxFormByDsn"
+                //    , [{ name: "dsn", value: domId("DSN").value }]
+                //    , function (data) {
+                //        //attr("FormType", "html", data.FULL_NAME_DISPLAY);
+                //        //attr("FORM_TYPE", "value", data.FULL_NAME_DISPLAY);
+                //        $("#FormType").val(data.FULL_NAME_DISPLAY);
+                //    });
+            }
+        });
+        trigger("DSN", "onblur");
+
+
+
+    });
+
+    // Begin add by Chester 2019-07-09
+    /**
+     * 根据参数名，获取url后面的参数的值
+     * */
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) { return pair[1]; }
+        }
+        return null;
+    }
+    // End add by Chester 2019-07-09
+</script>

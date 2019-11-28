@@ -1,0 +1,67 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn03PA_GCNSearchModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRef)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Surname :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.SurName)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Given Name :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.GivenName)</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Chinese Name :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.ChiName)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

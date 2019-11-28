@@ -1,0 +1,249 @@
+﻿@model MWMS2.Areas.Admin.Models.ScoreListModel
+
+
+<div class="panelHeader">Offence Detail</div>
+<div id="searchCriteria" class="w3-border displayForm">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l1 m12 s12">Type:</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.DropDownListFor(x=>x.Type,Model.OffenseType,new { @id = "Type", @disabled = "disabled" })
+                @*@Html.TextBoxFor(model => model.Type, new { @id = "Type", @disabled = "disabled" })*@
+            </div>
+            <div class="w3-col l2 m12 s12">Offence Name:</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.Offense_Name, new { @id = "Offense_Name", @disabled = "disabled" })
+            </div>
+            <div class="w3-col l1 m12 s12">
+                <button id="saveOffenseNameBtn" onclick="SaveOffenseName()" class=" btn btn-default" type="button" style="display:none"> Save</button>
+                <button id="editOffenseNameBtn" onclick="EditOffenseName()" class=" btn btn-default" type="button"> Edit</button>
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">Score List</div>
+    @Html.HiddenFor(model => model.Offense_Id,new  {@id="OffenseId" })
+    <div id="resultPanel">
+
+    </div>
+    <div id="scoreInputFrom" style="display:none">
+        <div class="panelHeader">Add New Score</div>
+        <table class="w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th style="width:65%;">Effect Date</th>
+                    <th style="width:35%;">Score</th>
+                </tr>
+            </thead>
+            <tbody id="scoreInput">
+                @*<tr>
+                    <td><input type="text" class="inputDate" id="scoreDate" /></td>
+                    <td><input type="text" id="score"/></td>
+                </tr>*@
+            </tbody>
+        </table>
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="btn btn-default" type="button" style="display:none;">Search</button>
+        <button id="addBtn" class=" btn btn-default" type="button" onclick="Add()"><i class="far fa-plus-square"></i>Add</button>
+        <button id="addScoreBtn" class=" btn btn-default" type="button" style="display:none;"><i class="far fa-plus-square"></i>Add</button>
+        <button id="removeScoreBtn" class=" btn btn-default" type="button" style="display:none;">Remove</button>
+        <button id="saveBtn" class=" btn btn-default" type="button"  style="display:none;"> Save</button>
+        <button id="cancelBtn" class=" btn btn-default" type="button" onclick="Cancel()" style="display:none;"> Cancel</button>
+        <button class=" btn btn-default" type="button" onclick="window.location.href='Index'">Back</button>
+    </div>
+</div>
+<script type="text/javascript">
+    var scoreList;
+    domReady(function () {
+        scoreList = new searcher({
+            searchPath: "SearchScoreList"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Effect Date", columnName: "EFFECTIVE_DT"
+                }
+                ,
+                {
+                    displayName: "Score", columnName: "SCORE"
+                }
+            ]
+        });
+        scoreList.search();
+        attr("searchBtn", "onclick", { paraneters: {}, callback: function () { scoreList.search(); } })
+    })
+</script>
+<script type="text/javascript">
+    domReady(function () {
+        var counter = 0;
+        var btn = document.getElementById("addScoreBtn");
+        var form = document.getElementById("scoreInput")
+        var addInput = function () {
+            counter++;
+
+            var tr = document.createElement("tr");
+            var td1 = document.createElement("td");
+            var td2 = document.createElement("td");
+            var inputDate = document.createElement("input");
+            var inputScore = document.createElement("input")
+            tr.id = 'tr-' + counter;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            td1.appendChild(inputDate);
+            td2.appendChild(inputScore);
+            inputDate.id = 'inputDate-' + counter;
+            inputDate.type = 'text';
+            inputDate.classList.add('inputDate');
+            inputDate.name = 'inputDate-' + counter;
+
+
+            inputScore.id = 'inputScore-' + counter;
+            inputScore.type = 'number';
+            inputScore.className = 'inputScore';
+            inputScore.name = 'inputScore-' + counter;
+            form.appendChild(tr);
+        };
+        btn.addEventListener('click', function () {
+            addInput();
+            var dates = getDates();
+            datepickize('.inputDate');
+            setDates(dates);
+        }.bind(this));
+
+        function getDates() {
+            var dates = [];
+            if (counter > 1) {
+                for (var i = 1; i < counter; i++) {
+                    dates[i - 1] = document.getElementById("inputDate-" + i).value;
+                }
+            }
+            console.log(dates);
+            return dates;
+        }
+
+        function setDates(dates) {
+            console.log(dates);
+            if (counter > 1) {
+                for (var i = 1; i < counter; i++) {
+                    document.getElementById("inputDate-" + i).value = dates[i - 1];
+                }
+            }
+        }
+
+        $('#removeScoreBtn').click(function () {
+            if (counter == 0) {
+                alert("No more textbox to remove.");
+                return false;
+            }
+            $('#tr-' + counter).remove();
+            counter--;
+        });
+
+        $('#cancelBtn').click(function () {
+            for (i = 1; i <= counter; i++) {
+                $('#tr-' + i).remove();
+            }
+            counter = 0;
+        });
+
+        $('#saveBtn').click(function () {
+            var dateList = new Array();
+            var scoreList = new Array();
+            for (i = 1; i <= counter; i++) {
+                if ($('#inputDate-' + i).val() == null || $('#inputDate-' + i).val() == '' || $('#inputScore-' + i).val() == null || $('#inputScore-' + i).val() == '') {
+                    alert("Effect Date or Score should not be empty.");
+                    return false;
+                }
+
+                dateList[i - 1] = $('#inputDate-' + i).val();
+                scoreList[i - 1] = $('#inputScore-' + i).val();
+            }
+
+
+            $.ajax({
+                url: "AddNewScore"
+                , type: "POST"
+                , data: {
+                    Offense_Id: $('#OffenseId').val()
+                    , Effect_Date: dateList
+                    , Score: scoreList
+                }
+                , success: function (data) {
+                    console.log(data);
+                    if (data != null && data.Result == "SUCCESS") {
+                        $('#scoreInputFrom').css('display', 'none');
+                        $('#addBtn').css('display', '');
+                        $('#addScoreBtn').css('display', 'none');
+                        $('#removeScoreBtn').css('display', 'none');
+                        $('#saveBtn').css('display', 'none');
+                        $('#cancelBtn').css('display', 'none');
+                        alert(data.Message[0]);
+                        for (i = 1; i <= counter; i++) {
+                            $('#tr-' + i).remove();
+                        }
+                        counter = 0;
+                        $("#searchBtn").click();
+                    } else {
+                        alert(data.Message[0]);
+                    }
+                }
+            });
+
+
+        });
+
+    })
+
+
+    function Add() {
+        $('#addScoreBtn').click();
+        $('#scoreInputFrom').css('display', '');
+        $('#addBtn').css('display', 'none');
+        $('#addScoreBtn').css('display', '');
+        $('#removeScoreBtn').css('display', '');
+        $('#saveBtn').css('display', '');
+        $('#cancelBtn').css('display', '');
+    }
+
+    function Cancel() {
+        $('#scoreInputFrom').css('display', 'none');
+        $('#addBtn').css('display', '');
+        $('#addScoreBtn').css('display', 'none');
+        $('#removeScoreBtn').css('display', 'none');
+        $('#saveBtn').css('display', 'none');
+        $('#cancelBtn').css('display', 'none');
+    }
+
+    function EditOffenseName() {
+        attr("editOffenseNameBtn", "style", "display:none");
+        attr("Offense_Name", "disabled", "");
+        attr("Type", "disabled", "");
+        attr("saveOffenseNameBtn", "style", "display:''");
+    }
+    function SaveOffenseName() {
+        $.ajax({
+            url: 'UpdateOffenseName'
+            , type: 'POST'
+            , data: {
+                Offense_Id: $('#OffenseId').val()
+                , Offense_Name: $('#Offense_Name').val()
+                , Type: $('#Type').val()
+            }
+            , success: function (data) {
+                if (data != null && data.Result == "SUCCESS") {
+                    attr("Offense_Name", "value", data.Data);
+                    attr("editOffenseNameBtn", "style", "display:''");
+                    attr("saveOffenseNameBtn", "style", "display:none");
+                    goTo("Detail", [{ name: "uuid", value: $('#OffenseId').val() }, { name: "offense_name", value: data.Data }, { name: "type", value: $('#Type').val() }])
+                }
+                else {
+                    if (data.Result == "Failed") {
+                        alert(data.Message);
+                    }
+                    showErrorMessage(data.ErrorMessages);
+                }
+            }
+        });
+    }
+</script>

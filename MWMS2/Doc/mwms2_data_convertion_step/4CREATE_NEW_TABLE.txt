@@ -1,0 +1,220 @@
+CREATE TABLE P_S_Industrial_Address_List(	Uuid	Varchar(36)
+,	Full_Addr	Varchar(400)
+,	Street	Varchar(100)
+,	Street_No	Varchar(50)
+,	Building	Varchar(100)
+,	Floor	Varchar(30)
+,	Unit	Varchar(30)
+,	Ordering	Varchar(10)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE P_MW_Record_SAC_Check_List(	Uuid	Varchar(36)
+,	Mw_Record_Id	Varchar(36)
+,	Sv_Question_Id	Varchar(36)
+,	Answer	Varchar2(500)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE P_MW_Record_PSAC_Check_List(	Uuid	Varchar(36)
+,	Mw_Record_Id	Varchar(36)
+,	Sv_Question_Id	Varchar(36)
+,	Answer	Varchar2(500)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE P_Doc_Staging_Meta_Data(	Uuid	Varchar(36)
+,	MW_submission_NO	Varchar(20)
+,	DSN	Varchar(20)
+,	DSN_version_number	Varchar(20)
+,	Form	Varchar(20)
+,	Document_type	Varchar(20)
+,	MW_Item_number	Varchar(400)
+,	BD_File_Ref	Varchar(50)
+,	Sub_Letter_date	Date
+,	Works_location	Varchar2(300)
+,	Selected_Audit_check	Varchar(20)
+,	Origin_of_record	Varchar(50)
+,	EFSS_SUB_Ref_NO	Varchar(50)
+,	correspondence_TYPE	Varchar(50)
+,	File_Classification	Varchar(50)
+,	Backlog_upload	Varchar(50)
+,	Location	Varchar(300)
+,	Doc_control_stage	Varchar(50)
+,	rescan_Reason 	Varchar2(300)
+,	Scan_check_Status	Varchar(50)
+,	Scan_check_date	Varchar(50)
+,	Scan_check_officer	Varchar(50)
+,	Disposal_Status	Varchar(50)
+,	Disposal_Disposal_date	Date
+,	disposal_Reason	Varchar2(300)
+,	Disposal_officeR	Varchar(50)
+,	Block_ID	Varchar(20)
+,	Unit_ID	Varchar(20)
+,	Modification_Permit_NO	Varchar(50)
+,	Modification_granted Varchar2(300)
+,	Provisions_modified_exempted	Varchar2(300)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Record_AL_Follow_Up (	Uuid	Varchar(36)
+,	MW_Record_ID	Varchar(36)
+,	Follow_Up_Date	Date
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Record_AL_Follow_Up_Offences (	Uuid	Varchar(36)
+,	Master_Id	Varchar(36)
+,	Sv_Question_Id	Varchar(36)
+,	Answer	Varchar2(500)
+,	Remarks	Varchar2(500)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Record_WL_Follow_Up(	Uuid	Varchar(36)
+,	MW_Record_ID	Varchar(36)
+,	Referral_LSS_date	Date
+,	Referral_EBD_DATE	Date
+,	Discovery_date	Date
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Record_Referred_To_LSS_EBD(	Uuid	Varchar(36)
+,	MW_Record_ID	Varchar(36)
+,	Contravention	Varchar(100)
+,	Dropped_withdrawn_date	Date
+,	Summon_date	Date
+,	hearing_date	Date
+,	total_fine	Varchar(10)
+,	Remarks	Varchar(500)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Modification_No(	Uuid	Varchar(36)
+,	REFERENCE_NO	Varchar(36)
+,	PREFIX	Varchar(36)
+,	CURRENT_NUMBER	Varchar(36)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Modification(	Uuid	Varchar(36)
+,	ADDRESS	Varchar2(300)
+,	APPLICANT_CAPACITY	Varchar(100)
+,	APPLICANT_NAME	Varchar(100)
+,	COUNTER	Varchar(20)
+,	DESC_OF_MODI	Varchar2(300)
+,	DSN	Varchar(20)
+,	EMAIL	Varchar(100)
+,	FILE_TYPE	Varchar(20)
+,	FORM_NO	Varchar(20)
+,	IS_BUILDING_WORKS	Varchar(10)
+,	IS_STREET_WORKS	Varchar(10)
+,	LANGUAGE	Varchar(36)
+,	LOC_OF_SUBJECT	Varchar2(100)
+,	LOT_NO	Varchar(36)
+,	NATURE	Varchar(36)
+,	RECEIVED_DATE	Date
+,	REFERENCE_NO	Varchar(20)
+,	REGULATIONS	Varchar(100)
+,	RRM_SYN_STATUS	Varchar(50)
+,	SUPPORTING_DOCUMENT	Varchar(50)
+,	UNABLE_TO_COMPLY_REASON	Varchar2(300)
+,	VALIDITY	Varchar(50)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MOD_BD106(	Uuid	Varchar(36)
+,	MW_Modification_Id	Varchar(36)
+,	MW_Scanned_Doc_Id	Varchar(36)
+,	MW_File_Ref_No	Varchar(36)
+,	BCIS_Unit_ID	Varchar(36)
+,	Block_ID	Varchar(36)
+,	Address_Eng	Varchar2(300)
+,	Address_Chi	Varchar2(300)
+,	Received_date_of_Form_BA16	Date
+,	Result_of_the_application	Varchar(50)
+,	Issue_date_of_BD106	Date
+,	No_of_approved_flats_involved	Varchar(20)
+,	No_of_cubicles_after_subdivision	Date
+,	Floor_area_of_subdivided_cubicles	Varchar(50)
+,	Completion_date	Date
+,	Annual_inspection_date 	Date
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Direct_Return(	Uuid	Varchar(36)
+,	Dsn	Varchar(20)
+,	Form_Type	Varchar(20)
+,	Contractor_Reg_No	Varchar(20)
+,	Received_Date	Date
+,	Handing_Staff_1	Varchar(20)
+,	Handing_Staff_2	Varchar(20)
+,	Handing_Staff_3	Varchar(20)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MW_Direct_Return_Irregularities(	Uuid	Varchar(36)
+,	Master_Id	Varchar(36)
+,	Sv_Irregularities_Id	Varchar(36)
+,	Is_Checked	Varchar(5)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE S_Officer_Roster(	Uuid	Varchar(36)
+,	Handling_officer	Varchar(36)
+,	Sequence_No	Varchar(10)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);
+CREATE TABLE MBID_Form_Submission_Record(	Uuid	Varchar(36)
+,	Block_Id	Varchar(36)
+,	Unit_Id	Varchar(36)
+,	Nature	Varchar(50)
+,	Received_Date	Date
+,	Form_Type	Varchar(20)
+,	MW_No	Varchar(20)
+,	PBP_Reg_No	Varchar(20)
+,	PRC_Reg_No	Varchar(20)
+,	Works_Location	Varchar(300)
+,	Comm_Date	Date
+,	Comp_Date	Date
+,	Paw	Varchar(100)
+,	Paw_contact	Varchar(300)
+,	Letter_Date	Date
+,	UMW_Notice_No	Varchar(50)
+,	BD_reference	Varchar(50)
+,	V_Submission_Case_No	Varchar(50)
+,	Statutory_Notice_Number	Varchar(50)
+,	Created_by	Varchar(20)
+,	Created_date	Date
+,	Modified_by	Varchar(20)
+,	Modified_date	Date
+);

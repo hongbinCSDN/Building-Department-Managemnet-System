@@ -1,0 +1,107 @@
+﻿
+@model MWMS2.Entity.B_S_PARAMETER
+
+@section scripts{
+
+    <script type="text/javascript">
+    </script>
+}
+<h3> Workflow Setting </h3>
+@*<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    <span id="MODIFIED_DATE">
+        @ViewBag.MODIFIED_DATE
+    </span>
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    <span id="MODIFIED_BY">
+        @Html.DisplayFor(model => model.MODIFIED_BY)
+    </span>
+</div>*@
+@using (Html.BeginForm("SPMWorkflowSetting", "SPMWorkflowSetting", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="sList">
+    <table class="resultTable">
+        <thead>
+            <tr class="w3-col l12 m12 s12">
+                <th class="w3-col l6 m3 s3 sTh" style="display: table;">
+                    <div style=" display: table-cell; vertical-align: middle;">Parameter Name</div>
+                </th>
+                <th class="w3-col l6 m9 s9 sTh" style="display: table;">
+                    <div style=" display: table-cell; vertical-align: middle;">Value</div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+    <div class="w3-border displayForm">
+        @{
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">System Assign</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.DropDownListFor(model => model.SYSTEM_ASSIGN, (IEnumerable<SelectListItem>)ViewBag.List, new { style = "width:auto", id = "SystemAssign" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">SPO Validation</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.DropDownListFor(model => model.SPO_VALIDATION, (IEnumerable<SelectListItem>)ViewBag.List, new { style = "width:auto", id = "SPOValidation" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">SPO Audit</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.DropDownListFor(model => model.SPO_AUDIT, (IEnumerable<SelectListItem>)ViewBag.List, new { style = "width:auto", id = "SPOAudit" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">PO Processing S24 Day</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.TextBoxFor(model => model.PROCESS_S24_DAY, new { style = "width: auto", id = "ProcessS24Day", @type = "number" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">PO Processing GC Day</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.TextBoxFor(model => model.PROCESS_GC_DAY, new { style = "width: auto", id = "ProcessGCDay", @type = "number" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">Number of Validation Cases</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.TextBoxFor(model => model.NUMBER_OF_JOB_ASSIGN, new { style = "width: auto", id = "NumberOfJobAssign", @type = "number" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">Number of Validation Expiry Year</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.TextBoxFor(model => model.VALIDATION_EXPIRY_YEAR_NUM, new { style = "width: auto", id = "ValidationExpiryYearNum", @type = "number" })
+                    </div>
+                </div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m3 s3" style=" text-align: left; padding-left: 10px;">Target Date</div>
+                    <div class="w3-col l6 m9 s9">
+                        @Html.TextBoxFor(model => model.TARGET_DATE, new { style = "width: auto", id = "TargetDate", @type = "number" })
+                    </div>
+                </div>
+            </div>
+        }
+    <div class="w3-container footer">
+        <input class="btn btn-default" type="submit" id="submit" value="Submit" />
+        @*<input class="inputButton btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("Index","SMMSysParaMan")"' type="button">*@
+        <button onclick='location.href="@Url.Action("Index","SMMSysParaMan")"' class="CancelButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+    </div>
+    </div>
+    
+</div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br>

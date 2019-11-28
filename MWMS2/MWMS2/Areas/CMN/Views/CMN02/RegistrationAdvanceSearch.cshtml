@@ -1,0 +1,121 @@
+﻿
+@model MWMS2.Areas.CMN.Models.CMN02Model
+
+<form id="inputForm" method="post" action="Search" enctype="multipart/form-data">
+    <div class="displayForm" id="searchCriteria">
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Name (Eng) :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_EngName)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Name (Chn) :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_ChiName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+
+                <div class="w3-col l3 m6 s12">
+                    Registration No. :
+                </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_RegistrationNo, new { @style = "max-width:350px;" })
+                </div>
+
+
+
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">
+                    Expiry Date :
+                </div>
+                <div class="w3-col l9 m6 s12">
+                    From
+                    @Html.TextBoxFor(x => x.Search_ExpiryDateFrom, new { @class = "inputDate" })
+                    To
+                    @Html.TextBoxFor(x => x.Search_ExpiryDateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Company Name (Eng) :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_EngCompName)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Company Name (Chn) :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_ChiCompName)
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Name of Authorized Signatory (Eng):
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_ASEngName)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Name of Authorized Signatory (Chn):
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_ASChiName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Services in Bldg Safety :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_ServicesBS)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    Telephone No. for Services in Bldg Safety :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(x => x.Search_TelBS)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button style="float:left" class="btn btn-default" onclick="goTo('Index')" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+            <button  class="searchButton btn btn-default" type="submit"><i class="fa fa-search"></i> Search</button>
+
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+
+
+        <div id="resultPanel"></div>
+
+    </div>
+    </form>

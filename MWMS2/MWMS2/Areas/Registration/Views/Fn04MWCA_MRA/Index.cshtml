@@ -1,0 +1,76 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn04MCA_MRASearchModel
+
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Interview Date :</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" class="inputDate" />
+                to
+                <input type="text" class="inputDate" />
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12"> Room :</div>
+            <div class="w3-col l6 m12 s12">
+                <select>
+                    <option>- All -</option>
+                    <option>Room 2109</option>
+                    <option>Room 1817A</option>
+                    <option>Room 1813</option>
+                    <option>Room 1816</option>
+                    <option>ROOM 2117</option>
+                    <option>ROOM 2118</option>
+                    <option>ROOM 2116</option>
+                    <option>2116A</option>
+                    <option>2116B</option>
+                    <option>ROOM 1817A</option>
+                    <option>ROOM 1816</option>
+                    <option>ROOM 1813</option>
+                    <option>ROOM 106A</option>
+                    <option>ROOM 106B</option>
+                    <option>ROOM 106C</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                {
+                    displayName: "File Ref.", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) {
+                        try { if (row == null) return; alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                , { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+
+                , { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+
+            ]
+        });
+    });
+</script>

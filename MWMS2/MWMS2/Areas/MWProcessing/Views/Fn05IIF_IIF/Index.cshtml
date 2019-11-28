@@ -1,0 +1,131 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn05IIF_IIFModel
+
+<div class="panelHeader">
+    Import MW05(3.6) Record
+
+</div>
+<div id="searchCriteria">
+    @using (Html.BeginForm("ImportExcel", "Fn05IIF_IIF", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm", @id = "importForm" }))
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Import File :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.HiddenFor(m => m.ImportType)
+                    <input type="file" name="file" id="file" />
+                    <span style="color:red;">@ViewBag.Message</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Template Import file :</div>
+                <div class="w3-col l3 m12 s12">
+                    <a target="_BLANK" href="~/Template/ImportItem3.6/Template.xlsx">Download</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="w3-container footer">
+            <button class="btn btn-default" type="button" onclick="Import()"><i class="fa fa-upload"></i> Upload file</button>
+            @*<button class="searchButton btn btn-default" type="submit"><i class="fa fa-upload"></i> Upload file</button>*@
+        </div>
+    }
+
+
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File", columnName: "FILENAME"
+                }
+                , {
+                    displayName: "Upload Date", columnName: "CREATED_DT"
+                }
+                , {
+                    displayName: "Upload By", columnName: "CREATED_NAME"
+                }
+                //, {
+                //    displayName: "Status(success / total)", columnName: "STATUS"
+                //}
+                //, {
+                //    displayName: "Action", columnName: "DSN"
+                //}
+                , {
+                    displayName: "Content", columnName: "RESULT"
+                    , click: function (row) {
+                        try {
+                            if (row == null)
+                                return null;
+
+                            $.ajax({
+                                url: "ExportExcel"
+                                , type: "POST"
+                                , data: {
+                                    UUID: row.UUID
+                                    , FileName: row.FILENAME
+                                }
+                                , success: function (d) {
+                                    if (d != null && d.key != null) {
+                                        if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                                        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                                        dlForm.method = "post";
+                                        dlForm.target = "dlFrame";
+                                        dlForm.action = "ExportExcel";
+                                        dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                                        dlForm.submit();
+                                        attr(dlForm, "html", "");
+                                        //dropClass(exportingDom, "exporting");
+                                    }
+                                }
+                            });
+                        }
+                        catch (err) { }
+                    }
+                }
+            ]
+        }).goToPage();
+
+    });
+
+    function Import()
+    {
+        var thisForm = document.getElementById('importForm');
+        var file = $('#file').val();
+        console.log(file);
+        if (file == null || file == "") {
+            alert("Please select the excel file.")
+            return;
+        }
+        else {
+            var index = file.lastIndexOf(".");
+            if (index < 0) {
+                alert("The file is in the wrong format.")
+                return;
+            }
+            else {
+                var ext = file.substring(index + 1, file.length);
+                if (ext != "xls" && ext != "xlsx") {
+                    alert("Upload excel only.")
+                    return;
+                }
+            }
+        }
+        thisForm.submit();
+    }
+</script>

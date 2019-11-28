@@ -1,0 +1,81 @@
+﻿@model MWMS2.Areas.Admin.Models.Sys_SectionModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Code :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.CODE, new { @id = "CODE" })
+            </div>
+            <div class="w3-col l3 m12 s12">Description :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.DESCRIPTION, new { @id = "DESCRIPTION" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Fax :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.FAX, new { @id = "FAX", oninput = @"value=value.replace(/[^\d]/g,'')" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button id="createBtn" class="btn btn-default w3-left" type="button" onclick="CreateForm()"><i class="far fa-plus-square"></i> Create</button>
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    function CreateForm() {
+        goTo("CreateForm")
+    }
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            //, Sort: "DSN"
+            , Columns: [
+                { displayName: "Code", columnName: "CODE" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+                , { displayName: "Fax", columnName: "FAX" }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("Edit", "fa-edit", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    goTo("EditForm", [{ name: "SYS_SECTION.UUID", value: row.UUID }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+        });
+        //attr("CONTRACTOR_REG_NO", "onblur", {
+        //    callback: function (d, p, e) {
+        //        req("AjaxAPRIContractorName"
+        //            , [{ name: "regNo", value: domId("CONTRACTOR_REG_NO").value }]
+        //            , function (data) { attr("APRIContractorName", "html", data.FULL_NAME_DISPLAY); });
+        //    }
+        //});
+        //trigger("CONTRACTOR_REG_NO", "onblur");
+    });
+
+
+</script>

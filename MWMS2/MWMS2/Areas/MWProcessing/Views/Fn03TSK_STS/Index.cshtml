@@ -1,0 +1,90 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_TdlSearchModel
+
+<div class="panelHeader">Summary</div>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Post :</div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.PostCode, new { @id = "PostCode" })</div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButtona btn btn-default" type="button" id="searchButton">Get Records</button>
+    </div>
+</div>
+
+
+<div id="listDiv" class="hide">
+    <br><div class="panelHeader">Submission        </div><div id="SubmissionDiv"></div>
+</div>
+
+<script type="text/javascript">
+
+
+
+
+    new atcp({
+        id: "PostCode", dataSource: "AtcpPemSubordinateMembers", valueKey: "UUID", displayKey: "POST"
+        , init: true
+        , minWidth: 400
+        //, passElement: [{ name: "RECVERSION", id: "SYS_POST_SYS_RANK_RECVERSION" }]
+        , mustMatch: true
+        , columns: [{ "name": "Post", "key": "POST" }]
+        , onSelect: function (row, idx, domObject, beforeValue, afterValue) {
+           
+        }
+    });
+
+
+
+
+
+
+
+
+
+    var tdlPath = domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/";
+    var ComplaintList, EnquiryList, ModificationList, SubmissionList;
+
+
+
+</script>
+<script type="text/javascript">
+    domReady(function () {
+
+
+        SubmissionList = new searcher({
+            searchPath: tdlPath + "SearchSubmissions"
+            , exportPath: tdlPath + "ExcelSubmissions"
+            , searchTable: "RefNo"
+            , resultPanel: "SubmissionDiv"
+            , Columns: [
+                { displayName: "Task               ", columnName: "TASK" }
+                , { displayName: "Ref.No.            ", columnName: "REFERENCE_NO" }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+            , onBeforeSearch: function (r) {
+                if (trim(domId("PostCode").value) == "") {
+                    alert("Please input Post.");
+                    return false;
+                }
+                attr("SubmissionCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                attr("SubmissionCount", "html", r.Total);
+            }
+        });
+        attr("searchButton", "onclick", {
+            parameters: {}, callback: function () {
+                if (SubmissionList.search()) {
+                    attr("countDiv", "dropClass", "hide");
+                    attr("listDiv", "dropClass", "hide");
+                }
+            }
+        });
+    });
+</script>

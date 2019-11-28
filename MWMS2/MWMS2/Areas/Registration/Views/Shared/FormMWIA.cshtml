@@ -1,0 +1,620 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_MWIADisplayModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m16 s12">
+            <div class="w3-col l6 m6 s12">File Reference :</div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO) </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">English Name :</div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DisplayFor(o => o.C_IND_APPLICATION.C_APPLICANT.SURNAME) @Html.DisplayFor(o => o.C_IND_APPLICATION.C_APPLICANT.GIVEN_NAME_ON_ID)
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Chinese Name :</div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DisplayFor(o => o.C_IND_APPLICATION.C_APPLICANT.CHINESE_NAME)
+            </div>
+        </div>
+
+    </div>
+
+    @if (MWMS2.Utility.AuthUtil.IMW_Show_Name_RegNo)
+    {
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Registration No. :</div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO)
+                </div>
+            </div>
+
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Date of Expiry :</div>
+                    <div class="w3-col l6 m6 s12">
+
+                        @Html.DisplayFor(o => o.C_IND_CERTIFICATE.EXPIRY_DATE)
+
+
+
+                    </div>
+                </div>
+           
+
+        </div>
+    }
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12"></div>
+                <div class="w3-col l6 m6 s12"></div>
+            </div>
+            @if (MWMS2.Utility.AuthUtil.IMW_Show_Name_RegNo)
+            {
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Date of Removal :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(o => o.C_IND_CERTIFICATE.REMOVAL_DATE)
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        @if (MWMS2.Utility.AuthUtil.IMW_Show_Name_RegNo)
+        {
+            <div class="panelHeader">Interest of Building Safety Services :</div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">Type of services Description:</div>
+                </div>
+            </div>
+            foreach (var item in Model.C_BUILDING_SAFETY_INFOs)
+            {
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12" style="text-align:left">@item.C_S_SYSTEM_VALUE.CODE</div>
+                        <div class="w3-col l9 m6 s12" style="text-align:left">@item.C_S_SYSTEM_VALUE.ENGLISH_DESCRIPTION</div>
+                    </div>
+                </div>
+            }
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	QP :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @if ("Y".Equals(Model.C_IND_APPLICATION.WILLINGNESS_QP))
+                        {
+                            <text>Yes</text>
+                        }
+                        else if ("N".Equals(Model.C_IND_APPLICATION.WILLINGNESS_QP))
+                        {
+                            <text>No</text>
+                        }
+                        else
+                        {
+                            <text>No Indication</text>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12"> Telephone No. :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(o => o.C_IND_APPLICATION.BS_TELEPHONE_NO1)
+                    </div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Fax No. :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(o => o.C_IND_APPLICATION.BS_FAX_NO1)
+                    </div>
+                </div>
+
+            </div>
+        }
+        <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+
+        @if (MWMS2.Utility.AuthUtil.IMW_Show_CorrAddress)
+        {
+            <div class="panelHeader">Correspondence Address</div>
+            @*<div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l12 m12 s12" style="text-align:left"> Correspondence Address</div>
+
+                    </div>
+                </div>*@
+
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left"> (English) : </div>
+
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left"> (Chinese) : </div>
+
+                </div>
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_ENG.ADDRESS_LINE1))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_ENG.ADDRESS_LINE1)
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                          @if (Model.HOME_ADDRESS_CHI != null)
+                          {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_CHI.ADDRESS_LINE1))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_CHI.ADDRESS_LINE1)
+                            }
+                        }
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_ENG.ADDRESS_LINE2))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_ENG.ADDRESS_LINE2)
+                            }
+                        }
+                        
+                    </div>
+
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                        @if (Model.HOME_ADDRESS_CHI != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_CHI.ADDRESS_LINE2))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_CHI.ADDRESS_LINE2)
+                            }
+                        }
+
+                    </div>
+
+                </div>
+
+            </div> <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_ENG.ADDRESS_LINE3))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_ENG.ADDRESS_LINE3)
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                        @if (Model.HOME_ADDRESS_CHI != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_CHI.ADDRESS_LINE3))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_CHI.ADDRESS_LINE3)
+                            }
+                        }
+
+
+                    </div>
+                </div>
+
+            </div> <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_ENG.ADDRESS_LINE4))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_ENG.ADDRESS_LINE4)
+                            }
+
+                        }
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+
+                        @if (Model.HOME_ADDRESS_CHI != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_CHI.ADDRESS_LINE4))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_CHI.ADDRESS_LINE4)
+                            }
+                        }
+
+
+                    </div>
+
+                </div>
+
+            </div> <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_ENG.ADDRESS_LINE5))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_ENG.ADDRESS_LINE5)
+                            }
+                        }
+
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">
+                        @if (Model.HOME_ADDRESS_ENG != null)
+                        {
+                            if (String.IsNullOrEmpty(Model.HOME_ADDRESS_CHI.ADDRESS_LINE5))
+                            {
+                                <text>&nbsp</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(o => o.HOME_ADDRESS_CHI.ADDRESS_LINE5)
+                            }
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+        }
+
+        @if (MWMS2.Utility.AuthUtil.IMW_Show_Contact)
+        {
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Emergency Nos. :  </div>
+                    <div class="w3-col l6 m6 s12">
+                        @{
+                            String emergencyNosValue = "";
+                            emergencyNosValue = Model.C_IND_APPLICATION.EMERGENCY_NO1;
+                        }
+
+                        @if (String.IsNullOrEmpty(emergencyNosValue))
+                        {
+                            emergencyNosValue = Model.C_IND_APPLICATION.EMERGENCY_NO2;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(Model.C_IND_APPLICATION.EMERGENCY_NO2))
+                            {
+                                emergencyNosValue += " / " + Model.C_IND_APPLICATION.EMERGENCY_NO2;
+                            }
+                        }
+
+                        @if (String.IsNullOrEmpty(emergencyNosValue))
+                        {
+                            emergencyNosValue = Model.C_IND_APPLICATION.EMERGENCY_NO3;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(Model.C_IND_APPLICATION.EMERGENCY_NO3))
+                            {
+                                emergencyNosValue += " / " + Model.C_IND_APPLICATION.EMERGENCY_NO3;
+                            }
+                        }
+                        <text>@emergencyNosValue</text>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Telephone Nos. :  </div>
+                    <div class="w3-col l6 m6 s12">
+                        @{
+                            String telNoValue = "";
+                            telNoValue = Model.C_IND_APPLICATION.TELEPHONE_NO1;
+                        }
+
+                        @if (String.IsNullOrEmpty(telNoValue))
+                        {
+                            telNoValue = Model.C_IND_APPLICATION.TELEPHONE_NO2;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(Model.C_IND_APPLICATION.TELEPHONE_NO2))
+                            {
+                                telNoValue += " / " + Model.C_IND_APPLICATION.TELEPHONE_NO2;
+                            }
+                        }
+
+                        @if (String.IsNullOrEmpty(telNoValue))
+                        {
+                            telNoValue = Model.C_IND_APPLICATION.TELEPHONE_NO3;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(Model.C_IND_APPLICATION.TELEPHONE_NO3))
+                            {
+                                telNoValue += " / " + Model.C_IND_APPLICATION.TELEPHONE_NO3;
+                            }
+                        }
+                        <text>@telNoValue</text>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	FAX Nos. :  </div>
+                    <div class="w3-col l6 m6 s12">
+                        @{
+                            String faxNoValue = "";
+                            faxNoValue = Model.C_IND_APPLICATION.FAX_NO1;
+                        }
+
+                        @if (String.IsNullOrEmpty(faxNoValue))
+                        {
+                            faxNoValue = Model.C_IND_APPLICATION.FAX_NO2;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(Model.C_IND_APPLICATION.FAX_NO2))
+                            {
+                                faxNoValue += " / " + Model.C_IND_APPLICATION.FAX_NO2;
+                            }
+                        }
+                        <text>@faxNoValue</text>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	Email :  </div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(o => o.C_IND_APPLICATION.EMAIL)
+                    </div>
+                </div>
+
+
+            </div>
+        }
+        <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">	Registration Status :  </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DisplayFor(o => o.APP_STATUS_C_S_SYSTEM_VALUE.ENGLISH_DESCRIPTION)
+                </div>
+            </div>
+
+
+        </div>
+        <div class="w3-row">
+
+            <div class="w3-col l6 m12 s12">
+                <table class="resultTable">
+                    <thead>
+                        @if (MWMS2.Utility.AuthUtil.IMW_Show_SpecimenSignature)
+                        {
+                            <tr>
+                                <th>Specimen Signature	</th>
+                            </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @if (MWMS2.Utility.AuthUtil.IMW_Show_SpecimenSignature)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED))
+                                    {
+                                        <button class="btn btn-default" type="button" onclick="GetCRMImage('@Model.C_IND_CERTIFICATE.UUID')"> <i class="far fa-file-image"></i></button>
+                                        @*@Html.ActionLink("Get Signature Images", "GetSignImg", null, new { uuid = Model.C_IND_CERTIFICATE.UUID, regType = "IMW" }, new { @class = "ImageClass" });*@
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+        @if (MWMS2.Utility.AuthUtil.IMW_Show_HKIDPASSPORT)
+        {
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">	HKID / Passport No. :  </div>
+                    <div class="w3-col l6 m6 s12">
+                        @Model.getDecryptHKID()
+                    </div>
+                </div>
+
+
+            </div>
+        }
+
+        <div class="panelHeader">MW Capability</div>
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th colspan="5">
+                        MW Item
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <text>
+                    @{
+                        for (int i = 0; i < Model.MWITEMLIST.Count(); i++)
+                        {
+                            if (i % 5 == 0)
+                            {
+                                @Html.Raw("<tr>")
+                            }
+                    <td>
+                        @Model.MWITEMLIST[i].CODE
+                    </td>
+                    if (i % 5 == 4)
+                    {
+                        @Html.Raw("</tr>")
+                    }
+                }
+
+                    }
+                    </text>
+                    </tbody>
+
+
+
+
+                </table>
+        <div class="w3-container footer">
+
+            <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+            </div>
+
+            <div id="resultPanel"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <script type="text/javascript">
+                function GetCRMImage(uuid) {
+                    goTo('GetSignImg', [{ name: "uuid", value: uuid }, { name: "regType", value: "IMW" }], true);
+                }
+
+                domReady(function () {
+                    new searcher({
+                        searchPath: "Search"
+                        , exportPath: "Excel"
+                        , searchTable: "searchCriteria"
+                        , resultPanel: "resultPanel"
+                        , sort: "CERTIFICATION_NO"
+                        , Columns: [
+                            {
+                                displayName: "PRB", columnName: "FILE_REFERENCE_NO"
+                                // , click: function (row) {
+                                //    if (row == null) return;
+                                //     try {
+                                //         if (row == null) return;
+                                //         goTo("Form", [{ name: "id", value: row.UUID }]);
+                                //     } catch (err) { };
+                                //}
+                            }
+                            , { displayName: "Registration No.", columnName: "SURNAME" }
+                            , { displayName: "Registration Date", columnName: "CODE" }
+                            , { displayName: "Expiry  Date", columnName: "CERTIFICATION_NO" }
+                            , { displayName: "Disciplines / Divisions", columnName: "ENGLISH_DESCRIPTION" }
+                        ]
+                    });
+                });
+            </script>
+
+ }
+ else
+ {
+     <b>Access denied, please contact your supervisor.</b>
+ }

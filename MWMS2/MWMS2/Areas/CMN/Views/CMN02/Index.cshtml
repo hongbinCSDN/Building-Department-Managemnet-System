@@ -1,0 +1,150 @@
+﻿@model MWMS2.Models.CMNSearch
+
+<style>
+    #SearchCriteriaDiv{
+       min-width:1200px;
+    }
+    .KeywordStyle {
+        vertical-align: top !important;
+        margin: 0px 0px 0px 0px !important;
+        max-width: 700px !important;
+        font-size: 16px !important;
+    }
+    #SearchButton {
+        margin: 0 0 0 -10px;
+        height: 40px;
+        vertical-align: top;
+        border-radius: 0 15px 15px 0;
+        padding: 1px 15px 1px 6px;
+    }
+    #AdvSearchButton {
+        margin: 0 0 0 -10px;
+        height: 40px;
+        vertical-align: top;
+        padding: 1px 15px 1px 15px;
+    }
+</style>
+<h3>Search</h3>
+
+
+
+    <div class="w3-card" id="SearchCriteriaDiv" style="padding:50px;height:100%; text-align:center; ">
+
+        <div class="">
+            <input type="hidden" id="selectedType" value="2" />
+            <input onclick="CMN01_changeType(2)" type="radio" value="2" name="searchType" id="searchType2" checked><label for="searchType2" onclick="CMN01_changeType(2)"> Minor Works Record Search</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input onclick="CMN01_changeType(1)" type="radio" value="1" name="searchType" id="searchType1"><label for="searchType1" onclick="CMN01_changeType(1)"> Registers Search</label>
+        </div>
+        <br>
+        <input type="text" id="Keyword" name="Keyword" class="KeywordStyle" />
+        <button id="SearchButton" class="btn btn-default" type="button" onclick="doSearch()"><i class="fa fa-search"></i>&nbsp;Search</button>
+
+        <br /><br />
+        <button id="AdvSearchButton" class="btn btn-default" type="button" onclick="changeAdvancedSearch()" style="margin-left:-8px; height:40px">Advanced Search</button>
+    </div>
+<div class="resultPanel" id="resultPanel">
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function CMN01_changeType(id) {
+        domId("selectedType").value = id;
+        if (id == 1) {
+            domId("Keyword").setAttribute("placeholder", "Registration No. / Name of company or registry ...");
+        } else {
+            domId("Keyword").setAttribute("placeholder", "Street / 4+2 / Reference No.(e.g. MW No.) / DSN...");
+
+        }
+    }
+
+
+
+    new atcp({
+        id: "Keyword", dataSource: "QSearchKeyword", valueKey: "KEYWORD", displayKey: "KEYWORD", init: false, mustMatch: false, showHeader:false
+        , columns: [
+            { "name": "Keyword", "key": "KEYWORD" }
+        ]
+        , passElement: [{ "name": "selectedType", "id": "selectedType" }
+        ]
+        , onSelect: function (row) {
+            doSearch();
+        }
+    });
+
+
+    function changeAdvancedSearch()
+    {
+  
+ 
+            if ($('input[name="searchType"]:checked').val() == "1") {
+                
+                goTo(domId("rootPath").value + "/CMN/CMN02/RegistrationAdvanceSearch", [{ name: "Keyword", value: document.getElementById("Keyword").value }]);
+
+            }
+            else {
+
+                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_SS/Index");
+            }
+        
+    }
+    function doSearch() {
+
+
+        if (document.getElementById("Keyword").value.length < 3) {
+            alert("The minimum characters is 3");
+        }
+        else
+        {
+            if ($('input[name="searchType"]:checked').val() == "1") {
+                goTo(domId("rootPath").value + "/CMN/CMN02/Search", [{ name: "Keyword", value: document.getElementById("Keyword").value }]);
+            }
+            else {
+                goTo(domId("rootPath").value + "/CMN/CMN02/PEMSearch", [{ name: "Keyword", value: document.getElementById("Keyword").value }]);                
+            }
+        }
+      
+          //req("Search", "SearchCriteriaDiv", function (rsp) {
+        //    domId("SearchCriteriaDiv").style.padding = "0px";
+        //    var resultPanel = domId("resultPanel");
+
+
+
+
+
+        //});
+    }
+
+
+
+
+
+
+
+
+
+    function CMM01Search() {
+
+        var radios = document.getElementsByName('searchType');
+
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                // do whatever you want with the checked radio
+
+                if (radios[i].value == 2) {
+                    window.location = '?pageCode=CM01_MWS_SEARCH';
+                }
+                else {
+                    window.location = '?pageCode=CM01_MWSRegister_SEARCH';
+                }
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+        //window.location = '?pageCode=CM01_MWS_SEARCH';
+    }
+    CMN01_changeType(2);
+</script>

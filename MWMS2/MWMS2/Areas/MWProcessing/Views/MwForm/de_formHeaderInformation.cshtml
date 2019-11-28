@@ -1,0 +1,112 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeFormModel
+
+@Html.HiddenFor(model => model.P_MW_RECORD.UUID)
+@Html.HiddenFor(model => model.P_MW_RECORD.S_FORM_TYPE_CODE)
+@Html.HiddenFor(model => model.P_MW_RECORD.MW_DSN)
+@Html.HiddenFor(model => model.P_MW_RECORD.REFERENCE_NUMBER)
+@Html.HiddenFor(model => model.P_MW_DSN.UUID)
+@Html.HiddenFor(model => model.P_MW_DSN.FORM_CODE)
+@Html.HiddenFor(model => model.P_MW_DSN.RECORD_ID)
+@Html.HiddenFor(model => model.P_MW_FORM.UUID)
+
+@*<div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <button type="button">Change Form</button>
+        </div>
+    </div>*@
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        &nbsp;&nbsp;&nbsp; FORM @Model.P_MW_DSN.FORM_CODE (2nd Entry)
+    </div>
+</div>
+
+<div class="panelHeader">New Form</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Document S/N</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.Label(Model.P_MW_RECORD.MW_DSN)
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">MW No.</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.Label(Model.P_MW_REFERENCE_NO.REFERENCE_NO)
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Form Language</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.RadioButtonFor(model => model.P_MW_RECORD.LANGUAGE_CODE, Model.LANG_ENGLISH, new { @class = "inputRadio w3-radio" })English
+            @Html.RadioButtonFor(model => model.P_MW_RECORD.LANGUAGE_CODE, Model.LANG_CHINESE, new { @class = "inputRadio w3-radio" })Traditional Chinese
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Received Date</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.P_MW_RECORD.FIRST_RECEIVED_DATE, new { @class = "inputDate" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">File Reference No.</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.P_MW_RECORD.FILEREF_FOUR, new { @style = "width:72px", @maxlength = "4", disabled = "disabled", @class = "DisableTextClass" }) /
+            @Html.TextBoxFor(model => model.P_MW_RECORD.FILEREF_TWO, new { @style = "width:42px", @maxlength = "2", disabled = "disabled", @class = "DisableTextClass" })
+        </div>
+    </div>
+</div>
+<div class="panelHeader">eSubmission Info.</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">MWU Received Date</div>
+        <div class="w3-col l8 m6 s12">
+            @if (Model.P_EFSS_FORM_MASTER == null)
+            {
+                <lable>Record not found</lable>
+            }
+            else
+            {
+                <lable>@Model.P_EFSS_FORM_MASTER.CREATEDDATE</lable>
+            }
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">EFSS Submission No</div>
+        <div class="w3-col l8 m6 s12">
+            @if (Model.P_EFSS_FORM_MASTER == null)
+            {
+                <lable>Record not found</lable>
+            }
+            else
+            {
+                <lable>@Model.P_EFSS_FORM_MASTER.SUBMISSIONNO</lable>
+            }
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">File Content</div>
+        <div class="w3-col l8 m6 s12">
+            @if (Model.P_EFSS_FORM_MASTER == null)
+            {
+                <lable>Record not found</lable>
+            }
+            else
+            {
+                <button><i class='fa fa-search'> </i></button>
+            }
+        </div>
+    </div>
+</div>

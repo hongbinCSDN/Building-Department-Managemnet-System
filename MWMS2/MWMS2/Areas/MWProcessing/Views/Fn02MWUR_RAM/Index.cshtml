@@ -1,0 +1,121 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_RAMSearchModel
+<div class="panelHeader">MW Record Address Mapping</div>
+<div class="w3-border displayForm" id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 ml6 s6">
+            <div class="w3-col l4 m4 m4">
+                Reference No.
+            </div>
+            <div class="w3-col l8 m8 s8">
+                @Html.TextBoxFor(model => model.RefNo)
+            </div>
+           
+        </div>
+        <div class="w3-col l6 ml6 s6">
+            <div class="w3-col l4 m4 m4">
+                DSN
+            </div>
+            <div class="w3-col l8 m8 s8">
+                @Html.TextBoxFor(model => model.DSN)
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s6">
+            <div class="w3-col l4 m4 m4">
+                Block ID
+            </div>
+            <div class="w3-col l8 m8 s8">
+                @Html.TextBoxFor(model => model.BlockID)
+            </div>
+           
+        </div>
+        <div class="w3-col l6 ml6 s6">
+            <div class="w3-col l4 m4 m4">
+                File Reference
+            </div>
+            <div class="w3-col l8 m4 s4">
+                @Html.TextBoxFor(model => model.File_Reference_Four, new { @type = "number", @oninput = "txtNumberLength(this,4)", @min = "0", @style = "width:50%;" })
+                /
+                @Html.TextBoxFor(model => model.File_Reference_Two, new { @type = "number", @oninput = "txtNumberLength(this,2)", @min = "0", @style = "width:40%;" })
+            </div>
+            @*<div class="w3-col l1 m1 s1">
+                /
+            </div>
+            <div class="w3-col l3 m3 s3">
+                <input type="number" min="0" oninput="txtNumberLength(this,2)" />
+            </div>*@
+        </div>
+        <div class="w3-col l6 m6 s6">
+            <div class="w3-col l4 m4 m4">
+                Receive Date
+            </div>
+            <div class="w3-col l4 m4 s4">
+                <div class="w3-col l3 m3 s3">
+                    From
+                </div>
+                <div class="w3-col l9 m19 s9">
+                    @Html.TextBoxFor(m => m.ReceivedDateFrom, new { @class= "inputDate" })
+                </div>
+                 
+            </div>
+            <div class="w3-col l4 m4 s4">
+                <div class="w3-col l3 m3 s3">
+                    To
+                </div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.TextBoxFor(m => m.ReceivedDateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+         
+        </div>
+        <div class="w3-col l6 ml6 s6">
+            <div class="w3-col l4 m4 m4">
+                Is Case Transfer to Bravo
+            </div>
+            <div class="w3-col l8 m8 s8">
+                @Html.DropDownListFor(model => model.IsCaseTransfertoBravo,new SelectList(Model.TransfertoBravoList,"Value","Text",Model.IsCaseTransfertoBravo))
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        @*<button class=" btn btn-default" type="button" >Cancel</button>*@
+    </div>
+    <div id="resultPanel">
+
+    </div>
+</div>
+<script>
+
+    function txtNumberLength(obj, length) {
+        if (obj.value.length >= length) {
+            obj.value = obj.value.substring(0, length);
+        }
+    }
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "MW No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo("Detail", [{ name: "uuid", value: row.UUID }])
+                        }
+                        catch (err) { }
+                    }
+                }
+                , { displayName: "Item No.", columnName: "ITEMCODE" }
+                , { displayName: "Commencement Date", columnName: "COMMENCEMENT_DATE" }
+                , { displayName: "Completion Date", columnName: "COMPLETION_DATE" }
+                //, { displayName: "File Reference No.", columnName: "FILE_REFERENCE" }
+                , { displayName: "Location of Minor Work", columnName:"LOCATION_OF_MINOR_WORK"}
+                
+
+            ]
+        });
+    });
+</script>

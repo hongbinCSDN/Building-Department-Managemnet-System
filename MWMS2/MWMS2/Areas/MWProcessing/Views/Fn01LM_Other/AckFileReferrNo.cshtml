@@ -1,0 +1,53 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_OtherUpdateFRN
+
+<form id="referenceNoInputForm" method="post">
+    <div class="panelHeader">
+        Update File Reference No
+    </div>
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">MW No :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.MWNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">File Reference No   :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.FileReferenceFour, new { maxlength = "4", style = "width:60px" })/@Html.TextBoxFor(m => m.FileReferenceTwo, new { style = "width:40px", maxlength = "2" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="updateAckFileReferrNoBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+            <button class="searchButton btn btn-default" type="reset"> Reset</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("updateAckFileReferrNoBtn", "onclick", { parameters: {}, callback: onUpdateAckFileReferrNo });
+    });
+
+    function onUpdateAckFileReferrNo() {
+
+        attr("referenceNoInputForm", "addClass", "saving");
+        $.post("UpdateAckFileReferrNo", $("#referenceNoInputForm").serialize(), function (data) {
+            attr("referenceNoInputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                alert("Update File Reference No successfully");
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+</script>

@@ -1,0 +1,276 @@
+﻿
+@model MWMS2.Areas.Registration.Models.CertificateDisplayListModel
+
+<div class="displayForm">
+
+    @Html.HiddenFor(x => x.UUID)
+    <div class="panelHeader">Current Registration Information</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Category Code<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.CATEGORY_CODE, Model.RetrieveCatCodeByType())</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                <input type="checkbox">
+                <label>Use old category code</label>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Registration No. :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.REGISTRATION_NO)</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Expiry of  Registration on :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.TextBoxFor(model => model.EXPIRY_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Last Application submitted on :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.APPLICATION_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Specified Form Submitted :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.APPFORM_SV_CODE, Model.APPLICATION_FORM_List)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Period of Validity<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.PERIOD_VADLIDITY_SV_CODE, Model.GetPeriodValidity())</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Status<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.STATUS, Model.APPLICANT_STATUS_ID_List)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Specimen Signature :
+            </div>
+            <div class="w3-col l6 m6 s12">
+
+
+                <input type="file" name="UploadDoc" />
+                <div id="DocArea">
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FILE_PATH_NON_RESTRICTED))
+                    {@*@Html.ActionLink("Get Signature Images", "GetSignImg", null, new { filepath = Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED }, new { @class = "ImageClass" })*@
+                    <button type="button" onclick="GetCRMImage('@Model.UUID')"> <i class="far fa-file-image"></i></button>
+
+                    @*<a href="GetSignImg?filepath=@Model.FILE_PATH_NON_RESTRICTED"><i class="far fa-file-image"></i></a>*@
+                    <button type="button" onclick="DelDoc()" class="w3-red"> <i class="fas fa-times"></i></button>}
+                </div>
+
+            </div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                @*image*@
+            </div>
+            <div class="w3-col l6 m6 s12">
+                @*image*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hr"></div>
+    <div class="panelHeader">
+
+        Professional Registration Board Information
+    </div>
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th>
+                    PRB
+                </th>
+                <th>
+                    Expiry Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ if (Model.PRBTableList != null)
+                {
+                    foreach (var item in Model.PRBTableList)
+                    {
+                        <tr>
+                            <td>
+                                @item.PRB
+                            </td>
+                            <td>
+                                @item.EXPIRYDATE
+                            </td>
+                        </tr>
+
+
+                    }
+
+
+                } }
+        </tbody>
+    </table>
+    <div class="w3-row hr"></div>
+    <div class="panelHeader">
+
+        First Registration Information
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Date of first Registration :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.REGISTRATION_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Date of Gazette :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.GAZETTE_DATE, new { @class = "inputDate" })</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">
+                Date of Approval  :
+            </div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.APPROVAL_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="w3-row hr"></div>
+    <div class="panelHeader">
+
+        Last Retention Information
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Retention Application submitted on :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.RETENTION_APPLICATION_SUMBITTED_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Retention commenced on :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.RETENTION_DATE, new { @class = "inputDate" })</div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row hr"></div>
+    <div class="panelHeader">
+
+        Last Restoration Information
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Restoration  Application submitted on :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.RESTORATION_APPLICATION_SUMBITTED_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Restoration  commenced on :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.RESTORE_DATE, new { @class = "inputDate" })</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hr"></div>
+    <div class="panelHeader">
+
+        Other Information
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Removed from register on :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.REMOVAL_DATE, new { @class = "inputDate" })</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Extended date of expiry :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EXPIRY_EXTEND_DATE, new { @class = "inputDate" })</div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            Remarks :<br />
+            @Html.TextAreaFor(model => model.REMARKS, 4, 50, new { })
+
+        </div>
+
+
+    </div>
+    <div class="w3-row hr"></div>
+    <div class="w3-container footer">
+
+        <button id="saveCertificateButton" onclick="onSaveCertificate()" class="btn btn-default" type="button"><i class="fa fa-save"></i> Draft Submit</button>
+        <button id="backCertificateButton" class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+    </div>
+</div>

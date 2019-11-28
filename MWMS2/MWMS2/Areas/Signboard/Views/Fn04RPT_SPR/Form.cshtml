@@ -1,0 +1,81 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_SPRSearchModel
+<div id="searchCriteria">
+    @Html.HiddenFor(o => o.PeriodFromDate)
+    @Html.HiddenFor(o => o.PeriodToDate)
+    @Html.HiddenFor(o => o.SubNo)
+</div>
+<script>
+    domReady(function () {
+        CompletedByOfficer();
+        InvolvedByOfficer();
+        CompletedByCases();
+    });
+    function CompletedByOfficer() {
+        new searcher({
+            searchPath: "SubmissionCountReport"
+            , searchTable: "searchCriteria"
+            , resultPanel: "CBO"
+            , Sort: "USERNAME"
+            , exportPath: "SCExcel"
+            , Columns: [
+                { displayName: "Username", columnName: "USERNAME" }
+                , { displayName: "SC01", columnName: "SC01" }
+                , { displayName: "SC02", columnName: "SC02" }
+                , { displayName: "SC03", columnName: "SC03" }
+            ]
+        }).search();
+    }
+    function InvolvedByOfficer() {
+        new searcher({
+            searchPath: "SubmissionInvolvedReport"
+            , searchTable: "searchCriteria"
+            , Sort: "sr.username"
+            , resultPanel: "IBO"
+            , exportPath: "SIExcel"
+            , Columns: [
+                { displayName: "Username", columnName: "USERNAME" }
+                , { displayName: "SC01", columnName: "SC01" }
+                , { displayName: "SC02", columnName: "SC02" }
+                , { displayName: "SC03", columnName: "SC03" }
+            ]
+        }).search();
+    }
+    function CompletedByCases() {
+        new searcher({
+            searchPath: "SubmissionProgressReport"
+            , searchTable: "searchCriteria"
+            , Sort: " PO, TO1, FCODE, RECEIVEDDATE, SUBNO"
+            , resultPanel: "CBC"
+            , exportPath: "SPExcel"
+            , Columns: [
+                { displayName: "Received Date", columnName: "RECEIVEDDATE" }
+                , { displayName: "Submission No.", columnName: "SUBNO" }
+                , { displayName: "Form Code", columnName: "FCODE" }
+                , { displayName: "Stage", columnName: "STAGE" }
+                , { displayName: "TO Handling Officer", columnName: "TO1" }
+                , { displayName: "PO Handling Officer", columnName: "PO" }
+                , { displayName: "Acknowlegement Date", columnName: "ADATE" }
+            ]
+        }).search();
+    }
+    function backhome() {
+        goTo("Index");
+    }
+</script>
+<div class="displayForm" style="overflow-x:auto">
+    <div class="panelHeader">
+        Completed Cases Statistc By Officer
+    </div>
+    <div id="CBO"></div>
+    <div class="panelHeader">
+        Involved Cases Statistc By Officer
+    </div>
+    <div id="IBO"></div>
+    <div class="panelHeader">
+        Completed Cases Statistc By Cases
+    </div>
+    <div id="CBC"></div>
+    <div class="w3-container footer">
+        <button onclick="backhome()" class="CancelButton btn btn-default" type="button" id="SPRbackBtn"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>

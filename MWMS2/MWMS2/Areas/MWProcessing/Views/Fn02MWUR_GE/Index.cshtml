@@ -1,0 +1,124 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">No. of Outstanding :</div>
+            <div class="w3-col l6 m12 s12">
+                @Model.Total
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.DSN)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref. No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.RefNo)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Receive Date :</div>
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBoxFor(m => m.ReceiveFormDate, new { @class = "inputDate" }) to @Html.TextBoxFor(m => m.ReceiveToDate, new { @class = "inputDate" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :</div>
+            <div class="w3-col l6 m12 s12">
+                @*<select name="status">
+
+                        <option>- Select -</option>
+
+                        <option>Scanned</option>
+
+                        <option>Confirmed</option>
+
+                        <option>Draft</option>
+
+                    </select>*@
+                @Html.DropDownListFor(m => m.Status, Model.DSNStatus)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "DSN", columnName: "DSN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            $.post("CheckedBeforeSubmit2", { "Enquiry.REFERENCE_NO": row.RECORD_ID }, function (data) {
+                                console.log(data);
+                                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                    //goTo("Submit2");
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/Submit2", [
+                                        //{ name: "refNo", value: $("#Enquiry_REFERENCE_NO").val() }
+                                        //, { name: "dsn", value: $("#Enquiry_DSN").val() }
+                                        { name: "refNo", value: row.RECORD_ID }
+                                        , { name: "dsn", value: row.DSN }
+                                    ]);
+                                } else {
+                                    console.log("error");
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/Enquiry", [{ name: "dsn", value: row.DSN }]);
+                                }
+                            });
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , {
+                    displayName: "Assignment Date", columnName: "MODIFIED_DATE"
+                }
+                , {
+                    displayName: "Time", columnName: "MODIFIED_TIME"
+                }
+                , {
+                    displayName: "Ref. No.", columnName: "RECORD_ID"
+                }
+                , {
+                    displayName: "Type", columnName: "SUBMIT_TYPE"
+                }
+                , {
+                    displayName: "Status", columnName: "DESCRIPTION"
+                }
+
+            ]
+        });
+    });
+
+</script>
+

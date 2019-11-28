@@ -1,0 +1,165 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_ALSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <form id="inputForm" class="displayForm">
+        @Html.HiddenFor(m=>Model.IsSearchDSN)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PO Post :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DropDownListFor(m => m.P_S_TO_DETAILS.PO_POST, Model.SelectListPOPosts)
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PO Contact :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(m => m.P_S_TO_DETAILS.PO_CONTACT, new { id = "pocontact" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PO :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(m => m.P_S_TO_DETAILS.PO_NAME_CHI, new { id = "poname" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">DSN :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.DSN)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l12 m12 s12">
+                    @*<button btn="addAdvisoryLetter" onclick="addAdvisoryLetter()" class=" btn btn-default" type="button"><i class="far fa-plus-square"></i> Add to List</button>
+                    <button class="btn btn-default" onclick="search(false)" type="button"><i class="fa fa-search"></i> Search List / Refresh</button>
+                    <button class=" btn btn-default" onclick="resetForm()" type="button">Reset</button>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button btn="addAdvisoryLetter" onclick="addAdvisoryLetter()" class=" btn btn-default" type="button"><i class="far fa-plus-square"></i> Add to List</button>
+            <button class="btn btn-default" onclick="search(false)" type="button"><i class="fa fa-search"></i> Search List / Refresh</button>
+            <button class=" btn btn-default" onclick="resetForm()" type="button">Reset</button>
+        </div>
+    </form>
+    <form id="searchDsnForm" class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">
+                    Search DSN :
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="SearchDSN" name="SearchDSN" type="text" />
+
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <button id="btnSearchDSN" onclick="searchDSN()" class="btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+    </form>
+
+    <br />
+</div>
+
+
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    function resetForm() {
+        document.getElementById("inputForm").reset();
+    }
+
+    function search(isSearchDSN) {
+        $('#IsSearchDSN').val(isSearchDSN);
+        tableAL.search();
+    }
+
+    function addAdvisoryLetter() {
+        attr("searchCriteria", "addClass", "saving");
+        $.post("AddAdvisoryLetter", $("#inputForm").serialize(), function (data) {
+            attr("searchCriteria", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                document.getElementById("inputForm").reset();
+                tableAL.search();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function searchDSN() {
+        attr("searchCriteria", "addClass", "searching");
+        $.post("ValidateAlDSN", $("#searchDsnForm").serialize(), function (data) {
+            attr("searchCriteria", "dropClass", "searching");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("Detail", [{ name: "DSN", value: $("#SearchDSN").val() }]);
+            }
+            else {
+                search(true);
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    var tableAL;
+
+    domReady(function () {
+        tableAL = new searcher({
+            searchPath: "GetALList"
+            , exportPath: "ExportALListExcel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "PO Post", columnName: "PO_POST" }
+                , {
+                    displayName: "DSN", columnName: "DSN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Detail", [{ name: "DSN", value: row.DSN }]);
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Letter Date", columnName: "LETTER_DATE" }
+                , { displayName: "MW No.", columnName: "MW_NO" }
+                , { displayName: "Form", columnName: "FORM_NO" }
+                , { displayName: "PBP", columnName: "PBP_NO" }
+                , { displayName: "PRC", columnName: "PRC_NO" }
+                , { displayName: "Address", columnName: "ADDRESS" }
+                , { displayName: "MW Items", columnName: "MW_ITEM" }
+            ]
+        });
+
+        $("#P_S_TO_DETAILS_PO_POST").change(function () {
+            if ($("#P_S_TO_DETAILS_PO_POST").children('option:selected').val() == null || $("#P_S_TO_DETAILS_PO_POST").children('option:selected').val() == "") {
+                $("#poname").val("");
+                $("#pocontact").val("");
+            } else {
+                $.post("GetPOInfo", { id: $("#P_S_TO_DETAILS_PO_POST").children('option:selected').val() }, function (data) {
+                    $("#poname").val(data.Message[0]);
+                    $("#pocontact").val(data.Message[1]);
+                });
+            }
+
+        })
+    });
+
+
+
+</script>

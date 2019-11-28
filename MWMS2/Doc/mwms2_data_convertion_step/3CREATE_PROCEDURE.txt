@@ -1,0 +1,2678 @@
+CREATE OR REPLACE PROCEDURE MWMS2.B_DELETE_SUBMISSION
+(  P_SV_NO IN VARCHAR2
+) AS
+BEGIN
+
+
+
+DELETE FROM B_SV_RECORD_FORM_CHECKLIST WHERE SV_VALIDATION_ID IN (
+SELECT UUID FROM  B_SV_VALIDATION WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO ));
+
+DELETE FROM B_SV_RECORD_ITEM_CHECKLIST WHERE SV_RECORD_ITEM_ID IN (SELECT UUID FROM  B_SV_RECORD_ITEM WHERE  SV_RECORD_ID IN (SELECT UUID FROM 
+B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO ));
+
+DELETE FROM B_SV_VALIDATION WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO );
+DELETE FROM B_SV_RFID WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_RECORD_ITEM WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_APPOINTED_PROFESSIONAL WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO = P_SV_NO);
+DELETE B_SV_RECORD_ADDRESS_INFO WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_AUDIT_RECORD WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+--DELETE SV_RECORD_VALIDATION_ITEM WHERE SV_RECORD_ID IN (SELECT UUID FROM SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_RECORD WHERE REFERENCE_NO = P_SV_NO;
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+END B_DELETE_SUBMISSION;
+
+CREATE OR REPLACE PROCEDURE MWMS2.B_SP_DELETE_SUBMISSION
+(  P_SV_NO IN VARCHAR2
+) AS
+BEGIN
+
+
+
+DELETE FROM B_SV_RECORD_FORM_CHECKLIST WHERE SV_VALIDATION_ID IN (
+SELECT UUID FROM  B_SV_VALIDATION WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO ));
+
+DELETE FROM B_SV_RECORD_ITEM_CHECKLIST WHERE SV_RECORD_ITEM_ID IN (SELECT UUID FROM  B_SV_RECORD_ITEM WHERE  SV_RECORD_ID IN (SELECT UUID FROM 
+B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO ));
+
+DELETE FROM B_SV_VALIDATION WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO );
+DELETE FROM B_SV_RFID WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_RECORD_ITEM WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_APPOINTED_PROFESSIONAL WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO = P_SV_NO);
+DELETE B_SV_RECORD_ADDRESS_INFO WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_AUDIT_RECORD WHERE SV_RECORD_ID IN (SELECT UUID FROM B_SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+--DELETE SV_RECORD_VALIDATION_ITEM WHERE SV_RECORD_ID IN (SELECT UUID FROM SV_RECORD WHERE REFERENCE_NO =  P_SV_NO);
+DELETE B_SV_RECORD WHERE REFERENCE_NO = P_SV_NO;
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+END B_SP_DELETE_SUBMISSION;
+
+CREATE OR REPLACE PROCEDURE MWMS2.B_SP_UPDATE_BCIS_ADDRESS AS
+
+BEGIN
+
+EXECUTE IMMEDIATE 'TRUNCATE TABLE BCIS_ADDRESS';
+
+/*
+INSERT INTO B_BCIS_ADDRESS (SELECT ROWNUM, b.BK_ID,  b.BLK_TYPE,
+b.BLDG_NAME_E1 || b.BLDG_NAME_E2 || b.BLDG_NAME_E3 AS BLDG_NAME_ENG,
+b.BLDG_NAME_C1 || b.BLDG_NAME_C2 || b.BLDG_NAME_C3 AS BLDG_NAME_CHN,
+sl.ST_NAME,
+sl.ST_NAME_C,
+sl.ST_NO_NUM || sl.ST_NO_ALPHA || sl.ST_NO_EXT AS STREET_NO,
+f.file_no AS file_no,
+SYSDATE,
+b.BLDG_NAME_E1 || b.BLDG_NAME_E2 || b.BLDG_NAME_E3 
+||b.BLDG_NAME_C1 || b.BLDG_NAME_C2 || b.BLDG_NAME_C3||sl.ST_NAME||sl.ST_NAME_C ||sl.ST_NO_NUM || sl.ST_NO_ALPHA || sl.ST_NO_EXT 
+
+FROM BCIS_BLK@WRBR b 
+INNER JOIN BCIS_BLK_SL_DETAILS@WRBR sl ON b.BK_ID = sl.BK_ID
+LEFT OUTER JOIN (
+select ref_number.BLK_ID AS BK_ID , MIN(ref_number.CASE_NO || '/' || ref_number.YEAR) AS file_no 
+from BLDG_FILE_REF@WRBR ref_number 
+WHERE ref_number.CASE_NO IS NOT NULL AND  ref_number.YEAR IS NOT NULL 
+GROUP BY ref_number.BLK_ID) f ON b.BK_ID = f.bk_id);
+
+
+UPDATE 
+(
+SELECT a.uuid, a.BCIS_KEY AS b1, b.BCIS_KEY AS b2
+FROM RVD a, BCIS_ADDRESS b 
+WHERE (upper(a.BLDG_NAME_ENG) = upper(b.BLDG_NAME_ENG) OR a.BLDG_NAME_CHN = b.BLDG_NAME_CHN)
+AND (upper(a.STREET_NAME_ENG_NO_ENCODED) = upper(b.ST_NAME) OR a.STREET_NAME_CHN = b.ST_NAME_C)
+AND (b.STREET_NO IS NULL OR a.BK_BLDG_NO_NUMERIC || a.BK_BLDG_NO_ALPHA || a.BK_BLDG_NO_EXT = b.STREET_NO)
+) SET b1 = b2;
+*/
+
+COMMIT;
+
+END;
+
+CREATE OR REPLACE PROCEDURE MWMS2."C_COMP_APPLICATION_DELETE" 
+(  P_UUID IN VARCHAR2,
+ P_LOGIN IN VARCHAR2
+) AS
+BEGIN
+
+DELETE FROM C_COMP_PROCESS_MONITOR WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_COMP_APPLN_MW_ITEM_HISTORY WHERE  COMPANY_APPLICANTS_ID IN ( 
+	SELECT UUID FROM C_COMP_APPLICANT_INFO
+	WHERE MASTER_ID  = P_UUID);
+	
+
+DELETE FROM C_COMP_APPLICANT_MW_ITEM WHERE  COMPANY_APPLICANTS_ID IN (
+ SELECT UUID FROM C_COMP_APPLICANT_INFO WHERE MASTER_ID = P_UUID );
+ 
+DELETE FROM C_COMP_APPLICANT_INFO_HISTORY  WHERE COMPANY_APPLICANTS_ID IN ( SELECT UUID 
+  FROM C_COMP_APPLICANT_INFO WHERE MASTER_ID = P_UUID );
+
+
+
+DELETE FROM C_COMP_APPLICANT_INFO_DETAIL
+WHERE COMPANY_APPLICANTS_MASTER_ID IN (
+SELECT UUID FROM C_COMP_APPLICANT_INFO_MASTER
+WHERE COMPANY_APPLICANTS_ID IN ( 
+	SELECT UUID FROM C_COMP_APPLICANT_INFO
+	WHERE MASTER_ID  = P_UUID) );
+
+
+DELETE FROM C_COMP_APPLICANT_INFO_MASTER
+WHERE COMPANY_APPLICANTS_ID IN ( 
+	SELECT UUID FROM C_COMP_APPLICANT_INFO
+	WHERE MASTER_ID  = P_UUID);
+
+
+
+DELETE FROM C_COMP_APPLICANT_INFO WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_COMP_APPLICATION_HISTORY WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_COMP_APPLICATION WHERE UUID = P_UUID;
+
+
+
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+ RAISE ;
+
+END C_COMP_APPLICATION_DELETE;
+
+CREATE OR REPLACE PROCEDURE MWMS2."C_IND_APPLICATION_DELETE" 
+(  P_UUID IN VARCHAR2, P_LOGIN IN VARCHAR2
+) AS
+BEGIN
+
+DELETE FROM C_IND_QUALIFICATION_DETAIL WHERE  IND_QUALIFICATION_ID IN ( 
+	SELECT UUID FROM C_IND_QUALIFICATION
+	WHERE MASTER_ID  = P_UUID);
+
+DELETE FROM C_IND_QUALIFICATION WHERE  MASTER_ID = P_UUID;
+
+DELETE FROM C_IND_PROCESS_MONITOR WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_IND_CERTIFICATE_HISTORY WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_IND_CERTIFICATE WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_IND_APPL_MW_ITEM_HISTORY WHERE MASTER_ID = P_UUID;
+
+
+DELETE FROM C_IND_APPLICATION_MW_ITEM_DETAIL
+WHERE IND_APP_MW_ITEM_MASTER_ID IN (
+SELECT UUID FROM C_IND_APPLICATION_MW_ITEM_MASTER
+WHERE MASTER_ID = P_UUID
+ );
+
+DELETE FROM C_IND_APPLICATION_MW_ITEM_MASTER WHERE MASTER_ID = P_UUID;
+
+
+DELETE FROM C_IND_APPLICATION_MW_ITEM WHERE MASTER_ID = P_UUID;
+
+DELETE FROM C_IND_APPLICATION WHERE UUID  = P_UUID;
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+END C_IND_APPLICATION_DELETE;
+
+CREATE OR REPLACE PROCEDURE MWMS2."C_REGISTERED_PERSON_REPORT" 
+( 
+  rpt_key IN VARCHAR2,
+  condition IN VARCHAR2,
+  logic IN VARCHAR2
+) AS
+
+tmp_table varchar2(32767);
+tmp_insert varchar2(32767);
+tmp_delete varchar2(32767);
+c VARCHAR2(1000);
+type array is table of varchar2(32767) index by binary_integer;
+TYPE ref_cursor IS REF CURSOR;
+ind_table ref_cursor;
+--type array2 is table of array index by binary_integer;
+c_array array;
+item_array array;
+type_array array;
+item_cnt NUMBER;
+type_cnt NUMBER;
+file_reference_no VARCHAR2(32767);
+name VARCHAR2(32767);
+hkid VARCHAR2(32767);
+category VARCHAR2(32767);
+class VARCHAR2(32767);
+mtype VARCHAR2(32767);
+role VARCHAR2(32767);
+item VARCHAR2(32767);
+area VARCHAR2(32767);
+is_correct NUMBER;
+is_grp_correct NUMBER;
+has_role NUMBER;
+has_class NUMBER;
+has_type NUMBER;
+has_item NUMBER;
+role_ok NUMBER;
+class_ok NUMBER;
+type_ok NUMBER;
+item_ok NUMBER;
+array_ok array;
+random VARCHAR2(20);
+line_no NUMBER;
+sitem VARCHAR2(32767);
+query_with_mwitem VARCHAR2(32767);
+query_without_mwitem VARCHAR2(32767);
+query VARCHAR2(32767);
+i NUMBER;
+
+--CURSOR ind_table IS 
+BEGIN
+	
+	query_with_mwitem := 'SELECT * FROM ( 
+	SELECT iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS name,
+	app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, '''' AS class,
+	'''' AS mtype, '''' AS role, wm_concat(sitem.CODE) || '','' AS item, area.ENGLISH_DESCRIPTION as area
+	FROM C_IND_APPLICATION iapp
+	LEFT JOIN C_APPLICANT app ON iapp.APPLICANT_ID = app.UUID 
+	LEFT JOIN C_IND_CERTIFICATE icer ON icer.MASTER_ID = iapp.UUID 
+	LEFT JOIN C_S_CATEGORY_CODE scat ON icer.CATEGORY_ID = scat.UUID 
+	LEFT JOIN C_S_SYSTEM_VALUE status ON icer.APPLICATION_STATUS_ID = status.UUID
+	LEFT JOIN C_IND_APPLICATION_MW_ITEM mwitem ON mwitem.MASTER_ID = iapp.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sitem ON sitem.UUID = mwitem.ITEM_DETAILS_ID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = iapp.REGION_CODE_ID
+	WHERE status.CODE = ''1''
+	AND ((icer.EXPIRY_DATE IS NOT NULL and icer.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(icer.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (icer.EXPIRY_DATE < CURRENT_DATE)))
+	GROUP BY iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID ,
+	app.HKID || app.PASSPORT_NO , scat.code , '''',
+	'''' , '''', area.ENGLISH_DESCRIPTION
+	UNION ALL
+	SELECT file_reference_no, name, hkid, category, min(class) AS class, mtype, role, item, area FROM
+	( 
+	SELECT capp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS
+	name, app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, sclass.code AS class,
+	stype.code AS mtype, srole.code AS role, '''' AS item, area.ENGLISH_DESCRIPTION as area
+	FROM C_COMP_APPLICATION capp
+	LEFT JOIN C_COMP_APPLICANT_INFO cinfo ON cinfo.MASTER_ID = capp.UUID
+	LEFT JOIN C_APPLICANT app ON cinfo.APPLICANT_ID = app.UUID
+	LEFT JOIN C_COMP_APPLICANT_MW_ITEM mitem ON mitem.COMPANY_APPLICANTS_ID = cinfo.UUID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON capp.CATEGORY_ID = scat.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE srole ON cinfo.APPLICANT_ROLE_ID = srole.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE capp_status ON capp.APPLICATION_STATUS_ID = capp_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE app_status ON cinfo.APPLICANT_STATUS_ID = app_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sclass ON mitem.ITEM_CLASS_ID = sclass.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE stype ON mitem.ITEM_TYPE_ID = stype.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = capp.REGION_CODE_ID
+	WHERE capp_status.CODE = ''1''
+	AND app_status.CODE = ''1''
+	AND ((capp.EXPIRY_DATE IS NOT NULL and capp.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(capp.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (capp.EXPIRY_DATE < CURRENT_DATE)))
+	) 
+	GROUP BY file_reference_no, name, hkid, category, mtype, role, item, area)';
+
+	query_without_mwitem := 'SELECT * FROM ( 
+	SELECT iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS name,
+	app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, '''' AS class,
+	'''' AS mtype, '''' AS role, '''' AS item, area.ENGLISH_DESCRIPTION as area
+	FROM C_IND_APPLICATION iapp
+	LEFT JOIN C_APPLICANT app ON iapp.APPLICANT_ID = app.UUID 
+	LEFT JOIN C_IND_CERTIFICATE icer ON icer.MASTER_ID = iapp.UUID 
+	LEFT JOIN C_S_CATEGORY_CODE scat ON icer.CATEGORY_ID = scat.UUID 
+	LEFT JOIN C_S_SYSTEM_VALUE status ON icer.APPLICATION_STATUS_ID = status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = iapp.REGION_CODE_ID
+	WHERE status.CODE = ''1''
+	AND ((icer.EXPIRY_DATE IS NOT NULL and icer.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(icer.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (icer.EXPIRY_DATE < CURRENT_DATE)))
+	GROUP BY iapp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID ,
+	app.HKID || app.PASSPORT_NO , scat.code , '''',
+	'''' , '''', area.ENGLISH_DESCRIPTION
+	UNION ALL
+	SELECT file_reference_no, name, hkid, category, min(class) AS class, mtype, role, item, area FROM
+	( 
+	SELECT capp.FILE_REFERENCE_NO, app.SURNAME || '' '' || app.GIVEN_NAME_ON_ID AS
+	name, app.HKID || app.PASSPORT_NO AS hkid, scat.code AS category, sclass.code AS class,
+	stype.code AS mtype, srole.code AS role, '''' as item, area.ENGLISH_DESCRIPTION as area
+	FROM COMP_APPLICATION capp
+	LEFT JOIN C_COMP_APPLICANT_INFO cinfo ON cinfo.MASTER_ID = capp.UUID
+	LEFT JOIN C_APPLICANT app ON cinfo.APPLICANT_ID = app.UUID
+	LEFT JOIN C_COMP_APPLICANT_MW_ITEM mitem ON mitem.COMPANY_APPLICANTS_ID = cinfo.UUID
+	LEFT JOIN C_S_CATEGORY_CODE scat ON capp.CATEGORY_ID = scat.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE srole ON cinfo.APPLICANT_ROLE_ID = srole.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE capp_status ON capp.APPLICATION_STATUS_ID = capp_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE app_status ON cinfo.APPLICANT_STATUS_ID = app_status.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE sclass ON mitem.ITEM_CLASS_ID = sclass.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE stype ON mitem.ITEM_TYPE_ID = stype.UUID
+	LEFT JOIN C_S_SYSTEM_VALUE area ON area.UUID = capp.REGION_CODE_ID
+	WHERE capp_status.CODE = ''1''
+	AND app_status.CODE = ''1''
+	AND ((capp.EXPIRY_DATE IS NOT NULL and capp.EXPIRY_DATE >= TRUNC(CURRENT_DATE) ) or
+	(capp.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') and (capp.EXPIRY_DATE < CURRENT_DATE)))
+	) 
+	GROUP BY file_reference_no, name, hkid, category, mtype, role, area)';
+
+	line_no := 1;
+	item_cnt := 1;
+	type_cnt := 1;
+	i := 1;
+
+	c := condition;
+	WHILE instr(c, ',') > 0 LOOP
+		IF instr(c, ',') = 0 THEN 
+			c_array(i) := c;
+			--array_ok(i) := '0';
+			--EXIT;
+		ELSE
+			c_array(i) := substr(c, 1, instr(c, ',') - 1);
+			c := substr(c, length(c_array(i)) + 2);
+			--array_ok(i) := '0';
+		END IF;
+		i := i + 1;
+	END LOOP;
+	c_array(i) := c;
+	
+	
+	
+	FOR i IN 1..c_array.count LOOP
+		IF instr(c_array(i), 'MWC(W)') > 0 THEN
+			c_array(i) := REPLACE(c_array(i), 'And|');
+			c_array(i) := REPLACE(c_array(i), 'Or|');
+			sitem := c_array(i);
+
+			IF(instr(sitem, '|')) > 0 THEN
+				WHILE instr(sitem, '|') > 0 LOOP
+					item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'), instr(sitem, '|') - instr(sitem, 'Item'));
+					sitem := substr(sitem, instr(sitem, '|') + 1);
+					item_cnt := item_cnt + 1;	
+				END LOOP;
+				item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'));
+				item_cnt := item_cnt + 1;
+			ELSE
+				item_array(item_cnt) := substr(sitem, instr(sitem, 'Item'));
+				item_cnt := item_cnt + 1;
+			END IF;
+		END IF;
+	END LOOP;
+	
+	
+	FOR i IN 1..c_array.count LOOP
+		IF instr(c_array(i), 'MWC(P)') > 0 OR (instr(c_array(i), 'MWC') > 0 AND instr(c_array(i), 'MWC(W)') = 0) THEN
+			
+			c_array(i) := REPLACE(c_array(i), 'And|');
+			c_array(i) := REPLACE(c_array(i), 'Or|');
+			sitem := c_array(i);
+
+			IF(instr(sitem, '|')) > 0 THEN
+				WHILE instr(sitem, '|') > 0 LOOP
+					type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'), instr(sitem, '|') - instr(sitem, 'Type'));
+					sitem := substr(sitem, instr(sitem, '|') + 1);
+					type_cnt := type_cnt + 1;
+				END LOOP;
+				type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'));
+				type_cnt := type_cnt + 1;
+			ELSE
+				type_array(type_cnt) := substr(sitem, instr(sitem, 'Type'));
+				type_cnt := type_cnt + 1;
+			END IF;
+		END IF;
+	END LOOP;
+	
+	IF(instr(condition, 'MWC(W)') > 0) THEN
+		query := query_with_mwitem;
+	ELSE
+		query := query_without_mwitem;
+	END IF;
+
+  --open ind_table;
+  OPEN ind_table FOR query;
+    fetch ind_table into file_reference_no, name, hkid, category, class, mtype, role, item, area;
+    
+    while ind_table%found LOOP
+    
+    	
+       FOR j IN 1..c_array.count LOOP
+         is_correct := 0;
+         has_role := 0;
+		 has_class := 0;
+		 has_type := 0;
+		 has_item := 0;
+		 role_ok := 0;
+		 class_ok := 0;
+		 type_ok := 0;
+		 item_ok := 0;
+	  	 c := c_array(j);
+	  	 
+	  	 
+	  	 
+	  	 IF instr(c, category) > 0 THEN
+	  	 	--IF instr(c, 'MWC(P)') > 0 AND category <> 'MWC(P)' THEN 
+	  	 	--	EXIT;
+	  	 	--END IF;
+	  	 	--IF instr(c, 'MWC(W)') > 0 AND category <> 'MWC(W)' THEN 
+	  	 	--	EXIT;
+	  	 	--END IF;
+	  	 
+	  	 	IF instr(c, 'AS') > 0 OR instr(c, 'TD') > 0 THEN 
+	  	 		has_role := 1;
+	  	 	ELSE
+	  	 		role_ok := 1;	
+	  	 	END IF;
+	  	 	IF instr(c, 'Class') > 0 THEN
+	  	 		has_class := 1;
+	  	 	ELSE
+	  	 		class_ok := 1;	
+	  	 	END IF;
+	  	 	IF instr(c, 'Type') > 0 THEN
+	  	 		has_type := 1;
+	  	 	ELSE
+	  	 		type_ok := 1;
+	  	 	END IF;
+	  	 	IF instr(c, 'Item') > 0 THEN
+	  	 		has_item := 1;
+	  	 	ELSE
+	  	 		item_ok := 1;
+	  	 	END IF;
+	  	 	
+	  	 	
+	  	 	
+	  	 	--if condition contain role
+	  	 	IF has_role = 1 THEN 
+		  	 	IF instr(c, 'AS') > 0 OR instr(c, 'TD') > 0 THEN 
+			  	 	IF instr(c, 'AS') > 0 THEN 
+				  	 	IF role = 'AS' THEN 
+				  	 		role_ok := 1;
+				  	 	ELSE
+				  	 		role_ok := 0;
+				  	 	END IF;
+				  	 END IF;
+			  	 	 IF instr(c, 'TD') > 0 THEN 
+			  	 	 	IF role = 'TD' THEN 
+				  	 		role_ok := 1;
+				  	 	ELSE
+				  	 		role_ok := 0;
+				  	 		--EXIT;
+				  	 	END IF;
+			  	 	 END IF;
+		  	 	END IF;
+	  	 	END IF;
+	  	 	
+	  	 	--DBMS_OUTPUT.PUT_LINE(c || '/' || class);
+	  	 	
+	  	 	--if condition contain class
+	  	 	IF has_class = 1 THEN
+	  	 		IF instr(c, class) > 0 THEN 
+	  	 			class_ok := 1;
+	  	 			
+	  	 		ELSE 
+	  	 			class_ok := 0;
+	  	 			--EXIT;
+	  	 		END IF;
+	  	 	END IF;
+	  	 	
+	  	 	--if condition conatin type
+	  	 	IF has_type = 1 THEN
+	  	 		type_ok := 0;
+	  	 		FOR i IN 1..type_array.count LOOP
+	  	 			--IF instr(mtype, type_array(i)) > 0 THEN 
+	  	 			IF mtype = type_array(i) THEN
+	  	 				type_ok := 1;
+	  	 				EXIT;
+	  	 			END IF;
+	  	 		END LOOP;
+	  	 	END IF;
+	  	 	
+	  	 	--if condition conatin item
+	  	 	IF has_item = 1 THEN
+	  	 		item_ok := 0;
+	  	 		FOR i IN 1..item_array.count LOOP
+	  	 			IF instr(item, item_array(i) || ',') > 0 THEN 
+	  	 				item_ok := 1;
+	  	 				EXIT;
+	  	 			END IF;
+	  	 		END LOOP;
+	  	 	END IF;
+	  	 	
+	  	 	
+	  	 	IF role_ok = 1 AND class_ok = 1 AND type_ok = 1 AND item_ok = 1 THEN 
+	  	 		is_correct := 1;
+	  	 	END IF;
+
+	  	  	IF is_correct = 1 THEN
+	  	  		EXIT;
+	  	  	END IF;
+	  	 END IF;
+	   END LOOP;
+	   
+	   
+	   IF is_correct = 1 THEN 
+	   	  --	tmp_insert := 'INSERT INTO REPORT_RPR VALUES(REPORT_SEQ.nextval, ''' || rpt_key || ''', ''' || file_reference_no || ''', ''' || name || ''', ''' || hkid || ''', ''' || category || ''', ''' || class || ''', ''' || mtype || ''', ''' || role || ''', ''' || line_no || ''', ''' || item || ''', ''' || area || ''')';
+
+	   		--EXECUTE IMMEDIATE tmp_insert;	
+	   		   	 	tmp_insert := 'INSERT INTO REPORT_RPR VALUES(REPORT_SEQ.nextval, :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11)';
+
+	   		EXECUTE IMMEDIATE tmp_insert USING rpt_key, file_reference_no, name, hkid, category, class, mtype, role, line_no, item, area;
+	   	
+	   	
+
+	   END IF;
+	   
+       fetch ind_table into file_reference_no, name, hkid, category, class, mtype, role, item, area;
+    END LOOP;	
+  close ind_table;
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+ RAISE ;
+
+END C_REGISTERED_PERSON_REPORT;
+
+CREATE OR REPLACE PROCEDURE MWMS2.C_SP_GEN_WEBSITE AS
+
+BEGIN
+
+EXECUTE IMMEDIATE 'TRUNCATE TABLE C_search_registration_qp';
+
+EXECUTE IMMEDIATE 'TRUNCATE TABLE C_SEARCH_REGISTRATION_ITEM_NO';
+EXECUTE IMMEDIATE 'TRUNCATE TABLE C_SEARCH_REGISTRATION_BS';
+EXECUTE IMMEDIATE 'TRUNCATE TABLE C_SEARCH_REGISTRATION_TYPE';
+
+--AP(A)
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+             search_type,
+             bs_key,
+             willingness_qp,
+             INTERESTED_FSS, 
+             district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+              trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CASE  CAT.CODE WHEN 'API' THEN 'AP(A)' ELSE  CAT.CODE END
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) 
+				THEN '@'  ELSE '' END  AS FLAG, 
+               C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)               AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp, 
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A ,
+               
+               C_S_SYSTEM_VALUE statusCode
+               
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='AP(A)')   OR  CAT.UUID = (select uuid from C_s_category_code where code='API'))
+               AND A.applicant_id = APP.uuid 
+
+				AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		 
+		 
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;
+                      
+--AP(E)                      
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CASE  CAT.CODE WHEN 'APII' THEN 'AP(E)' ELSE  CAT.CODE END
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+               C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)                  AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+				, C_S_SYSTEM_VALUE statusCode
+          
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='AP(E)')   OR  CAT.UUID = (select uuid from C_s_category_code where code='APII'))
+               AND A.applicant_id = APP.uuid 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;
+                      
+--AP(S)                      
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CASE  CAT.CODE WHEN 'APIII' THEN 'AP(S)' ELSE  CAT.CODE END
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+                 C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)         AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+               	, C_S_SYSTEM_VALUE statusCode
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='AP(S)')   OR  CAT.UUID = (select uuid from C_s_category_code where code='APIII'))
+               AND A.applicant_id = APP.uuid 
+               	AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+	
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;         
+                      
+                                        
+                      
+--RSE                      
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+               CAT.CODE 
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+                             C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)            AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+                   	, C_S_SYSTEM_VALUE statusCode
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='RSE'))
+               AND A.applicant_id = APP.uuid 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;
+                      
+--RGE                      
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CAT.CODE 
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+               C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)    AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+               
+        ,C_S_SYSTEM_VALUE statusCode
+               
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='RGE'))
+               AND A.applicant_id = APP.uuid 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;            
+                      
+                      
+--RI(A)                    
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+                         MBIS_RI,
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CAT.CODE 
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                      AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+             C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)              AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+                                NVL(A.MBIS_RI, 'N') AS MBIS_RI, 
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+               
+        ,C_S_SYSTEM_VALUE statusCode
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='RI(A)'))
+               AND A.applicant_id = APP.uuid 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;   
+                      
+                      
+--RI(E)                    
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+                         MBIS_RI,
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CAT.CODE 
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                     AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+                 C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)           AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+                                NVL(A.MBIS_RI, 'N') AS MBIS_RI,
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+               
+        ,C_S_SYSTEM_VALUE statusCode
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='RI(E)'))
+               AND A.applicant_id = APP.uuid 
+               AND C.certification_no IS NOT NULL 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;   
+                      
+                      
+                      
+--RI(S)                    
+INSERT INTO c_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+                         MBIS_RI,
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT SYS_GUID() AS UUID,
+               trim(APP.surname 
+               || ' ' 
+               ||APP.given_name_on_id) AS ENGLISH_NAME, 
+               APP.chinese_name, 
+               C.certification_no AS registration_number, 
+              CAT.CODE 
+               AS registration_type, 
+               C.expiry_date AS expiry_date, 
+               CASE 
+                 WHEN trunc(current_date) > C.expiry_date 
+                     AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                 '@' 
+                 ELSE '' 
+               END                    AS FLAG, 
+            C_CONCAT_BUILDING_SAFETY_ID_ALL(a.uuid)       AS BUILDING_SAFETY_ID, 
+               A.bs_telephone_no1     AS TELEPHONE_NO,
+				'REG',
+				A.uuid,
+				A.willingness_qp,
+				NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			        NVL(A.MBIS_RI, 'N') AS MBIS_RI,
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+        FROM   C_ind_certificate C, 
+               C_s_category_code CAT, 
+               C_applicant APP, 
+               C_ind_application A 
+               
+        ,C_S_SYSTEM_VALUE statusCode
+        WHERE  C.category_id = CAT.uuid 
+               AND C.master_id = A.uuid 
+               AND A.registration_type = 'IP' 
+			   AND (CAT.UUID = (select uuid from C_s_category_code where code='RI(S)'))
+               AND A.applicant_id = APP.uuid 
+               AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		 
+               AND C.certification_no IS NOT NULL 
+               AND ( ( C.expiry_date IS NOT NULL 
+                       AND C.expiry_date >= trunc(current_date) ) 
+                      OR ( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) ) ) 
+               AND ( ( C.removal_date IS NULL ) 
+                      OR ( C.removal_date > trunc(current_date) ) )
+                      ORDER BY REGISTRATION_TYPE;   
+                      
+                      
+
+--CGC
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_company_name, 
+             chinese_company_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag, 
+             service_in_building_safety, 
+             telephone_no, 
+             as_name_english, 
+             as_name_chinese,
+			 search_type,
+			 bs_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax) 
+SELECT Sys_guid()                            AS uuid, 
+              C.english_company_name, 
+              C.chinese_company_name, 
+              C.certification_no AS registration_number, 
+              CAT.CODE AS registration_type, 
+              C.expiry_date AS EXPIRY_DATE, 
+              CASE 
+                WHEN trunc(current_date) > C.expiry_date 
+                     AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                '@' 
+                ELSE '' 
+              END                                   AS flag, 
+                 c_CONCAT_BUILDING_SAFETY_ID_ALL(c.uuid)    AS BUILDING_SAFETY_ID, 
+              C.bs_telephone_no1                    AS TELEPHONE_NO, 
+             trim( c_Get_as_list_html(C.uuid))              AS AS_NAME_ENGLISH, 
+              trim(c_Get_as_list_with_chinese_html(C.uuid)) AS AS_NAME_chinese,
+				'REG',
+				c.uuid,
+				C.willingness_qp ,
+				NVL(C.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+
+		(SELECT trim(REGION_CHI.ENGLISH_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID ) 
+		 AS district_ENG, 
+		 (SELECT trim(REGION_CHI.CHINESE_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID )  
+		 AS district_CHI, 				   
+		C.BS_EMAIL_ADDRESS AS EMAIL,
+		C.BS_FAX_NO1 as fax 
+       FROM   C_S_CATEGORY_CODE CAT,C_comp_application C 
+              
+       WHERE  C.CATEGORY_ID= CAT.UUID  
+              AND C.registration_type = 'CGC' 
+              AND C.certification_no IS NOT NULL 
+              AND ( ( C.expiry_date IS NOT NULL 
+                      AND C.expiry_date >= trunc(current_date) ) 
+                     OR (( C.retention_application_date > 
+                           To_date('20040831', 'yyyymmdd') 
+                           AND ( C.expiry_date < trunc(current_date) ) )) ) 
+              AND ( ( C.removal_date IS NULL ) 
+                     OR ( C.removal_date > trunc(current_date) ) );
+
+					 
+		   
+--CMW		   
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_company_name, 
+             chinese_company_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             telephone_no, 
+			 email,
+			 fax,
+			 district_english,
+			 district_chinese,
+             as_name_english, 
+             as_name_chinese,
+			 company_type_one,
+			 company_type_two,
+			 company_type_three,
+			 as_type_one,
+			 as_type_two,
+			 as_type_three,
+			 search_type,
+			 type_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 flag
+			 ) 
+SELECT 
+		sys_guid() as uuid, 
+		c.english_company_name,
+		c.chinese_company_name,
+		c.certification_no,
+		CAT.CODE as registration_type,
+		C.EXPIRY_DATE,
+		C.BS_TELEPHONE_NO1 as TELEPHONE_NO,
+		C.BS_EMAIL_ADDRESS AS EMAIL,
+		C.BS_FAX_NO1 as fax,
+		(SELECT trim(REGION_CHI.ENGLISH_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID ) 
+		 AS district_ENG, 
+		 (SELECT trim(REGION_CHI.CHINESE_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID )  
+		 AS district_CHI, 
+		trim(APP_INFO.SURNAME||' '||APP_INFO.GIVEN_NAME_ON_ID) as as_name_english,
+		APP_INFO.CHINESE_NAME as as_name_chinese,
+	   	c_GET_MW_COMP_CLASS_TYPE(C.UUID, 1) AS COMPANY_TYPE_ONE, 
+	   	c_GET_MW_COMP_CLASS_TYPE(C.UUID, 2) AS COMPANY_TYPE_TWO, 
+	   	c_GET_MW_COMP_CLASS_TYPE(C.UUID, 3) AS COMPANY_TYPE_THREE, 		 
+	   	c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 3) AS AS_TYPE_ONE, 
+	    c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 2) AS AS_TYPE_TWO, 
+	    c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 1) AS AS_TYPE_THREE,
+		'REG' AS SEARCH_TYPE,
+		APP_INFO.uuid AS APP_INFO_ID,
+		C.willingness_qp,
+		NVL(C.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+		 CASE 
+                WHEN trunc(current_date) > C.expiry_date 
+                     AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                '@' 
+                ELSE '' 
+              END                                   AS flag 
+		FROM  C_S_CATEGORY_CODE CAT,  C_COMP_APPLICATION C
+		LEFT OUTER JOIN ( SELECT A.UUID, A.MASTER_ID,  APP.SURNAME , APP.GIVEN_NAME_ON_ID, APP.CHINESE_NAME 
+						FROM C_COMP_APPLICANT_INFO A, C_APPLICANT APP, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS 
+									WHERE A.APPLICANT_ID=APP.UUID 
+									AND A.APPLICANT_ROLE_ID=S_ROLE.UUID 
+									AND A.APPLICANT_STATUS_ID= S_STATUS.UUID  
+									AND S_STATUS.CODE= '1' AND S_ROLE.CODE LIKE 'A%'  
+									AND A.accept_date IS NOT NULL  
+									AND ((A.REMOVAL_DATE IS NULL) OR (A.REMOVAL_DATE >= trunc(current_date)) ) 
+								)	APP_INFO ON C.UUID= APP_INFO.MASTER_ID
+		WHERE  
+		C.CATEGORY_ID = CAT.UUID
+
+	 	AND C.REGISTRATION_TYPE= 'CMW' 
+
+
+		AND C.CERTIFICATION_NO IS NOT NULL AND (  
+		 (C.EXPIRY_DATE IS NOT NULL and  C.EXPIRY_DATE >= trunc(current_date)) or      
+			 ( (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and  
+			   (C.EXPIRY_DATE < trunc(current_date)) ) ) )  AND ((C.REMOVAL_DATE IS NULL) OR      
+		   (C.REMOVAL_DATE > trunc(current_date)));
+
+
+--IMW
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+			 items,
+             telephone_no, 
+			 email,
+			 fax,
+			 district_english,
+			 district_chinese,
+			search_type,
+			item_key,
+			company_type_three,
+			as_type_three,
+			willingness_qp,
+			INTERESTED_FSS, 
+			flag
+
+			 ) 
+SELECT 
+		sys_guid() as uuid,
+		trim(APP.SURNAME||' '||APP.GIVEN_NAME_ON_ID) as english_name,
+		trim(APP.CHINESE_NAME), 
+		C.CERTIFICATION_NO,
+		cat.code AS registration_type,
+		C.EXPIRY_DATE,
+		c_GET_MW_INDIVIDUAL_ITEMS(A.UUID) AS ITEMS ,
+		A.bs_telephone_no1 as TELEPHONE_NO, 
+		A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax,
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI ,'REG', A.UUID,'ITEMS', 'ITEMS',A.willingness_qp,
+		  NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+		   CASE 
+                WHEN trunc(current_date) > C.expiry_date 
+                     AND add_months(C.retention_application_date, 24) > trunc(current_date) THEN 
+                '@' 
+                ELSE '' 
+              END                                   AS flag
+		 FROM C_S_CATEGORY_CODE cat, C_IND_CERTIFICATE C, C_APPLICANT APP, C_IND_APPLICATION A, C_S_SYSTEM_VALUE SV  
+		 WHERE  C.MASTER_ID=A.UUID 
+		 AND cat.UUID = C.category_id
+		 AND A.APPLICANT_ID =APP.UUID  
+		 AND A.REGISTRATION_TYPE= 'IMW' 
+		 AND SV.UUID=C.application_status_id 
+		 AND (SV.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		 AND C.CERTIFICATION_NO IS NOT NULL  
+		 AND  
+		 (  (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= trunc(current_date) ) or  
+			(C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) 
+		 ) 
+		 AND  
+		 ( (C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > trunc(current_date)));
+
+
+		 
+--QP-AP
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag,  
+             telephone_no,
+			 search_type,
+			 willingness_qp, 
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax)
+
+
+ SELECT sys_guid(), 
+		trim( APP.SURNAME||' '|| APP.GIVEN_NAME_ON_ID),
+		  trim(APP.CHINESE_NAME),
+		  C.CERTIFICATION_NO, 
+		  CATgrp.CODE,
+		 C.EXPIRY_DATE, 
+		 --concat_building_safety_id(c.uuid)               AS BUILDING_SAFETY_ID,
+		 
+		 CASE WHEN trunc(current_date) > C.EXPIRY_DATE 
+		 AND add_months(C.retention_application_date, 24) > trunc(current_date)
+		 THEN '@' ELSE '' END as flag,
+		 A.bs_telephone_no1 as TELEPHONE_NO1, 
+		 'QP'  ,
+		 A.willingness_qp, 
+		 NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+		 FROM  
+		 C_IND_CERTIFICATE C, C_S_CATEGORY_CODE CAT, C_S_SYSTEM_VALUE CATGRP, 
+		 C_APPLICANT APP, C_IND_APPLICATION A 
+		 
+        ,c_S_SYSTEM_VALUE statusCode
+		 WHERE  
+		 C.CATEGORY_ID= cat.UUID 
+		 AND C.MASTER_ID=A.UUID 
+		 AND A.REGISTRATION_TYPE= 'IP'
+		 AND CATGRP.UUID = CAT.CATEGORY_GROUP_ID  
+ 		 AND CATGRP.UUID=(SELECT  CATEGORY_GROUP_ID FROM C_S_CATEGORY_CODE SCC WHERE  SCC.CODE='AP(A)')
+		 AND A.APPLICANT_ID =APP.UUID 
+		 AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+		 AND C.CERTIFICATION_NO IS NOT NULL 
+		 AND (  
+		 (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= trunc(current_date) ) or 
+		 (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) 
+		 )
+		 AND ((C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > trunc(current_date))) 
+		 ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID;
+		 
+		 
+--QP-RSE
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag,  
+             telephone_no,
+			 search_type,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax)
+
+
+ SELECT sys_guid(), 
+		 trim(APP.SURNAME||' '|| APP.GIVEN_NAME_ON_ID),
+		  trim(APP.CHINESE_NAME),
+		  C.CERTIFICATION_NO, 
+		  CATgrp.CODE,
+		 C.EXPIRY_DATE, 
+		 --concat_building_safety_id(c.uuid)               AS BUILDING_SAFETY_ID,
+		 
+		 CASE WHEN trunc(current_date) > C.EXPIRY_DATE
+		 AND add_months(C.retention_application_date, 24) > trunc(current_date)
+		 THEN '@' ELSE '' END as flag,
+		 A.bs_telephone_no1 as TELEPHONE_NO1, 
+		 'QP' ,
+		 A.willingness_qp,
+		 NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+			   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+		 FROM  
+		 C_IND_CERTIFICATE C, C_S_CATEGORY_CODE CAT, C_S_SYSTEM_VALUE CATGRP, 
+		 C_APPLICANT APP, C_IND_APPLICATION A 
+        ,C_S_SYSTEM_VALUE statusCode
+		 WHERE  
+		 C.CATEGORY_ID= cat.UUID 
+		 AND C.MASTER_ID=A.UUID 
+		 AND A.REGISTRATION_TYPE= 'IP'
+		 AND CATGRP.UUID = CAT.CATEGORY_GROUP_ID  
+ 		 AND CATGRP.UUID=(SELECT  CATEGORY_GROUP_ID FROM C_S_CATEGORY_CODE SCC WHERE  SCC.CODE='RSE')
+		 AND A.APPLICANT_ID =APP.UUID 
+		 AND C.CERTIFICATION_NO IS NOT NULL 
+		 AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+		 AND (  
+		 (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= trunc(current_date) ) or 
+		 (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) 
+		 )
+		 AND ((C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > trunc(current_date))) 
+		 ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID;		 
+
+--QP-RI
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag,  
+             telephone_no,
+			 search_type,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+                         MBIS_RI,
+			 district_english,
+             district_chinese,
+             email,
+             fax)
+
+
+ SELECT sys_guid(), 
+		 trim(APP.SURNAME||' '|| APP.GIVEN_NAME_ON_ID),
+		  trim(APP.CHINESE_NAME),
+		  C.CERTIFICATION_NO, 
+		  CATgrp.CODE,
+		 C.EXPIRY_DATE, 
+		 --concat_building_safety_id(c.uuid)               AS BUILDING_SAFETY_ID,
+		 
+		 CASE WHEN trunc(current_date) > C.EXPIRY_DATE AND add_months(C.retention_application_date, 24) > trunc(current_date) 
+		 THEN '@' ELSE '' END as flag,
+		 A.bs_telephone_no1 as TELEPHONE_NO1, 
+		 'QP'  ,
+		 A.willingness_qp,
+		 NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+		NVL(A.MBIS_RI, 'N') AS MBIS_RI,	   
+		(SELECT REGION_CHI.ENGLISH_DESCRIPTION FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT REGION_CHI.CHINESE_DESCRIPTION FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		  AS REGION_CHI,
+		  	A.BS_EMAIL AS EMAIL,
+		A.BS_FAX_NO1 as fax
+		 FROM  
+		 C_IND_CERTIFICATE C, C_S_CATEGORY_CODE CAT, C_S_SYSTEM_VALUE CATGRP, 
+		 C_APPLICANT APP, C_IND_APPLICATION A  ,C_S_SYSTEM_VALUE statusCode
+		 WHERE  
+		 C.CATEGORY_ID= cat.UUID 
+		 AND C.MASTER_ID=A.UUID 
+		 AND A.REGISTRATION_TYPE= 'IP'
+		 AND CATGRP.UUID = CAT.CATEGORY_GROUP_ID  
+		  AND CATGRP.UUID=(SELECT  CATEGORY_GROUP_ID FROM C_S_CATEGORY_CODE SCC WHERE  SCC.CODE='RI(A)')
+		 AND A.APPLICANT_ID =APP.UUID 
+		 AND C.CERTIFICATION_NO IS NOT NULL 
+		 AND statusCode.UUID=C.application_status_id 
+			  AND (statusCode.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		
+		 AND (  
+		 (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= trunc(current_date) ) or 
+		 (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) 
+		 )
+		 AND ((C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > trunc(current_date))) 
+		 ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID;
+
+
+
+
+--QP-GBC
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_company_name, 
+             chinese_company_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             flag,  
+             telephone_no,
+             as_name_english,
+             as_name_chinese,
+			 search_type,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 district_english,
+             district_chinese,
+             email,
+             fax)
+
+SELECT 
+		 sys_guid(), 
+		 
+		 C.ENGLISH_COMPANY_NAME , 
+		 C.CHINESE_COMPANY_NAME, 
+		 C.CERTIFICATION_NO,
+		 CAT.CODE, 
+		 C.EXPIRY_DATE, 
+		 CASE WHEN trunc(current_date) > C.EXPIRY_DATE AND add_months(C.retention_application_date, 24) > trunc(current_date)
+		 THEN '@' ELSE '' END as flag ,  
+		 C.bs_telephone_no1 as TELEPHONE_NO ,  
+		trim( c_GET_AS_LIST_HTML(C.UUID)) AS AS_NAME, 
+	    trim( c_GET_AS_LIST_WITH_CHINESE_HTML(C.UUID)) AS AS_NAME_chiniese,
+		'QP'  ,
+		C.willingness_qp,
+		NVL(C.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+
+		(SELECT trim(REGION_CHI.ENGLISH_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID ) 
+		 AS district_ENG, 
+		 (SELECT trim(REGION_CHI.CHINESE_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID )  
+		 AS district_CHI, 				   
+		C.BS_EMAIL_ADDRESS AS EMAIL,
+		C.BS_FAX_NO1 as fax 
+		 FROM  C_S_CATEGORY_CODE CAT, C_COMP_APPLICATION C 
+
+		 
+		 WHERE  
+		 CAT.UUID = C.CATEGORY_ID
+		 AND C.CATEGORY_ID= (SELECT  UUID FROM C_S_CATEGORY_CODE SCC WHERE  SCC.CODE='GBC')
+		 AND C.REGISTRATION_TYPE= 'CGC'  
+		 AND C.CERTIFICATION_NO IS NOT NULL   
+		 AND  ( (C.EXPIRY_DATE IS NOT NULL and  C.EXPIRY_DATE >= trunc(current_date)) or 
+				( (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) )
+		 ) 
+		 AND ((C.REMOVAL_DATE IS NULL) OR  
+			  (C.REMOVAL_DATE > trunc(current_date)) 
+			 )   
+		 ORDER BY upper(C.ENGLISH_COMPANY_NAME) ,  
+			 C.CERTIFICATION_NO, C.UUID;
+			 
+			 
+--QP-CMW
+INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_company_name, 
+             chinese_company_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             telephone_no,
+             company_type_one,
+             company_type_two,
+             company_type_three,
+             
+             as_name_english,
+             as_name_chinese,
+             as_type_one,
+             as_type_two,
+             as_type_three,
+             district_english,
+             district_chinese,
+             email,
+             fax,
+			 search_type,
+			 type_key,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 flag
+			 )
+
+
+SELECT 
+		sys_guid(),
+		
+		C.ENGLISH_COMPANY_NAME ,
+		C.CHINESE_COMPANY_NAME, 
+C.CERTIFICATION_NO, 
+		'MWC'  AS registration_type,
+		C.EXPIRY_DATE,
+		C.BS_TELEPHONE_NO1 as TELEPHONE_NO, 
+		c_GET_MW_COMP_CLASS_TYPE(C.UUID, 1) AS COMPANY_TYPE_ONE, 
+		c_GET_MW_COMP_CLASS_TYPE(C.UUID, 2) AS COMPANY_TYPE_TWO, 
+		c_GET_MW_COMP_CLASS_TYPE(C.UUID, 3) AS COMPANY_TYPE_THREE, 
+		trim(APP.SURNAME ||' '|| APP.GIVEN_NAME_ON_ID),
+		trim(APP.CHINESE_NAME), 
+		c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 3) AS AS_TYPE_ONE, 
+		c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 2) AS AS_TYPE_TWO, 
+		c_GET_MW_COMP_AS_CLASS_TYPE(APP_INFO.UUID, 1) AS AS_TYPE_THREE , 
+		 (SELECT trim(REGION_CHI.ENGLISH_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		 (SELECT trim(REGION_CHI.CHINESE_DESCRIPTION)  
+		 FROM C_S_SYSTEM_VALUE REGION_CHI WHERE REGION_CHI.UUID= C.BS_REGION_CODE_ID )  
+		 AS REGION_CHI, C.BS_EMAIL_ADDRESS AS EMAIL_ADDRESS, C.BS_FAX_NO1,
+		 'QP' ,
+		 C.uuid,
+		 c.willingness_qp,
+		 NVL(C.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+		  CASE WHEN trunc(current_date) > C.EXPIRY_DATE AND  add_months(C.retention_application_date, 24) > trunc(current_date)
+		 THEN '@' ELSE '' END as flag
+		FROM  C_S_CATEGORY_CODE CAT, C_COMP_APPLICATION C, 	 C_COMP_APPLICANT_INFO APP_INFO, C_APPLICANT APP,  
+		C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS 
+		WHERE  
+		C.CATEGORY_ID = CAT.UUID
+		AND C.UUID=APP_INFO.MASTER_ID 
+		AND APP_INFO.APPLICANT_ID=APP.UUID 
+		AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+		AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+		AND C.REGISTRATION_TYPE= 'CMW'
+		AND S_ROLE.CODE LIKE 'A%' 
+		AND S_STATUS.CODE= '1'
+		AND APP_INFO.accept_date IS NOT NULL 
+		AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(current_date)) )  
+		AND C.CERTIFICATION_NO IS NOT NULL AND (  
+		 (C.EXPIRY_DATE IS NOT NULL and  C.EXPIRY_DATE >= trunc(current_date)) or      
+			 ( (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and  
+			   (C.EXPIRY_DATE < trunc(current_date)) ) ) )  AND ((C.REMOVAL_DATE IS NULL) OR      
+		   (C.REMOVAL_DATE > trunc(current_date))) 
+		and APP_INFO.uuid in ( 
+		select cinfom.COMPANY_APPLICANTS_ID  
+		from C_COMP_APPLICANT_MW_ITEM cinfom  
+		--inner join COMP_APPLICANT_INFO_DETAIL cinfod on cinfod.COMPANY_APPLICANTS_MASTER_ID = cinfom.uuid  
+		inner join c_s_system_value mwcode on cinfom.ITEM_TYPE_ID = mwcode.uuid  
+		where mwcode.code in('Type A'))   
+		ORDER BY upper(C.ENGLISH_COMPANY_NAME), C.CERTIFICATION_NO, C.UUID, 
+		APP.SURNAME , APP.GIVEN_NAME_ON_ID, APP_INFO.UUID;
+		
+--QP-IMW			
+		INSERT INTO C_search_registration_qp 
+            (uuid, 
+             english_name, 
+             chinese_name, 
+             registration_number, 
+             registration_type, 
+             expiry_date, 
+             telephone_no,
+             items,
+             district_english,
+             district_chinese,
+             email,
+             fax,
+			 search_type,
+			 willingness_qp,
+			 INTERESTED_FSS, 
+			 flag)
+
+
+SELECT  sys_guid(),
+trim(APP.SURNAME||' '||APP.GIVEN_NAME_ON_ID),
+trim(APP.CHINESE_NAME), 
+		 C.CERTIFICATION_NO,
+		  cat.code,
+		 C.EXPIRY_DATE,
+		  A.bs_telephone_no1 as TELEPHONE_NO1, 
+		  
+		 CAST('3.6' AS VARCHAR(10)) AS ITEMS , 
+		 (SELECT trim(REGION_CHI.ENGLISH_DESCRIPTION) FROM C_S_SYSTEM_VALUE  REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_ENG, 
+		(SELECT trim(REGION_CHI.CHINESE_DESCRIPTION) FROM C_S_SYSTEM_VALUE REGION_CHI 
+		 WHERE REGION_CHI.UUID= A.BS_REGION_CODE_ID ) 
+		 AS REGION_CHI,
+		  A.BS_EMAIL AS EMAIL, A.BS_FAX_NO1, 'QP' ,
+		  A.willingness_qp,
+		  NVL(A.INTERESTED_FSS, 'I') AS INTERESTED_FSS, 
+		   CASE WHEN trunc(current_date) > C.EXPIRY_DATE AND add_months(C.retention_application_date, 24) > trunc(current_date) 
+		 THEN '@' ELSE '' END as flag
+		 FROM  C_S_category_code cat, C_IND_CERTIFICATE C, C_APPLICANT APP, C_IND_APPLICATION A, C_S_SYSTEM_VALUE SV  
+		 WHERE  C.CATEGORY_ID = CAT.UUID
+	    	AND C.MASTER_ID=A.UUID 
+		 AND A.APPLICANT_ID =APP.UUID  
+		 AND A.REGISTRATION_TYPE= 'IMW' 
+		 AND SV.UUID=C.application_status_id 
+	 	 AND (SV.CODE= '1' or (C.RETENTION_APPLICATION_DATE IS NOT NULL))
+		 
+		 AND C.CERTIFICATION_NO IS NOT NULL  
+		 AND  
+		 (  (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= trunc(current_date) ) or  
+			(C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < trunc(current_date)) ) 
+		 ) 
+		 AND  
+		 ( (C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > trunc(current_date)))  
+		 AND A.UUID IN (  
+		 SELECT distinct iitem.MASTER_ID FROM C_ind_application_mw_item iitem, C_s_system_value sitem  
+		 WHERE iitem.ITEM_DETAILS_ID = sitem.UUID  
+		 AND sitem.code in('Item 3.6'))  
+		 ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID;
+
+
+
+
+INSERT INTO C_SEARCH_REGISTRATION_ITEM_NO 
+            (uuid, 
+            ITEM_KEY, 
+             ITEM_NO
+			 ) 
+SELECT DISTINCT sys_guid() as uuid,  ITEMS.MASTER_ID, trim(( replace(S_MW_ITEM.CODE ,'Item', '') )) AS MW_ITEM_CODE
+FROM C_IND_APPLICATION_MW_ITEM ITEMS, C_S_SYSTEM_VALUE S_MW_ITEM
+WHERE ITEMS.ITEM_DETAILS_ID = S_MW_ITEM.UUID;
+
+
+INSERT INTO C_SEARCH_REGISTRATION_BS 
+            (uuid, 
+          	 BS_KEY, 
+           CODE
+			 ) 
+SELECT DISTINCT sys_guid() as uuid,  BS.MASTER_ID, SV.CODE
+FROM C_BUILDING_SAFETY_INFO BS, C_S_SYSTEM_VALUE SV
+WHERE BS.BUILDING_SAFETY_ID = SV.UUID;
+
+
+INSERT INTO C_SEARCH_REGISTRATION_TYPE 
+            (uuid, 
+            TYPE_KEY, 
+           class,
+           type,
+           registration_number
+			 ) 
+SELECT DISTINCT sys_guid() as uuid,  BS.company_applicants_id, substr(SV2.CODE,7) AS class, substr(SV.CODE,6) AS type, comp_app.certification_no
+FROM C_COMP_APPLICANT_MW_ITEM BS, C_S_SYSTEM_VALUE SV,C_S_SYSTEM_VALUE SV2, C_COMP_APPLICANT_INFO comp_app_info, C_comp_application comp_app
+WHERE BS.item_type_ID = SV.UUID
+AND BS.item_class_ID = SV2.UUID
+AND comp_app_info.uuid=bs.company_applicants_id
+AND comp_app.uuid= comp_app_info.master_id
+;
+
+
+
+
+--PATCH
+--GBC
+UPDATE C_SEARCH_REGISTRATION_QP SET
+telephone_no =''
+WHERE (trim(SERVICE_IN_BUILDING_SAFETY) ='3'
+OR trim(SERVICE_IN_BUILDING_SAFETY) ='-'
+OR trim(SERVICE_IN_BUILDING_SAFETY) IS NULL
+OR trim(SERVICE_IN_BUILDING_SAFETY) ='')
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='GBC';
+
+
+UPDATE C_SEARCH_REGISTRATION_BS set
+CODE ='-'
+where BS_KEY IN (
+SELECT bs_key FROM C_SEARCH_REGISTRATION_QP
+WHERE trim(SERVICE_IN_BUILDING_SAFETY) = '3'
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='GBC'
+);
+
+DELETE FROM C_SEARCH_REGISTRATION_BS
+WHERE code = '3'
+AND bs_key IN (
+SELECT BS_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='GBC'
+);
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = REPLACE(REPLACE(trim(SERVICE_IN_BUILDING_SAFETY), ' 3', ''), '3 ', '')
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='GBC';
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = REPLACE(trim(SERVICE_IN_BUILDING_SAFETY), '3', '-')
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='GBC';
+
+
+--SC(SF)
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '3'
+WHERE instr(trim(SERVICE_IN_BUILDING_SAFETY), '3', -1)>0
+--AND instr(trim(SERVICE_IN_BUILDING_SAFETY), '-', -1)>0
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(SF)';
+
+
+
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '-'
+WHERE (instr(trim(SERVICE_IN_BUILDING_SAFETY), '3', -1)<1
+OR trim(SERVICE_IN_BUILDING_SAFETY) IS NULL)
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(SF)';
+
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+telephone_no = ''
+WHERE (trim(SERVICE_IN_BUILDING_SAFETY) = '-'
+OR SERVICE_IN_BUILDING_SAFETY IS NULL)
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(SF)';
+
+DELETE C_SEARCH_REGISTRATION_BS
+WHERE BS_KEY IN (
+SELECT BS_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(SF)'
+);
+
+
+INSERT INTO C_SEARCH_REGISTRATION_BS
+(uuid, bs_key, code)
+SELECT sys_guid(), bs_key, SERVICE_IN_BUILDING_SAFETY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(SF)';
+
+
+--SC(D)
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '1'
+WHERE instr(trim(SERVICE_IN_BUILDING_SAFETY), '1', -1)>0
+--AND instr(trim(SERVICE_IN_BUILDING_SAFETY), '-' ,-1)>0
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(D)';
+
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '-'
+WHERE (instr(trim(SERVICE_IN_BUILDING_SAFETY), '1' ,-1)<1
+OR trim(SERVICE_IN_BUILDING_SAFETY) IS NULL)
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(D)';
+
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+telephone_no = ''
+WHERE (trim(SERVICE_IN_BUILDING_SAFETY) = '-'
+OR SERVICE_IN_BUILDING_SAFETY IS NULL)
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(D)';
+
+DELETE C_SEARCH_REGISTRATION_BS
+WHERE BS_KEY IN (
+SELECT BS_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(D)'
+);
+
+
+INSERT INTO C_SEARCH_REGISTRATION_BS
+(uuid, bs_key, code)
+SELECT sys_guid(), bs_key, SERVICE_IN_BUILDING_SAFETY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='SC(D)';
+
+
+
+--RGE
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '3'
+WHERE instr(trim(SERVICE_IN_BUILDING_SAFETY), '3' ,-1)>0
+--AND instr(trim(SERVICE_IN_BUILDING_SAFETY), '-', -1)>0
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='RGE';
+
+
+UPDATE C_SEARCH_REGISTRATION_QP SET 
+SERVICE_IN_BUILDING_SAFETY = '-'
+WHERE (instr(trim(SERVICE_IN_BUILDING_SAFETY), '3', -1)<1
+OR trim(SERVICE_IN_BUILDING_SAFETY) IS NULL)
+AND SEARCH_TYPE='REG' AND REGISTRATION_TYPE='RGE';
+
+
+
+
+
+DELETE C_SEARCH_REGISTRATION_BS
+WHERE BS_KEY IN (
+SELECT BS_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='RGE'
+);
+
+
+INSERT INTO C_SEARCH_REGISTRATION_BS
+(uuid, bs_key, code)
+SELECT sys_guid(), bs_key, SERVICE_IN_BUILDING_SAFETY FROM C_SEARCH_REGISTRATION_QP
+WHERE SEARCH_TYPE='REG' AND REGISTRATION_TYPE='RGE';
+
+
+
+
+
+DELETE C_SEARCH_REGISTRATION_TYPE 
+WHERE TYPE_KEY NOT IN (
+SELECT TYPE_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE TYPE_KEY IS NOT NULL
+);
+
+
+DELETE C_SEARCH_REGISTRATION_ITEM_NO
+WHERE ITEM_KEY NOT IN (
+SELECT ITEM_KEY FROM C_SEARCH_REGISTRATION_QP
+WHERE ITEM_KEY IS NOT NULL
+);
+
+
+
+
+COMMIT;
+
+END;
+
+CREATE OR REPLACE PROCEDURE MWMS2.C_sp_gen_website_register_and_qp AS
+
+    strProcedureName                VARCHAR2(50) := 'SP_GEN_WEBSITE_REGISTER_AND_QP';
+    strStatusStart                  VARCHAR2(20) := 'START';
+    strStatusCompleted              VARCHAR2(20) := 'COMPLETED';
+    strStatusDataValidationError    VARCHAR2(30) := 'DATA VALIDATION ERROR';
+    seq                             VARCHAR2(25) := '';
+    
+    regNo                           C_search_registration_qp.registration_number%TYPE;
+    errorMsg                        VARCHAR2(900) := '';
+    
+    CURSOR c1 IS 
+        SELECT DISTINCT(registration_number)
+        FROM C_search_registration_qp
+        WHERE 1 = 1
+        AND (as_name_english IS NOT NULL OR as_name_chinese IS NOT NULL)
+        AND  (as_type_one IS NULL AND as_type_two IS NULL AND as_type_three IS NULL)
+        AND   registration_type = 'MWC';
+
+BEGIN
+    -- init seq id
+    SELECT TO_CHAR(SYSDATE,'yyyymmdd-hh24miss') INTO seq FROM dual;
+
+    -- In Oracle, the empty string is equivalent to NULL.
+    -- Log start
+    INSERT INTO C_sp_log (seq, log_date, procedure_name, status, remarks) VALUES (seq, SYSDATE, strProcedureName, strStatusStart, '');
+
+    -- call procedure truncate and insert data for 4 tables
+    C_SP_GEN_WEBSITE();
+
+    -- process data checking
+    OPEN c1;
+    LOOP
+        FETCH c1 INTO regNo;
+        EXIT WHEN c1%notfound;
+        IF errorMsg IS NULL THEN 
+            errorMsg := regNo;
+        ELSE
+            errorMsg := errorMsg || ', ' || regNo;
+        END IF;
+    END LOOP;
+    CLOSE c1;  
+
+    -- log errorMsg
+    IF errorMsg IS NOT NULL
+    THEN
+        INSERT INTO C_sp_log (seq, log_date, procedure_name, status, remarks) VALUES (seq, SYSDATE, strProcedureName, strStatusDataValidationError, errorMsg);
+    END IF;
+
+    -- Log completed
+    INSERT INTO C_sp_log (seq, log_date, procedure_name, status, remarks) VALUES (seq, SYSDATE, strProcedureName, strStatusCompleted, '');
+
+    
+    COMMIT;
+END C_sp_gen_website_register_and_qp;
+
+CREATE OR REPLACE PROCEDURE MWMS2.C_SP_UPDATE_BCIS_ADDRESS AS
+
+BEGIN
+
+EXECUTE IMMEDIATE 'TRUNCATE TABLE BCIS_ADDRESS';
+
+/*
+INSERT INTO B_BCIS_ADDRESS (SELECT ROWNUM, b.BK_ID,  b.BLK_TYPE,
+b.BLDG_NAME_E1 || b.BLDG_NAME_E2 || b.BLDG_NAME_E3 AS BLDG_NAME_ENG,
+b.BLDG_NAME_C1 || b.BLDG_NAME_C2 || b.BLDG_NAME_C3 AS BLDG_NAME_CHN,
+sl.ST_NAME,
+sl.ST_NAME_C,
+sl.ST_NO_NUM || sl.ST_NO_ALPHA || sl.ST_NO_EXT AS STREET_NO,
+f.file_no AS file_no,
+SYSDATE,
+b.BLDG_NAME_E1 || b.BLDG_NAME_E2 || b.BLDG_NAME_E3 
+||b.BLDG_NAME_C1 || b.BLDG_NAME_C2 || b.BLDG_NAME_C3||sl.ST_NAME||sl.ST_NAME_C ||sl.ST_NO_NUM || sl.ST_NO_ALPHA || sl.ST_NO_EXT 
+
+FROM BCIS_BLK@WRBR b 
+INNER JOIN BCIS_BLK_SL_DETAILS@WRBR sl ON b.BK_ID = sl.BK_ID
+LEFT OUTER JOIN (
+select ref_number.BLK_ID AS BK_ID , MIN(ref_number.CASE_NO || '/' || ref_number.YEAR) AS file_no 
+from BLDG_FILE_REF@WRBR ref_number 
+WHERE ref_number.CASE_NO IS NOT NULL AND  ref_number.YEAR IS NOT NULL 
+GROUP BY ref_number.BLK_ID) f ON b.BK_ID = f.bk_id);
+
+
+UPDATE 
+(
+SELECT a.uuid, a.BCIS_KEY AS b1, b.BCIS_KEY AS b2
+FROM RVD a, BCIS_ADDRESS b 
+WHERE (upper(a.BLDG_NAME_ENG) = upper(b.BLDG_NAME_ENG) OR a.BLDG_NAME_CHN = b.BLDG_NAME_CHN)
+AND (upper(a.STREET_NAME_ENG_NO_ENCODED) = upper(b.ST_NAME) OR a.STREET_NAME_CHN = b.ST_NAME_C)
+AND (b.STREET_NO IS NULL OR a.BK_BLDG_NO_NUMERIC || a.BK_BLDG_NO_ALPHA || a.BK_BLDG_NO_EXT = b.STREET_NO)
+) SET b1 = b2;
+*/
+
+COMMIT;
+
+END;
+
+CREATE OR REPLACE PROCEDURE MWMS2."P_VALIDATE_36_IMPORT" 
+( 
+  MW_IMPORTED_36_TASK_UUID IN VARCHAR2
+) AS
+
+  cursor mw36ItemCur IS select * from P_MW_IMPORTED_36_TASK_ITEM
+                                 where 1=1 
+                                 and MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID 
+                                 and STATUS = 'IMPORT_CHECKING'
+                                 order by ORDERING asc;
+
+  mw36ItemRow mw36ItemCur%rowtype;
+  MWISCount number;
+  parentFormNo varchar(10);
+  isCommForm varchar(10);
+  endValidate varchar(10);
+  commencementForm P_MW_IMPORTED_36_TASK_ITEM%rowtype;
+
+BEGIN
+
+-- update Status 
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS = 'IMPORT_CHECKING',
+STATUS_DESCRIPTION = 'Import Checking' 
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID 
+AND STATUS = 'UPLOAD_VALID' 
+AND STATUS_DESCRIPTION != 'IGNORE';
+
+
+OPEN mw36ItemCur;
+  -- Loop every item by MW_IMPORTED_36_TASK_ID
+  Loop
+    FETCH mw36ItemCur into mw36ItemRow;
+    EXIT WHEN mw36ItemCur%notfound; 
+    -- Common checking    
+
+    -- Check duplicate recod
+    -- Same docType with same MWISNo
+    endValidate := 'F';
+    SELECT count(mw36Item.uuid) into MWISCount 
+                      from P_MW_IMPORTED_36_TASK mw36task, P_MW_IMPORTED_36_TASK_ITEM mw36Item 
+                      where 1=1 
+                      and mw36Item.MW_IMPORTED_36_TASK_ID = mw36task.uuid
+                      and mw36Item.STATUS = 'IMPORT_VALID' 
+                      and mw36Item.MWI_NO = mw36ItemRow.MWI_NO 
+                      and mw36Item.DOC_TYPE = mw36ItemRow.DOC_TYPE;                    
+    If MWISCount > 0 THEN
+       UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' 
+                ||'MWIS No:'|| mw36ItemRow.MWI_NO || ', ' 
+                || 'DOC_TYPE:' || mw36ItemRow.DOC_TYPE || ' already imported',
+                STATUS = 'IMPORT_INVALID' 
+                where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;      
+       endValidate := 'T';         
+    END IF; 
+
+    -- Check submit on MW02/MW04
+    isCommForm := 'F'; 
+    if (mw36ItemRow.DOC_TYPE = 'MW02') Then 
+      parentFormNo := 'MW01'; 
+    elsif (mw36ItemRow.DOC_TYPE = 'MW04') Then 
+      parentFormNo := 'MW03';
+    else 
+      parentFormNo := null;
+      isCommForm := 'T';
+    End if;
+
+    if isCommForm = 'T' and endValidate = 'F' Then
+      -- check MWISNo
+      SELECT count(*) into MWISCount 
+                      from P_MW_IMPORTED_36_TASK mw36task, P_MW_IMPORTED_36_TASK_ITEM mw36Item
+                      where 1=1 
+                      and mw36Item.MW_IMPORTED_36_TASK_ID = mw36task.uuid
+                      and mw36Item.STATUS = 'IMPORT_VALID' 
+                      and mw36Item.MWI_NO = mw36ItemRow.MWI_NO 
+                      and mw36Item.DOC_TYPE in ('MW01','MW03','MW05','MW05(ITEM3.6)'); 
+      if MWISCount >= 1 Then
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION 
+                        = STATUS_DESCRIPTION || ' > '|| mw36ItemRow.MWI_NO ||' Commencement Form already imported.' ,
+                        STATUS = 'IMPORT_INVALID' 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid; 
+      End if;
+    End if;
+
+    if parentFormNo is not null Then
+      SELECT count(*) into MWISCount from P_MW_IMPORTED_36_TASK_ITEM mw36Item 
+                      where 1=1 
+                      and mw36Item.MWI_NO = mw36ItemRow.MWI_NO 
+                      and mw36Item.DOC_TYPE in (parentFormNo);
+
+      If MWISCount = 0 THEN
+        -- Handle MWNo not found
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION 
+                        = STATUS_DESCRIPTION || ' > '|| parentFormNo || ' not found.' ,
+                        STATUS = 'IMPORT_INVALID' 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;           
+
+      --Parent form is found    
+      ElsIf MWISCount = 1 THEN
+        -- Find corresponding parent
+        select * into commencementForm 
+               from P_MW_IMPORTED_36_TASK_ITEM mw36Item 
+               where mw36Item.MWI_NO = mw36ItemRow.MWI_NO 
+               and mw36Item.DOC_TYPE in (parentFormNo) 
+               and rownum = 1;             
+
+      -- Common action for MW02/MW04            
+      -- Copy Submission No from commForm      
+      if commencementForm.SUBMISSION_NO is not null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET SUBMISSION_NO = commencementForm.SUBMISSION_NO 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;         
+      End if; 
+
+      -- copy counter       
+      if mw36ItemRow.COUNTER is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET COUNTER = commencementForm.COUNTER
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;  
+      -- copy PBP       
+      if mw36ItemRow.REF_NO_AP is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET REF_NO_AP = commencementForm.REF_NO_AP
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;  
+      -- copy PRC     
+      if mw36ItemRow.REF_NO_PRC is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET REF_NO_PRC = commencementForm.REF_NO_PRC
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;      
+      -- copy work location       
+      if mw36ItemRow.WORKS_LOCATION is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET WORKS_LOCATION = commencementForm.WORKS_LOCATION
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;    
+      -- copy street       
+      if mw36ItemRow.STREET is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STREET = commencementForm.STREET
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;
+        -- copy street no       
+      if mw36ItemRow.STREET_NO is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STREET_NO = commencementForm.STREET_NO  
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy buildingBlock       
+      if mw36ItemRow.BUILDING_BLOCK is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET BUILDING_BLOCK = commencementForm.BUILDING_BLOCK 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;   
+      -- copy floor       
+      if mw36ItemRow.FLOOR is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET FLOOR = commencementForm.FLOOR 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy unit       
+      if mw36ItemRow.UNIT is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET UNIT = commencementForm.UNIT
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy mwItem       
+      --if mw36ItemRow.MW_ITEM is null THEN
+      --    UPDATE P_MW_IMPORTED_36_TASK_ITEM SET MW_ITEM = commencementForm.MW_ITEM 
+      --                  where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      --End if; 
+
+      -- copy ssp
+      if mw36ItemRow.SSP is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET SSP = commencementForm.SSP 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy signBoard
+      if mw36ItemRow.RELATED_SIGNBOARD is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET RELATED_SIGNBOARD = commencementForm.RELATED_SIGNBOARD 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;      
+      -- copy orderRelated
+      if mw36ItemRow.ORDER_RELATED is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET ORDER_RELATED = commencementForm.ORDER_RELATED 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;   
+      -- copy ReferralDate
+      if mw36ItemRow.REFERRAL_DATE is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET REFERRAL_DATE = commencementForm.REFERRAL_DATE 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;      
+      -- copy Paw
+      if mw36ItemRow.PAW is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET PAW = commencementForm.PAW 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy PawContact
+      if mw36ItemRow.PAW is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET PAW_CONTACT = commencementForm.PAW_CONTACT 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy IO
+      if mw36ItemRow.PAW is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET IO = commencementForm.IO 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy IO Contact
+      if mw36ItemRow.IO_CONTACT is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET IO_CONTACT = commencementForm.IO_CONTACT 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy Lang
+      if mw36ItemRow.LANG is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET LANG = commencementForm.LANG 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;
+      -- copy LetterDate
+      if mw36ItemRow.LETTER_DATE is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET LETTER_DATE = commencementForm.LETTER_DATE 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;
+      -- copy SDF
+      if mw36ItemRow.SDF is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET SDF = commencementForm.SDF 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;
+      -- copy p mwNo
+      if mw36ItemRow.PREVIOUS_SEC_ENTRY_NO is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET PREVIOUS_SEC_ENTRY_NO = commencementForm.PREVIOUS_SEC_ENTRY_NO 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;      
+      -- copy barcode
+      if mw36ItemRow.BARCODE is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET BARCODE = commencementForm.BARCODE 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy UMW Notice No
+      if mw36ItemRow.UMW_NOTICE_NO is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET UMW_NOTICE_NO = commencementForm.UMW_NOTICE_NO 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;       
+      -- copy Upload to Pem
+      if mw36ItemRow.UPLOAD_PEM is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET UPLOAD_PEM = commencementForm.UPLOAD_PEM 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if; 
+      -- copy Total no of Premises
+      if mw36ItemRow.NO_OF_PREMISES is null THEN
+          UPDATE P_MW_IMPORTED_36_TASK_ITEM SET NO_OF_PREMISES = commencementForm.NO_OF_PREMISES 
+                        where P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid;          
+      End if;       
+
+      -- End parentForm is found
+      End if;   
+    -- End checking for Completion Form  
+    End if; 
+
+    --relase checking record
+    UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS = 'IMPORT_VALID'
+    WHERE 1=1
+    AND P_MW_IMPORTED_36_TASK_ITEM.uuid = mw36ItemRow.uuid  
+    AND MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID 
+    AND STATUS = 'IMPORT_CHECKING';  
+
+  END LOOP;
+CLOSE mw36ItemCur;
+
+
+--relase checking record
+--UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS = 'IMPORT_VALID'
+--WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID 
+--AND STATUS = 'IMPORT_CHECKING';
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+
+END P_VALIDATE_36_IMPORT;
+
+CREATE OR REPLACE PROCEDURE MWMS2."P_VALIDATE_36_UPLOAD" (MW_IMPORTED_36_TASK_UUID IN VARCHAR2) 
+AS
+
+BEGIN
+--Set default STATUS = UPLOAD_INVALID
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET 
+STATUS_DESCRIPTION = NULL, 
+STATUS = 'UPLOAD_INVALID' ,
+SCREENED_NATURE = trim(upper(SCREENED_NATURE)),
+DOC_TYPE = trim(upper(DOC_TYPE)),
+LANG = trim(upper(LANG)),
+RESULT = trim(upper(RESULT))
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOADED';
+
+--Set default Lang = E
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET LANG = 'E'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID 
+AND LANG IS NULL 
+AND STATUS = 'UPLOAD_INVALID';
+
+--Common Checking
+--Check Nature type
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = 'IGNORE', STATUS = 'UPLOAD_VALID'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID
+AND SCREENED_NATURE NOT IN ('SUBMISSION', 'E-SUBMISSION', 'DIRECT RETURN', 'REVISED CASE', 'WITHDRAWAL', 'ICU');
+
+--Check Nature cannot blank.
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Screened nature cannot be blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND SCREENED_NATURE IS NULL;
+
+--Check DSN should be blank
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Dsn is not blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DSN IS NOT NULL;
+
+--Check receive date cannot blank
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Date received cannot be blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DATE_RECEIVED IS NULL;
+
+--check formType format
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid doc type.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID' 
+AND upper(DOC_TYPE) NOT IN ('MW01','MW02','MW03','MW04','MW05','MW05(ITEM3.6)');
+
+--Check Submission No can not blank
+--UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'MW No can not be blank.'
+--WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+--AND SUBMISSION_NO IS NULL;
+
+--Check Prc cannot be blank
+--UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'PrcReg cannot be blank.'
+--WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID' 
+--AND REF_NO_PRC is null;
+
+--Check work location cannot be blank
+--UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'WorkLocation cannot be blank.'
+--WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID' 
+--AND WORKS_LOCATION is null;
+
+--CHECK C/E
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Language cannot be blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND LANG IS NULL;
+
+--CHECK Selected
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Selected is not blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND SELECTED_FOR_AUDIT IS NOT NULL;
+
+--Check Date format
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Date Received).'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DATE_RECEIVED IS NOT NULL AND P_DATE_VALID(DATE_RECEIVED) IS NULL;
+
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Commencement Date).'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND COMMENCEMENT_DATE IS NOT NULL AND P_DATE_VALID(COMMENCEMENT_DATE) IS NULL;
+
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Completion Date).'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND COMPLETION_DATE IS NOT NULL AND P_DATE_VALID(COMPLETION_DATE) IS NULL;
+
+--CHECKING Commencement date
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Commencement date cannot be blank.'
+WHERE SCREENED_NATURE  IN ( 'SUBMISSION','E-SUBMISSION')  AND MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND  upper(DOC_TYPE)  IN ('MW01','MW03','MW05','MW05(ITEM3.6)') AND  COMMENCEMENT_DATE IS NULL;
+
+--CHECKING Completion date
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Completion date cannot be blank.'
+WHERE SCREENED_NATURE  IN ( 'SUBMISSION','E-SUBMISSION')  AND MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND  upper(DOC_TYPE)  IN ('MW02', 'MW04','MW05','MW05(ITEM3.6)') AND  COMPLETION_DATE IS NULL;
+
+--Check MWIS can not blank
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'MWIS No cannot be blank.'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND MWI_NO IS NULL;
+
+--Check Result A/R
+--UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid Acknowledgement Result .'
+--WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+--AND RESULT NOT IN('A','R');
+
+--after done
+UPDATE P_MW_IMPORTED_36_TASK_ITEM SET STATUS_DESCRIPTION = 'UPLOAD_VALID', STATUS = 'UPLOAD_VALID'
+WHERE MW_IMPORTED_36_TASK_ID = MW_IMPORTED_36_TASK_UUID AND STATUS = 'UPLOAD_INVALID' AND STATUS_DESCRIPTION IS NULL;
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+
+END P_VALIDATE_36_UPLOAD;
+
+CREATE OR REPLACE PROCEDURE MWMS2."P_VALIDATE_IMPORT" 
+( 
+  MW_IMPORTED_TASK_UUID IN VARCHAR2
+) AS
+
+BEGIN
+
+
+--hold checking record
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS = 'IMPORT_CHECKING'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_VALID' AND STATUS_DESCRIPTION != 'IGNORE';
+
+
+-- no duplicate import
+UPDATE P_MW_IMPORTED_TASK_ITEM t0 SET t0.STATUS_DESCRIPTION = 'DUPLICATE', t0.STATUS = 'IMPORT_INVALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND t0.STATUS = 'IMPORT_CHECKING'
+AND 0 > (
+	SELECT COUNT(*) FROM P_MW_IMPORTED_TASK_ITEM t1
+	WHERE t1.SUBMISSION_NO = t0.SUBMISSION_NO
+	AND t1.DOC_TYPE = t0.DOC_TYPE
+	AND t1.DSN = t0.DSN
+	AND t1.STATUS = 'IMPORT_VALID'
+);
+
+-- no receipt and scan
+UPDATE P_MW_IMPORTED_TASK_ITEM t0 SET t0.STATUS_DESCRIPTION = 'RECORD_NOT_FOUND', t0.STATUS = 'IMPORT_INVALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND t0.STATUS = 'IMPORT_CHECKING'
+AND t0.SCREENED_NATURE IN ('SUBMISSION', 'E-SUBMISSION')
+AND 0 = (
+	SELECT COUNT(*) FROM P_MW_DSN t1
+	WHERE t1.DSN = t0.DSN
+	AND t1.FORM_CODE = t0.DOC_TYPE
+	AND t1.RECORD_ID = t0.SUBMISSION_NO
+);
+
+
+
+UPDATE P_MW_IMPORTED_TASK_ITEM t0 SET t0.STATUS_DESCRIPTION = 'RECORD_NOT_FOUND', t0.STATUS = 'IMPORT_INVALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND t0.STATUS = 'IMPORT_CHECKING'
+AND t0.SCREENED_NATURE IN ('ICU','DSN-DELETE','DIRECT RETURN','REVISED CASE','WITHDRAWAL')
+AND 0 = (SELECT COUNT(*) FROM P_MW_DSN t1 WHERE t1.DSN = t0.DSN);
+
+
+
+-- no veri and ack --NOT IMPORT THE SYSTEM
+UPDATE P_MW_IMPORTED_TASK_ITEM t0 SET t0.STATUS_DESCRIPTION = 'RECORD_NOT_ENTRY', t0.STATUS = 'IMPORT_INVALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND t0.STATUS = 'IMPORT_CHECKING'
+AND 0 < (
+	SELECT COUNT(*) FROM P_MW_VERIFICATION t1
+	INNER JOIN P_MW_RECORD t2 ON t1.MW_RECORD_ID = t2.UUID
+	INNER JOIN P_MW_REFERENCE_NO t3 ON t2.REFERENCE_NUMBER = t3.UUID
+	WHERE t2.MW_DSN = t0.DSN
+	AND t3.REFERENCE_NO = t0.SUBMISSION_NO
+	AND t2.S_FORM_TYPE_CODE = t0.DOC_TYPE
+);
+
+
+
+-- first entry and second entry now
+
+
+-- set description as taskname
+UPDATE P_MW_IMPORTED_TASK_ITEM t0 SET t0.STATUS_DESCRIPTION = (
+	SELECT DISTINCT t.TASKNAME
+	FROM P_MW_REFERENCE_NO rn
+	LEFT JOIN P_MW_RECORD rc ON rc.REFERENCE_NUMBER = rn.UUID
+	LEFT JOIN P_DSN_REQUESTID d ON d.DSN = rc.MW_DSN
+	LEFT JOIN P_PROCESSTRANSACTION pt ON pt.REQUESTID = d.REQUESTID
+	LEFT JOIN P_WFTASK t ON t.INSTANCEID = pt.INSTANCEID AND t.STATUS = 210
+	WHERE rn.REFERENCE_NO = t0.SUBMISSION_NO
+	AND rc.MW_DSN = t0.DSN
+	AND rc.S_FORM_TYPE_CODE = t0.DOC_TYPE
+) WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND t0.STATUS = 'IMPORT_CHECKING';
+
+
+
+
+
+
+--relase checking record
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS = 'IMPORT_VALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'IMPORT_CHECKING';
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+
+END P_VALIDATE_IMPORT;
+
+CREATE OR REPLACE PROCEDURE MWMS2."P_VALIDATE_UPLOAD" 
+( 
+  MW_IMPORTED_TASK_UUID IN VARCHAR2
+) AS
+
+BEGIN
+
+--Update 
+UPDATE P_MW_IMPORTED_TASK_ITEM SET 
+STATUS_DESCRIPTION = NULL, 
+STATUS = 'UPLOAD_INVALID' ,
+SCREENED_NATURE = trim(upper(SCREENED_NATURE)),
+DOC_TYPE = trim(upper(DOC_TYPE)),
+DESCRIPTION = trim(upper(DESCRIPTION)),
+RESULT = trim(upper(RESULT))
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOADED';
+
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET DESCRIPTION = 'E'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND DESCRIPTION IS NULL AND STATUS = 'UPLOAD_INVALID';
+
+
+
+--Common Checking
+
+--Check Nature type
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = 'IGNORE', STATUS = 'UPLOAD_VALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID
+AND SCREENED_NATURE NOT IN ('SUBMISSION', 'E-SUBMISSION', 'DIRECT RETURN', 'REVISED CASE', 'WITHDRAWAL', 'ICU');
+
+--Check Nature
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Screened nature cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND SCREENED_NATURE IS NULL;
+
+--Check Result Y/N NULL
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Acknowledgement Result cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND RESULT IS NULL;
+
+
+--Check Result A/R
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid Acknowledgement Result .'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND RESULT NOT IN('A','R');
+
+--Check DSN
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Dsn cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DSN IS NULL;
+
+--Check Date Recevied
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Date received cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DATE_RECEIVED IS NULL;
+
+--Check Date format
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Date Received).'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DATE_RECEIVED IS NOT NULL AND P_DATE_VALID(DATE_RECEIVED) IS NULL;
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Commencement Date).'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND COMMENCEMENT_DATE IS NOT NULL AND P_DATE_VALID(COMMENCEMENT_DATE) IS NULL;
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid date format(Completion Date).'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND COMPLETION_DATE IS NOT NULL AND P_DATE_VALID(COMPLETION_DATE) IS NULL;
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Doc type cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DOC_TYPE IS NULL;
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Invalid doc type.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DOC_TYPE NOT IN ('MW01', 'MW03', 'MW05', 'MW06', 'MW32', 'MW02', 'MW04', 'MW11', 'MW12', 'MW07', 'MW08', 'MW09', 'MW10', 'MW31', 'MW33');
+
+
+--CHECK C/E
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Description cannot be blank.'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND DESCRIPTION IS NULL;
+
+
+-- SUBMISSION,E-SUBMISSION
+
+--check submission no
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Submission no. cannot be blank.'
+WHERE SCREENED_NATURE  IN ( 'SUBMISSION','E-SUBMISSION')  AND MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND SUBMISSION_NO IS NULL;
+
+--CHECKING
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Commencement date cannot be blank.'
+WHERE SCREENED_NATURE  IN ( 'SUBMISSION','E-SUBMISSION')  AND MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND  DOC_TYPE  IN ('MW01', 'MW03','MW05') AND  COMMENCEMENT_DATE IS NULL;
+
+
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = STATUS_DESCRIPTION || ' > ' || 'Completion date cannot be blank.'
+WHERE SCREENED_NATURE  IN ( 'SUBMISSION','E-SUBMISSION')  AND MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID'
+AND  DOC_TYPE  IN ('MW02', 'MW04','MW05') AND  COMPLETION_DATE IS NULL;
+
+
+--after done
+UPDATE P_MW_IMPORTED_TASK_ITEM SET STATUS_DESCRIPTION = 'UPLOAD_VALID', STATUS = 'UPLOAD_VALID'
+WHERE MW_IMPORTED_TASK_ID = MW_IMPORTED_TASK_UUID AND STATUS = 'UPLOAD_INVALID' AND STATUS_DESCRIPTION IS NULL;
+
+
+
+COMMIT;
+
+EXCEPTION
+WHEN OTHERS THEN
+ROLLBACK;
+RAISE ;
+
+END P_VALIDATE_UPLOAD;
+

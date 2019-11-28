@@ -1,0 +1,267 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_OutgoingModel
+
+<div id="searchCriteria">
+    <div class="panelHeader">Generate new document S/N.</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <button id="NewDocumentBtn" class="btn btn-default" type="button" onclick="generateNewDsn()">Generate New Document S/N</button>
+        </div>
+    </div>
+    <div class="panelHeader">Existing Document S/N.</div>
+    <form id="inputForm" class=" w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Existing Document S/N. :</div>
+                <div class="w3-col l4 m12 s12">
+                    <input id="DSN" name="DSN" type="text" />
+                </div>
+                <button class="btn btn-default" type="button" onclick="getDsnInfo()">Print Barcode</button>
+            </div>
+            @*<div class="w3-col l6 m12 s12">
+                    <button class="btn btn-default" type="button">Print Barcode</button>
+                </div>*@
+        </div>
+
+
+        <div id="NewDocumentDiv" hidden class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Document S/N :</div>
+                <div class="w3-col l4 m12 s12">
+                    <input id="P_MW_DSN.DSN" name="P_MW_DSN.DSN" type="text" readonly />
+                </div>
+            </div>
+
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    <input id="P_MW_DSN.RECORD_ID" name="P_MW_DSN.RECORD_ID" type="text" />
+                </div>
+
+            </div>
+
+            <div id="IssuedDateRow" class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Issued Date :</div>
+                <div class="w3-col l4 m12 s12">
+                    <input type="text" id="P_MW_DSN.ISSUED_DATE" name="P_MW_DSN.ISSUED_DATE" class="inputDate" />
+                </div>
+
+            </div>
+
+            <div id="LetterTemplateRow" class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Letter Template No :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(m => Model.LetterTemplateNo, new SelectList(Model.LetterTemplateList, "NAME", "NAME"), new { @onchange = "refreshLetterTemplateType(value)" })
+
+                    @Html.DropDownList("LetterTemplateType", new SelectList(Model.LetterTemplateList, "NAME", "LETTER_TYPE"), new { @style = "display:none;" })
+                </div>
+
+            </div>
+            <div id="LetterTypeRow" class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Letter Type :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(m => Model.LetterType, Model.LetterTypeList)
+                </div>
+
+            </div>
+
+            <div class="w3-col l12 m12 s12">
+                <input name="ScanType" class="w3-radio" type="radio" value="Scan and Dispatch" />Scan and dispatch
+                <input name="ScanType" class="w3-radio" checked type="radio" value="Scan and Hook" />Scan and Hook
+                <button class="btn btn-default" type="button" style="float: right;" onclick="submitDsnInfo()">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    function ShowNewDocumentDiv() {
+
+        var nd = document.getElementById("NewDocumentDiv");
+        //nd.setAttribute("hidden", "true");
+        nd.removeAttribute("hidden");
+    }
+
+    function generateNewDsn() {
+
+        if ($('#DSN').val() != "") {
+            getDsnInfo();
+            return;
+        }
+
+        var isGenerate = confirm("Do you really want to generate a new Document S/N?");
+
+        if (!isGenerate) { return; }
+
+        //goTo("GenerateNewDsn");
+        $.post("generateNewDsn", null, function (data) {
+
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                showGenerate(true);
+                var nd = document.getElementById("NewDocumentDiv");
+                nd.removeAttribute("hidden");
+
+                var txtDsn = document.getElementById("P_MW_DSN.DSN");
+                //var txtRecordID = document.getElementById("RECORD_ID");
+                var txtIssuedDate = document.getElementById("P_MW_DSN.ISSUED_DATE");
+
+                txtDsn.value = data.Data["DSN"];
+
+                var strDate = data.Data["ISSUED_DATE"];
+
+                var valDate = new Date(parseInt(strDate.replace("/Date(", "").replace(")/", ""), 10));
+
+                txtIssuedDate.value = formatDate("dd/MM/yyyy", valDate);
+
+
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+    function submitDsnInfo() {
+
+        attr("inputForm", "addClass", "saving");
+        $.post("SubmitDsnInfo", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            //console.log(data);
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                goTo("Index");
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+    function getDsnInfo() {
+
+        var errorFiledList = document.getElementsByClassName("errorField");
+
+        for (var i = 0; i < errorFiledList.length; i++) {
+            errorFiledList[i].className = "";
+        }
+
+        var errorText = document.getElementsByClassName("errorText");
+        for (var i = 0; i < errorText.length; i++) {
+            errorText[i].outerHTML = "";
+        }
+
+        $.post("GetDsnInfo", [{ name: "DSN", value: $('#DSN').val() }], function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                //console.log(data);
+                var nd = document.getElementById("NewDocumentDiv");
+                nd.removeAttribute("hidden");
+
+                var dsnInfo = data.Data["P_MW_DSN"];
+
+                var txtDsn = document.getElementById("P_MW_DSN.DSN");
+                txtDsn.value = dsnInfo["DSN"];
+
+                //var txtIssuedDate = document.getElementById("P_MW_DSN.ISSUED_DATE");
+                //var strDate = dsnInfo["ISSUED_DATE"];
+
+                //var valDate = new Date();
+                //if (strDate != null && strDate.indexOf('/Date(') >= 0) {
+                //    var valDate = new Date(parseInt(strDate.replace("/Date(", "").replace(")/", ""), 10));
+
+                //}
+                //txtIssuedDate.value = formatDate("dd/MM/yyyy", valDate);
+
+                var txtRecordID = document.getElementById("P_MW_DSN.RECORD_ID");
+                txtRecordID.value = dsnInfo["RECORD_ID"];
+
+                //var letterInfo = data.Data["P_MW_RECORD_LETTER_INFO"];
+
+                //if (letterInfo != null) {
+                //    var ddlTemplateNo = letterInfo["TEMPLATE_NAME"];
+                //    console.log(ddlTemplateNo);
+                //    $("#LetterTemplateNo").val(ddlTemplateNo);
+
+                //    refreshLetterTemplateType(ddlTemplateNo);
+                //}
+
+                showGenerate(false);
+
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+    function showGenerate(isGenerate) {
+
+        var IssuedDateRow = document.getElementById("IssuedDateRow");
+        var LetterTemplateRow = document.getElementById("LetterTemplateRow");
+        var LetterTypeRow = document.getElementById("LetterTypeRow");
+
+        if (isGenerate) {
+
+            //display
+
+            IssuedDateRow.hidden = false;
+            LetterTemplateRow.hidden = false;
+            LetterTypeRow.hidden = false;
+
+
+        } else {
+
+            IssuedDateRow.hidden = true;
+            LetterTemplateRow.hidden = true;
+            LetterTypeRow.hidden = true;
+
+            document.getElementById("P_MW_DSN.ISSUED_DATE").value = "";
+            document.getElementById("LetterTemplateNo").value = "";
+            document.getElementById("LetterType").value = "";
+
+        }
+    }
+
+    function refreshLetterTemplateType(value) {
+
+
+        var typeList = document.getElementById("LetterTemplateType");
+
+        var typeName;
+
+        for (i = 0; i < typeList.length; i++) {
+            if (typeList[i].value == value) {
+                typeName = typeList[i].text;
+                break;
+            }
+        }
+
+        var letterTypeList = document.getElementById("LetterType");
+
+        for (i = 0; i < letterTypeList.length; i++) {
+            if (letterTypeList[i].text == typeName) {
+                letterTypeList.selectedIndex = i;
+                break;
+            }
+        }
+
+    }
+
+    domReady(function () {
+        attr("NewDocumentBtn", "onclick", { parameters: {}, callback: ShowNewDocumentDiv });
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>
+

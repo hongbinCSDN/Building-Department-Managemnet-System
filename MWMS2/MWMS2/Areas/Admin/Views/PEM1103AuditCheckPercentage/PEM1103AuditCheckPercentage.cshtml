@@ -1,0 +1,85 @@
+﻿@model MWMS2.Entity.P_S_AUDIT_CHECK_PERCENTAGE
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        function YearChange(element) {
+            $.ajax({
+                type: "POST",
+                url: "/PEM1103AuditCheckPercentage/SelectedYearChange",
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { year: element.value },
+                success: function (data) {
+
+                    $('#Percentage').val(data.YearPercentage);
+                    if (data.MODIFIED_DATE != undefined) {
+                        document.getElementById("MODIFIED_DATE").innerHTML = data.MODIFIED_DATE;
+                    }
+                    else {
+                        document.getElementById("MODIFIED_DATE").innerHTML = ""
+                    }
+                    if (data.MODIFIED_BY != undefined) {
+                        document.getElementById("MODIFIED_BY").innerHTML = data.MODIFIED_BY;
+                    }
+                    else {
+                        document.getElementById("MODIFIED_BY").innerHTML = ""
+                    }
+
+                },
+            });
+
+        }
+
+    </script>
+}
+
+@using (Html.BeginForm("PEM1103AuditCheckPercentage", "PEM1103AuditCheckPercentage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="panelHeader">Audit check%</div>
+    <div id="searchCriteria" class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Year:</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(model => model.YEAR, (IEnumerable<SelectListItem>)ViewBag.Year, new { style = "width:auto", @onchange = "YearChange(this)", id = "Year" })
+                    @*<input type="text" />*@
+                </div>
+                <div style="text-align: right; width: 100%;">
+                    Last Modified Date:
+                    <span id="MODIFIED_DATE">
+                        @Html.DisplayFor(model => model.MODIFIED_DATE)
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Assign Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.PERCENTAGE, new { style = "width:200px;", id = "Percentage", @type = "number", @min = "0", @max = "100" }) %
+                    @*<input type="text" />*@
+                </div>
+                <div style="text-align: right; width: 100%;">
+                    Last Modified By:
+                    <span id="MODIFIED_BY">
+                        @Html.DisplayFor(model => model.MODIFIED_BY)
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <input type="submit" id="submit" value="Submit" />
+            @*<button class="btn btn-default" type="button">Save</button>*@
+            @*<button class="btn btn-default" type="button">Cancel</button>*@
+            <input class="inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("PEM1103","PEM1103")"' type="button">
+        </div>
+    </div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}

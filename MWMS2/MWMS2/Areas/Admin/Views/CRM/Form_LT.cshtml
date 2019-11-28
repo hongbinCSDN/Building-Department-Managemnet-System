@@ -1,0 +1,268 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Letter Template Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveLT", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_EXPORT_LETTER.UUID, new { id = "UUID" })
+    @Html.HiddenFor(model => model.SystemType)
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">No.:</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_EXPORT_LETTER.CODE)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Letter No.:</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_EXPORT_LETTER.LETTER_NO)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Registration Type:</div>
+                <div class="w3-col l9 m6 s12"> @Html.DropDownListFor(model => model.C_S_EXPORT_LETTER.REGISTRATION_TYPE, Model.getSRegistrationType(), new { id = "RegType" })</div>
+            </div>
+        </div>
+
+        @* 4 lists start *@
+        <div class="w3-row ListCGC">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Selection Type:</div>
+                <div class="w3-col l9 m6 s12"> @Html.DropDownListFor(model => model.C_S_EXPORT_LETTER_save0.SELECTION_TYPE, Model.getCGCSelectionType())</div>
+            </div>
+        </div>
+
+        <div class="w3-row ListIP hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Selection Type:</div>
+                <div class="w3-col l9 m6 s12"> @Html.DropDownListFor(model => model.C_S_EXPORT_LETTER_save1.SELECTION_TYPE, Model.getIPSelectionType())</div>
+            </div>
+        </div>
+
+        <div class="w3-row ListCMW hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Selection Type:</div>
+                <div class="w3-col l9 m6 s12"> @Html.DropDownListFor(model => model.C_S_EXPORT_LETTER_save2.SELECTION_TYPE, Model.getCMWSelectionType())</div>
+            </div>
+        </div>
+
+        <div class="w3-row ListIMW hide">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Selection Type:</div>
+                <div class="w3-col l9 m6 s12"> @Html.DropDownListFor(model => model.C_S_EXPORT_LETTER_save3.SELECTION_TYPE, Model.getIMWSelectionType())</div>
+            </div>
+        </div>
+
+        @* 4 lists end *@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Type:</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.TextAreaFor(o => o.C_S_EXPORT_LETTER.LETTER_NAME, new { id = "SiteDescription", style = "width: 100%" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Remark: </div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(o => o.C_S_EXPORT_LETTER.LETTER_DESCRIPTION, new { id = "SiteDescription", style = "width: 100%" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Letter Ordering:</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_EXPORT_LETTER.ORDERING)</div>
+            </div>
+        </div>
+
+        <div class="w3-row ImportDoc">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Template File:</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.HiddenFor(model => model.ImportType)
+                    <input type="file" name="file" id="file" />
+
+                    @ViewBag.Message
+
+                </div>
+
+
+                <button id="ImportButton" class="btn btn-default" type="button"> Import </button>
+
+
+            </div>
+        </div>
+
+        <div class="w3-row DeleteDoc">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Template File:</div>
+
+                <div class="w3-col l9 m6 s12">
+                    @if (MWMS2.Utility.AuthUtil.CanDelete)
+                    {<button type="button" class="btn-default" id="delete"><i class="fa fa-trash"> </i>delete</button> @Html.DisplayFor(o => o.C_S_EXPORT_LETTER.FILE_NAME)}
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexLT", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+</form>
+   
+
+@*}*@
+
+<script type="text/javascript">
+      function onSaveForm() {
+          $.post("SaveLT", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo("IndexLT", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+
+    $(document).ready(function () {
+        var UUID = $('#UUID').val();
+        var RegType = $("#RegType").val();
+        var RegType = $("#C_S_EXPORT_LETTER_save[3].SELECTION_TYPE").val();
+        // alert(UUID); 
+        //alert(RegType);
+
+        if (UUID == '' || UUID == null) {
+            //alert(UUID);
+            $(".ImportDoc").removeClass("hide");
+            $(".DeleteDoc").addClass("hide");
+
+        }
+        else {
+            // alert(UUID);
+            $(".DeleteDoc").removeClass("hide");
+            $(".ImportDoc").addClass("hide");
+        }
+
+    });
+
+    attr("ImportButton", "onclick", {
+        callback: function () {
+           // alert("hi");
+            goTo("Import");
+           
+        }
+    });
+
+    $(document).ready(function () {
+        var RegType = $("#RegType").val();
+
+        //alert(RegType);
+        if (RegType == "CGC") {
+            $(".ListCGC").removeClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else if (RegType == "IP") {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").removeClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else if (RegType == "CMW") {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").removeClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").removeClass("hide");
+        }
+
+    });
+
+    
+    $("#RegType").change(function () {
+
+        //alert("entered");
+        var RegType = $("#RegType").val();
+
+        //alert(RegType);
+        if (RegType == "CGC") {
+            $(".ListCGC").removeClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else if (RegType == "IP") {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").removeClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else if (RegType == "CMW") {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").removeClass("hide");
+            $(".ListIMW").addClass("hide");
+        }
+
+        else {
+            $(".ListCGC").addClass("hide");
+            $(".ListIP").addClass("hide");
+            $(".ListCMW").addClass("hide");
+            $(".ListIMW").removeClass("hide");
+
+       
+        }
+
+
+        
+    });
+
+
+
+
+
+
+
+
+</script>
+

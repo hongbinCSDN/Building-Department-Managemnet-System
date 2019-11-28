@@ -1,0 +1,31 @@
+﻿
+<div class="panelHeader">Direct Return</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:left; padding-left:30px;">
+            @Html.ActionLink("Direct Return Submission", "drSubmission")
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:left; padding-left:30px;">
+            @Html.ActionLink("Direct Return Maintenance", "drMaintenance")
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:left; padding-left:30px;">
+            @Html.ActionLink("Direct Return Statistics", "drStatistics")
+        </div>
+    </div>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>

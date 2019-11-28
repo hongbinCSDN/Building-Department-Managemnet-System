@@ -1,0 +1,437 @@
+﻿@model MWMS2.Areas.Registration.Models.CompICModel
+
+
+<div class="displayForm" id="displayForm" style="padding-left: 10px; padding-right: 10px;">
+    @Html.HiddenFor(model => model.C_INTERVIEW_SCHEDULE.UUID)
+    @Html.HiddenFor(model => model.RegType)
+    @Html.HiddenFor(model => model.C_INTERVIEW_CANDIDATES.REGISTRATION_TYPE)
+    @Html.HiddenFor(model => model.CannotEditFlag)
+
+
+    <div class="w3-row msg1 hide">
+        <div class="w3-col l12 m12 s12"><font size="2"><font color="red">You cannot make changes to this schedule. Interview results have already been entered.</font></font> </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Meeting Group :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.DisplayFor(model => model.C_INTERVIEW_SCHEDULE.MEETING_NUMBER)
+                @Html.HiddenFor(model => model.C_INTERVIEW_SCHEDULE.MEETING_NUMBER)
+
+
+
+            </div>
+
+            <div class="w3-col l3 m12 s12">Room :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.DisplayFor(model => model.C_INTERVIEW_SCHEDULE.C_S_ROOM.ROOM)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Appointment Date :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.DisplayFor(model => model.C_INTERVIEW_SCHEDULE.INTERVIEW_DATE)
+            </div>
+
+            <div class="w3-col l3 m12 s12">Session :</div>
+            <div class="w3-col l3 m12 s12 session">
+                @Html.DisplayFor(model => model.C_INTERVIEW_SCHEDULE.C_S_SYSTEM_VALUE.CODE, new { id = "session" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row AM">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Start Time :</div>
+            <div class="w3-col l3 m12 s12">
+                @*@Html.DisplayFor(model => model.StartTime, new { id = "startTime", @default_value = "9:15 AM" })*@
+                @Html.TextBoxFor(model => model.StartTime)
+            </div>
+
+            <div class="w3-col l3 m12 s12">Duration (mins) :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.EditorFor(model => model.Duration)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Candidate No. :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.EditorFor(model => model.CandidateNo, new { htmlAttributes = new { @type = "number" } })
+            </div>
+            @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {<button class=" btn btn-default" type="button" id="AddtoList"><i class="far fa-plus-square"></i> Add to list</button>}
+        </div>
+    </div>
+
+
+
+    <div class="w3-row"><div class="w3-col l12 m12 s12"><b>Candidate List</b></div></div>
+
+    <div id="resultPanel"></div>
+
+    <button class=" btn btn-default" type="button" id="GenTimetable">Generate Timetable</button>
+
+    <font size="2" style="color:darkolivegreen">(Remember to click 'Generate Timetable' after making changes to Candidate List)</font>
+
+    <div class="w3-row"><div class="w3-col l12 m12 s12"><b>Interview / Assessment Timetable</b></div></div>
+
+    <div id="resultPanel2" class="AjaxCandidates"></div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12 msg2" id="msg2" style="color:darkolivegreen"><font size="2">AM session times must be >= 9:15 AM and < 2:15 PM, PM session times >= 2:15 PM.</font></div>
+        <div class="w3-col l12 m12 s12 msg3" id="msg3" style="color:darkolivegreen"><font size="2">You cannot make changes to this schedule. Interview results have already been entered.</font></div>
+    </div>
+
+
+    <div class="Link">
+        <a href="javascript:triggerExport('CRCMinute')"> Export Minutes of the CRC & Schedule of Meeting of CRC (MMD0002b_2.doc)</a><br>
+        <a href="javascript:triggerExport('MeetingGroupCommittee')"> Export Meeting Group Committee</a><br>
+        @if (Model.REGISTRATION_TYPE_CGA.Equals(Model.RegType) || Model.REGISTRATION_TYPE_MWCA.Equals(Model.RegType))
+        {
+            <a href="javascript:triggerExport('RR')"> Application for Renewal/Restoration of Registration (MMD0014B.doc)</a><br>
+            <a href="javascript:triggerExport('Interview')"> Application for inclusion in the register of AS/TD/OO for interview (MMD0015B_1.doc, MMD0015B_3.doc)</a><br>
+            <a href="javascript:triggerExport('Assessment')"> Application for inclusion in the register of AS/TD/OO for assessment (MMD0015B_2.doc)</a>
+
+        }
+    </div>
+    @Html.DropDownList("getInterviewType", Model.getInterviewType, new { @class = "hide" })
+
+    <div class="w3-container footer">
+        @if (MWMS2.Utility.AuthUtil.CanEdit)
+        {
+            <button type="button" class="SaveTimetable" name="SaveTimetable" id="SaveTimetable"><i class="fa fa-save"></i>Save Timetable </button>
+        }
+        @*<button onclick="history.go(-1);" class="Cancel" name="Cancel" id="Cancel">Cancel</button>*@
+        <button class="backButton" name="Cancel" id="Cancel"><i class="fa fa-times"></i> Cancel</button>
+        @if (MWMS2.Utility.AuthUtil.CanDelete)
+        {<button type="button" class="DeleteForm" name="DeleteForm" id="DeleteForm"><i class="fa fa-trash"></i>Delete </button>}
+    </div>
+    <div id="msg"></div>
+</div>
+
+<script type="text/javascript">
+    var list;
+    domReady(function () {
+        attr("AddtoList", "onclick", {
+            callback: function () {
+                req("AddtoList", "displayForm"
+                    , function (data) {
+                        console.log(data);
+                        if (data && data.Result == "FAILURE") {
+                            domId("msg").innerHTML = data.Message;
+                            return;
+                        }
+                        else {
+                            domId("msg").innerHTML = "";
+                        }
+                        console.log(data);
+                        list1.search();
+                        list2.search();
+                    });
+            }
+        });
+
+
+
+        attr("GenTimetable", "onclick", {
+            callback: function () {
+                req("GenCandidates", "displayForm", function (data) {
+                    list2.search();
+                });
+            }
+        });
+
+        attr("SaveTimetable", "onclick", {
+            callback: function () {
+                req("Save", "displayForm", function (data) {
+                    console.log(data);
+                    if (data.Result == "SUCCESS") {
+                        window.location = "Index";
+                    }
+                });
+            }
+        });
+
+        attr("DeleteForm", "onclick", {
+            callback: function () {
+                if (!confirm("Are you sure you want to delete this candidate?")) {
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    cache: false,
+                    data: { "meetingNo": domName("C_INTERVIEW_SCHEDULE.MEETING_NUMBER")[0].value },
+                    url: "Delete",
+                    success: function (text) {
+                        var data = eval(text);
+                        //console.log(data);
+                        window.location = "Index";
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                        alert("Error!");
+                    }
+                });
+                //req("Delete", [{ name: "meetingNo", value: domName("C_INTERVIEW_SCHEDULE.MEETING_NUMBER")[0].value }], function (data) {
+                //    if (!confirm("Are you sure you want to delete this record?")) {
+                //        return;
+                //    }
+                //});
+            }
+        });
+
+
+    });
+
+
+    var list1;
+    domReady(function () {
+        list1 = new searcher({
+            searchPath: "AjaxCandidates"
+            , exportPath: "Excel"
+            , searchTable: "C_INTERVIEW_SCHEDULE_UUID" //C_INTERVIEW_SCHEDULE_UUID
+            , resultPanel: "resultPanel"
+            , Sort: "FILE_REFERENCE_NO"
+            , Footer: false  ////remove pagination and export buttons
+            , Columns: [
+
+                { displayName: "File Reference    ", columnName: "FILE_REFERENCE_NO" }
+                , { displayName: "Candidate No      ", columnName: "CANDIDATE_NUMBER" }
+                , {
+                    displayName: "Type             ", formater: function (row, idx) {
+                        var select = dom("select");
+                        var options = domId("getInterviewType").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.INTERVIEW_TYPE == options[i].innerHTML) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "GenData[" + row.CANDIDATE_NUMBER + "][TYPE]");
+                        var exist = $('#CannotEditFlag').val() == "True";
+                        if (exist) {
+                            attr(select, "disabled", "disabled");
+                        }
+                        else {
+                            attr(select, "disabled", false);
+                        }
+                        return select;
+                    }
+                }
+                , {
+                    displayName: "Duration", formater: function (row) {
+                        var input = dom("input");
+                        attr(input, "type", "text");
+                        attr(input, "name", "GenData[" + row.CANDIDATE_NUMBER + "][DURATION]");
+                        var exist = $('#CannotEditFlag').val() == "True";
+                        if (exist) {
+                            attr(input, "disabled", "disabled");
+                        }
+                        else {
+                            attr(input, "disabled", false);
+                        }
+                        input.value = row.TIMEDURATION;
+                        return input;
+                    }
+                }
+                , {
+                    displayName: "Candidate Alias No", formater: function (row) {
+                        var input = dom("input");
+                        attr(input, "type", "text");
+                        attr(input, "name", "GenData[" + row.CANDIDATE_NUMBER + "][ALIAS]");
+                        var exist = $('#CannotEditFlag').val() == "True";
+                        if (exist) {
+                            attr(input, "disabled", "disabled");
+
+                        }
+                        else {
+                            attr(input, "disabled", false);
+                        }
+                        input.value = row.ALIAS_NUMBER;
+                        return input;
+                    }
+                }
+                , { displayName: "Name              ", columnName: "FUL_NAME" }
+                , { displayName: "Role	            ", columnName: "CODE" }
+                , {
+                    displayName: "", formater: function (row) {
+
+                        //remove button in grid
+                        var exist = $('#CannotEditFlag').val() == "True";
+                        var span = dom("span");
+                        if (exist) return span;
+
+                        var button = createButton("", "fa-times", [{
+                            "onclick": {
+                                parameters: { CANDIDATE_NUMBER: row.CANDIDATE_NUMBER }, callback: function (d, p, e) {
+                                    if (!confirm("Are you sure you want to delete this candidate?")) {
+                                        return;
+                                    }
+                                    $.ajax({
+                                        type: "POST",
+                                        cache: false,
+                                        data: { "RecordId": p.CANDIDATE_NUMBER },
+                                        url: "DeleteSession",
+                                        success: function (text) {
+                                            var data = eval(text);
+                                            console.log(data);
+                                            list1.search();
+                                            list2.search();
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            console.log(errorThrown);
+                                            alert("Error!");
+                                        }
+                                    });
+                                    //req("DeleteSession", [{ name: "RecordId", value: p.CANDIDATE_NUMBER }], function (data) {
+                                    //    console.log(data);
+                                    //    if (!confirm("Are you sure you want to delete this candidate ?")) {
+                                    //        return;
+                                    //    }
+                                    //    list1.search();
+                                    //});
+                                }
+                            }
+                        }]);
+                        span.appendChild(button);
+                        return span;
+                    }
+                }
+            ]
+        }).search();
+
+    });
+
+    var list2;
+    domReady(function () {
+
+        list2 = new searcher({
+            searchPath: "AjaxCandidates"
+            , exportPath: "Excel"
+            , searchTable: "resultPanel" //C_INTERVIEW_SCHEDULE_UUID
+            , resultPanel: "resultPanel2"
+            //, Sort: "START_TIME"
+            , Footer: false  ////remove pagination and export buttons
+            , Columns: [
+
+                { displayName: "File Reference    ", columnName: "FILE_REFERENCE_NO" }
+                , { displayName: "Candidate No      ", columnName: "CANDIDATE_NUMBER" }
+                , { displayName: "Type              ", columnName: "INTERVIEW_TYPE" }
+                , { displayName: "Start Time        ", columnName: "START_TIME" }
+                , { displayName: "Name              ", columnName: "FUL_NAME" }
+                , { displayName: "Role	            ", columnName: "CODE" }
+
+            ]
+        }).search();
+
+    });
+
+    $(document).ready(function () {
+
+        $(".msg3").addClass("hide");
+    });
+
+    $(document).ready(function () {
+        var RegType = $('#C_INTERVIEW_CANDIDATES_REGISTRATION_TYPE').val();
+        // alert(RegType);
+        if (RegType == "IP" || RegType == "IMW") {
+            $("#RRa").addClass("hide");
+            $("#Inta").addClass("hide");
+            $("#Assa").addClass("hide");
+        }
+        else {
+            $("#RRa").removeClass("hide");
+            $("#Inta").removeClass("hide");
+            $("#Assa").removeClass("hide");
+        }
+    });
+
+    $(document).ready(function () {
+        var exist = $('#CannotEditFlag').val() == "True";
+        //alert(exist);
+        if (exist) {
+            $(".msg1").removeClass("hide");
+            $("#AddtoList").addClass("hide");
+            $("#GenTimetable").addClass("hide");
+            $("#SaveTimetable").addClass("hide");
+            $("#DeleteForm").addClass("hide");
+
+        }
+        else {
+            $(".msg1").addClass("hide");
+            $("#AddtoList").removeClass("hide");
+            $("#GenTimetable").removeClass("hide");
+            $("#SaveTimetable").removeClass("hide");
+            $("#DeleteForm").removeClass("hide");
+        }
+    });
+
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+
+    function triggerExport(exportType) {
+
+        var targetUrl = '/Fn02GCA_IC/ExportCRCMinutes';
+        var fileName = "IntevCand.txt";
+        var MeetingNumber = document.getElementById('C_INTERVIEW_SCHEDULE_MEETING_NUMBER').value;
+        var UUID = document.getElementById('C_INTERVIEW_SCHEDULE_UUID').value;
+        var RegType = document.getElementById("RegType").value;
+
+        if ("CRCMinute" == exportType) {
+            targetUrl = '/Fn02GCA_IC/ExportCRCMinutes';
+            fileName = "IntevCand.txt";
+        } else if ("MeetingGroupCommittee" == exportType) {
+            targetUrl = '/Fn02GCA_IC/ExportMeetingGroupCommittee';
+            fileName = "ExportMeetingGroupCommittee.txt";
+        } else if ("RR" == exportType) {
+            targetUrl = '/Fn02GCA_IC/ExportRenewalRestoration';
+            fileName = "Renewal_Restoration.txt";
+        } else if ("Interview" == exportType) {
+            targetUrl = '/Fn02GCA_IC/ExportInterview';
+            fileName = "Register_for_Interview.txt";
+        } else if ("Assessment" == exportType) {
+            targetUrl = '/Fn02GCA_IC/ExportAssessment';
+            fileName = "Register_for_Assessment.txt";
+        }
+        downloadFile(targetUrl, {
+            MeetingNumber: MeetingNumber, UUID: UUID, regType: RegType
+        });
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    //contentType: "charset=utf-8;",
+        //    data: {
+        //        MeetingNumber: MeetingNumber
+        //        , UUID: UUID
+
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+
+    }
+
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + decodeURIComponent(text));
+        //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+
+        //alert("SS: " + decodeURIComponent(text));
+
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+
+
+</script>

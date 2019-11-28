@@ -1,0 +1,822 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn07CNV_CNVSearchModel
+
+@*<div class="panelHeader">Search Conviction</div>*@
+
+@using (Html.BeginForm("CreateNew", "Fn07CNV_CNV", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+   
+
+<div class="displayForm" id="searchCriteria">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Select Registration Type:</div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.RegType, Model.RegTypeList)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12"><font size="2">1. Fields marked <font color="red">*</font> are required.   2. Dates must be in the format dd/mm/yyyy.</font> </div>
+        <div class="w3-col l6 m6 s12" style="text-align:right;"><font size="2">Last Updated:</font></div>
+    </div>
+
+    @* Start: Only for Ind - hide if 'comp' is selected *@
+    <div id="indConFieldTr" class="w3-row indConFieldTr hide">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Surname:<font color="red">*</font></div>
+                <div id="surname" class="w3-col l3 m6 s12">
+                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="w3-col l3 m6 s12">Given Name:<font color="red">*</font></div>
+                <div id="givenName" class="w3-col l3 m6 s12">
+                    @*@Html.TextBoxFor(model => model.C_COMP_CONVICTION.ENGLISH_NAME)*@
+                    @Html.EditorFor(model => model.GivenName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.GivenName, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Chinese Name:</div>
+                <div id="chiName" class="w3-col l3 m6 s12">
+                    @Html.EditorFor(model => model.ChiName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", maxlength = 6, autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.ChiName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="w3-col l3 m6 s12">Sex:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.Sex, Model.SexList)
+                    @*@Html.EditorFor(model => model.ComName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                        @Html.ValidationMessageFor(model => model.sex, "", new { @class = "text-danger" })*@
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">HKID:<font color="red">*</font></div>
+                <div class="w3-col l3 m6 s12">
+                    @*@Html.TextBoxFor(model => model.C_COMP_CONVICTION.ENGLISH_NAME)*@
+                    @Html.EditorFor(model => model.HKID, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "HKID", Placeholder = "e.g.: A123456(3)" } })
+                    @Html.ValidationMessageFor(model => model.HKID, "Invalid HKID", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="w3-col l3 m6 s12">Passport No.:</div>
+                <div class="w3-col l3 m6 s12">
+                    @*@Html.TextBoxFor(model => model.C_COMP_CONVICTION.ENGLISH_NAME)*@
+                    @Html.EditorFor(model => model.PassportNo, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.PassportNo, "", new { @class = "text-danger" })
+                    <br><font size="2">If not a HKID holder, enter passport no.</font>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* End: Only for Ind *@
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Name (Eng) :<font color="red">*</font></div>
+            <div class="w3-col l9 m6 s12">
+
+                @Html.EditorFor(model => model.ComName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", maxlength = 150, autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.ComName, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Name (Chn) :</div>
+            <div class="w3-col l9 m6 s12">
+
+                @Html.EditorFor(model => model.ChiComName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", maxlength = 50, autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.ChiComName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    @* Start: Only for Comp - hide if 'ind' is selected *@
+
+
+
+    <div class="w3-row compConField">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Proprietor Name :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.EditorFor(model => model.ProprietorName, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.ProprietorName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row compConField">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">BR Number :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.EditorFor(model => model.BRNo, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", maxlength = 8, autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.BRNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row compConField">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Reference :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.EditorFor(model => model.Ref, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.Ref, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row compConField">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Type :</div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.CompanyType, Model.CompanyTypeList)
+
+
+            </div>
+        </div>
+    </div>
+
+
+    @* end only for comp *@
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Site Description :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextAreaFor(model => model.SiteDesc, new { id = "SiteDescription", style = "width: 100%" })
+                @Html.ValidationMessageFor(model => model.SiteDesc, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Source :</div>
+            <div class="w3-col l6 m6 s12">
+
+                @Html.DropDownListFor(model => model.ConvictionSource, Model.ConvictionSourceList)
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Remarks :</div>
+            <div class="w3-col l9 m6 s12">
+
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", maxlength = 500, autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Record Type :</div>
+            <div class="w3-col l9 m6 s12 RecordType" id="RecordType">
+                @*@{
+                        switch (Model.C_COMP_CONVICTION.RECORD_TYPE)
+                        {
+                            case "C":
+                                break;
+                            case "S":
+                                break;
+                            case "D":
+                                break;
+                            case "M":
+                                break;
+
+                        }
+
+
+                    }*@
+
+
+
+                @Html.RadioButtonFor(model => model.RecordType, "C", new { @id = "selectC", @checked = "checked" })@Html.Label("Conviction Record  ")
+                @Html.RadioButtonFor(model => model.RecordType, "S", new { @id = "selectS" })@Html.Label("Suspension/Removal Record  ")
+                @Html.RadioButtonFor(model => model.RecordType, "D", new { @id = "selectD" })@Html.Label("Disciplinary Action  ")
+                @Html.RadioButtonFor(model => model.RecordType, "M", new { @id = "selectM" })@Html.Label("Miscellaneous  ")
+                @*<input type="radio" name="RecordType" id="RecordTypeCR" value="Conviction Record">   Conviction Record
+                    <input type="radio" name="RecordType" id="RecordTypeSR" value="Suspension/Removal Record">   Suspension/Removal Record
+                    <input type="radio" name="RecordType" id="RecordTypeDA" value="Suspension/Removal Record">   Disciplinary Action
+                    <input type="radio" name="RecordType" id="RecordTypeMI" value="Suspension/Removal Record">   Miscellaneous*@
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="panelHeader">Conviction Record :</div>
+
+    <div class="w3-row CR">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Section of Ordinances/Regulation :</div>
+            <div class="w3-col l3 m6 s12">
+
+                @Html.EditorFor(model => model.OrdReg, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "crOrdReg", maxlength = 40, autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.OrdReg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row CR">
+
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Offence :</div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l9 m6 s12" id="crOffenceDt">
+
+                    @Html.TextBoxFor(model => model.DateOfOffence, "", new { @class = "inputDate", id = "OffenceDt" })
+                    @Html.ValidationMessageFor(model => model.DateOfOffence, "", new { @class = "text-danger" })
+
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Judgement :</div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l9 m6 s12" id="crJudgementDt">
+
+                    @Html.TextBoxFor(model => model.DateOfJudgement, "", new { @class = "inputDate", id = "JudgementDt" })
+                    @Html.ValidationMessageFor(model => model.DateOfJudgement, "", new { @class = "text-danger" })
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row CR">
+
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Fine :</div>
+            <div class="w3-col l6 m12 s12">
+
+                @Html.EditorFor(model => model.Fine, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "crFine" } })
+                @Html.ValidationMessageFor(model => model.Fine, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="w3-col l3 m6 s12">
+            <div class="w3-col l6 m6 s12">Accident: </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.Accident, Model.YesNoList, new { id = "crAccident" })
+            </div>
+        </div>
+        <div class="w3-col l3 m6 s12">
+            <div class="w3-col l6 m6 s12">Fatal: </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.Fatal, Model.YesNoList, new { id = "crFatal" })
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="w3-row CR">
+        <div class="w3-col l12 m12 s12" style="text-align:right;">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.CrReport, new { id = "crReport", disabled = "disabled" })This record must be shown on report
+                @Html.ValidationMessageFor(model => model.CrReport, "", new
+           {
+               @class = "text-danger"
+           })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div></div>
+    </div>
+
+
+    <div class="panelHeader">Suspension/Removal Record :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Action :</div>
+            <div class="w3-col l9 m6 s12" id="srrAction">
+
+                @Html.EditorFor(model => model.SrrAction, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "SrrAction", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.SrrAction, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Effective Date :</div>
+            <div class="w3-col l6 m12 s12">
+
+                @Html.TextBoxFor(model => model.EffectiveDate, "", new { @class = "inputDate", id = "EffectiveDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Approval :</div>
+            <div class="w3-col l6 m12 s12">
+
+                @Html.TextBoxFor(model => model.DateOfApproval, "", new { @class = "inputDate", id = "ApprovalDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.DateOfApproval, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Suspension Date : </div>
+            <div class="w3-col l9 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.SuspFromDate, "", new { @class = "inputDate", id = "SuspensionFromDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.SuspFromDate, "", new { @class = "text-danger", disabled = "disabled" })
+                &nbsp;To&nbsp;@Html.TextBoxFor(model => model.SuspToDate, "", new { @class = "inputDate", id = "SuspensionToDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.SuspToDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Category :</div>
+            <div class="w3-col l6 m12 s12">
+
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Category", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextAreaFor(model => model.SrrDetails, new { id = "SrrDetails", disabled = "disabled", style = "width: 100%", maxlength = 500, autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.SrrDetails, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.SrrReport, new { id = "SrrReport", disabled = "disabled" })This record must be shown on report
+                @Html.ValidationMessageFor(model => model.SrrReport, "", new
+           {
+               @class = "text-danger"
+           })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panelHeader">Disciplinary Action :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Decision :</div>
+            <div class="w3-col l9 m6 s12">
+
+                @Html.TextBoxFor(model => model.DateOfDecision, "", new { @class = "inputDate", id = "DecisionDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.DateOfDecision, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextAreaFor(model => model.DaDetails, new { id = "DaDetails", disabled = "disabled", style = "width: 100%", maxlength = 500, autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.DaDetails, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.DaReport, new { id = "DaReports", disabled = "disabled" })This record must be shown on report
+                @Html.ValidationMessageFor(model => model.DaReport, "", new
+           {
+               @class = "text-danger"
+           })
+            </div>
+        </div>
+    </div>
+
+    <div class="panelHeader">Miscellaneous :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Receiving Date :</div>
+            <div class="w3-col l9 m6 s12">
+
+                @Html.TextBoxFor(model => model.ReceivingDate, "", new { @class = "inputDate", id = "ReceivingDt", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.ReceivingDate, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextAreaFor(model => model.MiscDetails, new { id = "MiscDetails", disabled = "disabled", style = "width: 100%", maxlength = 500, autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.MiscDetails, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.MiscReport, new { id = "MiscReports", disabled = "disabled" })This record must be shown on report
+                @Html.ValidationMessageFor(model => model.MiscReport, "", new
+           {
+               @class = "text-danger"
+           })
+            </div>
+        </div>
+    </div>
+
+    <div id="UrNewAddTr"  class="displayForm w3-row UrNewAddTr hide">
+        @* new add - UR *@
+        <div class="panelHeader">  </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Name of AS/TD/OO (Eng): </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.AsTdOoEngName)
+
+                </div>
+
+                <div class="w3-col l3 m6 s12">Name of AS/TD/OO (Chi): </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.AsTdOoChiName)
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">ID no.:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.C_APPLICANT.HKID, Model.getDecryptHKID())
+                </div>
+                @*<input type="button" onclick="GetApplicant()" value="Get HKID" />
+                <button onclick="window.location='/Registration/Fn07CNV_CNV/Index'" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i></button>*@
+                <div style="color:red" id="ErrorDiv"></div>
+            </div>
+        </div>
+
+        @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">BR no.:</div>
+                    <div class="w3-col l3 m6 s12">
+                        @Html.EditorFor(model => model.Fine, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "BRNumber" } })
+                        @Html.ValidationMessageFor(model => model.Fine, "", new { @class = "text-danger" })
+                    </div>
+
+                    <button onclick="window.location='/Registration/Fn07CNV_CNV/Index'" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                </div>
+
+            </div>*@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category: </div>
+                <div class="w3-col l9 m6 s12 CategoryType" id="CategoryType">
+
+                    @Html.CheckBoxFor(model => model.Category1)@Html.Label("GBC  ")
+                    @Html.CheckBoxFor(model => model.Category2)@Html.Label("SC(D)  ")
+                    @Html.CheckBoxFor(model => model.Category3)@Html.Label("SC(F)  ")
+                    @Html.CheckBoxFor(model => model.Category4)@Html.Label("SC(GI)  ")
+                    @Html.CheckBoxFor(model => model.Category5)@Html.Label("SC(SF)  ")
+                    @Html.CheckBoxFor(model => model.Category6)@Html.Label("SC(V)  ")
+                    @Html.CheckBoxFor(model => model.Category7)@Html.Label("MWC(Co)  ")
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Record Cleared:  </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.RecordClear, Model.YesNoListWithNoIndication, new { id = "RecordClear" })
+                </div>
+
+                <div class="w3-col l3 m6 s12">CRC interview: </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.CRCInterview, Model.YesNoListWithNoIndication, new { id = "CRCInterview" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of CRC interview  </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.CRCInterviewDt, "", new { @class = "inputDate", id = "CRCInterviewDt" })
+                    @Html.ValidationMessageFor(model => model.CRCInterviewDt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+       @* <input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+        <button type="submit" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>
+        <button onclick='window.location= domId("rootPath").value +"/Registration/Fn07CNV_CNV/Index"' class="searchButton btn btn-default" type="button"> Cancel </button>
+    </div>
+    
+</div>
+ }
+
+    <script type="text/javascript">
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Columns: [
+                    {
+                        displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                        , click: function (row) {
+                            if (row == null) return;
+                            alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                            console.log(row);
+                        }
+                    }
+                    , { displayName: "HKID", columnName: "HKID" }
+                    , { displayName: "Name", columnName: "NAME" }
+                    , { displayName: "Chinese Name", columnName: "CHINESE_NAME" }
+                ]
+            });
+        });
+        function regTypeChange() {
+
+            if ($("#RegType").val() == "CGC" || $("#RegType").val() == "CMW") {
+                //alert("comp");
+                $(".indConFieldTr").css("display", "none");
+                $(".indConFieldTr").addClass("hide");
+                $(".compConField").removeClass("hide");
+                $(".UrNewAddTr").removeClass("hide");
+
+            }
+            else if ($("#RegType").val() == "IP" || $("#RegType").val() == "IMW") {
+                //alert("ind");
+                $(".indConFieldTr").css("display", "");
+                $(".indConFieldTr").removeClass("hide");
+                $(".compConField").addClass("hide");
+                $(".UrNewAddTr").addClass("hide");
+
+            }
+        }
+
+
+        $("#RegType").change(function () {
+            regTypeChange();
+        });
+
+        $(document).ready(function () {
+            //var radioValue = $('#RegType').val();
+            //alert(radioValue);
+            //if ($(this).val() == "CGC" || $(this).val() == "CMW") {
+            //    //alert("comp");
+            //    $(".indConFieldTr").css("display", "none");
+            //    $(".indConFieldTr").addClass("hide");
+            //    $(".compConField").removeClass("hide");
+
+            //}
+            //else if ($(this).val() == "IP" || $(this).val() == "IMW") {
+            //    //alert("ind");
+            //    $(".indConFieldTr").css("display", "");
+            //    $(".indConFieldTr").removeClass("hide");
+            //    $(".compConField").addClass("hide");
+
+            //}
+            regTypeChange();
+        });
+
+        $("#RecordType").change(function () {
+
+            //alert($("input[name='RecordType']:checked").val());
+            //alert("you enter 1");
+
+
+            var radioValue = $("input[name='RecordType']:checked").val();
+            //if (radioValue) {
+            //    alert("Your are a - " + radioValue);
+            //}
+
+            if (radioValue == "C") {
+
+                $('#crOrdReg').removeAttr('disabled');
+                $('#OffenceDt').removeAttr('disabled');
+                $('#JudgementDt').removeAttr('disabled');
+                $('#crFine').removeAttr('disabled');
+                $('#crAccident').removeAttr('disabled');
+                $('#crFatal').removeAttr('disabled');
+                $('#CrReport').removeAttr('disabled');
+
+                $('#Action').attr('disabled', 'disabled');
+                $('#EffectiveDt').attr('disabled', 'disabled');
+                $('#ApprovalDt').attr('disabled', 'disabled');
+                $('#SuspensionFromDt').attr('disabled', 'disabled');
+                $('#SuspensionToDt').attr('disabled', 'disabled');
+                $('#Category').attr('disabled', 'disabled');
+                $('#SrrDetails').attr('disabled', 'disabled');
+                $('#SrrReport').attr('disabled', 'disabled');
+
+                $('#DecisionDt').attr('disabled', 'disabled');
+                $('#DaDetails').attr('disabled', 'disabled');
+                $('#DaReport').attr('disabled', 'disabled');
+
+                $('#ReceivingDt').attr('disabled', 'disabled');
+                $('#MiscDetails').attr('disabled', 'disabled');
+                $('#MiscReport').attr('disabled', 'disabled');
+
+            }
+            else if (radioValue == "S") {
+
+                $('#crOrdReg').attr('disabled', 'disabled');
+                $('#OffenceDt').attr('disabled', 'disabled');
+                $('#JudgementDt').attr('disabled', 'disabled');
+                $('#crFine').attr('disabled', 'disabled');
+                $('#crAccident').attr('disabled', 'disabled');
+                $('#crFatal').attr('disabled', 'disabled');
+                $('#CrReport').attr('disabled', 'disabled');
+
+                $('#Action').removeAttr('disabled');
+                $('#EffectiveDt').removeAttr('disabled');
+                $('#ApprovalDt').removeAttr('disabled');
+                $('#SuspensionFromDt').removeAttr('disabled');
+                $('#SuspensionToDt').removeAttr('disabled');
+                $('#Category').removeAttr('disabled');
+                $('#SrrDetails').removeAttr('disabled');
+                $('#Srrreport').removeAttr('disabled');
+
+                $('#DecisionDt').attr('disabled', 'disabled');
+                $('#DaDetails').attr('disabled', 'disabled');
+                $('#DaReport').attr('disabled', 'disabled');
+
+                $('#ReceivingDt').attr('disabled', 'disabled');
+                $('#MiscDetails').attr('disabled', 'disabled');
+                $('#MiscReport').attr('disabled', 'disabled');
+
+            }
+            else if (radioValue == "D") {
+
+                $('#crOrdReg').attr('disabled', 'disabled');
+                $('#OffenceDt').attr('disabled', 'disabled');
+                $('#JudgementDt').attr('disabled', 'disabled');
+                $('#crFine').attr('disabled', 'disabled');
+                $('#crAccident').attr('disabled', 'disabled');
+                $('#crFatal').attr('disabled', 'disabled');
+                $('#CrReport').attr('disabled', 'disabled');
+
+                $('#Action').attr('disabled', 'disabled');
+                $('#EffectiveDt').attr('disabled', 'disabled');
+                $('#ApprovalDt').attr('disabled', 'disabled');
+                $('#SuspensionFromDt').attr('disabled', 'disabled');
+                $('#SuspensionToDt').attr('disabled', 'disabled');
+                $('#Category').attr('disabled', 'disabled');
+                $('#SrrDetails').attr('disabled', 'disabled');
+                $('#SrrReport').attr('disabled', 'disabled');
+
+                $('#DecisionDt').removeAttr('disabled');
+                $('#DaDetails').removeAttr('disabled');
+                $('#DaReport').removeAttr('disabled');
+
+                $('#ReceivingDt').attr('disabled', 'disabled');
+                $('#MiscDetails').attr('disabled', 'disabled');
+                $('#MiscReport').attr('disabled', 'disabled');
+
+            }
+            else if (radioValue == "M") {
+
+                $('#crOrdReg').attr('disabled', 'disabled');
+                $('#OffenceDt').attr('disabled', 'disabled');
+                $('#JudgementDt').attr('disabled', 'disabled');
+                $('#crFine').attr('disabled', 'disabled');
+                $('#crAccident').attr('disabled', 'disabled');
+                $('#crFatal').attr('disabled', 'disabled');
+                $('#CrReport').attr('disabled', 'disabled');
+
+                $('#Action').attr('disabled', 'disabled');
+                $('#EffectiveDt').attr('disabled', 'disabled');
+                $('#ApprovalDt').attr('disabled', 'disabled');
+                $('#SuspensionFromDt').attr('disabled', 'disabled');
+                $('#SuspensionToDt').attr('disabled', 'disabled');
+                $('#Category').attr('disabled', 'disabled');
+                $('#SrrDetails').attr('disabled', 'disabled');
+                $('#SrrReport').attr('disabled', 'disabled');
+
+                $('#DecisionDt').attr('disabled', 'disabled');
+                $('#DaDetails').attr('disabled', 'disabled');
+                $('#DaReport').attr('disabled', 'disabled');
+
+                $('#ReceivingDt').removeAttr('disabled');
+                $('#MiscDetails').removeAttr('disabled');
+                $('#MiscReport').removeAttr('disabled');
+            }
+
+        });
+
+
+
+        //$("#HKID").blur(function () {
+        //    var aa = checkHkid(this.value);
+
+        //    if (!aa)
+        //    {
+        //        alert('Invalid HKID');
+
+        //    }
+        //});
+
+
+        $("#BRNumber").blur(function () {
+            var flag = false;
+            var aa = checkBRNo(this.value, flag);
+
+            //var exist = $('#CannotEditFlag').val() == "True";
+            if (flag != true) {
+                alert('Invalid format');
+
+            }
+
+        });
+
+        function GetApplicant() {
+            alert($("#C_APPLICANT_HKID").val());
+            //alert($("#C_APPLICANT_HKID").val());
+            $.ajax({
+                type: "POST",
+                url: '/Fn07CNV_CNV/GetApplicantById',
+                data: {
+
+                    hkid: $("#C_APPLICANT_HKID").val()
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.ErrorMessage != null) {
+                        document.getElementById("ErrorDiv").innerHTML = data.ErrorMessage;
+                    }
+                    else {
+                        document.getElementById("ErrorDiv").innerHTML = "";
+                        alert(data.AsTdOoChiName + " " + data.AsTdOoEngName);
+                        //document.getElementById('C_APPLICANT_FULL_NAME_DISPLAY').value = data.AsTdOoEngName;
+                        $("#C_APPLICANT_FULL_NAME_DISPLAY").val(data.AsTdOoEngName);
+                        $("#C_APPLICANT_CHINESE_NAME").val(data.AsTdOoChiName);
+                        $("#AsTdOoChiName").val(data.AsTdOoChiName);
+                        $("#AsTdOoEngName").val(data.AsTdOoEngName);
+                        $("#C_APPLICANT_HKID").val(data.HKID);
+
+                        alert(document.getElementById('C_APPLICANT_FULL_NAME_DISPLAY').value);
+
+                    }
+                    console.log(data);
+                    console.log(data.ErrorMessage);
+
+
+
+
+
+
+                }
+            })
+        }
+
+
+
+    </script>

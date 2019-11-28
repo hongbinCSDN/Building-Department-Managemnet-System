@@ -1,0 +1,54 @@
+﻿@model MWMS2.Areas.Admin.Models.PEMBookMarkSearchModel
+
+<form id="inputForm">
+    <div class="displayForm">
+        @Html.HiddenFor(x=>x.UUID)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Street :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Street)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Street No. :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.StreetNo)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Building :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Building)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Floor :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Floor)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Unit :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.Unit)</div>
+            </div>
+
+        </div>
+
+        <div class="w3-container footer">
+
+            <button class="searchButton btn btn-default" onclick="onSaveForm()"  type="button"><i class="fa fa-save"></i> Save</button>
+            <button class=" btn btn-default" onclick="goTo('Index')" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+        </div>
+
+
+    </div>
+    </form>
+<script>
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+            else showErrorMessage(data.ErrorMessages);
+
+        }, "json");
+    }
+
+</script>

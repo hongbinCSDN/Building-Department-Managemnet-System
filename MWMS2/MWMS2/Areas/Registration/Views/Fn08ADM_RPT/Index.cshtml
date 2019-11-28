@@ -1,0 +1,570 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn08ADM_ReportModel
+
+@*@if (MWMS2.Utility.AuthUtil.CanList)
+    {*@
+
+
+<script type="text/javascript">
+    function GenerateAuditLog() {
+        if ($("#fr_date").val() == null || $("#fr_date").val() == '' || $("#to_date").val() == null || $("#to_date").val() == '') {
+            alert("From date and To date should not be empty.")
+            return;
+        }
+        openReport('reportForm');
+    }
+</script>
+
+<div class="panelHeader">Reports</div>
+<div class="displayForm">
+    @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <img src="../../img/expand.gif">&nbsp; <a id="btnGaz" href="javascript:showReportForm('AdmReportForm')">Audit Log</a>
+            </div>
+        </div>
+        <div id="AdmReportForm" style="display:none;" class="reportSelection w3-row">
+            <form action="report" method="post" id="reportForm">
+                <input type="hidden" name="rptId" value="CRM0010"/
+                <input type="hidden" name="REPORT_NAME" value="audit_log" />
+                <div class="w3-col l12 m12 s12">
+                    <div class="panelHeader">Audit Log </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12"> User Account</div>
+                                <div class="w3-col l4 m6 s12">
+                                    @Html.DropDownListFor(model => model.UserAccount, Model.UserAccountList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12"> From Date (dd/mm/yyyy):</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.fr_date, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.to_date, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="oParamsSubmit" onclick="GenerateAuditLog()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  View Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>*@
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnGaz" href="javascript:showReportForm('MultRegReport')">Reconciliation Report - Multiple Registration</a>
+        </div>
+    </div>
+    <div id="MultRegReport" style="display:none;" class="reportSelection w3-row">
+        <form action="MultRegReport" method="post" id="MultReg">
+            <input type="hidden" name="rptId" value="CRM0091" />
+            <div class="displayForm">
+                <div class="w3-container footer">
+                    <button id="CheckMultiReg" onclick="openReport('MultReg')"
+                            class="searchButton btn btn-default" type="button">
+                        <i class="fa fa-print"></i>Reconciliation Report - Multiple Registration
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnGaz" href="javascript:showReportForm('administration')">Application Stages Report</a>
+        </div>
+    </div>
+    <div id="administration" style="display:none;" class="reportSelection w3-row">
+        <form action="administrationReport" method="post" id="administrationForm">
+            <div class="displayForm">
+                <div class="panelHeader">Application Stages Report</div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">File reference:</div>
+                        <div class="w3-col l4 m6 s12">
+                            @Html.TextBoxFor(model => model.fileReference)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Vetting Officer:</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.DropDownListFor(model => model.VettingOfficer, Model.VettingOfficerList, new { @id = "arrVettingOfficer" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Received Date:</div>
+                        <div class="w3-col l9 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.received_fr_date, new { @class = "inputDate" })
+                            &nbsp;To&nbsp;@Html.TextBoxFor(model => model.received_to_date, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Date of Result:</div>
+                        <div class="w3-col l9 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.result_fr_date, new { @class = "inputDate" })
+                            &nbsp;To&nbsp;@Html.TextBoxFor(model => model.result_to_date, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Due Date/Pledge Date:</div>
+                        <div class="w3-col l94 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.due_fr_date, new { @class = "inputDate" })
+                            &nbsp;To&nbsp;@Html.TextBoxFor(model => model.due_to_date, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Interview Date:</div>
+                        <div class="w3-col l9 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.interview_fr_date, new { @class = "inputDate" })
+                            &nbsp;To&nbsp;@Html.TextBoxFor(model => model.interview_to_date, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Case Status:</div>
+                        <div class="w3-col l9 m6 s12">
+                            @Html.DropDownListFor(model => model.CaseStatus, Model.CaseStatusList)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Category: <span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+                        <div class="w3-col l9 m6 s12">
+
+
+                            @*<input type="checkbox" id="ALL" onclick="checkboxAll()" /><label for="ALL">ALL</label>*@
+                            @*<input type="checkbox" id="IP" name="Professionals" onclick="checkboxProfessional()"/><label for="IP">Professionals (AP, RSE, RGE, RI)</label>*@
+                            @*<input type="checkbox" id="GBC" name="Contractors" onclick="checkbocContractor()" /><label for="GBC">Contractors (RGBC, RSC)</label>*@
+                            @*<input type="checkbox" id="MWC" name="CRMWC" onclick="checkboxCompany()" /><label for="MWC">RMWC (Company)</label>*@
+                            @*<input type="checkbox" id="MWI" name="IRMWC" onclick="checkboxIndividual()" /><label for="MWI">RMWC (Individual)</label>*@
+
+                            @Html.CheckBoxFor(m => m.CategoryAll, new { id = "ALL", onclick = "checkboxAll()" })
+                            <label for="ALL">ALL</label>
+                            @Html.CheckBoxFor(m => m.CategoryIP, new { id = "IP", name = "Professionals", onclick = "checkboxProfessional()" })
+                            <label for="IP">Professionals (AP, RSE, RGE, RI)</label>
+                            @Html.CheckBoxFor(m => m.CategoryGBC, new { id = "GBC", name = "Contractors", onclick = "checkbocContractor()" })
+                            <label for="GBC">Contractors (RGBC, RSC)</label>
+                            @Html.CheckBoxFor(m => m.CategoryMWC, new { id = "MWC", name = "CRMWC", onclick = "checkboxCompany()" })
+                            <label for="MWC">RMWC (Company)</label>
+                            @Html.CheckBoxFor(m => m.CategoryMWI, new { id = "MWI", name = "IRMWC", onclick = "checkboxIndividual()" })
+                            <label for="MWI">RMWC (Individual)</label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Type of Application: <span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+                        <div class="w3-col l9 m6 s12">
+                            <div id="ALLTypeApp" class="TypeApp">
+                                @foreach (var item in Model.ApplicationTypeList)
+                                {
+                                    string tmp = "";
+                                    if (item.Value == "ALL")
+                                    {
+                                        tmp = "checked";
+                                    }
+                                    <input type="checkbox" value="@item.Key" id="@item.Key" class="@item.Value hide apItems" />
+                                    @Html.Label(item.Key, new { @for = @item.Key, @class = @item.Value + " hide apItemLabels" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Interview Result:<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+                        <div class="w3-col l9 m6 s12">
+                            @foreach (var item in Model.InterViewResultList)
+                            {
+                                string tmp = "";
+                                if (item.Value == "ALL")
+                                {
+                                    tmp = "checked";
+                                }
+                                <input type="checkbox" value="@item.Key" id="@item.Key" class="@item.Key hide irItems" />
+                                @Html.Label(item.Value, new { @for = @item.Key, @class = @item.Key + " hide irItemLabels" })
+                                @*string tmp = "";
+                                    if (item.Selected == true)
+                                    { tmp = "checked"; }
+
+                                    <input type="checkbox" value="@item.Value" @tmp name="irItem" id="@item.Value" />
+                                    @Html.Label(item.Text, new { @for = @item.Value, @class = @item.Value + " hide irItemLabels" })*@
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Type of Letter:</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.DropDownListFor(model => model.TypeOfLetter, Model.LetterTypeList)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w3-container footer">
+                    <button id="exportDiv" onclick="printApplicationStagesReport()" class="searchButton btn btn-default" type="button">
+                        <i class="fa fa-print"></i>Export Application Stages Report
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    domReady(function () {
+
+        $('#ALL').prop("checked", true);
+        $('#IP').prop("checked", true);
+        $('#GBC').prop("checked", true);
+        $('#MWC').prop("checked", true);
+        $('#MWI').prop("checked", true);
+
+        ALL = true;
+        //Type of Application
+        $(".apItems").addClass("hide");
+        if (ALL) $(".apItems").removeClass("hide");
+
+        $(".apItemLabels").addClass("hide");
+        if (ALL) $(".apItemLabels").removeClass("hide");
+        //Interview Result
+        $(".irItems").addClass("hide");
+        if (ALL) $(".irItems").removeClass("hide");
+
+        $(".irItemLabels").addClass("hide");
+        if (ALL) $(".irItemLabels").removeClass("hide");
+    })
+
+    function showReport(id) {
+        showReportForm(id);
+        //return true;
+    }
+    function showReportForm(divID) {
+        var sDivs = $(".reportSelection").get();
+        for (var i = 0; i < sDivs.length; i++) {
+            if (sDivs[i].id == divID) {
+                sDivs[i].style.display = "";
+            } else {
+                sDivs[i].style.display = "none";
+            }
+        }
+    }
+    function printApplicationStagesReport() {
+        thisForm = document.getElementById('administrationForm');
+        //$("#maskDiv").mask("Loading...");
+        thisForm.action = 'ExportAdmZReport';
+        thisForm.submit();
+    }
+
+    function checkProfessional() {
+        $(".IP").removeClass("hide");
+
+        $(".A").removeClass("hide");
+        $(".D").removeClass("hide");
+        $(".R").removeClass("hide");
+        $(".W").removeClass("hide");
+        $(".OS").removeClass("hide");
+    }
+
+    function uncheckProfessional() {
+        $(".IP").addClass("hide");
+
+        $(".A").addClass("hide");
+        $(".D").addClass("hide");
+        $(".R").addClass("hide");
+        $(".W").addClass("hide");
+        $(".OS").addClass("hide");
+    }
+
+    function checkContractor() {
+        $(".CGC").removeClass("hide");
+
+        $(".A").removeClass("hide");
+        $(".B").removeClass("hide");
+        $(".D").removeClass("hide");
+        $(".I").removeClass("hide");
+        $(".N").removeClass("hide");
+        $(".R").removeClass("hide");
+        $(".T").removeClass("hide");
+        $(".X").removeClass("hide");
+        $(".W").removeClass("hide");
+    }
+
+    function uncheckContractor() {
+        $(".CGC").addClass("hide");
+
+        $(".A").addClass("hide");
+        $(".B").addClass("hide");
+        $(".D").addClass("hide");
+        $(".I").addClass("hide");
+        $(".N").addClass("hide");
+        $(".R").addClass("hide");
+        $(".T").addClass("hide");
+        $(".X").addClass("hide");
+        $(".W").addClass("hide");
+    }
+    function checkCompany() {
+        $(".CMW").removeClass("hide");
+
+        $(".A").removeClass("hide");
+        $(".B").removeClass("hide");
+        $(".D").removeClass("hide");
+        $(".I").removeClass("hide");
+        $(".N").removeClass("hide");
+        $(".R").removeClass("hide");
+        $(".T").removeClass("hide");
+        $(".X").removeClass("hide");
+        $(".W").removeClass("hide");
+
+    }
+    function uncheckCompany() {
+        $(".CMW").addClass("hide");
+
+        $(".A").addClass("hide");
+        $(".B").addClass("hide");
+        $(".D").addClass("hide");
+        $(".I").addClass("hide");
+        $(".N").addClass("hide");
+        $(".R").addClass("hide");
+        $(".T").addClass("hide");
+        $(".X").addClass("hide");
+        $(".W").addClass("hide");
+    }
+    function checkIndividual() {
+        $(".IMW").removeClass("hide");
+
+        $(".A").removeClass("hide");
+        $(".D").removeClass("hide");
+        $(".R").removeClass("hide");
+        $(".W").removeClass("hide");
+        $(".OS").removeClass("hide");
+    }
+    function uncheckIndividual() {
+        $(".IMW").addClass("hide");
+
+        $(".A").addClass("hide");
+        $(".D").addClass("hide");
+        $(".R").addClass("hide");
+        $(".W").addClass("hide");
+        $(".OS").addClass("hide");
+    }
+
+    function checkAll() {
+        document.getElementById("IP").checked = true;
+        document.getElementById("GBC").checked = true;
+        document.getElementById("MWC").checked = true;
+        document.getElementById("MWI").checked = true;
+        $(".irItems").removeClass("hide");
+        $(".irItemLabels").removeClass("hide");
+        $(".apItems").removeClass("hide");
+        $(".apItemLabels").removeClass("hide");
+    }
+
+    function uncheckAll() {
+        document.getElementById("IP").checked = false;
+        document.getElementById("GBC").checked = false;
+        document.getElementById("MWC").checked = false;
+        document.getElementById("MWI").checked = false;
+        $(".irItems").addClass("hide");
+        $(".irItemLabels").addClass("hide");
+        $(".apItems").addClass("hide");
+        $(".apItemLabels").addClass("hide");
+    }
+
+    function checkboxAll() {
+        var ALL = document.getElementById("ALL").checked;
+        if (ALL) {
+            checkAll();
+        }
+        else {
+            uncheckAll();
+        }
+    }
+
+    function checkboxProfessional() {
+        var IP = document.getElementById("IP").checked;
+        if (IP) {
+            checkProfessional();
+        }
+        else {
+            uncheckProfessional();
+        }
+    }
+
+    function checkbocContractor() {
+        var GBC = document.getElementById("GBC").checked;
+        if (GBC) {
+            checkContractor();
+        }
+        else {
+            uncheckContractor();
+        }
+    }
+
+    function checkboxCompany() {
+        var MWC = document.getElementById("MWC").checked;
+        if (MWC) {
+            checkCompany();
+        }
+        else {
+            uncheckCompany();
+        }
+    }
+
+    function checkboxIndividual() {
+        var MWI = document.getElementById("MWI").checked;
+        if (MWI) {
+            checkIndividual();
+        }
+        else {
+            uncheckIndividual();
+        }
+    }
+
+    //function checkBoxControl() {
+    //    var ALL = document.getElementById("ALL").checked;
+    //    var IP = document.getElementById("IP").checked;
+    //    var GBC = document.getElementById("GBC").checked;
+    //    var MWC = document.getElementById("MWC").checked;
+    //    var MWI = document.getElementById("MWI").checked;
+
+    //    if (IP) checkProfessional();
+    //    else uncheckProfessional();
+
+    //    if (GBC) checkContractor();
+    //    else uncheckContractor();
+
+    //    if (MWC) checkCompany();
+    //    else uncheckCompany();
+
+    //    if (MWI) checkIndividual();
+    //    else uncheckIndividual();
+
+    //    //Type of Application
+
+    //    //$(".apItems").addClass("hide");
+    //    //if (ALL) $(".apItems").removeClass("hide");
+
+    //    //$(".apItemLabels").addClass("hide");
+    //    //if (ALL) $(".apItemLabels").removeClass("hide");
+
+    //    //if (IP) $(".IP").removeClass("hide");
+    //    //if (GBC) $(".CGC").removeClass("hide");
+    //    //if (MWC) $(".CMW").removeClass("hide");
+    //    //if (MWI) $(".IMW").removeClass("hide");
+
+    //    //Interview Result
+    //    //$(".irItems").addClass("hide");
+    //    //if (ALL) $(".irItems").removeClass("hide");
+
+    //    //$(".irItemLabels").addClass("hide");
+    //    //if (ALL) $(".irItemLabels").removeClass("hide");
+    //    //if (IP) {
+    //    //    $(".A").removeClass("hide");
+    //    //    $(".D").removeClass("hide");
+    //    //    $(".R").removeClass("hide");
+    //    //    $(".W").removeClass("hide");
+    //    //    $(".OS").removeClass("hide");
+    //    //}
+    //    //if (GBC) {
+    //    //    $(".A").removeClass("hide");
+    //    //    $(".B").removeClass("hide");
+    //    //    $(".D").removeClass("hide");
+    //    //    $(".I").removeClass("hide");
+    //    //    $(".N").removeClass("hide");
+    //    //    $(".R").removeClass("hide");
+    //    //    $(".T").removeClass("hide");
+    //    //    $(".X").removeClass("hide");
+    //    //    $(".W").removeClass("hide");
+    //    //}
+    //    //if (MWC) {
+    //    //    $(".A").removeClass("hide");
+    //    //    $(".B").removeClass("hide");
+    //    //    $(".D").removeClass("hide");
+    //    //    $(".I").removeClass("hide");
+    //    //    $(".N").removeClass("hide");
+    //    //    $(".R").removeClass("hide");
+    //    //    $(".T").removeClass("hide");
+    //    //    $(".X").removeClass("hide");
+    //    //    $(".W").removeClass("hide");
+    //    //}
+    //    //if (MWI) {
+    //    //    $(".A").removeClass("hide");
+    //    //    $(".D").removeClass("hide");
+    //    //    $(".R").removeClass("hide");
+    //    //    $(".W").removeClass("hide");
+    //    //    $(".OS").removeClass("hide");
+    //    //}
+    //}
+
+</script>
+
+<script type="text/javascript">
+
+    $("#IPs").change(function () {
+
+        var targetUrl = '/Fn08ADR_RPT/GetCheckBoxValue';
+        var RegType = "IP";
+
+
+
+        $.ajax({
+            type: "POST",
+            url: targetUrl,
+            //contentType: "charset=utf-8;",
+            data: {
+                RegType: RegType
+
+            },
+            success: function (data) {
+                showIpcheckboxFunc();
+            }
+        })
+
+
+
+    });
+
+    function showIpcheckboxFunc() {
+
+
+    }
+
+    //domReady(function () {
+    //    attr("exportLetterBtn", "onclick", {
+    //        parameters: {}, callback: function () {
+    //            thisForm = document.getElementById('inputForm');
+    //            $("#inputForm").attr('action', 'ExportLetterFunc'); //ExportCertificate  //ExportTemplate
+    //            $("#inputForm").submit();
+
+    //        }
+    //    });
+    //});
+
+
+
+</script>
+@*}
+    else
+    {
+        < b > Access denied, please contact your supervisor.</ b >
+    }*@

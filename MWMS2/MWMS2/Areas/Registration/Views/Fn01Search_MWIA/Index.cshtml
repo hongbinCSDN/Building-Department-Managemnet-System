@@ -1,0 +1,178 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_MWIASearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">File Reference :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.FileRef)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.RegNo)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.HKID)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Passport No. :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.PassportNo)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.SurnName)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.GivenName)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Chinese Name :</div>
+                <div class="w3-col l3 m12 s12">@Html.TextBoxFor(model => model.ChiName)</div>
+                <div></div>
+                <div class="w3-col l6 m12 s12">
+
+                    <label for="keySearch">@Html.CheckBoxFor(model => model.KeywordSearch) Keyword Search</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Tel. No. :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.TelNo)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Email :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Email)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Services in Building Safety :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.ServicesInBuidingSafety, Model.retrieveServiceInBSByRegType())
+
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PNAP :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.PNAP, Model.retrievePNAPByType())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Type of Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DropDownListFor(model => model.TypeOfDate, Model.DateTypeList)
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.FromDate, "", new { @class = "inputDate" })
+                    &nbsp;To&nbsp;@Html.TextBoxFor(model => model.ToDate, "", new { @class = "inputDate" })
+                </div>
+            </div>
+            @*<div class="w3-col l6 m12 s12">
+                <div></div>
+                <div class="w3-col l12 m12 s12">
+                    &nbsp;from
+                    <input type="text" class="inputDate" />
+                    <span />
+                    to
+                    <input type="text" class="inputDate" />
+                    <span />
+                    <br />
+                </div>
+            </div>*@
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Sex :</div>
+                <div class="w3-col l6 m12 s12">
+                    <select name="Sex">
+                        <option value="">- Select -</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Minor Work Capability(Item) :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.MWCap)</div>
+            </div>
+
+        </div>
+
+
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+
+    <script type="text/javascript">
+        domReady(function () {
+            searching =  new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                        //    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Name", columnName: "NAME" }
+                    , { displayName: "Category", columnName: "CODE" }
+                    , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                    , { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+                ]
+            });
+   
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

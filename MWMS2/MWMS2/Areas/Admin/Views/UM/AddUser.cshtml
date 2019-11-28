@@ -1,0 +1,234 @@
+﻿@model  MWMS2.Areas.Admin.Models.Sys_UMModel
+
+<style type="text/css">
+    .inputPassword {
+        height: 40px;
+        margin: 1px 0px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 21px;
+        padding: 3px 5px;
+        background-image: linear-gradient(to bottom right, rgba(200, 200, 200, 0.5) 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+    }
+</style>
+
+<div id="searchCriteria">
+    @using (Html.BeginForm("SaveUser", "UM", FormMethod.Post))
+    {
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">User Name :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.BD_PORTAL_LOGIN)
+                    @*@Html.TextBoxFor(m => m.SysPost.)*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">User ID :</div>
+                <div class="w3-col l4 m12 s12">
+                    @*@Html.TextBoxFor(m => m.SysPost.BD_PORTAL_LOGIN)*@
+                </div>
+                <div class="w3-col l2 m12 s12">DSMS User Name  :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.DSMS_USERNAME)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Password :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.PasswordFor(m => m.SysPost.PW, new { @class = "inputPassword", @style = "width:49%", id = "pw1" })
+                    <input style="width:49%" class="inputPassword" type="password" name="pw2" id="pw2" value="" />
+                    <div id="pwErrorMsg" class="errorText"></div>
+                </div>
+                <div class="w3-col l2 m12 s12">DSMS Password :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.PasswordFor(m => m.SysPost.DSMS_PW, new { @class = "inputPassword", @style = "width:49%", id = "dsms_pw1" })
+                    <input style="width:49%" class="inputPassword" type="password" name="dsms_pw2" id="dsms_pw2" value="" />
+                    <div id="dsms_pwErrorMsg" class="errorText"></div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Email Address  :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.EMAIL)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Rank (for workflow) :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.DropDownListFor(m => m.SysPost.SYS_RANK_ID, Model.Rank, new { })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Security Level :</div>
+                <div class="w3-col l10 m12 s12">
+                    @*@Html.TextBoxFor(m => m.SysPost.DSMS_USERNAME)*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Post Code :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.CODE)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">SUPERVISOR :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.SUPERVISOR_ID)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">FAX :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.FAX_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Phone No. :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.PHONE)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Unit :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.SysPost.SYS_UNIT_ID)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Status :</div>
+                <div class="w3-col l10 m12 s12">
+                    <label>
+                        @Html.RadioButtonFor(m => m.SysPost.IS_ACTIVE, "Y", new { @class = "w3-radio", @checked = "checked" })Active
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.SysPost.IS_ACTIVE, "N", new { @class = "w3-radio" })Inactive
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Receive Case? :</div>
+                <div class="w3-col l10 m12 s12">
+                    <label>
+                        @Html.RadioButtonFor(m => m.SysPost.RECEIVE_CASE, "Y", new { @class = "w3-radio", @checked = "checked" })Yes
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.SysPost.RECEIVE_CASE, "N", new { @class = "w3-radio" })No
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <br />
+        <div class="panelHeader">
+            Role Assignment
+        </div>
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @for (int i = 0; i < Model.SysRoleCheckedBoxes.Count(); i++)
+                    {
+                        <div class="w3-col l2 m12 s12">
+                            @Html.CheckBoxFor(model => Model.SysRoleCheckedBoxes[i].IsChecked)
+                        </div>
+                        <div class="w3-col l9 m12 s12">
+                            @Html.HiddenFor(model => Model.SysRoleCheckedBoxes[i].SysRoleID, new { })
+                            @Html.HiddenFor(model => Model.SysRoleCheckedBoxes[i].SysRoleCode, new { })
+                            @Model.SysRoleCheckedBoxes[i].SysRoleDes
+                        </div>
+                        <br />
+                    }
+
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="saveBtn" class="searchButton btn btn-default" onclick="return validForm()" type="submit"><i class="fa fa-search"></i> Save</button>
+                <button id="cancelBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Cancel</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("cancelBtn", "onclick", { parameters: {}, callback: onCancel });
+        attr("saveBtn", "onclick", { parameters: {}, callback: validForm })
+    });
+
+    function onCancel() {
+        window.location.href = domId("rootPath").value + "/Admin/UM/Index";
+    };
+
+    function validForm() {
+        var pw1, pw2, dsms_pw1, dsms_pw2;
+        pw1 = $("#pw1").val();
+        pw2 = $("#pw2").val();
+        dsms_pw1 = $("#dsms_pw1").val();
+        dsms_pw2 = $("#dsms_pw2").val();
+        if (!isNullOrUndefined(pw1)) {
+            if (!IsPWSame(pw1, pw2)) {
+                $("#pwErrorMsg").text("The Password is not the same.");
+                return false;
+            } else {
+                $("#pwErrorMsg").text("");
+            }
+        }
+
+        if (!isNullOrUndefined(dsms_pw1)) {
+            if (!IsPWSame(dsms_pw1, dsms_pw2)) {
+                $("#dsms_pwErrorMsg").text("The DSMS Password is not the same.");
+                return false;
+            } else {
+                $("#dsms_pwErrorMsg").text("");
+            }
+        }
+        return true;
+    }
+
+    function IsPWSame(pw1, pw2) {
+        if (pw1 === pw2) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
+    function isNullOrUndefined(val) {
+        if (val == null || val == undefined || val== "") {
+            return true;
+        }
+        return false;
+    }
+</script>

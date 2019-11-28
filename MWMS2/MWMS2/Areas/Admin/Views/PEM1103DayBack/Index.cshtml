@@ -1,0 +1,29 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103DayBackModel
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+<div class="panelHeader">Day Back</div>
+@using (Html.BeginForm("Save", "PEM1103DayBack", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm" }))
+{
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-row">
+                <div class="w3-col l4 m4 s4">Day Back :</div>
+                <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.DayBack,new {@type = "number"})</div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button id="createBtn" class="btn btn-default" type="submit">Save</button>
+            <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+        </div>
+    </div>
+}
+<script>
+function cancel() {
+    //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+    goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+}
+</script>

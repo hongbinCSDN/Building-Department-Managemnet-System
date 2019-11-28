@@ -1,0 +1,492 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+
+<form id="inputForm">
+    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.UUID)
+    @Html.HiddenFor(m => m.P_MW_REFERENCE_NO.UUID)
+    @Html.HiddenFor(m => m.IsSubmit)
+    @Html.HiddenFor(m => m.IsSPO)
+    @Html.HiddenFor(m => m.IsReadOnly)
+    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.SUBMIT_TYPE)
+
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormChecklistInfo.cshtml", Model)
+
+    <div class="displayForm">
+        <table class="w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th style="width:10%">
+                        &nbsp;
+                    </th>
+                    <th style="width:40%">
+                        &nbsp;
+                    </th>
+                    <th style="width:50%">
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>
+                        Revert to Document Sorting
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "N", new { @class = "w3-radio" }) No
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>
+                        Follow up by other divisions / sections / units / required
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "N", new { @class = "w3-radio" }) No
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Request Due Date
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_DUE_DATE, new { @class = "inputDate" })
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <table class="w3-hoverable resultTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Section/Unit/Division
+                                    </th>
+                                    <th>
+                                        Officer
+                                    </th>
+                                    <th>
+                                        Result
+                                    </th>
+                                    <th>
+                                        DSN
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodySection">
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs != null)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].SECTION_UNIT_DIVISION)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].OFFICER)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].RESULT)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].DSN)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="w3-container footer">
+                            <button id="addAddressBtn" class="btn btn-default" onclick="addSection()" type="button">Add</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>
+                        Internal comment(MWU) required
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "N", new { @class = "w3-radio" }) No
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <table class="w3-hoverable resultTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Request Due Date
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyComment">
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs != null)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT_DUE_DATE)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div class="w3-container footer">
+                            <button id="addAddressBtn" class="btn btn-default" onclick="addComment()" type="button">Add</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>
+                        interim reply required
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "N", new { @class = "w3-radio" }) No
+                        </label>
+                        @*@Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "Y", new { @class = "w3-radio" })
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "N", new { @class = "w3-radio" })*@
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Reply
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "N", new { @class = "w3-radio" }) No
+                        </label>
+                        @*@Html.RadioButtonFor(m=>m.P_MW_COMPLAINT_CHECKLIST.)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <!-- <button>Draft reply required</button> -->
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>
+                        Reply required
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "N", new { @class = "w3-radio" }) No
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Reply
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "N", new { @class = "w3-radio" }) No
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <!-- <button>Draft Reply Template</button> -->
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        Recommend on action taken
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Enforcement", new { @class = "w3-radio" }) Enforcement
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Prosecution", new { @class = "w3-radio" }) Prosecution
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Disciplinary", new { @class = "w3-radio" }) Disciplinary
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "No Further Action", new { @class = "w3-radio" }) No Further Action
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        Reply completed & recommended
+                    </td>
+                    <td>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "Y", new { @class = "w3-radio" }) Yes
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "N", new { @class = "w3-radio" }) No
+                        </label>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="displayForm">
+        <div class="w3-container footer">
+            <button id="preBtn" class="btn btn-default w3-left enabled" onclick="previousPage()" type="button">Previous</button>
+            <button id="commentBtn" class="btn btn-default enabled" type="button" onclick="rollbackComment()">View & Add Comment</button>
+            <button id="saveBtn" class="btn btn-default" onclick="saveChecklist()" type="button">Save as Draft</button>
+            <button id="submitBtn" class="btn btn-default enabled" onclick="submitChecklist()" type="button">Submit</button>
+            <button id="cancelBtn" class="btn btn-default enabled" type="button" onclick="goToIndex()">Cancel</button>
+        </div>
+    </div>
+</form>
+
+
+
+<script type="text/javascript">
+    var isSPO = false;
+    var isReadonly = false;
+    var recordID = "";
+
+    function goToIndex() {
+        goTo(domId('rootPath').value + '/MWProcessing/Fn03TSK_Tdl/Index');
+    }
+
+    function submitChecklist() {
+        //Set is submit true
+        $('#IsSubmit').val(true);
+        $.post("SubmitCheckListForm", $("#inputForm").serialize(), function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save Successfully');
+                goTo(domId("rootPath").value + '/MWProcessing/Fn03TSK_Tdl/Index');
+            } else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        });
+    };
+
+    function saveChecklist() {
+        //Set is submit fasle
+        $('#IsSubmit').val(false);
+        $.post("SaveCheckListForm", $("#inputForm").serialize(), function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                //goTo(domId("rootPath").value + '/MWProcessing/Fn03TSK_Tdl/Index');
+                alert('Save Successfully');
+            } else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        });
+    };
+
+    function previousPage() {
+        var uuid = $('#P_MW_GENERAL_RECORD_UUID').val();
+        goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/EnquiryForm",
+            [
+                { name: "id", value: uuid }
+            ]);
+    }
+
+    function rollbackComment() {
+        //get reocrd uuid
+        var uuid = $('#P_MW_GENERAL_RECORD_UUID').val();
+        var submissionType = $('#P_MW_GENERAL_RECORD_SUBMIT_TYPE').val();
+        var isSPO = document.getElementById("IsSPO").value.toLowerCase() == "true";
+        var isRollback = isSPO;
+
+        goTo(domId("rootPath").value + "/MWProcessing/Comment/AddComment",
+            [
+                { name: "RECORD_ID", value: uuid },
+                { name: "IsRollback", value: isRollback },
+                { name: "IsSPO", value: isSPO },
+                { name: "SubmissionType", value: submissionType }
+            ], true);
+    }
+
+    function addSection() {
+        var rows = $("#tbodySection").find("tr").length;
+        var tr = dom("tr");
+
+        var td1 = dom("td");
+        var input1 = dom("input");
+        attr(input1, "id", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__SECTION_UNIT_DIVISION");
+        attr(input1, "name", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "[" + rows + "].SECTION_UNIT_DIVISION");
+        attr(input1, "width", "100%")
+        attr(input1, "type", "text");
+        td1.appendChild(input1);
+        attr(td1, "class", "w3-padding");
+
+        var td2 = dom("td");
+        var input2 = dom("input");
+        attr(input2, "id", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__OFFICER");
+        attr(input2, "name", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "[" + rows + "].OFFICER");
+        attr(input2, "width", "100%")
+        attr(input2, "type", "text");
+        td2.appendChild(input2);
+        attr(td2, "class", "w3-padding");
+
+        var td3 = dom("td");
+        var input3 = dom("input");
+        attr(input3, "id", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__RESULT");
+        attr(input3, "name", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "[" + rows + "].RESULT");
+        attr(input3, "width", "100%")
+        attr(input3, "type", "text");
+        td3.appendChild(input3);
+        attr(td3, "class", "w3-padding");
+
+        var td4 = dom("td");
+        var input4 = dom("input");
+        attr(input4, "id", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__DSN");
+        attr(input4, "name", "P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "[" + rows + "].DSN");
+        attr(input4, "width", "100%")
+        attr(input4, "type", "hidden");
+        td4.appendChild(input4);
+        attr(td4, "class", "w3-padding");
+        attr(td4, "id", "td_P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__DSN");
+        getDSN("td_P_MW_COMPLAINT_CHECKLIST_SECTIONs" + "_" + rows + "__DSN")
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+
+        $("#tbodySection").append(tr);
+    };
+
+    function addComment() {
+        var rows = $("#tbodyComment").find("tr").length;
+        var tr = dom("tr");
+
+        var td1 = dom("td");
+        var input1 = dom("input");
+        attr(input1, "id", "P_MW_COMPLAINT_CHECKLIST_COMMENTs" + "_" + rows + "__INTERNAL_COMMENT_DUE_DATE");
+        attr(input1, "name", "P_MW_COMPLAINT_CHECKLIST_COMMENTs" + "[" + rows + "].INTERNAL_COMMENT_DUE_DATE");
+        attr(input1, "width", "100%")
+        attr(input1, "type", "text");
+        td1.appendChild(input1);
+        attr(td1, "class", "w3-padding");
+
+        var td2 = dom("td");
+        var input2 = dom("input");
+        attr(input2, "id", "P_MW_COMPLAINT_CHECKLIST_COMMENTs" + "_" + rows + "__INTERNAL_COMMENT");
+        attr(input2, "name", "P_MW_COMPLAINT_CHECKLIST_COMMENTs" + "[" + rows + "].INTERNAL_COMMENT");
+        attr(input2, "width", "100%")
+        attr(input2, "type", "text");
+        td2.appendChild(input2);
+        attr(td2, "class", "w3-padding");
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+
+        $("#tbodyComment").append(tr);
+    };
+
+
+    function getDSN(eleId) {
+        $.post("/MWProcessing/Fn02MWUR_GE/GeneralMWNumber", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                $("#" + eleId).text(data.Data.MW_NUMBER);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function initPage() {
+
+        if (isReadonly) {
+            readonlyPage();
+        }
+    }
+
+    function readonlyPage() {
+
+        var inputForm = document.getElementById('inputForm');
+        var inputList = inputForm.querySelectorAll("input");
+        var ddlList = inputForm.querySelectorAll("select");
+        var btnList = inputForm.querySelectorAll("button");
+        var taList = inputForm.querySelectorAll("textarea");
+
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].type == "hidden") { continue; }
+            inputList[i].disabled = true;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].disabled = true;
+        }
+
+        for (var i = 0; i < btnList.length; i++) {
+
+            if (btnList[i].className.indexOf("enabled") < 0) {
+                btnList[i].disabled = true;
+                btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+            }
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+            taList[i].disabled = true;
+        }
+    }
+
+    domReady(function () {
+        isSPO = document.getElementById("IsSPO").value.toLowerCase() == "true";
+        isReadonly = document.getElementById("IsReadOnly").value.toLowerCase() == "true";
+        recordID = $('#P_MW_GENERAL_RECORD_UUID').val();
+
+        initPage();
+    });
+
+</script>

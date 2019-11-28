@@ -1,0 +1,93 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeFormModel
+
+@*<style>
+    .row>div>div>input[type="text"] {
+        width: 475px;
+    }
+</style>*@
+
+@if (!string.IsNullOrEmpty(Model.P_MW_RECORD.S_FORM_TYPE_CODE))
+{
+    @Html.Partial("~/Areas/MWProcessing/Views/MwForm/de_" + Model.P_MW_RECORD.S_FORM_TYPE_CODE.ToLower() + "_form_new.cshtml", Model)
+}
+
+<script type="text/javascript">
+
+
+
+
+    domReady(function () {
+        atcp({
+            id: "OwnerAddress_BUILDING_NAME"
+            , dataSource: "BuildingName"
+            , onlyFindCode: true
+            , onSelect: function (sender, hider, data) {
+                //if (data.id != '') {
+                //$("#sysCasePledgeId").val(data.code + " : " + data.description);
+                //}
+            }
+        });
+    });
+    function addMWItem(className) {
+
+        var rows = $('#RiTable' + className).find('tbody').find('tr').length;
+
+        var tr = dom("tr");
+
+        var td1 = dom("td");
+        var input1 = dom("input");
+        attr(input1, "id", "P_MW_RECORD_ITEMs_" + className + "_" + rows + "__MW_ITEM_CODE");
+        attr(input1, "name", "P_MW_RECORD_ITEMs_" + className + "[" + rows + "].MW_ITEM_CODE");
+        attr(input1, "width", "100%")
+        attr(input1, "type", "text");
+        //attr(input1, "cols", "20");
+        //attr(input1, "rows", rows);
+        td1.appendChild(input1);
+        attr(td1, "class", "w3-padding");
+
+        var td2 = dom("td");
+        var input2 = dom("input");
+        attr(input2, "id", "P_MW_RECORD_ITEMs_" + className + "_" + rows + "__LOCATION_DESCRIPTION");
+        attr(input2, "name", "P_MW_RECORD_ITEMs_" + className + "[" + rows + "].LOCATION_DESCRIPTION");
+        attr(input2, "width", "100%")
+        attr(input2, "type", "text");
+        //attr(input2, "cols", "20");
+        //attr(input2, "rows", rows);
+        td2.appendChild(input2);
+        attr(td2, "class", "w3-padding");
+
+        var td3 = dom("td");
+        var input3 = dom("input");
+        attr(input3, "id", "P_MW_RECORD_ITEMs_" + className + "_" + rows + "__RELEVANT_REFERENCE");
+        attr(input3, "name", "P_MW_RECORD_ITEMs_" + className + "[" + rows + "].RELEVANT_REFERENCE");
+        attr(input3, "width", "100%")
+        attr(input3, "type", "text");
+        //attr(input2, "cols", "20");
+        //attr(input2, "rows", rows);
+        td3.appendChild(input3);
+        attr(td3, "class", "w3-padding");
+
+        var textbox = dom("input");
+        attr(textbox, "id", "P_MW_RECORD_ITEMs_" + className + "_" + rows + "__CLASS_CODE");
+        attr(textbox, "name", "P_MW_RECORD_ITEMs_" + className + "[" + rows + "].CLASS_CODE");
+        attr(textbox, "type", "hidden");
+        attr(textbox, "value", className);
+
+        tr.appendChild(textbox);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+        $('#RiTable' + className).find('tbody').append(tr);
+
+    };
+
+    domReady(function () {
+
+        new searcher({
+            searchPath: "SearchDocument"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>

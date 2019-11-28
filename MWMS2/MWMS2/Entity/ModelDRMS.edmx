@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelDRMS.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DRMS_DOCUMENT_META_DATA">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="REC_TYPE" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="REC_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="MW_SUBMISSION_NUMBER" Type="varchar2" MaxLength="2000" />
+          <Property Name="DSN" Type="varchar2" MaxLength="2000" />
+          <Property Name="DSN_VERSION_NUMBER" Type="varchar2" MaxLength="2000" />
+          <Property Name="FORM" Type="varchar2" MaxLength="2000" />
+          <Property Name="DOCUMENT_TYPE" Type="varchar2" MaxLength="2000" />
+          <Property Name="MW_ITEM_NUMBER" Type="varchar2" MaxLength="2000" />
+          <Property Name="BD_FILE_REF" Type="varchar2" MaxLength="2000" />
+          <Property Name="SUBMISSION_LETTER_DATE" Type="varchar2" MaxLength="2000" />
+          <Property Name="WORKS_LOCATION" Type="varchar2" MaxLength="2000" />
+          <Property Name="SELECTED_FOR_MW_AUDIT_CHECK" Type="varchar2" MaxLength="2000" />
+          <Property Name="ORIGIN_OF_RECORD" Type="varchar2" MaxLength="2000" />
+          <Property Name="EFSS_SUBMISSION_REF_NO" Type="varchar2" MaxLength="2000" />
+          <Property Name="TYPE_OF_CORRESPONDENCE" Type="varchar2" MaxLength="2000" />
+          <Property Name="FILE_CLASSIFICATION" Type="varchar2" MaxLength="2000" />
+          <Property Name="BACKLOG_UPLOAD" Type="varchar2" MaxLength="2000" />
+          <Property Name="LOCATION_OF_RECORD" Type="varchar2" MaxLength="2000" />
+          <Property Name="DOCUMENT_CONTROL_STAGE" Type="varchar2" MaxLength="2000" />
+          <Property Name="REASON_OF_RESCANNING" Type="varchar2" MaxLength="2000" />
+          <Property Name="SCAN_QUALITY_CHECK_STATUS" Type="varchar2" MaxLength="2000" />
+          <Property Name="SCAN_QUALITY_CHECK_DATETIME" Type="varchar2" MaxLength="2000" />
+          <Property Name="SCAN_QUALITY_CHECK_OFFICER_NAME_AND_POST" Type="varchar2" MaxLength="2000" />
+          <Property Name="DISPOSAL_OF_RECORD_STATUS" Type="varchar2" MaxLength="2000" />
+          <Property Name="DISPOSAL_OF_RECORD_DISPOSAL_DATE" Type="varchar2" MaxLength="2000" />
+          <Property Name="REASON_OF_DISPOSAL" Type="varchar2" MaxLength="2000" />
+          <Property Name="DISPOSAL_OFFICER_NAME_AND_POST" Type="varchar2" MaxLength="2000" />
+          <Property Name="BLOCK_ID" Type="varchar2" MaxLength="2000" />
+          <Property Name="UNIT_ID" Type="varchar2" MaxLength="2000" />
+          <Property Name="MODIFICATION_PERMIT_NUMBER" Type="varchar2" MaxLength="2000" />
+          <Property Name="MODIFICATION_GRANTED_ON" Type="varchar2" MaxLength="2000" />
+          <Property Name="PROVISIONS_MODIFIED_EXEMPTED" Type="varchar2" MaxLength="2000" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="200" />
+          <Property Name="UPLOAD_DATE" Type="date" />
+          <Property Name="DOC_ID" Type="varchar2" MaxLength="100" />
+          <Property Name="DOC_STAGE" Type="varchar2" MaxLength="100" />
+          <Property Name="DOC_DATE" Type="date" />
+        </EntityType>
+        <EntityContainer Name="ModelDRMSStoreContainer">
+          <EntitySet Name="DRMS_DOCUMENT_META_DATA" EntityType="Self.DRMS_DOCUMENT_META_DATA" Schema="" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelDRMS" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EntitiesDRMS" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DRMS_DOCUMENT_META_DATA" EntityType="ModelDRMS.DRMS_DOCUMENT_META_DATA" />
+        </EntityContainer>
+        <EntityType Name="DRMS_DOCUMENT_META_DATA">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="REC_TYPE" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="REC_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="MW_SUBMISSION_NUMBER" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DSN" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DSN_VERSION_NUMBER" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="FORM" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DOCUMENT_TYPE" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="MW_ITEM_NUMBER" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BD_FILE_REF" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SUBMISSION_LETTER_DATE" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="WORKS_LOCATION" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SELECTED_FOR_MW_AUDIT_CHECK" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ORIGIN_OF_RECORD" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="EFSS_SUBMISSION_REF_NO" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="TYPE_OF_CORRESPONDENCE" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_CLASSIFICATION" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BACKLOG_UPLOAD" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="LOCATION_OF_RECORD" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DOCUMENT_CONTROL_STAGE" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="REASON_OF_RESCANNING" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SCAN_QUALITY_CHECK_STATUS" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SCAN_QUALITY_CHECK_DATETIME" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SCAN_QUALITY_CHECK_OFFICER_NAME_AND_POST" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DISPOSAL_OF_RECORD_STATUS" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DISPOSAL_OF_RECORD_DISPOSAL_DATE" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="REASON_OF_DISPOSAL" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DISPOSAL_OFFICER_NAME_AND_POST" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="BLOCK_ID" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT_ID" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFICATION_PERMIT_NUMBER" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFICATION_GRANTED_ON" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="PROVISIONS_MODIFIED_EXEMPTED" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <Property Name="STATUS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UPLOAD_DATE" Type="DateTime" />
+          <Property Name="DOC_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_STAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_DATE" Type="DateTime" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelDRMSStoreContainer" CdmEntityContainer="EntitiesDRMS">
+          <EntitySetMapping Name="DRMS_DOCUMENT_META_DATA">
+            <EntityTypeMapping TypeName="ModelDRMS.DRMS_DOCUMENT_META_DATA">
+              <MappingFragment StoreEntitySet="DRMS_DOCUMENT_META_DATA">
+                <ScalarProperty Name="DOC_DATE" ColumnName="DOC_DATE" />
+                <ScalarProperty Name="DOC_STAGE" ColumnName="DOC_STAGE" />
+                <ScalarProperty Name="DOC_ID" ColumnName="DOC_ID" />
+                <ScalarProperty Name="UPLOAD_DATE" ColumnName="UPLOAD_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="PROVISIONS_MODIFIED_EXEMPTED" ColumnName="PROVISIONS_MODIFIED_EXEMPTED" />
+                <ScalarProperty Name="MODIFICATION_GRANTED_ON" ColumnName="MODIFICATION_GRANTED_ON" />
+                <ScalarProperty Name="MODIFICATION_PERMIT_NUMBER" ColumnName="MODIFICATION_PERMIT_NUMBER" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="BLOCK_ID" ColumnName="BLOCK_ID" />
+                <ScalarProperty Name="DISPOSAL_OFFICER_NAME_AND_POST" ColumnName="DISPOSAL_OFFICER_NAME_AND_POST" />
+                <ScalarProperty Name="REASON_OF_DISPOSAL" ColumnName="REASON_OF_DISPOSAL" />
+                <ScalarProperty Name="DISPOSAL_OF_RECORD_DISPOSAL_DATE" ColumnName="DISPOSAL_OF_RECORD_DISPOSAL_DATE" />
+                <ScalarProperty Name="DISPOSAL_OF_RECORD_STATUS" ColumnName="DISPOSAL_OF_RECORD_STATUS" />
+                <ScalarProperty Name="SCAN_QUALITY_CHECK_OFFICER_NAME_AND_POST" ColumnName="SCAN_QUALITY_CHECK_OFFICER_NAME_AND_POST" />
+                <ScalarProperty Name="SCAN_QUALITY_CHECK_DATETIME" ColumnName="SCAN_QUALITY_CHECK_DATETIME" />
+                <ScalarProperty Name="SCAN_QUALITY_CHECK_STATUS" ColumnName="SCAN_QUALITY_CHECK_STATUS" />
+                <ScalarProperty Name="REASON_OF_RESCANNING" ColumnName="REASON_OF_RESCANNING" />
+                <ScalarProperty Name="DOCUMENT_CONTROL_STAGE" ColumnName="DOCUMENT_CONTROL_STAGE" />
+                <ScalarProperty Name="LOCATION_OF_RECORD" ColumnName="LOCATION_OF_RECORD" />
+                <ScalarProperty Name="BACKLOG_UPLOAD" ColumnName="BACKLOG_UPLOAD" />
+                <ScalarProperty Name="FILE_CLASSIFICATION" ColumnName="FILE_CLASSIFICATION" />
+                <ScalarProperty Name="TYPE_OF_CORRESPONDENCE" ColumnName="TYPE_OF_CORRESPONDENCE" />
+                <ScalarProperty Name="EFSS_SUBMISSION_REF_NO" ColumnName="EFSS_SUBMISSION_REF_NO" />
+                <ScalarProperty Name="ORIGIN_OF_RECORD" ColumnName="ORIGIN_OF_RECORD" />
+                <ScalarProperty Name="SELECTED_FOR_MW_AUDIT_CHECK" ColumnName="SELECTED_FOR_MW_AUDIT_CHECK" />
+                <ScalarProperty Name="WORKS_LOCATION" ColumnName="WORKS_LOCATION" />
+                <ScalarProperty Name="SUBMISSION_LETTER_DATE" ColumnName="SUBMISSION_LETTER_DATE" />
+                <ScalarProperty Name="BD_FILE_REF" ColumnName="BD_FILE_REF" />
+                <ScalarProperty Name="MW_ITEM_NUMBER" ColumnName="MW_ITEM_NUMBER" />
+                <ScalarProperty Name="DOCUMENT_TYPE" ColumnName="DOCUMENT_TYPE" />
+                <ScalarProperty Name="FORM" ColumnName="FORM" />
+                <ScalarProperty Name="DSN_VERSION_NUMBER" ColumnName="DSN_VERSION_NUMBER" />
+                <ScalarProperty Name="DSN" ColumnName="DSN" />
+                <ScalarProperty Name="MW_SUBMISSION_NUMBER" ColumnName="MW_SUBMISSION_NUMBER" />
+                <ScalarProperty Name="REC_ID" ColumnName="REC_ID" />
+                <ScalarProperty Name="REC_TYPE" ColumnName="REC_TYPE" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

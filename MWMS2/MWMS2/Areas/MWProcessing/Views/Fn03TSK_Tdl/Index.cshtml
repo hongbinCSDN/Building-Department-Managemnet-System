@@ -1,0 +1,294 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_TdlSearchModel
+
+<div class="panelHeader">Summary</div>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m3 s3">Reference Number :</div>
+            <div class="w3-col l9 m9 s9">@Html.TextBoxFor(model => model.RefNo, new { @id = "RefNo" })</div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButtona btn btn-default" type="button" id="searchButton">Get Records</button>
+    </div>
+</div>
+
+<br />
+
+<div class="displayForm hide" id="countDiv">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Complaint :</div>
+            <div class="w3-col l6 m12 s12" id="ComplaintCount">Loading..</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission :</div>
+            <div class="w3-col l6 m12 s12" id="SubmissionCount">Loading..</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Enquiry :</div>
+            <div class="w3-col l6 m12 s12" id="EnquiryCount">Loading..</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Direct Return :</div>
+            <div class="w3-col l6 m12 s12" id="DirectReturnCount">Loading..</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Modification :</div>
+            <div class="w3-col l6 m12 s12" id="ModificationCount">Loading..</div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="listDiv" class="hide">
+    <br><div class="panelHeader">Complaint         </div><div id="ComplaintDiv"></div>
+    <br><div class="panelHeader">Submission        </div><div id="SubmissionDiv"></div>
+    <br><div class="panelHeader">Enquiry           </div><div id="EnquiryDiv"></div>
+    <br><div class="panelHeader">Direct Return     </div><div id="DirectReturnDiv"></div>
+    <br><div class="panelHeader">Modification      </div><div id="ModificationDiv"></div>
+</div>
+
+<script type="text/javascript">
+
+    var ComplaintList, EnquiryList, ModificationList, SubmissionList;
+    domReady(function () {
+        ModificationList = new searcher({
+            searchPath: "SearchMOD"
+            , exportPath: "ExcelMod"
+            , searchTable: "RefNo"
+            , resultPanel: "ModificationDiv"
+            , Columns: [
+                {
+                    displayName: "Ref. No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn01LM_MOD/EditFormFromTDL", [{ name: "uuid", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "DSN", columnName: "DSN"
+                }
+                , {
+                    displayName: "Form No.", columnName: "FORM_NO"
+                }
+                , {
+                    displayName: "Issue Date", columnName: "ISSUE_DATE_OF_BD106"
+                }
+                , {
+                    displayName: "Completed Date", columnName: "COMPLETION_DATE"
+                }
+                , {
+                    displayName: "Annual Inspection Date", columnName: "ANNUAL_INSPECTION_DATE"
+                }
+                , {
+                    displayName: "Assignment Date", columnName: "SITE_INSP_DATE"
+                }
+                , {
+                    displayName: "Status", columnName: "RRM_SYN_STATUS"
+                }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("ModificationCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                if (r.Total == 0)
+                    attr("ModificationCount", "html", "0")
+                else
+                    attr("ModificationCount", "html", r.Total);
+            }
+        });
+        DirectReturnList = new searcher({
+            searchPath: "SearchDR"
+            //, exportPath: "Excel"
+            , searchTable: "RefNo"
+            , resultPanel: "DirectReturnDiv"
+            , Columns: [
+                {
+                    displayName: "DSN No.", columnName: "DSN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/DRDetail", [{ name: "uuid", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "Form No.", columnName: "FORM_TYPE"
+                }
+                , {
+                    displayName: "Assignment Date", columnName: "RECEIVED_DATE"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("DirectReturnCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                if (r.Total == 0)
+                    attr("DirectReturnCount", "html", "0")
+                else
+                    attr("DirectReturnCount", "html", r.Total);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    domReady(function () {
+        ComplaintList = new searcher({
+            searchPath: "SearchComplaints"
+            , exportPath: "ExcelComplaints"
+            , searchTable: "RefNo"
+            , resultPanel: "ComplaintDiv"
+            , Columns: [
+                { displayName: "DSN / ICC No.", columnName: "ICCNO" }
+                , {
+                    displayName: "Ref.No.", columnName: "CASENO"
+                    , click: function (row) {
+                        goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/ComplaintForm", [{ name: "id", value: row.UUID }]);
+                    }
+                }
+                , { displayName: "Received Date", columnName: "RECEIVEDATE" }
+                , { displayName: "Final Reply Date", columnName: "FINALREPLYDUEDATE" }
+                , { displayName: "Final Reply Remaining Days", columnName: "FINALREPLYREMAININGDAYS" }
+                , { displayName: "Interim Reply Date", columnName: "INTERIMREPLYDUEDATE" }
+                , { displayName: "Interim Reply Remaining Days", columnName: "INTERIMREPLYREMAININGDAYS" }
+                //, { displayName: "Assignment Date", columnName: "ASSDATE" }
+                , { displayName: "Title", columnName: "CASETITLE" }
+                , { displayName: "Channel", columnName: "CHANNEL" }
+                , { displayName: "Status", columnName: "STATUS" }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("ComplaintCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                if (r.Total == 0)
+                    attr("ComplaintCount", "html", "0")
+                else
+                    attr("ComplaintCount", "html", r.Total);
+            }
+        });
+        EnquiryList = new searcher({
+            searchPath: "SearchEnquirys"
+            , exportPath: "ExcelEnquirys"
+            , searchTable: "RefNo"
+            , resultPanel: "EnquiryDiv"
+            , Columns: [
+                { displayName: "DSN / ICC No.", columnName: "ICCNO" }
+                , {
+                    displayName: "Ref.No.", columnName: "CASENO"
+                    , click: function (row) {
+                        goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/EnquiryForm", [{ name: "id", value: row.UUID }]);
+                    }
+                }
+                , { displayName: "Received Date", columnName: "RECEIVEDATE" }
+                , { displayName: "Final Reply Date", columnName: "FINALREPLYDUEDATE" }
+                , { displayName: "Final Reply Remaining Days", columnName: "FINALREPLYREMAININGDAYS" }
+                , { displayName: "Interim Reply Date", columnName: "INTERIMREPLYDUEDATE" }
+                , { displayName: "Interim Reply Remaining Days", columnName: "INTERIMREPLYREMAININGDAYS" }
+                //, { displayName: "Assignment Date", columnName: "ASSDATE" }
+                , { displayName: "Title", columnName: "CASETITLE" }
+                , { displayName: "Channel", columnName: "CHANNEL" }
+                , { displayName: "Status", columnName: "STATUS" }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("EnquiryCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                if (r.Total == 0)
+                    attr("EnquiryCount", "html", "0")
+                else
+                    attr("EnquiryCount", "html", r.Total);
+            }
+        });
+
+
+        SubmissionList = new searcher({
+            searchPath: "SearchSubmissions"
+            , exportPath: "ExcelSubmissions"
+            , searchTable: "RefNo"
+            , resultPanel: "SubmissionDiv"
+            , Columns: [
+                { displayName: "Task               ", columnName: "TASK" }
+                , {
+                    displayName: "Ref.No.            ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+
+                            if (row.TASK == "Acknowledgement") {
+                                //console.log(row.TASK_CODE);
+                                if (row.TASK_CODE == "Acknowledgement-PO") {
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                        [
+                                            { name: "R_UUID", value: row.R_UUID },
+                                            { name: "V_UUID", value: row.V_UUID },
+                                            { name: "TaskUserID", value: row.USER_ID }
+                                        ]);
+                                } else if (row.TASK_CODE == "Acknowledgement-SPO") {
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                        [
+                                            { name: "R_UUID", value: row.R_UUID },
+                                            { name: "V_UUID", value: row.V_UUID },
+                                            { name: "IsReadonly", value: true },
+                                            { name: "IsSPO", value: true },
+                                            { name: "TaskUserID", value: row.USER_ID }
+                                        ]);
+                                }
+
+
+                            } else if (row.TASK == "Verification" || row.TASK == "Rollbacked Verification") {
+                                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Verification",
+                                    [
+                                        { name: "R_UUID", value: row.R_UUID },
+                                        { name: "V_UUID", value: row.V_UUID },
+                                        { name: "TaskUserID", value: row.USER_ID }
+                                    ]);
+                            }
+
+                        }
+                        catch (err) {
+                        }
+                    }
+                }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("SubmissionCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                if (r.Total == 0)
+                    attr("SubmissionCount", "html", "0")
+                else
+                    attr("SubmissionCount", "html", r.Total);
+            }
+        });
+        attr("searchButton", "onclick", {
+            parameters: {}, callback: function () {
+                attr("countDiv", "dropClass", "hide");
+                attr("listDiv", "dropClass", "hide");
+                ComplaintList.search();
+                EnquiryList.search();
+                ModificationList.search();
+                DirectReturnList.search();
+                SubmissionList.search();
+            }
+        });
+    });
+</script>

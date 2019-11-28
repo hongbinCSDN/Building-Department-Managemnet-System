@@ -1,0 +1,86 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+<div class="displayForm">
+    @Html.HiddenFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.UUID)
+    <div class="panelHeader">
+        <label>Submission Information</label>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                MW No. :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Dropped/ withdrawn date:
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.DROPPED_WITHDRAWN_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Summon date :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.SUMMON_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Hearing date :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.HEARING_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Total fine :
+            </div>
+            <div class="w3-col l5 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.TOTAL_FINE)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Remarks :
+            </div>
+            <div class="w3-col l5 m12 s12">
+                @Html.TextAreaFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.REMARKS)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+
+            </div>
+            <div class="w3-col l9 m12 s12">
+                <label>@Html.RadioButtonFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.STATUS, "EBD", new { @class = "w3-radio" }) Case has been referred to EBD                    </label>
+                <label>@Html.RadioButtonFor(m => Model.P_MW_RECORD_REFERRED_TO_LSS_EBD.STATUS, "DISCIPLINARY", new { @class = "w3-radio" }) Disciplinary action has been instigated </label>
+            </div>
+        </div>
+    </div>
+
+</div>

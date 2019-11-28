@@ -1,0 +1,70 @@
+﻿@model MWMS2.Areas.Registration.Models.CompSearchModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">File Reference :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.FileRef)</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">BR Number :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.BrNo)</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Name :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.CompNameEng)</div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button id="createButton" class="btn btn-default w3-left" type="button"><i class="far fa-plus-square"></i> New Application</button>
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    attr("createButton", "onclick", {
+        callback: function (d, p, e) {
+            goTo("Edit", [{ name: "id", value: 0 }]);
+        }
+    });
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Edit", [{ name: "id", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "BR No.", columnName: "BR_NO" }
+                , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                , { displayName: "Date of Application", columnName: "APPLICATION_DATE" }
+                , { displayName: "Date of Gazette", columnName: "GAZETTE_DATE" }
+                , { displayName: "Date of Registration", columnName: "REGISTRATION_DATE" }
+                , { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+                , { displayName: "Date of Removal", columnName: "REMOVAL_DATE" }
+                , { displayName: "Date of Retention", columnName: "RETENTION_DATE" }
+                , { displayName: "Date of Restoration", columnName: "RESTORE_DATE" }
+
+
+            ]
+        });
+    });
+</script>

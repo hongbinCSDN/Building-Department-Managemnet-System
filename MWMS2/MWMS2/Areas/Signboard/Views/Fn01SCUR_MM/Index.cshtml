@@ -1,0 +1,85 @@
+﻿<div id="resultPanel">
+
+
+</div>
+<div class="w3-right">
+    <button id="searchBtn" class="searchButton btn btn-default" type="button" onclick="exportForExcel()"><i class="fa fa-print"></i> Export to xlsx</button>
+    <button id="searchBtn" class="searchButton btn btn-default" type="button" onclick="exportForMailMerge()"><i class="fa fa-print"></i> Export for Mail Merge</button>
+    <button id="searchBtn" class="searchButton btn btn-default" type="button" onclick="completeMailMerge()">Complete Mail Merge</button>
+</div>
+
+<script type="text/javascript">
+    var listofuuid = "";
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Selected", formater: function (row) {
+                        return createButton("No", null, [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    var div = document.getElementById("Selected" + row.ROWNUM);
+                                    var spans = div.getElementsByTagName("span");
+
+                                    for (i = 0; i < spans.length; i++) {
+                                        if (spans[i].innerHTML == '&nbsp;No') {
+                                            spans[i].innerHTML = '&nbsp;Yes';
+                                            div.value = row.UUID;
+                                            setA(row.UUID);
+                                        } else {
+                                            spans[i].innerHTML = '&nbsp;No';
+                                            div.value = "";
+                                            removeA(row.UUID);
+                                        }
+                                    }
+                                    //goTo("Edit", [{ name: "id", value: row.ROWNUM }]);
+                                }
+                            }
+                        }, { "id": "Selected" + row.ROWNUM }], "Selected" + row.ROWNUM);
+                    }
+                }
+                , {
+                    displayName: "Batch Number", columnName: "BATCHNO"
+                }
+                , {
+                    displayName: "Submission No.", columnName: "REFERENCENO"
+                }
+                , {
+                    displayName: "Form Code", columnName: "FORMCODE"
+                }
+                , {
+                    displayName: "Received Date", columnName: "RECEIVEDDATE"
+                }
+                , {
+                    displayName: "Validation Result", columnName: "VALIDATIONRESULT"
+                }
+                , {
+                    displayName: "Endorsement Date", columnName: "SPOENDORSEMENTDATE"
+                }
+                , {
+                    displayName: "Endorsed By", columnName: "ENDORSEDBY"
+                }
+            ]
+        }).goToPage();
+    });
+    var a = "";
+    function exportForExcel() {
+        goTo('exportForExcel', [{ name: "a", value: a }], true);
+    }
+    function exportForMailMerge() {
+        goTo('exportForMailMerge', [{ name: "a", value: a }], true);
+    }
+    function completeMailMerge() {
+        goTo('completeMailMerge', [{ name: "a", value: a }]);
+    }
+    function setA(b) {
+        a += b + ',';
+    }
+    function removeA(b) {
+        a = a.replace(b, '');
+    }
+</script>

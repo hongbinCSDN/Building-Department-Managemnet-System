@@ -1,0 +1,75 @@
+﻿@model MWMS2.Areas.Registration.Models.CompICModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Year :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Year, Model.yearList)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Interview Date :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.InterviewDate, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Group :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Group, Model.GroupList)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Type :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Type, Model.TypeICList_MW)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-container">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        @*<a href="http://localhost:50194" style="float:right">Back to Main Page</a>*@
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "MEETING_NUMBER"
+            , Columns: [
+                {
+                    displayName: "Meeting No", columnName: "MEETING_NUMBER"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                           // alert("Clicked Meeting Number  : " + row.MEETING_NUMBER);
+                            goTo("Form", [{ name: "id", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Interview Date", columnName: "INTERVIEW_DATE" }
+                , { displayName: "Session", columnName: "CODE" }
+                , { displayName: "Room", columnName: "ROOM" }
+                , { displayName: "Canceled", columnName: "IS_CANCELED" }
+
+            ]
+        });
+    });
+</script>
+

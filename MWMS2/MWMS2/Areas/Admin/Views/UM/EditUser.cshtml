@@ -1,0 +1,337 @@
+﻿
+@model  MWMS2.Areas.Admin.Models.Sys_UMModel
+
+<style type="text/css">
+    .inputPassword {
+        height: 40px;
+        margin: 1px 0px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 21px;
+        padding: 3px 5px;
+        background-image: linear-gradient(to bottom right, rgba(200, 200, 200, 0.5) 10%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+    }
+</style>
+@Html.HiddenFor(m => m.SYS_POST.SYS_RANK.RECVERSION)
+
+<div id="editForm" class="displayForm">
+
+    @Html.HiddenFor(m => m.SYS_POST.UUID)
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.BD_PORTAL_LOGIN):</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.BD_PORTAL_LOGIN,new { @class="inputUpperCase"})</div> <div class="w3-col l3 m6 s12">Password :</div>
+                <div class="w3-col l3 m6 s12">@Html.PasswordFor(m => m.SYS_POST.PW, new { @class = "inputPassword", @style = "width:49%", id = "pw1" })<input style="width:49%" class="inputPassword" type="password" name="Pw2" id="Pw2" value="" /><div id="pwErrorMsg" class="errorText"></div></div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.CODE)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.CODE , new { @class="inputUpperCase"})</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.EMAIL)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.EMAIL)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.SYS_UNIT_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.SYS_UNIT_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.SYS_RANK_ID)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.SYS_RANK_ID)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.PHONE)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.PHONE)</div>
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.FAX_NO)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.FAX_NO)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.DSMS_USERNAME)</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(m => m.SYS_POST.DSMS_USERNAME)</div>   <div class="w3-col l3 m6 s12">DSMS Password :</div>
+                <div class="w3-col l3 m6 s12">@Html.PasswordFor(m => m.SYS_POST.DSMS_PW, new { @class = "inputPassword", @style = "width:49%", id = "dsms_pw1" })<input style="width:49%" class="inputPassword" type="password" name="Dsms_pw2" id="Dsms_pw2" value="" /><div id="dsms_pwErrorMsg" class="errorText"></div></div>
+            </div>
+        </div>
+
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(m => m.SYS_POST.RECEIVE_CASE)</div>
+                <div class="w3-col l3 m6 s12">
+                    <label>@Html.RadioButtonFor(m => m.SYS_POST.RECEIVE_CASE, "Y", new { @class = "w3-radio", @checked = "checked" })Yes</label>
+                    <label>@Html.RadioButtonFor(m => m.SYS_POST.RECEIVE_CASE, "N", new { @class = "w3-radio" })No</label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Status :</div>
+                <div class="w3-col l3 m6 s12">
+                    <label>@Html.RadioButtonFor(m => m.SYS_POST.IS_ACTIVE, "Y", new { @class = "w3-radio", @checked = "checked" })Active</label>
+                    <label>@Html.RadioButtonFor(m => m.SYS_POST.IS_ACTIVE, "N", new { @class = "w3-radio" })Inactive</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <br />
+    <div id="tabbar1" class="hide">
+        <div>Role Assignment</div>
+        <div>Subordinate Member (For SCU Team)</div>
+        <div>Responsible Area (For SCU Team)</div>
+        <div>Subordinate Member (For Processing Enquiry)</div>
+    </div>
+
+    <div name="tabarea1" class="hide" id="postRole"></div>
+    <div name="tabarea1" class="hide" id="scuSubordinateMember"></div>
+    <div name="tabarea1" class="hide" id="scuResponsibleArea"></div>
+    <div name="tabarea1" class="hide" id="pemSubordinateMember"></div>
+
+
+
+    <br />
+    <div class="w3-container footer">
+        <button id="saveBtn" class="btn btn-default" type="button"><i class="fa fa-save"></i> Save</button>
+        <button id="cancelBtn" class="btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var scuSubordinateSearcher = null;
+    var scuResponsibleAreaSearcher = null;
+    var pemSubordinateSearcher = null;
+    domReady(function () {
+
+        var tabber1 = tabber({ tab: "tabbar1", area: "tabarea1" });
+        new atcp({
+            id: "SYS_POST_SYS_UNIT_ID", dataSource: "SysUnit", valueKey: "UUID", displayKey: "CODE"
+            , columns: [{ "name": "Section", "key": "SECTION" }, { "name": "Unit", "key": "CODE" }, { "name": "Description", "key": "DESCRIPTION" }]
+            , onSelect: function (row) {
+                var xxx = atcp.getValue("SYS_POST_SYS_RANK_ID");
+                console.log(xxx);
+                if (row.CODE == "SC") {
+
+                }
+            }
+        });
+        new atcp({
+            id: "SYS_POST_SYS_RANK_ID", dataSource: "SysRank", valueKey: "UUID", displayKey: "CODE"
+            , columns: [{ "name": "Rank", "key": "RANK_GROUP" }, { "name": "Rank", "key": "CODE" }, { "name": "Description", "key": "DESCRIPTION" }]
+        });
+
+        new searcher({
+            searchPath: "AjaxPostRole"
+            , searchTable: "SYS_POST_UUID"
+            , resultPanel: "postRole"
+            , Footer: false
+            , Columns: [
+                { displayName: "Role", columnName: "CODE" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+                , {
+                    displayName: "&nbsp;", formater: function (row, idx) {
+                        var r = dom("input", [{ type: "checkbox" }, { value: row.UUID }, { name: "SelectedRoles" }]);
+                        if (row.CHECKED == "Y") attr(r, "checked", true);
+                        return r;
+                    }
+                }
+            ]
+        }).search();
+
+        scuSubordinateSearcher = new searcher({
+            searchPath: "AjaxScuSubordinateMember"
+            , searchTable: "editForm"
+            , resultPanel: "scuSubordinateMember"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "Post", formater: function (row, idx) {
+                        return dom("input", [{ type: "text" }, { value: row.UUID }, { addClass: "ScuSubordinateMembers" }, { name: "ScuSubordinateMembers" }]);
+
+                    }, onAfterRender: function (dom, row, idx) {
+                        var item = dom.querySelectorAll(".ScuSubordinateMembers")[0];
+                        new atcp({
+                            id: item, dataSource: "AtcpScuSubordinateMembers", valueKey: "UUID", displayKey: "POST"
+                            , init: true
+                            , minWidth: 400
+                            , passElement: [{ name: "RECVERSION", id: "SYS_POST_SYS_RANK_RECVERSION" }]
+                            , mustMatch: true
+                            , columns: [{ "name": "Post", "key": "POST" }]
+                            , onSelect: function (row, idx, domObject, beforeValue, afterValue) {
+
+                                var ScuSubordinateMembers = domClass("ScuSubordinateMembers");
+                                if (ScuSubordinateMembers[ScuSubordinateMembers.length - 1].value != "") {
+                                    scuSubordinateSearcher.add({ "UUID": "", "POST": "" });
+                                }
+
+                                //console.log(beforeValue);
+                                //console.log(afterValue);
+                               /* if (beforeValue.display == "" && afterValue.display != "")
+                                    scuSubordinateSearcher.add({ "UUID": "", "POST": "" });
+                                else if (beforeValue.display != "" && afterValue.display == "") {
+                                    var i = domClassSeq(domObject.display, "ScuSubordinateMembers");
+                                    if (i >= 0)
+                                        scuSubordinateSearcher.remove(i);
+                                }*/
+                            }
+                        });
+                    }
+                }
+            ]
+        }).search();
+
+
+        //CHILD_POST
+        scuResponsibleAreaSearcher = new searcher({
+            searchPath: "AjaxScuResponsibleArea"
+            , searchTable: "editForm"
+            , resultPanel: "scuResponsibleArea"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "Area", formater: function (row, idx) {
+                        return dom("input", [{ type: "text" }, { value: row.AREA_CODE }, { addClass: "ScuResponsibleAreas" }, { name: "ScuResponsibleAreas" }]);
+                    }, onAfterRender: function (dom, row, idx) {
+                        var item = dom.querySelectorAll(".ScuResponsibleAreas")[0];
+                        new atcp({
+                            id: item, dataSource: "AtcpScuResponsibleAreas", valueKey: "AREA_CODE", displayKey: "AREA_DESC"
+                            , init: true
+                            , minWidth: 400
+                            //, passElement: [{ name: "RECVERSION", id: "SYS_POST_SYS_RANK_RECVERSION" }]
+                            , mustMatch: true
+                            , columns: [{ "name": "Area", "key": "AREA_DESC" }]
+                            , onSelect: function (row, idx, domObject, beforeValue, afterValue) {
+
+                                var ScuResponsibleAreas = domClass("ScuResponsibleAreas");
+                                if (ScuResponsibleAreas[ScuResponsibleAreas.length - 1].value != "") {
+                                    scuResponsibleAreaSearcher.add({ "UUID": "", "POST": "" });
+                                }
+                                
+                                /*
+                                if (beforeValue.display == "" && afterValue.display != "")
+                                    scuResponsibleAreaSearcher.add({ "AREA_CODE": "", "AREA_DESC": "" });
+                                else if (beforeValue.display != "" && afterValue.display == "") {
+                                    var i = domClassSeq(domObject.display, "ScuResponsibleAreas");
+                                    if (i >= 0)
+                                        scuResponsibleAreaSearcher.remove(i);
+                                }*/
+                            }
+                        });
+                    }
+                }
+            ]
+        }).search();
+
+
+
+
+        pemSubordinateSearcher = new searcher({
+            searchPath: "AjaxPemSubordinateMember"
+            , searchTable: "editForm"
+            , resultPanel: "pemSubordinateMember"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "Post", formater: function (row, idx) {
+                        return dom("input", [{ type: "text" }, { value: row.UUID }, { addClass: "PemSubordinateMembers" }, { name: "PemSubordinateMembers" }]);
+
+                    }, onAfterRender: function (dom, row, idx) {
+                        var item = dom.querySelectorAll(".PemSubordinateMembers")[0];
+                        new atcp({
+                            id: item, dataSource: "AtcpPemSubordinateMembers", valueKey: "UUID", displayKey: "POST"
+                            , init: true
+                            , minWidth: 400
+                            //, passElement: [{ name: "RECVERSION", id: "SYS_POST_SYS_RANK_RECVERSION" }]
+                            , mustMatch: true
+                            , columns: [{ "name": "Post", "key": "POST" }]
+                            , onSelect: function (row, idx, domObject, beforeValue, afterValue) {
+                                var PemSubordinateMembers = domClass("PemSubordinateMembers");
+                                if (PemSubordinateMembers[PemSubordinateMembers.length - 1].value != "") {
+                                    pemSubordinateSearcher.add({ "UUID": "", "POST": "" });
+                                }
+                            }
+                        });
+                    }
+                }
+            ]
+        }).search();
+
+
+        attr("cancelBtn", "onclick", { parameters: {}, callback: onCancel });
+        attr("saveBtn", "onclick", { parameters: {}, callback: savePost })
+    });
+
+    function onCancel() {
+        window.location.href = domId("rootPath").value + "/Admin/UM/Index";
+    };
+    function savePost() {
+        //var r = validForm();
+        //if (r) {
+        req("SaveUser", "editForm", function (data) {
+            console.log(data);
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+            else showErrorMessage(data.ErrorMessages);
+        });
+        //}
+    }
+    function validForm() {
+        var pw1, pw2, dsms_pw1, dsms_pw2;
+        pw1 = $("#pw1").val();
+        pw2 = $("#pw2").val();
+        dsms_pw1 = $("#dsms_pw1").val();
+        dsms_pw2 = $("#dsms_pw2").val();
+        if (!isNullOrUndefined(pw1)) {
+            if (!IsPWSame(pw1, pw2)) {
+                $("#pwErrorMsg").text("The Password is not the same.");
+                return false;
+            } else {
+                $("#pwErrorMsg").text("");
+            }
+        }
+
+        if (!isNullOrUndefined(dsms_pw1)) {
+            if (!IsPWSame(dsms_pw1, dsms_pw2)) {
+                $("#dsms_pwErrorMsg").text("The DSMS Password is not the same.");
+                return false;
+            } else {
+                $("#dsms_pwErrorMsg").text("");
+            }
+        }
+        return true;
+    }
+
+    function IsPWSame(pw1, pw2) {
+        if (pw1 === pw2) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
+    function isNullOrUndefined(val) {
+        if (val == null || val == undefined || val == "") {
+            return true;
+        }
+        return false;
+    }
+</script>

@@ -1,0 +1,543 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_StatisticsModel
+
+<style>
+    .displayForm > .w3-row > div {
+        border-width: 2px 1px 2px 1px;
+    }
+    .displayForm {
+        font-size: 17px;
+    }
+</style>
+
+<div id="PartialIncoming">
+    <div id="influxOperationPanel" class="displayForm">
+        <div class="w3-row w3-container">
+
+            @Html.Label(Model.DisplayMonth) @Html.Label(Model.Year)
+            @Html.DropDownList(Model.Month, new SelectList(Model.MonthList, "Value", "Text", Model.Month), new { @name = "selectMonth", @size = "1", @style = "max-width: 200px;", @id = "monthIncomingDropDownList" })
+            @Html.DropDownList(Model.Year, new SelectList(Model.YearList, "Value", "Text", Model.Year), new { @name = "selectYear", @size = "1", @style = "max-width: 200px;", @id = "yearIncomingDropDownList" })
+            <button class="searchButton btn btn-default" onclick="Go()">Go</button>
+            <button class="searchButton btn btn-default" onclick="PreviousNextMonth('P')"> &lt; Previous Month</button>
+            <button class="searchButton btn btn-default" onclick="PreviousNextMonth('N')">Next Month &gt;</button>
+            <button class="searchButton btn btn-default" onclick="PreviousNextMonth('T')">Today</button>
+        </div>
+    </div>
+    <div id="influxDataPanel" class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col w3-container" style="width:12.5%">Monday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Tuesday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Wednesday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Thursday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Friday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Saturday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Sunday</div>
+            <div class="w3-col w3-container" style="width:12.5%">Weekend</div>
+        </div>
+
+        @for (int i = 0; i < Model.IncomingModel.Count; i++)
+        {
+            <div class="w3-row">
+                @if (i == 0)
+                {
+                    for (int j = 0; j < Model.IncomingModel[i].IncomingModelList[0].WEEK_DAY - 1; j++)
+                    {
+                        <div class="w3-col w3-container" style="width:12.5%;">
+                            <div class="day-numbe data calendar-visibility-hidden">32</div>
+                            <table class="calendar-table calendar-visibility-hidden" cellpadding="0" cellspacing="0" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>rec</td>
+                                        <td>od</td>
+                                        <td>os</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PC</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KT</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WKGO</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ES</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr style="background: #ffffff;">
+                                        <td>TTL</td>
+                                        <td>
+                                            <a href="@Url.Action("Export","Fn01LM_Statistics")" onclick="exportData(1, 'T',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>D-Le</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'D',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ORe</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'O',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Audit</td>
+                                        <td colspan="3">
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'A', 0)">0</a>
+                                        </td>
+                                    </tr>
+                                    <tr><td>ICU</td><td colspan="3">0</td></tr>
+                                    <tr><td>CR:</td><td colspan="3">0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+
+
+                @for (int z = 0; z < Model.IncomingModel[i].IncomingModelList.Count; z++)
+                {
+                    if (Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString() == Model.CurrentTime.ToString())
+                    {
+                        <div class="w3-col w3-container" style="width:12.5%;background-color:#FFF0AC;">
+                            <div class="day-numbe data">
+                                @Html.Label(Model.IncomingModel[i].IncomingModelList[z].DAY.ToString())
+                            </div>
+                            <table class="calendar-table" cellpadding="0" cellspacing="0" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>rec</td>
+                                        <td>od</td>
+                                        <td>os</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PC</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KT</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WKGO</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_PEC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ES</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_OS.ToString())</td>
+                                    </tr>
+                                    <tr style="background: #ffffff;">
+                                        <td>TTL</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','T')">
+                                                @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_REC + Model.IncomingModel[i].IncomingModelList[z].KT_REC + Model.IncomingModel[i].IncomingModelList[z].ES_REC + Model.IncomingModel[i].IncomingModelList[z].WKGO_PEC).ToString())
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_OD + Model.IncomingModel[i].IncomingModelList[z].KT_OD + Model.IncomingModel[i].IncomingModelList[z].ES_OD + Model.IncomingModel[i].IncomingModelList[z].WKGO_OD).ToString())
+                                        </td>
+                                        <td>
+                                            @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_OS + Model.IncomingModel[i].IncomingModelList[z].KT_OS + Model.IncomingModel[i].IncomingModelList[z].ES_OS + Model.IncomingModel[i].IncomingModelList[z].WKGO_OS).ToString())
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>D-Le</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','D')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_REC.ToString())</a>
+                                        </td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ORe</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','O')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_REC.ToString())</a>
+                                        </td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Audit</td>
+                                        <td colspan="3">
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','A')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].AUDIT.ToString())</a>
+                                        </td>
+                                    </tr>
+                                    <tr><td>ICU</td><td colspan="3">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ICU.ToString())</td></tr>
+                                    <tr><td>CR:</td><td colspan="3">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].CR.ToString())</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="w3-col w3-container" style="width:12.5%;">
+                            <div class="day-numbe data">
+                                @Html.Label(Model.IncomingModel[i].IncomingModelList[z].DAY.ToString())
+                            </div>
+                            <table class="calendar-table" cellpadding="0" cellspacing="0" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>rec</td>
+                                        <td>od</td>
+                                        <td>os</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PC</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].PC_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KT</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].KT_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WKGO</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_PEC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].WKGO_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ES</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_REC.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ES_OS.ToString())</td>
+                                    </tr>
+                                    <tr style="background: #ffffff;">
+                                        <td>TTL</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','T')">
+                                                @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_REC + Model.IncomingModel[i].IncomingModelList[z].KT_REC + Model.IncomingModel[i].IncomingModelList[z].ES_REC + Model.IncomingModel[i].IncomingModelList[z].WKGO_PEC).ToString())
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_OD + Model.IncomingModel[i].IncomingModelList[z].KT_OD + Model.IncomingModel[i].IncomingModelList[z].ES_OD + Model.IncomingModel[i].IncomingModelList[z].WKGO_OD).ToString())
+                                        </td>
+                                        <td>
+                                            @Html.Label((Model.IncomingModel[i].IncomingModelList[z].PC_OS + Model.IncomingModel[i].IncomingModelList[z].KT_OS + Model.IncomingModel[i].IncomingModelList[z].ES_OS + Model.IncomingModel[i].IncomingModelList[z].WKGO_OS).ToString())
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>D-Le</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','D')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_REC.ToString())</a>
+                                        </td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].DL_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ORe</td>
+                                        <td>
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','O')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_REC.ToString())</a>
+                                        </td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_OD.ToString())</td>
+                                        <td>@Html.Label(Model.IncomingModel[i].IncomingModelList[z].OR_OS.ToString())</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Audit</td>
+                                        <td colspan="3">
+                                            <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingModel[i].IncomingModelList[z].RECEIVED_DATE.ToString()','Incoming','A')">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].AUDIT.ToString())</a>
+                                        </td>
+                                    </tr>
+                                    <tr><td>ICU</td><td colspan="3">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].ICU.ToString())</td></tr>
+                                    <tr><td>CR:</td><td colspan="3">@Html.Label(Model.IncomingModel[i].IncomingModelList[z].CR.ToString())</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                }
+
+                @if (Model.IncomingModel[i].IncomingModelList[Model.IncomingModel[i].IncomingModelList.Count - 1].WEEK_DAY != 7)
+                {
+                    for (int x = Model.IncomingModel[i].IncomingModelList[Model.IncomingModel[i].IncomingModelList.Count - 1].WEEK_DAY; x < 7; x++)
+                    {
+                        <div class="w3-col w3-container" style="width:12.5%;">
+                            <div class="day-numbe data calendar-visibility-hidden">32</div>
+                            <table class="calendar-table calendar-visibility-hidden" cellpadding="0" cellspacing="0" border="1">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>rec</td>
+                                        <td>od</td>
+                                        <td>os</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PC</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KT</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WKGO</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ES</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr style="background: #ffffff;">
+                                        <td>TTL</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'T',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>D-Le</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'D',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ORe</td>
+                                        <td>
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'O',0)">0</a>
+                                        </td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Audit</td>
+                                        <td colspan="3">
+                                            <a href="javascript:void(0)" onclick="exportData(1, 'A', 0)">0</a>
+                                        </td>
+                                    </tr>
+                                    <tr><td>ICU</td><td colspan="3">0</td></tr>
+                                    <tr><td>CR:</td><td colspan="3">0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+                <div class="w3-col w3-container" style="width:12.5%;">
+                    <div class="day-number data">Weekly Summary</div>
+                    <table class="calendar-table" cellpadding="0" cellspacing="0" border="1">
+                        <tbody>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>rec</td>
+                                <td>od</td>
+                                <td>os</td>
+                            </tr>
+                            <tr>
+                                <td>PC</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].PC_REC.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].PC_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].PC_OS.ToString())</td>
+                            </tr>
+                            <tr>
+                                <td>KT</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].KT_REC.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].KT_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].KT_OS.ToString())</td>
+                            </tr>
+                            <tr>
+                                <td>WKGO</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].WKGO_PEC.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].WKGO_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].WKGO_OS.ToString())</td>
+                            </tr>
+                            <tr>
+                                <td>ES</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].ES_REC.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].ES_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].ES_OS.ToString())</td>
+                            </tr>
+                            <tr style="background: #ffffff;">
+                                <td>TTL</td>
+                                <td>
+                                    <a class="export_button_a" href="javascript:void(0)" onclick="Export('@Model.IncomingWeeklySummaryModel[i].IncomingWeeklySummaryDateRange','Incoming','T')">
+                                        @Html.Label((Model.IncomingWeeklySummaryModel[i].PC_REC + Model.IncomingWeeklySummaryModel[i].KT_REC + Model.IncomingWeeklySummaryModel[i].WKGO_PEC + Model.IncomingWeeklySummaryModel[i].ES_REC + Model.IncomingWeeklySummaryModel[i].WKGO_PEC).ToString())
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.Label((Model.IncomingWeeklySummaryModel[i].PC_OD + Model.IncomingWeeklySummaryModel[i].KT_OD + Model.IncomingWeeklySummaryModel[i].WKGO_OD + Model.IncomingWeeklySummaryModel[i].ES_OD + Model.IncomingWeeklySummaryModel[i].WKGO_OD).ToString())
+                                </td>
+                                <td>
+                                    @Html.Label((Model.IncomingWeeklySummaryModel[i].PC_OS + Model.IncomingWeeklySummaryModel[i].KT_OS + Model.IncomingWeeklySummaryModel[i].WKGO_OS + Model.IncomingWeeklySummaryModel[i].ES_OS + Model.IncomingWeeklySummaryModel[i].WKGO_OS).ToString())
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D-Le</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="exportData(1, 'D',0)">@Html.Label(Model.IncomingWeeklySummaryModel[i].DL_REC.ToString())</a>
+                                </td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].DL_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].DL_OS.ToString())</td>
+                            </tr>
+                            <tr>
+                                <td>ORe</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="exportData(1, 'O',0)">@Html.Label(Model.IncomingWeeklySummaryModel[i].OR_REC.ToString())</a>
+                                </td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].OR_OD.ToString())</td>
+                                <td>@Html.Label(Model.IncomingWeeklySummaryModel[i].OR_OS.ToString())</td>
+                            </tr>
+                            <tr>
+                                <td>Audit</td>
+                                <td colspan="3">
+                                    <a href="javascript:void(0)" onclick="exportData(1, 'A', 0)">@Html.Label(Model.IncomingWeeklySummaryModel[i].AUDIT.ToString())</a>
+                                </td>
+                            </tr>
+                            <tr><td>ICU</td><td colspan="3">@Html.Label(Model.IncomingWeeklySummaryModel[i].ICU.ToString())</td></tr>
+                            <tr><td>CR:</td><td colspan="3">@Html.Label(Model.IncomingWeeklySummaryModel[i].CR.ToString())</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="influxResultPanel" class="displayForm">
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th class="w3-center">Form Type Received Nature IN ('SUBMISSION','E-SUBMISSION','DIRECT RETURN','REVISED CASE','WITHDRAWAL')</th>
+                        <th class="w3-center">No. of Submission</th>
+                        <th class="w3-center">No. of Audit Selected</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < @Model.TypeReceivedTableModel.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.Label(Model.TypeReceivedTableModel[i].FORM_NO)
+                            </td>
+                            <td>
+                                @Html.Label(Model.TypeReceivedTableModel[i].TOTAL_COUNT.ToString())
+                            </td>
+                            <td>
+                                @Html.Label(Model.TypeReceivedTableModel[i].AUDIT_COUNT.ToString())
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col" style="width:75%">
+                <div class="w3-container data">
+                    Total Selected / Total Submission
+                </div>
+            </div>
+            <div class="w3-col" style="width:25%">
+                <div class="w3-container data">
+                    @Html.Label(Model.TotalCountOfAuditSelected.ToString()) /
+                    <a href="javascript:void(0)" onclick="exportDataByDatePeriod('', 'T',0, '', 'Y')">@Html.Label(Model.TotalCountOfSubmission.ToString())</a>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col" style="width:75%">
+                <div class="w3-container data">
+                    Percentage
+                </div>
+            </div>
+            <div class="w3-col" style="width:25%">
+                <div class="w3-container data">
+                    @Html.Label(Model.PercentageOfSubmissionSelected, @String.Format("{0:N0}", Model.PercentageOfSubmissionSelected))%
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col" style="width:100%">
+                <div class="w3-container data">
+                    Accumulated Total No. of MW Submission
+                    (MW01, MW02, MW03, MW04, MW05, MW06,MW06-1,MW06-2,MW06-3, MW11 &amp; MW12)
+                    selected for audit in year <b>@Html.Label(Model.Year)</b> (as at @Html.Label(Model.CurrentTime.ToShortDateString())) : <b>@Html.Label(Model.AccumulatedTotalSubmission.ToString()) </b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Go() {
+        var month = document.getElementById("monthIncomingDropDownList").value;
+        var year = document.getElementById("yearIncomingDropDownList").value;
+
+        $.ajax({
+            url: "StatisticsIncoming"
+            , type: "POST"
+            , data: {
+                  Month: month
+                , Year: year
+                , View:'Incoming'
+            }
+            , beforeSend: function () {
+                attr("influx", "html", "Loading...")
+            }
+            , success: function (data) {
+                $("#influx").html(data);
+            }
+        })
+    }
+
+    function PreviousNextMonth(type) {
+        $.ajax({
+            url: type == 'P' ? "PreviousMonth" : type == 'N' ? "NextMonth" : "StatisticsIncoming"
+            , type: "POST"
+            , data: type == 'T' ? {
+                View:"Incoming"
+            } : {
+                Month: '@Model.Month'
+                , Year: '@Model.Year'
+                , View:'Incoming'
+            }
+            , beforeSend: function () {
+                attr("influx", "html", "Loading...")
+            }
+            , success: function (data) {
+                $("#influx").html(data);
+            }
+        })
+    }
+
+</script>

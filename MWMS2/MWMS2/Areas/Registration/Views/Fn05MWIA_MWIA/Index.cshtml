@@ -1,0 +1,146 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn05MWIA_MWIASearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">File Reference :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.FileRef)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.HKID)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Passport No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.PassportNo)
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Surname)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.ChiName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {<button class="newButton btn btn-default w3-left" onclick="NewApplication()" type="button"><i class="far fa-plus-square"></i> New Application</button>}
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+
+    </div>
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        function NewApplication() {
+            goTo("Form");
+        }
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: "File Ref.", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+                    //, { displayName: "HKID / Passport No.", columnName: "HKIDPASSPORT" }
+
+                    , {
+                        displayName: "HKID / Passport No.", formater: function (row) {
+
+                            console.log(row);
+                            var HKIDPASSPORT = row.HKIDPASSPORT;
+                            var HKID = row.HKID;
+                            var PASSPORT = row.PASSPORT_NO;
+                            var span = dom("span");
+                            var textSpan = dom_(span, "span", [{ "html": HKIDPASSPORT }]);
+
+                            var button = createButton("", "fa-search", [{
+                                "onclick": {
+                                    parameters: { HKID: HKID, PASSPORT: PASSPORT == null ? null : PASSPORT }, callback: function (d, p, e) {
+
+                                        goTo("PopupHKIDDetails", [{ name: "HKID", value: p.HKID }, { name: "PASSPORT", value: p.PASSPORT }], true);
+                                    }
+                                }
+                            }]);
+                            span.appendChild(button);
+                            return span;
+
+                        }
+                    }
+                    , { displayName: "Name", columnName: "NAME" }
+
+                    , { displayName: "Chinese Name", columnName: "CHINESE_NAME" }
+                    , { displayName: "Date of Application", columnName: "APPLICATION_DATE" }
+                    , { displayName: "Date of Gazette", columnName: "GAZETTE_DATE" }
+                    , { displayName: "Date of Registration", columnName: "REGISTRATION_DATE" }
+                    , { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+                    , { displayName: "Date of Removal", columnName: "REMOVAL_DATE" }
+                    , { displayName: "Date of Retention", columnName: "RETENTION_DATE" }
+                    , { displayName: "Date of Restoration", columnName: "RESTORE_DATE" }
+                ]
+            });
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

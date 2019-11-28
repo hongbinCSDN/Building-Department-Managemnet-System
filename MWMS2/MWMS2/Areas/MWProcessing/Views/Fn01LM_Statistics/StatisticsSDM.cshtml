@@ -1,0 +1,708 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_StatisticsModel
+<div id="PartialSDM">
+    
+    <div id="sdmOperationPanel" class="displayForm">
+        <!--
+        <div class="w3-row  right">
+            From
+            @Html.TextBoxFor(m => m.SSRModel.ReceivedDateFrom, new { @class = "inputDate", @name = "sdmFromDate",@id= "receivedDateFrom" })
+            To
+            @Html.TextBoxFor(m => m.SSRModel.ReceivedDateTo, new { @class = "inputDate", @name = "sdmToDate",@id= "receivedDateTo" })
+            <button id="SearchStatisticsSDMBtn" class="searchButton btn btn-default" onclick="SearchStatisticsSDM()">Submit</button>
+            <button class="searchButton btn btn-default"> Freeze </button>
+        </div>
+        <div class="w3-row w3-container">
+            <span>Last freezing</span>
+            <select name="selectFreeze" size="1" style="max-width: 200px;">
+                <option value="value">- Select -</option>
+            </select>
+            <button class="searchButton btn btn-default">Load</button>
+            <button class="searchButton btn btn-default">Export Frozen Data</button>
+            <button class="searchButton btn btn-default">Archive</button>
+        </div>
+        -->
+    </div>
+    <div class="data" style="background-color:white;">
+        <!--
+        <br />
+        -->
+    </div>
+    <div id="sdmMidPart" class="displayForm">
+        <div class="w3-row w3-container">
+            From @Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo
+            <span style="color:#FF2200">(timelog as at 28/8/2017 15:01:05 )</span>,
+            the breakdown of MW submissions received are as follows:-
+        </div>
+        <div class="w3-row w3-container">
+            C1.1.1 MW Submission
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable" >
+                <thead>
+                    <tr>
+                        <th class="w3-center">Period (Receipt Date)</th>
+                        <th class="w3-center">Received</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.SubmissionList.Count(); i++)
+                    {
+                        <tr>
+                            <td>1/1/@Html.Label(Model.SubmissionList[i].CODE) - 31/12/@Html.Label(Model.SubmissionList[i].CODE)</td>
+                            <td>@Html.Label(Model.SubmissionList[i].DESCRIPTION)</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr style="background-color:#dedede;">
+                        <td colspan="2">
+                            <span class="w3-right">
+                                Clearance of backlog submissions received in 2013 or before have been completed.
+                            </span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th class="w3-center">Period (Receipt Date)</th>
+                        <th class="w3-center">Received</th>
+                        <th class="w3-center">Acknowledged(over counter)</th>
+                        <th class="w3-center">Acknowledged(by fax)</th>
+                        <th class="w3-center">Returned by fax<sup>Note 1</sup></th>
+                        <th class="w3-center">Returned over counter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.Label(Model.SSRModel.ReceivedDateFrom) - @Html.Label(Model.SSRModel.ReceivedDateTo)</td>
+                        <td>
+                            @Html.Label(Model.ReceivedCount.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.AcknowledgedOverCounter.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.AcknowledgedByFax.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.ReturnedByFaxNote.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.ReturnedOverCounter.ToString())
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Weekly average [ @Html.Label(Model.WeeklyAverage.ToString()) days ]</td>
+                        <td>
+                            @Html.Label(Model.ReceivedWeekly.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.AcknowledgedOverCounterWeekly.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.AcknowledgedByFaxWeekly.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.ReturnedByFaxNoteWeekly.ToString())
+                        </td>
+                        <td>
+                            @Html.Label(Model.ReturnedOverCounterWeekly.ToString())
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="w3-row ">
+            <div class="w3-col w3-container l2 m2 s2">
+                C1.1.2
+                <br /><br />
+            </div>
+            <div class="w3-col w3-container l8 m8 s8">
+                No. of Submissions related to Order/Notice/Directions<sup>Note 2</sup> received<br>
+                in the period from @Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo
+            </div>
+            <div class="w3-col w3-container l2 m2 s2">
+                @Html.Label(Model.C112Value.ToString()) &nbsp;( @Html.Label(Model.C112Percent.ToString(), @String.Format("{0:N0}", Model.C112Percent.ToString()))%)
+                <br /><br />
+            </div>
+        </div>
+        <div class="w3-row"></div>
+        <div class="w3-row ">
+            <div class="w3-col w3-container l2 m2 s2">
+                C1.1.3
+                <br /><br />
+            </div>
+            <div class="w3-col w3-container l8 m8 s8">
+                Ratio of Class I, II, III Submissions<sup>Note 3</sup>
+                received
+                <br>in the period from @Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo
+            </div>
+            <div class="w3-col w3-container l2 m2 s2">
+                @Model.C113Class1 : @Model.C113Class2 : @Model.C113Class3
+                <br /><br />
+            </div>
+        </div>
+        <div class="w3-row"></div>
+        <div class="w3-row ">
+            <div class="w3-col w3-container l2 m2 s2">
+                C1.1.4
+            </div>
+            <div class="w3-col w3-container l10 m10 s10">
+                Validation Scheme - Household MW
+            </div>
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th class="w3-center">Period (Receipt Date)</th>
+                        <th class="w3-center">No. of Structures Validated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.SDMValidationSchemeModel.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.SDMValidationSchemeModel[i].Period</td>
+                            <td>@Model.SDMValidationSchemeModel[i].NoOfStructiresValidated</td>
+                        </tr>
+                    }
+
+
+                    <tr>
+                        <td>Total</td>
+                        <td>
+                            @Model.SDMValidationSchemeModel.Select(s => s.NoOfStructiresValidated).Sum()
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panelHeader">
+            C1.1.5 MW Submissions Related to Particular MW Items
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="w3-center" style="vertical-align: middle;">MW Items</th>
+                        <th colspan="8" style="font-weight:bold; text-align:center">No. of Submissions</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" class="w3-center" style="width:13%;">Aug to Dec 2013</th>
+
+                        <th colspan="2" class="w3-center" style="width:13%;">2014-01-01 -<br>2014-12-31</th>
+
+                        <th colspan="2" class="w3-center" style="width:13%;">2015-01-01 -<br>2015-12-31</th>
+
+                        <th colspan="2" class="w3-center" style="width:13%;">@Model.SSRModel.ReceivedDateFrom -<br>@Model.SSRModel.ReceivedDateTo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Windows (MW Items 2.8, 2.9, 3.6 &amp; 3.7)
+                        </td>
+                        <td>
+                            10,958
+                        </td>
+                        <td>(35%)</td>
+
+
+                        <td>
+                            32,027
+                        </td>
+                        <td>(30%)</td>
+
+                        <td>
+                            18,244
+                        </td>
+                        <td>(19%)</td>
+
+
+                        <td>
+                            @Model.SDMParticularItemModel.WindowsSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.WindowsSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                    <tr>
+                        <td>Rendering &amp; Tiling (MW Items 2.34)</td>
+                        <td>
+                            6,478
+                        </td>
+                        <td>(21%)</td>
+
+
+                        <td>
+                            24,302
+                        </td>
+                        <td>(23%)</td>
+
+                        <td>
+                            23,701
+                        </td>
+                        <td>(24%)</td>
+
+
+                        <td>
+                            @Model.SDMParticularItemModel.RenderingSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.RenderingSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                    <tr>
+                        <td>Repair of Structural Element (MW Items 1.17 &amp; 2.17)</td>
+                        <td>
+                            2,392
+                        </td>
+                        <td>(8%)</td>
+
+
+                        <td>
+                            11,348
+                        </td>
+                        <td>(11%)</td>
+
+                        <td>
+                            15,822
+                        </td>
+                        <td>(16%)</td>
+
+
+                        <td>
+                            @Model.SDMParticularItemModel.RepairSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.RepairSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                    <tr>
+                        <td>Aboveground Drainage (MW Items 2.30, 3.23 &amp; 3.24)</td>
+                        <td>
+                            2,545
+                        </td>
+                        <td>(8%)</td>
+
+
+                        <td>
+                            10,104
+                        </td>
+                        <td>(9%)</td>
+
+                        <td>
+                            13,095
+                        </td>
+                        <td>(13%)</td>
+
+
+                        <td>
+                            @Model.SDMParticularItemModel.AbovegroudDrainageSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.AbovegroudDrainageSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                    <tr>
+                        <td>A/C Supporting Frame (MW Items 1.28, 1.29, 3.27 &amp; 3.28)</td>
+                        <td>
+                            4,293
+                        </td>
+                        <td>(14%)</td>
+
+                        <td>
+                            9,934
+                        </td>
+                        <td>(9%)</td>
+
+                        <td>
+                            8,756
+                        </td>
+                        <td>(9%)</td>
+
+                        <td>
+                            @Model.SDMParticularItemModel.AcSupportingFrameSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.AcSupportingFrameSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                    <tr>
+                        <td>Drying Rack (MW Items 3.29 &amp; 3.30)</td>
+                        <td>
+                            0
+                        </td>
+                        <td>(0%)</td>
+
+                        <td>
+                            287
+                        </td>
+                        <td>(0.3%)</td>
+
+                        <td>
+                            348
+                        </td>
+                        <td>(0.4%)</td>
+
+                        <td>
+                            @Model.SDMParticularItemModel.DryingRackSubmission.ToString()
+                        </td>
+                        <td>
+                            (@(Math.Round(Model.SDMParticularItemModel.DryingRackSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Canopy (MW Items 1.27 &amp; 3.25)</td>
+                        <td>
+                            0
+                        </td>
+                        <td>(0%)</td>
+
+                        <td>
+                            589
+                        </td>
+                        <td>(0.6%)</td>
+
+                        <td>
+                            499
+                        </td>
+                        <td>(0.5%)</td>
+
+                        <td>
+                            @Model.SDMParticularItemModel.CanopySubmission.ToString()
+                        </td>
+                        <td>
+                            (@(Math.Round(Model.SDMParticularItemModel.CanopySubmission * 100 / Model.TotalSDMParticularItem, 2) )%)
+                        </td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th rowspan="2">&nbsp;</th>
+                        <th class="w3-center" colspan="2">Oct 2012 to Dec 2013</th>
+
+                        <th class="w3-center" colspan="2">2014-01-01 -<br>2014-12-31</th>
+
+                        <th class="w3-center" colspan="2">2015-01-01 -<br>2015-12-31</th>
+
+                        <th class="w3-center" colspan="2">1/1/2018 to -<br> 20/11/2018</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SDF (MW Items 1.41 to 1.44, 3.39 to 3.42)</td>
+                        <td>
+                            2,489
+                        </td>
+                        <td></td>
+
+                        <td>
+                            3,606
+                        </td>
+                        <td>(3%)</td>
+
+                        <td>
+                            4,064
+                        </td>
+                        <td>(4%)</td>
+
+                        <td>
+                            @Model.SDMParticularItemModel.SdfSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.SdfSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Signboard Related (MW Items 1.20 to 1.24, 2.18 to 2.27, 3.16 to 3.22)</td>
+                        <td>N/A</td>
+                        <td></td>
+
+                        <td>
+                            5,001
+                        </td>
+                        <td>(5%)</td>
+
+                        <td>
+                            5,712
+                        </td>
+                        <td>(6%)</td>
+
+                        <td>
+                            @Model.SDMParticularItemModel.SignboardRelatedSubmission.ToString()
+                        </td>
+                        <td>(@(Math.Round(Model.SDMParticularItemModel.SignboardRelatedSubmission * 100 / Model.TotalSDMParticularItem, 2) )%)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Individual MW / PBBW Item No.</th>
+                        <th colspan="2">No of Submissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" style="max-width:200px;" name="sdmReportData.searchMwItemNo" value="">
+                            <input class="inputButton" type="button" value="Search" onclick="searchReportSDM()">
+                            <input class="inputButton" type="button" id="" name="" value="Export" onclick="exportStatisticsSDM()">
+                        </td>
+                        <td><label id="">0</label></td>
+                        <td>(<label id="">0</label>%)</td>
+                    </tr>
+                </tbody>
+            </table>
+            -->
+        </div>
+
+        <div class="w3-row">
+            <div class="panelHeader">
+                C1.1.6 Number of audited MW Submissions invoiving irregularities that require site retification<sup>Note 3</sup>
+            </div>
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th class="w3-center">Period (Receipt Date)</th>
+                        <th class="w3-center">No. of Submission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.RectificationNote3Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model.RectificationNote3Model[i].PeriodYear-01-01 - @Model.RectificationNote3Model[i].PeriodYear-12-31</td>
+                            <td>@Model.RectificationNote3Model[i].Count.ToString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="w3-col w3-container l2 m2 s2">
+                Note 1
+            </div>
+            <div class="w3-col w3-container l10 m10 s10">
+                Submissions that were returned by fax as they failed the screening check.
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col w3-container l2 m2 s2">
+                Note 2
+            </div>
+            <div class="w3-col w3-container l10 m10 s10">
+                Submissions related to Order, Notice, Direction, etc. and passed to EBD, MBID or SBCU.
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col w3-container l2 m2 s2">
+                Note 3
+                <br /><br />
+            </div>
+            <div class="w3-col w3-container l10 m10 s10">
+                Class I includes Form MW01, MW02 and MW11; Class II includes Form MW03, MW04 and MW12; Class III includes Form MW05,MW06,MW06-1,MW06-2,MW06-3.
+            </div>
+        </div>
+        <div class="panelHeader">
+            Statistics about e-form submission (From 2014-01-01 to 2014-12-31)
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="1" width="300" class="w3-center">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms with 100% typed</th>
+                        <th colspan="1" class="w3-center">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kwun Tong</td>
+                        <td>3,090</td>
+                        <td>60,648</td>
+                    </tr>
+                    <tr>
+                        <td>Pioneer Centre</td>
+                        <td>1,639</td>
+                        <td>40,739</td>
+                    </tr>
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                            * Statistics of Barcode Forms with 100% typed are only available from 2014-07-10.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                            ** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="1" width="300" class="w3-center">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms</th>
+                        <th colspan="1" class="w3-center">>Non-Barcode Forms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>E-counter via e-mail</td>
+                        <td>278</td>
+                        <td>435</td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+                        <td>5,007</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panelHeader">
+            Statistics about e-form submission (From 2015-01-01 to 2015-12-31)
+            <div id="refTable"></div>
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="1" width="300" class="w3-center">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms with 100% typed</th>
+                        <th colspan="1" class="w3-center">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kwun Tong</td>
+                        <td>3,090</td>
+                        <td>60,648</td>
+                    </tr>
+                    <tr>
+                        <td>Pioneer Centre</td>
+                        <td>1,639</td>
+                        <td>40,739</td>
+                    </tr>
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                            * Statistics of Barcode Forms with 100% typed are only available from 2014-07-10.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">
+                            ** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="1" width="300" class="w3-center">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms</th>
+                        <th colspan="1" class="w3-center">>Non-Barcode Forms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>E-counter via e-mail</td>
+                        <td>278</td>
+                        <td>435</td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+                        <td>5,007</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="data" style="background-color:white;">
+            <br />
+        </div>
+        <div class="panelHeader">
+            Statistics about e-form submission (From @Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo)
+        </div>
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" width="300" class="w3-center" style="vertical-align: middle;">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms with 100% typed</th>
+                        <th colspan="1" class="w3-center">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                    </tr>
+                    <tr>
+                        <th class="w3-center">@Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo</th>
+                        <th class="w3-center">@Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kwun Tong</td>
+                        <td>@Model.KtBarCode&nbsp;&nbsp;&nbsp;</td>
+                        <td>@Model.KtNonBarCode&nbsp;&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr>
+                        <td>Pioneer Centre</td>
+                        <td>@Model.PcBarCode&nbsp;&nbsp;&nbsp;</td>
+                        <td>@Model.PcNonBarCode&nbsp;&nbsp;&nbsp;</td>
+
+                    </tr>
+                    <tr><td style="font-style:italic; font-size: 12px; padding:2px; text-align:left" colspan="3">** There may be 1 to 2 days time lapse for update of submissions received at Pioneer Centre.</td></tr>
+                </tbody>
+            </table>
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" width="300" class="w3-center" style="vertical-align: middle;">Counter</th>
+                        <th colspan="1" class="w3-center">Barcode Forms with 100% typed</th>
+                        <th colspan="1" class="w3-center">Barcode Forms not 100% typed,<br>or Non-barcode Forms</th>
+                    </tr>
+                    <tr>
+                        <th class="w3-center">@Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo</th>
+                        <th class="w3-center">@Model.SSRModel.ReceivedDateFrom to @Model.SSRModel.ReceivedDateTo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>e-counter via e-mail</td>
+                        <td>@Model.EcBarCode&nbsp;&nbsp;&nbsp;</td>
+                        <td>@Model.EcNonBarCode&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>WKGO</td>
+                        <td>@Model.WKGOBarCode&nbsp;&nbsp;&nbsp;</td>
+                        <td>@Model.WKGONonBarCode&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="font-style:italic; font-size: 12px; padding:2px; text-align:left">Total No. of Submissions (Fully Typed Barcode Form):</td>
+                        <td>@Model.ReceivedCount&nbsp;&nbsp;&nbsp;(@Math.Round(Convert.ToDouble(Model.KtBarCode + Model.PcBarCode + Model.EcBarCode + Model.WKGOBarCode) / @Convert.ToDouble(Model.ReceivedCount) * 100, 2) %)</td>
+                        <td></td>
+                    </tr>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+
+
+<script>
+    function SearchStatisticsSDM() {
+        
+        var receivedDateFrom = document.getElementById("receivedDateFrom").value;
+        var receivedDateTo = document.getElementById("receivedDateTo").value;
+        $.ajax({
+            url: "StatisticsSDM",
+            type: "POST",
+            data: {
+                SSRModel: { ReceivedDateFrom: receivedDateFrom,
+                            ReceivedDateTo: receivedDateTo }
+            }
+            , beforeSend: function () {
+                attr("PartialSDM", "html", "Loading...")
+            }
+            , success: function (data) {
+                $("#PartialSDM").html(data);
+            }
+        })
+    }
+</script>

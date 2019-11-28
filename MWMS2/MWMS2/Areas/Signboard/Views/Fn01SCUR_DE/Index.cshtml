@@ -1,0 +1,69 @@
+﻿
+
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">No of Outstanding :	</div>
+            <div class="w3-col l6 m12 s12">
+                35
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission No. :	</div>
+            <div class="w3-col l6 m12 s12">
+                From <input type="text" class="inputDate" /> To<input type="text" class="inputDate" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">SCU Received Date :	</div>
+            <div class="w3-col l6 m12 s12">
+                From <input type="text" class="inputDate" /> To<input type="text" class="inputDate" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :	</div>
+            <div class="w3-col l6 m12 s12">
+                <select >
+                    <option>All</option>
+
+                    <option >Delivered</option>
+
+                    <option >Draft</option>
+                </select>     
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Generate</button>
+
+    </div>
+
+</div>
+
+    <div id="resultPanel">
+
+
+    </div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>

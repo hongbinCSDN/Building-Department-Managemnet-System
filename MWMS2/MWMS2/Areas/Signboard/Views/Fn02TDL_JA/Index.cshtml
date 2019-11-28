@@ -1,0 +1,158 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_JADisplayModel
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setToSelectedValue();
+            setPoSelectedValue();
+            setSpoSelectedValue();
+        });
+
+        function setToSelectedValue() {
+            var toSelects = $(".toUser");
+            var toUserIds = $(".ToUserId");
+            for (var i = 0; i < toSelects.length; i++) {
+                for (var j = 0; j < toSelects[i].options.length; j++) {
+                    var option = $(".toUser")[i].options[j];
+                    if (option.value == toUserIds[i].innerHTML) {
+                        console.log(i + ": " + option.value + " vs " + toSelects[i].value);
+                        option.selected = true;
+                    }
+                }
+            }
+        }
+
+        function setPoSelectedValue() {
+            var poSelects = $(".poUser");
+            var poUserIds = $(".PoUserId");
+            for (var i = 0; i < poSelects.length; i++) {
+                for (var j = 0; j < poSelects[i].options.length; j++) {
+                    var option = $(".poUser")[i].options[j];
+                    if (option.value == poUserIds[i].innerHTML) {
+                        option.selected = true;
+                    }
+                }
+            }
+        }
+
+        function setSpoSelectedValue() {
+            var spoSelects = $(".spoUser");
+            var spoUserIds = $(".SpoUserId");
+            for (var i = 0; i < spoSelects.length; i++) {
+                for (var j = 0; j < spoSelects[i].options.length; j++) {
+                    var option = $(".spoUser")[i].options[j];
+                    if (option.value == spoUserIds[i].innerHTML) {
+                        option.selected = true;
+                    }
+                }
+            }
+        }
+
+        function onSubmit() {
+            thisForm = document.getElementById('taskForm');
+            thisForm.action = "Save";
+            $("#SaveMode")[0].value = '@ViewBag.SUBMIT_MODE';
+            thisForm.btnSubmit.disabled = true;
+            thisForm.btnSave.disabled = true;
+            thisForm.submit();
+        }
+
+        function onSave() {
+            thisForm = document.getElementById('taskForm');
+            thisForm.action = "Save";
+            $("#SaveMode")[0].value = '@ViewBag.SAVE_MODE';
+            thisForm.btnSubmit.disabled = true;
+            thisForm.btnSave.disabled = true;
+            thisForm.submit();
+        }
+
+    </script>
+}
+
+<div class="sList w3-border displayForm">
+    <div class="panelHeader">Current Jobs for Users</div>
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th style="width: 28%">User</th>
+                <th style="width: 18%">Validation</th>
+                <th style="width: 18%">Audit</th>
+                @*<th style="width: 18%">S24 Order</th>
+                <th style="width: 18%">Report to SCU</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.CurrentUserCountList != null && Model.CurrentUserCountList.Count() > 0)
+            {
+                foreach (var item in Model.CurrentUserCountList)
+                {
+                    <tr>
+                        <td>@item[1]</td>
+                        <td>@item[3]</td>
+                        <td>@item[4]</td>
+                        @*<td>@item[6]</td>
+                        <td>@item[7]</td>*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+@using (Html.BeginForm("Save", "Fn02TDL_JA", FormMethod.Post, new { @id = "taskForm", enctype = "multipart /form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.SaveMode)
+    @Html.HiddenFor(model => model.ResultList.Count, new { @Name = "ResultListSize", @id = "resultListSize" })
+
+<div class="sList w3-border displayForm" style="overflow-x:auto">
+    <div class="panelHeader">Jobs To Be Assigned</div>
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th>Submission No</th>
+                <th>Form Code</th>
+                <th>Received Date</th>
+                <th>Signboard PAW</th>
+                <th>Signboard Information</th>
+                <th>Manual Submit</th>
+                <th>TO Level</th>
+                <th>PO Level</th>
+                <th>SPO Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ResultList != null && Model.ResultList.Count() > 0)
+            {
+                foreach (var item in Model.ResultList)
+                {
+                    <tr>
+                        <td style="display:none;">@item.Uuid</td>
+                        <td style="display:none;">@Html.TextBoxFor(model => model.UuidList[item.Uuid])</td>
+                        <td>@item.FileRefNo</td>
+                        <td>@item.FormCode</td>
+                        <td>@item.ReceivedDate</td>
+                        <td>@item.PawName</td>
+                        <td>@item.SignBoardDescription</td>
+                        <td>@item.SpoAssignment</td>
+                        <td class="ToUserId" style="display:none;">@item.ToUserID</td>
+                        <td class="PoUserId" style="display:none;">@item.PoUserID</td>
+                        <td class="SpoUserId" style="display:none;">@item.SpoUserID</td>
+                        <td>@Html.DropDownListFor(model => model.ToUserId[item.Uuid], Model.ToLookUpList, new { @class = "form-control toUser", @id = "ToUserId:" + item.Uuid, @value = Model.ToUserId[item.Uuid] })</td>
+                        <td>@Html.DropDownListFor(model => model.PoUserId[item.Uuid], Model.PoLookUpList, new { @class = "form-control poUser", @id = "PoUserId:" + item.Uuid, @value = Model.PoUserId[item.Uuid] })</td>
+                        <td>@Html.DropDownListFor(model => model.SpoUserId[item.Uuid], Model.SpoLookUpList, new { @class = "form-control spoUser", @id = "SpoUserId:" + item.Uuid, @value = Model.SpoUserId[item.Uuid] })</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="w3-container footer">
+        <input class="btn btn-default inputButton" id="btnSubmit" name="btnSubmit" value="Submit" onclick="onSubmit()" type="button">
+        @*<input class="btn btn-default inputButton" id="btnSave" name="btnSave" value="Save" onclick="onSave()" type="button">*@
+        <button onclick="onSave()"id="btnSave" name="btnSave" class="btn btn-default inputButton" type="button"><i class="fa fa-save"></i> Save</button>
+
+    </div>
+</div>
+}

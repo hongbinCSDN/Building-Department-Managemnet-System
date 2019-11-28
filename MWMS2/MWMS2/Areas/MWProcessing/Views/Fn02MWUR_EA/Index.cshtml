@@ -1,0 +1,188 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_EASearchModel
+
+<div id="searchCriteria" class="displayForm">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">EFSS Submission No.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.EfssNo)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Status.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Status, Model.StatusList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Reference No.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.MwNo)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">EFSS Status.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.EfssStatus, Model.EfssStatusList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">DSN No.: </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.DSN)
+            </div>
+        </div>
+    </div>
+    <div class="displayForm">
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+</div>
+
+<form id="appForm">
+    <div id="resultPanel">
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "EFSS_ID"
+            , Columns: [
+                { displayName: "EFSS Submission No.", columnName: "EFSS_SUBMISSIONNO" },
+                { displayName: "File Reference (4+2)", columnName: "EFSS_FOURPLUSTWO" },
+                { displayName: "Form No.", columnName: "FORM_CODE" },
+                {
+                    displayName: "Submission No.",
+                    formater: function (row) {
+                        console.log("map: " + row.MAP_MW_SUBMISSION);
+                        if (row.EFSS_STATUS != "R") { // not for direct return, i.e. ACK
+                            if (row.FORM_CODE == "MW01" || row.FORM_CODE == "MW03" || row.FORM_CODE == "MW05" || row.FORM_CODE == "MW32" || row.FORM_CODE == "MW06") { // disable input
+                                var input = dom("input");
+                                attr(input, "type", "text");
+                                attr(input, "value", row.MAP_MW_SUBMISSION);
+                                attr(input, "disabled", "true");
+                                attr(input, "style", "border: none; border-color: transparent; background: none; color: black; font-size: 18px;");
+                                return input;
+                            }
+                            else if (row.FORM_CODE != "MW01" && row.FORM_CODE != "MW03" && row.FORM_CODE != "MW05" && row.FORM_CODE != "MW32" && row.FORM_CODE != "MW06" && row.MAP_MW_SUBMISSION == null) { // enable input
+                                var input = dom("input");
+                                attr(input, "type", "text");
+                                attr(input, "id", "mw_no:" + row.EFSS_ID);
+                                var span = dom("span");
+                                var div = dom("div");
+                                attr(div, "style", "color: red");
+                                attr(div, "id", "ErrMsg:" + row.EFSS_ID);
+                                span.appendChild(input);
+                                span.appendChild(div);
+                                return span;
+                            }
+                            else if (row.FORM_CODE != "MW01" && row.FORM_CODE != "MW03" && row.FORM_CODE != "MW05" && row.FORM_CODE != "MW32" && row.MAP_MW_SUBMISSION != null) { // assigned -> disable input
+                                console.log("disable");
+                                var input = dom("input");
+                                attr(input, "type", "text");
+                                attr(input, "value", row.MAP_MW_SUBMISSION);
+                                attr(input, "disabled", "true");
+                                attr(input, "style", "border: none; border-color: transparent; background: none; color: black; font-size: 18px;");
+                                return input;
+                            }
+                        }
+                    }
+                },
+                { displayName: "DSN No.", columnName: "MAP_DSN" },
+                {
+                    displayName: "",
+                    formater: function (row) {
+                        if (row.EFSS_STATUS == "ACK") {
+                            var button = createButton("Ack Letter", "fa-edit", [{
+                                "onclick": {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        if (row == null) return;
+                                        onSubmitForm(row.EFSS_ID, row.FORM_CODE, 'ACK');
+                                    }
+                                }
+                            }]);
+                            if (row.MAP_STATUS != null) { // assigned MW No.
+                                attr(button, "disabled", "true");
+                                attr(button, "class", "btn btn-default disableBtnClass");
+                            }
+                            return button;
+                        }
+                        else if (row.EFSS_STATUS == "R") {
+                            var button = createButton("Direct Return " + row.FORM_CODE, "fa-edit", [{
+                                "onclick": {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        if (row == null) return;
+                                        onSubmitForm(row.EFSS_ID, row.FORM_CODE, 'DR');
+                                    }
+                                }
+                            }]);
+                            if (row.MAP_STATUS != null) { // assigned MW No.
+                                attr(button, "disabled", "true");
+                                attr(button, "class", "btn btn-default disableBtnClass");
+                            }
+                            return button;
+                        }
+                    }
+
+                }
+            ]
+        });
+
+        function onSubmitForm(EfssId, formType, formStatus) {
+            var input_submission_no = "";
+            if (formType != "MW01" && formType != "MW03" && formType != "MW05" && formType != "MW32" && formType != "MW06") {
+                input_submission_no = document.getElementById("mw_no:" + EfssId).value;
+            }
+            console.log(input_submission_no);
+            
+            $.ajax({
+                type: "POST",
+                url: 'ReceiveNewSubmission',
+                data: {
+                    EFSS_ID: EfssId,
+                    FORM_CODE: formType,
+                    MW_SUBMISSIONNO: input_submission_no,
+                    STATUS: formStatus
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.ErrMsg == null) {
+                        if (data.ACKorDR == "ACK") { // proceed to ACK page
+                            console.log(data);
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/RedirectFromEfss"
+                                , [{ name: "EFSS_ID", value: data.ACK_EFSS_ID },
+                                    { name: "FORM_CODE", value: data.ACK_FORM_CODE },
+                                    { name: "DSN", value: data.ACK_DSN },
+                                    { name: "MW_NO", value: data.ACK_MW_SUBMISSION }]);
+                        }
+                        else { // DR
+                            goTo("Index");
+                        }
+                        //index();
+                    }
+                    else {
+                        document.getElementById("ErrMsg:" + EfssId).innerHTML = data.ErrMsg;
+                    }
+                }
+
+            });
+
+            //goTo("ReceiveCompleteForm", [{ name: "EFSS_ID", value: EfssId }, { name: "FORM_CODE", value: formType }, { name: "INPUT_SUBMISSION_NO", value: input_submission_no }]);
+        }
+    });
+
+
+</script>

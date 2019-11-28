@@ -1,0 +1,226 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<form id="scannedDoc">
+    <div class="panelHeader">Confirm Scanned Documents</div>
+    <div class="displayForm">
+        @Html.HiddenFor(m => m.Enquiry.UUID)
+        @*<img src="~/img/view.gif" />*@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m12 s12 w3-left-align">Document S/N :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.Enquiry.DSN
+                    @Html.HiddenFor(m => m.Enquiry.DSN)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m12 s12 w3-left-align">Submission Type :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.Enquiry.CATEGORY_CODE
+                    @Html.HiddenFor(m => m.Enquiry.CATEGORY_CODE)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div id="resultPanel"></div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="btn_submit1" class="btn btn-default w3-disabled" type="button" disabled="disabled"><i class="fa fa-search"></i> Submit</button>
+            <button id="btn_refresh" class="btn btn-default" type="button"><i class="fa fa-search"></i> Refresh</button>
+        </div>
+    </div>
+
+
+
+    <br />
+
+    <div class="panelHeader">Assign Ref No.</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m12 s12 w3-left-align">Ref No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.Enquiry.REFERENCE_NO
+                    @Html.HiddenFor(m => m.Enquiry.REFERENCE_NO)
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m12 s12 w3-left-align">Ref. No. Barcode:</div>
+                <div class="w3-col l6 m12 s12">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-container footer">
+            <button id="btn_submit2" class="btn btn-default w3-disabled" type="button" disabled="disabled"><i class="fa fa-search"></i> Submit</button>
+            <button id="btn_cancel" class="btn btn-default" type="button"><i class="fa fa-search"></i> Cancel</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        var generateHTMLByTemp
+            , getScannedDoc
+            , dateFtt
+            , submit1
+            , submit2
+            , cancel;
+
+
+        submit1 = function () {
+            $.post("Submit1", $("#scannedDoc").serialize(), function (data) {
+                //console.log(data);
+                $("#btn_submit2")
+                        .attr("disabled", false)
+                    .removeClass("w3-disabled");
+                $("#btn_submit1")
+                    .attr("disabled", true)
+                    .addClass("w3-disabled");
+                alert("Scanned Successfully!")
+
+            });
+        };
+
+        submit2 = function () {
+            $.post("CheckedBeforeSubmit2", $("#scannedDoc").serialize(), function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo("Submit2", [
+                        { name: "refNo", value: $("#Enquiry_REFERENCE_NO").val() }
+                        , { name: "dsn", value: $("#Enquiry_DSN").val() }
+                    ]);
+                    //goTo("Submit2");
+                } else {
+                    alert("It is not MW General Record");
+                }
+            });
+        };
+
+        cancel = function () {
+            goTo('Index');
+        };
+
+
+        getScannedDoc = function () {
+            $.post("GetScannedDoc", $("#scannedDoc").serialize(), function (data) {
+                generateHTMLByTemp("#tempScannedDoc", data, "#resultPanel");
+                if (data.Data == null || data.Data == undefined || data.Data == "") {
+                    $("#btn_submit1")
+                        .attr("disabled", true)
+                        .addClass("w3-disabled");
+                    $("#btn_submit2")
+                        .attr("disabled", true)
+                        .addClass("w3-disabled");
+
+                }
+                else {
+                    //console.log(data);
+                    $("#btn_submit1")
+                        .attr("disabled", false)
+                        .removeClass("w3-disabled");
+
+                    //$("#btn_submit2")
+                    //    .attr("disabled", false)
+                    //    .removeClass("w3-disabled");
+
+                }
+            });
+        };
+
+        dateFtt = function (fmt, date) { //author: meizz
+            var o = {
+                "M+": date.getMonth() + 1,                 //月份
+                "d+": date.getDate(),                    //日
+                "h+": date.getHours(),                   //小时
+                "m+": date.getMinutes(),                 //分
+                "s+": date.getSeconds(),                 //秒
+                "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                "S": date.getMilliseconds()             //毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        };
+
+        generateHTMLByTemp = function (templateElem, data, resultElem) {
+            var tempSource = $(templateElem).html();
+            var template = Handlebars.compile(tempSource);
+            $(resultElem).html(template(data));
+        };
+
+        Handlebars.registerHelper('formatDate', function (date, options) {
+            date = new Date(date);
+            return dateFtt("yyyy/MM/dd", date);
+        });
+
+        getScannedDoc();
+
+        attr("btn_submit1", "onclick", { parameters: {}, callback: submit1 });
+        attr("btn_submit2", "onclick", { parameters: {}, callback: submit2 });
+        attr("btn_refresh", "onclick", { parameters: {}, callback: getScannedDoc });
+        attr("btn_cancel", "onclick", { parameters: {}, callback: cancel });
+
+
+        //new searcher({
+        //    searchPath: "GetScannedDoc"
+        //    //, exportPath: "Excel"
+        //    , searchTable: "searchCriteria"
+        //    , resultPanel: "resultPanel"
+        //}).search();
+
+    });
+
+
+</script>
+
+<script id="tempScannedDoc" type="text/x-handlebars-template">
+    <table class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th tabindex="0" style="cursor: pointer;">SubDSN</th>
+                <th tabindex="0" style="cursor: pointer;">Document Type</th>
+                <th tabindex="0" style="cursor: pointer;">Total Page</th>
+                <th tabindex="0" style="cursor: pointer;">Date</th>
+                <th tabindex="0" style="cursor: pointer;">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Data}}
+            <tr>
+                <td>{{DSN_SUB}}</td>
+                <td>{{DOCUMENT_TYPE}}</td>
+                <td>{{PAGE_COUNT}}</td>
+                <td>{{formatDate SCAN_DATE}}</td>
+                <td>
+                    <a href="javascript:void()'">
+                        <img src="../../img/view.gif" />
+                    </a>
+                    <input type="hidden" value="{{FILE_PATH}}" />
+
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5">
+                    <div class="errorText w3-padding">Please scan document(s) before submit.</div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>

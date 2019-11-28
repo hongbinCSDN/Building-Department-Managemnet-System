@@ -1,0 +1,104 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_SearchModModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Ref No :</div>
+            <div class="w3-col l10 m12 s12">
+                @Html.TextBoxFor(model => model.REFERENCE_NO, new { @id = "REFERENCE_NO" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Received Date:</div>
+            <div class="w3-col l6 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ReceivedDateFrom, "", new { @id = "ReceivedDateFrom", @class = "inputDate" })
+                &nbsp;To&nbsp;@Html.TextBoxFor(model => model.ReceivedDateTo, "", new { @id = "ReceivedDateTo", @class = "inputDate" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Address:</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.ADDRESS, new { @id = "ADDRESS" })
+            </div>
+            <div class="w3-col l2 m12 s12">Lot No. :</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.LOT_NO, new { @id = "LOT_NO" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Name of Applicant:</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.APPLICANT_NAME, new { @id = "APPLICANT_NAME" })
+            </div>
+            <div class="w3-col l2 m12 s12">Capacity of Applicant :</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.APPLICANT_CAPACITY, new { @id = "APPLICANT_CAPACITY" })
+            </div>
+        </div>
+
+    </div><div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Handling staff (PO)</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.TextBoxFor(model => model.HANDING_STAFF)
+                @*<select name="HANDING_STAFF" style="width:auto">
+                        <option value="">ALL</option>
+                        <option value="BS1">BS1</option>
+                        <option value="SE4">SE4</option>
+                        <option value="BS6">BS6</option>
+                    </select>*@
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button class="resetButton btn btn-default" type="button" onclick="goTo('Index')"><i class="fa fa-eraser"></i> Cancel</button>
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        @*<form action="/MWProcessing/Fn01LM_MOD/ExcelMod" method="post">
+                <button class="searchButton btn btn-default" type="submit">Export</button>
+            </form>*@
+    </div>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchMod"
+            , exportPath: "ExcelMod"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "Ref No.", columnName: "REFERENCE_NO" }
+                , { displayName: "Form Type", columnName: "FORM_NO" }
+                , { displayName: "DSN No.", columnName: "DSN" }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Handling staff (PO) ", columnName: "HANDING_STAFF" }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("Edit", "fa-edit", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    goTo("EditForm", [{ name: "uuid", value: row.UUID }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+        });
+    });
+</script>

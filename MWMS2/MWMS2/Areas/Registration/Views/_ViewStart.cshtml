@@ -1,0 +1,5 @@
+﻿@{
+    //Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+    string r = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["action"]);
+    Layout = (r.ToLower().Contains("popup")) ||r.ToLower().Contains("eform") ? "~/Views/Shared/_LayoutPopUp.cshtml" : Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}

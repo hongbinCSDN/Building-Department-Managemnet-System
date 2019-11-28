@@ -1,0 +1,220 @@
+﻿@*@model MWMS2.Areas.MWProcessing.Models.Fn01LM_OtherSaveModel*@
+
+@*<form id="counterInputForm" method="post">
+        <div class="panelHeader">
+            Direct Returned Over Counter
+        </div>
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Received Date  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherDROverCounterModel.ReceivedDate, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">No. of Return over Counter  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherDROverCounterModel.ReturnOverCounter)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="updateDROverCounterBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+                <button class="searchButton btn btn-default" type="reset"> Reset</button>
+            </div>
+        </div>
+    </form>*@
+
+@*<form id="statusInputForm" method="post">
+        <div class="panelHeader">
+            Change Order Related status
+        </div>
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">DSN   :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherChangeORS.DSN)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Order Related :</div>
+                    <div class="w3-col l9 m12 s12">
+                        <label>
+                            @Html.RadioButtonFor(m => m.Fn01LM_OtherChangeORS.OrderRelated, "Y",new { @class="w3-radio"})
+                            Yes   |
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.Fn01LM_OtherChangeORS.OrderRelated, "N", new { @class= "w3-radio", @checked = "checked" })
+                            NO
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="updateAckOrderRelatedStatusBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+                <button class="searchButton btn btn-default" type="reset"> Reset</button>
+            </div>
+        </div>
+    </form>*@
+
+@*<form id="referenceNoInputForm" method="post">
+        <div class="panelHeader">
+            Update File Reference No
+        </div>
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">MW No :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherUpdateFRN.MWNo)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">File Reference No   :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherUpdateFRN.FileReferenceFour, new { maxlength = "4", style = "width:60px" })/@Html.TextBoxFor(m => m.Fn01LM_OtherUpdateFRN.FileReferenceTwo, new { style = "width:40px", maxlength = "2" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="updateAckFileReferrNoBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+                <button class="searchButton btn btn-default" type="reset"> Reset</button>
+            </div>
+        </div>
+    </form>*@
+
+@*<form id="referralInputForm" method="post">
+        <div class="panelHeader">
+            Batch update referral date
+        </div>
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Received Date  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        <span>From</span>
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherBatchUpdateRD.ReceiveDateFrom, new { @class = "inputDate" })
+                        <span>to</span>
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherBatchUpdateRD.ReceiveDateTo, new { @class = "inputDate" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Referral Date	:</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.Fn01LM_OtherBatchUpdateRD.ReferralDate, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="updateAckReferrDate" class="searchButton btn btn-default" type="button"> Update</button>
+            </div>
+        </div>
+    </form>*@
+
+@*@Html.Partial("~/Areas/MWProcessing/Views/Fn01LM_Other/UpdateDROverCounter.cshtml")*@
+
+@Html.Action("DROverCounter")
+<br />
+
+@Html.Action("AckOrderRelatedStatus")
+<br />
+
+@*@Html.Action("AckFileReferrNo")*@
+@*<br />*@
+
+@Html.Action("AckReferrDate")
+
+
+<br />
+
+<script type="text/javascript">
+
+    domReady(function () {
+        //attr("updateDROverCounterBtn", "onclick", { parameters: {}, callback: onUpdateDROverCounter });
+        //attr("updateAckOrderRelatedStatusBtn", "onclick", { parameters: {}, callback: onUpdateAckOrderRelatedStatus });
+        //attr("updateAckFileReferrNoBtn", "onclick", { parameters: {}, callback: onUpdateAckFileReferrNo });
+        //attr("updateAckReferrDate", "onclick", { parameters: {}, callback: onUpdateAckReferrDate });
+
+
+    });
+
+    //function onUpdateDROverCounter() {
+    //    attr("counterInputForm", "addClass", "saving");
+    //    $.post("UpdateDROverCounter", $("#counterInputForm").serialize(), function (data) {
+    //        attr("counterInputForm", "dropClass", "saving");
+    //        if (data != null && data.Result != null && data.Result == "SUCCESS") {
+    //            alert("Update Direct Returned Over Counter successfully");
+    //            //goTo("Index", null);
+    //        }
+    //        else {
+    //            showErrorMessage(data.ErrorMessages);
+    //            console.log(data);
+    //        }
+    //    }, "json");
+    //}
+
+
+    //function onUpdateAckOrderRelatedStatus() {
+    //    attr("statusInputForm", "addClass", "saving");
+    //    $.post("UpdateAckOrderRelatedStatus", $("#statusInputForm").serialize(), function (data) {
+    //        attr("statusInputForm", "dropClass", "saving");
+    //        if (data != null && data.Result != null && data.Result == "SUCCESS") {
+    //            alert("Update Order Related status successfully");
+    //            //goTo("Index", null);
+    //        }
+    //        else {
+    //            showErrorMessage(data.ErrorMessages);
+    //            console.log(data);
+    //        }
+    //    }, "json");
+    //}
+
+
+    //function onUpdateAckFileReferrNo() {
+    //    attr("referenceNoInputForm", "addClass", "saving");
+    //    $.post("UpdateAckFileReferrNo", $("#referenceNoInputForm").serialize(), function (data) {
+    //        attr("referenceNoInputForm", "dropClass", "saving");
+    //        if (data != null && data.Result != null && data.Result == "SUCCESS") {
+    //            alert("Update File Reference No successfully");
+    //            //goTo("Index", null);
+    //        }
+    //        else {
+    //            showErrorMessage(data.ErrorMessages);
+    //            console.log(data);
+    //        }
+    //    }, "json");
+    //}
+
+
+    //function onUpdateAckReferrDate() {
+    //    attr("referralInputForm", "addClass", "saving");
+    //    $.post("UpdateAckReferrDate", $("#referralInputForm").serialize(), function (data) {
+    //        attr("referralInputForm", "dropClass", "saving");
+    //        if (data != null && data.Result != null && data.Result == "SUCCESS") {
+    //            alert("Batch update referral date successfully");
+    //            //goTo("Index", null);
+    //        }
+    //        else {
+    //            showErrorMessage(data.ErrorMessages);
+    //            console.log(data);
+    //        }
+    //    }, "json");
+    //}
+
+
+</script>

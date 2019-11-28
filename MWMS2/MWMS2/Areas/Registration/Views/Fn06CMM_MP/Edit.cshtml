@@ -1,0 +1,151 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn06CMM_MPDisplayModel
+<div class="panelHeader">@ViewBag.Title</div>
+<div id="tabbar1" class="hide">
+    <div>Member Info </div>
+    <div id="TabCommitteeInfo" class="hide">Committee Info</div>
+    <div>Institutes</div>
+</div>
+<div class="w3-row hr"></div>
+<form id="inputForm" method="post">
+    @Html.HiddenFor(o => o.EditFormKey)
+    @Html.HiddenFor(o => o.C_COMMITTEE_MEMBER.UUID)
+    <div class="displayForm">@Html.Partial("TabPageBaseInfo")</div>
+    <div class="w3-row hr"></div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageAddInfo")</div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageCommitteeInfo")</div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageInstitutes")</div>
+    <div id="ApplicantDiv" name="tabname1" class="displayForm hide"></div>
+    <div id="AppHistDiv" name="tabname1" class="displayForm hide"></div>
+    <div class="displayForm">
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button id="saveButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Save </button>}
+            <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+</form>
+@Html.DropDownList("panelStatusTemp", Model.COMMITTEE_MEMBER_STATUSs,new { @class="hide"})
+@if (Model.EditMode)
+{
+<script>
+    attr("TabCommitteeInfo", "dropClass", "hide")
+</script>
+}
+
+
+<script>
+    function initTabber() {
+        tabber1 = tabber({tab: "tabbar1", area: "tabname1", });
+    }
+    domReady(function () {
+        
+        initTabber();
+        initPanelMemberObj();
+        initGroupMemberObj();
+        initAjaxInstituteObj();
+        attr("saveButton", "onclick", {
+            callback: function () {
+                onSaveForm();
+            }
+        });
+    });
+
+    function onSaveForm() {
+        attr("inputForm", "addClass", "saving");
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+            else showErrorMessage(data.ErrorMessages);
+
+        }, "json");
+    }
+
+    var panelMemberObj;
+    var groupMemberObj;
+
+    function initPanelMemberObj() {
+        panelMemberObj = new searcher({
+            searchPath: "AjaxPanelMember"
+            , searchTable: "C_COMMITTEE_MEMBER_UUID"
+            , resultPanel: "panelMember"
+            , Footer: false
+            , Columns: [
+                  { displayName: "Year               ", columnName: "V1" }
+                , { displayName: "Committee Panel    ", columnName: "V2" }
+                , { displayName: "Role in Panel      ", columnName: "V3" }
+                , { displayName: "Expiry Date        ", columnName: "V4" }
+                , {
+                    displayName: "Status             ", formater: function (row, idx) {
+                        var select = dom("select");
+                        var options = domId("panelStatusTemp").querySelectorAll('option');
+
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.V52UUID == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "PanelStatus[" + row.V5UUID + "]");
+                        return select;
+                    }
+                }
+                , {
+                    displayName: "End Date of Service", formater: function (row) {
+                        console.log(row);
+                        var input = dom("input");
+                        attr(input, "type", "text");
+                        attr(input, "addClass", "inputDate");
+                        attr(input, "value", row.V6);
+                        attr(input, "name", "PanelEndDate[" + row.V5UUID + "]");
+                        datepickize(input);
+                        return input;
+                    }
+                }
+            ]
+        }).search();
+    }
+
+    function initGroupMemberObj() {
+        groupMemberObj = new searcher({
+            searchPath: "AjaxGroupMember"
+            , searchTable: "C_COMMITTEE_MEMBER_UUID"
+            , resultPanel: "groupMember"
+            , Footer: false
+            , Columns: [
+                { displayName: "Year                       ", columnName: "V1" }
+                , { displayName: "Committee                ", columnName: "V2" }
+                , { displayName: "Committee Group          ", columnName: "V3" }
+                , { displayName: "Role in Committee Group  ", columnName: "V4" }
+            ]
+        }).search();
+    }
+
+
+    function initAjaxInstituteObj() {
+        groupMemberObj = new searcher({
+            searchPath: "AjaxInstitute"
+            , searchTable: "C_COMMITTEE_MEMBER_UUID"
+            , resultPanel: "institute"
+            , Footer: false
+            , Columns: [
+                {
+                    
+                   headerFormater: function (data, idx) {
+                        var checkbox = dom("input");
+                        attrs(checkbox, [{ type: "checkbox" },  { addClass:"checkAllInstitute"}]);
+                        return checkbox;
+                    }
+                    , formater: function (row, idx) {
+                        var checkbox = dom("input");
+                        attrs(checkbox, [{ type: "checkbox" }, { name: "Institutes" }, { value: row.UUID }, { checked: row.SELECTED != 0 }, { addClass: "checkInstitute" }]);
+                        return checkbox;
+                    }
+                }
+                , { css: { "width": "100%" }, displayName: "Institutes", columnName: "ENGLISH_DESCRIPTION" }
+            ]
+        }).search(null, function () { checkAller("checkAllInstitute", "checkInstitute"); });
+    }
+    
+
+
+
+
+</script>

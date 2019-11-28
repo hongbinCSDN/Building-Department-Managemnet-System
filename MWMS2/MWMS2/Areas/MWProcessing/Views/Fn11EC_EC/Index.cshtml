@@ -1,0 +1,421 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn11EC_Model
+<div class="panelHeader">
+    Elementary Checking
+</div>
+<form id="inputForm" action="Index" method="post">
+    <div id="searchCriteria">
+
+        @Html.Hidden("IsCompany", Model.IsCompany)
+        @Html.Hidden("IsMwcw", Model.IsMwcw)
+        @Html.HiddenFor(m => Model.IsPopup)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Certificate of Registratoin No. :</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.RegNo)</div>
+                <div class="w3-col l3 m6 s12">Chinese Company Name :</div>
+                <div class="w3-col l3 m6 s12" id="ChiCompName">
+                    @if (Model.IsCompany)
+                    {
+                        <span>@Model.V_CRM_INFO.CHINESE_NAME</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">PBP/PRC/AS:</div>
+                <div class="w3-col l3 m6 s12">
+                    @if (Model.IsCompany)
+                    {
+                        @Html.DropDownListFor(m => Model.PbpPrcAs, Model.PbpPrcAsList)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => Model.PbpPrcAs, Model.PbpPrcAsList, new { @disabled = "True" })
+                    }
+                </div>
+                <div class="w3-col l3 m6 s12">English Company Name :</div>
+                <div class="w3-col l3 m6 s12" id="EngCompName">
+                    @if (Model.IsCompany)
+                    {
+                        <span>@Model.V_CRM_INFO.SURNAME</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12"></div>
+                <div class="w3-col l3 m6 s12"></div>
+                <div class="w3-col l3 m6 s12">Date of Expiry :</div>
+                <div class="w3-col l3 m6 s12" id="ExpiryDate">
+                    @if (Model.IsCompany)
+                    {
+                        <span>@Model.V_CRM_INFO.DISPLAY_COMP_EXPIRY_DATE</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12"></div>
+                <div class="w3-col l3 m6 s12"></div>
+                <div class="w3-col l3 m6 s12">Date of Removal :</div>
+                <div class="w3-col l3 m6 s12" id="RemovalDate">
+                    @if (Model.IsCompany)
+                    {
+                        <span>@Model.V_CRM_INFO.DISPLAY_COMP_REMOVAL_DATE</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Minor Works Item No. :</div>
+                <div class="w3-col l9 m12 s12" style="position:relative">
+                    @if (Model.IsMwcw)
+                    {
+                        <div id="ItemList" class="w3-col l10 m12 s12">
+
+                            @for (int i = 0; i < Model.ItemCodes.Count(); i++)
+                            {
+                                @Html.TextBoxFor(m => Model.ItemCodes[i], new { @style = "width:19%;margin-right:5px;" })
+                            }
+
+                        </div>
+                        <div class="w3-col l2 m12 s12" style="position:absolute;float:left;width:15%;bottom:0;right:0;">
+                            <button type="button" onclick="AddItemCode()">Add</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="ItemList" class="w3-col l10 m12 s12">
+                            <input disabled id="ItemCode" name="ItemCodes[0]" style="width:19%;" type="text" />
+                            <input disabled name="ItemCodes[1]" style="width:19%;" type="text" />
+                            <input disabled name="ItemCodes[2]" style="width:19%;" type="text" />
+                            <input disabled name="ItemCodes[3]" style="width:19%;" type="text" />
+                            <input disabled name="ItemCodes[4]" style="width:19%;" type="text" />
+                        </div>
+                        <div class="w3-col l2 m12 s12" style="position:absolute;float:left;width:15%;bottom:0;right:0;">
+                            <button disabled class="w3-gray w3-hover-gray" type="button" onclick="AddItemCode()">Add</button>
+                        </div>
+                    }
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"></div>
+                <div class="w3-col l6 m12 s12">
+                    <button type="button" onclick="checkMwItem()">Check</button>
+                    <button type="button" onclick="print()">Print</button>
+                </div>
+
+            </div>
+        </div>
+        <br />
+
+        @if (Model.IsCompany)
+        {
+            foreach (var item in Model.V_CRM_INFOs)
+            {
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Name :</div>
+
+                        @{
+
+                            string name = "";
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.AS_CHINESE_NAME))
+                            {
+                                name += Model.V_CRM_INFO.AS_CHINESE_NAME + ",";
+                            }
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.AS_GIVEN_NAME))
+                            {
+                                name += Model.V_CRM_INFO.AS_GIVEN_NAME + ",";
+                            }
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.AS_SURNAME))
+                            {
+                                name += Model.V_CRM_INFO.AS_SURNAME + ",";
+                            }
+
+                            <div class="w3-col l6 m6 s12"> @name </div>
+                        }
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l6 m6 s12">Signature :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @{
+                                string path = "'"+ Model.V_CRM_INFO.UUID+"'"; //"'" + (string.IsNullOrEmpty(Model.V_CRM_INFO.FILE_PATH_NONRESTRICTED) ? "" : Model.V_CRM_INFO.FILE_PATH_NONRESTRICTED.Replace('\\', '/')) + "'";
+                                <a onclick="viewSignature(@path)">
+                                    <img src='/img/view.gif'>Checking:
+                                </a>
+                            }
+                            OK <input name="signatureType" type="radio" class="w3-radio" />
+                            NOT OK <input name="signatureType" type="radio" class="w3-radio" />
+                        </div>
+                    </div>
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l6 m6 s12">Status :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @if (item.STATUS == "Inactive")
+                            {
+                                <span style="color:red;"> @item.AS_EXPIRY_DATE (Invalid AS removed date)</span>
+                            }
+                            else
+                            {
+                                <span style="color:blue;"> Active</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Valid Item :</div>
+                        <div class="w3-col l9 m6 s12">
+                            <label id="lblValid@(item.UUID)" style="color:blue;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Invalid Item :</div>
+                        <div class="w3-col l9 m6 s12">
+                            <label id="lblInvalid@(item.UUID)" style="color:red;"></label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+        }
+        else
+        {
+            if (Model.V_CRM_INFO != null)
+            {
+                <div class="w3-row">
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l6 m6 s12">Name :</div>
+
+                        @{
+
+                            string name = "";
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.CHINESE_NAME))
+                            {
+                                name += Model.V_CRM_INFO.CHINESE_NAME + ",";
+                            }
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.GIVEN_NAME))
+                            {
+                                name += Model.V_CRM_INFO.GIVEN_NAME + ",";
+                            }
+
+                            if (!string.IsNullOrEmpty(Model.V_CRM_INFO.SURNAME))
+                            {
+                                name += Model.V_CRM_INFO.SURNAME + ",";
+                            }
+
+                            <div class="w3-col l6 m6 s12"> @name </div>
+                        }
+
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.InvalidItem))
+                    {
+                        <div class="w3-col l6 m12 s12">
+                            <div class="w3-col l6 m6 s12">Reulst :</div>
+                            <div class="w3-col l6 m6 s12" style="color:red;">
+                                Faild
+                            </div>
+                        </div>
+                    }
+                    else if (!string.IsNullOrEmpty(Model.ValidItem))
+                    {
+                        <div class="w3-col l6 m12 s12">
+                            <div class="w3-col l6 m6 s12">Reulst :</div>
+                            <div class="w3-col l6 m6 s12" style="color:blue;">
+                                Active
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l6 m6 s12">Signature :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @{
+                                string path = "'"+Model.V_CRM_INFO.UUID+"'"; // "'" + (string.IsNullOrEmpty(Model.V_CRM_INFO.FILE_PATH_NONRESTRICTED) ? "" : Model.V_CRM_INFO.FILE_PATH_NONRESTRICTED.Replace('\\', '/')) + "'";
+                                <a onclick="viewSignature(@path)">
+                                    <img src='/img/view.gif'>Checking:
+                                </a>
+                            }
+                            OK <input name="signatureType" type="radio" class="w3-radio" />
+                            NOT OK <input name="signatureType" type="radio" class="w3-radio" />
+                        </div>
+                    </div>
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l6 m6 s12">Expiry Date :</div>
+                        @if (!string.IsNullOrEmpty(Model.V_CRM_INFO.EXPIRY_DATE.ToString()) && Model.V_CRM_INFO.EXPIRY_DATE > DateTime.Now)
+                        {
+                            <div class="w3-col l6 m6 s12" style="color:blue;">
+                                @Model.V_CRM_INFO.EXPIRY_DATE
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="w3-col l6 m6 s12" style="color:red;">
+                                @(string.IsNullOrEmpty(Model.V_CRM_INFO.EXPIRY_DATE.ToString()) ? "N/A" : Model.V_CRM_INFO.EXPIRY_DATE.ToString())
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Valid Item :</div>
+                        <div class="w3-col l9 m6 s12">
+                            <label id="lblValid" style="color:blue;">
+                                @Model.ValidItem
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Invalid Item :</div>
+                        <div class="w3-col l9 m6 s12">
+                            <label id="lblInvalid" style="color:red;">
+                                @Model.InvalidItem
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+
+
+
+
+
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    function viewSignature(V_CRM_INFO_UUID) {
+        var url = '@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath' +
+            '/Common/ViewCRMImage';
+        goTo(url, [{ name: "V_CRM_INFO_UUID", value:  V_CRM_INFO_UUID  }], true);
+    }
+
+    function checkMwItem() {
+
+        var form = document.getElementById('inputForm');
+
+        var isMwcw = document.getElementById('IsMwcw').value.toLowerCase() == "true";
+
+        if (isMwcw) {
+
+            var itemCodes = document.querySelectorAll("input[name^=ItemCodes]");
+
+            var isNull = true;
+
+            for (var i = 0; i < itemCodes.length; i++) {
+
+                if (itemCodes[i].value != "") {
+                    isNull = false;
+                    break;
+                }
+
+            }
+
+            if (isNull) {
+                alert("Please input at least 1 item.");
+                return;
+            }
+
+        }
+
+        form.submit();
+    }
+
+    function AddItemCode() {
+
+
+        var itemList = document.getElementById("ItemList");
+
+        var itemCount = itemList.children.length;
+
+        for (var i = 0; i < 5; i++) {
+
+            var item = document.createElement("input");
+            item.name = "ItemCodes[" + itemCount + "]";
+            item.type = "text";
+            item.style.width = "19%";
+            item.style.marginRight = "5px";
+
+
+            itemList.appendChild(item);
+
+            itemCount++;
+        }
+
+
+    }
+
+    function initPage() {
+        var isPopup = document.getElementById("IsPopup").value.toLowerCase() == "true";
+
+        if (isPopup) {
+
+            //hidden navigation
+
+            var topbar0 = document.getElementById("topbar0");
+            var topbar1 = document.getElementById("topbar1");
+            var topbar2 = document.getElementById("topbar2");
+            var navigator = document.getElementById("navigator");
+
+            topbar0.style.display = "none";
+            topbar1.style.display = "none";
+            topbar2.style.display = "none";
+            navigator.style.display = "none";
+        }
+    }
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+        attr("RegNo", "onblur", {
+            callback: function () {
+                //req("AjaxRegInfo", "RegNo", function (data) {
+                //    //data.
+                //    //if (RegNo.indexOf(o)//
+                //        //AS_CHINESE_NAME
+                //    //PbpPrcAs
+                //    console.log(data);
+                //});
+
+                var form = document.getElementById("inputForm");
+
+                form.submit();
+
+            }
+        });
+
+        initPage();
+    });
+</script>

@@ -1,0 +1,50 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+
+<h3>District Maintenance</h3>
+<br>
+
+
+@using (Html.BeginForm("SPMDistrictMaintenanceCreate", "SPMDistrictMaintenance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="sList w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">District Code<span class="asterix">*</span>:</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">District Name :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Region :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.DropDownListFor(model => model.PARENT_ID, (IEnumerable<SelectListItem>)ViewBag.RegionList, new { style = "width:auto", id = "RegionList" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Ordering :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "ORDERING", @type = "number", @min = "0" } })
+                    @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="btn btn-default SaveBtn" id="Save" value="Save" />*@
+            <button type="submit" class="btn btn-default SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>
+            @*<input class="btn btn-default inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMDistrictMaintenance", "SPMDistrictMaintenance")"' type="button">*@
+        <button class="btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMDistrictMaintenance", "SPMDistrictMaintenance")"' type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+    </div>
+}

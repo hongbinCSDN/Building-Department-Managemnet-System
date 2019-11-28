@@ -1,0 +1,98 @@
+﻿@model MWMS2.Areas.Registration.Models.HKIDPASSPORTDetailModel
+
+<div id="SearchTable">
+    HKID / Passport No.:
+    @Html.HiddenFor(model => model.HKID)
+    @Html.DisplayFor(model => model.HKID)
+    /
+    @Html.HiddenFor(model => model.PASSPORT)
+    @Html.DisplayFor(model => model.PASSPORT)
+</div>
+
+<div class="panelSubHeader">Company Application</div>
+<div id="ResultPanel1">
+    <div id="loading_CA">Loading...</div>
+</div>
+<br />
+<div class="panelSubHeader">Individual Application</div>
+<div id="ResultPanel2">
+    <div id="loading_IA">Loading...</div>
+</div>
+<br />
+<div class="panelSubHeader">QP Card Application</div>
+<div id="ResultPanel3">
+    <div id="loading_QP">Loading...</div>
+</div>
+<br />
+
+
+
+
+
+
+
+<script>
+
+    domReady(function () {
+        applicantTableObject1 = new searcher({
+            searchPath: "HKIDSearchComp"
+            , searchTable: "SearchTable"
+            , resultPanel: "ResultPanel1"
+            , Footer: false
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                { columnName: "FILE_REFERENCE_NO", displayName: "File Reference No." }
+                , { columnName: "ENGLISH_COMPANY_NAME", displayName: " Company Name       " }
+                , { columnName: "CHINESE_COMPANY_NAME", displayName: "  Company Name (Chn)    " }
+                , { columnName: "COMP_STATUS", displayName: "Company Status     " }
+                , { columnName: "EXPIRY_DATE", displayName: "Expiry Date" }
+                , { columnName: "FULLNAME", displayName: "Name" }
+                , { columnName: "CHINESE_NAME", displayName: "Chinese Name" }
+                , { columnName: "CODE", displayName: "Role" }
+                , { columnName: "APP_STATUS", displayName: "Status" }
+            ]
+            , onAfterSearch: function () {
+                $("#loading_CA").hide();
+            }
+        }).search();
+        applicantTableObject2 = new searcher({
+            searchPath: "HKIDSearchInd"
+            , searchTable: "SearchTable"
+            , resultPanel: "ResultPanel2"
+            , Footer: false
+            , Sort: "FILE_REFERENCE_NO"
+            , Columns: [
+                { columnName: "FILE_REFERENCE_NO", displayName: "File Reference No." }
+                , { columnName: "FULLNAME", displayName: "Name       " }
+                , { columnName: "CHINESE_NAME", displayName: "Chinese Name   " }
+                , { columnName: "CERTIFICATION_NO", displayName: "Registration No.    " }
+                , { columnName: "EXPIRY_DATE", displayName: "Expiry Date" }
+                , { columnName: "ENGLISH_DESCRIPTION", displayName: "Status" }
+
+            ]
+            , onAfterSearch: function () {
+                $("#loading_IA").hide();
+            }
+        }).search();
+        applicantTableObject3 = new searcher({
+            searchPath: "HKIDSearchQP"
+            , searchTable: "SearchTable"
+            , resultPanel: "ResultPanel3"
+            , Footer: false
+        
+            , Columns: [
+                { columnName: "CARD_SERIAL_NO", displayName: "Card Serial No." }
+                , { columnName: "CARD_ISSUE_DATE", displayName: "Card Issue Date       " }
+                , { columnName: "CARD_EXPIRY_DATE", displayName: "Card Expiry Date " }
+                , { columnName: "FILE_REFERENCE_NO", displayName: "QP Registration    " }
+                , { columnName: "CARD_EXPIRY_DATE_DATE_DISPLAY", displayName: "Card Return Date (if any)" }
+
+
+            ]
+            , onAfterSearch: function () {
+                $("#loading_QP").hide();
+            }
+        }).search();
+    });
+
+</script>

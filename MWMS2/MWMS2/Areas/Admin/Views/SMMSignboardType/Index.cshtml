@@ -1,0 +1,109 @@
+﻿@model IEnumerable<MWMS2.Entity.B_S_SYSTEM_VALUE>
+
+
+<h3>
+    Types of Signboard
+</h3>
+
+<br />
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        @*<input class="inputButton" id="" name="" value="Add" onclick='location.href="@Url.Action("SMMSignboardTypeCreate", "SMMSignboardType")"' type="button">*@
+        <button class="btn btn-default" id="" name="" value="Add" onclick='location.href="@Url.Action("SMMSignboardTypeCreate", "SMMSignboardType")"' type="button"><i class="far fa-plus-square"></i> Add</button>
+    </div>
+</div>
+<br>
+
+<div style="overflow-x:auto">
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">No.</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Type Of Signboard</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @*<input class="btn btn-default inputButton" id="" name="" value="Delete" onclick='location.href="@Url.Action("SMMSignboardTypeDelete", "SMMSignboardType", new { id = item.UUID })"' type="button">*@
+                            <button class="btn btn-default" type="button" onclick="Delete('@item.UUID')">
+                                <i class="fa fa-trash"></i>
+                                Delete
+                                @*@Html.ActionLink("Delete", "SMMSignboardTypeDelete", "SMMSignboardType", new { id = item.UUID }, new { @style = "text-decoration: none;", @OnClick = "return confirm('Are you sure you to delete this signboard type?');" })*@
+                            </button>
+                        </td>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @*@Html.DisplayFor(modelItem => item.ORDERING)*@
+                            @item.ORDERING
+                        </td>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @*@Html.ActionLink(item.CODE, "SMMSignboardTypeEdit", "SMMSignboardType", new { id = item.UUID }, null)*@
+                            @{
+                                List<string> code = item.CODE.Split(',').ToList<string>();
+                                List<string> typeEng = code[0].Split('\'').ToList<string>();
+                                List<string> typeChi = code[1].Split('\'').ToList<string>();
+                            }
+                            @if (typeEng[3] != "")
+                            {
+                                @typeEng[3]
+                            }
+                            @if (typeEng[3] != "" && typeChi[3] != "")
+                            {
+                                <br />
+                            }
+                            @if (typeChi[3] != "")
+                            {
+                                @typeChi[3]
+                            }
+                        </td>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @{
+                                List<string> desc = item.DESCRIPTION.Split(',').ToList<string>();
+                                // string descEng = desc[0].Split(':').ToList<string>()[1].Replace("'", "");
+                                List<string> descEng = desc[0].Split('\'').ToList<string>();
+                                // string descChi = desc[1].Split(':').ToList<string>()[1].Replace("''}", "").Replace("'}", "").Replace("'", "");
+                                List<string> descChi = desc[1].Split('\'').ToList<string>();
+                            }
+                            @if (descEng[3].Replace(" ", "") != "")
+                            {
+                                @Html.ActionLink(descEng[3], "SMMSignboardTypeEdit", "SMMSignboardType", new { id = item.UUID }, null)
+
+                            }
+                            @if (descEng[3].Replace(" ", "") != "" && descChi[3].Replace(" ", "") != "")
+                            {
+                                <br />
+                            }
+                            @if (descChi[3].Replace(" ", "") != "")
+                            {
+                                @Html.ActionLink(descChi[3], "SMMSignboardTypeEdit", "SMMSignboardType", new { id = item.UUID }, null)
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+</div>
+<script>
+    function Delete(id) {
+        if (confirm('Are you sure you to delete this signboard type?')) {
+            $.ajax({
+                url: domId('rootPath').value + '/Admin/SMMSignboardType/SMMSignboardTypeDelete'
+                , type: 'POST'
+                , data: {
+                    id: id
+                }
+                , success: function (data) {
+                    goTo(domId('rootPath').value + '/Admin/SMMSignboardType/Index')
+                }
+            });
+        }
+    }
+</script>

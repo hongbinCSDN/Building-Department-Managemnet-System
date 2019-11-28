@@ -1,0 +1,58 @@
+﻿@model MWMS2.Entity.B_S_SYSTEM_VALUE
+<h3>Link Maintenance</h3>
+@*<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    <span id="MODIFIED_DATE">
+        @ViewBag.MODIFIED_DATE
+    </span>
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    <span id="MODIFIED_BY">
+        @Html.DisplayFor(model => model.MODIFIED_BY)
+    </span>
+</div>*@
+
+@using (Html.BeginForm("SPMLinkMaintenanceEdit", "SPMLinkMaintenance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="sList w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Link Code<span class="asterix">*</span> :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.TextBoxFor(model => model.CODE, new { @readonly = "readonly", id = "", style = "max-width:600px;" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">URL :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px;", id = "Subject" } })
+                    @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Ordering :</div>
+                <div class="w3-col l9 m9 s9">
+                    @*@Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px;", id = "ORDERING", @type = "number", @min = "0" } })*@
+                    <input class="form-control text-box single-line" data-val="true" data-val-number="The field ORDERING must be a number." id="ORDERING" min="0" name="ORDERING" style="max-width:600px;" type="number" value="@((int)Model.ORDERING)">
+                    @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="btn btn-default SaveBtn" id="Save" value="Save" />*@
+            <button type="submit" class="btn btn-default SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>
+            @*<input class="btn btn-default inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMLinkMaintenance", "SPMLinkMaintenance")"' type="button">*@
+            <button class="btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMLinkMaintenance", "SPMLinkMaintenance")"' type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+    </div>
+
+
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}

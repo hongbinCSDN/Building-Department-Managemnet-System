@@ -1,0 +1,95 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+@{ Dictionary<string, object> attr = new Dictionary<string, object>();}
+<div class="sList" id="formInfoCheck">
+    <form id="inputForm" method="post">
+
+        <div id="BaseHeader" class="panelHeader">
+            <label>Cheking ></label>
+        </div>
+
+        @Html.HiddenFor(model => model.P_MW_RECORD_FORM_CHECKLIST.UUID)
+        @Html.HiddenFor(model => model.P_MW_RECORD.PRE_SITE_AUDIT_RELATED)
+        @Html.HiddenFor(model => model.P_MW_RECORD.SITE_AUDIT_RELATED)
+        @Html.HiddenFor(model => model.V_UUID)
+        @Html.HiddenFor(model => model.HandlingUnit)
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/submissionInfo.cshtml")
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/scannedDoc.cshtml")
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/itemInfo.cshtml")
+
+        <div id="BaseContent" class="w3-border displayForm">
+
+            <div id="BaseForm1" class="w3-border displayForm">
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                Yes
+                            </th>
+                            <th>
+                                No
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Supervision Plan Submission Required</td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SSP_SPO, "O", new { @class = "w3-radio" })
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SSP_SPO, "N", new { @class = "w3-radio" })
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SSP_SPO_RMK)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="displayForm">
+            <div class="w3-container footer">
+                <button id="saveButton" class="btn btn-default" type="button"> Save as Draft</button>
+                <button id="btnSubmit" class="btn btn-default" onclick="submitForm()" type="button"> Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script type="text/javascript">
+
+    function validateForm() {
+        if ($("input[name='P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SSP_SPO']:radio:checked").length == 0) {
+            alert('Please fill the mandatory field:' + 'Supervision Plan Submission Required');
+            return false;
+        }
+        return true;
+    }
+
+    function submitForm() {
+
+        if (validateForm()) {
+            attr("inputForm", "addClass", "saving");
+            $.post("UpdateSPO", $("#inputForm").serialize(), function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    console.log(data);
+                    goTo(domId("rootPath").value +"/MWProcessing/Fn03TSK_Tdl/Index", null);
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        }
+        
+    }
+
+</script>

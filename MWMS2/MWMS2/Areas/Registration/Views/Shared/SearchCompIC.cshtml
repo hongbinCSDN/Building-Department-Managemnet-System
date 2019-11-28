@@ -1,0 +1,103 @@
+﻿@model MWMS2.Areas.Registration.Models.CompICModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Year :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Year, Model.getNextYearAndLastTenYear)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Interview Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    @*&nbsp;From&nbsp;*@
+                    @Html.TextBoxFor(model => model.InterviewDate, "", new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Group :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Group, Model.GroupList)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Interview Type :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.InterviewType, Model.getInterviewType)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Type :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Type, Model.TypeICList)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+
+    </div>
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "meetingId", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+
+    <script type="text/javascript">
+        domReady(function () {
+            searching =    new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "INTERVIEW_DATE"
+                , Columns: [
+                    {
+                        displayName: "Meeting No", columnName: "MEETING_NUMBER"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+                    , { displayName: "Interview Date", columnName: "INTERVIEW_DATE" }
+                    , { displayName: "Session", columnName: "CODE" }
+                    , { displayName: "Room", columnName: "ROOM" }
+                    , { displayName: "Canceled", columnName: "IS_CANCELED" }
+
+                ]
+            });
+
+       
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

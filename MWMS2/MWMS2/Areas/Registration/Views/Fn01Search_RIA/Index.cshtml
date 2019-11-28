@@ -1,0 +1,189 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_RIASearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">File Reference :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.FileRef)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.RegNo)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.HKID)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Passport No. :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.PassportNo)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.SurnName)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.GivenName)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Chinese Name:</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(model => model.ChiName)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Address :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(model => model.Address)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Services in Building Safety :</div>
+                <div class="w3-col l6 m12 s12">@Html.DropDownListFor(model => model.ServiceInBS, Model.ServiceInBSList)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PNAP :</div>
+                <div class="w3-col l6 m12 s12">@Html.DropDownListFor(model => model.Pnrc, Model.PnrcList)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Sex :</div>
+                <div class="w3-col l9 m12 s12">@Html.DropDownListFor(model => model.Sex, Model.SexList)</div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PRB :<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                <div class="w3-col l6 m12 s12">
+
+                    @foreach (var item in Model.RetrievePRBByType())
+                    {
+                        <input type="checkbox" value="@item.Value" name="Prb" id="@item.Value" />
+                        @Html.Label(item.Text, new { @for = @item.Value })
+                        <br />
+                    }
+
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Qualification Code :<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                <div class="w3-col l6 m12 s12">
+
+
+                    @foreach (var item in Model.RetrieveQCByType())
+                    {
+                        <input type="checkbox" value="@item.Value" name="Qcode" id="@item.Value" />
+                        @Html.Label(item.Text, new { @for = @item.Value })
+                        <br />
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Disciplines / Divisions :<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                <div class="w3-col l9 m12 s12">
+                    @foreach (var item in Model.RetrieveDisDivByType())
+                    {
+                        <input type="checkbox" value="@item.Value" name="DisDiv" id="@item.Value" />
+                        if (item.Text != null)
+                        {
+                            @Html.Label(item.Text, new { @for = @item.Value })
+                        }
+                        <br />
+                    }
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        domReady(function () {
+
+            searching =  new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "CERTIFICATION_NO"
+                , Columns: [
+                    {
+                        displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Name", columnName: "NAME" }
+                    , { displayName: "Category", columnName: "CODE" }
+                    , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                ]
+            }); 
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

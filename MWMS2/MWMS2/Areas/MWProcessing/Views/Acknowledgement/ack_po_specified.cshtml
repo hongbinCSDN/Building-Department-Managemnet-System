@@ -1,0 +1,946 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+@Html.HiddenFor(m => Model.IsReadonly)
+@Html.HiddenFor(m => Model.IsSPO)
+
+@{ Dictionary<string, object> attr = new Dictionary<string, object>();}
+<div class="sList" id="formInfoCheck">
+    <form id="inputForm" method="post">
+
+        <div id="PageHeader" class="w3-row">
+            <a href="javascript:void(0)" style="cursor: default;">
+                <div id="AckTitleAudit" style="width:25%" class="w3-third tablink w3-border-green w3-bottombar w3-hover-light-grey w3-padding">Audit</div>
+            </a>
+            <a href="javascript:void(0)" style="cursor: default;">
+                <div id="AckTitleAL" style="width:25%" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">AL requiring follow up</div>
+            </a>
+            <a href="javascript:void(0)" style="cursor: default;">
+                <div id="AckTitleWL" style="width:25%" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">WL requiring follow up</div>
+            </a>
+            <a href="javascript:void(0)" style="cursor: default;">
+                <div id="AckTitleLSS/EBD" style="width:25%" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Case referred to LSS/EBD</div>
+            </a>
+        </div>
+
+        <div id="AckFormAudit" class="displayForm">
+
+            <div id="BaseHeader" class="panelHeader">
+                <label>Checklist Summary</label>
+                <label id="BaseTitle1" style="margin-left:5px;">Specified Form Checklist Summary</label>
+            </div>
+
+            @Html.HiddenFor(model => model.P_MW_RECORD_FORM_CHECKLIST.UUID)
+            @Html.HiddenFor(model => model.P_MW_RECORD.PRE_SITE_AUDIT_RELATED)
+            @Html.HiddenFor(model => model.P_MW_RECORD.SITE_AUDIT_RELATED)
+
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/submissionInfo.cshtml")
+
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/scannedDoc.cshtml")
+
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/itemInfo.cshtml")
+
+            <div>
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th style="width:20px" rowspan="2"> &nbsp;</th>
+                            <th rowspan="2">Form Checking items</th>
+                            <th colspan="2">Checking Result</th>
+                            <th rowspan="2">TO Remarks</th>
+                            <th colspan="2">PO Agreement</th>
+                            <th rowspan="2">PO Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Not OK</th>
+                            <th>OK</th>
+                            <th>Agreed</th>
+                            <th>Not Agreed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int ordering = 1; int form09Index = 0; string columnName = ""; string poColumnName = ""; string form09Name = "";}
+                        @for (int i = 0; i < Model.SpecifiedMWRecordFormCheckItemList.Count(); i++)
+                        {
+                            columnName = "P_MW_RECORD_FORM_CHECKLIST." + Model.SpecifiedMWRecordFormCheckItemList[i].ColumnName;
+                            poColumnName = "P_MW_RECORD_FORM_CHECKLIST_PO." + Model.SpecifiedMWRecordFormCheckItemList[i].ColumnName;
+
+                            if (Model.SpecifiedMWRecordFormCheckItemList[i].ItemName == "Title")
+                            {
+                                @Html.Raw(Model.SpecifiedMWRecordFormCheckItemList[i].ItemDescription)
+                            }
+                            else
+                            {
+                                <div hidden>
+                                    @Html.HiddenFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].ColumnName)
+                                </div>
+
+                                if (Model.SpecifiedMWRecordFormCheckItemList[i].ItemName == "InfoNot")
+                                {
+                                    <tr>
+                                        <td>
+                                            @ordering
+                                        </td>
+                                        <td>
+                                            @Html.Raw(Model.SpecifiedMWRecordFormCheckItemList[i].ItemDescription)
+                                        </td>
+                                        <td colspan="2">
+                                            <label>@Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "O", new { @class = "w3-radio", Name = columnName }) OK</label>
+                                            <label>@Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "C", new { @class = "w3-radio", Name = columnName }) Conditional</label>
+                                            <label>@Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "N", new { @class = "w3-radio", Name = columnName }) Refusal</label>
+                                        </td>
+                                        <td>
+                                            @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].ToRemarks, new { Name = columnName + "_RMK" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "Y", new { @class = "w3-radio", Name = poColumnName })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "N", new { @class = "w3-radio", Name = poColumnName })
+                                        </td>
+                                        <td>
+                                            @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].PoRemarks, new { Name = poColumnName + "_RMK" })
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    if (Model.SpecifiedMWRecordFormCheckItemList[i].ItemName == "mwForm09")
+                                    {
+                                        form09Name = "P_MW_Form_09s[" + form09Index.ToString() + "].";
+                                        <tr>
+                                            <td>
+                                                @Html.Hidden(form09Name + "UUID", Model.SpecifiedMWRecordFormCheckItemList[i].Form09UUID)
+                                                @ordering
+                                            </td>
+                                            <td>
+                                                @Html.Raw(Model.SpecifiedMWRecordFormCheckItemList[i].ItemDescription)
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "N", new { @class = "w3-radio", @disabled = "true", Name = (form09Name + "TO_CHECKING") })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "O", new { @class = "w3-radio", @disabled = "true", Name = (form09Name + "TO_CHECKING") })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].ToRemarks, new { @disabled = "true", Name = (form09Name + "TO_RMK") })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "N", new { @class = "w3-radio", Name = (form09Name + "PO_AGREEMENT") })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "O", new { @class = "w3-radio", Name = (form09Name + "PO_AGREEMENT") })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].PoRemarks, new { Name = (form09Name + "PO_RMK") })
+                                            </td>
+                                        </tr>
+                                        form09Index += 1;
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ordering
+                                            </td>
+                                            <td>
+                                                @Html.Raw(Model.SpecifiedMWRecordFormCheckItemList[i].ItemDescription)
+                                                @if (Model.SpecifiedMWRecordFormCheckItemList[i].Signature)
+                                                {
+                                                    <br />
+                                                    <span>Specimen Signature:</span>
+                                                    <img src="~/img/view.gif" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "N", new { @class = "w3-radio", @disabled = "true" })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].ToChecking, "O", new { @class = "w3-radio", @disabled = "true" })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].ToRemarks, new { @disabled = "true" })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "N", new { @class = "w3-radio", Name = poColumnName })
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => Model.SpecifiedMWRecordFormCheckItemList[i].PoAgreement, "O", new { @class = "w3-radio", Name = poColumnName })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(m => Model.SpecifiedMWRecordFormCheckItemList[i].PoRemarks, new { Name = poColumnName + "_RMK" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                ordering += 1;
+                            }
+
+                        }
+                    </tbody>
+                </table>
+
+                <br />
+
+            </div>
+
+            @{int intRow = 0; }
+            <div id="ItemContent" class="w3-border displayForm">
+                <label id="ItemTitle" style="display:none"></label>
+                <table id="ItemTable" class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2"></th>
+                            <th rowspan="2"></th>
+                            <th rowspan="2">Item Checking items</th>
+                            <th colspan="2">Checking Result</th>
+                            <th rowspan="2">TO Remarks</th>
+                            <th colspan="2">PO Agreement</th>
+                            <th rowspan="2">PO Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Not OK</th>
+                            <th>More information required</th>
+                            <th>Agreed</th>
+                            <th>Not Agreed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.FilterP_MW_RECORD_ITEMs.Count(); i++)
+                        {
+                            var item = Model.FilterP_MW_RECORD_ITEMs[i];
+                            var ChildItemList = Model.RecordItemCheckListItems.Where(d => d.MW_ITEM_NO == item.MW_ITEM_CODE && d.CLASS_CODE == item.CLASS_CODE && d.CLASS_CODE_ORDERING == item.ORDERING && (d.ANSWER == "N" || d.ANSWER == "M")).OrderBy(o => o.ORDERING).ToList();
+                            var rowCount = ChildItemList.Count();
+
+                            for (int j = 0; j < ChildItemList.Count(); j++)
+                            {
+                                string collectionName = "RecordItemCheckListItems[" + intRow + "].";
+                                <div hidden>
+                                    <input hidden name="@(collectionName+"UUID")" value="@ChildItemList[j].UUID" />
+                                </div>
+                                if (j == 0)
+                                {
+                                    <tr>
+                                        <td rowspan="@rowCount">
+                                            @(i + 1)
+                                        </td>
+                                        <td rowspan="@rowCount">
+                                            @item.MW_ITEM_CODE
+                                        </td>
+                                        <td style="white-space: normal;width: 500px;">
+                                            @ChildItemList[j].CHECKLIST_NO. @ChildItemList[j].DESCRIPTION--@ChildItemList[j].ANSWER
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton("Radio" + intRow, "N", ChildItemList[j].ANSWER == "N", new { @class = "w3-radio", @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton("Radio" + intRow, "M", ChildItemList[j].ANSWER == "M", new { @class = "w3-radio", @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.TextArea("textArea" + intRow, ChildItemList[j].REMARKS, new { @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton(collectionName + "PO_AGREEMENT", "N", ChildItemList[j].PO_AGREEMENT == "N", new { @class = "w3-radio" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton(collectionName + "PO_AGREEMENT", "M", ChildItemList[j].PO_AGREEMENT == "M", new { @class = "w3-radio" })
+                                        </td>
+                                        <td>
+                                            @Html.TextArea(collectionName + "PO_REMARK", ChildItemList[j].PO_REMARK)
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td style="white-space: normal;width: 500px;">
+                                            @ChildItemList[j].CHECKLIST_NO. @ChildItemList[j].DESCRIPTION --@ChildItemList[j].ANSWER
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton("Radio" + intRow, "N", ChildItemList[j].ANSWER == "N", new { @class = "w3-radio", @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton("Radio" + intRow, "M", ChildItemList[j].ANSWER == "M", new { @class = "w3-radio", @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.TextArea("textArea" + intRow, ChildItemList[j].REMARKS, new { @disabled = "true" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton(collectionName + "PO_AGREEMENT", "N", ChildItemList[j].PO_AGREEMENT == "N", new { @class = "w3-radio" })
+                                        </td>
+                                        <td>
+                                            @Html.RadioButton(collectionName + "PO_AGREEMENT", "M", ChildItemList[j].PO_AGREEMENT == "M", new { @class = "w3-radio" })
+                                        </td>
+                                        <td>
+                                            @Html.TextArea(collectionName + "PO_REMARK", ChildItemList[j].PO_REMARK)
+                                        </td>
+                                    </tr>
+                                }
+                                intRow += 1;
+                            }
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+            <br />
+
+            <div>
+
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th colspan="7">
+                                Recommendation
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @Html.HiddenFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.UUID)
+                            <td style="vertical-align: middle;">
+                                <label>@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "O", new { @class = "w3-radio", onclick = "changeRecommendation(value)" }) In Order</label>
+                            </td>
+                            <td style="vertical-align: middle;white-space: normal;">
+                                <label>
+                                    @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW33")
+                                    {
+                                        @Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "OWR", new { @class = "w3-radio", onclick = "changeRecommendation(value)" })
+
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "OWR", new { @class = "w3-radio", @disabled = "True" })
+                                    }
+                                    In Order With Rectification
+                                    <br />
+                                    (For MW33 rectification)
+                                </label>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <label>@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "AW", new { @class = "w3-radio", onclick = "changeRecommendation(value)" }) Acknowledgement Withdraw</label>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <label>@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "S", new { @class = "w3-radio", onclick = "changeRecommendation(value)" }) Superseded</label>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <label>@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "AL", new { @class = "w3-radio", onclick = "changeRecommendation(value)" }) Issue AL</label>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <label>@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION, "T", new { @class = "w3-radio", onclick = "changeRecommendation(value)" }) Tolerate</label>
+                            </td>
+                            <td>
+                                Remark
+                                <br />
+                                @Html.TextAreaFor(m => m.P_MW_SUMMARY_MW_ITEM_CHECKLIST.REMARK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle;height: 50px;" colspan="6">
+                                Image Transfer to RRM
+                                <label>&nbsp;@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.TRANSFER_RRM, "Y", new { @class = "w3-radio" }) Yes</label>
+                                <label>&nbsp;@Html.RadioButtonFor(model => model.P_MW_SUMMARY_MW_ITEM_CHECKLIST.TRANSFER_RRM, "N", new { @class = "w3-radio" }) No</label>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+
+        </div>
+
+
+        @if (Model.P_MW_RECORD.PRE_SITE_AUDIT_RELATED == "Y")
+        {
+            <div id="AckFormPSAC" class="displayForm" style="display:none;">
+                @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/psac.cshtml")
+            </div>
+        }
+
+
+        @if (Model.IsSAC)
+        {
+            <div id="AckFormSAC" class="displayForm" style="display:none;">
+                @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/sac.cshtml")
+            </div>
+        }
+
+        <div id="AckFormAL" class="displayForm" style="display:none;">
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/AL_Info.cshtml")
+        </div>
+        <div id="AckFormWL" class="displayForm" style="display:none;">
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/WL_Info.cshtml")
+        </div>
+        <div id="AckFormLSS/EBD" class="displayForm" style="display:none;">
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/LSS_EBD_Info.cshtml")
+        </div>
+
+
+        <div class="displayForm">
+            <div class="w3-container footer">
+                @if (Model.IsReadonly)
+                {
+                    <button id="btnRollBack" class="btn btn-default enabled" type="button" onclick="rollbackComment()">Roll Back to TO & Comment</button>
+                    <button id="btnReadonlyBack" class="btn btn-default enabled" onclick="changeReadonlyPage(false)" type="button" hidden>Back</button>
+                    <button id="btnReadonlyNext" class="btn btn-default enabled" onclick="changeReadonlyPage(true)" type="button" hidden>Next</button>
+                    <button id="btnSubmit" class="btn btn-default enabled" onclick="submitAcknowledgement()" type="button">Submit</button>
+                }
+                else
+                {
+                    <button id="btnBack" class="btn btn-default" type="button" style="display:none;">Back</button>
+                    <button id="btnWL" class="btn btn-default" type="button" style="display:none;">Save And Go To WL follow up</button>
+                    <button id="btnSAC" class="btn btn-default" type="button" style="display:none;">Add SAC Check List</button>
+                    <button id="btnLSS_EBD" class="btn btn-default" type="button" style="display:none;">Save And Go To Referred to LSS/EBD</button>
+                    <button id="btnAL" class="btn btn-default w3-gray w3-hover-gray" type="button" disabled>Save And Go To AL follow up</button>
+                    <button id="btnRollBack" class="btn btn-default" type="button" onclick="rollbackComment()">Roll Back to TO & Comment</button>
+                    <button id="btnSave" class="btn btn-default" type="button" style="display:none;">Save</button>
+                    <button id="btnSaveAndNext" class="btn btn-default" type="button" style="display:none;">Save And Next</button>
+                    <button id="btnSubmit" onclick="submitAcknowledgement_PO()" class="btn btn-default enabled" type="button">Submit</button>
+                }
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    ////Start Listen for return value of the rollback page
+    //var rollbackResult = {};
+    //Object.defineProperty(rollbackResult, 'isRollback', {
+    //    set: function (value) {
+    //        goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+    //    }
+    //});
+    ////End Listen for return value of the rollback page
+
+    function rollbackComment() {
+        //get reocrd uuid
+
+        var uuid = $('#P_MW_RECORD_UUID').val();
+        var vUuid = $('#V_UUID').val();
+        var handlingUnit = $('#HandlingUnit').val();
+        var isSPO = document.getElementById("IsSPO").value.toLowerCase() == "true";
+
+        goTo(domId("rootPath").value + "/MWProcessing/Comment/AddComment",
+            [
+                { name: "RECORD_ID", value: uuid },
+                { name: "IsRollback", value: true },
+                { name: "V_UUID", value: vUuid },
+                { name: "IsSPO", value: isSPO },
+                { name: "SubmissionType", value: "Acknowledgement" },
+                { name: "HandlingUnit", value: handlingUnit }
+            ], true);
+    }
+
+    function changeRecommendation(value) {
+        //console.log(value);
+        var btnAL = document.getElementById('btnAL');
+
+        if (value == "AL") {
+            btnAL.removeAttribute('disabled');
+            btnAL.className = 'btn btn-default';
+        } else {
+            btnAL.setAttribute("disabled", "true");
+            btnAL.className = 'btn btn-default w3-gray w3-hover-gray';
+        }
+    }
+
+    function refreshRecommendation() {
+        var recommendations = document.querySelectorAll("input[name='P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION']");
+
+        for (var i = 0; i < recommendations.length; i++) {
+
+            if (recommendations[i].checked) {
+                changeRecommendation(recommendations[i].value);
+            }
+
+        }
+    }
+
+    function submitAcknowledgement_PO() {
+        //SubmitAcknowledgement_PO
+        $("#IsSubmit").val(true);
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveAcknowledgement", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save successfully');
+                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function toAuditContent() {
+        //hidden WL button
+        var btnWL = document.getElementById('btnWL');
+        btnWL.style.display = "none";
+
+        //hidden btn Back
+        var btnBack = document.getElementById('btnBack');
+        btnBack.style.display = "none";
+
+        //display btn Save
+        var btnSave = document.getElementById('btnSave');
+        btnSave.style.display = "";
+        btnSave.onclick = (function () { saveAcknowledgement(false, null, null) });
+
+        if ($('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y" || $('#IsSAC').val().toLowerCase() == "true") {
+            //display btn Save And Next
+            var btnSaveAndNext = document.getElementById('btnSaveAndNext');
+            btnSaveAndNext.style.display = "";
+
+            if ($('#IsSAC').val().toLowerCase() == "true") {
+                btnSaveAndNext.onclick = (function () { saveAcknowledgement(true, 'AckTitleSAC', "toSacPage"); });
+            }
+
+            if ($('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y") {
+                btnSaveAndNext.onclick = (function () { saveAcknowledgement(true, 'AckTitlePSAC', "toPsacPage"); });
+            }
+        }
+
+        //display btn AL
+        var btnAL = document.getElementById('btnAL');
+        btnAL.style.display = "";
+        btnAL.onclick = (function () { saveAcknowledgement(true, 'AckTitleAL', "toALContent"); });
+
+    }
+
+    function toPsacPage() {
+        //hidden WL button
+        var btnWL = document.getElementById('btnWL');
+        btnWL.style.display = "none";
+
+        //display btn Back
+        var btnBack = document.getElementById('btnBack');
+        btnBack.style.display = "";
+        btnBack.onclick = (function () { changeContentPage('AckTitleAudit'); toAuditContent(); });
+
+        if ($('#IsSAC').val().toLowerCase() == "true") {
+            //display btn Save And Next
+            var btnSaveAndNext = document.getElementById('btnSaveAndNext');
+            btnSaveAndNext.style.display = "";
+            btnSaveAndNext.onclick = (function () { saveAcknowledgement(true, 'AckTitleSAC', "toSacPage"); });
+        }
+    }
+
+    function toSacPage() {
+        //hidden WL button
+        var btnWL = document.getElementById('btnWL');
+        btnWL.style.display = "none";
+
+        //hidden btn Save And Next
+        var btnSaveAndNext = document.getElementById('btnSaveAndNext');
+        btnSaveAndNext.style.display = "none";
+
+        //display btn Back
+        var btnBack = document.getElementById('btnBack');
+        btnBack.style.display = "";
+        if ($('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y") {
+            btnBack.onclick = (function () { changeContentPage('AckTitlePSAC'); toPsacPage(); });
+        } else {
+            btnBack.onclick = (function () { changeContentPage('AckTitleAudit'); toAuditContent(); });
+        }
+
+    }
+
+    function toALContent() {
+        //hidden AL button
+        var btnAL = document.getElementById('btnAL');
+        btnAL.style.display = "none";
+
+        //hidden LSS_EBBD button
+        var btnLSS_EBD = document.getElementById('btnLSS_EBD');
+        btnLSS_EBD.style.display = "none";
+
+        //hidden SAC button
+        var btnSAC = document.getElementById('btnSAC');
+        btnSAC.style.display = "none";
+
+        //hidden save and next
+        var btnSaveAndNext = document.getElementById('btnSaveAndNext');
+        btnSaveAndNext.style.display = "none";
+
+        //display WL button
+        var btnWL = document.getElementById('btnWL');
+        btnWL.style.display = "";
+        btnWL.onclick = (function () { saveAcknowledgement(true, 'AckTitleWL', "toWLContent"); });
+
+        //display btn Save
+        var btnSave = document.getElementById('btnSave');
+        btnSave.style.display = "";
+        btnSave.onclick = (function () { saveAcknowledgement(false, null, null) });
+
+        //dispaly btn Back
+        var btnBack = document.getElementById('btnBack');
+        btnBack.style.display = "";
+
+        var btnBack = document.getElementById('btnBack');
+        btnBack.onclick = (function () { changeContentPage('AckTitleAudit'); toAuditContent(); });
+
+    }
+
+    function toWLContent() {
+        //hidden WL button
+        var btnWL = document.getElementById('btnWL');
+        btnWL.style.display = "none";
+
+        //display LSS_EBBD button
+        var btnLSS_EBD = document.getElementById('btnLSS_EBD');
+        btnLSS_EBD.style.display = "";
+        btnLSS_EBD.onclick = (function () { saveAcknowledgement(true, 'AckTitleLSS/EBD', "toLSS_EBD"); });
+
+        //display SAC button
+        var isSacWL = document.getElementById('IsSacWL').value.toLowerCase() == "true";
+        if (!isSacWL) {
+            var btnSAC = document.getElementById('btnSAC');
+            btnSAC.style.display = "";
+            btnSAC.onclick = (function () { displaySacWL(); });
+        }
+
+        var btnBack = document.getElementById('btnBack');
+        btnBack.onclick = (function () { changeContentPage('AckTitleAL'); toALContent(); });
+
+        //clone table AL
+        cloneALTabletoWL();
+
+
+    }
+
+    function cloneALTabletoWL() {
+        var tableAL = document.getElementById('tableOffenceAL').cloneNode(true);
+
+        var divWL = document.getElementById('divWL');
+        divWL.innerHTML = "";
+
+        tableAL.id = 'clone' + tableAL.id;
+        divWL.appendChild(tableAL);
+
+        var inputList = divWL.querySelectorAll("input");
+        var ddlList = divWL.querySelectorAll("select");
+        var btnList = divWL.querySelectorAll("button");
+        var taList = divWL.querySelectorAll("textarea");
+
+        for (var i = 0; i < inputList.length; i++) {
+            inputList[i].id = 'clone' + inputList[i].id;
+            inputList[i].name = 'clone' + inputList[i].name;
+            inputList[i].disabled = true;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].value = document.getElementById(ddlList[i].id).value;
+            ddlList[i].id = 'clone' + ddlList[i].id;
+            ddlList[i].name = 'clone' + ddlList[i].name;
+            ddlList[i].disabled = true;
+        }
+
+        for (var i = 0; i < btnList.length; i++) {
+            btnList[i].id = 'clone' + btnList[i].id;
+            btnList[i].name = 'clone' + btnList[i].name;
+            btnList[i].disabled = true;
+            btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+            taList[i].id = 'clone' + taList[i].id;
+            taList[i].name = 'clone' + taList[i].name;
+            taList[i].disabled = true;
+        }
+    }
+
+
+    function toLSS_EBD() {
+        //hidden LSS_EBBD button
+        var btnLSS_EBD = document.getElementById('btnLSS_EBD');
+        btnLSS_EBD.style.display = "none";
+
+        //hidden SAC button
+        var btnSAC = document.getElementById('btnSAC');
+        btnSAC.style.display = "none";
+
+        var btnBack = document.getElementById('btnBack');
+        btnBack.onclick = (function () { changeContentPage('AckTitleWL'); toWLContent(); });
+    }
+
+    function refreshContentPage() {
+
+        var PageHeader = document.getElementById('PageHeader');
+
+        //PSAC
+        if ($('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y") {
+            var aPSAC = document.createElement("a");
+            aPSAC.href = "javascript:void(0)";
+            aPSAC.style.cursor = "default";
+
+            var divPSAC = document.createElement("div");
+            divPSAC.id = "AckTitlePSAC";
+            divPSAC.className = "w3-third tablink w3-bottombar w3-hover-light-grey w3-padding";
+            divPSAC.innerText = "PSAC";
+
+            aPSAC.appendChild(divPSAC);
+            PageHeader.insertBefore(aPSAC, PageHeader.children[1]);
+
+        }
+
+        //SAC
+        if ($('#IsSAC').val().toLowerCase() == "true") {
+            var aSAC = document.createElement("a");
+            aSAC.href = "javascript:void(0)";
+            aSAC.style.cursor = "default";
+
+            var divSAC = document.createElement("div");
+            divSAC.id = "AckTitleSAC";
+            divSAC.className = "w3-third tablink w3-bottombar w3-hover-light-grey w3-padding";
+            divSAC.innerText = "SAC";
+
+            aSAC.appendChild(divSAC);
+
+            var sacIndex = $('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y" ? 2 : 1;
+
+            PageHeader.insertBefore(aSAC, PageHeader.children[sacIndex]);
+        }
+
+        //reset children node widht
+        //var childrenWidht = (100 / PageHeader.children.length) + "%";
+        var childrenWidht = ["25%", "25%", "25%", "25%"];
+        if (PageHeader.children.length == 5) {
+            childrenWidht = ["17%", "17%", "22%", "22%", "22%"];
+        } else if (PageHeader.children.length == 6) {
+            childrenWidht = ["13.33%", "13.33%" , "13.33%" ,"20%", "20%", "20%"];
+        }
+
+        for (var i = 0; i < PageHeader.children.length; i++) {
+            PageHeader.children[i].children[0].style.width = childrenWidht[i];
+        }
+
+        if (!isReadonly) {
+            toAuditContent();
+        }
+
+    }
+
+    function changeContentPage(titleName) {
+
+        pageList = document.querySelectorAll("div[id^=AckTitle]");
+
+        formList = document.querySelectorAll("div[id^=AckForm]");
+
+        for (var i = 0; i < pageList.length; i++) {
+            if (pageList[i].id == titleName) {
+                pageList[i].className = "w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-green ";
+                formList[i].style.display = "";
+            } else {
+                pageList[i].className = "w3-third tablink w3-bottombar w3-hover-light-grey w3-padding";
+                formList[i].style.display = "none";
+            }
+        }
+    }
+
+    function saveAcknowledgement(isNext, titleFunc, formFunc) {
+
+        //titleFunc();
+        //formFunc();
+        $("#IsSubmit").val(false);
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveAcknowledgement", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save successfully');
+                if (isNext) {
+
+                    //Title Func
+                    changeContentPage(titleFunc);
+
+                    //Form cunt
+
+                    if (formFunc == "toSacPage") {
+                        toSacPage();
+
+                    } else if (formFunc == "toPsacPage") {
+                        toPsacPage();
+
+                    } else if (formFunc == "toALContent") {
+                        toALContent();
+
+                    } else if (formFunc == "toWLContent") {
+                        toWLContent();
+                    } else if (formFunc == "toLSS_EBD") {
+                        toLSS_EBD();
+                    }
+
+                    //titleFunc();
+                    //formFunc();
+                } else {
+
+                }
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function submitAcknowledgement() {
+        attr("inputForm", "addClass", "saving");
+        $.post("SubmitAcknowledgement", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save successfully');
+                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function readonlyPage() {
+
+        var isReadonly = document.getElementById("IsReadonly").value.toLowerCase() == "true";
+        var isSPO = document.getElementById("IsSPO").value.toLowerCase() == "true";
+        if (!isReadonly) { return; }
+
+        var inputForm = document.getElementById('inputForm');
+        var inputList = inputForm.querySelectorAll("input");
+        var ddlList = inputForm.querySelectorAll("select");
+        var btnList = inputForm.querySelectorAll("button");
+        var taList = inputForm.querySelectorAll("textarea");
+
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].type == "hidden") { continue; }
+            inputList[i].disabled = true;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].disabled = true;
+        }
+
+        for (var i = 0; i < btnList.length; i++) {
+
+            if (btnList[i].id == "btnReadonlyBack" || btnList[i].id == "btnReadonlyNext") {
+                continue;
+            }
+
+            if (btnList[i].className.indexOf("enabled") < 0) {
+                btnList[i].disabled = true;
+                btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+            } else {
+                if (!isSPO) {
+                    btnList[i].disabled = true;
+                    btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+                }
+            }
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+            taList[i].disabled = true;
+        }
+    }
+
+    var readonlyPageIndex = 0;
+    var readonlyPageList = [];
+    var isReadonly = false;
+
+    function changeReadonlyPage(isNext) {
+
+        if (isNext) {
+            readonlyPageIndex += 1;
+        } else {
+            readonlyPageIndex -= 1;
+        }
+        var pageName = readonlyPageList[readonlyPageIndex];
+
+        changeContentPage(pageName);
+
+        refreshReadonlyButton();
+
+    }
+
+    function refreshReadonlyButton() {
+
+        var btnReadonlyBack = document.getElementById('btnReadonlyBack');
+        var btnReadonlyNext = document.getElementById('btnReadonlyNext');
+
+        if (readonlyPageIndex == 0) {
+            btnReadonlyBack.hidden = true;
+        } else {
+            btnReadonlyBack.hidden = false;
+        }
+
+        if (readonlyPageIndex == (readonlyPageList.length - 1)) {
+            btnReadonlyNext.hidden = true;
+        } else {
+            btnReadonlyNext.hidden = false;
+        }
+
+    }
+
+    function displaySacWL() {
+
+        var isSacWL = document.getElementById('IsSacWL');
+        isSacWL.value = "true";
+        var divSacWL = document.getElementById('divSacWL');
+        divSacWL.hidden = false;
+
+        var btnSAC = document.getElementById('btnSAC');
+        btnSAC.style.display = "none";
+
+    }
+
+    function getRecommendation() {
+        var recommendationList = document.querySelectorAll("input[name='P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION']");
+        for (var i = 0; i < recommendationList.length; i++) {
+            if (recommendationList[i].checked) {
+                return recommendationList[i].value;
+            }
+        }
+    }
+
+    function getIsAL() {
+        var recomendationValue = getRecommendation();
+
+        return recomendationValue == "AL";
+    }
+
+    domReady(function () {
+
+        isReadonly = document.getElementById("IsReadonly").value.toLowerCase() == "true";
+
+        refreshContentPage();
+
+        cloneALTabletoWL();
+
+        readonlyPageIndex = 0;
+        var pageList = document.querySelectorAll("div[id^='AckTitle']");
+
+        for (var i = 0; i < pageList.length; i++) {
+            readonlyPageList.push(pageList[i].id);
+        }
+
+        if (isReadonly) {
+            var isAL = getIsAL();
+            if (!isAL) {
+                for (var i = 0; i < 3; i++) {
+                    readonlyPageList.pop();
+                }
+            }
+
+            readonlyPage();
+            refreshReadonlyButton();
+
+        } else {
+            refreshRecommendation();
+        }
+    });
+
+</script>

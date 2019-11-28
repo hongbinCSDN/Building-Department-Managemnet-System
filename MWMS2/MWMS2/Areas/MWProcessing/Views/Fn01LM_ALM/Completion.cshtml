@@ -1,0 +1,48 @@
+﻿
+<div class="panelHeader">
+    Long Outstanding Certificate of Completion for Class I/ II Minor Works
+</div>
+<br />
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Completion"
+            //, exportPath: "Export"
+            , searchTable: "searchTable"
+            , resultPanel: "resultPanel"
+            , Sort: "DSN"
+            , Columns: [
+                { displayName: "DSN", columnName: "DSN" }
+                , { displayName: "Form No.", columnName: "FORM_NO" }
+                , { displayName: "MW No.", columnName: "MW_NO" }
+                , { displayName: "MW items", columnName: "MW_ITEM" }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "PBP", columnName: "PBP_NO" }
+                , { displayName: "PRC", columnName: "PRC_NO" }
+                //, { displayName: "Address", columnName: "ADDRESS" }
+                //, { displayName: "Audit(AFC)", columnName: "AUDIT_RELATED" }
+                //, { displayName: "Audit(SAC)", columnName: "SITE_AUDIT_RELATED" }
+                //, { displayName: "Audit(PSAC)", columnName: "HANDING_STAFF_2" }
+                //, { displayName: "O", columnName: "ORDER_RELATED" }
+                //, { displayName: "S", columnName: "SIGNBOARD_RELATED" }
+                //, { displayName: "P", columnName: "SSP" }
+                //, {
+                //    displayName: "&nbsp;", formater: function (row) {
+                //        return createButton("", "fa-edit", [{
+                //            "onclick": {
+                //                parameters: { row: row }, callback: function (d, p, e) {
+                //                    if (row == null) return;
+                //                    goTo("Form", [{ name: "id", value: row.UUID }]);
+                //                }
+                //            }
+                //        }]);
+                //    }
+                //}
+            ]
+        }).goToPage();
+    });
+
+
+</script>

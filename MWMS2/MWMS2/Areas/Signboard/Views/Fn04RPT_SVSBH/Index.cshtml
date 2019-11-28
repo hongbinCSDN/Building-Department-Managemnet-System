@@ -1,0 +1,119 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_SVSBHSearchModel
+<div class="panelHeader">
+    Search Criteria
+</div>
+<script>
+    function showReport(id) {
+        showReportForm(id);
+    }
+    function showReportForm(divID) {
+        var sDivs = $(".reportSelection").get();
+        for (var i = 0; i < sDivs.length; i++) {
+            if (sDivs[i].id == divID) {
+                sDivs[i].style.display = "";
+            } else {
+                sDivs[i].style.display = "none";
+            }
+        }
+    }
+</script>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnValDataExp" href="javascript:showReportForm('SVSBBYForm')">Summary of Validation Forms Handled (by Year)</a>
+        </div>
+    </div>
+    <div id="SVSBBYForm" style="display:none;" class="reportSelection w3-row">
+        <form action="ExportSVSYear" method="post" id="reportForm">
+            <div id="searchCriteria">
+                <div class="displayForm" style="overflow-x:auto">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Receive Date
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.SVSBBYPeriodFromDate, new { @class = "inputDate" })
+                                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.SVSBBYPeriodToDate, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                District
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.District, Model.DistrictList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                LSO
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.LSO,Model.LSOList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Senior Officer
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.SeniorOfficer,Model.SeniorOfficerList )
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Officer
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.Officer,Model.OfficerList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button type="submit" class="searchButton btn btn-default" id="MRSearchBtn">
+                            <i class="fa fa-print"></i> Export Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnValDataExp" href="javascript:showReportForm('SVSBBUForm')">Summary of Validation Forms Handled (by Unit)</a>
+        </div>
+    </div>
+    <div id="SVSBBUForm" style="display:none;" class="reportSelection w3-row">
+        <form action="ExportSVSUnit" method="post" id="reportForm">
+            <div id="searchCriteria">
+                <div class="displayForm" style="overflow-x:auto">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Receive Date
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.PeriodFromDate, new { @class = "inputDate" })
+                                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.PeriodToDate, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button type="submit" class="searchButton btn btn-default" id="MRSearchBtn">
+                            <i class="fa fa-print"></i> Export Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

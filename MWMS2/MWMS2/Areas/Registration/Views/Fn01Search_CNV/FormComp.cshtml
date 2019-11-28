@@ -1,0 +1,273 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_CNVDisplayModel
+
+
+<div class="panelHeader">Search Conviction</div>
+
+<div id="searchCriteria">
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12" style="font-size:50%;">1. Fields marked <font color="red">*</font> are required.   2. Dates must be in the format dd/mm/yyyy. </div>
+        <div class="w3-col l6 m6 s12" style="text-align:right;">Last Updated:   25/01/2017 11:54 AM </div>
+    </div>
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Name (Eng)<font color="red">*</font> :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.ENGLISH_NAME, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Name (Chn) :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CHINESE_NAME, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Proprietor Name :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.PROPRI_NAME, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">BR Number :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.BR_NO, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Reference :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.REFERENCE, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Company Type :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DropDownListFor(model => model.C_COMP_CONVICTION.COMPANY_TYPE_ID, Model.getCompanyType(), new { disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Site Description :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.SITE_DESCRIPTION, 4, 50, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Source :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CONVICTION_SOURCE_ID, Model.getConvictionSource(), new { disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Remarks :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.REMARKS, 4, 50, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Record Type :</div>
+            <div class="w3-col l9 m6 s12 RecordType" id="RecordType">
+                @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "C", new { disabled = "disabled" }) Conviction Record
+                @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "S", new { disabled = "disabled" }) Suspension/Removal Record
+                @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "D", new { disabled = "disabled" }) Disciplinary Action
+                @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "M", new { disabled = "disabled" }) Miscellaneous
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="panelHeader">Conviction Record :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Section of Ordinances/Regulation :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_SECTION, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Offence :</div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_OFFENCE_DATE, new { @class = "inputDate", disabled = "disabled" })</div>
+
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Judgement :</div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_JUDGE_DATE, new { @class = "inputDate", disabled = "disabled" })</div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Fine :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_FINE, new { disabled = "disabled" })</div>
+        </div>
+        <div class="w3-col l3 m6 s12">
+            <div class="w3-col l6 m6 s12">Accident: </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CR_ACCIDENT, Model.getYesNo(), new { disabled = "disabled" })
+            </div>
+        </div>
+        <div class="w3-col l3 m6 s12">
+            <div class="w3-col l6 m6 s12">Fatal: </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CR_FATAL, Model.getYesNo(), new { disabled = "disabled" })
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;"> <input style="text-align:right;" type="checkbox" disabled = "disabled"/>This record must be shown on report </div>
+    </div>
+
+
+
+
+    <div class="panelHeader">Suspension/Removal Record :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Action :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_ACTION, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Effective Date :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_EFFECTIVE_DATE, new { @class = "inputDate" , disabled = "disabled" })</div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Date of Approval :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_APPROVAL_DATE, new { @class = "inputDate" ,disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Suspension Date : </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_FROM_DATE, new { @class = "inputDate", disabled = "disabled" }) to
+                @Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_TO_DATE, new { @class = "inputDate", disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Category :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CATEGORY, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_DETAILS, 4, 50, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;"> <input style="text-align:right;" type="checkbox" disabled = "disabled"/>This record must be shown on report </div>
+    </div>
+
+
+    <div class="panelHeader">Disciplinary Action :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Decision :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.DA_DECISION_DATE, new { @class = "inputDate", disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.DA_DETAILS, 4, 50, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;"> <input style="text-align:right;" type="checkbox" disabled = "disabled"/>This record must be shown on report </div>
+    </div>
+
+    <div class="panelHeader">Miscellaneous :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Receiving Date :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.MISC_RECEIVING_DATE, new { @class = "inputDate", disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Details :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.MISC_DETAILS, new { disabled = "disabled" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12" style="text-align:right;"> <input style="text-align:right;" type="checkbox" disabled = "disabled" />This record must be shown on report </div>
+    </div>
+
+
+
+    <div class="w3-container footer">
+        @*, [{name:'doSearch',value: 'Y'}]*@
+        <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

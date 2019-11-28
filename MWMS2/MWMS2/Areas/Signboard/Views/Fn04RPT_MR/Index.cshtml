@@ -1,0 +1,69 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_MRSearchModel
+
+<script>
+    domReady(function () {
+        $(function () {
+            var Month = $('select[name="Month"]');
+            var Year = $('select[name="Year"]');
+            $('input:radio[name="TypeOfCalendar"]').change(
+                function () {
+                    if ($(this).is(':checked') && $(this).val() == "Period") {
+                        $('#PeriodDateFrom').attr('disabled', false);
+                        $('#PeriodDateTo').attr('disabled', false);
+                        Month.prop('disabled', true);
+                        Year.prop('disabled', true);
+                    } else {
+                        $('#PeriodDateFrom').attr('disabled', true);
+                        $('#PeriodDateTo').attr('disabled', true);
+                        Month.prop('disabled', false);
+                        Year.prop('disabled', false);
+                    }
+                });
+        });
+    });
+    function Search() {
+        thisForm = document.getElementById('reportForm');
+        thisForm.action = 'SearchMR';
+        thisForm.submit();
+    }
+
+</script>
+
+<div class="panelHeader">
+    Search Criteria
+</div>
+<form action="SearchMR" method="post" id="reportForm">
+    <input type="hidden" name="searchMethod" id="searchMethod" />
+    <input type="hidden" name="pageNumber" id="pageNumber" />
+    <div id="searchCriteria">
+        <div class="displayForm" style="overflow-x:auto">
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l2 m6 s12">
+                        <label for="TypeOfCalendarPeriod">Period</label>    @Html.RadioButtonFor(model => model.TypeOfCalendar, "Period", new { @id = "TypeOfCalendarPeriod", @onchange = "changeSearch()", @checked = "checked" }) :
+                    </div>
+                    <div class="w3-col l10 m6 s12">
+                        &nbsp;From&nbsp;@Html.TextBoxFor(model => model.PeriodDateFrom, new { @class = "inputDate" })
+                        &nbsp;To&nbsp; @Html.TextBoxFor(model => model.PeriodDateTo, new { @class = "inputDate" })
+                    </div>
+                </div>
+      
+   
+                    <div class="w3-col l6 m12 s12">
+                        <div class="w3-col l2 m6 s12">      <label for="TypeOfCalendarMonth">Month</label>  @Html.RadioButtonFor(model => model.TypeOfCalendar, "Month",new { @id = "TypeOfCalendarMonth" }) :</div>
+                        <div class="w3-col l10 m6 s12">
+                            @Html.DropDownListFor(model => model.Month, Model.MonthList, new { @style = "width:200px", @disabled = "disabled" })
+                            @Html.DropDownListFor(model => model.Year, Model.YearList, new { @style = "width:200px", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+         
+                <div class="w3-container footer">
+                    <button onclick="Search()" class="searchButton btn btn-default" type="button" id="MRSearchBtn">
+                    <i class="fa fa-search"></i> Search
+                    </button>
+
+                </div>
+            </div>
+        </div>
+</form>

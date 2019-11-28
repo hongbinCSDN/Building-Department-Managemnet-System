@@ -1,0 +1,140 @@
+﻿
+@model MWMS2.Areas.Signboard.Models.SCUR_Models
+
+
+
+
+<form id="inputForm" method="post" action="ReceiveForm">
+
+    <div class="displayForm">
+        @Html.HiddenFor(model => model.FormCode, new { id = "formCodeID" })
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Submission No. :	</div>
+                
+                <div class="w3-col l3 m12 s12"> @Html.TextBoxFor(model => model.SubmissionNo) </div>
+                <div class="w3-col l1 m12 s12 data">
+                    <button type="button" id="printBtn"><i class="fa fa-print"></i> Print</button>
+                </div>
+                <div class="w3-col l3 m12 s12 data">
+                    <button type="button" id="lmBtn">Go To Letter Module</button>
+                </div>
+                <div id="ErrMsg" style="color:red"></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SC01 :</div>
+                <div class="w3-col l9 m12 s12">
+                    <button type="button" id="SC01Btn">SC01 (Validation/ Alteration/ Strengthening)</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"> </div>
+                <div class="w3-col l9 m12 s12">
+                    <button type="button" id="SC01CBtn">SC01C (Completion)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SC02 :</div>
+                <div class="w3-col l9 m12 s12">
+                    <button type="button" id="SC02Btn">SC02 (Validation/ Alteration/ Strengthening)</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"> </div>
+                <div class="w3-col l9 m12 s12">
+                    <button type="button" id="SC02CBtn">SC02C (Completion)</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SC03 :</div>
+                <div class="w3-col l9 m12 s12">
+                    <button type="button" id="SC03Btn">SC03 (Validation/ Alteration/ Strengthening)</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script type="text/javascript">
+    function goToLetterModule() {
+        var submissionNo = document.getElementById("SubmissionNo").value;
+        goTo("../Fn01SCUR_LM/RedirectFromRA", [{ name: "submissionNo", value: submissionNo }]);
+    }
+
+    function onSubmitForm(formType) {
+                $.ajax({
+                    type: "POST",
+                    url: 'ReceiveForm',
+                    data: {
+                        FormCode: formType
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.SubmissionNo != undefined)
+                        {
+                            document.getElementById("SubmissionNo").value = data.SubmissionNo;
+
+                        }
+                    }
+
+                });
+
+            }
+ 
+    function assignCompletion(formType) {
+        $.ajax({
+            type: "POST",
+            url: 'ReceiveCompleteForm',
+            data: {
+                FormCode  : formType,
+                SubmissionNo : document.getElementById("SubmissionNo").value
+            },
+            success: function (data) {
+                console.log(data);
+             //   if (data.ErrMsg != undefined) {
+                    document.getElementById("ErrMsg").innerHTML  = data.ErrMsg;
+
+              //  }
+            }
+
+        });
+
+    }
+
+    function onPrintForm() {
+        var scNo = document.getElementById("SubmissionNo").value;
+        window.location = ("MWMS2PrinterAgent:" + scNo);
+    }
+
+
+
+    domReady(function () {
+        attr("printBtn", "onclick", { parameters: {}, callback: function () { onPrintForm(); } });
+        attr("lmBtn", "onclick", { parameters: {}, callback: function () { goToLetterModule(); } });
+        attr("SC01Btn", "onclick", { parameters: {}, callback: function () { onSubmitForm('SC01'); } });
+        attr("SC01CBtn", "onclick", { parameters: {}, callback: function () { assignCompletion('SC01C'); } });
+        attr("SC02Btn", "onclick", { parameters: {}, callback: function () { onSubmitForm('SC02'); } });
+        attr("SC02CBtn", "onclick", { parameters: {}, callback: function () { assignCompletion('SC02C'); } });
+        attr("SC03Btn", "onclick", { parameters: {}, callback: function () { onSubmitForm('SC03'); } });
+    });
+
+    //function onSubmitForm(formType) {
+    //    //  attr("inputForm", "addClass", "saving");
+    //    domId("formCodeID").value = formType;
+    //    domId("inputForm").submit();
+
+    //}
+
+</script>

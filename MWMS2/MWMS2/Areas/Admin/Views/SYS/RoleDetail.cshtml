@@ -1,0 +1,351 @@
+﻿@model MWMS2.Areas.Admin.Models.SysSearchRoleModuleModel
+
+<form id="inputForm" method="post">
+    <div class="displayForm">
+        <div class="w3-border displayForm">
+            @Html.HiddenFor(mode => mode.SYS_ROLE.UUID)
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l2 m12 s12">Role Name:</div>
+                    @if (Model.SYS_ROLE == null)
+                    {
+                        <div class="w3-col l3 m12 s12">@Html.TextBoxFor(model=>model.SYS_ROLE.CODE)</div>
+                        <div class="w3-col l3 m12 s12">@*&nbsp; @Model.SYS_ROLE.CODE*@</div>
+
+                    }
+                    else
+                    {
+                        @*<div class="w3-col l3 m12 s12">@Html.TextBox("Code", Model.SYS_ROLE.CODE, new { @readonly = "True" })</div>*@
+                        <div class="w3-col l3 m12 s12">&nbsp; @Model.SYS_ROLE.CODE</div>
+
+                    }
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l2 m12 s12">Description:</div>
+                    <div class="w3-col l3 m12 s12">@Html.TextBoxFor(model => model.SYS_ROLE.DESCRIPTION, new { @id = "DESCRIPTION" })</div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div id="tabbar1" class="hide">
+            <div>Function Permission</div>
+            <div>Conviction Type Permission</div>
+            <div>Searching Level</div>
+        </div>
+        <!--C_S_USER_GROUP_CONV_INFO C_S_SEARCH_LEVEL-->
+
+        <div name="tabname1" class="displayForm hide">
+
+
+
+            <table class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th tabindex="0">
+                            <input type="checkbox" class="checkAllMember">
+                        </th>
+                        <th tabindex="0" style="cursor: pointer;" colspan="6">
+                            Module
+                        </th>
+                    </tr>
+                </thead>
+
+
+
+                @for (int i = 0; i < Model.RoleFuncList.Count; i++)
+                {
+                    @Html.HiddenFor(model => Model.RoleFuncList[i].SYS_FUNC_ID, new { })
+                    @Html.HiddenFor(model => Model.RoleFuncList[i].USE_TYPE, new { })
+                    if (Model.RoleFuncList[i].USE_TYPE == "MODULE")
+                    {
+                        Model.ClassName1 = Model.RoleFuncList[i].CODE;
+                        <thead>
+                            <tr>
+                                <th tabindex="0">
+
+                                    @Html.CheckBoxFor(model => Model.RoleFuncList[i].IsChecked, new { @id = Model.ClassName1, @class = "checkMember " + Model.ClassName1, @onclick = "parentCheckboxClick(event)" })
+                                </th>
+                                <th tabindex="0" style="cursor: pointer;" colspan="6">
+                                    @Model.RoleFuncList[i].DESCRIPTION
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanCreate)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanDelete)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanDelete)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanList)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanViewDetails)
+
+                                </th>
+                            </tr>
+                        </thead>
+                    }
+                    else if (Model.RoleFuncList[i].USE_TYPE == "TOP_MENU")
+                    {
+                        Model.ClassName2 = Model.ClassName1 + "c " + Model.RoleFuncList[i].CODE;
+                        <thead>
+                            <tr>
+                                <th tabindex="0">
+
+                                </th>
+                                <th tabindex="0" style="cursor: pointer;" colspan="6">
+                                    @Html.CheckBoxFor(model => Model.RoleFuncList[i].IsChecked, new { @id = Model.RoleFuncList[i].CODE, @class = "checkMember " + Model.ClassName2, @onclick = "parentCheckboxClick(event)" })
+                                    @Model.RoleFuncList[i].DESCRIPTION
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanCreate)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanDelete)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanDelete)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanList)
+                                    @Html.HiddenFor(mode => mode.RoleFuncList[i].CanViewDetails)
+                                </th>
+                            </tr>
+                        </thead>
+
+                    }
+                    else
+                    {
+                        Model.ClassName3 = Model.ClassName2 + "c " + Model.RoleFuncList[i].CODE;
+                        <tbody>
+                            <tr>
+                                <td tabindex="0" style="cursor: pointer;"></td>
+                                <td tabindex="0">
+                                    @Html.CheckBoxFor(model => Model.RoleFuncList[i].IsChecked, new { @id = Model.RoleFuncList[i].CODE, @class = "checkMember " + Model.ClassName3, @onclick = "parentCheckboxClick(event)" })@Model.RoleFuncList[i].DESCRIPTION
+                                </td>
+                                @if (Model.RoleFuncList[i].AbleShow)
+                                {
+                                    <td tabindex="0" style="cursor: pointer;">
+                                        @Html.CheckBoxFor(model => Model.RoleFuncList[i].CanList, new { @class = "checkMember " + Model.ClassName3 + "c", @onclick = "refreshParentCheckbox(event)" })List
+                                    </td>
+                                    <td tabindex="0" style="cursor: pointer;">
+                                        @Html.CheckBoxFor(model => Model.RoleFuncList[i].CanViewDetails, new { @class = "checkMember " + Model.ClassName3 + "c", @onclick = "refreshParentCheckbox(event)" })View Detail
+                                    </td>
+                                    <td tabindex="0" style="cursor: pointer;">
+                                        @Html.CheckBoxFor(model => Model.RoleFuncList[i].CanCreate, new { @class = "checkMember " + Model.ClassName3 + "c", @onclick = "refreshParentCheckbox(event)" })Create
+                                    </td>
+                                    <td tabindex="0" style="cursor: pointer;">
+                                        @Html.CheckBoxFor(model => Model.RoleFuncList[i].CanEdit, new { @class = "checkMember " + Model.ClassName3 + "c", @onclick = "refreshParentCheckbox(event)" })Edit
+                                    </td>
+                                    <td tabindex="0" style="cursor: pointer;">
+                                        @Html.CheckBoxFor(model => Model.RoleFuncList[i].CanDelete, new { @class = "checkMember " + Model.ClassName3 + "c", @onclick = "refreshParentCheckbox(event)" })Delete
+                                    </td>
+                                }
+
+                            </tr>
+                        </tbody>
+                    }
+                }
+            </table>
+        </div>
+
+
+
+
+
+
+        <div name="tabname1" class="displayForm hide">
+            <div class="panelHeader">User Group</div>
+            <div id="resultPanel2">
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th tabindex="0">
+                                <input type="checkbox" class="cbUserGroup checkAllUserGroup">
+                            </th>
+                            <th tabindex="0" style="cursor: pointer;" colspan="6">
+                                User Group
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.UserGoupList.Count(); i++)
+                        {
+                            @Html.HiddenFor(m => m.UserGoupList[i].UUID)
+                            <tr style="background-color:white;">
+                                <td tabindex="0" style="cursor: pointer;"></td>
+                                <td tabindex="0" style="cursor: pointer;">
+                                    @Html.CheckBoxFor(model => Model.UserGoupList[i].IsChecked, new { @class = "checkUserGroup" })
+                                    @Html.Label(Model.UserGoupList[i].ENGLISH_DESCRIPTION)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <div name="tabname1" class="displayForm hide">
+
+            <div class="panelHeader">Level</div>
+
+            <table class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th tabindex="0">
+                            <input type="checkbox" class="cbLevel checkAllLevel">
+                        </th>
+                        <th tabindex="0" style="cursor: pointer;" colspan="6">
+                            Level
+                        </th>
+                    </tr>
+                </thead>
+                @for (int i = 0; i < Model.LevelList.Count(); i++)
+                {
+                    if (Model.LevelType != Model.LevelList[i].REGISTRATION_TYPE)
+                    {
+                        Model.LevelType = Model.LevelList[i].REGISTRATION_TYPE;
+                        <thead>
+                            <tr>
+                                <th tabindex="0">
+                                    <input id="@Model.LevelType" type="checkbox" onclick="parentCheckboxClick(event)" class="checkAllLevel checkLevel @Model.LevelType">
+                                </th>
+                                <th tabindex="0" style="cursor: pointer;" colspan="6">
+                                    @Model.LevelType
+                                </th>
+                            </tr>
+                        </thead>
+                    }
+
+                    <tbody>
+
+                        @Html.HiddenFor(m => m.LevelList[i].UUID)
+                        <tr style="background-color:white;">
+                            <td tabindex="0" style="cursor: pointer;"></td>
+                            <td tabindex="0" style="cursor: pointer;">
+                                @Html.CheckBoxFor(model => Model.LevelList[i].IsChecked, new { @class = "checkLevel " + Model.LevelType + "c" })
+                                @Html.Label(Model.LevelList[i].ENGLISH_DESCRIPTION)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                }
+
+            </table>
+        </div>
+
+
+
+        <div class="w3-container footer">
+            <button id="saveButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Save</button>
+            <button onclick="goTo('RoleIndex')" class="btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+    domReady(function () {
+    });
+
+
+    function parentCheckboxClick(event) {
+        //get checkbox id
+        //var checkboxName = event.toElement.classList[1];
+        //console.log(event);
+        var checkboxId = event.target.id;
+
+        //get checked
+        //var IsChecked = document.getElementsByClassName(event.toElement.classList[1])[0].checked;
+        var IsChecked = document.getElementById(checkboxId).checked;
+
+        //get child chekcbox
+        //var childCheckbox = document.getElementsByClassName(checkboxName + 'c');
+        var childCheckbox = document.getElementsByClassName(checkboxId + 'c');
+
+        for (var i = 0; i < childCheckbox.length; i++) {
+            childCheckbox[i].checked = IsChecked;
+        }
+   //     refreshParentCheckbox(event);
+
+    }
+    /*
+    function refreshParentCheckbox(event) {
+
+        //get class name list
+        var classNameList;
+        if (event == null) {
+            classNameList = ["checkMember"];
+        } else {
+            classNameList = event.toElement.classList;
+        }
+
+
+        //for ClassName
+        for (var i = classNameList.length - 1; i >= 0; i--) {
+
+            var checkboxName;
+
+            if (event == null) {
+                checkboxName = "checkMember";
+            } else {
+                checkboxName = event.toElement.classList[i];
+            }
+
+            //get parent class name
+            var parentCheckboxName = "";
+            if (checkboxName == "checkMember") {
+                //checkAllMember
+                parentCheckboxName = "checkAllMember"
+
+            } else {
+                parentCheckboxName = checkboxName.substring(0, checkboxName.length - 1);
+            }
+
+            //get all child checkbox
+            var childCheckbox = document.getElementsByClassName(checkboxName);
+
+            //get number of child checkbox
+            var sumCheckbox = childCheckbox.length;
+
+            //get checked
+            var sumChecked = 0;
+            for (var j = 0; j < childCheckbox.length; j++) {
+                if (childCheckbox[j].checked) {
+                    sumChecked += 1;
+                }
+            }
+
+            //get parent checkbox
+            var parentCheckbox = document.getElementsByClassName(parentCheckboxName);
+
+            if (parentCheckbox.length == 0) {
+                continue;
+            }
+            //set parent checkbox status
+            parentCheckbox[0].checked = (0 < sumCheckbox <= sumChecked);
+        }
+
+
+    }
+    */
+    domReady(function () {
+        tabber1 = tabber({ tab: "tabbar1", area: "tabname1" });
+     //   refreshParentCheckbox();
+
+
+
+       // attr("cbModule", "onclick", { parameters: {}, callback: CheckedAll });
+      //  attr("cbUserGroup", "onclick", { parameters: {}, callback: CheckedAllUserGroup });
+      //  attr("cbLevel", "onclick", { parameters: {}, callback: CheckedAllLevel });
+
+        attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+
+        checkAller("checkAllMember", "checkMember");
+        checkAller("checkAllUserGroup", "checkUserGroup");
+        checkAller("checkAllLevel", "checkLevel");
+        function onSaveForm(d, p, e) {
+            attr("inputForm", "addClass", "saving");
+            $.post("SaveRoleFunc", $("#inputForm").serialize(), function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    //goTo("drSubmission", null);
+                    alert("Save Successfully");
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        };
+    });
+
+</script>

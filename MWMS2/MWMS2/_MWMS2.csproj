@@ -1,0 +1,1245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0A024E1-126D-48ED-A7CC-D36315569639}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MWMS2</RootNamespace>
+    <AssemblyName>MWMS2</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.18.3.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.3.1\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.5.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.5.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.5.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.5.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.5.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\RMController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UMController.cs" />
+    <Compile Include="Areas\CMN\CMNAreaRegistration.cs" />
+    <Compile Include="Areas\CMN\Controllers\CMN02Controller.cs" />
+    <Compile Include="Areas\CMN\Controllers\CMN03Controller.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn01LM_ALController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn01LM_ASController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn01LM_PCSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_DEController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_DSNMController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_DSPController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_GEController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_MWURCController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_RCPController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_SADController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn02MWUR_SDController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn03TSK_ASController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn03TSK_GSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn03TSK_SSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn03TSK_STSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn04VRF_VRFController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn05IIF_IIFController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn06ACKCS_ACKCSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_AFCPRController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_DTRSController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_ECPRController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_ESRController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_ESSRController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_MWSWCCController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_PPJLController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_QSRController.cs" />
+    <Compile Include="Areas\MWProcessing\Controllers\Fn10RPT_SLRController.cs" />
+    <Compile Include="Areas\MWProcessing\MWProcessingAreaRegistration.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_MIAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_MWCAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_CNVController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_RIAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_QPController .cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_PAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn01Search_GCAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_CAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_GCNController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_ICController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_IRController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_MRAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_PM10PController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_PMController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_UASController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn02GCA_MFTController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_GCNController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_ICController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_IRController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_MRAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_PAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_PMController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn03PA_UASController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_GCNController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_ICController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_IRController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_MRAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_MWCAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_PMController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn04MWCA_UASController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_GCNController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_ICController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_IRController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_MRAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_MWIAController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_PMController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn05MWIA_UASController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn06CMM_CGController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn06CMM_CMMController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn06CMM_CPController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn06CMM_MPController.cs" />
+    <Compile Include="Areas\Registration\Controllers\Fn07CNV_CNVController.cs" />
+    <Compile Include="Areas\Registration\Models\MWCA_Model.cs" />
+    <Compile Include="Areas\Registration\Models\GCA_Model.cs" />
+    <Compile Include="Areas\Registration\RegistrationAreaRegistration.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn01SCUR_DEController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn01SCUR_SDController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn02TDL_SSController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn02TDL_STController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn02TDL_VSController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn03SRC_AAController .cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn03SRC_VAController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn04RPT_GCRController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn04RPT_PPJLController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn04RPT_S24ORController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn04RPT_SPRController.cs" />
+    <Compile Include="Areas\Signboard\Controllers\Fn04RPT_STController.cs" />
+    <Compile Include="Areas\Signboard\SignboardAreaRegistration.cs" />
+    <Compile Include="Areas\WarningLetter\Controllers\WNController.cs" />
+    <Compile Include="Areas\WarningLetter\WarningLetterAreaRegistration.cs" />
+    <Compile Include="Connected Services\PrintBarcodeServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ACCController.cs" />
+    <Compile Include="Controllers\ADMController.cs" />
+    <Compile Include="Controllers\CMNController.cs" />
+    <Compile Include="Controllers\CommonFunction.cs" />
+    <Compile Include="Controllers\CRM01Controller.cs" />
+    <Compile Include="Controllers\CRM02Controller.cs" />
+    <Compile Include="Controllers\CRM03Controller.cs" />
+    <Compile Include="Controllers\CRM04Controller.cs" />
+    <Compile Include="Controllers\CRM05Controller.cs" />
+    <Compile Include="Controllers\CRM06Controller.cs" />
+    <Compile Include="Controllers\CRM07Controller.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PEM01Controller.cs" />
+    <Compile Include="Controllers\PEM02Controller.cs" />
+    <Compile Include="Controllers\PEM03Controller.cs" />
+    <Compile Include="Controllers\PEM04Controller.cs" />
+    <Compile Include="Controllers\PEM05Controller.cs" />
+    <Compile Include="Controllers\PEM06Controller.cs" />
+    <Compile Include="Controllers\PEM07Controller.cs" />
+    <Compile Include="Controllers\PEM08Controller.cs" />
+    <Compile Include="Controllers\PEM09Controller.cs" />
+    <Compile Include="Controllers\PEM10Controller.cs" />
+    <Compile Include="Controllers\PEM1103AuditCheckPercentageController.cs" />
+    <Compile Include="Controllers\PEM1103Controller.cs" />
+    <Compile Include="Controllers\PEM11Controller.cs" />
+    <Compile Include="Controllers\PEM12Controller.cs" />
+    <Compile Include="Controllers\SMM0101Controller.cs" />
+    <Compile Include="Controllers\SMM0102Controller.cs" />
+    <Compile Include="Controllers\SMM0103Controller.cs" />
+    <Compile Include="Controllers\SMM0104Controller.cs" />
+    <Compile Include="Controllers\SMM0105Controller.cs" />
+    <Compile Include="Controllers\SMM0106Controller.cs" />
+    <Compile Include="Controllers\SMM02Controller.cs" />
+    <Compile Include="Controllers\SMM03Controller.cs" />
+    <Compile Include="Controllers\SMM08Controller.cs" />
+    <Compile Include="Controllers\SMM1103AuditCheckPercentageController.cs" />
+    <Compile Include="Controllers\SMM1103Controller.cs" />
+    <Compile Include="Controllers\SMM1103DistrictMaintenanceController.cs" />
+    <Compile Include="Controllers\SMM1103LetterTemplateController.cs" />
+    <Compile Include="Controllers\SMM1103LinkMaintenanceController.cs" />
+    <Compile Include="Controllers\SMM1103ValidationItemController.cs" />
+    <Compile Include="Controllers\SMM1105Controller.cs" />
+    <Compile Include="Controllers\SMM1106Controller.cs" />
+    <Compile Include="Controllers\SMM1107Controller.cs" />
+    <Compile Include="Controllers\SMM1108Controller.cs" />
+    <Compile Include="Controllers\SMM1109Controller.cs" />
+    <Compile Include="Controllers\WNController.cs" />
+    <Compile Include="DaoController\DaoPEMAuditPercentage.cs" />
+    <Compile Include="DaoController\DaoRoleManagement.cs" />
+    <Compile Include="DaoController\DaoSMMDataEntry.cs" />
+    <Compile Include="DaoController\DaoUserManagement.cs" />
+    <Compile Include="Dao\ACACTION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACRESOURCE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACRESOURCETYPE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACROLE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACROLEGROUP.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACROLERESOURCE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACROLEUSER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACUSER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ACUSERGROUP.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\APPLICANT_EFORM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_BCIS_ADDRESS.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_CRM_PBP_PRC.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_CRM_PBP_PRC_CAPACITY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_ATTACHMENT_LIST.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01C.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01C_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01C_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC01_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02C.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02C_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02C_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC02_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC03.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC03_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_EFSS_SC03_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RVD.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_BLOCK.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_BUILDING.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_DEVELOPMENT_NAME.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_LOCATION_NAME.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_NEW_DISTRICT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_STREET_LOCATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_STREET_NAME.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_TENEMENT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_RV_UNIT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_24_ORDER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_ADDRESS.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_APPOINTED_PROFESSIONAL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_AUDIT_RECORD.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_COMMENT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_COMPLAIN.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_GC.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_PERSON_CONTACT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_PHOTO_LIBRARY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_ADDRESS_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_FORM_CHECKLIST.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_ITEM_CHECKLIST.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_ITEM_CHECKLIST_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RECORD_VALIDATION_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_REFERENCE_NO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RFID.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_RV_ADDRESS.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_SCANNED_DOCUMENT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_SIGNBOARD.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_SIGNBOARD_RELATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_SUBMISSION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_UPLOAD_LOG.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_SV_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_AUDIT_CHECK_PERCENTAGE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_FUNCTION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_LETTER_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_LETTER_TEMPLATE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_LOG.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_MODULE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_MW_ITEM_CHECKLIST_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_PARAMETER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_SCU_TEAM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_SYSTEM_TYPE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_SYSTEM_VALUE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_USER_ACCOUNT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_USER_ACCOUNT_GROUP_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_USER_GROUP.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_S_USER_GROUP_FUNCTION_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_WF_ASSIGNMENT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_WF_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_WF_TASK.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\B_WF_TASK_USER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_ADDRESS.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_ADDRESS_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANTAPPHISTORYBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANTBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANTHISTORYBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_APPLICATION_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_DC.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_DC_EXCEP.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_HIST_ORI.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_APPLICANT_ORI.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_BUILDING_SAFETY_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_CAI_BACKUP_22052017.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEEMEMBERBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_COMMITTEE_MEMBER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_GROUP.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_GROUP_MEMBER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_MEMBER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_MEMBER_INSTITUTE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_PANEL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMMITTEE_PANEL_MEMBER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMPAPPLICANTINFOBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO_2401.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO_DETAIL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO_HISTORY_D.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_INFO_MASTER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICANT_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICATION_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLICATION_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_APPLN_MW_ITEM_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_CONVICTION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_COMP_PROCESS_MONITOR.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_APPLICANT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_APPLICANT_MW_CAPA.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_BA24.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_COMPANY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_MWC.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_MWCW.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_EFSS_PROFESSIONAL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_INDAPPLICATIONBU.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPLICATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPLICATION_1412.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPLICATION_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPLICATION_MW_ITEM_DETAIL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPLICATION_MW_ITEM_MASTER.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_APPL_MW_ITEM_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_CERTIFICATE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_CERTIFICATE_HISTORY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\C_IND_CONVICTION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ModelDao.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDao.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ModelDao.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\ModelDao.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDao.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\P_MW_CRM_INFO.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\P_S_AUDIT_CHECK_PERCENTAGE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\P_S_SYSTEM_TYPE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\P_S_SYSTEM_VALUE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_APPLICANT.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_APPLICANT_MW_CAPA.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_BA24.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_COMPANY.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_MWC.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_MWCW.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_EFSS_PROFESSIONAL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_ATTACHMENT_LIST.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01C.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01C_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01C_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC01_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02C.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02C_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02C_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC02_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC03.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC03_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\V_O_EFSS_SC03_VALIDATION.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_S_SYSTEM_TYPE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_S_SYSTEM_VALUE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_WL.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_WL_FILE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_WL_MW_ITEM.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\W_WL_TYPE_OF_OFFENSE.cs">
+      <DependentUpon>ModelDao.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CMNSearch.cs" />
+    <Compile Include="Models\DisplayGridColumn.cs" />
+    <Compile Include="Models\DisplayGrid.cs" />
+    <Compile Include="Models\ModelModuleFunction.cs" />
+    <Compile Include="Models\ModelSVRecord.cs" />
+    <Compile Include="Models\ModelSVSubmission.cs" />
+    <Compile Include="Models\ModelSystemValue.cs" />
+    <Compile Include="Models\ModelWN.cs" />
+    <Compile Include="Models\SystemParameterConstant.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\RegistrationGCAService.cs" />
+    <Compile Include="Services\RegistrationPAService.cs" />
+    <Compile Include="Services\RegistrationSearchService.cs" />
+    <Compile Include="Utility\SystemListUtil.cs" />
+    <Compile Include="Utility\EncryptDecryptUtil.cs" />
+    <Compile Include="Views\SMM01\B_SV_REFERENCE_NOController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Connected Services\PrintBarcodeServiceReference\MWMS2.PrintBarcodeServiceReference.PrintBarcodeLabelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Areas\CMN\Views\web.config" />
+    <Content Include="Areas\CMN\Views\CMN03\Index.cshtml" />
+    <Content Include="Areas\CMN\Views\CMN02\Index.cshtml" />
+    <Content Include="Areas\CMN\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Registration\Views\web.config" />
+    <Content Include="Areas\Registration\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_GCA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_PA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_CNV\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_MWCA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_MIA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_RIA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_QP\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\WarningLetter\Views\web.config" />
+    <Content Include="Areas\WarningLetter\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_CA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_UAS\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_PM\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_PM10P\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_MFT\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_PA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_UAS\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_PM\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_MWCA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_UAS\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_PM\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_MWIA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_UAS\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_PM\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_GCN\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_GCN\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_GCN\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_GCN\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_MRA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_MRA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_MRA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_MRA\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_IC\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_IC\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_IC\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_IC\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn06CMM_MP\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn06CMM_CP\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn06CMM_CMM\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn06CMM_CG\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn07CNV_CNV\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\web.config" />
+    <Content Include="Areas\MWProcessing\Views\Fn01LM_PCS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn01LM_AS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_DSNM\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_GE\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_SAD\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_SD\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn03TSK_STS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn03TSK_SS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn03TSK_AS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn03TSK_GS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn04VRF_VRF\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn06ACKCS_ACKCS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_AFCPR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_PPJL\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_ECPR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_DTRS\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_QSR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_SLR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_MWSWCC\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_ESR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn10RPT_ESSR\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\web.config" />
+    <Content Include="Areas\Signboard\Views\Fn01SCUR_SD\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn01SCUR_DE\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn02TDL_ST\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn02TDL_VS\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn02TDL_SS\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn03SRC_VA\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn03SRC_AA\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn04RPT_SPR\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn04RPT_PPJL\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn04RPT_GCR\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn04RPT_ST\Index.cshtml" />
+    <Content Include="Areas\Signboard\Views\Fn04RPT_S24OR\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn02GCA_IR\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn03PA_IR\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn04MWCA_IR\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn05MWIA_IR\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn01LM_AL\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_RCP\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_DSP\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_DE\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn02MWUR_MWURC\Index.cshtml" />
+    <Content Include="Areas\MWProcessing\Views\Fn05IIF_IIF\Index.cshtml" />
+    <Content Include="Areas\Registration\Views\Fn01Search_GCA\Form.cshtml" />
+    <None Include="Connected Services\PrintBarcodeServiceReference\PrinterWebSer.disco" />
+    <None Include="Connected Services\PrintBarcodeServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\PrintBarcodeServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\PrintBarcodeServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Content\all.min.css" />
+    <Content Include="Content\css.css" />
+    <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\flatpickr.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\w3.css" />
+    <Content Include="Dao\ModelDao.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelDao.edmx</DependentUpon>
+      <LastGenOutput>ModelDao.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Dao\ModelDao.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelDao.edmx</DependentUpon>
+      <LastGenOutput>ModelDao.cs</LastGenOutput>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Connected Services\PrintBarcodeServiceReference\PrinterWebSer.wsdl" />
+    <EntityDeploy Include="Dao\ModelDao.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelDao.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Dao\ModelDao.edmx.diagram">
+      <DependentUpon>ModelDao.edmx</DependentUpon>
+    </Content>
+    <Content Include="libman.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="Views\ACC\ACC.cshtml" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Views\CMN\CMN01.cshtml" />
+    <Content Include="Views\CMN\GetSearchKeyword.cshtml" />
+    <Content Include="Views\B_SV_REFERENCE_NO\Create.cshtml" />
+    <Content Include="Views\B_SV_REFERENCE_NO\Delete.cshtml" />
+    <Content Include="Views\B_SV_REFERENCE_NO\Details.cshtml" />
+    <Content Include="Views\B_SV_REFERENCE_NO\Edit.cshtml" />
+    <Content Include="Views\B_SV_REFERENCE_NO\Index.cshtml" />
+    <Content Include="Views\ADM\ADM.cshtml" />
+    <Content Include="Views\CMN03\Index.cshtml" />
+    <Content Include="Views\PEM1103\PEM1103.cshtml" />
+    <Content Include="Views\PEM1103AuditCheckPercentage\PEM1103AuditCheckPercentage.cshtml" />
+    <Content Include="Areas\Admin\Views\RM\RoleManagement.cshtml" />
+    <Content Include="Areas\Admin\Views\RM\RoleManagementEdit.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\all.min.js" />
+    <Content Include="Scripts\base.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\demoData.js" />
+    <Content Include="Scripts\flatpickr.js" />
+    <Content Include="Scripts\pdfmake.min.js" />
+    <Content Include="Scripts\vfs_fonts.js" />
+    <Content Include="Views\SMM0101\SMM0101.cshtml" />
+    <None Include="Views\SMM0102\SMM0102.cshtml" />
+    <None Include="Views\SMM0104\SMM0104.cshtml" />
+    <None Include="Views\SMM0104\SMM0104DataEntryEdit.cshtml" />
+    <Content Include="Views\SMM1107\SMM1107.cshtml" />
+    <Content Include="Views\SMM1107\SMM1107Edit.cshtml" />
+    <Content Include="Views\SMM1107\SMM1107Create.cshtml" />
+    <Content Include="Views\SMM1103\SMM1103.cshtml" />
+    <Content Include="Views\SMM1103ValidationItem\SMM1103ValidationItem.cshtml" />
+    <Content Include="Views\SMM1103ValidationItem\SMM1103ValidationItemCreate.cshtml" />
+    <Content Include="Views\SMM1103ValidationItem\SMM1103ValidationItemEdit.cshtml" />
+    <Content Include="Views\SMM1103DistrictMaintenance\SMM1103DistrictMaintenance.cshtml" />
+    <Content Include="Views\SMM1103DistrictMaintenance\SMM1103DistrictMaintenanceCreate.cshtml" />
+    <Content Include="Views\SMM1103DistrictMaintenance\SMM1103DistrictMaintenanceEdit.cshtml" />
+    <Content Include="Views\SMM1103LinkMaintenance\SMM1103LinkMaintenance.cshtml" />
+    <Content Include="Views\SMM1103LinkMaintenance\SMM1103LinkMaintenanceEdit.cshtml" />
+    <Content Include="Views\SMM1108\SMM1108.cshtml" />
+    <Content Include="Views\SMM1108\SMM1108Edit.cshtml" />
+    <Content Include="Views\SMM1108\SMM1108Create.cshtml" />
+    <Content Include="Views\SMM1109\SMM1109.cshtml" />
+    <Content Include="Views\SMM1103AuditCheckPercentage\SMM1103AuditCheckPercentage.cshtml" />
+    <Content Include="Views\SMM1103LetterTemplate\SMM1103LetterTemplate.cshtml" />
+    <Content Include="Views\SMM1103LetterTemplate\SMM1103LetterTemplateCreate.cshtml" />
+    <Content Include="Views\SMM1103LetterTemplate\SMM1103LetterTemplateEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\UM\UserManagement.cshtml" />
+    <Content Include="Areas\Admin\Views\UM\UserManagementEdit.cshtml" />
+    <None Include="Areas\WarningLetter\Views\WN\WN.cshtml" />
+    <Content Include="Areas\WarningLetter\Views\WN\WNCreateConfirmtest.cshtml" />
+    <Content Include="Areas\WarningLetter\Views\WN\WNCreateConfirm.cshtml" />
+    <None Include="Areas\WarningLetter\Views\WN\WNEdit.cshtml" />
+    <None Include="Areas\WarningLetter\Views\WN\WNCREATE.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layoutbk.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\CMN\Models\" />
+    <Folder Include="Areas\MWProcessing\Models\" />
+    <Folder Include="Areas\MWProcessing\Views\Shared\" />
+    <Folder Include="Areas\Registration\Views\Shared\" />
+    <Folder Include="Areas\Signboard\Models\" />
+    <Folder Include="Areas\Signboard\Views\Shared\" />
+    <Folder Include="Areas\WarningLetter\Models\" />
+    <Folder Include="Areas\WarningLetter\Views\Shared\" />
+    <Folder Include="Views\CRM01\" />
+    <Folder Include="Views\CRM02\" />
+    <Folder Include="Views\CRM03\" />
+    <Folder Include="Views\CRM04\" />
+    <Folder Include="Views\CRM05\" />
+    <Folder Include="Views\CRM06\" />
+    <Folder Include="Views\CRM07\" />
+    <Folder Include="Views\CRM08\" />
+    <Folder Include="Views\PEM01\" />
+    <Folder Include="Views\PEM02\" />
+    <Folder Include="Views\PEM03\" />
+    <Folder Include="Views\PEM04\" />
+    <Folder Include="Views\PEM05\" />
+    <Folder Include="Views\PEM06\" />
+    <Folder Include="Views\PEM07\" />
+    <Folder Include="Views\PEM08\" />
+    <Folder Include="Views\PEM09\" />
+    <Folder Include="Views\PEM10\" />
+    <Folder Include="Views\PEM11\" />
+    <Folder Include="Views\PEM12\" />
+    <Folder Include="Views\SMM0103\" />
+    <Folder Include="Views\SMM0105\" />
+    <Folder Include="Views\SMM0106\" />
+    <Folder Include="Views\SMM02\" />
+    <Folder Include="Views\SMM03\" />
+    <Folder Include="Views\SMM08\" />
+    <Folder Include="Views\SMM1105\" />
+    <Folder Include="Views\SMM1106\" />
+    <Folder Include="Views\WN\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\PrintBarcodeServiceReference\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50194</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50194/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

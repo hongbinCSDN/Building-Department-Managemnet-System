@@ -1,0 +1,136 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntryDisplayModel
+
+
+<script type="text/javascript">
+    var VDItemTable, MWItemTable;
+    domReady(function () {
+        var validationItemCount = 0;
+        var proposedValidationCount = 0;
+
+        VDItemTable = new searcher({
+            searchPath: "SearchVDItem"
+            , searchTable: "SvRecord_UUID"
+            , resultPanel: "VDItemDiv"
+            , Sortable: false
+            , Footer: false
+            , newItemFields: ["VALIDATION_ITEM", "DESCRIPTION"]
+            , Columns: [
+                {
+                    displayName: "-", formater: function (r, idx, self) {
+                        if (proposedValidationCount < 1 && (r.UUID == null || r.UUID == "")) {
+                            proposedValidationCount += 1;
+                            return dom("span");
+                        }
+                        else {
+                            proposedValidationCount += 1;
+                            return _dom(_dom(dom("span"), "input", [{ type: "hidden" }, { name: "xxx.UUID" }, { html: r.UUID }]), "button", [{ type: "button" }, { html: "Delete" }, { onclick: { callback: function (d, p, e) { removeDom(d.parentNode.parentNode.parentNode); } } }]);
+                        }
+                    }
+                }
+                , {
+                    displayName: "Validation item", formater: function (r) { return dom("input", [{ addClass: "VALIDATION_ITEM" }, { type: "text" }, { name: "B_SV_RECORD_VALIDATION_ITEM_VALIDATION_ITEM" }, { value: r.VALIDATION_ITEM }]); }, onAfterRender: function (dom, row, idx) {
+                        var items = dom.querySelectorAll(".VALIDATION_ITEM");
+                        for (var i = 0; i < items.length; i++) new atcp({
+                            id: items[i], dataSource: "SMMValidationItem", valueKey: "CODE", displayKey: "CODE"
+                            , init: false
+                            , minWidth: 400
+                            , passElement: []
+                            , mustMatch: true
+                            , columns: [{ "name": "Validation Item", "key": "CODE" }, { "name": "Corresponding MW items", "key": "DESCRIPTION" }]
+                            , onSelect: function (row) {
+                                var itemsj = dom.parentNode.querySelectorAll(".CORRESPONDING_ITEM");
+                                for (var j = 0; j < itemsj.length; j++) itemsj[j].value = row.DESCRIPTION;
+                                itemsj = dom.parentNode.querySelectorAll(".CORRESPONDING_ITEM_DISPLAY");
+                                for (var j = 0; j < itemsj.length; j++) itemsj[j].innerHTML = row.DESCRIPTION;
+                            }
+                        });
+                    }
+                }
+                , { displayName: "Description", formater: function (r) { return dom("textarea", [{ name: "B_SV_RECORD_VALIDATION_ITEM_DESCRIPTION" }, { html: r.DESCRIPTION }]); } }
+                , {
+                    displayName: "Corresponding MW items", formater: function (r) {
+                        var span = dom("span");
+                        dom_(span, "span", [{ addClass: "CORRESPONDING_ITEM_DISPLAY" }, { html: r.CORRESPONDING_ITEM }]);
+                        dom_(span, "input", [{ type: "hidden", addClass: "CORRESPONDING_ITEM" }, { name: "B_SV_RECORD_VALIDATION_ITEM_CORRESPONDING_ITEM" }, { value: r.CORRESPONDING_ITEM }]);
+                        
+                        return span;
+                    }
+                }
+            ]
+            , onAfterSearch: function (r) {
+                if (r.Data.length == 0)
+                    this.add({});
+            }
+        }).search();
+
+
+        /*
+        UUID
+        SV_RECORD_ID
+        MW_ITEM_CODE
+        LOCATION_DESCRIPTION
+        REVISION
+        ORDERING*/
+      
+
+        MWItemTable = new searcher({
+            searchPath: "SearchMWItem"
+            , searchTable: "SvRecord_UUID"
+            , resultPanel: "MWItemDiv"
+            , Sortable: false
+            , Footer: false
+            , newItemFields: ["MW_ITEM_CODE"]
+            , Columns: [
+                {
+                    displayName: "-", formater: function (r, idx, self) {
+                        
+                        if (validationItemCount < 1 && (r.UUID == null || r.UUID == "")) {
+                            validationItemCount += 1;
+                            return dom("span");
+                        }
+                        else {
+                            validationItemCount += 1;
+                            return _dom(_dom(dom("span"), "input", [{ type: "hidden" }, { name: "B_SV_RECORD_ITEM_UUID" }, { html: r.UUID }]), "button", [{ type: "button" }, { html: "Delete" }, { onclick: { callback: function (d, p, e) { removeDom(d.parentNode.parentNode.parentNode); } } }]);
+                        }
+                    }
+                }
+                , {
+                    displayName: "Minor Work Item", formater: function (r) { return dom("input", [{ addClass: "MW_ITEM_CODE" }, { type: "text" }, { name: "B_SV_RECORD_ITEM_MW_ITEM_CODE" }, { value: r.MW_ITEM_CODE }]); }, onAfterRender: function (dom, row, idx) {
+                        var items = dom.querySelectorAll(".MW_ITEM_CODE");
+                        for (var i = 0; i < items.length; i++) new atcp({
+                            id: items[i], dataSource: "SMMinorWorkItem", valueKey: "CODE", displayKey: "CODE"
+                            , init: false
+                            , minWidth: 400
+                            , passElement: []
+                            , mustMatch: true
+                            , columns: [{ "name": "Minor work Item", "key": "CODE" }]
+                            , onSelect: function (row) { }
+                        });
+                    }
+                }
+                , { displayName: "Description", formater: function (r) { return dom("textarea", [{ name: "B_SV_RECORD_ITEM_LOCATION_DESCRIPTION" }, { html: r.LOCATION_DESCRIPTION }]); } }
+                , { displayName: "Order/Direction/Notice/BD Reference No.", formater: function (r) { return dom("textarea", [{ name: "B_SV_RECORD_ITEM_REVISION" }, { html: r.REVISION }]); } }
+            ]
+            , onAfterSearch: function (r) {
+                if (r.Data.length == 0)
+                    this.add({});
+            }
+        }).search();
+
+
+      
+
+    });
+</script>
+
+<div class="panelHeader w3-panel">
+    <div class="w3-left">Validation item</div>
+    <div class="w3-right"><button type="button" id="VDItemBtn" onclick=" VDItemTable.add({})"><i class="far fa-plus-square"></i> Add Validation Item</button></div>
+</div>
+<div id="VDItemDiv"></div>
+<div class="panelHeader w3-panel">
+    <div class="w3-left">Proposed validation/alteration/strengthening</div>
+    <div class="w3-right"><button type="button" onclick="MWItemTable.add({})"><i class="far fa-plus-square"></i> Add MW Item</button></div>
+</div>
+<div id="MWItemDiv"></div>
+

@@ -1,0 +1,94 @@
+﻿@model MWMS2.Areas.CMN.Models.RegistrationModel
+
+
+
+<div class="displayForm">
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Registration No.:</div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.CERTIFICATION_NO)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Expiry Date :</div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.EXPIRY_DATE)</div>
+        </div>
+    </div>
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Name.:</div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.NAME)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">Chinese Name :</div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.CHINESE_NAME)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Services in Bldg Safety
+                (refer to Remark below) :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.BS_ITEM)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Telephone No. for Services
+                in Bldg Safety :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.DisplayFor(o => o.TEL_NO)</div>
+        </div>
+    </div>
+    @if (Model.Type == "C")
+    {
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    AS Name :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @foreach (var item in Model.AS_NAME)
+                    {
+                        @item
+                        <br />
+                    }
+
+
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">
+                    AS Chinese Name :
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    @foreach (var item in Model.AS_CHI_NAME)
+                    {
+                        @item
+                        <br />
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+    }
+        <div class="" style="padding-left: 10px; padding-right: 10px;">
+            <b>Remark:</b>
+            <br />"1" denotes those persons who are interested in providing services in the removal of unauthorized building works and carrying out necessary consequential reinstatement works
+            <br />"2" denotes those persons who are interested in providing services in maintenance and repair of buildings and drainage
+            <br />"3" denotes those persons who are interested in providing services in maintenance and repair of slopes associated with buildings
+            <br />"4" denotes those persons who are interested in providing services in maintenance and repair of aluminium windows
+            <br />"-" denotes that disclosure of information is not consented by the data subject
+        </div>
+    <div class="w3-container footer">
+        <button @*onclick='goTo("Index")'*@ class=" btn btn-default backButton" type="button"><i class="fa fa-arrow-left"></i>Back</button>
+
+    </div>
+</div>

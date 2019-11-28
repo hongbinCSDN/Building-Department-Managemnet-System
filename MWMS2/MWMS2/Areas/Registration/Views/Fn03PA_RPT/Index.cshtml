@@ -1,0 +1,2252 @@
+﻿@model MWMS2.Areas.Registration.Models.CRMReportModel
+<div class="panelHeader">&nbsp;Reports List</div>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnGaz" href="javascript:showReportForm('pnlGaz')">Gazette Memo &amp; Notices ...</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function GeneratePnlGazForms() {
+            if ($('#Gaz_date').val() == null || $('#Gaz_date').val() == '') {
+                alert("Date of Gazette should not be empty.");
+                return;
+            }
+            if ($('#NameOfSignture').val() == null || $('#NameOfSignture').val() == '') {
+                alert("Signature Name should not be empty.");
+                return;
+            }
+
+            openReport('pnlGazForm')
+        }
+        function GenerateAnnualGazatteLiteEngForm() {
+            if ($('#ReportGazDateFrom').val() == null || $('#ReportGazDateFrom').val() == '' || $('#ReportGazDateTo').val() == null || $('#ReportGazDateTo').val() == '') {
+                alert("Date of Gazette should not be empty.");
+                return;
+            }
+            if ($('#as_at_date').val() == null || $('#as_at_date').val() == '') {
+                alert("As at gazzte date  should not be empty.");
+                return;
+            }
+            openReport('AnnualGazatteLiteEngForm')
+        }
+        function GenerateAnnualGazatteLiteChnForm() {
+            if ($('#ReportChnGazDateFrom').val() == null || $('#ReportChnGazDateFrom').val() == '' || $('#ReportChnGazDateTo').val() == null || $('#ReportChnGazDateTo').val() == '') {
+                alert("Date of Gazette should not be empty.");
+                return;
+            }
+            if ($('#as_at_date2').val() == null || $('#as_at_date2').val() == '') {
+                alert("As at gazzte date  should not be empty.");
+                return;
+            }
+            openReport('AnnualGazatteLiteChnForm')
+        }
+    </script>
+    <div id="pnlGaz" style="display:none;" class="reportSelection w3-row">
+        <form action="GazForm" method="post" id="pnlGazForm">
+            <input type="hidden" name="rptId" value="CRM0063" />
+            <input type="hidden" name="REPORT_NAME" value="RPT0010a_a3_IP">
+            <input type="hidden" name="reportType" value="CSV">
+            <input type="hidden" name="cat_code" value="CSV">
+            <input type="hidden" name="reg_type" value="IP" />
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Gazette Memo &amp; Notices </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Gazette:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.TextBoxFor(model => model.Gaz_date, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">Signature Name:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.DropDownListFor(model => model.NameOfSignture, Model.SignatureNameList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Acting:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    <select name="acting" id="acting" style="width:100px;">
+                                        <option selected="selected" value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="btnGazMemo3a1" onclick="ExportMMD0003a_1_PA()" class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Memo (MMD0003a_1)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="btnGazMemo3a2" onclick="ExportMMD0003a_2_PA()" class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Memo (MMD0003a_2)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="btnGazMemo3a3" onclick="ExportMMD0003a_3_PA()" class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Memo (MMD0003a_3)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeekly" onclick="ExportMMD0003a_4()" class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRia" onclick="exportMMD0003a_4RIA()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (RI(A))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRie" onclick="exportMMD0003a_4RIE()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (RI(E))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4RIS()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (RI(S))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4APA()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (AP(A))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4APE()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (AP(E))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4APS()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (AP(S))(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4RSE()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (RSE)(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="lbtnGazWeeklyRis" onclick="exportMMD0003a_4RGE()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Export Weekly Notice (RGE)(MMD0003a_4)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button id="btnRPT0010a_a3" onclick="GeneratePnlGazForms()"
+                                    class="searchButton btn btn-default" type="button">
+                                <i class="fa fa-print"></i>  Print Annual Notice (RPT0010a_a3)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action="AnnualGazetteListEng" method="post" id="AnnualGazatteLiteEngForm">
+            <input type="hidden" name="rptId" value="CRM0029" />
+            <input type="hidden" name="REPORT_NAME" value="annual_gazette_ENG_IP" />
+            <input type="hidden" name="reg_type" value="IP">
+            <hidden id="registrationType" name="reportForm" />
+            <hidden id="popReport" name="reportForm" />
+            <div class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Date of Gazette:</div>
+                        <div class="w3-col l6 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ReportGazDateFrom, new { @class = "inputDate", @id = "ReportGazDateFrom" })
+                            &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ReportGazDateTo, new { @class = "inputDate", @id = "ReportGazDateTo" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Category Code:</div>
+                        <div class="w3-col l6 m6 s12">
+                            <select name="cat_gp" id="cat_gp2" style="width:350px;">
+                                <option selected="selected" value="AP">Authorized Persons' Register</option>
+                                <option value="RGE">Geotechnical Engineers' Register</option>
+                                <option value="RSE">Structural Engineers' Register</option>
+                                <option value="RI">Inspectors' Register</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Header Description:</div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.TextAreaFor(model => model.PAHeaderDesc, new { @id = "HeaderDesc" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> As at:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.asAtDate, new { @class = "inputDate", @id = "as_at_date" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <button id="lbtnGazetteEng" onclick="GenerateAnnualGazatteLiteEngForm()" class="searchButton btn btn-default" type="button">
+                        <i class="fa fa-print"></i>  Print Annual Gazette (Eng)
+                    </button>
+                </div>
+            </div>
+        </form>
+        <form action="AnnualGazetteListChn" method="post" id="AnnualGazatteLiteChnForm">
+            <input type="hidden" name="rptId" value="CRM0065" />
+            <input type="hidden" name="REPORT_NAME" value="annual_gazette_CHN_CGC" />
+            <input type="hidden" name="reg_type" value="IP">
+            <div class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Date of Gazette:</div>
+                        <div class="w3-col l6 m6 s12">
+                            &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ReportChnGazDateFrom, new { @class = "inputDate" })
+                            &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ReportChnGazDateTo, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Category Code:</div>
+                        <div class="w3-col l7 m6 s12">
+                            <select name="Chn_cat_gp" id="Chn_cat_gp" style="width:350px;">
+                                <option selected="selected" value="AP">Authorized Persons' Register</option>
+                                <option value="RGE">Geotechnical Engineers' Register</option>
+                                <option value="RSE">Structural Engineers' Register</option>
+                                <option value="RI">Inspectors' Register</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> Header Description:</div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.TextAreaFor(model => model.PAHeaderChnDesc, new { @id = "HeaderDesc" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> As at:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.asAtDate2, new { @class = "inputDate", @id = "as_at_date2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <button id="lbtnGazetteChn" onclick="GenerateAnnualGazatteLiteChnForm()" class="searchButton btn btn-default" type="button">
+                        <i class="fa fa-print"></i>Print Annual Gazette (Chn)
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnLabel" href="javascript:showReportForm('pnlLabel')"> Label ...</a>
+        </div>
+    </div>
+    <div id="pnlLabel" style="display:none;" class="reportSelection w3-row">
+        <form action="LabelForm" method="post" id="pnlLabelForm">
+            <input type="hidden" name="REPORT_NAME" value="RPT0010b_a2_CGC">
+            <input type="hidden" name="reg_type" value="IP">
+            <input type="hidden" name="today" value="<%=todate%>">
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Label </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> File reference:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.TextBoxFor(model => model.txtFileRef)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Gazette:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.LabelGazDateFrom, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.LabelGazDateTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expiry:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.LabelExpiryDateFrom, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.LabelExpiryDateTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">PN:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.DropDownListFor(model => model.PN, Model.PNList())
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Category Code:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.DropDownListFor(model => model.CategoryCode, Model.CategoryCodeList())
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Surname:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.TextBoxFor(model => model.Surname)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Given Name:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    @Html.TextBoxFor(model => model.GivenName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <input id="chkExpiryDate" type="checkbox" name="chkExpiryDate" />
+                                    <label for="chkExpiryDate">Check Expiry Date (Active File Reference)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="exportLabelTwo()" class="searchButton btn btn-default" type="button" id="lbtnExportLabel">
+                                <i class="fa fa-print"></i>  Export Label (2Label.doc for 2 columns)
+                            </button>
+                            Start at: Columns&nbsp;
+                            <select name="dd2Cols" id="dd2Cols" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                            &nbsp;,Rows&nbsp;
+                            <select name="dd2Rows" id="dd2Rows" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="exportLabelThree()" class="searchButton btn btn-default" type="button" id="lbtnExportLabel2">
+                                <i class="fa fa-print"></i>  Export Label (3Label.doc for 3 columns)
+                            </button>
+                            Start at: Columns&nbsp;
+                            <select name="dd3Cols" id="dd3Cols" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                            &nbsp;,Rows&nbsp;
+                            <select name="dd3Rows" id="dd3Rows" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnInterview" href="javascript:showReportForm('pnlInterview')"> Label (for Interview Schedule) ...</a>
+        </div>
+    </div>
+
+    <div id="pnlInterview" style="display:none;" class="reportSelection w3-row">
+        <form action="LabelInterview" method="post" id="pnlLabelInterviewForm">
+            <input type="hidden" name="REPORT_NAME" value="A">
+            <input type="hidden" name="reg_type" value="<%=ApplicationConstants.INDIVIDUAL_PROFESSIONAL%>">
+            <input type="hidden" name="today" value="<%=todate%>">
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Label (for Interview Schedule) </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Meeting Group:</div>
+                                <div class="w3-col l2 m6 s12">
+                                    @Html.DropDownListFor(model => model.MeetingGroup, Model.MeetingGroupList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Type of People:</div>
+                                <div class="w3-col l2 m6 s12">
+                                    <select name="exportType" id="exportType">
+                                        <option selected="selected" value="0">ALL</option>
+                                        <option value="1">Interviewers</option>
+                                        <option value="2">Interviewees</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="exportLabelTwoInterview()" class="searchButton btn btn-default" type="button" id="lbtnExportInterview">
+                                <i class="fa fa-print"></i>  Export Label (2Label.doc for 2 columns)
+                            </button>
+                            Start at: Columns&nbsp;
+                            <select name="dd2ColsInt" id="dd2ColsInt" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                            &nbsp;,Rows&nbsp;
+                            <select name="dd2RowsInt" id="dd2RowsInt" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="exportLabelThreeInterview()" class="searchButton btn btn-default" type="button" id="lbtnExportInterview2">
+                                <i class="fa fa-print"></i>  Export Label (3Label.doc for 3 columns)
+                            </button>
+                            Start at: Columns&nbsp;
+                            <select name="dd3ColsInt" id="dd3Cols" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                            &nbsp;,Rows&nbsp;
+                            <select name="dd3RowsInt" id="dd3Rows" style="width:100px">
+                                <option selected="selected" value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnCheckingPRS" href="javascript:showReportForm('pnlCheckPRS')">Checking the Professional Registration Status ...</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        function GeneratePnlCheckPRSForm() {
+            countForQualification = 0;
+            if (!$('#checkBoxCatPRSForm_0').is(':checked') && !$('#checkBoxCatPRSForm_1').is(':checked')
+                && !$('#checkBoxCatPRSForm_2').is(':checked') && !$('#checkBoxCatPRSForm_3').is(':checked')
+                && !$('#checkBoxCatPRSForm_4').is(':checked') && !$('#checkBoxCatPRSForm_5').is(':checked')
+                && !$('#checkBoxCatPRSForm_6').is(':checked') && !$('#checkBoxCatPRSForm_6').is(':checked')) {
+                alert("Please select at least one Status of Registration.");
+                return;
+            }
+
+            if (!$('#checkBoxprbPRSForm_0').is(':checked') && !$('#checkBoxprbPRSForm_1').is(':checked')
+                && !$('#checkBoxprbPRSForm_2').is(':checked') && !$('#checkBoxprbPRSForm_3').is(':checked')
+                && !$('#checkBoxprbPRSForm_4').is(':checked')) {
+                alert("Please select at least one Qualification.");
+                return;
+            }
+
+
+            for (i = 0; i < 5; i++) {
+                if ($('#checkBoxprbPRSForm_' + i).is(':checked'))
+                    countForQualification += 1;
+            }
+            if (countForQualification > 3) {
+                alert("You can only choose three qualification at most.");
+                return;
+
+            }
+
+            openReport('pnlCheckPRSForm')
+        }
+    </script>
+    <div id="pnlCheckPRS" style="display:none;" class="reportSelection w3-row">
+        <form action="CheckPRSForm" method="post" id="pnlCheckPRSForm">
+            <input type="hidden" name="rptId" value="CRM0030" />
+            <input type="hidden" name="REPORT_NAME" value="CheckPRS">
+            @*<input type="hidden" name="REPORT_TYPE" value="pdf">*@
+            @*<input type="hidden" name="reg_type" value="<%=ApplicationConstants.INDIVIDUAL_PROFESSIONAL%>">*@
+            @*<input type="hidden" name="today" value="<%=todate%>">*@
+            @Html.HiddenFor(o => o.today)
+            @*<input type="hidden" name="col1_txt" value="">*@
+
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Status of Registration </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <label id="labelCatPRSForm_0">
+                                <input id="checkBoxCatPRSForm_0" name="checkBoxCatPRSForm_0" type="checkbox"
+                                       value="API" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_0"*@ id="displayCatPRSForm_0"
+                                       value="Authorized Persons (List of Architects) with Architects Registration Board">
+                                <input type="hidden" @*name="displayTitle_0"*@ id="displayTitle_0"
+                                       value="List of Authorized Persons (AP)(List of Architects)">
+                                Authorized Persons' Register (List of Architects)
+                            </label>
+                            <label id="labelCatPRSForm_1">
+                                <input id="checkBoxCatPRSForm_1" name="checkBoxCatPRSForm_1" type="checkbox"
+                                       value="APII" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_0"*@ id="displayCatPRSForm_1"
+                                       value="Authorized Persons (List of Engineers) with Engineers Registration Board">
+                                <input type="hidden" @*name="displayTitle_1"*@ id="displayTitle_1"
+                                       value="List of Authorized Persons (AP)(List of Engineers)">
+                                Authorized Persons' Register (List of Engineers)
+                            </label>
+                            <label id="labelCatPRSForm_2">
+                                <input id="checkBoxCatPRSForm_2" name="checkBoxCatPRSForm_2" type="checkbox"
+                                       value="APIII" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_2"*@ id="displayCatPRSForm_2"
+                                       value="Authorized Persons (List of Surveyors) with Surveyors Registration Board">
+                                <input type="hidden" @*name="displayTitle_2"*@ id="displayTitle_2"
+                                       value="List of Authorized Persons (AP)(List of Surveyors)">
+                                Authorized Persons' Register (List of Surveyors)
+                            </label>
+                        </div>
+                        <div class="w3-row">
+                            <label id="labelCatPRSForm_3">
+                                <input id="checkBoxCatPRSForm_3" name="checkBoxCatPRSForm_3" type="checkbox"
+                                       value="RGE" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_3"*@ id="displayCatPRSForm_3"
+                                       value="Registered Geotechnical Engineers with Engineer Registration Board">
+                                <input type="hidden" @*name="displayTitle_3_1"*@ id="displayTitle_3_1"
+                                       value="List of RGE (possessing the qualification of ERB(GEL))">
+                                <input type="hidden" @*name="displayTitle_3_2"*@ id="displayTitle_3_2"
+                                       value="List of RGE (possessing the qualification of ERB(CVL) or ERB(STL))">
+                                Geotechnical Engineers' Register
+                            </label>
+                            <label id="labelCatPRSForm_4">
+                                <input id="checkBoxCatPRSForm_4" name="checkBoxCatPRSForm_4" type="checkbox"
+                                       value="RSE" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_4"*@ id="displayCatPRSForm_4"
+                                       value="Registered Structural Engineers with Engineers Registration Board">
+                                <input type="hidden" @*name="displayTitle_4"*@ id="displayTitle_4"
+                                       value="List of RSE">
+                                Structural Engineers' Register
+                            </label>
+                            <label id="labelCatPRSForm_5">
+                                <input id="checkBoxCatPRSForm_5" name="checkBoxCatPRSForm_5" type="checkbox"
+                                       value="RI(A)" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_5"*@ id="displayCatPRSForm_5"
+                                       value="Registered Inspectors (List of Architects) with Architects Registration Board">
+                                <input type="hidden" @*name="displayTitle_5"*@ id="displayTitle_5"
+                                       value="List of Registered Inspectors (RI)(List of Architects)">
+                                Inspectors' Register (List of Architects)
+                            </label>
+                        </div>
+                        <div class="w3-row">
+                            <label id="labelCatPRSForm_6">
+                                <input id="checkBoxCatPRSForm_6" name="checkBoxCatPRSForm_6" type="checkbox"
+                                       value="RI(E)" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_5"*@ id="displayCatPRSForm_6"
+                                       value="Registered Inspectors (List of Engineers) with Engineers Registration Board">
+                                <input type="hidden" @*name="displayTitle_6"*@ id="displayTitle_6"
+                                       value="List of Registered Inspectors (RI)(List of Engineers)">
+                                Inspectors' Register (List of Engineers)
+                            </label>
+                            <label id="labelCatPRSForm_7">
+                                <input id="checkBoxCatPRSForm_7" name="checkBoxCatPRSForm_7" type="checkbox"
+                                       value="RI(S)" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayCatPRSForm_7"*@ id="displayCatPRSForm_7"
+                                       value="Registered Inspectors (List of Surveyors) with Surveyors Registration Board">
+                                <input type="hidden" @*name="displayTitle_7"*@ id="displayTitle_7"
+                                       value="List of Registered Inspectors (RI)(List of Surveyors)">
+                                Inspectors' Register (List of Surveyors)
+                            </label>
+                        </div>
+                        <div class="w3-col hr"></div>
+                        <div class="panelHeader">Qualification (max. 3 selections)</div>
+                        <div class="w3-row">
+                            <label id="labelprdPRSForm_0">
+                                <input id="checkBoxprbPRSForm_0" name="checkBoxprbPRSForm_0"
+                                       type="checkbox" value="AP/RSE" onclick="updatePRSFormText();">
+                                <input type="hidden" @*name="displayprdPRSForm_0"*@ id="displayprdPRSForm_0" value="AP AND RSE">
+                                AP AND RSE
+                            </label>
+                            <label id="labelprdPRSForm_1">
+                                <input id="checkBoxprbPRSForm_1" name="checkBoxprbPRSForm_1"
+                                       type="checkbox" value="ARB" onclick="updatePRSFormText()">
+                                <input type="hidden" @*name="displayprdPRSForm_1"*@ id="displayprdPRSForm_1" value="Registration Architect">
+                                Architect Registration Board
+                            </label>
+                            <label id="labelprdPRSForm_2">
+                                <input id="checkBoxprbPRSForm_2" name="checkBoxprbPRSForm_2"
+                                       type="checkbox" value="ERB" onclick="updatePRSFormText();">
+                                <input type="hidden" @*name="displayprdPRSForm_2"*@ id="displayprdPRSForm_2" value="Engineer Registration Board">
+                                Engineer Registration Board
+                            </label>
+                        </div>
+                        <div class="w3-row">
+                            <label id="labelprdPRSForm_3">
+                                <input id="checkBoxprbPRSForm_3" name="checkBoxprbPRSForm_3"
+                                       type="checkbox" value="ERB (GEL)" onclick="updatePRSFormText();">
+                                <input type="hidden" @*name="displayprdPRSForm_3"*@ id="displayprdPRSForm_3" value="ERB (Geotechnical)">
+                                ERB (Geotechnical)
+                            </label>
+                            <label id="labelprdPRSForm_4">
+                                <input id="checkBoxprbPRSForm_4" name="checkBoxprbPRSForm_4"
+                                       type="checkbox" value="ERB(CVL/STR)" onclick="updatePRSFormText();">
+                                <input type="hidden" @*name="displayprdPRSForm_4"*@ id="displayprdPRSForm_4" value="ERB (Civil / Structural)">
+                                ERB (Civil / Structural)
+                            </label>
+                            <label id="labelprdPRSForm_5">
+                                <input id="checkBoxprbPRSForm_5" name="checkBoxprbPRSForm_5"
+                                       type="checkbox" value="SRB" onclick="updatePRSFormText();">
+                                <input type="hidden" @*name="displayprdPRSForm_5"*@ id="displayprdPRSForm_5" value="Registered Professional Surveyor">
+                                Surveyor Registration Board
+                            </label>
+                        </div>
+                        <div class="w3-row">
+                            Header:
+                        </div>
+                        <div class="w3-row">
+                            @Html.TextAreaFor(model => model.PrsHeader)
+                        </div>
+                        <div class="w3-row">
+                            Title:
+                        </div>
+                        <div class="w3-row">
+                            @Html.TextAreaFor(model => model.Short_name)
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlCheckPRSForm()" class="searchButton btn btn-default" type="button" id="Linkbutton1">
+                                <i class="fa fa-print"></i>  Print Checking the Professional Registration Status
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlStatusAppControl')">Applicant monitor reports ...</a>
+        </div>
+    </div>
+
+    <div id="pnlStatusAppControl" style="display:none;" class="reportSelection w3-row">
+        <form action="StatusAppControl" method="post" id="pnlStatusAppControlForm">
+            <input type="hidden" name="rptId" value="CRM0059" />
+            <input type="hidden" name="REPORT_NAME" value="StatusAppControlForm_IP">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="IP">
+            @Html.HiddenFor(o => o.today)
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Label (for Interview Schedule) </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l6 m12 s12">
+                                <div class="w3-col l6 m6 s12"> Category Group :</div>
+                                @*<div class="w3-col l6 m6 s12">
+                                        @Html.DropDownListFor(model => model.CategoryGroup, Model.CategoryGroupList, new { @id = "cat_gp" })
+                                    </div>*@
+                                <div class="w3-col l6 m6 s12">
+                                    <select name="CategoryGroup" id="CategoryGroup">
+                                        <option value="AP">AP</option>
+                                        <option value="RGE">RGE</option>
+                                        <option value="RSE">RSE</option>
+                                        <option value="RI">RI</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="openReport('pnlStatusAppControlForm')" class="searchButton btn btn-default" type="button" id="lbtnStatusAppControl">
+                                <i class="fa fa-print"></i>  Status of Application Control Form
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnConvict" href="javascript:showReportForm('pnlInfoSheet')">Information Sheet of Personnel's Performance Records ...</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function GeneratePnlInfoSheetForm() {
+            if (($('#InfoSurname').val() == null || $('#InfoSurname').val() == '') && ($('#InfoGivenName').val() == null || $('#InfoGivenName').val() == '')) {
+                alert("Please input the Surname or Given Name.");
+                return;
+            }
+            //if ($('#InfoGivenName').val() == null || $('#InfoGivenName').val() == '') {
+            //    alert("Please input the GivenName.");
+            //    return;
+            //}
+            openReport('pnlInfoSheetForm');
+        }
+
+    </script>
+
+    <div id="pnlInfoSheet" style="display:none;" class="reportSelection w3-row">
+        <form action="InfoSheet" method="post" id="pnlInfoSheetForm">
+            <input type="hidden" name="rptId" value="CRM0033" />
+            <input type="hidden" name="REPORT_NAME" value="conviction_IP">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="IP">
+            @Html.HiddenFor(o => o.today)
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Information Sheet of Personnel's Performance Records:</div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Surname:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    @Html.TextBoxFor(model => model.InfoSurname)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Given Name:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    @Html.TextBoxFor(model => model.InfoGivenName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Offence:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.offence_fr_date, new { @class = "inputDate", @id = "offence_fr_date" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.offence_to_date, new { @class = "inputDate", @id = "offence_to_date" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Judgement :</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.InfoSheetJDateFrom, new { @class = "inputDate", @id = "InfoSheetJDateFrom" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.InfoSheetJDateTo, new { @class = "inputDate", @id = "InfoSheetJDateTo" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="exportIPConvictionCover()" class="searchButton btn btn-default" type="button" id="lbtnConvictCover">
+                                <i class="fa fa-print"></i>  Conviction Records (Cover)
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlInfoSheetForm()" class="searchButton btn btn-default" type="button" id="btnConvictList">
+                                <i class="fa fa-print"></i>  Export Conviction Records
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnConvict" href="javascript:showReportForm('pnlImg')">Checking of particulars of the person on specified form ...</a>
+        </div>
+    </div>
+
+    <div id="pnlImg" style="display:none;" class="reportSelection w3-row">
+        <form action="SearchIndCertRecord" method="post" id="pnlImgForm">
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Checking of particulars of the person on specified form:</div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> File reference:</div>
+                                <div class="w3-col l3 m6 s12">
+                                    @Html.TextBoxFor(model => model.FileRef)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Surname:</div>
+                                <div class="w3-col l3 m6 s12">
+                                    @Html.TextBoxFor(model => model.CheckSurname)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Given Name:</div>
+                                <div class="w3-col l3 m6 s12">
+                                    @Html.TextBoxFor(model => model.CheckGivenName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">HKID :</div>
+                                <div class="w3-col l3 m12 s12">
+                                    @Html.TextBoxFor(model => model.HKID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Passport No. :</div>
+                                <div class="w3-col l3 m12 s12">
+                                    @Html.TextBoxFor(model => model.PASSPORT)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button type="button" name="btnSearchImg" id="btnSearchImg" class="searchButton btn btn-default" onclick="pnlImgFormSearch()"><i class="fa fa-search"></i>Search</button>
+                        </div>
+                        <div class="w3-row">
+                            <div id="resultPanel"></div>
+                        </div>
+                        <script type="text/javascript">
+                            var ImgForm;
+                            function pnlImgFormSearch() {
+                                ImgForm.search();
+                            }
+                            domReady(function () {
+                                ImgForm = new searcher({
+                                    searchPath: "SearchIndCertRecord"
+                                    , searchTable: "pnlImgForm"
+                                    , resultPanel: "resultPanel"
+                                    , Columns: [
+                                        {
+                                            displayName: "", formater: function (row) {
+                                                var span = dom("span");
+                                                //var FILEPATH = row.FILEPATH;
+                                                var button = createButton("", "fa-file", [{
+                                                    "onclick": {//: function (row) {
+                                                        //parameters: { FILEPATH: FILEPATH == null ? null : FILEPATH }, callback: function (d, p, e) {
+                                                        //    if (FILEPATH != null) {
+                                                        //        goTo("DownloadFile", [{ name: "FILEPATHNO", value: p.FILEPATH }], true);
+                                                        //    } else {
+                                                        //        alert("File not found.");
+                                                        //    }
+                                                        //}
+                                                        parameters: { row : row }, callback: function (d, p, e) {
+                                                            //if (UUID != null) {
+                                                            //    
+                                                            //} else {
+                                                            //    alert("File not found.");
+                                                            //}
+                                                            goTo("DownloadFile", [{ name: "UUID", value: row.UUID }], true);
+                                                        }
+                                                    }
+                                                }]);
+                                                span.appendChild(button);
+                                                return span;
+                                            }
+                                        }
+                                        , { displayName: "File Reference", columnName: "FILEREF" }
+                                        , { displayName: "Name", columnName: "FULLNAME" }
+                                        , { displayName: "Cert. No", columnName: "CERNO" }
+                                    ]
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnExportInfo" href="javascript:showReportForm('pnlExpInfo')">Export AP/RSE/RGE/RI information ...</a>
+        </div>
+    </div>
+    <div id="pnlExpInfo" style="display:none;" class="reportSelection w3-row">
+        <form action="ExpInfoForm" method="post" id="pnlExpInfoForm">
+            <input type="hidden" name="REPORT_NAME" value="export_APRSERGE_information_IP">
+            <input type="hidden" name="reportType" value="CSV">
+            <input type="hidden" name="reg_type" value="<%=ApplicationConstants.INDIVIDUAL_PROFESSIONAL%>">
+            <input type="hidden" name="today" value="<%=todate%>">
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Export AP/RSE/RGE/RI information</div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> File reference:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    @Html.TextBoxFor(model => model.txtExpFileRef)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Application Status:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    @Html.DropDownListFor(model => model.StatusId, Model.APPLICANT_STATUS_ID_List)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Approval:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpApprovalDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpApprovalDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Registration:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpRegDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpRegDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of retention application submitted:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpRetDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpRetDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of restoration application submitted:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpRestDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpRestDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Gazette:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpGazDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpGazDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expiry:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpExpiryDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpExpiryDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Period of Validity:</div>
+                                <div class="w3-col l1 m6 s12">
+                                    @Html.DropDownListFor(model => model.PeriodOfValidity, Model.PeriodOfValidityList())
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Removal Date:</div>
+                                <div class="w3-col l4 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.txtExpRemovalDtFm, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.txtExpRemovalDtTo, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Authority Name:</div>
+                                <div class="w3-col l3 m6 s12">
+                                    @Html.DropDownListFor(model => model.AuthorityName, Model.AuthorityNameList)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">PNAP:</div>
+                                <div class="w3-col l3 m6 s12">
+                                    @Html.DropDownListFor(model => model.ddlExpPNRC, Model.ddlExpPNRCList())
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">Category Code:</div>
+                                <div class="w3-col l7 m6 s12">
+                                    @foreach (var item in Model.IPExpCatCode)
+                                    {
+                                        string tmp = "";
+                                        if (item.Selected == true)
+                                        { tmp = "checked"; }
+
+                                        <input type="checkbox" value="@item.Value" @tmp name="ddlExpCatCode" id="@item.Value" class="applyStatus" />
+                                        @Html.Label(item.Text, new { @for = @item.Value })
+                                    }
+                                    @*@Html.DropDownListFor(model => model.ddlExpCatCode, Model.IPExpCatCodeList())*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Surname:</div>
+                                <div class="w3-col l5 m6 s12">
+                                    @Html.TextBoxFor(model => model.txtExpSurname)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Given Name:</div>
+                                <div class="w3-col l5 m6 s12">
+                                    @Html.TextBoxFor(model => model.txtExpGName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Services of QP:</div>
+                                <div class="w3-col l2 m6 s12">
+                                    @Html.DropDownListFor(model => model.willingnessQp, Model.WILLINGNESS_QP_List)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"><u>QP Card</u></div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Issue:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.QpIssueFrDate, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.QpIssueToDate, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expiry:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.QpExpiryFrDate, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.QpExpiryToDate, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expiry:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.QpExpiryFrDate, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.QpExpiryToDate, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Serial No.:</div>
+                                <div class="w3-col l5 m6 s12">
+                                    @Html.TextBoxFor(model => model.qp_serial_no)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Return Date:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.QpReturnFrDate, new { @class = "inputDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.QpReturnToDate, new { @class = "inputDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Services in Fire Safety:</div>
+                                <div class="w3-col l2 m6 s12">
+                                    @Html.DropDownListFor(model => model.interestedFSS, Model.INTERESTED_FSS_List)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12">
+
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <input id="chkExpInfo" type="checkbox" name="chkExpInfo" />
+                                    <label for="chkExpInfo">Check Expiry Date (Active File Reference)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="submitExpInfo()" class="searchButton btn btn-default" type="button" id="lbtnExpInfo">
+                                <i class="fa fa-print"></i>  Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlAdminReports')"> Administrative Reports ...</a>
+        </div>
+    </div>
+    <form action="AdminReports" method="post" id="pnlAdminReportsForm">
+        <script type="text/javascript">
+            function GeneratePnlAdminReportsForm(type) {
+                attr("adminPanelTypeCode", "value", type);
+                openReport('pnlAdminReportsForm')
+            }
+        </script>
+        <input type="hidden" name="rptId" value="CRM0003">
+        <input type="hidden" name="REPORT_NAME" value="admin_rpt_panel_type">
+        <input type="hidden" name="REPORT_TYPE" value="pdf">
+
+        <input type="hidden" name="reg_type" value="IP">
+        <input type="hidden" id="adminPanelTypeCode" name="panel_type_code" value="">
+        <div id="pnlAdminReports" style="display:none;" class="reportSelection w3-row">
+            <div class="panelHeader">Administrative Report: </div>
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="displayForm">
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlAdminReportsForm('APRC')" class="searchButton btn btn-default" type="button" id="btnAdminReportsPnl">
+                                <i class="fa fa-print"></i>  Authorized Persons Registration Committee Panel
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlAdminReportsForm('SERC')" class="searchButton btn btn-default" type="button" id="btnAdminReportsGBC">
+                                <i class="fa fa-print"></i>  Structural Engineers Registration Committee Panel
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlAdminReportsForm('GERC')" class="searchButton btn btn-default" type="button" id="AdminReportsSC">
+                                <i class="fa fa-print"></i>  Geotechnical Engineers Registration Committee Panel
+                            </button>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlAdminReportsForm('IRC')" class="searchButton btn btn-default" type="button" id="AdminReportsSC">
+                                <i class="fa fa-print"></i>  Inspectors Registration Committee Panel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="btnExpired" href="javascript:showReportForm('pnlExpiredList')"> AP/ RSE/ RGE/ RI Expired List (RPT0007a)</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function GeneratePnlExpiredListForm() {
+            if ($('#Expired_fr_date').val() == null || $('#Expired_fr_date').val() == '' || $('#Expired_to_date').val() == null || $('#Expired_to_date').val() == '') {
+                alert("Please input the Date of Expired.");
+                return;
+            }
+            openReport('pnlExpiredListForm');
+        }
+
+    </script>
+
+    <form action="ExpiredList" method="post" id="pnlExpiredListForm">
+        <input type="hidden" name="rptId" value="CRM0071" />
+        <input type="hidden" name="reg_type" value="IP" />
+        <div id="pnlExpiredList" style="display:none;" class="reportSelection w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">AP/ RSE/ RGE/ RI Expired List: </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expired:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.Expired_fr_date, new { @class = "inputDate", @id = "Expired_fr_date" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.Expired_to_date, new { @class = "inputDate", @id = "Expired_to_date" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Category Code:</div>
+                                <div class="w3-col l5 m6 s12">
+                                    @Html.DropDownListFor(model => model.ExpiredCtrUUID, Model.IpCategoryGroupList, new { @id = "ExpiredCtrUUID" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Order By:</div>
+                                <div class="w3-col l5 m6 s12">
+                                    @Html.DropDownListFor(model => model.IpOrderBy, Model.IpOderByList(), new { @id = "ExpiredCtrUUID" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlExpiredListForm()" class="searchButton btn btn-default" type="button" id="btnExpired">
+                                <i class="fa fa-print"></i>  AP/ RSE/ RGE/ RI Expired List (RPT0007a)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnAsTd" href="javascript:showReportForm('pnlPopulationsListed')"> Populations Listed on Registers and Lists (RPT0002)</a>
+        </div>
+    </div>
+    <div id="pnlPopulationsListed" style="display:none;" class="reportSelection w3-row">
+        <form action="RPT0002" method="post" id="RPT0002IPForm">
+            <input type="hidden" name="rptId" value="CRM0088" />
+            <input type="hidden" name="reg_type" value="IP" />
+            <input type="hidden" name="REPORT_NAME" value="RPT0002_CGC_IP">
+            <input type="hidden" name="SUBREPORT_DIR" value="SUBREPORT_DIR">
+            <div class="panelHeader">Populations Listed on Registers and Lists (RPT0002): </div>
+            <div class="displayForm">
+                <div class="w3-container footer">
+                    <button onclick="openReport('RPT0002IPForm')" class="searchButton btn btn-default" type="button" id="btnRPT0002">
+                        <i class="fa fa-print"></i>  Populations Listed on Registers and Lists (RPT0002)
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="FormStats" href="javascript:showReportForm('pnlStatisticsOfFormsReceived')"> Statistics of Forms Received (RPT0008)</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function GenerateStatOfReceForm() {
+            if ($('#ReceivedFrDate').val() == null || $('#ReceivedFrDate').val() == '' || $('#ReceivedToDate').val() == null || $('#ReceivedToDate').val() == '') {
+                alert("Please input the Received Date.");
+                return;
+            }
+            openReport('StatOfReceForm');
+
+        }
+    </script>
+    <div id="pnlStatisticsOfFormsReceived" style="display:none;" class="reportSelection w3-row">
+        <form action="StatOfRece" method="post" id="StatOfReceForm">
+            <input type="hidden" name="rptId" value="CRM0069" />
+            <input type="hidden" name="reg_type" value="IP" />
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="panelHeader">Statistics of Forms Received: </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m6 s12"> Date of Expiry</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ReceivedFrDate, new { @class = "inputDate", @id = "ReceivedFrDate" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ReceivedToDate, new { @class = "inputDate", @id = "ReceivedToDate" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GenerateStatOfReceForm()" class="searchButton btn btn-default" type="button" id="btnFormStats">
+                                <i class="fa fa-print"></i>  Statistics of Forms Received (RPT0008)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnAsTd" href="javascript:showReportForm('pnlCountForExpiry')"> Count for Expiry of Registers (RPT)</a>
+        </div>
+    </div>
+    <form action="RPT" method="post" id="RPTForm">
+        <input type="hidden" name="rptId" value="CRM0017" />
+        <input type="hidden" name="reg_type" value="IP" />
+        @Html.HiddenFor(o => o.today)
+        <div id="pnlCountForExpiry" style="display:none;" class="reportSelection w3-row">
+            <div class="panelHeader">Count for Expiry of Registers (RPT): </div>
+            <div class="displayForm">
+                <div class="w3-container footer">
+                    <button onclick="openReport('RPTForm')" class="searchButton btn btn-default" type="button" id="btnExpiryContractor">
+                        <i class="fa fa-print"></i>  Count for Expiry of Registers (RPT)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnAsTd" href="javascript:showReportForm('pnlAdminReportsForm')"> Attendance Record of Members ...</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function GenerateMonthForm() {
+            if ($('#AttendancYear').val() == null || $('#AttendancYear').val() == '') {
+                alert("Please input the year");
+                return;
+            }
+            if ($('#AttendancMonth').val() == null || $('#AttendancMonth').val() == '') {
+                alert("Please input the month");
+                return;
+            }
+            openReport('MonthForm');
+        }
+        function GeneratePeriodForm() {
+            if ($('#AttendancFromDate').val() == null || $('#AttendancFromDate').val() == '') {
+                alert("Please input the from date");
+                return;
+            }
+            if ($('#AttendancFromTo').val() == null || $('#AttendancFromTo').val() == '') {
+                alert("Please input the to date");
+                return;
+            }
+            if ($('#AttendancFromDate').val().split('/')[2] != $('#AttendancFromTo').val().split('/')[2]) {
+                alert("The year of To Date must be the same as the year of From Date");
+                return;
+            }
+
+            openReport('PeriodForm');
+        }
+    </script>
+    <div id="pnlAdminReportsForm" style="display:none;" class="reportSelection">
+        <form action="SpecificMonth" method="post" id="MonthForm">
+            <input type="hidden" name="rptId" value="CRM0009" />
+            <input type="hidden" name="REPORT_NAME" value="attendance_month" />
+            <input type="hidden" name="reg_type" value="IP" />
+            <div class="panelHeader"> Attendance Record of Members: </div>
+            <div class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">&nbsp;Year:&nbsp;</div>
+                        <div class="w3-col l1 m6 s12">
+                            @Html.TextBoxFor(model => model.AttendancYear, new { @id = "AttendancYear", @maxlength = "4" })
+                        </div>
+                        <div class="w3-col l1 m6 s12">&nbsp;Month:&nbsp;</div>
+                        <div class="w3-col l1 m6 s12">
+                            @Html.TextBoxFor(model => model.AttendancMonth, new { @id = "AttendancMonth", @maxlength = "2" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <button onclick="GenerateMonthForm()" class="searchButton btn btn-default" type="button" id="btnattendance_month">
+                        <i class="fa fa-print"></i>  Specific month
+                    </button>
+                </div>
+            </div>
+        </form>
+        <form action="SpecificPeriod" method="post" id="PeriodForm">
+            <input type="hidden" name="rptId" value="CRM0056" />
+            <input type="hidden" name="REPORT_NAME" value="attendance_year" />
+            <input type="hidden" name="reg_type" value="IP" />
+            <div class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12"> From Date:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.AttendancFromDate, new { @class = "inputDate", @id = "AttendancFromDate" })
+                        </div>
+                        <div class="w3-col l1 m6 s12"> to:</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.AttendancFromTo, new { @class = "inputDate", @id = "AttendancFromTo" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <button onclick="GeneratePeriodForm()" class="searchButton btn btn-default" type="button" id="btnattendance_period">
+                        <i class="fa fa-print"></i>  Specific period
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlCountIr')"> Count for RI ...</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+    <form action="CountIr" method="post" id="pnlCountIrForm">
+        <input type="hidden" name="rptId" value="CRM0028" />
+        <input type="hidden" name="REPORT_NAME" value="count_RI">
+        <input type="hidden" name="REPORT_TYPE" value="pdf">
+        <input type="hidden" name="reg_type" value="RI">
+        <input type="hidden" name="date_type_txt" value="">
+        <input type="hidden" name="status_txt" id="status_txt" value="">
+        <div id="pnlCountIr" style="display:none;" class="reportSelection w3-row">
+            <div class="panelHeader">Count for RI: </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        Type of Date:
+                        <select id="date_type" name="date_type" style="width:250px;">
+                            <option value="">- Select Type of Date -</option>
+                            <option value="application_date">Date of Application</option>
+                            <option value="registration_date">Date of Registration</option>
+                            <option value="gazette_date">Date of Gazette</option>
+                            <option value="expiry_date">Date of Expiry</option>
+                            <option value="removal_date">Date of Removal</option>
+                            <option value="retention_date">Date of Renewal</option>
+                            <option value="restore_date">Date of Restoration</option>
+                            <option value="approval_date">Date of Approval</option>
+                        </select>
+                        &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ir_search_date_from, new { @class = "inputDate", @id = "ir_search_date_from" })
+                        &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ir_search_date_to, new { @class = "inputDate", @id = "ir_search_date_to" })
+                    </div>
+                    <div class="w3-row">
+                        Application Status:
+                        @foreach (var item in Model.AppStatList)
+                        {
+                            string tmp = "";
+                            if (item.Selected == true)
+                            { tmp = "checked"; }
+
+                            <input type="checkbox" value="@item.Value" @tmp name="@item.Text" id="@item.Value" />
+                            @Html.Label(item.Text, new { @for = @item.Value })
+                        }
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="openReport('pnlCountIrForm')" class="searchButton btn btn-default" type="button" id="btnCountIrForm">
+                            <i class="fa fa-print"></i>  Export Count for RI
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlCountQp')"> Count for QP ...</a>
+        </div>
+    </div>
+
+    <div id="pnlCountQp" style="display:none;" class="reportSelection w3-row">
+        <script type="text/javascript">
+            function GeneratePnlCountQpForm() {
+                if ($('#CountForWillingnessQp').val() == '' || $('#CountForWillingnessQp').val() == null) {
+                    if ($('#qp_as_at').val() == '' || $('#qp_as_at').val() == null) {
+                        attr("pnlCountQpReportId", "value", "CRM0023")
+                    } else {
+                        attr("pnlCountQpReportId", "value", "CRM0024")
+                    }
+
+                }
+                else {
+                    if ($('#qp_as_at').val() == '' || $('#qp_as_at').val() == null) {
+                        attr("pnlCountQpReportId", "value", "CRM0022")
+                    }
+                    else {
+                        attr("pnlCountQpReportId", "value", "CRM0024")
+                    }
+                }
+                openReport('pnlCountQpForm');
+            }
+        </script>
+        <form action="CountQp" method="post" id="pnlCountQpForm">
+            <input type="hidden" id="pnlCountQpReportId" name="rptId" />
+            <input type="hidden" name="REPORT_NAME" value="count_QP">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="QP">
+            <input type="hidden" name="date_type_txt" value="">
+            @*<input type="hidden" name="today" value="">*@
+            @Html.HiddenFor(o => o.today)
+            <div class="panelHeader">Count for QP: </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l5 m6 s12"> Interested in Providing Services of QP:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.CountForWillingnessQp, Model.WILLINGNESS_QP_List, new { @id = "CountForWillingnessQp" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l5 m6 s12"> As at:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.QpAsAT, Model.QpAsATList, new { @id = "qp_as_at" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="GeneratePnlCountQpForm()" class="searchButton btn btn-default" type="button" id="btnCountQpForm">
+                            <i class="fa fa-print"></i>  Export Count for QP
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlCountFs')"> Count for FS ...</a>
+        </div>
+    </div>
+
+    <div id="pnlCountFs" style="display:none;" class="reportSelection w3-row">
+        <form action="CountQp" method="post" id="pnlCountFsForm">
+            <input type="hidden" name="rptId" value="CRM0089" />
+            <input type="hidden" name="REPORT_NAME" value="count_FS">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="FS">
+            <input type="hidden" name="date_type_txt" value="">
+            @Html.HiddenFor(o => o.today)
+            <div class="panelHeader">Count for FS: </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            @*<div class="w3-col l4 m12 s12">*@
+                            <div class="w3-col l5 m6 s12">
+                                Interested in Providing Services in Fire Safety:
+                            </div>
+                            <div class="w3-col l2 m6 s12">
+                                @*<select name="INTERESTED_FSS" id="INTERESTED_FSS" style="width:100px;">
+                                        <option selected="selected" value="Y">Y</option>
+                                        <option value="N">-</option>
+                                    </select>*@
+                                @Html.DropDownListFor(model => model.INTERESTED_FSS, Model.GetYNIOption())
+                            </div>
+                            @*</div>*@
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="openReport('pnlCountFsForm')" class="searchButton btn btn-default" type="button" id="btnCountFSForm">
+                            <i class="fa fa-print"></i>  Export Count for Fs
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlCountMBIS')"> Count for MBIS ...</a>
+        </div>
+    </div>
+
+    <div id="pnlCountMBIS" style="display:none;" class="reportSelection w3-row">
+        <form action="CountQp" method="post" id="pnlCountMBISForm">
+            <input type="hidden" name="rptId" value="CRM0090" />
+            <input type="hidden" name="REPORT_NAME" value="count_MBIS">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="MBIS">
+            <input type="hidden" name="date_type_txt" value="">
+            @Html.HiddenFor(o => o.today)
+            <div class="panelHeader">Count for MBIS: </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m12 s12">
+                                <div class="w3-col l6 m6 s12">
+                                    Service in MBIS:
+                                </div>
+                                <div class="w3-col l6 m6 s12">
+                                    <select name="SERVICE_IN_MWIS" id="SERVICE_IN_MWIS" style="width:100px;">
+                                        <option selected="selected" value="Y">Yes</option>
+                                        <option value="N">-</option>
+                                    </select>
+                                    @*@Html.DropDownListFor(model => model.SerInMWIS, Model.GetMWISOption())*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="openReport('pnlCountMBISForm')" class="searchButton btn btn-default" type="button" id="btnCountMBISForm">
+                            <i class="fa fa-print"></i>  Export Count for MBIS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlApplCntReport')"> Application Count Report ...</a>
+        </div>
+    </div>
+
+    <div id="pnlApplCntReport" style="display:none;" class="reportSelection w3-row">
+        <form action="ApplCntReport" method="post" id="pnlApplCntReportForm">
+            <input type="hidden" name="rptId" value="CRM0008" />
+            <input type="hidden" name="REPORT_NAME" value="application_count_IP">
+            <input type="hidden" name="reg_type" value="IP">
+            <input type="hidden" name="category" value="GBC">
+            @*<input type="hidden" name="REPORT_NAME" value="count_QP">
+                <input type="hidden" name="REPORT_TYPE" value="pdf">
+                <input type="hidden" name="reg_type" value="QP">
+                <input type="hidden" name="date_type_txt" value="">
+                <input type="hidden" name="today" value="">*@
+            <div class="panelHeader">Application Count Report: </div>
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12"> Application Date:</div>
+                                <div class="w3-col l6 m6 s12">
+                                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.from_date, new { @class = "inputDate", @id = "from_date" })
+                                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.to_date, new { @class = "inputDate", @id = "to_date" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="openReport('pnlApplCntReportForm')" class="searchButton btn btn-default" type="button" id="Linkbutton3">
+                                <i class="fa fa-print"></i>  Export Application Count Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="Linkbutton2" href="javascript:showReportForm('pnlCountQpCard')"> Count for QP Card</a>
+        </div>
+    </div>
+
+    <div id="pnlCountQpCard" style="display:none;" class="reportSelection w3-row">
+        <script type="text/javascript">
+            function GeneratePnlApplCntReportForm() {
+                if ($('#qp_card_type').val() == '' || $('#qp_card_type').val() == null) {
+                    alert("Please select the report type.")
+                    return;
+                }
+                if ($('#qp_card_type').val() == 'count_issued_qp_card_all')
+                    attr("pnlExportCountForQPCardReportId", "value", "CRM0021")
+                if ($('#qp_card_type').val() == 'count_issue_date_qp_card_all')
+                    attr("pnlExportCountForQPCardReportId", "value", "CRM0020")
+                if ($('#qp_card_type').val() == 'count_expiry_date_qp_card_all')
+                    attr("pnlExportCountForQPCardReportId", "value", "CRM0018")
+                if ($('#qp_card_type').val() == 'count_return_date_qp_card_all')
+                    attr("pnlExportCountForQPCardReportId", "value", "CRM0027")
+                openReport('pnlExportCountForQPCardReportForm')
+            }
+        </script>
+        <form action="ApplCntReport" method="post" id="pnlExportCountForQPCardReportForm">
+            <input type="hidden" id="pnlExportCountForQPCardReportId" name="rptId" />
+            <input type="hidden" name="REPORT_NAME" value="">
+            <input type="hidden" name="REPORT_TYPE" value="pdf">
+            <input type="hidden" name="reg_type" value="IP">
+            @Html.HiddenFor(o => o.today)
+            <input type="hidden" name="SUBREPORT_DIR" value="SUBREPORT_DIR">
+            <div class="panelHeader">Count for QP Card: </div>
+            <div class="w3-col l12 m12 s12">
+                <div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12"> Report Type:</div>
+                                <div class="w3-col l2 m6 s12">
+                                    <select id="qp_card_type" name="qp_card_type" style="width:200px;">
+                                        <option value="">--</option>
+                                        <option value="count_issued_qp_card_all">Number of Card Issued</option>
+                                        <option value="count_issue_date_qp_card_all">Card Issue Date</option>
+                                        <option value="count_expiry_date_qp_card_all">Card Expiry Date</option>
+                                        <option value="count_return_date_qp_card_all">Card Return Date</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="GeneratePnlApplCntReportForm()" class="searchButton btn btn-default" type="button" id="btnCountQpCardForm">
+                                <i class="fa fa-print"></i>  Export Count for QP Card
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @*<div class="w3-container footer">
+        <button class="FinishButton btn btn-default" type="button" onclick="history.go(-1);"> Finish</button>
+    </div>*@
+</div>
+
+
+<script>
+    function showReport(id) {
+        showReportForm(id);
+        //return true;
+    }
+    function showReportForm(divID) {
+        var sDivs = $(".reportSelection").get();
+        for (var i = 0; i < sDivs.length; i++) {
+            if (sDivs[i].id == divID) {
+                sDivs[i].style.display = "";
+            } else {
+                sDivs[i].style.display = "none";
+            }
+        }
+    }
+    //Checking the Professional Registration Status
+    function updatePRSFormText() {
+        document.getElementById('PrsHeader').value = '';
+        document.getElementById('Short_name').value = '';
+        var i = 0;
+        while (document.getElementById('checkBoxCatPRSForm' + '_' + i) != undefined) {
+            if (document.getElementById('checkBoxCatPRSForm' + '_' + i).checked) {
+                if (document.getElementById('PrsHeader').value == '') {
+                    document.getElementById('PrsHeader').value =
+                        document.getElementById('PrsHeader').value +
+                        document.getElementById('displayCatPRSForm' + '_' + i).value;
+
+                } else {
+                    document.getElementById('PrsHeader').value =
+                        document.getElementById('PrsHeader').value + ' and ' +
+                        document.getElementById('displayCatPRSForm' + '_' + i).value;
+                }
+                if (document.getElementById('Short_name').value != '' && i != 3) {
+                    document.getElementById('Short_name').value += ' and ';
+                }
+                if (i == 3) {
+                    if ($("#checkBoxprbPRSForm_3").is(":checked")) {
+                        if ($("#checkBoxprbPRSForm_3").is(":checked") && document.getElementById('Short_name').value != '') {
+                            document.getElementById('Short_name').value += ' and ';
+                        }
+                        document.getElementById('Short_name').value += document.getElementById('displayTitle_3_1').value;
+                    }
+                    if ($("#checkBoxprbPRSForm_4").is(":checked")) {
+                        if ($("#checkBoxprbPRSForm_4").is(":checked") && document.getElementById('Short_name').value != '') {
+                            document.getElementById('Short_name').value += ' and ';
+                        }
+                        document.getElementById('Short_name').value += document.getElementById('displayTitle_3_2').value;
+                    }
+                } else {
+                    document.getElementById('Short_name').value += document.getElementById('displayTitle' + '_' + i).value;
+                }
+            }
+            i++;
+        }
+    }
+    function ExportMMD0003a_1_PA() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/ExportMMD0003a_1_IP';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function ExportMMD0003a_2_PA() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/ExportMMD0003a_2_IP';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function ExportMMD0003a_3_PA() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+         var targetUrl = '/Fn03PA_RPT/ExportMMD0003a_3_IP';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+
+        //var targetUrl = '/Fn03PA_RPT/ExportMMD0003a_3_IP';
+        //var fileName = "AP Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function ExportMMD0003a_4() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/ExportMMD0003a_4_IP';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4RIA() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4RIA';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4RIE() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4RIE';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4RIS() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4RIE';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4APA() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4APA';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4APE() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4APE';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4APS() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4APS';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+        //var fileName = "AP_RSE_Weeky_Gazette.txt";
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    data: {
+        //        dataOfGazette: GazDate
+        //        ,
+        //        acting:acting
+        //        ,
+        //        authId:authId
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportMMD0003a_4RSE() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4RSE';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+    }
+    function exportMMD0003a_4RGE() {
+        var GazDate = document.getElementById('Gaz_date').value;
+        var acting = document.getElementById('acting').value;
+        var authId = document.getElementById('NameOfSignture').value;
+        if (GazDate == '') {
+            alert('Please input Date of Gazette!');
+            return;
+        }
+        var targetUrl = '/Fn03PA_RPT/exportMMD0003a_4RGE';
+        downloadFile(targetUrl, {
+            dataOfGazette: GazDate
+            ,
+            acting: acting
+            ,
+            authId: authId
+        });
+    }
+    function exportLabelTwo() {
+        var targetUrl = '/Fn03PA_RPT/JavaExportProLabelTwo';
+        downloadFile(targetUrl, "pnlLabelForm");
+        //console.log("start");
+        //var fileName = "label.txt";
+        //    $.ajax({
+        //    type: "POST"
+        //    , url: targetUrl
+        //    , data: $("#pnlLabelForm").serialize()
+        //        , success: function (data) {
+
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportLabelThree() {
+        var targetUrl = '/Fn03PA_RPT/JavaExportProLabelThree';
+        downloadFile(targetUrl, "pnlLabelForm");
+        //console.log("start");
+        //var fileName = "label.txt";
+        //    $.ajax({
+        //    type: "POST"
+        //    , url: targetUrl
+        //    , data: $("#pnlLabelForm").serialize()
+        //        , success: function (data) {
+
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportLabelTwoInterview() {
+        var targetUrl = '/Fn03PA_RPT/JavaExportIPLabelTwoInterview';
+        downloadFile(targetUrl, "pnlLabelInterviewForm");
+        //console.log("start");
+        //var fileName = "label.txt";
+        //    $.ajax({
+        //    type: "POST"
+        //    , url: targetUrl
+        //    , data: $("#pnlLabelInterviewForm").serialize()
+        //        , success: function (data) {
+
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportLabelThreeInterview() {
+        var targetUrl = '/Fn03PA_RPT/JavaExportIPLabelThreeInterview';
+        downloadFile(targetUrl, "pnlLabelInterviewForm");
+        //console.log("start");
+        //var fileName = "label.txt";
+        //    $.ajax({
+        //    type: "POST"
+        //    , url: targetUrl
+        //    , data: $("#pnlLabelInterviewForm").serialize()
+        //        , success: function (data) {
+
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function exportIPConvictionCover() {
+        var targetUrl = '/Fn03PA_RPT/exportIPConvictionCover';
+        downloadFile(targetUrl, "pnlInfoSheetForm");
+        //thisForm = document.getElementById('pnlInfoSheetForm');
+        //thisForm.action = 'exportIPConvictionCover';
+        //thisForm.submit();
+        //var fileName = "CovictionCover.txt";
+        //    $.ajax({
+        //    type: "POST"
+        //    , url: targetUrl
+        //    , data: $("#pnlInfoSheetForm").serialize()
+        //        , success: function (data) {
+
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+    function submitExpInfo() {
+        var AuthorityName = document.getElementById('AuthorityName').value;
+        if (AuthorityName == '') {
+            alert('Please select the Authority Name');
+            return;
+        }
+        thisForm = document.getElementById('pnlExpInfoForm');
+        thisForm.action = 'ExportAPRSERGEExpInfo';
+        thisForm.submit();
+    }
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + decodeURIComponent(text));
+        //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+
+        //alert("SS: " + decodeURIComponent(text));
+        //alert(filename);
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+</script>

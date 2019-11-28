@@ -1,0 +1,202 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.CommentModel
+
+@{ 
+    if (!string.IsNullOrEmpty(Model.HandlingUnit))
+    {
+        Model.P_MW_COMMENTs = Model.P_MW_COMMENTs.Where(w => w.HandlingUnit == Model.HandlingUnit).ToList();
+    }
+}
+<div class="panelHeader">
+    Comment
+</div>
+
+<div class="w3-border displayForm">
+    <form id="inputForm" method="post">
+        @Html.HiddenFor(m => Model.IsSPO)
+        @Html.HiddenFor(m => Model.IsRollback)
+        @Html.HiddenFor(m => Model.RECORD_ID)
+        @Html.HiddenFor(m => Model.V_UUID)
+        @Html.HiddenFor(m => Model.SubmissionType)
+        @Html.HiddenFor(m => Model.HandlingUnit)
+        @*<input type="hidden" name="RECORD_ID" value="@Model.RECORD_ID">
+            <input type="hidden" name="IsAcknowledgement" value="@Model.IsAcknowledgement">*@
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        From User
+                    </th>
+                    <th>
+                        Created Date
+                    </th>
+                    <th>
+                        Modified Date
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < Model.P_MW_COMMENTs.Count(); i++)
+                {
+                    string name = "P_MW_COMMENTs_" + i + "__";
+                    @Html.HiddenFor(m => Model.P_MW_COMMENTs[i].UUID)
+                    @Html.HiddenFor(m => Model.P_MW_COMMENTs[i].COMMENT_AREA)
+                    <tr>
+                        <td>
+                            @Model.P_MW_COMMENTs[i].FROM_USER
+                        </td>
+                        <td>
+                            @Model.P_MW_COMMENTs[i].CREATED_DATE
+                        </td>
+                        <td>
+                            @Model.P_MW_COMMENTs[i].MODIFIED_DATE
+                        </td>
+                        <td style="white-space: normal;width: 500px;">
+                            @Model.P_MW_COMMENTs[i].COMMENT_AREA
+                        </td>
+                        <td>
+                            @if (Model.P_MW_COMMENTs[i].FROM_USER == MWMS2.Utility.SessionUtil.LoginPost.CODE)
+                            {
+                                <button class="btn btn-default" type="button" onclick="fillForm('@name')"> Edit</button>
+                            }
+                            else
+                            {
+                                <button class=" btn btn-default w3-gray w3-hover-gray" disabled type="button"> Edit</button>
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div class="w3-row">
+            Add Comment:
+        </div>
+
+        <div class="w3-row">
+            <input type="hidden" id="UUID" name="UUID" />
+            <textarea id="COMMENT_AREA" name="COMMENT_AREA"></textarea>
+        </div>
+
+        <div class="displayForm">
+            <div class="w3-container footer">
+                @if (Model.IsRollback)
+                {
+                    <button class="btn btn-default" type="button" onclick="saveCommnetAndRollBack()"><i class=""></i> Save Commnet And Roll Back</button>
+                }
+                else
+                {
+                    <button class="btn btn-default" type="button" onclick="saveCommnet()"><i class=""></i> Save Commnet</button>
+                }
+                <button id="btnUpdate" hidden class="btn btn-default" type="button" onclick="updateComent()"><i class=""></i> Update Comment</button>
+                <button class="btn btn-default" type="button" onclick="goBack()"><i class=""></i> Cancel</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    function initPage() {
+        //hidden navigation
+
+        var topbar0 = document.getElementById("topbar0");
+        var topbar1 = document.getElementById("topbar1");
+        var topbar2 = document.getElementById("topbar2");
+        var navigator = document.getElementById("navigator");
+
+        topbar0.style.display = "none";
+        topbar1.style.display = "none";
+        topbar2.style.display = "none";
+        navigator.style.display = "none";
+    }
+
+    function saveCommnet() {
+
+        //init UUID
+        $('#UUID').val("");
+        attr("inputForm", "addClass", "saving");
+        $.post("Create", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goBack();
+                //window.opener.rollbackResult.isRollback = true;
+                //window.opener.goTo("Index");
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+
+    }
+
+    function fillForm(name) {
+
+        var txtUuid = document.getElementById(name + "UUID");
+        var txtComment = document.getElementById(name + "COMMENT_AREA");
+
+        document.getElementById("UUID").value = txtUuid.value;
+        document.getElementById("COMMENT_AREA").value = txtComment.value;
+
+        refreshUpdateButton(false);
+    }
+
+    function refreshUpdateButton(isHidden) {
+        var btnUpdate = document.getElementById("btnUpdate");
+        btnUpdate.hidden = isHidden;
+
+    }
+
+    function updateComent() {
+        attr("inputForm", "addClass", "saving");
+        $.post("Update", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goBack();
+                //window.opener.rollbackResult.isRollback = true;
+                //window.opener.goTo("Index");
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function saveCommnetAndRollBack() {
+
+        attr("inputForm", "addClass", "saving");
+        $.post("RollbackAndComment", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goBack();
+                //window.opener.rollbackResult.isRollback = true;
+                window.opener.goTo("Index");
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+
+    }
+
+    function goBack() {
+        window.close();
+    }
+
+    domReady(function () {
+        initPage();
+    });
+
+</script>

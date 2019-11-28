@@ -1,0 +1,1130 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_AckSearchModel
+
+<div class="panelHeader">Submission Info</div>
+
+@*@using (Html.BeginForm("Save", "Fn01LM_Ack", FormMethod.Post, new { @id = "inputForm" }))
+    {*@
+<div id="searchDSN">
+    <form id="inputForm" method="post">
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Counter :</div>
+                    @if (Model.P_MW_ACK_LETTER.COUNTER != null)
+                    {
+                        if (Model.P_MW_ACK_LETTER.COUNTER.Equals("1"))
+                        {
+                            <div class="w3-col l9 m12 s12">
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio", @checked = "true" }) Kwun Tong</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio" })Pioneer Centre</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio" })E-submission</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio" })WKGO</label>
+                                |
+                            </div>
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER.Equals("2"))
+                        {
+                            <div class="w3-col l9 m12 s12">
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio" }) Kwun Tong</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio", @checked = "true" })Pioneer Centre</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio" })E-submission</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio" })WKGO</label>
+                                |
+                            </div>
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER.Equals("3"))
+                        {
+                            <div class="w3-col l9 m12 s12">
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio" }) Kwun Tong</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio" })Pioneer Centre</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio", @checked = "true" })E-submission</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio" })WKGO</label>
+                                |
+                            </div>
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER.Equals("4"))
+                        {
+                            <div class="w3-col l9 m12 s12">
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio" }) Kwun Tong</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio" })Pioneer Centre</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio" })E-submission</label>
+                                | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio", @checked = "true" })WKGO</label>
+                                |
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="w3-col l9 m12 s12">
+                            | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio" }) Kwun Tong</label>
+                            | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio" })Pioneer Centre</label>
+                            | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio" })E-submission</label>
+                            | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio", @checked = "true" })WKGO</label>
+                            |
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Nature :</div>
+                    <div class="w3-col l9 m12 s12">
+                        | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "SUBMISSION", new { @class = "w3-radio", @checked = "true" }) SUBMISSION</label>
+                        | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "E-SUBMISSION", new { @class = "w3-radio" }) E-SUBMISSION</label>
+                        | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "DIRECT RETURN", new { @class = "w3-radio" })DIRECT RETURN</label>
+                        | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "ICU", new { @class = "w3-radio" })ICU</label>
+                        |
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Received Date :</div>
+                    <div class="w3-col l3 m12 s12">
+                        <div id="searchReceivedDateTable" class="w3-border displayForm">
+                            @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.RECEIVED_DATE, new { @class = "inputDate" })
+                            @Html.HiddenFor(m => m.P_MW_ACK_LETTER.RECEIVED_DATE, new { id = "HIDE_P_MW_ACK_LETTER_RECEIVED_DATE" })
+
+                            <button class="w3-right searchButton btn btn-default" type="button" onclick="searchingReceivedDate()"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+                    <div class="w3-col l3 m12 s12">Letter Date :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.LETTER_DATE, new { @class = "inputDate" })
+                        @Html.HiddenFor(m => m.P_MW_ACK_LETTER.LETTER_DATE, new { id = "HIDE_P_MW_ACK_LETTER_LETTER_DATE" })
+                        <input id="letterFixCheckbox" type="checkbox" name="mwAckLetterFixed" value="true" onclick="fixLetterAndReceivedDate()" /> Fixed
+                        <br />
+                        <span>(如果只是補入資料，請刪去Letter Date!!)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">DSN :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.DSN, new { id = "inputDSN", style = "width:150px;"})
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">MW No. :</div>
+                    <div class="w3-col l3 m12 s12">
+                        <span id="MWNo"></span>
+                        @Html.HiddenFor(m => m.P_MW_ACK_LETTER.MW_NO)
+                        @*@Html.TextBoxFor(m => m.P_MW_ACK_LETTER.MW_NO, new { @readonly = "true" })*@
+                    </div>
+                    <div class="w3-col l3 m12 s12">File Reference No. :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FILEREF_FOUR, new { style = "width:60px", maxlength = "4", disabled = "disabled", @class = "DisableTextClass" })
+                        /
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FILEREF_TWO, new { style = "width:40px", maxlength = "2", disabled = "disabled", @class = "DisableTextClass" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Form No. :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.HiddenFor(m => m.P_MW_ACK_LETTER.FORM_NO, new { id = "FormNo", @readonly = "true" })
+                        <span id="span_FormNo"></span>
+                    </div>
+                    @*<div class="w3-col l3 m12 s12">Strengthening of PBBW :</div>
+                        <div class="w3-col l3 m12 s12">
+                            <label>
+                                <input type="radio" class="w3-radio" name="PBBW" value="Y" checked="checked" />Y
+                            </label>|
+                            <label>
+                                <input type="radio" class="w3-radio" name="PBBW" value="N" />N
+                            </label>
+                        </div>*@
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">完成工程日期 :</div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.COMP_DATE, new { @class = "inputDate" , onblur = "onCompletedDateBlur(this)" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">MW Items  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.MW_ITEM, new { onblur = "onMwItemsBlur(this)" })
+                        <br />
+                        MW02/MW04 後加的III級項目，就咁打返嗰個項目就得，如"3.27/"。MW11 & MW12 都係。
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Order Related :</div>
+                    <div class="w3-col l3 m12 s12">
+                        <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.ORDER_RELATED, "Y", new { @class = "w3-radio" }) Y</label>|
+                        <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.ORDER_RELATED, "N", new { @class = "w3-radio", @checked = "true" })N</label>
+                    </div>
+                    <div class="w3-col l3 m12 s12">SSP included :</div>
+                    <div class="w3-col l3 m12 s12">
+                        <label> @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SSP, "Y", new { @class = "w3-radio" }) Y</label>|
+                        <label> @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SSP, "N", new { @class = "w3-radio", @checked = "true" }) N</label>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">PBP No. :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PBP_NO, new { style = "width:150px;", maxlength = "16", oninput = "oninputFormatPBP()", onblur = "getPbpEmail()" })
+                        <div>
+                            1=AP(A) | 2=AP(E) | 3=AP(S)
+                            [其他就要全打，如RI(A)。]
+                        </div>
+
+                    </div>
+                    <div class="w3-col l3 m12 s12">PBP Email  :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.EMAIL_OF_PBP, new { style = "width:350px;", maxlength = "100" })
+                        @*<div>
+                                <button id="pbpSenderBtn" type="button" class="hide" onclick="pbpOrPrcSendEmail('PBP')">Send</button>
+                                <span id="pbpSenderMsg"></span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">PRC No. :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PRC_NO, new { style = "width:150px;", oninput = "oninputFormatPRC()", onblur = "getPrcEmail()" })
+                        <div>
+                            1=GBC   | 2=MWC  | 3=MWC(W) [其他就要全打，如SC(D)。]
+                        </div>
+
+                    </div>
+                    <div class="w3-col l3 m12 s12">PRC Email :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.EMAIL_OF_PRC, new { style = "width:350px;", maxlength = "100" })
+                        @*<div>
+                                <button id="prcSenderBtn" type="button" class="hide" onclick="pbpOrPrcSendEmail('PRC')">Send</button>
+                                <span id="prcSenderMsg"></span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">展開工程日期  :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.COMM_DATE, new { @class = "inputDate" })
+                        @*<input class="inputDate" type="text" name="name" value="" />*@
+                    </div>
+                    <div class="w3-col l3 m12 s12">Previous MW No.  :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PREVIOUS_RELATED_MW_NO, new { style = "width:150px;" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Address  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.ADDRESS,new { type = "search" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Street :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.STREET, new { style = "width:555px;", type = "search" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Street No. :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.STREET_NO, new { style = "width:150px;", type = "search" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Building :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.BUILDING, new { style = "width:555px;", type = "search" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Floor :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FLOOR, new { style = "width:555px;", type = "search" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Unit  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.UNIT, new { style = "width:555px;", type = "search" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Block Id  :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.ADR_BLK_ID, new { style = "width:555px;", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Unit Id  :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.ADR_UNIT_ID, new { style = "width:555px;", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">PAW  :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PAW, new { oninput = "oninputPAW()" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">PAW Contact :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PAW_CONTACT, new { oninput = "oninputPAW()" })
+                        <br />
+                        如果係FAX，只打號碼，不要隔格。
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">I.O./Mgt. :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.IO_MGT)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">I.O./Mgt. Contact :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.IO_MGT_CONTACT)
+                        <br />
+                        如果係FAX，只打號碼，不要隔格。
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Remarks :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.REMARK)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        <div>
+                            Repeated? : <input id="repeated" type="checkbox" name="name" value="" />
+                        </div>
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.LANGUAGE, Model.LANGUAGE_RADIO_CHINESE, new { @class = "w3-radio" })
+                            中文
+                        </label>|
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.LANGUAGE, Model.LANGUAGE_RADIO_ENGLISH, new { @class = "w3-radio", @checked = "true" })
+                            English
+                        </label>
+                    </div>
+                    <div style="text-align: left !important;background-color: inherit !important;" class="w3-col l3 m12 s12">
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.FILE_TYPE, Model.DOC_TYPE_PDF, new { @class = "w3-radio", @checked = "true" }) pdf
+                        </label>|
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.FILE_TYPE, Model.DOC_TYPE_DOCX, new { @class = "w3-radio" }) docx
+                        </label>
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        BARCODE/ QR CODE :
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.BARCODE, "Y", new { @class = "w3-radio" }) Y
+                        </label>|
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.BARCODE, "N", new { @class = "w3-radio", @checked = "true" }) N
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <button id="saveButton" class="searchButton btn btn-default" type="button"> <i class="fa fa-save"></i>Save</button>
+                <button onclick="resetForm()" class="searchButton btn btn-default" type="reset"> Reset</button>
+            </div>
+        </div>
+        @*}*@
+    </form>
+
+    <br />
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12" style="background-color:inherit;">Submission Received </div>
+                <div class="w3-col l3 m12 s12" style="text-align:right!important;">Search DSN : </div>
+                <div class="w3-col l3 m12 s12" style="background-color:inherit;">
+                    @Html.TextBoxFor(m => m.SearchDSN)
+                    <input id="searchReceivedDateHidden" type="hidden" name="searchReceivedDate" value="" />
+                </div>
+                <div class="w3-col l3 m12 s12">
+                    <button class="w3-right searchButton btn btn-default" type="button" onclick="searchingDSN()">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div id="resultPanel" class="w3-border displayForm">
+</div>
+
+<div id="modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <header class="w3-container w3-teal">
+            <span onclick="cancelSave()" class="w3-closebtn w3-right">&times;</span>
+            <h2>Warning</h2>
+        </header>
+        <div class="w3-container">
+            <p>Address matched. Confirm save?</p>
+        </div>
+        <footer class="w3-container w3-teal">
+            <button onclick="saveForm()" class="w3-btn">Yes</button>
+            <button onclick="cancelSave()" class="w3-btn">No</button>
+        </footer>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        //atcp({ id: "P_MW_ACK_LETTER_ADDRESS", dataSource: "Address" });
+        atcpAddress2({
+            fullAddress: "P_MW_ACK_LETTER_ADDRESS"
+            , streetName: "P_MW_ACK_LETTER_STREET"
+            , streetNo: "P_MW_ACK_LETTER_STREET_NO"
+            , building: "P_MW_ACK_LETTER_BUILDING"
+            , floor: "P_MW_ACK_LETTER_FLOOR"
+            , unit: "P_MW_ACK_LETTER_UNIT"
+            , blkId: "P_MW_ACK_LETTER_ADR_BLK_ID"
+            , unitId: "P_MW_ACK_LETTER_ADR_UNIT_ID"
+        });
+
+        attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+        attr("inputDSN", "onblur", { parameters: {}, callback: onBlurDSN });
+    });
+
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("CheckAddress", $("#inputForm").serialize(), function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                document.getElementById('modal').style.display = 'block';
+            }
+            else {
+                //showErrorMessage(data.ErrorMessages);
+                //$("#inputForm").removeClass("saving");
+                saveForm();
+                //console.log(data);
+            }
+        }, "json");
+
+    }
+    function resetForm() {
+        $("#P_MW_ACK_LETTER_MW_NO").val("");
+        $("#MWNo").text("");
+        $("#FormNO").val("");
+        $("#span_FormNo").text("");
+    }
+    function cancelSave() {
+        document.getElementById('modal').style.display = 'none';
+        $("#inputForm").removeClass("saving");
+    }
+    function onMwItemsBlur(sender) {
+        if (sender.value == "") {
+            return;
+        }
+        markError(sender, mwItemsValid(sender));
+    }
+    function markError(dom, flag) {
+        dom.style.color = flag ? "" : "#FF0000";
+        dom.style.fontWeight = flag ? "" : "bold";
+    }
+    function mwItemsValid(sender) {
+        var itemNo = sender.value;
+        var mwitems = new Array(
+            "1", "2", "3", "4",
+            "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10",
+            "1.11", "1.12", "1.13", "1.14", "1.15", "1.16", "1.17", "1.18", "1.19", "1.20",
+            "1.21", "1.22", "1.23", "1.24", "1.25", "1.26", "1.27", "1.28", "1.29", "1.30",
+            "1.31", "1.32", "1.33", "1.34", "1.35", "1.36", "1.37", "1.38", "1.39", "1.40",
+            "1.41", "1.42", "1.43", "1.44",
+
+            "2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "2.10",
+            "2.11", "2.12", "2.13", "2.14", "2.15", "2.16", "2.17", "2.18", "2.19", "2.20",
+            "2.21", "2.22", "2.23", "2.24", "2.25", "2.26", "2.27", "2.28", "2.29", "2.30",
+            "2.31", "2.32", "2.33", "2.34", "2.35", "2.36", "2.37", "2.38", "2.39", "2.40",
+
+            "3.1", "3.2", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10",
+            "3.11", "3.12", "3.13", "3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20",
+            "3.21", "3.22", "3.23", "3.24", "3.25", "3.26", "3.27", "3.28", "3.29", "3.30",
+            "3.31", "3.32", "3.33", "3.34", "3.35", "3.36", "3.37", "3.38", "3.39", "3.40",
+            "3.41", "3.42");
+        if ((itemNo != "") && itemNo.charAt(itemNo.length - 1) != "/") {
+            sender.value = sender.value + "/";
+        }
+        var splititem = itemNo.split("/");
+        for (var i = 0; i < splititem.length; i++) {
+            if (splititem[i].length == 0) {
+                continue;
+            }
+            var flag = false;
+            for (var j = 0; j < mwitems.length; j++) {
+                flag = (splititem[i] == mwitems[j]);
+                if (flag) {
+                    break;
+                }
+            }
+            if (!flag) {
+                return false;
+            }
+        }
+        return true;
+    }
+    function fixLetterAndReceivedDate() {
+        if ($("#letterFixCheckbox").is(':checked')) {
+            $("#P_MW_ACK_LETTER_RECEIVED_DATE").attr("readonly", true);
+            $("#P_MW_ACK_LETTER_RECEIVED_DATE").attr("disabled", true);
+            $("#HIDE_P_MW_ACK_LETTER_RECEIVED_DATE").val($("#P_MW_ACK_LETTER_RECEIVED_DATE").val());
+
+            $("#P_MW_ACK_LETTER_LETTER_DATE").attr("readonly", true);
+            $("#P_MW_ACK_LETTER_LETTER_DATE").attr("disabled", true);
+            $("#HIDE_P_MW_ACK_LETTER_LETTER_DATE").val($("#P_MW_ACK_LETTER_LETTER_DATE").val());
+            //alert("check");
+        } else {
+            $("#P_MW_ACK_LETTER_RECEIVED_DATE").attr("readonly", false);
+            $("#P_MW_ACK_LETTER_RECEIVED_DATE").attr("disabled", false);
+
+            $("#P_MW_ACK_LETTER_LETTER_DATE").attr("readonly", false);
+            $("#P_MW_ACK_LETTER_LETTER_DATE").attr("disabled", false);
+        }
+    }
+
+    function saveForm() {
+        //if (!checkCompletedDate()) {
+        //    attr("inputForm", "dropClass", "saving");
+        //    alert("completeDate error");
+        //    return;
+        //}
+        //var pbp = $("#P_MW_ACK_LETTER_PBP_NO").val();
+        //var prc = $("#P_MW_ACK_LETTER_PRC_NO").val();
+        //var itemNo = $("#P_MW_ACK_LETTER_MW_ITEM").val();
+        //var preMW = $("#P_MW_ACK_LETTER_PREVIOUS_RELATED_MW_NO").val();
+        //var paw = $("#P_MW_ACK_LETTER_PAW").val();
+        //var ssp = $(':radio[name="P_MW_ACK_LETTER.SSP"]:checked').val();
+        document.getElementById('modal').style.display = 'none';
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                //console.log(data);
+                var isFix = false;
+                var letterDate = data.Message[1];
+
+                if ($("#letterFixCheckbox").is(':checked')) {
+                    isFix = true;
+                }
+                if (!$("#repeated")[0].checked) {
+                    $("#inputForm")[0].reset();
+                    getMWNo("");
+                    //alert("not checked");
+                } else {
+                    //alert("checked");
+                    $("#inputDSN").val("");
+                    $("#P_MW_ACK_LETTER_MW_NO").val("");
+                    $("#MWNo").text("");
+                    //$("#P_MW_ACK_LETTER_PBP_NO").val(pbp);
+                    //$("#P_MW_ACK_LETTER_PRC_NO").val(prc);
+                    //$("#P_MW_ACK_LETTER_MW_ITEM").val(itemNo);
+                    //$("#P_MW_ACK_LETTER_PREVIOUS_RELATED_MW_NO").val(preMW);
+                    //$("#P_MW_ACK_LETTER_PAW").val(paw);
+                    $("#FormNO").val("");
+                    $("#span_FormNo").text("");
+                    //if (ssp === "Y")
+                    //    $(':radio[name="P_MW_ACK_LETTER.SSP"]').eq(0).attr("checked", true);
+                }
+                //if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                //dlForm.method = "post";
+                ////dlForm.target = "dlFrame";
+                //dlForm.action = "Print";
+                //dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": data.Message[0] });
+                //dlForm.submit();
+                //attr(dlForm, "html", "");
+
+                openNewTab(domId("rootPath").value + "/MWProcessing/Viewer/AcknowledgementDocument", [{ name: "id", value: data.Message[0] }]);
+                searchingDSN();
+                if (isFix == true) {
+                    $("#P_MW_ACK_LETTER_LETTER_DATE").val(letterDate);
+                }
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                if (!isNull($("#inputDSN").val())) {
+                    alert(data.Message[0]);
+                }
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    var searching; var searching2;
+    var searchParams = {
+        searchPath: "SearchDSN"
+        , exportPath: "Excel"
+        , searchTable: "searchDSN"
+        , resultPanel: "resultPanel"
+        , Sort: "DSN"
+        , Columns: [
+            {
+                displayName: "&nbsp;", formater: function (row) {
+                    return createButton("", "fa-edit", [{
+                        "onclick": {
+                            parameters: { row: row }, callback: function (d, p, e) {
+                                if (row == null) return;
+                                goTo("Edit", [{ name: "id", value: row.UUID }]);
+                            }
+                        }
+                    }]);
+                }
+            }
+            , {
+                displayName: "DSN", columnName: "DSN"
+            }
+            , {
+                displayName: "MW NO.", columnName: "MW_NO"
+            }
+            , {
+                displayName: "FORM", columnName: "FORM_NO"
+            }
+            , {
+                displayName: "RECEIVED DATE", columnName: "RECEIVED_DATE"
+            }
+            , {
+                displayName: "LETTER DATE", columnName: "LETTER_DATE"
+            }
+            , {
+                displayName: "PBP", columnName: "PBP_NO"
+            }
+            , {
+                displayName: "PRC", columnName: "PRC_NO"
+            }
+            , {
+                displayName: "ADDRESS"
+                , formater: function (row) {
+                    var ele = document.createElement("div");
+                    var address = "";
+                    if (row.ADDRESS != null && row.ADDRESS != "" && row.ADDRESS != undefined) {
+                        address = row.ADDRESS;
+
+                    } else {
+                        if (row.LANGUAGE === "ENG") {
+                            var addressFirstComponent = "";
+                            var addressSecondComponent = "";
+                            if (!isNull(row.UNIT)) {
+                                addressFirstComponent += row.UNIT + " ";
+                            }
+                            if (!isNull(row.FLOOR)) {
+                                addressFirstComponent += row.FLOOR + " ";
+                            }
+                            if (!isNull(row.BUILDING)) {
+                                addressFirstComponent += row.BUILDING + " ";
+                            }
+                            if (!isNull(addressFirstComponent)) {
+                                addressFirstComponent += ", ";
+                            }
+                            if (!isNull(row.STREET_NO)) {
+                                addressSecondComponent += row.STREET_NO + " ";
+                            }
+                            if (!isNull(row.STREET)) {
+                                addressSecondComponent += row.STREET;
+                            }
+                            address = addressFirstComponent + addressSecondComponent;
+                        } else {
+                            var fullAddress = "";
+                            if (!isNull(row.STREET)) {
+                                fullAddress += row.STREET + " ";
+                            }
+                            if (!isNull(row.STREET_NO)) {
+                                fullAddress += row.STREET_NO + " ";
+                            }
+                            if (!isNull(row.BUILDING)) {
+                                fullAddress += row.BUILDING + " ";
+                            }
+                            if (!isNull(row.FLOOR)) {
+                                fullAddress += row.FLOOR + " ";
+                            }
+                            if (!isNull(row.UNIT)) {
+                                fullAddress += row.UNIT + " ";
+                            }
+                            address = fullAddress;
+                        }
+
+                    }
+                    if (address != "") {
+                        var i = 0;
+                        var displayAddress = "";
+                        if (address.length < 4) {
+                            ele.innerText = address;
+                        } else {
+                            for (i; i < 4; i++) {
+                                displayAddress += address[i];
+                            }
+                            ele.innerText = displayAddress + "...";
+                            ele.style += "overflow: hidden;white-space: nowrap;text-overflow: ellipsis;";
+                        }
+
+                        var ele_i = dom("i");
+                        ele_i.className += "fa fa-map-marker";
+                        ele_i.setAttribute("title", address);
+                        ele.appendChild(ele_i);
+                    }
+                    return ele;
+                }
+            }
+            , {
+                displayName: "AUDIT(AFC)"//, columnName: "AUDIT_RELATED"
+                , formater: function (row) {
+                    var ele = document.createElement("div");
+                    ele.innerText = row.AUDIT_RELATED;
+                    if (row.AUDIT_RELATED != null && row.AUDIT_RELATED != "" && row.AUDIT_RELATED != undefined && row.AUDIT_RELATED === "Y") {
+                        ele.style.backgroundColor = "#ff0000";
+                        ele.style.margin = "0px -10px -10px -10px";
+                        ele.style.paddingLeft = "10px";
+                        ele.style.paddingBottom = "12px";
+                    }
+                    return ele;
+                }
+            }
+            //, {
+            //    displayName: "AUDIT(SAC)"//, columnName: "SITE_AUDIT_RELATED"
+            //    , formater: function (row) {
+            //        var ele = document.createElement("div");
+            //        ele.innerText = row.SITE_AUDIT_RELATED;
+            //        if (row.SITE_AUDIT_RELATED != null && row.SITE_AUDIT_RELATED != "" && row.SITE_AUDIT_RELATED != undefined && row.SITE_AUDIT_RELATED === "Y") {
+            //            ele.style.backgroundColor = "#ff0000";
+            //            ele.style.margin = "0px -10px -10px -10px";
+            //            ele.style.paddingLeft = "10px";
+            //            ele.style.paddingTop = "12px";
+            //        }
+            //        return ele;
+            //    }
+            //}
+            , {
+                displayName: "AUDIT(PSAC)"//, columnName: "PRE_SITE_AUDIT_RELATED"
+                , formater: function (row) {
+                    var ele = document.createElement("div");
+                    ele.innerText = row.PRE_SITE_AUDIT_RELATED;
+                    if (row.PRE_SITE_AUDIT_RELATED != null && row.PRE_SITE_AUDIT_RELATED != "" && row.PRE_SITE_AUDIT_RELATED != undefined && row.PRE_SITE_AUDIT_RELATED === "Y") {
+                        ele.style.backgroundColor = "#ff0000";
+                        ele.style.margin = "0px -10px -10px -10px";
+                        ele.style.paddingLeft = "10px";
+                        ele.style.paddingBottom = "12px";
+                    }
+                    return ele;
+                }
+            }
+            , {
+                displayName: "O", columnName: "ORDER_RELATED"
+            }
+            , {
+                displayName: "S", columnName: "SIGNBOARD_RELATED"
+            }
+            , {
+                displayName: "P", columnName: "SSP"
+            }
+            , {
+                displayName: "&nbsp;", formater: function (row) {
+                    return createButton("Print", "fa-print", [{
+                        "onclick": {
+                            parameters: { row: row }, callback: function (d, p, e) {
+                                if (row == null) return;
+                                openNewTab(domId("rootPath").value + "/MWProcessing/Viewer/AcknowledgementDocument", [{ name: "id", value: row.UUID }]);
+                            }
+                        }
+                    }]);
+                }
+            }
+            //, {
+            //    displayName: "Print", columnName: ""
+            //    , click: function (row) {
+            //        try {
+            //            if (row == null) return;
+            //            goTo("Form", [{ name: "id", value: row.UUID }]);
+            //        } catch (err) { }
+            //    }
+            //}
+        ]
+    };
+    function isNull(para) {
+        if (para != undefined && para != null && para != "") {
+            return false;
+        }
+        return true;
+    }
+    function searchingDSN() {
+        $('#resultPanel').empty();
+        $('.resultFooter').remove();
+        $('#searchReceivedDateHidden').val($('#SearchReceivedDate').val());
+        searchParams.searchTable = "searchDSN";
+        searchParams.searchPath = "searchDSN";
+        searching = new searcher(searchParams);
+        searching.goToPage();
+    }
+    function searchingReceivedDate() {
+        $('#resultPanel').empty();
+        $('.resultFooter').remove();
+        searchParams.searchTable = "searchReceivedDateTable";
+        searchParams.searchPath = "searchReceivedDate";
+        searching = new searcher(searchParams);
+        searching.goToPage();
+    }
+    function onBlurDSN() {
+        onDsnBlur(document.getElementById("inputDSN"));
+        var dsn = $("#inputDSN").val();
+        //$("#inputDSN").val(dsn.toUpperCase());
+        $("#inputDSN").removeClass("errorField");
+        $("#inputDSN").siblings(".errorText").text("");
+        getMWNo(dsn);
+        getACKLetter(dsn);
+    }
+    function getMWNo(dsn) {
+        if (dsn == "" || dsn == null) {
+            $("#MWNo").text("");
+            $("#P_MW_ACK_LETTER_MW_NO").val("");
+            $("#FormNo").val("");
+            $("#span_FormNo").text("");
+            return;
+        }
+
+        $.post("GetMWNo", { id: dsn }, function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                attr("inputDSN", "value", data.Message[2]);
+                $("#MWNo").text(data.Message[0]);
+                $("#P_MW_ACK_LETTER_MW_NO").val(data.Message[0]);
+                $("#FormNo").val(data.Message[1]);
+                $("#span_FormNo").text(data.Message[1]);
+                getFileRefNo(data.Message[0]);
+            }
+            else {
+                $("#MWNo").text("");
+                $("#P_MW_ACK_LETTER_MW_NO").val("");
+                $("#FormNo").val("");
+                $("#span_FormNo").text("");
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+    function getFileRefNo(mwno) {
+        if (!isNull(mwno)) {
+            $.post(domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/GetFileRefNo", { mwno: mwno }, function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    console.log(data.Message);
+                    $("#P_MW_ACK_LETTER_FILEREF_FOUR").val(data.Message[0]);
+                    $("#P_MW_ACK_LETTER_FILEREF_TWO").val(data.Message[1]);
+                }
+                else {
+                    $("#P_MW_ACK_LETTER_FILEREF_FOUR").val("");
+                    $("#P_MW_ACK_LETTER_FILEREF_TWO").val("");
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        }
+    }
+    function getACKLetter(dsn) {
+        $.post("GetACKLetter", { id: dsn }, function (data) {
+            //console.log(data);
+            var prop;
+            for (prop in data) {
+                if (data[prop] != null && data[prop] != "" && data[prop] != undefined) {
+                    if (prop.indexOf("_DATE") !== -1 && prop != null && prop != "" && prop != undefined) {
+                        data[prop] = dateFtt("dd/MM/yyyy", new Date(data[prop]));
+                    }
+                    $("#P_MW_ACK_LETTER_" + prop).val(data[prop]);
+                }
+            }
+        }, "json");
+    }
+    function dateFtt(fmt, date) {
+        var o = {
+            "M+": date.getMonth() + 1,
+            "d+": date.getDate(),
+            "h+": date.getHours(),
+            "m+": date.getMinutes(),
+            "s+": date.getSeconds(),
+            "q+": Math.floor((date.getMonth() + 3) / 3),
+            "S": date.getMilliseconds()
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    function checkCompletedDate() {
+        //var completedDate = new Date($("#P_MW_ACK_LETTER_COMP_DATE").val());//.getTime();
+        var completedDate = document.getElementById("P_MW_ACK_LETTER_COMP_DATE").value;
+        var comdate = completedDate.split('/');
+        var comd = new Date(comdate[2], comdate[1] - 1, comdate[0]);
+        //alert(comd);
+
+        var currDate = new Date();//.getTime();
+        var currd = dateFormat(currDate);
+        var curdate = currd.split('/');
+        var curd = new Date(curdate[2], curdate[1] - 1, curdate[0]);
+        //alert(curd);
+
+        if (comd > curd) {
+            return false;
+        }
+        return true;
+    }
+    function dateFormat(sender) {
+        var dd = sender.getDate();
+        var mm = sender.getMonth() + 1;
+        var yyyy = sender.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var sender = dd + '/' + mm + '/' + yyyy;
+        return sender;
+    }
+    function onCompletedDateBlur(sender) {
+        if (sender.value == "") {
+            return;
+        }
+        markError(sender, checkCompletedDate());
+    } 
+
+    /**
+     * 根据参数名，获取url后面的参数的值
+     * */
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) { return pair[1]; }
+        }
+        return null;
+    }
+
+    function oninputFormatPBP() {
+        var pbp = $("#P_MW_ACK_LETTER_PBP_NO").val();
+        if (pbp === ("1".trim())) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(A) ");
+        } else if (pbp === "2".trim()) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(E) ");
+        } else if (pbp === "3".trim()) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(S) ");
+        } else {
+            $("#P_MW_ACK_LETTER_PBP_NO").val(pbp.toUpperCase());
+        }
+    }
+
+    function oninputFormatPRC() {
+        var prc = $("#P_MW_ACK_LETTER_PRC_NO").val();
+        if (prc === "1".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("GBC ");
+        } else if (prc === "2".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("MWC ");
+        } else if (prc === "3".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("MWC(W) ");
+        } else {
+            $("#P_MW_ACK_LETTER_PRC_NO").val(prc.toUpperCase());
+        }
+    }
+
+    function oninputPAW() {
+        var paw = $("#P_MW_ACK_LETTER_PAW").val();
+        var pawcontact = $("#P_MW_ACK_LETTER_PAW_CONTACT").val();
+
+        $("#P_MW_ACK_LETTER_PAW").val(paw.toUpperCase());
+        $("#P_MW_ACK_LETTER_PAW_CONTACT").val(pawcontact.toUpperCase());
+    }
+
+    function getPbpEmail() {
+        var CerificationNo = $("#P_MW_ACK_LETTER_PBP_NO").val();
+        var dsn = $("#inputDSN").val();
+        if (isNull(CerificationNo)) {
+            return;
+        }
+        $.post("GetEmailByCerNo", { "CerificationNo": CerificationNo, dsn: dsn, type: "PBP" }, function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                var email = $("#P_MW_ACK_LETTER_EMAIL_OF_PBP").val();
+                if (email == "") {
+                    $("#P_MW_ACK_LETTER_EMAIL_OF_PBP").val(data.Data);
+                }
+            }
+            else {
+                // showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+    function getPrcEmail() {
+        var CerificationNo = $("#P_MW_ACK_LETTER_PRC_NO").val();
+        var dsn = $("#inputDSN").val();
+        if (isNull(CerificationNo)) {
+            return;
+        }
+        $.post("GetEmailByCerNo", { "CerificationNo": CerificationNo, dsn: dsn, type: "PRC" }, function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                var email = $("#P_MW_ACK_LETTER_EMAIL_OF_PRC").val();
+                if (email == "") {
+                    $("#P_MW_ACK_LETTER_EMAIL_OF_PRC").val(data.Data);
+                }
+            }
+            else {
+                // showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+    domReady(function () {
+        var dsn = getQueryVariable('DSN');
+        if (dsn != null && dsn != "" && dsn != undefined) {
+            $("#inputDSN").val(dsn);
+            getMWNo(dsn);
+        }
+        searchParams.searchTable = "searchDSN";
+        searchParams.searchPath = "searchDSN";
+        searching = new searcher(searchParams);
+        searching.goToPage();
+
+        listenEnterKey();
+    });
+
+    var nexE;
+    function listenEnterKey(formID) {
+
+        var currentForm;
+        if (formID == null || formID == undefined) {
+            currentForm = document.querySelectorAll("form")[0];
+        } else {
+            currentForm = document.getElementById(formID);
+        }
+
+        if (currentForm == null || currentForm == undefined) { return; }
+
+        var elementList = currentForm.elements;
+
+        currentForm.onkeydown = function (event) {
+            var currentElement = event.target;
+            if (event.keyCode == 13) {
+                event.keyCode = 9;
+                var nextElement = getNexElement(elementList, currentElement, 0);
+                nexE = nextElement;
+                if (nextElement != null) {
+                    nextElement.focus();
+                }
+            }
+
+        }
+
+
+    }
+
+
+    function getNexElement(elementList, currentElement, startIndex) {
+        
+        if (startIndex == (elementList.length - 1)) { startIndex = 0; currentElement = elementList[0]; }
+
+        for (var i = startIndex; i < elementList.length; i++) {
+            if (currentElement == elementList[i] && i != (elementList.length - 1)) {
+                var nextElement = elementList[i + 1];
+                if (nextElement.type == "hidden" || nextElement.hidden || nextElement.disabled || nextElement.readonly) {
+                    if ((i + 1) == elementList.length) {
+                        return null;
+                    } else {
+                        return getNexElement(elementList, nextElement, i + 1);
+                    }
+
+                } else {
+                    //button
+                    if (nextElement.type.toLowerCase() == "button" && nextElement.innerText.indexOf("Save") < 0) {
+                        return getNexElement(elementList, nextElement, i + 1);
+                    } else if (nextElement.type.toLowerCase() == "radio" && !nextElement.checked) {
+                        return getNexElement(elementList, nextElement, i + 1);
+                    } else if (nextElement.type.toLowerCase() == "reset") {
+                        return getNexElement(elementList, nextElement, i + 1);
+                    }
+                    else {
+                        return nextElement;
+                    }
+
+                }
+
+            }
+        }
+
+    }
+    // Fill 0 to the DSN 
+    function zerofill(number, size) {
+        var s = number + "";
+        while (s.length < size) {
+            s = "0" + s;
+        }
+        return s;
+    }
+    function onDsnBlur(sender) {
+        sender.value = sender.value.toUpperCase();
+        if (isInteger(sender.value)) {
+            sender.value = "D" + zerofill(sender.value, 10);
+        } else if (sender.value.length > 0 && sender.value.charAt(0) == "D" && isInteger(sender.value.substring(1))) {
+            sender.value = "D" + zerofill(sender.value.substring(1), 10);
+        }
+    }
+    function isInteger(data) {
+        return data == parseInt(data, 10);
+    }
+    function deleteField(id) {
+
+    }
+</script>

@@ -1,0 +1,126 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_STDisplayModel
+
+<div class="displayForm">
+    @Html.HiddenFor(model => model.Uuid)
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Validation :	</div>
+
+            <div class="w3-col l6 m12 s12" id="ValidationCount">@Model.ValidationTaskListSize</div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Audit :	</div>
+
+            <div class="w3-col l6 m12 s12" id="AuditCount">@Model.AuditTaskListSize</div>
+
+        </div>
+    </div>
+</div>
+    <br />
+<div class="sList">
+    <div class="panelHeader">Validation</div>
+    <div id="Validation">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Submission No.</th>
+                    <th>Form Code</th>
+                    <th>Received Date</th>
+                    <th>Assignment Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if(Model.ValidationTaskList != null && Model.ValidationTaskList.Count() > 0)
+                    {
+                        foreach (var item in Model.ValidationTaskList)
+                        {
+                            <tr>
+                                @if(item.Task.Equals(ViewBag.WF_MAP_VALIDATION_TO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_VALIDATION_TO</td>
+                                }
+                                else if(item.Task.Equals(ViewBag.WF_MAP_VALIDATION_PO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_VALIDATION_PO</td>
+                                }
+                                else if(item.Task.Equals(ViewBag.WF_MAP_VALIDATION_SPO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_VALIDATION_SPO</td>
+                                }
+                                else if(item.Task.Equals(ViewBag.WF_MAP_VALIDATION_ISSUE_LETTER_TO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_VALIDATION_ISSUE_LETTER_TO</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>@item.SubmissionNo</td>
+                                <td>@item.FormCode</td>
+                                <td>@item.ReceivedDate</td>
+                                <td>@item.AssignmentDate</td>
+                                <td>@item.Status</td>
+                            </tr>
+                        }
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div class="panelHeader">Audit</div>
+    <div id="Audit">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Submission No.</th>
+                    <th>Form Code</th>
+                    <th>Received Date</th>
+                    <th>Assignment Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if(Model.AuditTaskList != null && Model.AuditTaskList.Count() > 0)
+                    {
+                        foreach(var item in Model.AuditTaskList)
+                        {
+                            <tr>
+                                @if(item.Task.Equals(ViewBag.WF_MAP_AUDIT_TO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_AUDIT_TO</td>
+                                }
+                                else if(item.Task.Equals(ViewBag.WF_MAP_AUDIT_PO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_AUDIT_PO</td>
+                                }
+                                else if(item.Task.Equals(ViewBag.WF_MAP_AUDIT_SPO))
+                                {
+                                    <td>@ViewBag.DISPLAY_WF_MAP_AUDIT_SPO</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>@item.SubmissionNo</td>
+                                <td>@item.FormCode</td>
+                                <td>@item.ReceivedDate</td>
+                                <td>@item.AssignmentDate</td>
+                                <td>@item.Status</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

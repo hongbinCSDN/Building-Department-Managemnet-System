@@ -1,0 +1,132 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.ComItemNoTypeModel
+
+<div id="mwItems" class="w3-row" style="height:400px;overflow-y:scroll">
+    <div id="mwClassI" class="w3-col l4 m4 s4">
+        Class I
+        <div>
+            <label>
+                <input id="checkedAllClassI" type="checkbox" name="all" value="" />
+                - All -
+            </label>
+        </div>
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class1.MWItemTypes)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class1.MWItemTypes[item.Key].IsChecked, new { @class = "item-type", @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class1.MWItemTypes[item.Key].Code)
+                    @item.Value.Description
+                </label>
+            </div>
+        }
+
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class1.MWItemNos)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class1.MWItemNos[item.Key].IsChecked, new { @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class1.MWItemNos[item.Key].Code)
+                    @Model.Checkbox_ItemNo_TypeofMWs_Class1.MWItemNos[item.Key].Description
+                </label>
+            </div>
+        }
+    </div>
+    <div id="mwClassII" class="w3-col l4 m4 s4">
+        Class II
+        <div>
+            <label>
+                <input id="checkedAllClassII" type="checkbox" name="all" value="" />
+                - All -
+            </label>
+        </div>
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class2.MWItemTypes)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class2.MWItemTypes[item.Key].IsChecked, new { @class = "item-type", @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class2.MWItemTypes[item.Key].Code)
+                    @item.Value.Description
+                </label>
+            </div>
+        }
+
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class2.MWItemNos)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class2.MWItemNos[item.Key].IsChecked, new { @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class2.MWItemNos[item.Key].Code)
+                    @Model.Checkbox_ItemNo_TypeofMWs_Class2.MWItemNos[item.Key].Description
+                </label>
+            </div>
+        }
+    </div>
+    <div id="mwClassIII" class="w3-col l4 m4 s4">
+        Class III
+        <div>
+            <label>
+                <input id="checkedAllClassIII" type="checkbox" name="all" value="" />
+                - All -
+            </label>
+        </div>
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class3.MWItemTypes)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class3.MWItemTypes[item.Key].IsChecked, new { @class = "item-type", @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class3.MWItemTypes[item.Key].Code)
+                    @item.Value.Description
+                </label>
+            </div>
+        }
+
+        @foreach (var item in Model.Checkbox_ItemNo_TypeofMWs_Class3.MWItemNos)
+        {
+            <div>
+                <label>
+                    @Html.CheckBoxFor(m => m.Checkbox_ItemNo_TypeofMWs_Class3.MWItemNos[item.Key].IsChecked, new { @data_item_type = item.Value.Group })
+                    @Html.HiddenFor(m => m.Checkbox_ItemNo_TypeofMWs_Class3.MWItemNos[item.Key].Code)
+                    @Model.Checkbox_ItemNo_TypeofMWs_Class3.MWItemNos[item.Key].Description
+                </label>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        var checkedMWItems
+            , checkedAllItems;
+
+        checkedMWItems = function (event) {
+            var itemType = $(this).data("item-type");
+            if ($(this).prop("checked")) {
+                $("#mwItems input[type=checkbox][data-item-type*='" + itemType + "']").prop("checked", true);
+            } else {
+                $("#mwItems input[type=checkbox][data-item-type*='" + itemType + "']").prop("checked", false);
+
+                $(".item-type").each(function () {
+                    if ($(this).prop("checked")) {
+                        $("#mwItems input[type=checkbox][data-item-type*='" + $(this).data("item-type") + "']").prop("checked", true);
+                        //$("#mwItems input[type=checkbox][data-item-type*='" + itemType + "'][class!=item-type]").prop("checked", true);
+                    }
+                })
+            }
+        };
+
+        checkedAllItems = function (mwClass_id, checkedbox_id) {
+            if ($(checkedbox_id).prop("checked")) {
+                $(mwClass_id + " input[type=checkbox]").prop("checked", true);
+            } else {
+                $(mwClass_id + " input[type=checkbox]").prop("checked", false);
+            }
+        };
+
+        //id = "checkedAllClassI"
+        $(".item-type").change(checkedMWItems);
+        $("#checkedAllClassI").change(function () { checkedAllItems("#mwClassI", "#checkedAllClassI") });
+        $("#checkedAllClassII").change(function () { checkedAllItems("#mwClassII", "#checkedAllClassII") });
+        $("#checkedAllClassIII").change(function () { checkedAllItems("#mwClassIII", "#checkedAllClassIII") });
+    });
+</script>

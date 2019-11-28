@@ -1,0 +1,556 @@
+﻿@using MWMS2.Constant
+@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeFormModel
+
+<div class="displayForm">
+    <form id="inputForm" method="post">
+
+        @{
+            for (int i = Model.P_MW_APPOINTED_PROFESSIONALs.Count(); i <= 7; i++)
+            {
+                Model.P_MW_APPOINTED_PROFESSIONALs.Add(new MWMS2.Entity.P_MW_APPOINTED_PROFESSIONAL());
+                Model.P_MW_APPOINTED_PROFESSIONALs[i].ORDERING = i;
+            }
+
+            //0
+            Model.P_MW_APPOINTED_PROFESSIONALs[0].FORM_PART = ProcessingConstant.PART_A;
+
+            //1
+            Model.P_MW_APPOINTED_PROFESSIONALs[1].FORM_PART = ProcessingConstant.PART_B;
+            Model.P_MW_APPOINTED_PROFESSIONALs[1].IDENTIFY_FLAG = ProcessingConstant.RSE;
+
+            //2
+            Model.P_MW_APPOINTED_PROFESSIONALs[2].FORM_PART = ProcessingConstant.PART_C;
+            Model.P_MW_APPOINTED_PROFESSIONALs[2].IDENTIFY_FLAG = ProcessingConstant.RGE;
+
+            //3
+            Model.P_MW_APPOINTED_PROFESSIONALs[3].FORM_PART = ProcessingConstant.PART_D;
+            Model.P_MW_APPOINTED_PROFESSIONALs[3].IDENTIFY_FLAG = ProcessingConstant.PRC;
+
+            //4
+            Model.P_MW_APPOINTED_PROFESSIONALs[4].FORM_PART = ProcessingConstant.PART_E;
+            Model.P_MW_APPOINTED_PROFESSIONALs[4].IDENTIFY_FLAG = ProcessingConstant.AP;
+
+            //5
+            Model.P_MW_APPOINTED_PROFESSIONALs[5].FORM_PART = ProcessingConstant.PART_F;
+            Model.P_MW_APPOINTED_PROFESSIONALs[5].IDENTIFY_FLAG = ProcessingConstant.PRC;
+
+            //6
+            Model.P_MW_APPOINTED_PROFESSIONALs[6].FORM_PART = ProcessingConstant.PART_F;
+            Model.P_MW_APPOINTED_PROFESSIONALs[6].IDENTIFY_FLAG = ProcessingConstant.PRC;
+
+            //7
+            Model.P_MW_APPOINTED_PROFESSIONALs[7].FORM_PART = ProcessingConstant.PART_D;
+            Model.P_MW_APPOINTED_PROFESSIONALs[7].IDENTIFY_FLAG = ProcessingConstant.PRC;
+        }
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[4].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[4].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[4].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[4].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[5].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[5].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[5].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[5].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].FORM_PART)
+
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[7].UUID)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[7].ORDERING)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[7].IDENTIFY_FLAG)
+        @Html.HiddenFor(model => model.P_MW_APPOINTED_PROFESSIONALs[7].FORM_PART)
+
+        <div class="w3-border displayForm">
+
+            @*Header Information*@
+            @Html.Partial("~/Areas/MWProcessing/Views/MwForm/de_formHeaderInformation.cshtml")
+
+
+            <div class="panelHeader">Part A Certificate of completion by the appointed authorized person</div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Minor Works Submission No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(m => Model.P_MW_FORM.MW_SUBMISSION_NO, new { @maxlength = "36" })
+                        @*<input type="text" class="w3-col l6 m12 s12" />*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].CHINESE_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].ENGLISH_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Declarations</div>
+                    <div class="w3-col l8 m6 s12">
+                        3.Completion Date @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].COMPLETION_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Certificate of Registration No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].CERTIFICATION_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Expiry Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].EXPIRY_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Signature Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].ENDORSEMENT_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Fax No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].FAX_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Contact No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].CONTACT_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Will to receive SMS</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.CheckBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[0].IS_RECEIVE_SMS)
+                    </div>
+                </div>
+            </div>
+
+
+            @*Part B*@
+            <div class="panelHeader">
+                <label>
+                    Part B Certificate of completion by the registered structural engineer
+                </label>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].CHINESE_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].ENGLISH_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Certificate of Registration No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].CERTIFICATION_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Expiry Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].EXPIRY_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Signature Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].ENDORSEMENT_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Contact No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[1].CONTACT_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+
+
+            @*Part C*@
+            <div class="panelHeader">
+                <label>
+                    Part C Certificate of completion by the appointed registered geotechnical engineer
+                </label>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].CHINESE_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].ENGLISH_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Certificate of Registration No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].CERTIFICATION_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Expiry Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].EXPIRY_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Signature Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].ENDORSEMENT_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Contact No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[2].CONTACT_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+
+            @*Part D*@
+            <div class="panelHeader">
+                <label>
+                    Part D Certificate of completion of Class I minor works by the appointed prescribed registered contractor
+                </label>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].CHINESE_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].ENGLISH_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Certificate of Registration No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].CERTIFICATION_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">AS Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].CHINESE_COMPANY_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">AS English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].ENGLISH_COMPANY_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Expiry Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].EXPIRY_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Signature Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].ENDORSEMENT_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Fax No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].FAX_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Contract No.</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].CONTACT_NO, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Will to receive SMS</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.CheckBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[3].IS_RECEIVE_SMS)
+                    </div>
+                </div>
+            </div>
+
+            @*Part E*@
+            <div class="panelHeader">
+                <label>
+                    Part E Revisions of prescribed plans & details of Class I Minor Works
+                </label>
+                <button id="addMWItemCLASS_IBtn" type="button" onclick="addMWItem('CLASS_I')" style="float:right;height:30px">Add</button>
+            </div>
+            <table id="RiTableCLASS_I" class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>Minor work Item</th>
+                        <th>Revised description</th>
+                        <th>Description of the differences</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.P_MW_RECORD_ITEMs_CLASS_I.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_I[i].UUID)
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_I[i].CLASS_CODE)
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_I[i].MW_ITEM_CODE)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_I[i].LOCATION_DESCRIPTION)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_I[i].RELEVANT_REFERENCE)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @*Part F*@
+            <div class="panelHeader">
+                <label>
+                    Part F Revisions of prescribed plans & details of Class II Minor Works
+                </label>
+                <button id="addMWItemCLASS_IIBtn" type="button" onclick="addMWItem('CLASS_II')" style="float:right;height:30px">Add</button>
+            </div>
+            <table id="RiTableCLASS_II" class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>Minor work Item</th>
+                        <th>Revised description</th>
+                        <th>Description of the differences</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.P_MW_RECORD_ITEMs_CLASS_II.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_II[i].UUID)
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_II[i].CLASS_CODE)
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_II[i].MW_ITEM_CODE)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_II[i].LOCATION_DESCRIPTION)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_II[i].RELEVANT_REFERENCE)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+            @*Part G*@
+            <div class="panelHeader">
+                <label>
+                    Part G Notice of appointment of prescribed registered contractor for Class III minor works
+                </label>
+                <button id="addMWItemCLASS_IIIBtn" type="button" onclick="addMWItem('CLASS_III')" style="float:right;height:30px">Add</button>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].CHINESE_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].ENGLISH_NAME, new { @class = "w3-col l6 m12 s12" })
+                    </div>
+                </div>
+            </div>
+            <table id="RiTableCLASS_III" class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>Minor work Item</th>
+                        <th>Revised description</th>
+                        <th>Order / Direction / Notice No. / BD Reference No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.P_MW_RECORD_ITEMs_CLASS_III.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_III[i].UUID)
+                        @Html.HiddenFor(model => model.P_MW_RECORD_ITEMs_CLASS_III[i].CLASS_CODE)
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_III[i].MW_ITEM_CODE)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_III[i].LOCATION_DESCRIPTION)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.P_MW_RECORD_ITEMs_CLASS_III[i].RELEVANT_REFERENCE)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Sigature Date</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.TextBoxFor(model => model.P_MW_APPOINTED_PROFESSIONALs[6].ENDORSEMENT_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+
+            @*Part H*@
+            <div class="panelHeader">
+                <label>
+                    Part H Particulars of the person for whom the signboard is to be erected
+                </label>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Completed Works involve signboard</div>
+                    <div class="w3-col l8 m6 s12">
+                        @Html.CheckBoxFor(m => Model.P_MW_FORM.IsINVOLVE_SIGNBOARD)
+                    </div>
+                </div>
+            </div>
+            @*TBC*@
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">Chinese Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        <input type="text" class="w3-col l6 m12 s12" />
+                    </div>
+                </div>
+            </div>
+            @*TBC*@
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m6 s12">English Name</div>
+                    <div class="w3-col l8 m6 s12">
+                        <input type="text" class="w3-col l6 m12 s12" />
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("~/Areas/MWProcessing/Views/MwForm/de_formSignBoardAddress_new.cshtml")
+
+
+            @*Form Button*@
+            @Html.Partial("~/Areas/MWProcessing/Views/MwForm/de_formButton.cshtml")
+        </div>
+    </form>
+</div>
+<div id="resultPanel"></div>
+<script type="text/javascript">
+    domReady(function () {
+
+        //Get Flag 0
+        var Flag0 = $('#P_MW_APPOINTED_PROFESSIONALs_0__IDENTIFY_FLAG').val();
+
+        //Set Flag 4
+        $('#P_MW_APPOINTED_PROFESSIONALs_4__IDENTIFY_FLAG').val(Flag0);
+
+    });
+</script>

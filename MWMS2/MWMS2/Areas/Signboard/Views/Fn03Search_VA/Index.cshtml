@@ -1,0 +1,81 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn03SRC_VASearchModel
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Submission No. :	</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(model => model.RefNo, new { style="max-width: 300px;" })
+            </div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date :	</div>
+            <div class="w3-col l9 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.PeriodDateFrom, new { @class = "inputDate", @id = "ReportGazDateFrom" })
+                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.PeriodDateTo, new { @class = "inputDate", @id = "ReportGazDateTo" })
+            </div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Status :	</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.DropDownListFor(model => model.Status, Model.StatusList, new { style = "max-width: 300px;" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+
+</div>
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "REF_NO"
+            , Columns: [
+                { displayName: "Task", columnName: "TASK_CODE" },
+                {
+                    displayName: "Submission No.", columnName: "REF_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            // console.log(row);
+                            //   console.log(row.TASK);
+                            if (row.TASK == "SO/TO Validation") {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_TO" }]);
+                            }
+                            else if (row.TASK == "TL Validation") {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_PO" }]);
+
+                            }
+                            else {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_SPO" }]);
+                            }
+
+                        } catch (err) { }
+                    }
+                },
+                { displayName: "Form Code", columnName: "FORM_CODE" },
+                { displayName: " Received Date", columnName: "RCV_DATE" },
+                { displayName: "Status", columnName: "STATUS_A" }
+
+            ]
+        });
+    });
+</script>

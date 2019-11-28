@@ -1,0 +1,120 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.Fn12RD_DtmModel
+
+
+
+
+
+<form id="inputForm" method="post">
+
+
+    <div id="searchCriteria" class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s6">Document to MWU :</div>
+                <div class="w3-col l6 m6 s6">
+                    <label style="font-size: 30px;"> @Model.DSN_LIST.Count  </label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br />
+
+        <div class="panelHeader">
+
+            Assign New Document S/N
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s6">Document S/N :</div>
+                <div class="w3-col l6 m6 s6">
+                    @Html.TextBoxFor(model => model.DSN, new { id = "dsnNumber", style = "width:200px", })
+
+
+                    <button class="btn btn-default" type="button"  id="printBtn">Print</button>
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m6 s6"></div>
+                <div class="w3-col l6 m6 s6">
+                    <button class=" btn btn-default" type="button" id="assignPrintBtn"> Assign & Print</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-border displayForm">
+            <table class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                        <th>
+                            Document S/N
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @for (int i = 0; i < Model.DSN_LIST.Count(); ++i)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(m => m.DSN_LIST[i].CREATED_DATE)
+                                    @Html.Label(Model.DSN_LIST[i].CREATED_DATE.ToString() ?? "")
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m => m.DSN_LIST[i].CREATED_BY)
+                                    @Html.Label(Model.DSN_LIST[i].CREATED_BY ?? "")
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m => m.DSN_LIST[i].DSN)
+                                    @Html.Label(Model.DSN_LIST[i].DSN.ToString() ?? "")
+                                </td>
+                                
+                            </tr>
+                        }
+
+                    </tbody>
+            </table>
+        </div>
+
+
+
+
+    </div>
+
+    <br />
+
+
+</form>
+
+    <div id="resultPanel"></div>
+    <script type="text/javascript">
+
+        domReady(function () {
+             attr("printBtn", "onclick", { parameters: {}, callback: printBtn });
+            attr("assignPrintBtn", "onclick", { parameters: {}, callback: assignPrintBtn });
+        
+        });
+
+        function printBtn() {
+            printBarCode($("#dsnNumber").val());
+        }
+
+        function assignPrintBtn() {
+            $("#inputForm").attr('action', 'assignNewDSN');
+            $("#inputForm").submit();
+        }
+        var barCodeNumber =  "@Html.Raw(Model.DSN)"; 
+        if (display(barCodeNumber) != "") {
+            printBtn();
+        }    
+
+    </script>

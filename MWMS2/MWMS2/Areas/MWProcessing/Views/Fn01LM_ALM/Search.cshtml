@@ -1,0 +1,412 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_ALMSearchModel
+
+<div id="searchTable">
+    <form id="inputForm" method="post">
+        <div class="w3-border displayForm">
+            <div class="w3-row">
+                <div class="w3-col l10 m10 s10">
+                    <div class="w3-col l4 m4 s4">NW Item:</div>
+                    <div class="w3-col l8 m8 s8">
+                        @Html.TextBoxFor(m => m.MWItem)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l10 m10 s10">
+                    <div class="w3-col l4 m4 s4">PRC:</div>
+                    <div class="w3-col l8 m8 s8">
+                        @Html.TextBoxFor(m => m.PRC)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l10 m10 s10">
+                    <div class="w3-col l4 m4 s4">PBP:</div>
+                    <div class="w3-col l8 m8 s8">
+                        @Html.TextBoxFor(m => m.PBP)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l10 m10 s10">
+                    <div class="w3-col l4 m4 s4">Receive Date:</div>
+                    <div class="w3-col l8 m8 s8">
+                        <span>From </span>
+                        @Html.TextBoxFor(m => m.ReceivedDateFrom, new { @class = "inputDate" })
+                        <span>To </span>
+                        @Html.TextBoxFor(m => m.ReceivedDateTo, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <button id="searchButton" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i>  Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<form id="pickAuditForm">
+    <div id="resultPanel"></div>
+</form>
+
+<script type="text/javascript">
+
+    function pickAuditSAC(uuid) {
+        $.ajax({
+            url: domId("rootPath").value + "/Fn01LM_ALM/PickAuditSAC",
+            type: 'POST',
+            dataType: "json",
+            data: { id: uuid },
+            cache: false,
+            success: function (data) {
+                if (data.Result === "SUCCESS") {
+                    $("#sac_" + uuid).html("Y");
+                }
+            }
+        });
+    }
+    function pickAuditAFC(uuid) {
+        $.ajax({
+            url: domId("rootPath").value + "/Fn01LM_ALM/PickAuditAFC",
+            type: 'POST',
+            dataType: "json",
+            data: { id: uuid },
+            cache: false,
+            success: function (data) {
+                console.log(data);
+                if (data.Result === "SUCCESS") {
+                    $("#afc_" + uuid).html("Y");
+                }
+            }
+        });
+    }
+    function pickAuditPSAC(uuid) {
+        $.ajax({
+            url: domId("rootPath").value + "/Fn01LM_ALM/PickAuditPSAC",
+            type: 'POST',
+            dataType: "json",
+            data: { id: uuid },
+            cache: false,
+            success: function (data) {
+                console.log(data);
+                if (data.Result === "SUCCESS") {
+                    $("#psac_" + uuid).html("Y");
+                }
+            }
+        });
+    }
+    domReady(function () {
+        var searching
+            , pickAuditBtn;
+        pickAuditBtn = createButton("Pick Audit", "fa-edit", [{
+            "onclick": {
+                parameters: {}, callback: function () {
+                    $.post(domId("rootPath").value + "/MWProcessing/Fn01LM_ALM/PickAudit" + "?t=" + Date.now(), $("#pickAuditForm").serialize())
+                        .done(function (d) {
+                            searching.search();
+                        });
+                }
+            }
+        }])
+        searching = new complexResultSearcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchTable"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "MW NO.", columnName: "MW_NO"
+                }
+                , {
+                    displayName: "DSN", columnName: ""
+                }
+                , {
+                    displayName: "Form", columnName: ""
+                }
+                , {
+                    displayName: "Received Date", columnName: ""
+                }
+                , {
+                    displayName: "Letter Date", columnName: ""
+                }
+                , {
+                    displayName: "PBP", columnName: ""
+                }
+                , {
+                    displayName: "PRC", columnName: ""
+                }
+                , {
+                    displayName: "Address", columnName: ""
+                }
+                , {
+                    displayName: "Audit(AFC)", columnName: ""
+                }
+                , {
+                    displayName: "Audit(SAC)", columnName: ""
+                }
+                , {
+                    displayName: "Audit(PSAC)", columnName: ""
+                }
+                , {
+                    displayName: "O", columnName: ""
+                }
+                , {
+                    displayName: "S", columnName: ""
+                }
+                , {
+                    displayName: "P", columnName: ""
+                }
+                , {
+                    displayName: "Pick Audit", columnName: ""
+                }
+            ]
+            , resultFootButtons: [pickAuditBtn]
+        });
+    });
+
+    Handlebars.registerHelper("checkAuditPick", function (ackRecord, id) {
+
+        if (!ackRecord) {
+            text = "";
+        }
+
+        //if (text !== "Y") {
+        //    switch (type) {
+        //        case "AFC":
+        //            return new Handlebars.SafeString('<button onclick="pickAuditAFC(\'' + id + '\')">Pick <i class="fa fa-edit"></i> </button>');
+        //            break;
+        //        case "PSAC":
+        //            return new Handlebars.SafeString('<button onclick="pickAuditPSAC(\'' + id + '\')">Pick <i class="fa fa-edit"></i> </button>');
+        //            break;
+        //        case "SAC":
+        //          return new Handlebars.SafeString('<button onclick="pickAuditSAC(\'' + id + '\')">Pick <i class="fa fa-edit"></i> </button>');
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+        var isAblePickAudit = false;
+        var i = 0;
+        for (i; i < ackRecord.length; i++) {
+            console.log(ackRecord[i]);
+            var o = ackRecord[i].ORDER_RELATED;
+            var afc = ackRecord[i].AUDIT_RELATED;
+            if (o === 'Y' || afc === 'Y') {
+                //isAblePickAudit = false;
+            } else {
+                isAblePickAudit = true;
+            }
+        }
+        if (isAblePickAudit)
+            return new Handlebars.SafeString('<input type="checkbox" name="mwnos" value="' + id + '" />');
+        else
+            return '';
+    });
+</script>
+
+<script id="resultTableTemp" type="text/x-handlebars-template">
+    {{#each Data}}
+    <tr class="complexResultTableTr">
+        <td style="border: 1px solid black !important;">
+            {{MW_NO}}
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:220px">
+                            {{DSN}}
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:170px">
+
+                            {{FORM_NO}}
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:270px">{{formatDate RECEIVED_DATE}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:270px">{{formatDate LETTER_DATE}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:220px"> {{PBP_NO}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:220px"> {{PRC_NO}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:220px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                            <div style="width:200px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" class="w3-left">{{ADDRESS}}</div>
+                            {{#if ADDRESS}}
+                            <i class="fa fa-map-marker w3-left"></i>
+                            {{/if}}
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:250px">
+
+                            <span id="afc_{{UUID}}">
+                                {{#if AUDIT_RELATED}}
+                                    {{AUDIT_RELATED}}
+                                {{else}}
+                                    N
+                                {{/if}}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:250px">
+
+                            <span id="sac_{{UUID}}">
+                                {{#if SITE_AUDIT_RELATED}}
+                                {{SITE_AUDIT_RELATED}}
+                                {{else}}
+                                N
+                                {{/if}}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:250px">
+
+                            <span id="psac_{{UUID}}">
+                                {{#if PRE_SITE_AUDIT_RELATED}}
+                                {{PRE_SITE_AUDIT_RELATED}}
+                                {{else}}
+                                N
+                                {{/if}}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:150px">{{ORDER_RELATED}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:150px">{{SIGNBOARD_RELATED}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        <div style="width:150px">{{SSP}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </table>
+        </td>
+        <td style="border: 1px solid black !important;">
+            <div>
+                {{checkAuditPick ACK_RECORDS MW_NO}}
+            </div>
+        </td>
+    </tr>
+    {{/each}}
+</script>

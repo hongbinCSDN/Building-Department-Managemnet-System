@@ -1,0 +1,90 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    HTML Notes Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveHN", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_HTML_NOTES.UUID)
+    @Html.HiddenFor(model => model.SystemType)
+
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Code:</div>
+                <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_S_HTML_NOTES.CODE, new { @maxLength = "2" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_S_HTML_NOTES.ENGLISH_DESCRIPTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Chn):</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.TextBoxFor(o => o.C_S_HTML_NOTES.CHINESE_DESCRIPTION)
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Sort Order:</div>
+                <div class="w3-col l3 m6 s12">
+                    <input type="text" name="C_S_HTML_NOTES.ORDER_SEQUENCE" id="C_S_HTML_NOTES_ORDER_SEQUENCE" value="@((int)Model.C_S_HTML_NOTES.ORDER_SEQUENCE)" />
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category Group:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_HTML_NOTES.CATEGORY_GROUP_ID, Model.getSystemCategoryCode())
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="w3-container">
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexHN", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+
+</form>
+
+@*}*@
+<script>
+     function onSaveForm() {
+         $.post("SaveHN", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo("IndexHN", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+</script>
+

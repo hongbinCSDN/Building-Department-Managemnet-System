@@ -1,0 +1,606 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_MRSearchModel
+
+@using (Html.BeginForm("Excel", "Fn04RPT_MR", FormMethod.Post, new { @id = "taskForm", enctype = "multipart /form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.PeriodDateFrom)
+    @Html.HiddenFor(model => model.PeriodDateTo)
+    @Html.HiddenFor(model => model.Year)
+    @Html.HiddenFor(model => model.Month)
+    @Html.HiddenFor(model => model.TypeOfCalendar)
+
+    <div class="panelHeader">Mothly Record</div>
+    <div class="displayForm" style="overflow-x:auto">
+        <table class="resultTable" style="table-layout: fixed;  word-wrap: break-word;">
+            <thead>
+                <tr>
+                    <th>
+                        Form Code
+                    </th>
+                    <th>
+                        BD Reply/ Statistic
+                    </th>
+                    @{
+                        foreach (var item in Model.getMonthList)
+                        {
+                            <th>@item.ToString("MMM-yyyy",new System.Globalization.CultureInfo("en-US"))</th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="sRow1">
+                    <td rowSPAN=6 style="background-color:#DCE6F2;"> SC01	</td>
+                    <td> Received	</td>
+                    @{
+                        foreach (var item in Model.ReceivedRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Processing
+                    </td>
+                    @{
+                        foreach (var item in Model.ProcessingRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.AcknowledgedRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Conditional Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.ConditionalRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Refuse
+                    </td>
+                    @{
+                        foreach (var item in Model.RefusedRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Audit
+                    </td>
+                    @{
+                        foreach (var item in Model.AuditRecordCountList)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+
+
+                <tr class="sRow1">
+                    <td rowSPAN=6 style="background-color:#DCE6F2;"> SC01C	</td>
+                    <td> Received	</td>
+                    @{
+                        foreach (var item in Model.ReceivedRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Processing
+                    </td>
+                    @{
+                        foreach (var item in Model.ProcessingRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.AcknowledgedRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Conditional Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.ConditionalRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Refuse
+                    </td>
+                    @{
+                        foreach (var item in Model.RefusedRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Audit
+                    </td>
+                    @{
+                        foreach (var item in Model.AuditRecordCountList01C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+
+                <tr class="sRow1">
+                    <td class="sCell" rowSPAN=6 style="background-color:#DCE6F2;"> SC02	</td>
+                    <td class="sCell">
+                        Received
+                    </td>
+                    @{
+                        foreach (var item in Model.ReceivedRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Processing
+                    </td>
+                    @{
+                        foreach (var item in Model.ProcessingRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.AcknowledgedRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Conditional Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.ConditionalRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Refuse
+                    </td>
+                    @{
+                        foreach (var item in Model.RefusedRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Audit
+                    </td>
+                    @{
+                        foreach (var item in Model.AuditRecordCountListSC02)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+
+                <tr class="sRow1">
+                    <td class="sCell" rowSPAN=6 style="background-color:#DCE6F2;"> SC02C	</td>
+                    <td class="sCell">
+                        Received
+                    </td>
+                    @{
+                        foreach (var item in Model.ReceivedRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Processing
+                    </td>
+                    @{
+                        foreach (var item in Model.ProcessingRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.AcknowledgedRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Conditional Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.ConditionalRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Refuse
+                    </td>
+                    @{
+                        foreach (var item in Model.RefusedRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Audit
+                    </td>
+                    @{
+                        foreach (var item in Model.AuditRecordCountListSC02C)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+
+
+                <tr class="sRow1">
+                    <td rowSPAN=6 style="background-color:#DCE6F2;"> SC03	</td>
+                    <td class="sCell">
+                        Received
+                    </td>
+                    @{
+                        foreach (var item in Model.ReceivedRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Processing
+                    </td>
+                    @{
+                        foreach (var item in Model.ProcessingRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.AcknowledgedRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+
+                    <td class="sCell">
+                        Conditional Accept
+                    </td>
+                    @{
+                        foreach (var item in Model.ConditionalRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow1">
+
+                    <td class="sCell">
+                        Refuse
+                    </td>
+                    @{
+                        foreach (var item in Model.RefusedRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                <tr class="sRow2">
+                    <td class="sCell">
+                        Audit
+                    </td>
+                    @{
+                        foreach (var item in Model.AuditRecordCountListSC03)
+                        {
+                            <td class="sCell">@item&nbsp;</td>
+                        }
+                    }
+                </tr>
+                @*<tr class="sRow1">
+            <td class="sCell" colspan="2" style="background-color:#DCE6F2;">
+                Government Contractor
+            </td>
+            @{
+                foreach (var item in Model.GcList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>*@
+                @*<tr class="sRow1">
+            <td class="sCell" rowspan="10">
+                S24 Order
+            </td>
+            <td style="background-color:#FFF" class="sCell"><b>Total</b></td>
+            @{
+                foreach (var item in Model.GcList)
+                {
+                    <td style="background-color:#FFF" class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Not Yet Issued
+            </td>
+            @{
+                foreach (var item in Model.S24NotYetIssList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Not Yet Expired
+            </td>
+            @{
+                foreach (var item in Model.S24NotYetExpList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Appeal Lodged
+            </td>
+            @{
+                foreach (var item in Model.S24AppealLodgedList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Prosecution To Be Initiated
+            </td>
+            @{
+                foreach (var item in Model.S24AppealLodgedList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Prosecution initiated
+            </td>
+            @{
+                foreach (var item in Model.S24ProList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Pending For Compliance
+            </td>
+            @{
+                foreach (var item in Model.S24PendingList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                GC Action
+            </td>
+            @{
+                foreach (var item in Model.S24GcaList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Complied with
+            </td>
+            @{
+                foreach (var item in Model.S24ComList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Withdrawn
+            </td>
+            @{
+                foreach (var item in Model.S24WithdrawnList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+                *@
+                @*<tr class="sRow1">
+            <td class="sCell" rowspan="3" style="background-color:#DCE6F2;">
+                Report To SCU
+            </td>
+            <td class="sCell"><b>Total</b></td>
+            @{
+                foreach (var item in Model.ReportToScuList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Received
+            </td>
+            @{
+                foreach (var item in Model.ReportToScuReceivedList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Closed
+            </td>
+            @{
+                foreach (var item in Model.ReportToScuCloseList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell" rowspan="3" style="background-color:#DCE6F2;">
+                Enquiry To SCU
+            </td>
+            <td class="sCell" style="background-color:#FFF"><b>Total</b></td>
+            @{
+                foreach (var item in Model.EnquiryToScuList)
+                {
+                    <td class="sCell" style="background-color:#FFF">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow1">
+            <td class="sCell">
+                Received
+            </td>
+            @{
+                foreach (var item in Model.EnquiryToScuReceivedList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>
+        <tr class="sRow2">
+            <td class="sCell">
+                Closed
+            </td>
+            @{
+                foreach (var item in Model.EnquiryToScuCloseList)
+                {
+                    <td class="sCell">@item&nbsp;</td>
+                }
+            }
+        </tr>*@
+            </tbody>
+        </table>
+        <br /><!-- InstanceEndEditable -->
+        <div class="w3-container footer">
+            <button onclick="Export()" class="exportButton btn btn-default" type="button"><i class="fa fa-print"></i> Export</button>
+            <button onclick="backhome()" class="CancelButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+}
+    <script>
+        function backhome() {
+            goTo("Index");
+        }
+
+        function Export() {
+            thisForm = document.getElementById("taskForm");
+            thisForm.submit();
+        }
+    </script>

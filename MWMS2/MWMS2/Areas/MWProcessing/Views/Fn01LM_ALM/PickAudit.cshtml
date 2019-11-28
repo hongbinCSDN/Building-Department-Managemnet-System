@@ -1,0 +1,59 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_ALMSearchModel
+
+<div class="panelHeader">
+    Submission Info
+</div>
+
+<form id="PickAuditForm" method="post">
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Document S/N :</div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => m.DocumentSN,new {@id = "DocumentSN" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Senior Endorsement Remarks (e.g. e-mail date):</div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => m.SERemark, new { @id = "SERemark" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button id="saveButton" class="searchButton btn btn-default" type="button" onclick="Submit()"> Submit</button>
+        </div>
+    </div>
+</form>
+<script>
+    function Submit() {
+        var documentSN = document.getElementById("DocumentSN").value;
+        var serMark = document.getElementById("SERemark").value;
+        $.post("ValidationDSN", $("#PickAuditForm").serialize(), function (data) {
+            console.log(data);
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                $.ajax({
+                    url: "UpdateAuditRelated"
+                    , type: "POST"
+                    , data: {
+                        DocumentSN: documentSN
+                        , SERemark: serMark
+                    }
+                    , success: function (data) {
+                        if (data.Result == "SUCCESS") {
+
+                            alert("All submissions related to this DSN " + documentSN + " has been updated.\n This case is manually picked for audit under:" + serMark + ". \n Please update Excel or others accordingly!!!");
+                        }
+                    }
+
+                })
+            }
+            else {
+                showErrorMessage(data.ErrorMessages)
+            }
+        },"json");
+    }
+</script>

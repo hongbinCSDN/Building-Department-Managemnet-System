@@ -1,0 +1,149 @@
+﻿@model MWMS2.Areas.Registration.Models.CRMDataExportModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div id="searchCriteria">
+        <form id="inputForm" method="post" action="ExportData">
+            <table id="Table3" class="resultTable">
+                <thead>
+                    <tr>
+                        <th>Select Type of Data</th>
+                        <th>Output Format</th>
+                        <th style="width: 100px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Application Information</td>
+                        <td>Excel</td>
+                        <td>
+                            <button id="applicationBtn" class="btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Registers</td>
+                        <td>Excel</td>
+                        <td><button id="registerExcelBtn" class="btn btn-default" type="button"><i class="fa fa-print"></i> Export</button></td>
+                    </tr>
+                    <tr>
+                        <td>Registers (Full List)</td>
+                        <td>CSV</td>
+                        <td>
+                            <button id="registerCSVBtn" class="btn btn-default" type="button">
+                                <i class="fa fa-print"></i> Export
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>QP</td>
+                        <td>Excel</td>
+                        <td>
+                            <button id="qpExcelBtn" class="btn btn-default" type="button">
+                                <i class="fa fa-print"></i> Export
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>QP</td>
+                        <td>CSV</td>
+                        <td>
+                            <button id="qpCSVBtn" class="btn btn-default" type="button">
+                                <i class="fa fa-print"></i> Export
+                            </button>
+                        </td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td>
+                            Boards &amp; Committees
+                        </td>
+                        <td>HTML</td>
+                        <td><button id="applicationBtn" class="btn btn-default" type="button">Export</button></td>
+                    </tr>
+                        -->
+
+
+                </tbody>
+            </table>
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+
+        domReady(function () {
+            attr("registerCSVBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('ExportDataForm');
+                    $("#inputForm").attr('action', 'ExportRegistrationData');
+                    $("#inputForm").submit();
+                }
+            });
+
+            attr("applicationBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('ExportDataForm');
+                    $("#inputForm").attr('action', 'IndexExportApplicationData');
+                    $("#inputForm").submit();
+                }
+            });
+
+            attr("registerExcelBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('ExportDataForm');
+                    $("#inputForm").attr('action', 'ExportALLRegistrationData');
+                    $("#inputForm").submit();
+
+                }
+            });
+
+            attr("qpExcelBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('ExportDataForm');
+                    $("#inputForm").attr('action', 'ExportQPExcelData');
+                    $("#inputForm").submit();
+
+                }
+            });
+            attr("qpCSVBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('ExportDataForm');
+                    $("#inputForm").attr('action', 'ExportQPCSVData');
+                    $("#inputForm").submit();
+
+                }
+            });
+
+          
+
+
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+
+@if (MWMS2.Utility.AuthUtil.CanViewDetails)
+{
+    <script type="text/javascript">
+        domReady(function () {
+            $('#applicationBtn').removeClass("hide");
+            
+        });
+    </script>
+}else{
+    <script type="text/javascript">
+        domReady(function () {
+            $('#applicationBtn').addClass("hide");
+
+        });
+    </script>
+    
+}
+
+

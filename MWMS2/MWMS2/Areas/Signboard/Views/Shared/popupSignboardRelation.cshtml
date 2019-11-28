@@ -1,0 +1,98 @@
+﻿
+@model MWMS2.Areas.Signboard.Models.SignboardAddressSearchModel
+
+<div class="panelHeader">Search Signboards</div>
+
+
+<form id="inputForm" method="post">
+
+    <div class="displayForm" id="searchCriteria">
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Street  :  </div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.Street) </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Street No. :  </div>
+                <div class="w3-col l9 m6 s12"> @Html.TextBoxFor(x => x.StreetNo)</div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Building Name  :  </div>
+                <div class="w3-col l9 m6 s12"> @Html.TextBoxFor(x => x.BuildingName)</div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Floor :  </div>
+                <div class="w3-col l9 m6 s12"> @Html.TextBoxFor(x => x.Floor)</div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Flat/Room  :  </div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.Flat) </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">District :  </div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.District) </div>
+
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            @*<button  type="button"> Close</button>*@
+        </div>
+
+    </div>
+</form>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchSignboard"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            //, Sort: "REFERENCE_NO"
+            , Columns: [
+                //{
+                //    displayName: "Thumbnail", columnName: "REFERENCE_NO"
+                //    , click: function (row) {
+                //        try {
+                //            if (row == null) return;
+                //            //goTo("Form", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                //        } catch (err) { }
+                //    }
+            
+                //}
+                //,
+                {
+                    displayName: "Submission No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            window.opener.addSignboardRelationCALLBACK(row);
+                            window.close();
+                           // goTo("Form", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                        } catch (err) { }
+                    }
+
+                }
+                , { displayName: "Street", columnName: "STREET" }
+                , { displayName: "District", columnName: "DISTRICT" }
+                , { displayName: "Building Name", columnName: "BUILDINGNAME" }
+                , { displayName: "Street No.", columnName: "STREET_NO" }
+                , { displayName: "Floor", columnName: "FLOOR" }
+                , { displayName: "Flat/Room", columnName: "FLAT" }
+            ]
+        });
+    });
+</script>

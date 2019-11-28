@@ -1,0 +1,62 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103AuditPercentageModel
+
+@if(!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+<div class="panelHeader">Audit Percentage</div>
+@using (Html.BeginForm("SaveAuditPercentage", "PEM1103AuditPercentage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm" }))
+{
+    <div id="searchCriteria" class="w3-border displayForm">
+        <div class="w3-row">
+
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Audit Class
+                        </th>
+                        <th>
+                            Percentage
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Mofified Details
+                        </th>
+                    </tr>
+                </thead>
+                @for (int i = 0; i < Model.SVList.Count; i++)
+                {
+                    @Html.HiddenFor(model => model.SVList[i].UUID)
+                    <tbody>
+                        <tr>
+                            <td>@Model.SVList[i].CODE</td>
+                            <td>
+                                <div class="w3-col l11 m11 s11">@Html.TextBoxFor(model => model.SVList[i].ORDERING,new { @class="inputNumber"})</div>
+                                <div class="w3-col l1 m1 s1"> % </div>
+                            </td>
+                            <td>@Html.TextBoxFor(model => model.SVList[i].DESCRIPTION)</td>
+                            <td>@Model.SVList[i].MODIFIED_DATE @Model.SVList[i].MODIFIED_DATE.TimeOfDay</td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+
+        </div>
+        <div class="w3-container footer">
+            <button id="createBtn" class="btn btn-default" type="submit">Save</button>
+            <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+        </div>
+    </div>
+}
+<script>
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+        goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+    }
+</script>
+

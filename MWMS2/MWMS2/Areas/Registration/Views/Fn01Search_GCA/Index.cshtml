@@ -1,0 +1,143 @@
+﻿@model MWMS2.Areas.Registration.Models.CompSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">File Reference :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.FileRef)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Registration No. :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.RegNo)</div>
+            </div>
+
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Company Name <span>(Eng)</span> :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.CompNameEng)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">(Chn) :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.CompNameChn)</div>
+            </div>
+
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Address <span>(Eng)</span> :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.AddressEng)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">(Chn) :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.AddressChn)</div>
+            </div>
+
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Surname :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Surname)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Given Name :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                    <label for="keySearch">@Html.CheckBoxFor(model => model.KeywordSearch) Keyword Search</label>
+                </div>
+            </div>
+
+
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Chinese Name :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.ChineseName)</div>
+            </div>
+
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Tel. No. :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.TelNo)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Email :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.Email)</div>
+            </div>
+
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">PNRC :</div>
+                <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.Pnrc, Model.PnrcList)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Services in Building Safety :</div>
+                <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.ServiceInBS, Model.ServiceInBSList)</div>
+            </div>
+
+
+
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Type of Date :</div>
+                <div class="w3-col l3 m6 s12">@Html.DropDownListFor(model => model.DateType, Model.DateTypeList)</div>
+                <div class="w3-col    m6 s12 w3-hide-large"></div>
+                <div class="w3-col l6 m6 s12 data">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+    <div id="resultPanel"></div>
+    <div id="resultPanel2"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">
+            function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }
+           
+
+
+    </script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        var searching; var searching2;
+        domReady(function () {
+            searching = new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel", Sortable: true
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                    , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                    , { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+                ]
+            });            
+
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

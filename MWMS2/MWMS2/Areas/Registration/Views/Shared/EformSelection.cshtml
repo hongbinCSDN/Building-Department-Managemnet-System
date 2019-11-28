@@ -1,0 +1,331 @@
+﻿@model MWMS2.Areas.Registration.Models.EformModel
+
+<style>
+    body {
+        overflow-y: scroll;
+    }
+
+    .resultTable {
+        table-layout: fixed;
+    }
+
+    .resultTable th, td {
+        word-wrap: break-word;
+        white-space: normal !important;
+    }
+</style>
+
+<h3>Eform Selection </h3>
+
+<div>
+    <span>File Reference No. </span>
+    <span>
+        @if (Model.EformitemList != null && Model.EformitemList.Count() > 0)
+        {
+            @Model.EformitemList[0]["FILEREF"];
+        }
+    </span>
+</div>
+
+<table class="resultTable">
+    <tr>
+        @if (Model.Displays != null && Model.Displays.Count() > 0)
+        {
+            foreach (var item in Model.Displays)
+            {
+                <th>@item</th>
+            }
+            <th></th> // Select button
+            <th></th>// Save button
+        }
+    </tr>
+    @if (Model.SelectedEformList != null && Model.SelectedEformList.Count() > 0)
+    {
+        for (var i = 0; i < Model.SelectedEformList.Count(); i++)
+        {
+            <tr>
+                @for (var j = 0; j < Model.DisplayFields.Count(); j++)
+                {
+                <td>
+                    @if (Model.DisplayFields[j].Equals("ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("OFFICE_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("C_OFFICE_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("E_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("C_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("CORR_E_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("CORR_C_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("COMP_E_ADDRESS_LINE1") ||
+                    Model.DisplayFields[j].Equals("COMP_C_ADDRESS_LINE1"))
+                    {
+                        string address = Model.EformitemList[i][Model.DisplayFields[j]];
+                        string comma = ", ";
+                        j++;
+                        var counter = 0;
+                        while (counter < 4)
+                        {
+                            if (!Model.EformitemList[i][Model.DisplayFields[j]].IsEmpty())
+                            {
+                                if (!address.Equals(""))
+                                {
+                                    address += comma;
+                                }
+                                address += Model.EformitemList[i][Model.DisplayFields[j]];
+                            }
+                            j++;
+                            counter++;
+                        }
+                        j--;
+                        @address
+                    }
+                    else if (Model.DisplayFields[j].Equals("STATUS"))
+                    {
+                        //var status = Model.statusMap[Model.EformitemList[i]["ID"]];
+                        //if (status == null)
+                        //{
+                        //    status = "";
+                        //}
+                        @*@Html.DropDownListFor(model => model.statusMap[Model.EformitemList[i]["ID"]], Model.statusList
+                            , new { @class = "form-control", @id = "EfssId:" + Model.EformitemList[i]["ID"]
+                            , @value = status, @style = "width: 150px;" });*@
+                        @*@Html.DropDownListFor(model => model.status, Model.statusList
+                            , new { @class = "form-control", @id = "EfssId:" + Model.EformitemList[i]["ID"]
+                            , @value = Model.EformitemList[i][Model.DisplayFields[j]].ToString(), @style = "width: 150px;" });*@
+                        @Html.DropDownListFor(model => model.status, new SelectList(Model.statusList, "Text", "Value", Model.EformitemList[i][Model.DisplayFields[j]].ToString()), new { @class = "form-control", @id = "EfssId:" + Model.EformitemList[i]["ID"], @style = "width: 150px;" })
+                    }
+                    else
+                    {
+                        @Model.EformitemList[i][Model.DisplayFields[j]]
+                    }
+                </td>
+                }
+                <td>
+                    @{
+                        var divider = ", ";
+                        var dash = "'";
+                        var func = Model.EformSelectFunc;
+                        func += "(";
+                        func += dash;
+                        func += Model.EformitemList[i]["ID"];
+                        func += dash;
+                        func += divider;
+                        func += dash;
+                        func += Model.EformitemList[i]["FILEREF"];
+                        func += dash;
+                        func += divider;
+                        func += dash;
+                        func += Model.EformitemList[i]["FORMTYPE"];
+                        func += dash;
+                        func += ")";
+                    }
+                    <input type="button" name="btnselect" value="select"
+                           onclick="@func" class="btn btn-default" id="btnselect" />
+                </td>
+                <td>
+                    @{ 
+                        var save = Model.EformSaveFunc;
+                        save += "(";
+                        save += dash + Model.EformitemList[i]["ID"] + dash;
+                        save += divider;
+                        save += dash + Model.EformitemList[i]["FILEREF"] + dash;
+                        save += divider;
+                        save += dash + Model.EformitemList[i]["FORMTYPE"] + dash;
+                        save+= ")";
+
+                    }
+                    <input type="button" name="btnselect" value="save"
+                           onclick="@save" class="btn btn-default" id="btnselect" />
+                </td>
+            </tr>
+        }
+    }
+</table>
+@*<input type="button" name="btnclose" value="Close" onclick="javascript:closeWindow()" class="btn btn-default" />*@
+
+@section scripts {
+    <script type="text/javascript">
+        function closeWindow() {
+            window.close();
+        }
+
+        function selectEformEFSS_COMPANY(ID, FILEREF, FILETYPE) {
+            console.log("ID: " + ID);
+            console.log("FILEREF: " + FILEREF);
+            console.log("FILETYPE: " + FILETYPE);
+            var TABLENAME = "EFSS_COMPANY";
+
+            window.close();
+            // callback
+            window.opener.eformChangesNotify(ID, FILEREF, FILETYPE, TABLENAME); // EFSS_PROFESSIONAL: UUID
+
+        }
+
+        function selectEformEFSS_PROFESSIONAL(ID, FILEREF, FILETYPE) {
+            console.log("ID: " + ID);
+            console.log("FILEREF: " + FILEREF);
+            console.log("FILETYPE: " + FILETYPE);
+
+            window.close();
+            // callback
+            window.opener.eformChangesNotify(ID, FILEREF, FILETYPE); // EFSS_PROFESSIONAL: UUID
+        }
+
+        function selectEformEFSS_MWC(ID, FILEREF, FILETYPE) {
+            console.log("ID: " + ID);
+            console.log("FILEREF: " + FILEREF);
+            console.log("FILETYPE: " + FILETYPE);
+            var TABLENAME = "EFSS_MWC";
+
+            window.close();
+
+            // callback
+            window.opener.eformChangesNotify(ID, FILEREF, FILETYPE, TABLENAME); // EFSS_PROFESSIONAL: UUID
+        }
+        function selectEformEFSS_MWCW(ID, FILEREF, FILETYPE) {
+            console.log("ID: " + ID);
+            console.log("FILEREF: " + FILEREF);
+            console.log("FILETYPE: " + FILETYPE);
+
+            window.close();
+
+            // callback
+            window.opener.eformChangesNotify(ID, FILEREF, FILETYPE); // EFSS_PROFESSIONAL: UUID
+        }
+
+        function saveEformEFSS_COMPANY(ID) {
+            console.log("saveEformEFSS_COMPANY, ID: " + ID);
+            var statusFieldId = "EfssId:" + ID;
+            var STATUS = document.getElementById(statusFieldId);
+            if (STATUS != null) { 
+                STATUS = STATUS.value;
+                if (STATUS == "- select -") {
+                    STATUS = null;
+                }
+            }
+            else if (STATUS == "- select -") {
+                STATUS = null;
+            }
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "UUID": ID, "STATUS": STATUS },
+                url: "UpdateEformStatus",
+                //async: false,
+                success: function (text) {
+                    var data = jData(text);
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                        
+                        alert("Save success!");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+            });
+        }
+
+        function saveEformEFSS_PROFESSIONAL(ID) {
+            console.log("saveEformEFSS_PROFESSIONAL, ID: " + ID);
+            var statusFieldId = "EfssId:" + ID;
+            var STATUS = document.getElementById(statusFieldId);
+            if (STATUS != null) {
+                STATUS = STATUS.value;
+                if (STATUS == "- select -") {
+                    STATUS = null;
+                }
+            }
+            else if (STATUS == "- select -") {
+                STATUS = null;
+            }
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "UUID": ID, "STATUS": STATUS },
+                url: "UpdateEformStatus",
+                //async: false,
+                success: function (text) {
+                    var data = jData(text);
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                        alert("Save success!");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+            });
+        }
+
+        function saveEformEFSS_MWC(ID) {
+            console.log("saveEformEFSS_MWC, ID: " + ID);
+            var statusFieldId = "EfssId:" + ID;
+            var STATUS = document.getElementById(statusFieldId);
+            if (STATUS != null) {
+                STATUS = STATUS.value;
+                if (STATUS == "- select -") {
+                    STATUS = null;
+                }
+            }
+            else if (STATUS == "- select -") {
+                STATUS = null;
+            }
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "UUID": ID, "STATUS": STATUS },
+                url: "UpdateEformStatus",
+                //async: false,
+                success: function (text) {
+                    var data = jData(text);
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                        alert("Save success!");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+            });
+        }
+
+        function saveEformEFSS_MWCW(ID) {
+            console.log("saveEformEFSS_MWCW, ID: " + ID);
+            var statusFieldId = "EfssId:" + ID;
+            var STATUS = document.getElementById(statusFieldId);
+            if (STATUS != null) {
+                STATUS = STATUS.value;
+                if (STATUS == "- select -") {
+                    STATUS = null;
+                }
+            }
+            else if (STATUS == "- select -") {
+                STATUS = null;
+            }
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "UUID": ID, "STATUS": STATUS },
+                url: "UpdateEformStatus",
+                //async: false,
+                success: function (text) {
+                    var data = jData(text);
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                        alert("Save success!");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+            });
+        }
+
+    </script>
+}

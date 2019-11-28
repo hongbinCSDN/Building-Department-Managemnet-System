@@ -1,0 +1,771 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_VSDisplayModel
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var location_height = $("#location-field").height();
+            $("#location-label").height(location_height);
+        });
+
+        $(window).resize(function () {
+            var location_height = $("#location-field").height();
+            $("#location-label").height(location_height);
+        });
+
+        function loadHandlingOfficers(validationId, currIndex) {
+            var ctxPath = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+            console.log("loadHandlingOfficers...");
+            $("#svValidationUuid")[0].value = validationId;
+            $.ajax({
+                type: "POST", 
+                cache: false,
+                data: { "svValidationId": validationId },
+                url: "/Fn02TDL_VS/LoadHandlingOfficers",
+                //async: false,
+                success: function (text) {
+                    console.log("success!! " + validationId);
+                    var data = eval(text);
+                    var tos = data[0], pos = data[1], spos = data[2];
+                    console.log(pos);
+                    var comma = ", ";
+                    var tosStr = "";
+                    var posStr = "";
+                    var sposStr = "";
+                    if (tos != null && tos.length > 0) {
+                        for (var i = 0; i < tos.length; i++) {
+                            tosStr += tos[i].BD_PORTAL_LOGIN;
+                            if (i < tos.length - 1) {
+                                tosStr += comma;
+                            }
+                        }
+                    }
+                    if (pos != null && pos.length > 0) {
+                        for (var i = 0; i < pos.length; i++) {
+                            posStr += pos[i].BD_PORTAL_LOGIN;
+                            if (i < pos.length - 1) {
+                                posStr += comma;
+                            }
+                        }
+                    }
+                    if (spos != null && spos.length > 0) {
+                        for (var i = 0; i < spos.length; i++) {
+                            sposStr += spos[i].BD_PORTAL_LOGIN;
+                            if (i < spos.length - 1) {
+                                sposStr += comma;
+                            }
+                        }
+                    }
+                    $("#to").text("TO: " + tosStr);
+                    $("#po").text("PO: " + posStr);
+                    $("#spo").text("SPO: " + sposStr);
+                    //$("#toUuid").click(function () { goToPage(validationId); });
+                    //document.getElementById("spoUuid").setAttribute("onlick", "goSpoPage();");
+                    //$("#poUuid").click(function () { goPoPage(validationId); });
+                    //$("#spoUuid").click(function () { goSpoPage(validationId); });
+                    if (tosStr != "") $("#toUuid").show();
+                    else $("#toUuid").hide();
+                    if (posStr != "") $("#poUuid").show();
+                    else $("#poUuid").hide();
+                    if (sposStr != "") $("#spoUuid").show();
+                    else $("#spoUuid").hide();
+                    //$(".processingHandling").each(function () {
+                    //    var classNames = $(this).attr("class");
+                    //    $(this).attr("class", classNames.replace("sRow1", "sRow2"));
+                    //});
+                    //var processingHandlingJObj =
+                    //    $(jq_escape("#processingHandling[" + ind + "]"));
+                    //var classNames = processingHandlingJObj.attr("class");
+                    //processingHandlingJObj.attr("class", classNames.replace("sRow2", "sRow1"));
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!"); 
+                }
+            });
+        }
+
+        function popupWind(url) {
+            window.open(url, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+        }
+
+        function goToPage() {
+            // Fn03Search_VS
+            var svValidationUuid = document.getElementById("svValidationUuid").value;
+            var url = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+            url += '@Html.Raw(Url.Action("goToValidationToDoTO", "Fn02TDL_TDL", new { uuid = "-1", type = Model.WF_MAP_VALIDATION_TO }))';
+            console.log(url);
+            url = url.replace("-1", svValidationUuid);
+            console.log(url);
+            return popupWind(url);
+
+        }
+
+        function goPoPage() {
+            var svValidationUuid = document.getElementById("svValidationUuid").value;
+            var url = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+            url += '@Html.Raw(Url.Action("goToValidationToDoTO", "Fn02TDL_TDL", new { uuid = "-1", type = Model.WF_MAP_VALIDATION_PO }))';
+            console.log(url);
+            url = url.replace("-1", svValidationUuid);
+            console.log(url);
+            return popupWind(url);
+        }
+
+        function goSpoPage() {
+            var svValidationUuid = document.getElementById("svValidationUuid").value;
+            var url = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+            url += '@Html.Raw(Url.Action("goToValidationToDoTO", "Fn02TDL_TDL", new { uuid = "-1", type = Model.WF_MAP_VALIDATION_SPO }))';
+            console.log(url);
+            url = url.replace("-1", svValidationUuid);
+            console.log(url);
+            return popupWind(url);
+        }
+
+    </script>
+}
+
+<div class="sList" id="searchCriteria">
+    @Html.HiddenFor(model => model.B_SV_RECORD.UUID)
+    @Html.HiddenFor(model => model.svValidationUuid)
+
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Validation Information</div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission No. </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.REFERENCE_NO)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Next Validation Date </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.VALIDATION_EXPIRY_DATE)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">RVD No. </div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.RVD_NO)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12" id="location-label">Location/Address of Signboard  </div>
+                <div class="w3-col l9 m12 s12" id="location-field">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.LOCATION_OF_SIGNBOARD)
+                    <br>
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.FULL_ADDRESS)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12" id="">Status  </div>
+                <div class="w3-col l9 m12 s12" id="">
+                    @Html.DisplayFor(x => x.Status)
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <br>
+
+    @if (Model.ShowPrivacy)
+    {
+    <div class="w3-border displayForm">
+        <div class="panelHeader" style="background-color:dimgray">Privacy Information</div>
+        @*<font color="yellow">Validation Information</font>*@
+        <div class="panelHeader">Person assigning work (PAW)</div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.NAME_ENGLISH)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID/B.R./Passport No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.ID_NUMBER)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.NAME_CHINESE)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Country of Issue  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.ID_ISSUE_COUNTRY)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Correspondence Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.B_SV_ADDRESS.FULL_ADDRESS)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Email Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.EMAIL)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Contact No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.CONTACT_NO)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Fax No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT1.FAX_NO)
+                </div>
+            </div>
+        </div>
+
+        <div class="panelHeader">Owner of the signboard </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.NAME_ENGLISH)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID/B.R./Passport No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.ID_NUMBER)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.NAME_CHINESE)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Country of Issue  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.ID_ISSUE_COUNTRY)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Correspondence Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.B_SV_ADDRESS.FULL_ADDRESS)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Email Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.EMAIL)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Contact No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.CONTACT_NO)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Fax No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_PERSON_CONTACT.FAX_NO)
+                </div>
+            </div>
+        </div>
+
+        <div class="panelHeader">Particulars of the corresponding Owner's Corporation or Property Management Company when common areas may be involved by the works to be carried out </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.NAME_ENGLISH)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID/B.R./Passport No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.ID_NUMBER)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.NAME_CHINESE)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Country of Issue  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.ID_ISSUE_COUNTRY)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Correspondence Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.B_SV_ADDRESS.FULL_ADDRESS)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Email Address  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.EMAIL)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Contact No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.CONTACT_NO)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Fax No.  </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.FAX_NO)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Name of the representative of the PRC appointed   </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.PRC_NAME)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Contact No.   </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.PRC_CONTACT_NO)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Name of the representative of the PBP appointed   </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.PBP_NAME)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Contact No.   </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.B_SV_RECORD.B_SV_PERSON_CONTACT.PRC_CONTACT_NO)
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    <br>
+
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Signboard Info  </div>
+        <div id="resultPanel"></div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Item No. </th>
+                    <th>Description</th>
+                    <th>Relevant Order/Direction/Notice No./BD Reference No. </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model.B_SV_RECORD_ITEM != null && Model.B_SV_RECORD_ITEM.Count() > 0)
+                {
+                    foreach(var item in Model.B_SV_RECORD_ITEM)
+                    {
+                        <tr>
+                            <td>@item.MW_ITEM_CODE</td>
+                            <td>@item.LOCATION_DESCRIPTION</td>
+                            <td>@item.REVISION</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Particulats of PBP </div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>PBP/PRC</th>
+                    <th>Certificate of Registration No.</th>
+                    <th>English Name</th>
+                    <th>Chinese Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AP</td>
+                    <td>@Model.AP.CERTIFICATION_NO</td>
+                    <td>@Model.AP.ENGLISH_NAME</td>
+                    <td>@Model.AP.CHINESE_NAME</td>
+                </tr>
+
+                <tr>
+                    <td>RSE</td>
+                    <td>@Model.RSE.CERTIFICATION_NO</td>
+                    <td>@Model.RSE.ENGLISH_NAME</td>
+                    <td>@Model.RSE.CHINESE_NAME</td>
+                </tr>
+
+                <tr>
+                    <td>RGE</td>
+                    <td>@Model.RGE.CERTIFICATION_NO</td>
+                    <td>@Model.RGE.ENGLISH_NAME</td>
+                    <td>@Model.RGE.CHINESE_NAME</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <br>
+
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Particulars of PRC </div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Certificate of Registration No. </th>
+                    <th>English Name of PRC </th>
+                    <th>Chinese Name of PRC </th>
+                    <th>English Name of AS</th>
+                    <th>Chinese Name of AS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.PRC.CERTIFICATION_NO</td>
+                    <td>@Model.PRC.ENGLISH_NAME</td>
+                    <td>@Model.PRC.CHINESE_NAME</td>
+                    <td>@Model.PRC.AS_ENGLISH_NAME</td>
+                    <td>@Model.PRC.AS_CHINESE_NAME</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Submitted Document</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>DSN Number</th>
+                    <th>Document Type</th>
+                    <th>Scanned Date</th>
+                    <th>View Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ShowPrivacy)
+                {
+                    if (Model.DocList != null && Model.DocList.Count() > 0)
+                    {
+                        foreach (var item in Model.DocList)
+                        {
+                            <tr>
+                                <td>@item.DSN_NUMBER</td>
+                                <td>@item.DOCUMENT_TYPE</td>
+                                <td>@item.SCAN_DATE</td>
+                                <td>
+                                    @if (item.FILE_PATH != null)
+                                    {
+                                        <button onclick="DownloadFile('@item.UUID')" class="btn btn-default">
+                                            <i class="far fa-file-image"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    if (Model.DocList != null && Model.DocList.Count() > 0)
+                    {
+                        foreach (var item in Model.DocList)
+                        {
+                            if (item.FOLDER_TYPE.Equals(Model.SCANNED_DOC_FOLDER_TYPE_PRIVATE_SCU))
+                            {
+                                <tr>
+                                    <td>@item.DSN_NUMBER</td>
+                                    <td>@item.DOCUMENT_TYPE</td>
+                                    <td>@item.SCAN_DATE</td>
+                                    <td>
+                                        @if (item.FILE_PATH != null)
+                                        {
+                                            <button onclick="DownloadFile('@item.UUID')" class="btn btn-default">
+                                                <i class="far fa-file-image"></i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Photo Library</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Photo Library Description</th>
+                    <th>View Image (URL)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.PhotoList != null && Model.PhotoList.Count() > 0)
+                    {
+                        foreach (var item in Model.PhotoList)
+                        {
+                            <tr>
+                                <td>@item.DESCRIPTION</td>
+                                <td>
+                                    <button onclick="openPhotoLibFile('@item.UUID')" class="btn btn-default">
+                                        <i class="far fa-file-image"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <br>
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Related Signboards of the Signboard</div>
+        <table class="resultTable">
+            <tbody>
+                @{
+                    if (Model.SignboardRelationList != null && Model.SignboardRelationList.Count() > 0)
+                    {
+                        foreach (var item in Model.SignboardRelationList)
+                        {
+                            <tr>
+                                <td>@item</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <br>
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Processing Handling</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Processing Form </th>
+                    <th>Received Date</th>
+                    <th>Validation Result</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ProcessHandlings != null && Model.ProcessHandlings.Count() > 0)
+                {
+                    for(int i = 0; i < Model.ProcessHandlings.Count; i++)
+                    //foreach (var item in Model.ProcessHandlings)
+                    {
+                        <tr class="processingHandling" id="processingHandling[i]">
+                            <td>
+                                @if (Model.ShowPrivacy)
+                                {
+                                    <a href="javascript:loadHandlingOfficers('@Model.ProcessHandlings[i].Uuid', @i)">@Model.ProcessHandlings[i].FormCode</a>
+                                }
+                                else
+                                {
+                                    @Model.ProcessHandlings[i].FormCode
+                                }
+                            </td>
+                            <td>@Model.ProcessHandlings[i].ReceivedDate</td>
+                            <td>
+                                @if (Model.ProcessHandlings[i].ValidationResult != "")
+                                {
+                                    if (Model.ProcessHandlings[i].ValidationResult.Equals(Model.RecommendAck))
+                                    {
+                                        @Model.recommendAckDisplay
+                                    }
+                                    else if (Model.ProcessHandlings[i].ValidationResult.Equals(Model.RecommendRef))
+                                    {
+                                        @Model.recommendRefDisplay
+                                    }
+                                    else if (Model.ProcessHandlings[i].ValidationResult.Equals(Model.RecommendCond))
+                                    {
+                                        @Model.recommendCondDisplay
+                                    }
+                                }
+                            </td>
+                            <td>@Model.ProcessHandlings[i].ExpiryDate</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    
+    @if (Model.ShowPrivacy)
+    {
+        <div class="w3-border displayForm">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>Handling Officers </th>
+                        <th>Processing Pages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="to">TO: @Model.To</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(Model.To))
+                            {
+                                <button class="btn btn-default"  id="toUuid" onclick="goToPage();">
+                                    <i class="far fa-file-image"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="po">PO: @Model.Po</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(Model.Po))
+                            {
+                                <button class="btn btn-default"a id="poUuid" onclick="goPoPage()">
+                                    <i class="far fa-file-image"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td id="spo">SPO: @Model.Spo</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(Model.Spo))
+                            {
+                                <button class="btn btn-default" id="spoUuid" onclick="goSpoPage();">
+                                    <i class="far fa-file-image"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="w3-border displayForm">
+        <div class="w3-container footer">
+            <button onclick="window.print()" type="button"><i class="fa fa-print"></i> Print</button>
+            <button @*onclick="window.location='/Signboard/Fn02TDL_VS/Index'"*@ class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function DownloadFile(uuid) {
+        goTo('DownloadFile', [{ name: "uuid", value: uuid }], true);
+    }
+
+    function openPhotoLibFile(uuid) {
+        $.ajax({
+            url: "viewPhotoLibImage"
+            , type: "POST"
+            , data: {
+                uuid: uuid
+            }
+            , success: function (d) {
+                if (d != null) {
+                    window.open(d, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+                }
+            }
+        });
+    }
+</script>
+
+@*<script type="text/javascript">
+
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchSBInfo"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Footer: false
+            , Columns: [
+                { displayName: "Item No.", columnName: "ITEM_CODE" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+                , { displayName: "Relevant Order/Direction/Notice No./BD Reference No. ", columnName: "REVISION" }
+
+            ]
+        }).search();
+    });
+
+
+
+</script>*@

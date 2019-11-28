@@ -1,0 +1,298 @@
+﻿@model MWMS2.Areas.Registration.Models.CompDisplayModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+    <div class="panelHeader">@ViewBag.Title</div>
+    <div class="displayForm" id="searchCriteria">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.FILE_REFERENCE_NO) :</div>
+                <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.FILE_REFERENCE_NO)</div>
+            </div>
+        </div>
+
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_BRNo)
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.BR_NO) :</div>
+                    <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.BR_NO)</div>
+                </div>
+            </div>
+        }
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME) :</div>
+                <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.CHINESE_COMPANY_NAME) :</div>
+                <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.CHINESE_COMPANY_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.CERTIFICATION_NO) :</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.CERTIFICATION_NO)</div>
+
+                @if (MWMS2.Utility.AuthUtil.CMW_Show_ContractorName)
+                {
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.EXPIRY_DATE_DISPLAY) :</div>
+                    <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.EXPIRY_DATE_DISPLAY)</div>
+                }
+            </div>
+        </div>
+
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_ContractorName)
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 w3-hide-small">&nbsp;</div>
+                    <div class="w3-col l3 m6 w3-hide-small">&nbsp;</div>
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.REMOVAL_DATE) :</div>
+                    <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.REMOVAL_DATE)</div>
+                </div>
+            </div>
+        }
+
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_ASTDOO)
+        {
+            <div class="panelHeader">@Html.LabelFor(o => o.C_S_SYSTEM_VALUEs_BS)</div>
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @if (Model.C_S_SYSTEM_VALUEs_BS.Count > 0)
+                    {
+                        <div>
+                            <div class="w3-row">
+                                <div class="w3-col l12 m10 s12">
+                                    <div class="w3-col l3 m4 s6">Type of services</div>
+                                    <div class="w3-col l9 m8 s6">Description</div>
+                                </div>
+                                @foreach (var o in Model.C_S_SYSTEM_VALUEs_BS)
+                                {
+                                    <div class="w3-col l8 m10 s12">
+                                        <div class="w3-col l3 m4 s6">@o.CODE</div>
+                                        <div class="w3-col l9 m8 s6">@o.ENGLISH_DESCRIPTION</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        }
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_ASTDOO)
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.QP_DISPLAY) :</div>
+                    <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.QP_DISPLAY)</div>
+                </div>
+            </div>
+        }
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_AddrContact)
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_TELEPHONE_NO1) :</div>
+                    <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.BS_TELEPHONE_NO1)</div>
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_FAX_NO1) :</div>
+                    <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.BS_FAX_NO1)</div>
+                </div>
+            </div>
+        }
+
+
+        @if (MWMS2.Utility.AuthUtil.CMW_Show_AddrContact)
+        {
+            <div class="panelHeader">Address :</div>
+            @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l12 m12 s12">Address :</div>
+                </div>
+            </div>*@
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12" style="text-align:left">@Html.LabelFor(o => o.C_ADDRESS_English):</div>
+                    <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_ADDRESS_Chinese):</div>
+
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+
+                    <div class="w3-col l6 m6 s12" style="text-align:left">@Html.Raw(Model.C_ADDRESS_English.ADDRESS_FULL_HTML_DISPLAY)</div>
+                    <div class="w3-col l6 m6 s12">@Html.Raw(Model.C_ADDRESS_Chinese.ADDRESS_FULL_HTML_DISPLAY)</div>
+                </div>
+            </div>
+
+            <div class="w3-row hr"></div>
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.TELEPHONE_NOS_DISPLAY) :</div>
+                    <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.TELEPHONE_NOS_DISPLAY)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.FAX_NOS_DISPLAY) :</div>
+                    <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.FAX_NOS_DISPLAY)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.EMAIL_ADDRESS) :</div>
+                    <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.EMAIL_ADDRESS)</div>
+                </div>
+            </div>
+        }
+
+        @*<div class="w3-row hr"></div>*@
+
+        <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.REGISTRATION_STATUS_DISPLAY) :</div>
+                <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_COMP_APPLICATION.REGISTRATION_STATUS_DISPLAY)</div>
+            </div>
+        </div>
+
+
+
+
+        <br>
+
+
+
+        <div class="panelHeader">@Html.LabelFor(o => o.C_APPLICANTs) :</div>
+        @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12">@Html.LabelFor(o => o.C_APPLICANTs) :</div>
+            </div>
+        </div>*@
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    @if (MWMS2.Utility.AuthUtil.CMW_Show_HKIDPASSPORT)
+                    {
+                        <th>HKID /<br />Passport No.</th>
+                    }
+                    <th>Title</th>
+                    <th>Name</th>
+                    <th>Sex</th>
+                    <th>Role</th>
+                    <th>Date of Acceptance</th>
+                    @if (MWMS2.Utility.AuthUtil.CMW_Show_ContractorName)
+                    {
+                        <th>Date of Removal</th>
+                    }
+                    <th>Remarks</th>
+                    @if (MWMS2.Utility.AuthUtil.CMW_Show_SpecimenSignature)
+                    {
+                        <th>Specimen Signature</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model.C_APPLICANTs)
+                {
+                    <tr>
+                        @if (MWMS2.Utility.AuthUtil.CMW_Show_HKIDPASSPORT)
+                        {
+                            <td>@o.HKID_PASSPORT_DISPLAY</td>
+                        }
+
+                        <td>@o.TITLE</td>
+                        <td>@o.NAME</td>
+                        <td>@o.GENDER</td>
+                        <td>@o.ROLE</td>
+                        <td>@o.ACCEPTANCE_DATE</td>
+                        @if (MWMS2.Utility.AuthUtil.CMW_Show_ContractorName)
+                        {
+                            <td>@o.REMOVAL_DATE</td>
+                        }
+
+                        <td>@o.REMARK</td>
+                        @if (MWMS2.Utility.AuthUtil.CMW_Show_SpecimenSignature)
+                        {
+                        <td>
+                            @*@o.SIGN*@
+                            <button class="btn btn-default" type="button" onclick="GetCRMImage('@o.C_COMP_APPLICANT_INFO_UUID')"> <i class="far fa-file-image"></i></button>
+                        </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br>
+
+
+        <div class="panelHeader">>MW Capability :</div>
+        @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12">MW Capability :</div>
+            </div>
+        </div>*@
+
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Class I, II & III</th>
+                    <td>@Model.Class1</td>
+                </tr>
+                <tr>
+                    <th>Class II & III</th>
+                    <td>@Model.Class2</td>
+                </tr>
+                <tr>
+                    <th>Class III</th>
+                    <td>@Model.Class3</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+        <div class="w3-container footer">
+          
+            <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+<script>
+    function GetCRMImage(uuid) {
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }, { name: "regType", value: "CMW" }], true);
+    }
+</script>

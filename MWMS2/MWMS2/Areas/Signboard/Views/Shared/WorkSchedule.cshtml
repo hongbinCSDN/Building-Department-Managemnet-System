@@ -1,0 +1,218 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntryDisplayModel
+@*<%
+    DataEntryForm dataEntryForm = (DataEntryForm)request.getAttribute("DataEntryForm");
+    JSONObject workScheduleFieldData = new JSONObject()
+    .put("formNo"			, dataEntryForm.getDataEntryObject().getFormCode())
+    .put("withAlteration"	, dataEntryForm.getDataEntryObject().getWithAlteration())
+    .put("validationExpiryYearNum",  dataEntryForm.getDataEntryObject().getValidationExpiryYearNum());
+    %>*@
+<script type="text/javascript">
+    //var workScheduleFieldData = <%=workScheduleFieldData.toString() %>;
+    //jQuery(document).ready(function () {
+    //    var formNo = workScheduleFieldData.formNo
+    //        , withAlteration = workScheduleFieldData.withAlteration
+    //        , para = {};
+    //    para["inspectionDateShow"] = formNo == "SC01" || formNo == "SC02" || formNo == "SC03";
+    //    para["paCommDateShow"] = (formNo == "SC01" && withAlteration == "Y") || (formNo == "SC02" && withAlteration == "Y") || (formNo == "SC03" && withAlteration == "Y");
+    //    para["aaCommDateShow"] = (formNo == "SC01C" && withAlteration == "Y") || (formNo == "SC02C" && withAlteration == "Y") || (formNo == "SC03" && withAlteration == "Y");
+    //    para["aaCompDateShow"] = (formNo == "SC01C" && withAlteration == "Y") || (formNo == "SC02C" && withAlteration == "Y") || (formNo == "SC03" && withAlteration == "Y");
+    //    para["veDateShow"] = true;
+    //    para["sbRemovalShow	"] = true;
+    //    para["disDateSbRemovalShow"] = true;
+    //    hideWorkScheduleField(para);
+
+    //});
+
+    //jQuery(document).ready(function () {
+    //    window.alertedInspectionDateAlert
+    //        = domId("receivedDate").value + domId("inspectionDate").value;
+
+    //    window.alertedProposedAlterationCommDateAlert
+    //        = domId("receivedDate").value + domId("proposedAlterationCommDate").value;
+
+    //    window.alertedActualAlterationCommDateAlert
+    //        = domId("receivedDate").value + domId("actualAlterationCommDate").value;
+
+    //    window.alertedActualAlterationCompDateAlert
+    //        = domId("receivedDate").value + domId("actualAlterationCommDate").value +
+    //        domId("actualAlterationCompDate").value;
+
+
+    //    attr("inspectionDate", "onchange", { "callback": function (sender) { inspectionDateAlert(sender); } });
+    //    attr("proposedAlterationCommDate", "onchange", { "callback": function (sender) { proposedAlterationCommDateAlert(sender); } });
+    //    attr("actualAlterationCommDate", "onchange", { "callback": function (sender) { actualAlterationCommDateAlert(sender); } });
+    //    attr("actualAlterationCompDate", "onchange", { "callback": function (sender) { actualAlterationCompDateAlert(sender); } });
+
+
+    //    attr("receivedDate", "onchange", {
+    //        "callback": function (sender) {
+    //            inspectionDateAlert(sender);
+    //            proposedAlterationCommDateAlert(sender);
+    //            actualAlterationCommDateAlert(sender);
+    //            actualAlterationCompDateAlert(sender);
+    //            changeExpiryDate();
+    //        }
+    //    });
+
+    //    domId("validationExpiryDate").readOnly = true;
+
+    //    attr("inspectionDate","onchange",{"callback":function() {reloadInspectionDate();}});
+    //    attr("actualAlterationCompDate", "onchange", { "callback": function () { reloadInspectionDate(); } });
+    //});
+
+    function inspectionDateAlert(sender) {
+
+        var rD = domId("receivedDate"), iD = domId("inspectionDate");
+        if (rD.value == "" || iD.value == "" || alertedInspectionDateAlert == rD.value + iD.value) return;
+        var dc = getDayCount(dateMinus(string2Date(iD.value), string2Date(rD.value)));
+        if (dc > 0 && !confirm("Confirm the date is later than (Received date)?")) sender.value = "";
+        else if (dc < -14 && !confirm("Confirm the date + 14 calendar days is earlier than (Received date)?")) sender.value = "";
+
+        window.alertedInspectionDateAlert = rD.value + iD.value;
+    }
+
+    function proposedAlterationCommDateAlert(sender) {
+        var rD = domId("receivedDate"), pD = domId("proposedAlterationCommDate");
+        if (rD.value == "" || pD.value == "" || alertedProposedAlterationCommDateAlert == rD.value + pD.value) return;
+        var dc = getDayCount(dateMinus(string2Date(pD.value), string2Date(rD.value)));
+
+        if (dc < 7 && !confirm("Confirm the date is earlier than (Received date + 7 calendar days)?")) sender.value = "";
+
+        window.alertedProposedAlterationCommDateAlert = rD.value + pD.value;
+    }
+
+    function actualAlterationCommDateAlert(sender) {
+        var rD = domId("receivedDate"), aD = domId("actualAlterationCommDate"), iD = domId("inspectionDate");
+        if (rD.value == "" || aD.value == "" || alertedActualAlterationCommDateAlert == rD.value + aD.value) return;
+        var dc = getDayCount(dateMinus(string2Date(aD.value), string2Date(rD.value)));
+
+        if (dc < 7 && !confirm("Confirm the date is earlier than (Received date + 7 calendar days)?")) sender.value = "";
+        var dc2 = getDayCount(dateMinus(string2Date(aD.value), string2Date(iD.value)));
+        if (dc > 0 && !confirm("Confirm the date is earlier than (Inspection Date)?")) sender.value = "";
+
+        window.alertedActualAlterationCommDateAlert = rD.value + aD.value;
+    }
+
+    function actualAlterationCompDateAlert(sender) {
+        var rD = domId("receivedDate"), aCommD = domId("actualAlterationCommDate"), aD = domId("actualAlterationCompDate"), iD = domId("inspectionDate");
+        if ((rD.value == "" && aCommD.value == null) || aD.value == "" || alertedActualAlterationCompDateAlert == rD.value + aD.value) return;
+        var dc = getDayCount(dateMinus(string2Date(aD.value), string2Date(rD.value)));
+        var dc2 = getDayCount(dateMinus(string2Date(aD.value), string2Date(aCommD.value)));
+        var dc3 = getDayCount(dateMinus(string2Date(iD.value), string2Date(aCommD.value)));
+
+        if (dc2 < 0 && !confirm("Confirm the date is earlier than (Actual Alteration Commencement date)?")) sender.value = "";
+        if (dc > 14 && !confirm("Confirm the date is later than (Received date + 14 calendar days)?")) sender.value = "";
+        if (dc3 < 0 && !confirm("Confirm the date is earlier than (Inspection date)?")) sender.value = "";
+        window.alertedActualAlterationCompDateAlert = rD.value + aCommD.value + aD.value;
+    }
+
+
+
+
+    function reloadInspectionDate() {
+        var vactualAlterationCompDate = string2Date(domId("actualAlterationCompDate").value);
+        var vinspectionDate = string2Date(domId("inspectionDate").value);
+        var result, validationExpiryYearNum = workScheduleFieldData.validationExpiryYearNum;
+        if (vactualAlterationCompDate == null && vinspectionDate == null) result = null;
+        else if (vactualAlterationCompDate == null) result = vinspectionDate;
+        else if (vinspectionDate == null) result = vactualAlterationCompDate;
+        else result = vactualAlterationCompDate.getTime() > vinspectionDate.getTime() ? vactualAlterationCompDate : vinspectionDate;
+        if (result != null) result.setFullYear(result.getFullYear() + validationExpiryYearNum);
+        //attr("validationExpiryDate","value",result==null?"":date2String(result));
+    }
+
+    function changeExpiryDate() {
+        var receivedDate = string2Date(domId("receivedDate").value);
+        var validationExpiryYearNum = workScheduleFieldData.validationExpiryYearNum;
+        result = receivedDate;
+        if (result != null) result.setFullYear(result.getFullYear() + validationExpiryYearNum);
+        var validationExpiryDate = date2String(result);
+        attr("validationExpiryDate", "value", result == null ? "" : date2String(result));
+        document.getElementById("validationExpiryDateLabel").innerHTML
+            = validationExpiryDate;
+    }
+
+
+
+    function hideWorkScheduleField(para) {
+        attr("TR" + "inspectionDateShow", para["inspectionDateShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "paCommDateShow", para["paCommDateShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "aaCommDateShow", para["aaCommDateShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "aaCompDateShow", para["aaCompDateShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "veDateShow", para["veDateShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "sbRemovalShow", para["sbRemovalShow"] ? "dropClass" : "addClass", "hide");
+        attr("TR" + "disDateSbRemovalShow", para["disDateSbRemovalShow"] ? "dropClass" : "addClass", "hide");
+    }
+
+</script>
+
+
+@*<style>
+    .width350px {
+        width: 350px;
+    }
+</style>*@
+<div class="displayForm">
+    <div class="panelHeader">
+        <label>
+            Work Schedule
+            <br />
+        </label>
+    </div>
+    <div class="w3-row" id="TRinspectionDateShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Inspection Date  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvRecord.INSPECTION_DATE, new { @class = "inputDate", @id = "inspectionDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hide" id="TRpaCommDateShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Proposed Alteration/Strengthening Commencement Date  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvRecord.PROPOSED_ALTERATION_COMM_DATE, new { @class = "inputDate", @id = "proposedAlterationCommDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hide" id="TRaaCompDateShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Actual Alteration/Strengthening Commencement Date  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvRecord.ACTUAL_ALTERATION_COMM_DATE, new { @class = "inputDate", @id = "actualAlterationCommDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hide" id="TRaaCompDateShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Actual Alteration/Strengthening Completion Date  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvRecord.ACTUAL_ALTERATION_COMP_DATE, new { @class = "inputDate", @id = "actualAlterationCommDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row " id="TRveDateShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Validation Expiry Date  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.ValidationExpiryDate, new { @class = "inputDate", @id = "validationExpiryDate",@disabled = "disabled"})
+            </div>
+        </div>
+    </div>
+    <div class="w3-row hide" id="TRsbRemovalShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Signboard Removal  :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.CheckBoxFor(model => model.SignboardRemoval, new { @id = "signboardRemoval" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row" id="TRdisDateSbRemovalShow">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Discovery date for Signboard Removal :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvRecord.SIGNBOARD_REMOVAL_DISCOV_DATE, new { @class = "inputDate", @id = "signboardRemovalDiscovDate" })
+            </div>
+        </div>
+    </div>
+</div>

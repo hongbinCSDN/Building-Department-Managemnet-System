@@ -1,0 +1,511 @@
+﻿@model MWMS2.Areas.Admin.Models.Sys_SectionModel
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <style>
+
+        .node {
+            cursor: default;
+        }
+
+            .node text {
+                font: 12px sans-serif;
+            }
+
+        .link {
+            fill: none;
+            stroke: #424242;
+            stroke-width: 1.5px;
+        }
+
+        #body {
+            cursor: move;
+            height: 850px;
+            width: 1300px;
+            background-color: #fff;
+            border: 1px solid black;
+            margin: 0px 0px 00px 0px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+        var textLeft = 80;
+        var orgChart = (
+            function () {
+                var _margin = { top: 20, right: 20, bottom: 20, left: 20 }
+                    , _root = {}
+                    , _nodes = []
+                    , _counter = 0
+                    , _svgroot = null
+                    , _svg = null
+                    , _tree = null
+                    , _diagonal = null
+                    , _lineFunction = null
+                    , _loadFunction = null
+                    , _duration = 0
+                    , _rectW = 80, _rectH = 50
+                    , _rectSpacing = 20
+                    , _fixedDepth = 80
+                    , _mode = "line"
+                    , _callerNode = null
+                    , _callerMode = 1,
+                    defLinearGradient = function (id, x1, y1, x2, y2, stopsdata) {
+                        var gradient = _svgroot.append("svg:defs").append("svg:linearGradient").attr("id", id).attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2).attr("spreadMethod", "pad");
+                        $.each(stopsdata, function (index, value) { gradient.append("svg:stop").attr("offset", value.offset).attr("stop-color", value.color).attr("stop-opacity", value.opacity); });
+                    },
+                    defBoxShadow = function (id) {
+                        var filter = _svgroot.append("svg:defs").append("svg:filter").attr("id", id).attr("height", "150%").attr("width", "150%");
+                        filter.append("svg:feOffset").attr("dx", "2").attr("dy", "2").attr("result", "offOut");
+                        filter.append("svg:feGaussianBlur").attr("in", "offOut").attr("result", "blurOut").attr("stdDeviation", "2");
+                        filter.append("svg:feBlend").attr("in", "SourceGraphic").attr("in2", "blurOut").attr("mode", "normal");
+                    },
+                    collapse = function (d) {
+                        if (d.children) {
+                            d._children = d.children; d._children.forEach(collapse);
+                        }
+                    },
+                    update = function (source) {
+                        _nodes = _tree.nodes(_root).reverse();
+                        var links = _tree.links(_nodes);
+                        _nodes.forEach(function (d) { d.y = d.depth * _fixedDepth; });
+                        var node = _svg.selectAll("g.node").data(_nodes, function (d) { return d.id || (d.id = ++_counter); });
+                        var nodeEnter = node.enter().append("g").attr("style", "cursor:default;font: 12px sans-serif;").attr("transform", function (d) { return "translate(" + source.x0 + "," + source.y0 + ")"; }).on("click", function (d) {
+                        listDialog.innerHTML = ""; listDialog.appendChild(dom("span", { "html": d.desc }));
+                            showEscDialog(listDialog, { title: d.desc, minWidth: 800 }); var openGrid = new grid({
+                                maxWidth: "100%", path: root + "/report/ajaxNodeList.do", exportPath: root + "/report/xlsxNodeList.do", passData: {
+                                    "monReportForm.node": d.nodeId, "monReportForm.desc": d.desc
+                                    , "monReportForm.nature": domId("nature").value
+                                    , "monReportForm.section": domId("section").value, "monReportForm.seniorOfficer": domId("seniorOfficer").value, "monReportForm.caseOfficer": domId("caseOfficer").value
+                                    , "monReportForm.dateType": domId("dateType").value, "monReportForm.startDate": domId("startDate").value, "monReportForm.endDate": domId("endDate").value
+                                }
+                                , enableSort: true
+                            });
+                            listDialog.appendChild(openGrid.toDom());
+                            listDialog.appendChild(dom("hr"));
+                            openGrid.load();
+                        });
+                        nodeEnter.append("rect").attr("width", function (d) { return (d.desc == null || d.desc == "") ? 0 : _rectW }).attr("height", function (d) { return (d.desc == null || d.desc == "") ? 0 : _rectH }).attr("fill", "#898989").attr("filter", "url(#boxShadow)");
+                        nodeEnter.append("rect").attr("width", function (d) { return (d.desc == null || d.desc == "") ? 0 : _rectW }).attr("height", function (d) { return (d.desc == null || d.desc == "") ? 0 : _rectH }).attr("id", function (d) { return d.id; }).attr("fill", function (d) { return (d.children || d._children || d.hasChild) ? "url(#gradientchilds)" : "url(#gradientnochilds)"; }).style("cursor", function (d) { return (d.children || d._children || d.hasChild) ? "pointer" : "pointer"; }).attr("class", "box");
+                        nodeEnter.append("text").attr("x", _rectW / 2).attr("y", _rectH / 3).attr("dy", ".35em").attr("text-anchor", "middle").attr("fill", "#fff").style("cursor", function (d) { return (d.children || d._children || d.hasChild) ? "pointer" : "pointer"; }).text(function (d) { return d.desc; });
+                       // nodeEnter.append("text").attr("x", _rectW / 2).attr("y", _rectH / 1.5).attr("dy", ".35em").attr("text-anchor", "middle").attr("fill", "yellow").style("cursor", function (d) { return (d.children || d._children || d.hasChild) ? "pointer" : "default"; }).attr("id", function (d) { return "v" + d.id; }).text(function (d) { return d.desc == null || d.desc == "" ? "" : d.val == null ? "(loading..)" : "(" + d.val + ")"; });
+
+                        var nodeUpdate = node.transition().duration(_duration).attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+                        nodeUpdate.select("rect.box").attr("fill", function (d) { return (d.children || d._children || d.hasChild) ? "url(#gradientchilds)" : "url(#gradientnochilds)"; });
+                        var nodeExit = node.exit().transition().duration(_duration).attr("transform", function (d) { return "translate(" + source.x + "," + source.y + ")"; }).remove();
+                        var link = _svg.selectAll("path.link").data(links, function (d) { return d.target.id; });
+                        if (_mode === "line") {
+                            link.enter().append("path", "g").attr("style", "fill: none;  stroke: #424242;  stroke-width: 1.5px;");
+                            link.transition().duration(_duration).attr("d", function (d) {
+                                var u_line = (function (d) {
+                                    var u_linedata = null;
+                                    if (d.source.desc == null || d.source.desc == "") { u_linedata = [{ "x": d.source.x + parseInt(_rectW / 2), "y": d.source.y }, { "x": d.target.x + parseInt(_rectW / 2), "y": d.target.y }]; } else {
+                                        u_linedata = [{ "x": d.source.x + parseInt(_rectW / 2), "y": d.source.y + _rectH }, { "x": d.source.x + parseInt(_rectW / 2), "y": d.target.y - _margin.top / 2 }, { "x": d.target.x + parseInt(_rectW / 2), "y": d.target.y - _margin.top / 2 }, { "x": d.target.x + parseInt(_rectW / 2), "y": d.target.y }];
+                                    }
+                                    return u_linedata;
+                                })(d); return _lineFunction(u_line);
+                            });
+                            link.exit().transition()
+                                .duration(_duration)
+                                .attr("d", function (d) {
+                                    var u_line = (function (d) {
+                                        var u_linedata = [{ "x": _callerNode.x + parseInt(_rectW / 2), "y": _callerNode.y + _rectH + 2 }, { "x": _callerNode.x + parseInt(_rectW / 2), "y": _callerNode.y + _rectH + 2 }, { "x": _callerNode.x + parseInt(_rectW / 2), "y": _callerNode.y + _rectH + 2 }, { "x": _callerNode.x + parseInt(_rectW / 2), "y": _callerNode.y + _rectH + 2 }]; return u_linedata;
+                                    })(d);
+                                    return _lineFunction(u_line);
+                                }).each("end", function () { _callerNode = null; });
+                        } else if (_mode === "diagonal") {
+                            link.enter().insert("path", "g").attr("class", "link").attr("x", _rectW / 2).attr("y", _rectH / 2).attr("d", function (d) { var o = { x: source.x0, y: source.y0 }; return _diagonal({ source: o, target: o }); });
+                            link.transition().duration(_duration).attr("d", _diagonal);
+                            link.exit().transition().duration(_duration).attr("d", function (d) { var o = { x: source.x, y: source.y }; return _diagonal({ source: o, target: o }); }).remove();
+                        }
+                        _nodes.forEach(function (d) { d.x0 = d.x; d.y0 = d.y; });
+                    },
+                    nodeclick = function (d) {
+                        if (!d.children && !d._children && d.hasChild) {
+                            _loadFunction(d, function (childs) {
+                                var response = { id: d.id, desc: d.desc, children: childs.result };
+                                response.children.forEach(function (child) {
+                                    if (!_tree.nodes(d)[0]._children) { _tree.nodes(d)[0]._children = []; }
+                                    child.x = d.x; child.y = d.y; child.x0 = d.x0; child.y0 = d.y0; _tree.nodes(d)[0]._children.push(child);
+                                });
+                                if (d.children) {
+                                    _callerNode = d; _callerMode = 0; d._children = d.children; d.children = null;
+                                } else { _callerNode = null; _callerMode = 1; d.children = d._children; d._children = null; }
+                                update(d);
+                            });
+                        } else {
+                            if (d.children) {
+                                _callerNode = d; _callerMode = 0; d._children = d.children; d.children = null;
+                            } else { _callerNode = d; _callerMode = 1; d.children = d._children; d._children = null; }
+                            update(d);
+                        }
+                    }, redraw = function () { _svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale.toFixed(1) + ")"); },
+                    initTree = function (options) {
+                        var u_opts = $.extend({ id: "", data: {}, modus: "line", loadFunc: function () { } }, options),
+                            id = u_opts.id; _loadFunction = u_opts.loadFunc; _mode = u_opts.modus; _root = u_opts.data;
+                        if (_mode == "line") { _fixedDepth = 80; } else { _fixedDepth = 110; }
+                        $(id).html("");
+                        var width = $(id).innerWidth() - _margin.left - _margin.right, height = $(id).innerHeight() - _margin.top - _margin.bottom;
+                        _tree = d3.layout.tree().nodeSize([_rectW + _rectSpacing, _rectH + _rectSpacing]);
+                        _diagonal = d3.svg.diagonal().projection(function (d) { return [d.x + _rectW / 2, d.y + _rectH / 2]; });
+                        _lineFunction = d3.svg.line().x(function (d) { return d.x; }).y(function (d) { return d.y; }).interpolate("linear");
+                        var u_childwidth = parseInt((_root.children.length * _rectW) / 2);
+                        _svgroot = d3.select(id).append("svg").attr("width", width).attr("height", height).call(zm = d3.behavior.zoom().scaleExtent([0.15, 3]).on("zoom", redraw));
+                        _svg = _svgroot.append("g").attr("transform", "translate(" + parseInt(u_childwidth + ((width - u_childwidth * 2) / 2) - _margin.left / 2) + "," + 20 + ")");
+                        _svgroot.on('.zoom', null);
+                        _svgroot.append("text")
+                            .attr("x", textLeft).attr("y", 15)
+                            .attr("dy", ".35em")
+                            .attr("text-anchor", "left")
+                            .attr("fill", "black")
+                            .attr("font-weight", "700")
+                            .text(function (d) { return "SCU Team Management"; });
+                        /*
+                        var rownum = 2;
+                        var monReportForm = {};
+                        monReportForm.nature = "<s:property value='monReportForm.nature'/>";
+                        monReportForm.section = "<s:property value='monReportForm.section'/>";
+                        monReportForm.seniorOfficer = "<s:property value='monReportForm.seniorOfficer'/>";
+                        monReportForm.caseOfficer = "<s:property value='monReportForm.caseOfficer'/>";
+                        monReportForm.dateType = "<s:property value='monReportForm.dateType'/>";
+                        monReportForm.startDate = "<s:property value='monReportForm.startDate'/>";
+                        monReportForm.endDate = "<s:property value='monReportForm.endDate'/>";
+                        _svgroot.append('line').style("stroke-dasharray", "20,20").style("stroke", "#000").attr('x1', 5).attr('y1', 80 * 5).attr('x2', 1800).attr('y2', 80 * 5);
+                        _svgroot.append('line').style("stroke-dasharray", "20,20").style("stroke", "#000").attr('x1', 5).attr('y1', 80 * 8).attr('x2', 1800).attr('y2', 80 * 8);
+                        _svgroot.append("rect").attr("x", 10).attr("y", 10).attr("width", 50).attr("height", 380).attr("fill", "#999");
+                        _svgroot.append("rect").attr("x", 10).attr("y", 410).attr("width", 50).attr("height", 220).attr("fill", "#777");
+                        _svgroot.append("rect").attr("x", 10).attr("y", 650).attr("width", 50).attr("height", 220).attr("fill", "#555");
+
+                        _svgroot.append("text").text("Control Stage").attr("x", -260).attr("y", 35).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black")
+                            .attr("style", "cursor:default;font: 18px sans-serif;")
+                            .attr("transform", "rotate(-90)");
+                        _svgroot.append("text").text("Enforcement Stage").attr("x", -600).attr("y", 35).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black")
+                            .attr("style", "cursor:default;font: 18px sans-serif;")
+                            .attr("transform", "rotate(-90)");
+                        _svgroot.append("text").text("Works Stage").attr("x", -780).attr("y", 35).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black")
+                            .attr("style", "cursor:default;font: 18px sans-serif;")
+                            .attr("transform", "rotate(-90)");
+                        var renewtxt = "";
+                        if (monReportForm.dateType == "CaseRecDt") renewtxt = "Case Received Date:";
+                        else if (monReportForm.dateType == "InitInspDt") renewtxt = "Initial Inspection Date:";
+                        else if (monReportForm.dateType == "ConActDt") renewtxt = "Confirmed Actionable Date:";
+                        else if (monReportForm.dateType == "OrdDt") renewtxt = "Order Date:";
+
+
+                        
+                        _svgroot.append("text").text(renewtxt).attr("x", textLeft).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("Nature:").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.nature'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("Section:").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.section'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("Senior Officer:").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.seniorOfficer'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("Case Officer:").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.caseOfficer'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("From").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.startDate'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("To").attr("x", textLeft).attr("y", (rownum) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        _svgroot.append("text").text("<s:property value='monReportForm.endDate'/>").attr("x", textLeft + 90).attr("y", (rownum++) * 15).attr("dy", ".35em").attr("text-anchor", "left").attr("fill", "black");
+                        */
+
+
+                        var u_stops = [{ offset: "0%", color: "#0288D1", opacity: 1 }, { offset: "100%", color: "#0288D1", opacity: 1 }];
+                        defLinearGradient("gradientnochilds", "0%", "0%", "0%", "100%", u_stops);
+                        var u_stops = [{ offset: "0%", color: "#0288D1", opacity: 1 }, { offset: "100%", color: "#0288D1", opacity: 1 }];
+                        defLinearGradient("gradientchilds", "0%", "0%", "0%", "100%", u_stops);
+
+                        defBoxShadow("boxShadow");
+                        zm.translate([parseInt(u_childwidth + ((width - u_childwidth * 2) / 2) - _margin.left / 2), 20]);
+                        _root.x0 = 0;
+                        _root.y0 = height / 2;
+                        _root.children.forEach(collapse);
+                        update(_root);
+                        d3.select(id).style("height", height + _margin.top + _margin.bottom);
+                    }; return { initTree: initTree };
+            })();
+        function downloadsvg() {
+            var svg = document.getElementsByTagName("svg")[0];
+            var serializer = new XMLSerializer();
+            var source = serializer.serializeToString(svg);
+            if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+                source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+            if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+                source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+            }
+            source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+            var url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+            document.getElementById("link").href = url;
+        }
+
+    </script>
+
+</head>
+
+
+
+<body>
+
+    <table class="listTable hide" style="width:600px;">
+        <tbody>
+            <tr><th>Nature:	</th>						<td><s:property value="monReportForm.nature" /></td><th>Section:</th>						<td><s:property value="monReportForm.section" /></td></tr>
+            <tr><th>Senior Officer:</th>				<td><s:property value="monReportForm.seniorOfficer" /></td><th>Case Officer:</th>					<td><s:property value="monReportForm.caseOfficer" /></td></tr>
+            <tr><th>Reporting Period based on:</th>		<td><s:property value="monReportForm.dateType" /></td><th>From</th>					<td><s:property value="monReportForm.startDate" /></td><th>To</th>						<td><s:property value="monReportForm.endDate" /></td></tr>
+        </tbody>
+    </table>
+
+    <a style="display:none;" id="link"></a><div id="body"></div>
+    <div id="listDialog" style="display:none; width:800px"></div>
+    <s:hidden id="nature" name="monReportForm.nature" />
+    <s:hidden id="section" name="monReportForm.section" />
+    <s:hidden id="seniorOfficer" name="monReportForm.seniorOfficer" />
+    <s:hidden id="caseOfficer" name="monReportForm.caseOfficer" />
+    <s:hidden id="dateType" name="monReportForm.dateType" />
+    <s:hidden id="startDate" name="monReportForm.startDate" />
+    <s:hidden id="endDate" name="monReportForm.endDate" />
+    <script type="text/javascript">
+        
+
+        
+        var u_data =
+        {
+            id: "node__A", nodeId: "A", desc: "Report Received", children: [
+                {
+                    id: "node__B", nodeId: "B", desc: "O/S Case", children: [
+                        { id: "node__D", nodeId: "D", desc: "Overdue case" }
+                        , { id: "node__E", nodeId: "E", desc: "Non-overdue case" }
+                    ]
+                }
+                , {
+                    id: "node__C", nodeId: "C", desc: "Non-O/S Case", children: [
+                        {
+                            id: "node__F", nodeId: "F", desc: "Actionable Case", children: [
+                                {
+                                    id: "node__TEMP1", nodeId: "TEMP1", desc: "", children: [
+                                        {
+                                            id: "node__TEMP2", nodeId: "TEMP2", desc: "", children: [
+                                                {
+                                                    id: "node__H", nodeId: "H", desc: "Order Issued", children: [
+                                                        {
+                                                            id: "node__J", nodeId: "J", desc: "Order overdue", children: [
+                                                                { id: "node__L", nodeId: "L", desc: "Warning Letter Issued" }
+                                                                , { id: "node__M", nodeId: "M", desc: "LS Referred" }
+                                                                ,
+                                                                {
+                                                                    id: "node__TEMP3", nodeId: "TEMP3", desc: "", children: [
+                                                                        { id: "node__N", nodeId: "N", desc: "GC Initiated" }
+                                                                    ]
+                                                                }
+                                                                , { id: "node__O", nodeId: "O", desc: "Others" }
+                                                            ]
+                                                        }
+                                                        , { id: "node__K", nodeId: "K", desc: "Order not overdue" }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                                , {
+                                    id: "node__I", nodeId: "I", desc: "Order not yet Issued", children: [
+                                        { id: "node__P", nodeId: "P", desc: "Within 4 month" }
+                                        , { id: "node__T", nodeId: "T", desc: "over 4 month" }
+                                    ]
+                                }
+                            ]
+                        }
+                        , { id: "node__G", nodeId: "G", desc: "Blank/ Undetermined Case" }
+                        , { id: "node__X", nodeId: "X", desc: "Non-Actionable Case" }
+                    ]
+                }
+            ]
+        };
+
+        var xxx = {
+            "id": "node__8a85935f35c2a0500135c2b0497b005c",
+            "nodeId": "8a85935f35c2a0500135c2b0497b005c",
+            "desc": "8a8593",
+            "children": [
+                {
+                    "id": "node__8a85935f35c2a0500135c2b0663b005d",
+                    "nodeId": "8a85935f35c2a0500135c2b0663b005d",
+                    "desc": "8a8593",
+                    "children": [
+                        {
+                            "id": "node__8a85bda666a0839b016705fa9b280883",
+                            "nodeId": "8a85bda666a0839b016705fa9b280883",
+                            "desc": "8a8593",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "node__8a85bda639f6b24d0139f73aa6e10013",
+                    "nodeId": "8a85bda639f6b24d0139f73aa6e10013",
+                    "desc": "8a8593",
+                    "children": [
+                        {
+                            "id": "node__8a85bda639f6b24d013a2b1f075e7de4",
+                            "nodeId": "8a85bda639f6b24d013a2b1f075e7de4",
+                            "desc": "8a8593",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "node__8a85bda639f6b24d0139f73ac0980014",
+                    "nodeId": "8a85bda639f6b24d0139f73ac0980014",
+                    "desc": "8a8593",
+                    "children": []
+                },
+                {
+                    "id": "node__8a85bda647d77bc20149a7d7d4757db7",
+                    "nodeId": "8a85bda647d77bc20149a7d7d4757db7",
+                    "desc": "8a85bd",
+                    "children": [
+                        {
+                            "id": "node__8a85bda65580789701572782ed437675",
+                            "nodeId": "8a85bda65580789701572782ed437675",
+                            "desc": "8a85bd",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "node__8a85bda64e2f3ba8014f3f85c6a167d7",
+                    "nodeId": "8a85bda64e2f3ba8014f3f85c6a167d7",
+                    "desc": "8a85bd",
+                    "children": [
+                        {
+                            "id": "node__8a85bda66101c69d0161ff8b57141526",
+                            "nodeId": "8a85bda66101c69d0161ff8b57141526",
+                            "desc": "8a85bd",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "node__8a85bda66101c69d0161d1056f8d2480",
+                    "nodeId": "8a85bda66101c69d0161d1056f8d2480",
+                    "desc": "8a85bd",
+                    "children": [
+                        {
+                            "id": "node__8a85bda666a0839b01670be55f824ae1",
+                            "nodeId": "8a85bda666a0839b01670be55f824ae1",
+                            "desc": "8a85bd",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "node__8a85bda6638c99000163b4d46bab3da2",
+                    "nodeId": "8a85bda6638c99000163b4d46bab3da2",
+                    "desc": "8a85bd",
+                    "children": [
+                        {
+                            "id": "node__8a85bda6638c99000163b4d4c7133da3",
+                            "nodeId": "8a85bda6638c99000163b4d4c7133da3",
+                            "desc": "8a8593",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        };
+
+
+
+
+
+
+        //orgChart.initTree({ id: "#body", data: u_data, modus: "line" });
+
+        domReady(function () {
+            let data;
+            req("AjaxTeamData", null, function (rsp) {
+                data = jData(rsp);
+                console.log(rsp);
+                console.log(u_data);
+                console.log(data);
+                orgChart.initTree({ id: "#body", data: xxx, modus: "line" });
+            });
+        });
+
+
+        /*loadNode("A");
+        //loadNode("B");
+        loadNode("C");
+        //loadNode("D");
+        loadNode("E");
+        loadNode("F");
+        loadNode("G");
+        loadNode("H");
+        loadNode("I");
+        //loadNode("J");
+        loadNode("K");
+        loadNode("L");
+        loadNode("M");
+        loadNode("N");
+        loadNode("O");
+        loadNode("P");
+        loadNode("T");
+        var loadedNode = {};
+
+        function loadNode(node) {
+            $.ajax({
+                url: "ajaxMonRptNode.do"
+                , cache: false
+                , async: true
+                , dataType: "json"
+                , data: {
+                    "monReportForm.node": node
+                    , "monReportForm.nature": domId("nature").value
+                    , "monReportForm.section": domId("section").value, "monReportForm.seniorOfficer": domId("seniorOfficer").value, "monReportForm.caseOfficer": domId("caseOfficer").value
+                    , "monReportForm.dateType": domId("dateType").value, "monReportForm.startDate": domId("startDate").value, "monReportForm.endDate": domId("endDate").value
+                }
+                , type: "post", traditional: true
+                , error: function () { alert("Failed to load data"); }
+                , success: function (d) {
+                    setNodeDisplay(d, node);
+                }
+            });
+        }
+        */
+        /*function setNodeDisplay(d, node) {
+            if (d != null && d.total != null) {
+                d3.select("#vnode__" + node).text(d.total);
+                domId("vnode__" + node).setAttribute("fill", "#9f9");
+                loadedNode[node] = d.total;
+            } else {
+                d3.select("#vnode__" + node).text("...");
+                domId("vnode__" + node).setAttribute("fill", "red");
+                loadedNode[node] = 0;
+            }
+            skipLoadcheck();
+        }
+        function skipLoadcheck() {
+            if (loadedNode["B"] == null && loadedNode["A"] >= 0 && loadedNode["C"] >= 0) {
+                setNodeDisplay({ total: loadedNode["A"] - loadedNode["C"] }, "B")
+            }
+            if (loadedNode["J"] == null && loadedNode["H"] >= 0 && loadedNode["K"] >= 0) {
+                setNodeDisplay({ total: loadedNode["H"] - loadedNode["K"] }, "J")
+            }
+            if (loadedNode["D"] == null && loadedNode["B"] >= 0 && loadedNode["E"] >= 0) {
+                setNodeDisplay({ total: loadedNode["B"] - loadedNode["E"] }, "D")
+            }
+            if (loadedNode["X"] == null && loadedNode["C"] >= 0 && loadedNode["F"] >= 0) {
+                setNodeDisplay({ total: loadedNode["C"] - loadedNode["F"] }, "X")
+            }
+        }*/
+        var listDialog = domId("listDialog");
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1049 @@
+﻿@model MWMS2.Areas.WarningLetter.Models.WLDisplayModel
+
+<script>
+    $(document).ready(function () {
+
+      
+
+        function updateOffenseTextArea() {
+            var allVals = [];
+            $('.v_Offense_Type_CheckBox:checked').each(function () {
+                allVals.push($(this).val() + "<br/>");
+            });
+
+            $('#Confirm_Offense').html(allVals);
+        }
+        function updateAttachmentTextArea() {
+            var files = $('#Attachment').prop("files");
+            var names = $.map(files, function (val) { return val.name + "<br/>"; });
+            $('#Confirm_Attachment').html(names);
+        }
+        $('#ConfirmPage').click(function () {
+
+            // validation
+
+            var l = $('#Subject').val();
+            $('#Confirm_Subject').text(l);
+
+            var l = $('#RegNo').val();
+            $('#Confirm_RegNo').text(l);
+
+            var l = $('input[name="DISPLAY_CATEGORY"]:checked').val();
+
+            $('#Confirm_Cat').text(l);
+
+
+            var l = $('#Con_Name_Eng').val();
+            $('#Confirm_Con_Name_Eng').text(l);
+
+            var l = $('#Con_Name_Chi').val();
+            $('#Confirm_Con_Name_Chi').text(l);
+
+
+            var l = $('.WLConStatus_RB:checked').val();
+            $('#Confirm_WLConStatus').text(l);
+
+
+            var l = $('#AS_Name_Eng option:selected').text();
+            $('#Confirm_AS_Name_Eng').text(l);
+
+
+            var l = $('.AS_Status_RB:checked').val();
+            $('#Confirm_AS_Status').text(l);
+
+        
+
+            
+            var l = $('#Related').val();
+            $('#Confirm_Related_to').text(l);
+
+            updateOffenseTextArea();
+
+
+            var l = $('#v_IssuedDate').val();
+            $('#Confirm_Issued_Date').text(l);
+
+            var l = $('#SectUnit').val();
+            $('#Confirm_SectUnit').text(l);
+
+
+            var l = $('#Source').val();
+            $('#Confirm_Source').text(l);
+
+            var l = $('#Ref4').val();
+            $('#Confirm_Ref4').text(l);
+
+            var l = $('#Ref2').val();
+            $('#Confirm_Ref2').text(l);
+
+
+            var l = $('#Remark').val();
+            $('#Confirm_Remark').text(l);
+
+            updateAttachmentTextArea();
+
+            $('.InputDataDiv').css("display", "none");
+            $('.ConfirmDiv').css("display", "block");
+        }
+        );
+
+        $('#BackToBeforePage').click(function () {
+
+            $('.InputDataDiv').css("display", "block");
+            $('.ConfirmDiv').css("display", "none");
+        }
+        );
+
+        $('#Confirm').click(function () {
+            req("WNSubmitValidation", "inputForm", function (data) {
+                console.log(data);
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    var inputForm = domId("inputForm");
+                    inputForm.submit();
+                }
+                else {
+                    $("#BackToBeforePage").click();
+                    console.log(data.Message[0]);
+                    if (data.Message[0] != null) {
+                        alert(data.Message[0]);
+                    }
+                    showErrorMessage(data.ErrorMessages);
+                }
+            });
+        });
+        getName();
+
+        $('#AS_Name_Eng').on('change', function () {
+
+            if (this.selectedIndex != 0) {
+            }
+            $.ajax({
+                type: "POST",
+                url: 'GET_AS_STATUS',
+                data: {
+
+                    RegNo: $('#RegNo').val(),
+                    idx: this.selectedIndex
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.Status == "Active") {
+                        $('#WLASStatusActive').prop('checked', true);
+                        $('#WLASCStatusActive').prop('checked', true);
+                        document.getElementsByName("W_WL.AS_STATUS")[0].value = "Active";
+                    }
+                    else if (data.Status != null) {
+                        $('#WLASStatusInActive').prop('checked', true);
+                        $('#WLASCStatusInActive').prop('checked', true);
+                        document.getElementsByName("W_WL.AS_STATUS")[0].value = "Inactive";
+                    }
+                }
+            });
+
+        });
+        document.getElementById("RegNo").onblur = function () { getName(); };
+
+        function getName() {
+
+            if ($('#RegNo').val()) {
+
+                $('#ConfirmPage').prop('disabled', true);
+
+                var temp = $('#RegNo').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'GET_CON_IND_NAME',
+                    data: {
+
+                        RegNo: $('#RegNo').val()
+                    },
+                    success: function (data) {     
+                        if (data.EnglishName == "Invalid") {
+                            console.log(data.Data);
+                            document.getElementById("RegNoErrMsg").textContent = data.ChineseName;
+                            $("#RegNoErrMsg").show();
+                        }
+                        else {
+                            document.getElementById("RegNoErrMsg").textContent = "";
+                            $("#RegNoErrMsg").hide();
+                        }
+                        $('#ConfirmPage').prop('disabled', false);
+
+                        if (data.EnglishName != undefined && data.EnglishName != "Invalid") {
+                            if ($('#RegNo').val().indexOf("MWC(W)") > -1) {
+                                $('#CatI').prop('checked', true);
+                                document.getElementsByName("W_WL.CATEGORY")[0].value = "Individual";
+
+                            }
+                            else if ($('#RegNo').val().indexOf("MWC ") > -1 || $('#RegNo').val().indexOf("SC") > -1 || $('#RegNo').val().indexOf("GBC ") > -1) {
+
+                                $('#CatC').prop('checked', true);
+                                document.getElementsByName("W_WL.CATEGORY")[0].value = "Company";
+
+                            }
+                            else {
+                                $('#CatP').prop('checked', true);
+                                document.getElementsByName("W_WL.CATEGORY")[0].value = "Professional";
+                            }
+
+                        }
+                        else {
+                            document.getElementsByName("W_WL.CATEGORY")[0].value = "";
+                            $('#CatI').prop('checked', false);
+                            $('#CatC').prop('checked', false);
+                            $('#CatP').prop('checked', false);
+                        }                        
+                        if (data.ChineseName == undefined || data.ChineseName == "Invalid certification no.") {
+                            document.getElementById('Con_Name_Chi').value = "";
+                        }
+                        else {
+                            document.getElementById('Con_Name_Chi').value = data.ChineseName;
+                        }
+                        
+                        if (data.EnglishName == undefined || data.EnglishName == "Invalid") {
+                            document.getElementById('Con_Name_Eng').value = "";
+                        }
+                        else {
+                            document.getElementById('Con_Name_Eng').value = data.EnglishName;
+                        }
+                        if (data.CompStatus == "Active") {
+                            $('#WLConStatusActive').prop('checked', true);
+                            $('#COM_Current_Status_curr').prop('checked', true);
+                            document.getElementsByName("W_WL.COMP_CONTRACTOR_STATUS")[0].value = "Active";
+                        }
+                        else {
+                            $('#WLConStatusInActive').prop('checked', true);
+                            $('#COM_Current_Status_not_curr').prop('checked', true);
+                            document.getElementsByName("W_WL.COMP_CONTRACTOR_STATUS")[0].value = "Inactive";
+
+                        }
+                        console.log(data.Status + "***");
+                        if (data.Status == "Active") {
+                            $('#WLASStatusActive').prop('checked', true);
+                            $('#WLASCStatusActive').prop('checked', true);
+
+                            document.getElementsByName("W_WL.AS_STATUS")[0].value = "Active";
+                        }
+                        else if (data.Status != null) {
+                            $('#WLASStatusInActive').prop('checked', true);
+                            $('#WLASCStatusInActive').prop('checked', true);
+
+                            document.getElementsByName("W_WL.AS_STATUS")[0].value = "Inactive";
+
+                        }
+                        if (data.EnglishName == "Invalid") {
+                            document.getElementById("CatP").checked = false;
+                            document.getElementById("CatC").checked = false;
+                            document.getElementById("CatI").checked = false;
+                            document.getElementById("CatP").disabled = true;
+                            document.getElementById("CatC").disabled = true;
+                            document.getElementById("CatI").disabled = true;
+                            // company/ind
+                            document.getElementById("WLConStatusActive").checked = false;
+                            document.getElementById("WLConStatusInActive").checked = false;
+                            document.getElementById("COM_Current_Status_curr").checked = false;
+                            document.getElementById("COM_Current_Status_not_curr").checked = false;
+                            // as
+                            document.getElementById("WLASStatusActive").checked = false;
+                            document.getElementById("WLASCStatusActive").checked = false;
+                            document.getElementById("WLASStatusInActive").checked = false;
+                            document.getElementById("WLASCStatusInActive").checked = false;
+                            document.getElementsByName("W_WL.AS_STATUS")[0].value = "";
+                        }
+
+                        var temp_name = data.AS_NAME_List;
+
+                        $("#AS_Name_Eng").empty();
+
+                        $.each(temp_name, function (i) {
+                            var selected = "";          
+                            if (data.AS_UUID_LIST[i] == "@Model.W_WL.AS_UUID") {
+                                selected = "selected";
+                            }
+                            var optionhtml = '<option ' + selected + ' value="' +
+                                data.AS_UUID_LIST[i] + '">' + temp_name[i] + '</option>';
+                            $("#AS_Name_Eng").append(optionhtml);
+                            $("#AS_Name_Eng").trigger('change');
+                        });
+                    }
+                })
+            }
+
+
+
+        }
+    });
+
+
+
+
+</script>
+<form id="inputForm" method="post" action="WNCreate" enctype="multipart/form-data">
+
+    @if (Model.ErrorMessage != null)
+    {
+        <script>
+                alert('@Model.ErrorMessage');
+        </script>
+    }
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.W_WL.UUID)
+        <div id="" class="InputDataDiv displayForm">
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">    Title <span class="asterix">*</span>:</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(model => model.W_WL.SUBJECT, "", new { @class = "form-control", @disabled = "disabled", style = "max-width:400px", id = "Subject" })
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panelHeader">Registration Information </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l6 m12 s12">    Registration No. <span class="asterix">*</span>: <span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.EditorFor(model => model.W_WL.REGISTRATION_NO, new { htmlAttributes = new { @class = "form-control", id = "RegNo", onblur = "" } })
+                        @Html.ValidationMessageFor(model => model.W_WL.REGISTRATION_NO, "", new { @class = "text-danger" })
+                        <span class="text-danger" id="RegNoErrMsg"></span>
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l3 m12 s12">    Category :<span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.HiddenFor(x => x.W_WL.CATEGORY)
+                        @Html.RadioButtonFor(x => x.DISPLAY_CATEGORY, "Professional", new { disabled = "disabled", id = "CatP", @class = "CATEGORY" }) Professional<br />
+
+                        @Html.RadioButtonFor(x => x.DISPLAY_CATEGORY, "Company", new { disabled = "disabled", id = "CatC", @class = "CATEGORY" }) Company<br />
+
+                        @Html.RadioButtonFor(x => x.DISPLAY_CATEGORY, "Individual", new { disabled = "disabled", id = "CatI", @class = "CATEGORY" }) Individual <br />
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:center"> Name</div>
+
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">    Status as at WL Created</div>
+
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left">    Current Status</div>
+
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l4 m12 s12">  Professional/ Company/ Individual  :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+
+                    <div class="w3-col l8 m12 s12">
+                        @Html.TextBoxFor(model => model.W_WL.COMP_CONTRACTOR_NAME_ENG, new { @readonly = "readonly", id = "Con_Name_Eng", placeholder = "English" })
+
+                    </div>
+
+                    <div class="w3-col l8 m12 s12">
+                        @Html.TextBoxFor(model => model.W_WL.COMP_CONTRACTOR_NAME_CHI, new { @readonly = "readonly", id = "Con_Name_Chi", placeholder = "Chinese" })
+
+                    </div>
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left;background-color:#EFEFEF">
+                        @Html.HiddenFor(model => model.W_WL.COMP_CONTRACTOR_STATUS)
+                        @Html.RadioButtonFor(x => x.DISPLAY_COMP_CONTRACTOR_STATUS, "Active", new { disabled = "disabled", id = "WLConStatusActive", @class = "WLConStatus_RB" }) Active<br />
+                        @Html.RadioButtonFor(x => x.DISPLAY_COMP_CONTRACTOR_STATUS, "Inactive", new { disabled = "disabled", onclick = "return false", id = "WLConStatusInActive", @class = "WLConStatus_RB" }) Inactive<br />
+
+                        <span class="w3-hide-medium w3-hide-small">&nbsp;</span>
+                    </div>
+
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left;background-color:#EFEFEF">
+
+                        @{
+                            string isCCurrent = "";
+                            string IsCInactive = "";
+                            if (Model.ComCurrentStatus == "Active")
+                            {
+                                isCCurrent = "checked";
+                            }
+                            else
+                            {
+                                IsCInactive = "checked";
+                            }
+
+
+                        }
+                        <input type="radio" @isCCurrent id="COM_Current_Status_curr" value="Active" disabled="disabled" class="WLConStatus_RB" name="COM_Current_Status" /> Active<br />
+                        <input type="radio" @IsCInactive id="COM_Current_Status_not_curr" value="Inactive" disabled="disabled" class="WLConStatus_RB" name="COM_Current_Status" /> Inactive<br />
+                        <span class="w3-hide-medium w3-hide-small">&nbsp;</span>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l4 m12 s12">    Authorized Signatory of Company :</div>
+
+                    <div class="w3-col l8 m12 s12">
+                        @{
+                            List<SelectListItem> AuthSignList = new List<SelectListItem>();
+                            AuthSignList.Add(new SelectListItem
+                            {
+                                Text = "",
+                                Value = "",
+                                Selected = true
+                            });
+
+
+                        }
+                        @Html.DropDownListFor(model => model.W_WL.AUTHORIZED_SIGNATORY_NAME_ENG, AuthSignList, new { style = "width:auto", id = "AS_Name_Eng" })
+
+                    </div>
+
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left;background-color:#EFEFEF">
+                        @Html.HiddenFor(model => model.W_WL.AS_STATUS)
+                        @Html.RadioButtonFor(x => x.DISPLAY_AS_STATUS, "Current", new { @disabled = "disabled", id = "WLASStatusActive", @class = "AS_Status_RB" }) Current AS<br />
+                        @Html.RadioButtonFor(x => x.DISPLAY_AS_STATUS, "Removed", new { @disabled = "disabled", id = "WLASStatusInActive", @class = "AS_Status_RB" }) Removed AS<br />
+
+                    </div>
+
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    <div class="w3-col l12 m12 s12" style="text-align:left;background-color:#EFEFEF;">
+                        @{
+                            string isCurrent = "";
+                            string IsInactive = "";
+                            if (Model.ASCurrentStatus == "Active")
+                            {
+                                isCurrent = "checked";
+                            }
+                            else if (Model.ASCurrentStatus != null)
+                            {
+                                IsInactive = "checked";
+                            }
+                        }
+                        <input type="radio" @isCurrent value="Current" disabled="disabled" id="WLASCStatusActive" class="AS_Status_RB" name="AS_Current_Status" /> Current AS<br />
+                        <input type="radio" @IsInactive value="Removed" disabled="disabled" id="WLASCStatusInActive" , class="AS_Status_RB" name="AS_Current_Status" /> Removed AS<br />
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panelHeader">Offence</div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div style="display:none"></div>
+                    <div class="w3-col l4 m12 s12">
+                        <b> <input type="checkbox" name="select_all_S58" id="select_all_S58" value="select_all" /> <label for="select_all_S58">Under s58 :</label></b>
+                        <div class="w3-row hr"></div>
+                        @{
+                            try
+                            {
+                                foreach (var item in Model.GetWLOffenseType())
+                                {
+                                    if (item.TYPE == "Under s58")
+                                    {
+                                        var isSelectedOffense = "";
+                                        if (Model.SelectedOffense.Select(x => x.WL_TYPE_OF_OFFENSE_ENG).Contains(item.DESCRIPTION_ENG))
+                                        {
+                                            isSelectedOffense = "checked";
+                                        }
+                                        <input type="checkbox" @isSelectedOffense class="v_Offense_Type_CheckBox OffenseS58"
+                                               name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG"
+                                               id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                            <br />
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                        }
+                    </div>
+                    <div style="display:none"></div>
+                    <div class="w3-col l4 m12 s12">
+                        <b><input type="checkbox" name="select_all_BO" id="select_all_BO" value="select_all" /><label for="select_all_BO">Under BO :</label></b>
+                        <div class="w3-row hr"></div>
+                        @{
+                            try
+                            {
+                                foreach (var item in Model.GetWLOffenseType())
+                                {
+                                    if (item.TYPE == "Under BO")
+                                    {
+                                        var isSelectedOffense = "";
+                                        if (Model.SelectedOffense.Select(x => x.WL_TYPE_OF_OFFENSE_ENG).Contains(item.DESCRIPTION_ENG))
+                                        {
+                                            isSelectedOffense = "checked";
+                                        }
+                                        <input type="checkbox" @isSelectedOffense class="v_Offense_Type_CheckBox OffenseBO"
+                                               name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG"
+                                               id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                            <br />
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                        }
+                    </div>
+                    <div style="display:none"></div>
+                    <div class="w3-col l4 m12 s12">
+                        <b><input type="checkbox" name="select_all_MBIS" id="select_all_MBIS" value="select_all" /><label for="select_all_MBIS">Under MBIS/MWIS :</label> </b>
+                        <div class="w3-row hr"></div>
+                        @{
+                            try
+                            {
+                                foreach (var item in Model.GetWLOffenseType())
+                                {
+                                    if (item.TYPE == "Under MBIS/MWIS")
+                                    {
+                                        var isSelectedOffense = "";
+                                        if (Model.SelectedOffense.Select(x => x.WL_TYPE_OF_OFFENSE_ENG).Contains(item.DESCRIPTION_ENG))
+                                        {
+                                            isSelectedOffense = "checked";
+                                        }
+                                        <input type="checkbox" @isSelectedOffense class="v_Offense_Type_CheckBox OffenseMBIS"
+                                               name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG"
+                                               id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+
+                                            <br />
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+
+
+            <div class="panelHeader">Irregularities</div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div style="display:none"></div>
+                    <div class="w3-col l8 m6 s12">
+                        <b>Description</b>
+                    </div>    <div style="display:none"></div>
+                    <div class="w3-col l4 m6 s12">
+                        <b> Performance Point</b>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div style="display:none"></div>
+
+                    <div class="w3-col l12 m12 s12">
+                        <b> <label for="">Technical :</label> </b>
+
+
+                        <div class="w3-row hr"></div>
+                        <div class="w3-col l12 m12 s12">
+                            @{
+                                try
+                                {
+                                    if (Model.IrrTechType != null)
+                                    {
+                                        foreach (var item in Model.IrrTechType)
+                                        {
+                                            if (string.IsNullOrWhiteSpace(item.CODE) || item.CODE == "T2")
+                                            {
+                                                if (item.CODE == "T2")
+                                                {
+                                                    <div class="w3-col l8 m12 s12">
+                                                        <text>  &nbsp</text> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                                    </div>
+                                                    <div class="w3-col l2 m12 s12">
+
+                                                    </div>
+                                                    <div class="w3-col l2 m12 s12">
+
+                                                    </div>
+                                                    foreach (var item2 in Model.IrrTechType)
+                                                    {
+                                                        if (!string.IsNullOrWhiteSpace(item2.CODE) && item2.CODE != "T2")
+                                                        {
+                                                            <div class="w3-col l8 m12 s12">
+                                                                <input type="checkbox" />
+                                                                <text>  &nbsp</text>    <text>  &nbsp</text> <label for="@item2.UUID"> @item2.DESCRIPTION_ENG</label>
+                                                            </div>
+                                                            <div class="w3-col l4 m12 s12">
+                                                                <text>@item2.REMARK</text>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="w3-col l8 m12 s12">
+                                                        <input type="checkbox" />
+                                                        <text>  &nbsp</text> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                                    </div>
+                                                    <div class="w3-col l4 m12 s12">
+                                                        <text>@item.REMARK</text>
+                                                    </div>
+                                                }
+                                                <br />
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div style="display:none"></div>
+
+                    <div class="w3-col l12 m12 s12">
+                        <b> <label for="">Procedural :</label> </b>
+
+
+                        <div class="w3-row hr"></div>
+                        <div class="w3-col l12 m12 s12">
+                            @{
+                                try
+                                {
+                                    if (Model.IrrProType != null)
+                                    {
+                                        foreach (var item in Model.IrrProType)
+                                        {
+                                            <div class="w3-col l8 m12 s12">
+                                                <input type="checkbox" />
+                                                <text>  &nbsp</text> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                            </div>
+                                            <div class="w3-col l4 m12 s12">
+                                                <text>@item.REMARK</text>
+                                            </div>
+                                            <br />
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div style="display:none"></div>
+
+                    <div class="w3-col l12 m12 s12">
+                        <b> <label for="">Miscellaneous :</label> </b>
+
+
+                        <div class="w3-row hr"></div>
+                        <div class="w3-col l12 m12 s12">
+
+                            @{ try
+                                {
+                                    if (Model.IrrMisType != null)
+                                    {
+                                        foreach (var item in Model.IrrMisType)
+                                        {
+                                            <div class="w3-col l8 m12 s12">
+                                                <input type="checkbox" />
+                                                <text>  &nbsp</text> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                            </div>
+                                            <div class="w3-col l4 m12 s12">
+                                                <text>@item.REMARK</text>
+                                            </div>
+
+                                            <br />
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write(ex.Message);
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <span style="float:right;padding-right:100px;">Total Performance Points :  <label></label></span>
+                </div>
+            </div>
+
+
+
+            <br />
+            <div class="panelHeader">Administration</div>
+            <div class="w3-row">
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l6 m12 s12"> Creation Date :</div>
+                    <div class="w3-col l6 m12 s12">
+                        @System.DateTime.Now.ToShortDateString()
+                    </div>
+                </div>
+                <div class="w3-col l6 m6 s12">
+                    <div class="w3-col l6 m12 s12">  Issued Date <span class="asterix">*</span>:</div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.TextBoxFor(x => x.IssuedDate, "", new { @class = "inputDate" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12"> Section / Unit :</div>
+                    <div class="w3-col l6 m12 s12">
+
+                        @Html.DropDownListFor(model => model.W_WL.SECTION_UNIT, Model.GetSections(), new { style = "width:auto", id = "SectUnit" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">  Case Officer(Post) :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(x => x.W_WL.CASE_OFFICER)
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Related To :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @{
+                            List<SelectListItem> RelatelistItems = new List<SelectListItem>();
+
+                            RelatelistItems.Add(new SelectListItem
+                            {
+                                Text = "MW",
+                                Value = "MW",
+
+                            });
+                            RelatelistItems.Add(new SelectListItem
+                            {
+                                Text = "VS",
+                                Value = "VS",
+
+                            });
+                            RelatelistItems.Add(new SelectListItem
+                            {
+                                Text = "MWIS",
+                                Value = "MWIS",
+
+                            });
+                            RelatelistItems.Add(new SelectListItem
+                            {
+                                Text = "Other",
+                                Value = "Other",
+
+                            });
+                        }
+                        @Html.DropDownListFor(model => model.W_WL.RELATED_TO, RelatelistItems, new { style = "width:auto", id = "Related" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row hide" id="FR4_2">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        MWIS NO. :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(x => x.W_WL.NOTICE_NO)
+                    </div>
+                </div>
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        File Reference :
+                        (4+2)
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.EditorFor(model => model.W_WL.FILE_REF_FOUR, new { htmlAttributes = new { id = "Ref4", @class = "form-control", maxlength = "4", placeholder = "XXXX", style = "max-width:150px" } })
+                        @Html.ValidationMessageFor(model => model.W_WL.FILE_REF_FOUR, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.W_WL.FILE_REF_TWO, new { htmlAttributes = new { id = "Ref2", @class = "form-control", maxlength = "2", placeholder = "xx", style = "max-width:75px" } })
+                        @Html.ValidationMessageFor(model => model.W_WL.FILE_REF_TWO, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        FOLIO NO. :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(x => x.W_WL.FOLIO)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row hide" id="MWNo">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Minor Work Submission No. :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(x => x.W_WL.MW_SUBMISSION_NO)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row hide" id="VSNo">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Validation Submission No. :
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(x => x.W_WL.MW_SUBMISSION_NO)
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Remark :<span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span>
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextAreaFor(model => model.W_WL.REMARK, new { id = "Remark" })
+                        @Html.ValidationMessageFor(model => model.W_WL.REMARK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">
+                        Attachments :
+                        (PDF)
+                    </div>
+                    <div class="w3-col l9 m12 s12">
+                        <input type="file" value="" id="Attachment" name="v_wl_file" onchange="" multiple />
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <input type="button" id="ConfirmPage" value="Next Page To Confirm" />
+                <input type="button" onclick='location.href="@Url.Action("WN","WN")"' value="Cancel" />
+
+            </div>
+        </div>
+
+    <div id="searchCriteria" style="display:none" class="ConfirmDiv displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Subject :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Subject"></label>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Registration No. :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_RegNo"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Category :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Cat"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Professional/ Company/ Individual Name(Eng) :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Con_Name_Eng"></label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Professional/ Company/ Individual Name(Chi) :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Con_Name_Chi"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Status as at WL Create :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_WLConStatus"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Authorized Signatory Name :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_AS_Name_Eng"></label>
+                </div>
+            </div>
+        </div>      
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Status of AS as at WL Create :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_AS_Status"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    MW Submission No. :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_MW_Sub_No"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    MW Items :
+                </div>
+                <div class="w3-col l9 m12 s12" style="word-wrap:break-word;">
+                
+                    <label id="Confirm_MW_Item"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    MBIS/ MWIS Related to :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Related_to"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Other Reference No (e.g. Notice No.) :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Notice_NO"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Offense :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Offense" style="word-break: break-all;"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Issued Date :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    <label id="Confirm_Issued_Date"></label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">
+                    Creation Date :
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @System.DateTime.Now.ToShortDateString()
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="w3-container footer">
+            <input type="button" onclick='location.href="@Url.Action("WL","WL")"' value="Cancel" />
+            <input type="button" id="BackToBeforePage" value="Back" />
+            <input type="button" class="ConfirmBtn" id="Confirm" value="Confirm" />
+
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+</form>

@@ -1,0 +1,46 @@
+@model MWMS2.Areas.Registration.Models.Fn06CMM_MPDisplayModel
+
+<div class="w3-row">
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.HKID) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.HKID)</div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.PASSPORT_NO) :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.PASSPORT_NO)</div>
+    </div>
+
+
+
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.TITLE_ID) :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.DropDownListFor(x => x.C_COMMITTEE_MEMBER.C_APPLICANT.TITLE_ID, Model.getTitle())</div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.GENDER) :</div>
+        <div class="w3-col l6 m6 s12 data">
+            @Html.DropDownListFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.GENDER, Model.GENDER_List)
+        </div>
+    </div>
+
+
+
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.SURNAME) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.SURNAME)</div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.GIVEN_NAME_ON_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.GIVEN_NAME_ON_ID)</div>
+    </div>
+
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.CHINESE_NAME) :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMMITTEE_MEMBER.C_APPLICANT.CHINESE_NAME)</div>
+    </div>
+
+</div>

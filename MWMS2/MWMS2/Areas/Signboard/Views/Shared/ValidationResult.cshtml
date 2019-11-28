@@ -1,0 +1,177 @@
+﻿
+@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+<script>
+    domReady(function () {
+
+        var tmp = document.getElementsByClassName("GetLetterRefuse");
+        for (var i = 0; i < tmp.length; i++) {
+            tmp.item(i);
+           
+            new atcp({
+                id: tmp.item(i).id, dataSource: "LetterRefuse", valueKey: "description", displayKey: "description", init:false
+                , columns: [{ "name": "description", "key": "description" }]
+                , onSelect: function (row) {
+                }
+            });
+        }
+
+    });
+    function RecItemToTO() {
+        if ($('#RIRTBtn').text() == "Not OK") {
+            $("#RIRTBtn").html("OK / Not OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT_TO").value = null;
+        }
+        else if ($('#RIRTBtn').text() == "OK / Not OK") {
+            $("#RIRTBtn").html("OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT_TO").value = "Y";
+        }
+        else {
+            $("#RIRTBtn").html("Not OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT_TO").value = "N";
+        }
+    }
+
+    function RecItemToPO() {
+        if ($('#RIRTPOBtn').text() == "Not OK") {
+            $("#RIRTPOBtn").html("OK / Not OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT").value = null;
+        }
+        else if ($('#RIRTPOBtn').text() == "OK / Not OK") {
+            $("#RIRTPOBtn").html("OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT").value = "Y";
+        }
+        else {
+            $("#RIRTPOBtn").html("Not OK");
+            document.getElementById("B_SV_VALIDATION_RECORD_ITEM_RESULT").value = "N";
+        }
+    }
+</script>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12 ">
+            <div class="w3-col l6 m12 s12">
+                Results of All Checking Items from TO
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.HiddenFor(x => x.B_SV_VALIDATION.RECORD_ITEM_RESULT_TO)
+                @{
+                    if (Model.B_SV_VALIDATION.RECORD_ITEM_RESULT_TO == "N")
+                    {
+                        <button onclick="RecItemToTO()" class="TOBtn" id="RIRTBtn" type="button">Not OK</button>
+                    }
+                    else if (Model.B_SV_VALIDATION.RECORD_ITEM_RESULT_TO == "Y")
+                    {
+                        <button onclick="RecItemToTO()" class="TOBtn" id="RIRTBtn" type="button">OK</button>
+                    }
+                    else
+                    {
+                        <button onclick="RecItemToTO()"  class="TOBtn" id="RIRTBtn" type="button">OK / Not OK</button>
+                    }
+                }
+
+
+            </div>
+        </div>
+
+
+    </div>
+    @if (Model.TaskType != "WF_VALIDATION_TO")
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12 ">
+                <div class="w3-col l6 m12 s12 ">
+                    Results of All Checking Items from PO
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.HiddenFor(x => x.B_SV_VALIDATION.RECORD_ITEM_RESULT)
+                    @{
+                        if (Model.B_SV_VALIDATION.RECORD_ITEM_RESULT == "N")
+                        {
+                            <button onclick="RecItemToPO()" class="POBtn" id="RIRTPOBtn" type="button">Not OK</button>
+
+                        }
+                        else if (Model.B_SV_VALIDATION.RECORD_ITEM_RESULT == "Y")
+                        {
+                            <button onclick="RecItemToPO()" class="POBtn" id="RIRTPOBtn" type="button">OK</button>
+
+                        }
+                        else
+                        {
+                            <button onclick="RecItemToPO()" class="POBtn" id="RIRTPOBtn" type="button">OK / Not OK</button>
+                        }
+                    }
+
+
+                </div>
+            </div>
+
+        </div>
+
+    }
+
+    <div class="panelHeader">
+        Recommandation
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <label style="display: inline-block;">
+             
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.VALIDATION_RESULT, "A", new { @class = "inputBigRadio", @style = " display: block;margin: 0 auto;" })
+                Accept
+
+
+            </label>
+            &nbsp;
+            &nbsp;
+            <label style="display: inline-block;">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.VALIDATION_RESULT, "R", new { @class = "inputBigRadio", @style = " display: block;margin: 0 auto;" })
+                Refuse
+            </label>
+            &nbsp;
+            &nbsp;
+            <label style="display: inline-block;">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.VALIDATION_RESULT, "W", new { @class = "inputBigRadio", @style = " display: block;margin: 0 auto;" })
+                Withdrawn
+
+
+            </label>
+            &nbsp;
+            &nbsp;
+            <label style="display: inline-block;">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.VALIDATION_RESULT, "E", new { @class = "inputBigRadio", @style = " display: block;margin: 0 auto;" })
+                Expiry
+            </label>
+
+        </div>
+
+        <div class="w3-col l6 m12 s12">
+            @Html.TextAreaFor(x => x.B_SV_VALIDATION.REMARKS)
+
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            Reason for Refuse :
+        </div>
+        <div class="w3-col l6 m12 s12">
+
+            @Html.TextAreaFor(x => x.B_SV_VALIDATION.LETTER_REASON, new { @style = "width:350px", @class = "GetLetterRefuse" })
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            Remarks :
+        </div>
+        <div class="w3-col l6 m12 s12">
+
+            @Html.TextAreaFor(x => x.B_SV_VALIDATION.LETTER_REMARKS, new { @style = "width:350px" })
+
+        </div>
+    </div>
+
+
+</div>

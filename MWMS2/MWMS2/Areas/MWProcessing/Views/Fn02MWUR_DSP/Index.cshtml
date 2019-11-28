@@ -1,0 +1,90 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DSPModel
+
+
+
+<div id="searchCriteria">
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Document from R &amp; D :</div>
+            <div class="w3-col l3 m12 s12" id="Total">
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m3 s3">Document Serial No. :</div>
+            <div class="w3-col l9 m9 s9">
+                @Html.TextBoxFor(model => model.DSN) (Scan Barcode)
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Outstanding Dcoument</button>
+        <button class=" btn btn-default" type="button"><i class="fa fa-search"></i> Confirm Delivery</button>
+    </div>
+
+</div>
+
+<br />
+
+<div class="panelHeader">
+    Summary
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    var dispatchSearch;
+
+    domReady(function () {
+        dispatchSearch = new searcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName:"Date",columnName:"DT"
+                }
+                , {
+                    displayName:"Time",columnName:"T"
+                }
+                , {
+                    displayName:"Document S/N",columnName:"DSN"
+                }
+                , {
+                    displayName:"Ref. No.",columnName:"RECORD_ID"
+                }
+                , {
+                    displayName:"Status",columnName:"STATUS"
+                }
+            ]
+            , onAfterSearch: function (r) {
+                attr('Total', 'html', r.Total)
+            }
+        }).search();
+    });
+
+    $(function () {
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) {
+                console.log("sss00");
+                dispatchSearch.search();
+            }
+        };
+    });
+
+
+</script>

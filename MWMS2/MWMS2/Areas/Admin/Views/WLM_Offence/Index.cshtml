@@ -1,0 +1,248 @@
+﻿@model MWMS2.Areas.Admin.Models.WLM_OffenceModel
+
+<div class="panelHeader">All Offense</div>
+@Html.DropDownList("tempOT", Model.OffenseType, new { @class="hide" })
+<div id="searchCriteria" class="w3-border displayForm">
+    <div id="resultPanel">
+
+    </div>
+    <div id="offenseInputFrom" style="display:none;">
+        <div class="panelHeader">
+            Add New Offense
+        </div>
+        <table class="w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Offense</th> 
+                </tr>
+            </thead>
+            <tbody id="offenseInput">
+
+            </tbody>
+        </table>
+    </div>
+   
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="btn btn-default" type="button" style="display:none;">Search</button>
+        <button id="addBtn" class=" btn btn-default" type="button" onclick="Add()"><i class="far fa-plus-square"></i>Add</button>
+        <button id="addOffenseBtn" class=" btn btn-default" type="button" style="display:none;"><i class="far fa-plus-square"></i>Add</button>
+        <button id="removeScoreBtn" class=" btn btn-default" type="button" style="display:none;">Remove</button>
+        <button id="saveBtn" class=" btn btn-default" type="button" style="display:none;">Save</button>
+        <button id="cancelBtn" class=" btn btn-default" type="button" onclick="Cancel()" style="display:none;">Cancel</button>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var offenseList;
+    domReady(function () {
+        offenseList = new searcher({
+            searchPath: "SearchAllOffence"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Type", columnName:'TYPE'
+                }
+                ,
+                {
+                    displayName: "Offense", columnName: "DESCRIPTION_ENG"
+                }
+
+                , {
+                    displayName: "", formater: function (row) {
+                        var input = dom("input");
+                        attr(input, "type", "button");
+                        attr(input, "value", "Edit");
+                        attr(input, "class", "btn btn-default");
+                        return input;
+                    }
+                    , click: function (row) {
+                        try {
+                            if (row == null)
+                                return;
+                            goTo("Detail", [{ name: "uuid", value: row.UUID },
+                                { name: "offense_name", value: row.DESCRIPTION_ENG },
+                                { name:"type" ,value:row.TYPE}])
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("Delete", "fa-trash",
+                            [{ "onclick": { parameters: { row: row }, callback: onDeleteWOT } }]
+                        );
+                    }
+                }
+                //< button class= "btn btn-default" id = "delete" name = "" value = "Delete" onclick = "javascript:DeleteValidationItem()" type = "button" > <i class="fa fa-trash"></i> Delete</button >
+
+            ]
+
+        });
+        offenseList.search();
+        attr("searchBtn", "onclick", { paraneters: {}, callback: function () { offenseList.search(); } })
+    });
+    function onDeleteWOT(d, p, e) {
+             var popuper1 = new popuper({
+            title: "Confirmation Message"
+            , message: "Are you sure you want to delete?"
+            , buttons: [
+                createButton("Yes", "fa-check", [{
+                    "onclick": {
+                        parameters: { row: p.row }, callback: function (d, p, e) {
+                            popuper1.close();
+                            attr("inputForm", "addClass", "deleting");
+                          
+                            var id = p == null || p.row == null ? null : p.row.UUID;
+                            $.post("DeleteWOT", { "uuid": id }, function (data) {
+                                console.log(data)
+                                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                    offenseList.search();
+                                }
+                            }, "json");
+                        }
+                    }
+                }, { "addClass": "w3-red" }])
+                , createButton("No", "fa-trash", [{ "onclick": { parameters: { row: p.row }, callback: function (d, p, e) { popuper1.close(); } } }])
+            ]
+        }).open();
+        
+    }
+</script>
+<script type="text/javascript">
+    domReady(function () {
+        var counter = 0;
+        var btn = document.getElementById("addOffenseBtn");
+        var form = document.getElementById("offenseInput");
+        var addInput = function () {
+            counter++;
+            var tr = document.createElement("tr");
+            var tdT = document.createElement("td");
+            var td = document.createElement("td");
+            var inputT = document.createElement("input"); 
+            var input = document.createElement("input");
+            
+            tr.id = 'tr-' + counter;
+            tr.appendChild(tdT);
+            tr.appendChild(td);
+
+
+            var selectT = document.createElement("Select");
+            selectT.innerHTML = document.getElementById("tempOT").innerHTML;
+            
+            // var option1 = document.createElement("option");
+            //option1.text = "Under s58";
+            //option1.value = "Under s58";
+            //selectT.add(option1);
+            //var option2 = document.createElement("option");
+            //option2.text = "Under BO";
+            //option2.value = "Under BO";
+            //selectT.add(option2);
+            //var option3 = document.createElement("option");
+            //option3.text = "Under MBIS/MWIS";
+            //option3.value = "Under MBIS/MWIS";
+            //selectT.add(option3);
+            @*for (var a in @Model.OffenseType)
+            {
+                option.text = a.Text;
+                option.value = a.Value;
+                select.add(option);
+
+            }*@
+            
+         
+
+
+            tdT.appendChild(selectT);
+            td.appendChild(input);
+            tdT.style = "width:23.7%";
+            td.style = "width:76.3%" ;
+            selectT.id = "type-" + counter;
+            input.id = "offense-" + counter;
+           // inputT.type = 'text';
+            input.type = 'text';
+            form.appendChild(tr);
+        };
+        btn.addEventListener('click', function () {
+            addInput();
+        }.bind(this));
+
+        $('#removeScoreBtn').click(function () {
+            if (counter == 0) {
+                alert("No more textbox to remove.");
+                return false;
+            }
+            $('#tr-' + counter).remove();
+            counter--;
+        });
+
+        $('#cancelBtn').click(function () {
+            for (i = 1; i <= counter; i++) {
+                $('#tr-' + i).remove();
+            }
+            counter = 0;
+        });
+
+        $('#saveBtn').click(function () {
+            var offenseList = new Array();
+            var typeList = new Array();
+            for (i = 1; i <= counter; i++) {
+                if ($('#offense-' + i).val() == null || $('#offense-' + i).val() == '' || $('#type-' + i).val() == null || $('#type-' + i).val() == '') {
+                    alert("Type and Offense  should not be empty.");
+                    return false;
+                }
+
+                offenseList[i - 1] = $('#offense-' + i).val();
+                typeList[i - 1] = $('#type-' + i).val();
+            }
+
+            $.ajax({
+                url: "AddNewOffence"
+                , type: "POST"
+                , data: {
+                    DESCRIPTION_ENG: offenseList
+                    ,TYPE: typeList
+                }
+                , success: function (data) {
+                    if (data != null && data.Result == "SUCCESS") {
+                        $('#offenseInputFrom').css('display', 'none');
+                        $('#addBtn').css('display', '')
+                        $('#addOffenseBtn').css('display', 'none');
+                        $('#removeScoreBtn').css('display', 'none');
+                        $('#cancelBtn').css('display', 'none');
+                        $('#saveBtn').css('display', 'none');
+                        alert(data.Message[0]);
+                        $("#searchBtn").click();
+                    }
+                    else {
+                        alert(data.Data)
+                    }
+                }
+            })
+
+        });
+
+    })
+</script>
+<script>
+    function Add() {
+        $('#addOffenseBtn').click();
+        $('#offenseInputFrom').css('display', '');
+        $('#addBtn').css('display', 'none');
+        $('#addOffenseBtn').css('display', '');
+        $('#removeScoreBtn').css('display', '');
+        $('#saveBtn').css('display', '');
+        $('#cancelBtn').css('display', '');
+
+
+    }
+    function Cancel() {
+        $('#offenseInputFrom').css('display', 'none');
+        $('#addBtn').css('display', '')
+        $('#addOffenseBtn').css('display', 'none');
+        $('#removeScoreBtn').css('display', 'none');
+        $('#saveBtn').css('display', 'none');
+        $('#cancelBtn').css('display', 'none');
+    }
+</script>

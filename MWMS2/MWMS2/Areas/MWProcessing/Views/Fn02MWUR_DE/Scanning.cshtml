@@ -1,0 +1,268 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeScanModel
+
+
+<div class="w3-border displayForm">
+    <form id="inputForm" method="post">
+        @Html.HiddenFor(model => model.P_MW_DSN.UUID)
+        @Html.HiddenFor(model => model.P_MW_DSN.DSN)
+        @Html.HiddenFor(model => model.P_MW_DSN.RECORD_ID)
+        @Html.HiddenFor(model => model.P_MW_DSN.FORM_CODE)
+        @Html.HiddenFor(model => model.P_MW_DSN.CREATED_DATE)
+        <div class="w3-border displayForm">
+            <div class="panelHeader">DSN Information</div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">DSN :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @Html.Label(Model.P_MW_DSN.DSN)
+                        @Html.HiddenFor(o=>o.P_MW_DSN.DSN)
+                        @*@Html.TextBoxFor(model=>model.P_MW_DSN.DSN)*@
+                    </div>
+                </div>
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">No.of Sub-document :</div>
+                    <div class="w3-col l9 m6 s12">
+                        <button class="btn btn-default" type="button" onclick="printBarcode(domId('P_MW_DSN_DSN').value)">Print Barcode for sub-document</button>
+                        <br />
+                        <button class="btn btn-default" type="button">Print Barcode for additional sub-document</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Form :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @Html.Label(Model.P_MW_DSN.FORM_CODE)
+                        @*@Html.TextBoxFor(model => model.P_MW_DSN.FORM_CODE)*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Submission Type :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @Html.Label(Model.P_MW_DSN.SUBMIT_TYPE)
+                        @*@Html.TextBoxFor(model => model.P_MW_DSN.SUBMIT_TYPE)*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">SSP Submitted :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @*@Html.Label(Model.P_MW_DSN.SSP_SUBMITTED)*@
+                        @Html.RadioButtonFor(model => model.P_MW_DSN.SSP_SUBMITTED, "Y", new { @id = "sspY", @class = "w3-radio" }) Yes
+                        @Html.RadioButtonFor(model => model.P_MW_DSN.SSP_SUBMITTED, "N", new { @id = "sspN", @class = "w3-radio" }) No
+                        <label id="sspPrompt" style="display:none;color:red;">Please select SSP Submitted.</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Ref.No. :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @Html.Label(Model.P_MW_DSN.RECORD_ID)
+                        @*@Html.TextBoxFor(model => model.P_MW_DSN.RECORD_ID)*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Ref.No.Barcode :</div>
+                    <div class="w3-col l9 m6 s12">
+                        @*<input type="text" />*@
+                    </div>
+                </div>
+            </div>
+            <br />
+            @*<div id="resultPanel"></div>*@
+
+            <table id="ScanDocTable" class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Document S/N
+                        </th>
+                        <th>
+                            Document Type
+                        </th>
+                        <th>
+                            Total Page
+                        </th>
+                        <th>
+                            Submission Date
+                        </th>
+                        <th>
+                            View Image
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.P_MW_SCANNED_DOCUMENTs)
+                    {
+                        <tr> 
+                            <td>
+                                @item.DSN_SUB
+                            </td>
+                            <td>
+                                @item.DOCUMENT_TYPE
+                            </td>
+                            <td>
+                                @item.PAGE_COUNT
+                            </td>
+                            <td>
+                                @item.CREATED_DATE
+                            </td>
+                            <td>
+                                @{ string path = ""; if (!string.IsNullOrEmpty(item.FILE_PATH)) { path = item.FILE_PATH.Replace('\\', '/'); } }
+                                <button class="btn btn-default" type="button" onclick="viewImage('PEM', '@path')"><i class="fa fa-file-image"></i> View</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-default" type="button" onclick="deleteScanDoc('@item.UUID.ToString()',this)"><i class="fa fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <br />
+            <div class="w3-container footer">
+                <button id="refreshBtn" class="btn btn-default" type="reset">Refresh</button>
+
+                @if (Model.P_MW_SCANNED_DOCUMENTs.Count() > 0)
+                {
+                    <button id="scanBtn" class="btn btn-default" type="button">Complete Scan</button>
+                }
+                else
+                {
+                    <button id="scanBtn" class="btn btn-default w3-gray w3-hover-gray" type="button" disabled>Complete Scan</button>
+                }
+
+                <button class="btn btn-default" onclick="goTo('Index')" type="button">Back</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script type="text/javascript">
+
+    function refreshRadio() {
+        var FormCode = $('#P_MW_DSN_FORM_CODE').val();
+        var sspY = $('#sspY');
+        var sspN = $('#sspN');
+
+        if (FormCode != "MW01" && FormCode != "MW11") {
+            sspY.attr("disabled", true);
+            sspN.attr("disabled", true);
+        }
+
+    }
+
+    function showSspPromptMessage(Isdisplay) {
+        var sspPrompt = document.getElementById('sspPrompt');
+
+        if (Isdisplay) {
+            console.log(Isdisplay);
+            sspPrompt.style.display = "";
+            alert("Please select SSP Submitted.");
+        } else {
+            sspPrompt.style.display = "none";
+        }
+
+    }
+
+    function viewImage(fileType, path) {
+        goTo(domId("rootPath").value + "/Doc/Download"
+            , [
+                { name: "fileType", value: fileType }
+                , { name: "fileUuid", value: path }
+            ]
+            , false);
+        dropClass(document.body, "bodyLoading")
+    }
+
+    function deleteScanDoc(docUuid, obj) {
+        var index = obj.parentNode.parentNode.rowIndex - 1;
+
+        var tableName = "ScanDocTable";
+        var tb = document.getElementById(tableName);
+
+        //get template data
+        var sacnDocInfo = { UUID: docUuid };
+
+        attr(tableName, "addClass", "deleting");
+        $.post("DeleteScanDoc", sacnDocInfo, function (data) {
+            attr(tableName, "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                tb.deleteRow(index + 1);
+
+                if (tb.rows.length == 1) {
+                    //disabled complete scan button
+                    var scanBtn = document.getElementById('scanBtn');
+                    scanBtn.setAttribute("disabled", "True");
+                    scanBtn.className = "btn btn-default w3-gray w3-hover-gray";
+                }
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    domReady(function () {
+        refreshRadio();
+
+        attr("scanBtn", "onclick", { parameters: {}, callback: CompleteScan });
+        attr("refreshBtn", "onclick", { parameters: {}, callback: refreshScan })
+
+        //Begin add by Chester 2019/07/16
+        function refreshScan() {
+            document.forms[0].action ="Scanning"
+            document.forms[0].submit();
+            //goTo("/MWMS2/MWProcessing/Fn02MWUR_DE/Scanning", [{ name: "P_MW_DSN.UUID", value: @Model.P_MW_DSN.UUID}]);
+            //location.reload();
+        };
+        //End add by Chester 2019/07/16
+
+        function CompleteScan(d, p, e) {
+            showSspPromptMessage(false);
+            attr("inputForm", "addClass", "saving");
+            $.post("CompleteScan", $("#inputForm").serialize(), function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo("Index", null);
+                }
+                else {
+
+                    var FormCode = $('#P_MW_DSN_FORM_CODE').val();
+
+                    if ((FormCode == "MW01" || FormCode == "MW11") && data.ErrorMessages["P_MW_DSN.SSP_SUBMITTED"]) {
+
+                        showSspPromptMessage(true);
+                    } else {
+                        showErrorMessage(data.ErrorMessages);
+                    }
+
+                    console.log(data);
+                }
+            }, "json");
+        };
+
+    });
+</script>

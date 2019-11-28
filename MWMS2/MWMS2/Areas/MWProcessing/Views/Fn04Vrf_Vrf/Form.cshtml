@@ -1,0 +1,38 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+@if (!string.IsNullOrEmpty(Model.P_MW_RECORD.S_FORM_TYPE_CODE))
+{
+    if (Model.IsSummary)
+    {
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/included/summary/mw_summary_form_new.cshtml")
+
+    }
+    else
+    {
+
+        if ((Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW01" || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW11") && (Model.P_MW_RECORD.VERIFICATION_SPO == "Y" && Model.P_MW_RECORD.SPO_COMPLETE != "Y"))
+        {
+            @Html.Partial("~/Areas/MWProcessing/Views/Verification/mw_ssp_form.cshtml")
+        }
+        else
+        {
+            @Html.Partial("~/Areas/MWProcessing/Views/Verification/mw_form" + Model.P_MW_RECORD.S_FORM_TYPE_CODE.Substring(Model.P_MW_RECORD.S_FORM_TYPE_CODE.Length - 2) + "_form_new.cshtml")
+        }
+
+    }
+}
+
+
+
+<script type="text/javascript">
+
+    domReady(function () {
+
+        new searcher({
+            searchPath: "SearchDocument"
+            , searchTable: "formInfoCheck"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>

@@ -1,0 +1,277 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+<script>
+    function ShowPBPChecking(a)
+    {
+        if (a.innerHTML == "Show All") {
+
+            $("#PBPTableBody").removeClass("hide");
+     
+            a.innerHTML = 'Show "Not OK" Only';
+        }
+        else {
+
+            $("#PBPTableBody").addClass("hide");
+            a.innerHTML = 'Show All';
+        }
+    }
+    domReady(function () {
+        if (document.getElementById("TaskType").value !== "WF_VALIDATION_SPO")
+        {
+            var tmp = document.getElementsByClassName("GetValidationClass");
+            for (var i = 0; i < tmp.length; i++) {
+                tmp.item(i);
+     
+                new atcp({
+                    id: tmp.item(i).id, dataSource: "ValidationTemplate", valueKey: "code", displayKey: "code", init: false
+                    , columns: [{ "name": "Code", "key": "code" }]
+                    , onSelect: function (row) {
+                    }
+                });
+            }
+
+        }
+
+
+    });
+
+</script>
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button onclick="ShowPBPChecking(this)" type="button">Show All</button>
+    </div>
+    <br />
+</div>
+<div style="overflow-x:auto" >
+    <table class="resultTable">
+
+
+        <thead>
+            <tr>
+                <th>
+                    PBP Checking
+                </th>
+                <th>
+                    Remarks @*<input type="button" value="OK" /> <input type="button" value="Not OK" />*@
+                </th>
+            </tr>
+        </thead>
+        <tbody class="hide"  id="PBPTableBody">
+            <tr>
+                <td colspan="2" style="background-color:rgb(91, 125, 142); color:white" >
+                    Checking of AP
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Validity of appointed AP
+                </td>
+                <td>
+
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_AP_VALID_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Signature of AP
+                    Specimen Signature:
+                    <button type="button" onclick="GetCRMImage('@Model.AP_AP.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+
+                </td>
+                <td>
+
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    AP Signature Date
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color:rgb(91, 125, 142); color:white">
+                    Checking of RSE
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Validity of appointed RSE
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RSE_VALID_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Signature of RSE
+                    Specimen Signature :
+                    <button type="button" onclick="GetCRMImage('@Model.AP_RSE.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RSE_SIGNATURE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    RSE Signature Date
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RSE_SIGNATURE_DATE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color:rgb(91, 125, 142); color:white">
+                    Checking of RGE
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    Validity of appointed RGE
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RGE_VALID_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Signature of RGE
+                    Specimen Signature :
+                    <button type="button" onclick="GetCRMImage('@Model.AP_RGE.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RGE_SIGNATURE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    RGE Signature Date
+                </td>
+                <td>
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PBP_RGE_SIGNATURE_DATE_RMK, new { @style = "width:350px", @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <br>
+    <table class="resultTable">
+
+
+        <thead>
+            <tr>
+                <th >
+                    PRC Checking
+                </th>
+                <th > 
+                    Remarks @*<input type="button" value="OK" /> <input type="button" value="Not OK" />*@
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td >
+                    Validity of appointed PRC
+                </td>
+                <td>
+                    @*"@style =width:350px",*@
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PRC_VALID_RMK, new {  @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    Capability of appointed PRC
+                </td>
+                <td  >
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PRC_CAP_RMK, new {  @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    Validity of Authorized Signatory
+                </td>
+                <td >
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PRC_AS_VALID_RMK, new {  @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Signature Of AS
+                    Specimen Signature :
+                    <button type="button" onclick="GetCRMImage('@Model.AP_PRC.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                </td>
+                <td >
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PRC_AS_SIGNATURE_RMK, new {  @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    PRC Signature Date
+                </td>
+                <td >
+                    @Html.TextAreaFor(x => x.B_SV_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE_RMK, new { @class = "GetValidationClass" })
+
+                </td>
+            </tr>
+            @*<tr>
+                <td >
+                    <br />
+                </td>
+            </tr>*@
+                <tr>
+                    <td >
+                        Results from TO
+                    </td>
+                    <td >
+                        @Html.HiddenFor(x => x.PBP_PRC_RESULT_TO)
+
+                        @{
+                            var result = @Model.PBP_PRC_RESULT_TO == "Y" ? "OK" : "Not OK";
+
+
+                            <input type="button" id="PBP_PRC_RESULT_TOBtn" class="TOBtn" onclick="toggleOkBtn(this)" value="@result" />
+
+                        }
+                    </td>
+
+                </tr>
+
+           @if(Model.TaskType!= "WF_VALIDATION_TO")
+           {
+                <tr>                  
+                    <td>
+                        Results from PO
+                    </td>
+                    <td>
+                        @Html.HiddenFor(x => x.PBP_PRC_RESULT_TO)
+
+                        @{
+                            var resultSPO = @Model.PBP_PRC_RESULT_TO == "Y" ? "OK" : "Not OK";
+
+
+                            <input type="button" class="POBtn" id="PBP_PRC_RESULT_TOBtn" onclick="toggleOkBtn(this)" value="@resultSPO" />
+
+                        }
+                    </td>
+
+                </tr>
+
+            }
+
+
+        </tbody>
+
+        </table>
+</div>

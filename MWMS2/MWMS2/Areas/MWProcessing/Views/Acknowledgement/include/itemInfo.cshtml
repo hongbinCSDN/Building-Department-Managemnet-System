@@ -1,0 +1,484 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+<div class="w3-border displayForm">
+
+    @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW06")
+    {
+        <div class="panelHeader">
+            Details of the Minor Work
+        </div>
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Item sequence
+                    </th>
+                    <th>
+                        Validated Item
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.P_MW_RECORD_ITEMs)
+                {
+                    if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "1"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "2"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "3"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "4")
+                    {
+                        <tr>
+                            <td>
+                                @((item.ORDERING + 1).ToString())
+                                &nbsp; in &nbsp;
+                                @if (item.STATUS_CODE == "FINAL")
+                                {
+                                    @item.LAST_MODIFIED_FORM_CODE
+                                }
+                                else
+                                {
+                                    @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+                                }
+                            </td>
+                            <td>
+                                @item.MW_ITEM_CODE
+                            </td>
+                            <td>
+                                @if (item.STATUS_CODE == "FINAL")
+                                {
+                                    @item.LAST_MODIFIED_FORM_CODE
+                                }
+                                else
+                                {
+                                    @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+                                }
+                            </td>
+                            <td style="white-space: normal;width: 500px;">
+                                @item.LOCATION_DESCRIPTION
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            @((item.ORDERING + 1).ToString())
+                        </td>
+                        <td>
+                            @item.MW_ITEM_CODE
+                        </td>
+                        <td>
+                            @item.STATUS_CODE
+                        </td>
+                        <td style="white-space: normal;width: 500px;">
+                            @item.LOCATION_DESCRIPTION
+                        </td>
+                        <td>
+                            @item.RELEVANT_REFERENCE
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div class="panelHeader">
+            Details of Strengthening Works
+        </div>
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Item sequence
+                    </th>
+                    <th>
+                        Minor Work item
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.P_MW_RECORD_ITEMs)
+                {
+                    if (Model.P_MW_RECORD.S_FORM_TYPE_CODE != "1"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE != "2"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE != "3"
+                        || Model.P_MW_RECORD.S_FORM_TYPE_CODE != "4")
+                    {
+                        <tr>
+                            <td>
+                                @((item.ORDERING + 1).ToString())
+                                &nbsp; in &nbsp;
+                                @if (item.STATUS_CODE == "FINAL")
+                                {
+                                    @item.LAST_MODIFIED_FORM_CODE
+                                }
+                                else
+                                {
+                                    @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+                                }
+                            </td>
+                            <td>
+                                @item.MW_ITEM_CODE
+                            </td>
+                            <td>
+                                @if (item.STATUS_CODE == "FINAL")
+                                {
+                                    @item.LAST_MODIFIED_FORM_CODE
+                                }
+                                else
+                                {
+                                    @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+                                }
+                            </td>
+                            <td style="white-space: normal;width: 500px;">
+                                @item.LOCATION_DESCRIPTION
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            @((item.ORDERING + 1).ToString())
+                        </td>
+                        <td>
+                            @item.MW_ITEM_CODE
+                        </td>
+                        <td>
+                            @item.STATUS_CODE
+                        </td>
+                        <td style="white-space: normal;width: 500px;">
+                            @item.LOCATION_DESCRIPTION
+                        </td>
+                        <td>
+                            @item.RELEVANT_REFERENCE
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="panelHeader">
+            Details of the minor work
+        </div>
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Item sequence
+                    </th>
+                    <th>
+                        Minor Work item
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Relevant Order/ Direction/ Notice No./ BD Reference No.
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.P_MW_RECORD_ITEMs)
+                {
+                    <tr>
+                        <td>
+                            @((item.ORDERING + 1).ToString())
+                        </td>
+                        <td>
+                            @item.MW_ITEM_CODE
+                        </td>
+                        <td>
+                            @item.STATUS_CODE
+                        </td>
+                        <td style="white-space: normal;width: 500px;">
+                            @item.LOCATION_DESCRIPTION
+                        </td>
+                        <td>
+                            @item.RELEVANT_REFERENCE
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+
+    @*Particulars of PBP*@
+    <table class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th colspan="4">Particulars of PBP</th>
+                <th>Result</th>
+            </tr>
+            <tr>
+                <th>PBP</th>
+                <th>Certification of Registration No.</th>
+                <th>English Name</th>
+                <th>Chinese Name</th>
+                <th>Name of PBP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE != "MW09")
+            {
+                <tr>
+                    <td>
+                        @*TBC  mwItemVersion*@
+                        @((Model.AppointedAP.IDENTIFY_FLAG == "AP" || Model.AppointedAP.IDENTIFY_FLAG == "RI") ? "AP/RI" : Model.AppointedAP.IDENTIFY_FLAG)
+
+                    </td>
+                    <td>
+                        @Model.AppointedAP.CERTIFICATION_NO
+                    </td>
+                    <td>
+                        @Model.AppointedAP.ENGLISH_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_ENGLISH_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_ENGLISH_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        @Model.AppointedAP.CHINESE_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_CHINESE_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_CHINESE_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.AppointedRSE.IDENTIFY_FLAG
+                    </td>
+                    <td>
+                        @Model.AppointedRSE.CERTIFICATION_NO
+                    </td>
+                    <td>
+                        @Model.AppointedRSE.ENGLISH_NAME
+                        @if ((!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_ENGLISH_NAME_MSG)) && Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_NAME != "NA")
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_ENGLISH_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        @Model.AppointedRSE.CHINESE_NAME
+                        @if ((!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_CHINESE_NAME_MSG)) && Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_NAME != "NA")
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_CHINESE_NAME_MSG)
+                        }
+                    </td>
+
+                    <td>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_RSE_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        @Model.AppointedRGE.IDENTIFY_FLAG
+                    </td>
+                    <td>
+                        @Model.AppointedRGE.CERTIFICATION_NO
+                    </td>
+                    <td>
+                        @Model.AppointedRGE.ENGLISH_NAME
+                        @if ((!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG)) && Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_NAME != "NA")
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        @Model.AppointedRGE.CHINESE_NAME
+                        @if ((!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG)) && Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_NAME != "NA")
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG)
+                        }
+                    </td>
+
+                    <td>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                    </td>
+
+                </tr>
+            }
+
+
+            @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW09")
+            {
+                <tr>
+                    <td>
+                        Nominator
+                    </td>
+                    <td>
+                        @Model.AppointedOther0.CERTIFICATION_NO
+                    </td>
+                    <td>
+                        @Model.AppointedOther0.ENGLISH_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        @Model.AppointedOther0.CHINESE_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                        @if (Model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_NAME == "N")
+                        {
+                            <label style="color:#FF0000;">
+                            @Model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME_MSG
+                            </label>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Nominee
+                    </td>
+                    <td>
+                        @Model.AppointedOther1.CERTIFICATION_NO
+                    </td>
+                    <td>
+                        @Model.AppointedOther1.ENGLISH_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_ENGLISH_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        @Model.AppointedOther1.CHINESE_NAME
+                        @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG))
+                        {
+                            @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PBP_RGE_INFO_CHINESE_NAME_MSG)
+                        }
+                    </td>
+                    <td>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                        <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                        @if (Model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_NAME == "N")
+                        {
+                            <label style="color:#FF0000;">
+                            @Model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_INFO_NAME_MSG
+                            </label>
+                        }
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <br />
+
+    @*Particulars of PRC*@
+    <table class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th colspan="3">Particulars of PRC</th>
+                <th>Result</th>
+                <th colspan="2">Particulars of AS</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Certification of Registration No.</td>
+                <td>
+                    English Name of PRC
+                </td>
+                <td>Chinese Name of PRC</td>
+                <td>Name of PRC</td>
+                <td>
+                    English Name of AS
+                </td>
+                <td>
+                    Chinese Name of AS
+                </td>
+                <td>
+                    Name of AS
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Model.AppointedPRC.CERTIFICATION_NO
+                </td>
+                <td style="white-space: normal;">
+                    @Model.AppointedPRC.ENGLISH_NAME
+                    @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_ENGLISH_NAME_MSG))
+                    {
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_ENGLISH_NAME_MSG)
+                    }
+                </td>
+                <td style="white-space: normal;">
+                    @Model.AppointedPRC.CHINESE_NAME
+                    @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_CHINESE_NAME_MSG))
+                    {
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_CHINESE_NAME_MSG)
+                    }
+                </td>
+                <td style="white-space: normal;">
+                    <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK     </label>
+                    <label>@Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK </label>
+                    @if (Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME == "N")
+                    {
+                        <label style="color:#FF0000;white-space: normal;">
+                        @Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME_MSG
+                        </label>
+                    }
+                </td>
+                <td style="white-space: normal;">
+                    @Model.AppointedPRC.ENGLISH_COMPANY_NAME
+                    @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_ENGLISH_NAME_MSG))
+                    {
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_ENGLISH_NAME_MSG)
+                    }
+                </td>
+                <td style="white-space: normal;">
+                    @Model.AppointedPRC.CHINESE_COMPANY_NAME
+                    @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_CHINESE_NAME_MSG))
+                    {
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_CHINESE_NAME_MSG)
+                    }
+                </td>
+                <td>
+                    <label> @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME, "O", new { @class = "w3-radio", @disabled = "true" }) OK    </label>
+                    <label> @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK</label>
+                    @if (Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME == "N")
+                    {
+                        <label style="color:#FF0000;white-space: normal;">
+                        @Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME_MSG
+                        </label>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+</div>

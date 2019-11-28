@@ -1,0 +1,364 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_MWURC_Model
+
+<div class="panelHeader">
+
+    Assign New Document S/N
+
+
+</div>
+
+<form id="newSubmissionForm" method="post">
+    <div id="searchCriteria" class="displayForm">
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Document Type :	</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.RadioButtonFor(model => model.DocType, "MWForm", new { @class = "w3-radio", onchange = "onChangeDocType(this)", @checked = true }) Form &nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.DocType, "Enquiry", new { @class = "w3-radio", onchange = "onChangeDocType(this)" }) Enquiry &nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.DocType, "Complaint", new { @class = "w3-radio", onchange = "onChangeDocType(this)" }) Complaint &nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.DocType, "Modification", new { @class = "w3-radio", onchange = "onChangeDocType(this)" }) Modification &nbsp;&nbsp;
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Form No. :	</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => model.FormNo, new { id = "FormNo", name = "FormNo", onBlur = "onBlurFormNo()", onkeyup = "InputToUpper(this)", style = "max-width:250px" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">VS for MW01 and MW03 :	</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.CheckBoxFor(model => model.VsForMW01_MW03, new { id = "isVSForm" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Ref. Number. :	</div>
+                <div class="w3-col l9 m12 s12">
+                    <input type="radio" class="w3-radio" name="TypeOfRefNo" id="RefNoNewGen" onchange="onChangeTypeOfRefNo(this)" value="newGen" checked disabled />Generate <br />
+                    <input type="radio" class="w3-radio" name="TypeOfRefNo" id="RefNoManualInput" onchange="onChangeTypeOfRefNo(this)" value="inputRefNo" disabled />Input <br />
+                    @Html.TextBoxFor(model => model.InputRefNo, new { disabled = "disabled", style = "max-width:250px" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"></div>
+                <div class="w3-col l9 m12 s12">
+                    <button class="searchButton btn btn-default" onclick="receiveNewSubmission()" type="button"><i class=""></i> Assign &amp; Print</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="panelHeader">Summary</div>
+
+
+
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="1">Date.</th>
+                <th colspan="1">Time</th>
+                <th colspan="1">Document S/N</th>
+                <th colspan="1">Ref. No.</th>
+                <th colspan="1">Form No.</th>
+                <th colspan="1"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <text>
+                @{
+                    var tempCount = 0;
+                    if (Model.submissionList != null)
+                    {
+                        for (int i = 0; i < Model.submissionList.Count(); i++)
+                        {
+                            tempCount = i;
+                            if (i == Model.submissionList.Count() - 1)
+                            {
+                                @Html.HiddenFor(x => x.ToBePrintDSN)
+                                @Html.HiddenFor(x => x.ToBePrintSubmissionNo)
+                                @Html.HiddenFor(x => x.ToBePrintFormNo)
+
+                            }
+                            <tr style="height:40px;">
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.submissionList[i].RecDate, new { style = "display: none;" })
+                                    @(Model.submissionList[i].RecDate)
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.submissionList[i].Time, new { style = "display: none;" })
+                                    @(Model.submissionList[i].Time)
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.submissionList[i].Dsn, new { style = "display: none;" })
+                                    @(Model.submissionList[i].Dsn)
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.submissionList[i].RefNo, new { style = "display: none;" })
+                                    @(Model.submissionList[i].RefNo)
+
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(Model => Model.submissionList[i].FormNo, new { style = "display: none;" })
+                                    @(Model.submissionList[i].FormNo)
+                                </td>
+
+                                <td>
+                                    @{
+                                        if (!String.IsNullOrEmpty(Model.submissionList[i].FormNo) && !("BA16".Equals(Model.submissionList[i].FormNo)))
+                                        {
+                                            <button class="searchButton btn btn-default" onclick="onClickAck('@Model.submissionList[i].Dsn')" type="button"><i class=""></i>Ack Letter</button>
+                                            <button class="searchButton btn btn-default" onclick="onClickDR('@Model.submissionList[i].Dsn','@Model.submissionList[i].FormNo')" type="button">
+                                                <i class=""></i>
+                                                Direct Return
+                                                @Model.submissionList[i].FormNo
+                                            </button>
+                                        }
+                                        else if ("BA16".Equals(Model.submissionList[i].FormNo))
+                                        {
+                                            <button class="searchButton btn btn-default" onclick="onClickMod('@Model.submissionList[i].Dsn')" type="button"><i class=""></i>Modification</button>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </text>
+        </tbody>
+    </table>
+    <br />
+</form>
+
+<div class="panelHeader" style="display:none">Summary</div>
+<div id="resultPanel" style="display:none"></div>
+
+<script type="text/javascript">
+    //function PrintDSN(dsn, copy) {
+    //    console.log("DSN: " + dsn + ", copy: " + copy);
+    //    window.location = ("MWMS2PrinterAgent:" + dsn + "_" + copy);
+    //}
+    function PrintDSN(dsn) {
+  
+        window.location = ("MWMS2PrinterAgent:" + dsn);
+    }
+
+    domReady(function () {
+        setPageDefaultValue();
+
+        //console.log("DSN : " + document.getElementById("ToBePrintDSN").value);
+        //console.log("Form No.: " + document.getElementById("ToBePrintFormNo").value);
+        //console.log("MW No.: " + document.getElementById("ToBePrintSubmissionNo").value);
+
+        if (document.getElementById("ToBePrintDSN") != null && document.getElementById("ToBePrintSubmissionNo") != null) {
+           // PrintDSN(document.getElementById("ToBePrintDSN").value, "2");
+
+            
+       // }
+      //  if (document.getElementById("ToBePrintSubmissionNo") != null) {
+            var copy = "1";
+            if (document.getElementById("ToBePrintFormNo").value == "MW01" || document.getElementById("ToBePrintFormNo").value == "MW03" || document.getElementById("ToBePrintFormNo").value == "MW05") {
+                copy = "3";
+            }
+            PrintDSN(document.getElementById("ToBePrintDSN").value + "_2" + "_"
+                + document.getElementById("ToBePrintSubmissionNo").value + "_" + copy);
+          //  PrintDSN(document.getElementById("ToBePrintSubmissionNo").value, copy);
+
+            var elm = document.getElementById("ToBePrintSubmissionNo");
+            elm.parentNode.removeChild(elm);
+
+            elm = document.getElementById("ToBePrintFormNo");
+            elm.parentNode.removeChild(elm);
+
+            var elm = document.getElementById("ToBePrintDSN");
+            elm.parentNode.removeChild(elm);
+        }
+
+        $(document).on('keypress', function (e) {
+            if (e.which == 13 && $("#FormNo").val() != "" && $("#FormNo").is(":focus")) {
+                onBlurFormNo();
+                if (!$("#RefNoManualInput").prop("disabled")) {
+                    $("#InputRefNo").focus();
+                } else {
+                    receiveNewSubmission();
+                }
+            }
+            if (e.which == 13 && $("#InputRefNo").val() != "" && $("#InputRefNo").is(":focus")) {
+                receiveNewSubmission();
+            }
+        });
+    });
+
+    function setPageDefaultValue() {
+        /*
+        var formNo = document.getElementById("FormNo").value;
+
+        // default select MW Form
+        document.getElementsByName("DocType")[0].checked = true;
+
+        if ("MW01" == formNo || "MW03" == formNo) {
+            document.getElementById("VsForMW01_MW03").disabled = false;
+        } else {
+            document.getElementById("VsForMW01_MW03").disabled = true;
+        }
+
+        // select generate Ref.No
+        document.getElementsByName("RefNoRdo")[0].checked = true;
+        document.getElementsByName("RefNoRdo")[0].disabled = true;
+        document.getElementsByName("RefNoRdo")[1].disabled = true;
+
+        // diable inpt txt
+        document.getElementById("InputRefNo").disabled = true;
+        document.getElementById("InputRefNo").value = "";
+
+        // clear form No
+        document.getElementById("FormNo").value = "";
+        */
+
+        var selectedDocType = document.querySelector('input[name="DocType"]:checked');
+        onChangeDocType(selectedDocType);
+        onBlurFormNo();
+    }
+
+    function receiveNewSubmission() {
+        // validate formNo
+        $.post("ValidationBeforeReceiveSubmission", $("#newSubmissionForm").serialize(), function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                //sgoTo("Index");
+                //goTo("ReceiveNewSubmission");
+
+
+                $("#newSubmissionForm").attr('action', 'ReceiveNewSubmission');
+                $("#newSubmissionForm").submit();
+
+            }
+            else {
+                showErrorMessage(data.ErrorMessages)
+            };
+        }, "json");
+    }
+
+    function viewPage(actionType) {
+        alert(actionType);
+    }
+
+    function onChangeDocType(docType) {
+        var selectedDocType = docType.value;
+        var manualInputRefNoTxf = document.getElementById("InputRefNo");
+        var formNoTxf = document.getElementById("FormNo");
+        if ("MWForm" == selectedDocType) {
+            formNoTxf.value = "";
+            formNoTxf.readOnly = false;
+            document.getElementById("RefNoNewGen").disabled = true;
+            document.getElementById("RefNoNewGen").checked = true;
+            document.getElementById("RefNoManualInput").disabled = true;
+            document.getElementById("InputRefNo").disabled = true;
+            document.getElementById("InputRefNo").value = "";
+            manualInputRefNoTxf.disabled = true;
+        } else if ("Enquiry" == selectedDocType || "Complaint" == selectedDocType) {
+            formNoTxf.value = "";
+            formNoTxf.readOnly = true;
+            document.getElementById("RefNoNewGen").disabled = true;
+            document.getElementById("RefNoNewGen").checked = true;
+            document.getElementById("RefNoManualInput").disabled = true;
+            document.getElementById("InputRefNo").disabled = true;
+            document.getElementById("InputRefNo").value = "";
+            manualInputRefNoTxf.disabled = true;
+        } else if ("Modification" == selectedDocType) {
+            formNoTxf.value = "BA16";
+            formNoTxf.readOnly = true;
+            document.getElementById("RefNoNewGen").disabled = false;
+            document.getElementById("RefNoNewGen").checked = true;
+            document.getElementById("RefNoManualInput").disabled = false;
+            document.getElementById("InputRefNo").disabled = true;
+            document.getElementById("InputRefNo").value = "";
+            manualInputRefNoTxf.disabled = true;
+        }
+    }
+
+    function onChangeTypeOfRefNo(refNoRdoBtn) {
+        var refNoType = refNoRdoBtn.value;
+        if ("newGen" == refNoType) {
+            document.getElementById("InputRefNo").disabled = true;
+        } else if ("inputRefNo" == refNoType) {
+            document.getElementById("InputRefNo").disabled = false;
+            document.getElementById("InputRefNo").value = "MW";
+        }
+    }
+
+    function onBlurFormNo() {
+        var formNoTxf = document.getElementById("FormNo");
+        var formNo = formNoTxf.value;
+        var manualInputRefNoTxf = document.getElementById("InputRefNo");
+        var isVSFormChk = document.getElementById("isVSForm");
+
+        var newGenMWRefNoFormList = ['MW01', 'MW03', 'MW05', 'MW06', 'MW06-03', 'MW32'];
+        var subSeqMWRefNoFormList = ['MW02', 'MW04', 'MW06_01', 'MW06_02', 'MW07', 'MW08', 'MW09', 'MW10', 'MW11', 'MW12', 'MW31', 'MW33'];
+
+        if (newGenMWRefNoFormList.indexOf(formNo) != -1) {
+            document.getElementById("RefNoNewGen").checked = true;
+            document.getElementById("RefNoNewGen").disabled = false;
+
+            document.getElementById("RefNoManualInput").disabled = true;
+            if (formNo == "MW05") {
+                document.getElementById("RefNoManualInput").disabled = false;
+            }
+            manualInputRefNoTxf.disabled = true;
+            document.getElementById("InputRefNo").value = "";
+        } else if (subSeqMWRefNoFormList.indexOf(formNo) != -1) {
+
+            document.getElementById("RefNoNewGen").disabled = true;
+
+            document.getElementById("RefNoManualInput").disabled = false;
+            document.getElementById("RefNoManualInput").checked = true;
+            manualInputRefNoTxf.disabled = false;
+            document.getElementById("InputRefNo").value = "MW";
+        } else {
+        }
+
+
+        if (formNo == "MW01" || formNo == "MW03") {
+            isVSFormChk.disabled = false;
+            isVSFormChk.checked = false;
+        } else {
+            isVSFormChk.disabled = true;
+            isVSFormChk.checked = false;
+        }
+    }
+
+    function InputToUpper(obj) {
+        if (obj.value != "") {
+            obj.value = obj.value.toUpperCase();
+        }
+    }
+
+    // Begin Add by Chester 2019-07-02
+    function onClickAck(dsn) {
+        window.location.href = domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/Index?DSN=" + dsn;
+    }
+    function onClickDR(dsn, form) {
+        window.location.href = domId("rootPath").value + "/MWProcessing/Fn01LM_DR/drSubmission?DSN=" + dsn + "&Form=" + form;
+    }
+    function onClickMod(dsn) {
+        window.location.href = domId("rootPath").value + "/MWProcessing/Fn01LM_MOD/Form?DSN=" + dsn;
+    }
+// End Add by Chester 2019-07-02
+</script>

@@ -1,0 +1,54 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn01LM_OtherDROverCounterModel
+
+<form id="counterInputForm" method="post">
+    <div class="panelHeader">
+        Direct Returned Over Counter
+    </div>
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Received Date  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.ReceivedDate, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">No. of Return over Counter  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.ReturnOverCounter)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="updateDROverCounterBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+            <button class="searchButton btn btn-default" type="reset"> Reset</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("updateDROverCounterBtn", "onclick", { parameters: {}, callback: onUpdateDROverCounter });
+    });
+
+    function onUpdateDROverCounter() {
+
+        attr("counterInputForm", "addClass", "saving");
+        $.post("UpdateDROverCounter", $("#counterInputForm").serialize(), function (data) {
+            attr("counterInputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                alert("Update Direct Returned Over Counter successfully");
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+</script>

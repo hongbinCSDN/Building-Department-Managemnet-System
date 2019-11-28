@@ -1,0 +1,183 @@
+﻿@model MWMS2.Areas.Signboard.Models.CommentDisplayModel
+
+@section scripts {
+    <script type="text/javascript">
+        @Model.JavascriptToRun
+
+        function closeWindow(mode) {
+            window.close();
+            if (mode != 'view') {
+                window.opener.redirectToTDL();
+            }
+        }
+
+        function submitComment(param) {
+            //disableAllBtns();
+            //submitToPage('commentForm', 'comment', param);
+        }
+
+        function addCommentAndClose() {
+            //document.commentForm.isClose.value = "${form.trueStr}";
+            //submitComment('post');
+            domId("Uuid").value = "";
+            domId("commentForm").action = "Post";
+            domId("commentForm").submit();
+            window.close();
+            // window.opener.abc();
+            window.opener.rollbackToDoCallback();
+        }
+
+        function loadComment(commentUuid) {
+            domId("Uuid").value = commentUuid;
+            domId("EditMode").value = "edit";
+            // domId("RecordType")
+            domId("commentForm").action = "Load";
+            domId("commentForm").submit();
+        }
+
+        function saveComment(commentuuid) {
+            // domId("Uuid").value = commentUuid;
+            domId("commentForm").action = "Post";
+            domId("commentForm").submit();
+        }
+
+        function cancelComment() {
+            //document.commentForm.uuid.value = "";
+            //document.getElementById("obj.uuid").value = "";
+            //document.getElementById("obj.commentArea").value = "";
+            //submitComment('list&recordType=${form.recordType}&recordID=${form.recordID}');
+            domId("Uuid").value = "";
+            domId("EditMode").value = "add";
+            domId("CommentArea").value = "";
+            domId("commentForm").action = "Load";
+            domId("commentForm").submit();
+            //window.close();
+            //window.opener.redirectToTDL();
+            //window.opener.abc();
+            //window.opener.location = '/Signboard/Fn02TDL_TDL/Index';
+            
+        }
+
+        function cancelAdd() {
+            window.close();
+            window.opener.redirectToTDL();
+        }
+    </script>
+}
+
+@using (Html.BeginForm("Post", "Fn03Search_AA", FormMethod.Post, new { @id = "commentForm", enctype = "multipart /form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Uuid)
+    @Html.HiddenFor(model => model.ErrMsg)
+    @Html.HiddenFor(model => model.EditMode)
+    @Html.HiddenFor(model => model.RecordType)
+    @Html.HiddenFor(model => model.RecordId)
+
+    <h3>Comments</h3>
+    <div class="sList">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    @if (!Model.EditMode.Equals("view"))
+                    {
+                        <th style="text-align: left; padding-left: 10px;"></th>
+
+                    }
+                    <th style="text-align: left; padding-left: 10px;">From</th>
+                    <th style="text-align: left; padding-left: 10px;">Created Date</th>
+                    <th style="text-align: left; padding-left: 10px;">Modified Date</th>
+                    <th style="text-align: left; padding-left: 10px;">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.CommentList != null && Model.CommentList.Count() > 0)
+                    {
+                        foreach (var item in Model.CommentList)
+                        {
+                            <tr>
+                                @if (!Model.EditMode.Equals("view"))
+                                {
+                                    if (item.FROM_USER.Equals(MWMS2.Utility.SessionUtil.LoginPost.UUID)) // if test="${form.fromUsername == obj.fromUser}" <-- form: current logged-in user, obj: model.CommentList
+                                    {
+                                        if (Model.EditMode.Equals("edit"))
+                                        {
+                                            if (item.UUID.Equals(Model.Uuid)) // the one i'm editing
+                                            {
+                                                <td>
+                                                    <input class="btn btn-default inputButton" type="button" value="Editing..." id="btnEdit" name="btnEdit" disabled="disabled" style="width:100px;" />
+                                                </td>
+                                            }
+                                            else // not the one i'm editing
+                                            {
+                                                <td>
+                                                    <input class="btn btn-default inputButton" type="button" value="Edit" id="btnEdit" name="btnEdit" style="width:65px;" onclick="loadComment('@item.UUID')" />
+                                                </td>
+                                            }
+                                        }
+                                        else if (Model.EditMode.Equals("add"))
+                                        {
+                                            <td>
+                                                <input class="btn btn-default inputButton" type="button" value="Edit" id="btnEdit" name="btnEdit" style="width:65px;" onclick="loadComment('@item.UUID')" />
+                                            </td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>
+
+                                        </td>
+                                    }
+
+                                }
+                                <td>@item.FROM_USER</td>
+                                <td>@item.CREATED_DATE</td>
+                                <td>@item.MODIFIED_DATE</td>
+                                <td>@item.COMMENT_AREA</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        <br />
+        @if (!Model.EditMode.Equals("view"))
+        {
+            <div style="padding: 5px 5px 5px 5px;">
+                <textarea class="form-control" id="CommentArea" name="CommentArea" style="max-width:100%; resize: none; display: block;" type="text">@Model.CommentArea</textarea>
+                @*@Html.TextAreaFor(model => model.CommentArea, new { @style = "resize: none;", @class = "form-control" })*@
+            </div>
+        }
+        <div class="w3-border displayForm">
+            <div class="w3-container footer">
+                @if (Model.EditMode.Equals("view"))
+                {
+                    @*<input class="inputButton" type="button" id="btnClose" name="btnClose" value="Close" style="width:120px; float:left;" onclick="closeWindow('view');" />*@
+                }
+                @if (!Model.EditMode.Equals("view"))
+                {
+                    <input class="inputButton" type="button" id="btnCancelClose" name="btnCancelClose" value="Rollback" style="width:120px; float:left;" onclick="cancelAdd();" />
+
+                    if (Model.EditMode.Equals("add"))
+                    {
+                        <input class="btn btn-default inputButton" type="button" id="btnAdd" name="btnAdd" value="Add & Rollback" style="width:180px; float:right;" onclick="addCommentAndClose()" />
+                    }
+                    else if (Model.EditMode.Equals("edit"))
+                    {
+                        <input class="btn btn-default inputButton" type="button" id="btnCancel" name="btnCancel" value="Cancel" style="width:120px; float:right;" onclick="cancelComment()" />
+                        <input class="btn btn-default inputButton" type="button" id="btnSave" name="btnSave" value="Save" style="width:120px; float:right;" onclick="saveComment('@Model.Uuid')" />
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+
+}

@@ -1,0 +1,94 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Building Safety Code Item Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveBSCI", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.C_S_BUILDING_SAFETY_ITEM.UUID, new { id = "UUID" })
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Building Safety Code:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.BuildingSafetyCode, Model.getSyetemValueCode(), new { id = "BSCODE" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category Code:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_BUILDING_SAFETY_ITEM.CATEGORY_ID, Model.getCategoryCode())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">HTML Header (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(o => o.C_S_BUILDING_SAFETY_ITEM.ENGLISH_HTML_HEADER, new { style = "width: 100%" })</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">HTML Header (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(o => o.C_S_BUILDING_SAFETY_ITEM.CHINESE_HTML_HEADER, new { style = "width: 100%" })</div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" class="SaveBtn" onclick="onSaveForm()" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick="history.go(-1);" class=" btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back </button>
+
+        </div>
+
+    </div>
+</form>
+  
+@*}*@
+<script>
+
+    //hide building safety code if is old record
+    $(document).ready(function () {
+        var UUID = $('#UUID').val();
+
+        if (UUID == '' || UUID == null) {
+            //alert(UUID);
+            $('#BSCODE').removeAttr('disabled');
+
+        }
+        else {
+            // alert(UUID);
+            $('#BSCODE').attr('disabled', 'disabled');
+
+        }
+
+
+    });
+
+    function onSaveForm() {
+        $.post("SaveBSCI", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("IndexBSCI", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+
+
+</script>
+
+

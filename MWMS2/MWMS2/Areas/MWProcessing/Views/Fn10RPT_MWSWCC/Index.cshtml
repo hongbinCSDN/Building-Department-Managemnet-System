@@ -1,0 +1,296 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_MWMSWCCModel
+
+<form id="inputForm" style="position:relative">
+    <div id="searchCriteria" class="displayForm">
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">Commencement Date :		</div>
+                <div class="w3-col l6 m12 s12">
+                    From @Html.TextBoxFor(m => m.CommFromDate, new { @class = "inputDate" }) To @Html.TextBoxFor(m => m.CommToDate, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">Received Date :	</div>
+                <div class="w3-col l6 m12 s12">
+                    From @Html.TextBoxFor(m => m.ReceivedFromDate, new { @class = "inputDate" }) To @Html.TextBoxFor(m => m.ReceivedToDate, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">Form Type :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @*@for (int i = 0; i < Model.FormTypes.Count(); i++)
+                        {
+                            <label>
+                                @Html.CheckBoxFor(m => m.FormTypes[i].IsChecked, new { @class = "w3-checkedbox" })
+                                @Html.HiddenFor(m => m.FormTypes[i].UUID)
+                                @Html.HiddenFor(m => m.FormTypes[i].Code)
+                                @Model.FormTypes[i].Description
+                            </label>
+                        }*@
+
+                    <label> @Html.CheckBoxFor(m => m.FormTypeMW01, new { @class = "w3-checkedbox" }) MW01</label>
+                    <label> @Html.CheckBoxFor(m => m.FormTypeMW03, new { @class = "w3-checkedbox" }) MW03</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">
+                    Status of Corresponding Form MW02/MW04 :
+                    <br />
+                    &nbsp;
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    @for (int i = 0; i < Model.StatusFormMW0204.Count(); i++)
+                    {
+                        <label>
+                            @Html.CheckBoxFor(m => m.StatusFormMW0204[i].IsChecked, new { @class = "w3-checkedbox" })
+                            @Html.HiddenFor(m => m.StatusFormMW0204[i].UUID)
+                            @Html.HiddenFor(m => m.StatusFormMW0204[i].Code)
+                            @Model.StatusFormMW0204[i].Description
+                        </label>
+                        if ((i + 1) % 2 == 0)
+                        {
+                            <br />
+                        }
+                    }
+
+                    @*<input type="checkbox" /><label>Acknowledged </label>
+                        <input type="checkbox" /><label>Submission </label>
+                        <br />
+                        <input type="checkbox" /><label>Processing  </label>
+                        <input type="checkbox" /><label>Refused </label>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">PBP Reg. :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(m => m.PBPReg, new { @class = "w3-col l3 m12 s12" })
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l5 m12 s12">PRC Reg. :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(m => m.PRCReg, new { @class = "w3-col l3 m12 s12" })
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-container footer">
+            <button id="searchBtn" onclick="search()" class="searchButton btn btn-default" type="button"> Search</button>
+            <button id="exportBtn" onclick="excel()" class="btn btn-default" type="button"> Export</button>
+        </div>
+
+    </div>
+</form>
+<div id="reportDiv" class="w3-border displayForm"></div>
+
+<script type="text/javascript">
+    //domReady(function () {
+    //    new searcher({
+    //        searchPath: "Search"
+    //        , exportPath: "Excel"
+    //        , searchTable: "searchCriteria"
+    //        , resultPanel: "resultPanel1"
+    //    });
+    //});
+
+    function excel() {
+        var dlForm = $("#inputForm");
+        dlForm.attr("action", domId("rootPath").value + "/MWProcessing/Fn10RPT_MWSWCC/Excel");
+        dlForm.attr("method", "post");
+        dlForm.submit();
+        dlForm.removeAttr("action");
+        dlForm.removeAttr("method");
+
+        //var url = "/MWProcessing/Fn10RPT_MWSWCC/Excel";
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("POST", url, true);
+        //xhr.responseType = "blob";
+        //xhr.onload = function () {
+        //    if (this.status == 200) {
+        //        var blob = this.response;
+        //        var a = document.createElement("a");
+        //        a.download = "data.xls";
+        //        a.href = window.URL.createObjectURL(blob);
+        //        a.click();
+        //    }
+        //};
+        //xhr.send($("#inputForm").serialize());
+
+        //var dlFrame, dlForm;
+        //if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+        //if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        //dlForm.method = "post";
+        //dlForm.target = "dlFrame";
+        //dlForm.action = "/MWProcessing/Fn10RPT_MWSWCC/Excel";
+        ////dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+        //dlForm.submit();
+        //attr(dlForm, "html", "");
+    }
+
+    function search() {
+        $("#searchCriteria").addClass("loading");
+        document.getElementById("searchBtn").setAttribute("disabled", "disabled");
+
+        //reportDiv.innerHTML = "Loading..";
+        $.post(
+            domId("rootPath").value + "/MWProcessing/Fn10RPT_MWSWCC/Search"
+            , $('#inputForm').serialize()
+            , function (data) {
+                document.getElementById("searchBtn").removeAttribute("disabled");
+                var result = eval(data.Data[0].rows);
+                var rows = result.rows;
+                var table = document.createElement("table");
+
+                table.width = "100%";
+                table.className = "w3-table-all w3-hoverable resultTable";
+                table.cellPadding = "0";
+                table.cellSpacing = "0";
+                table.border = "0";
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+
+                //unit : month
+                var lastGroup = 12;
+                var interval = 3;
+
+                var per = 0;
+                var current = lastGroup;
+                var i = 0;
+                var groupI = 0;
+                while (current >= 0) {
+                    var tr = buildHeadTr(per, current);
+                    tbody.appendChild(tr);
+
+
+
+                    if (i == rows.length) {
+                        var dataHeadTr = buildDataHeadTr();
+                        tbody.appendChild(dataHeadTr);
+                        var dataBlankHeadTr = buildDataBlankHeadTr();
+                        tbody.appendChild(dataBlankHeadTr);
+                    } else {
+                        while (i < rows.length) {
+
+                            if (groupI == 0) {
+                                var dataHeadTr = buildDataHeadTr();
+                                tbody.appendChild(dataHeadTr);
+                            }
+                            var M = parseInt(rows[i].M);
+                            if ((per == 0 ||
+                                M <= per) && M >= current) {
+                                var dataTr = buildDataTr(rows[i].F, rows[i].R, rows[i].RD, rows[i].C, rows[i].MW0204, (groupI % 2) + 1);
+                                tbody.appendChild(dataTr);
+                                i++;
+                                groupI++;
+                            } else {
+                                if (groupI == 0) {
+                                    var dataBlankHeadTr = buildDataBlankHeadTr();
+                                    tbody.appendChild(dataBlankHeadTr);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    var td = tr.getElementsByTagName("td")[0];
+                    td.innerHTML = td.innerHTML + " (No. of Submissions: " + groupI + ")";
+                    groupI = 0;
+                    per = current;
+                    current = current - interval;
+
+                }
+                reportDiv.innerHTML = "";
+                reportDiv.appendChild(table);
+                $("#searchCriteria").removeClass("loading");
+            }
+        );
+    }
+    function buildHeadTr(start, end) {
+        var tr = document.createElement("tr");
+        var td = document.createElement("td");
+        td.className = "panelHeader";
+        td.colSpan = "5";
+        td.innerHTML = "Time elapsed from the Date of Commencement: "
+            + (start == 0 ? "" : start + " months > X ")
+            + " > "
+            + (end == 0 ? " current" : end + " months");
+        tr.appendChild(td);
+        return tr;
+    }
+    function buildDataHeadTr() {
+        var tr = document.createElement("tr");
+        var td1 = document.createElement("th");
+        td1.innerHTML = "Form Type";
+        var td2 = document.createElement("th");
+        td2.innerHTML = "MW No.";
+        var td3 = document.createElement("th");
+        td3.innerHTML = "Date of Receive";
+        var td4 = document.createElement("th");
+        td4.innerHTML = "Date of Commencement";
+
+        var td5 = document.createElement("th");
+        td5.innerHTML = "Status of Corresponding Form MW02/MW04";
+
+        td1.className = "sTh";
+        td2.className = "sTh";
+        td3.className = "sTh";
+        td4.className = "sTh";
+        td5.className = "sTh";
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        return tr;
+    }
+    function buildDataTr(FORM_TYPE, REFERENCE_NO, RECEIVED_DATE, COMMENCEMENT_DATE, MW0204, rowNum) {
+        var tr = document.createElement("tr");
+        var td1 = document.createElement("td");
+        td1.innerHTML = FORM_TYPE;
+        var td2 = document.createElement("td");
+        td2.innerHTML = REFERENCE_NO;
+        var td3 = document.createElement("td");
+        td3.innerHTML = RECEIVED_DATE;
+        var td4 = document.createElement("td");
+        td4.innerHTML = COMMENCEMENT_DATE;
+        var td5 = document.createElement("td");
+        td5.innerHTML = MW0204;
+
+        tr.className = "sRow" + rowNum;
+        td1.className = "sCell";
+        td2.className = "sCell";
+        td3.className = "sCell";
+        td4.className = "sCell";
+        td5.className = "sCell";
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        return tr;
+    }
+    function buildDataBlankHeadTr() {
+        var tr = document.createElement("tr");
+        tr.className = "sRow2";
+        var td = document.createElement("td");
+        td.className = "sCell";
+        td.colSpan = "5";
+        td.innerHTML = "No record..";
+        tr.appendChild(td);
+        return tr;
+    }
+</script>

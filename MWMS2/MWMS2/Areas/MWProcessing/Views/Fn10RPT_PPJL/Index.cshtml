@@ -1,0 +1,270 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_PPJLModel
+
+<style>
+    .readOnlyTextBox {
+        border: none !important;
+        border-color: transparent !important;
+        background: none !important;
+        color: black !important;
+        font-size: 18px !important;
+    }
+</style>
+
+    <div class="panelHeader beforeSearch">
+        Search Criteria
+    </div>
+<form id="inputForm">
+    <div id="searchCriteria" class="beforeSearch">
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission Type :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => Model.Fn10RPT_PPJLSearchModel.Submission_Type, new SelectList(Model.Fn10RPT_PPJLSearchModel.Submission_TypeList, "Value", "Text", Model.Fn10RPT_PPJLSearchModel.Submission_Type), new { @name = "submissionType", @id = "submissionType" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Status :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => Model.Fn10RPT_PPJLSearchModel.Status, new SelectList(Model.Fn10RPT_PPJLSearchModel.StatusList, "Value", "Text", Model.Fn10RPT_PPJLSearchModel.Status), new { @name = "status", @id = "status" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Registration_No_of_PBP, new { @id = "RegistrationNoOfPBP" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. of PRC :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Registration_No_of_PRC, new { @id = "RegistrationNoOfPRC" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.English_Name_of_PBP, new { @id = "EnglishNameOfPBP" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name of PRC :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.English_Name_of_PRC, new { @id = "EnglishNameOfPRC" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese  Name of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Chinese_Name_of_PBP, new { @id = "ChineseNameOfPBP" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese  Name of PRC :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Chinese_Name_of_PRC, new { @id = "ChineseNameOfPRC" })
+                </div>
+            </div>
+        </div>
+
+        <div id="button-group" class="w3-container footer beforeSearch">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"> Generate</button>
+            <button id="" class="searchButton btn btn-default" type="button" onclick="Export()"><i class="fa fa-print"></i> Export</button>
+        </div>
+    </div>
+
+    <div class="panelHeader afterSearch">
+        Search Criteria Input
+    </div>
+    <div class="searchCriteria w3-border displayForm afterSearch">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission Type : </div>
+                <div class="w3-col l6 m12 s12">
+                    <div id=""></div>
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Submission_Type, new { @id = "submissionType_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Status :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Status, new { @id = "status_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Registration_No_of_PBP, new { @id = "RegistrationNoOfPBP_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Registration No. of PRC :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Registration_No_of_PRC, new { @id = "RegistrationNoOfPRC_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.English_Name_of_PBP, new { @id = "EnglishNameOfPBP_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name of PRC :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.English_Name_of_PRC, new { @id = "EnglishNameOfPRC_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese  Name of PBP :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Chinese_Name_of_PBP, new { @id = "ChineseNameOfPBP_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese  Name of PRC :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Fn10RPT_PPJLSearchModel.Chinese_Name_of_PRC, new { @id = "ChineseNameOfPRC_afterSearch", @readonly = "true", @class = "readOnlyTextBox", @disabled = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<br />
+<div class="panelHeader afterSearch">
+    Job List
+</div>
+<div id="resultPanel" class="afterSearch">
+
+
+</div>
+@*<div class="w3-border displayForm afterSearch">
+        <div class="w3-container footer right">
+            <button id="printBtn" class="btn btn-default" type="button" onclick="Print()"><i class="fa fa-print"></i> Print</button>
+            <button id="backBtn" class="btn btn-default" type="button" onclick="Back()"><i class="fa fa-arrow-left"> Back</button>
+        </div>
+    </div>*@
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".afterSearch").each(function () {
+            console.log("show afterSearch elements!");
+            $(this).css("display", "none");
+        });
+
+        $('#searchBtn').click(function () {
+
+            $(".beforeSearch").each(function () {
+                console.log("show afterSearch elements!");
+                $(this).hide();
+            });
+
+            $(".afterSearch").each(function () {
+                console.log("show afterSearch elements!");
+                $(this).show();
+            });
+
+            document.getElementById("submissionType_afterSearch").value = document.getElementById("submissionType").value;
+            document.getElementById("status_afterSearch").value = document.getElementById("status").value;
+            document.getElementById("RegistrationNoOfPBP_afterSearch").value = document.getElementById("RegistrationNoOfPBP").value;
+            document.getElementById("RegistrationNoOfPRC_afterSearch").value = document.getElementById("RegistrationNoOfPRC").value;
+            document.getElementById("EnglishNameOfPBP_afterSearch").value = document.getElementById("EnglishNameOfPBP").value;
+            document.getElementById("EnglishNameOfPRC_afterSearch").value = document.getElementById("EnglishNameOfPRC").value;
+            document.getElementById("ChineseNameOfPBP_afterSearch").value = document.getElementById("ChineseNameOfPBP").value;
+            document.getElementById("ChineseNameOfPRC_afterSearch").value = document.getElementById("ChineseNameOfPRC").value;
+        });
+    });
+
+    // beforeSearch
+    function Export() {
+        $("#searchCriteria").addClass("exporting");
+        $.post("Excel", $("#inputForm").serialize(), function (d) {
+
+            if (d != null && d.key != null) {
+                if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                dlForm.method = "post";
+                dlForm.target = "dlFrame";
+                dlForm.action = domId("rootPath").value + "/MWProcessing/Fn10RPT_PPJL/Excel";
+
+                dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                dlForm.submit();
+                attr(dlForm, "html", "");
+                $("#searchCriteria").removeClass("exporting");
+            }
+        }, "json");
+    }
+
+    // afterSearch
+    function Back() {
+        window.location.href = domId("rootPath").value + "/MWProcessing/Fn10RPT_PPJL/Index";
+        //history.go(-1);
+    }
+
+    function Print() {
+
+    }
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    var resultList;
+    domReady(function () {
+        resultList = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "CERT_NO"
+            , Columns: [
+                { displayName: "Name of PBP/ PRC", columnName: "NAME" }
+                , { displayName: "Registration No.", columnName: "CERT_NO" }
+                , { displayName: "Ref. No.", columnName: "MW_NO" }
+                , { displayName: "Status", columnName: "STATUS" }
+                , { displayName: "Location or Address od works", columnName: "ADDRESS" }
+            ]
+            , onAfterSearch: function () {
+                var printBtn = createButton("Print", "fa fa-print", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            print();
+                        }
+                    }
+                }]);
+                var backBtn = createButton("Back", "fa fa-arrow-left", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            //back();
+                            goTo("index");
+                        }
+                    }
+                }]);
+
+                printBtn.style.float = "right";
+                backBtn.style.float = "right";
+
+                //document.getElementsByClassName("resultFooter")[0].appendChild(printBtn);
+                document.getElementsByClassName("resultFooter")[0].appendChild(backBtn);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,64 @@
+﻿﻿@model MWMS2.Areas.Admin.Models.SMMUpdateJobAssignSearchModel
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="sList w3-border displayForm" id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="panelHeader">Criteria</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l3 m6 s12">Submission No.: </div>
+            <div class="w3-col l9 m6 s12">
+                @Html.EditorFor(model => model.SubmissionNo, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "SubmissionNo" } })
+                @Html.ValidationMessageFor(model => model.SubmissionNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l3 m6 s12">Wildcard Search:</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.EditorFor(model => model.WildcardSearch, new { htmlAttributes = new { id = "Wildcardsearch" } })
+                @Html.ValidationMessageFor(model => model.WildcardSearch, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+    <div id="resultPanel"></div>
+
+</div>
+
+<script type="text/javascript">
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Columns: [
+                   
+                    { displayName: "Reference No.", columnName: "REFERENCE_NO" }  //REFERENCE_NO
+                    , { displayName: "Type", columnName: "RECORD_TYPE" } //TYPE
+                    , { displayName: "Task", columnName: "TASK" }  //TASK
+                    , {
+                        displayName: "User", columnName: "RECORD_USER" //USER
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                goTo("Form"
+                                    , [{ name: "id", value: row.UUID }
+                                    , { name: "type", value: row.RECORD_TYPE }
+                                    , { name: "task", value: row.TASK }
+                                    , { name: "recordUser", value: row.RECORD_USER }
+                                    , { name: "refNo", value: row.REFERENCE_NO }
+                                    , { name: "wftuUuid", value: row.WFTU_UUID }]);
+                            } catch (err) { }
+                        }
+                    }
+                ]
+            });
+        });
+</script>

@@ -1,0 +1,266 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_ECPRModel
+
+<form id="inputForm">
+    <div id="searchCriteria">
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Type of Report :	</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="reportType" name="ReportType">
+                        <option value="">- All -</option>
+                        <option value="Enquiry">Enquiry</option>
+                        <option value="Complaint">Complaint</option>
+                    </select>
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Status :	</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="status" name="Status">
+                        <option value="">- All -</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Interim Reply Sent">Interim Reply Sent</option>
+                        <option value="Endorsed">Endorsed</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Channel of Receipt :		</div>
+                <div class="w3-col l6 m12 s12">
+                    <select id="receiptChannel" name="ReceiptChannel">
+                        <option value="">- All -</option>
+
+                    </select>
+                    @*<input id="receiptChannel" type="text" name="ReceiptChannel" />*@
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Related Ref. No. :	</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="relatedRefNo" type="text" name="RelatedRefNo" />
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Received Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    From  <input id="receivedDateFrom" type="text" class="inputDate" name="ReceivedDateFrom" />
+                    To  <input id="receivedDateTo" type="text" class="inputDate" name="ReceivedDateTo" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"> Generate</button>
+            <button id="exportBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-print"></i> Export</button>
+        </div>
+
+    </div>
+</form>
+<div id="result" class="displayForm" style="display:none">
+    <div class="panelHeader">
+        Search criteria input
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Related Ref. No. : </div>
+            <div id="refNoCeri" class="w3-col l6 m12 s12">
+
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :	</div>
+            <div id="statusCeri" class="w3-col l6 m12 s12">
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Received Date :		</div>
+            <div id="receivedDateCeri" class="w3-col l6 m12 s12">
+
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Channel of Receipt :	</div>
+            <div id="channelCeri" class="w3-col l6 m12 s12">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button id="printBtn" class="btn btn-default" type="button"><i class="fa fa-print"></i>  Print</button>
+        <button id="backBtn" class="btn btn-default" type="button">Back</button>
+    </div>
+</div>
+
+<div id="enquiryResult" style="display:none">
+    <div class="panelHeader">
+        Enquiry Result
+    </div>
+    <div id="resultEnquiryPanel">
+    </div>
+    <br />
+</div>
+
+<div id="complaintResult" style="display:none">
+    <div class="panelHeader">
+        Complaint Result
+    </div>
+    <div id="resultComplaintPanel">
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    domReady(function () {
+        var enquiry
+            , complaint
+            , exportFunc
+            , printFunc
+            , backFunc;
+
+        enquiry = new searcher({
+            searchPath: "SearchEnquiry"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultEnquiryPanel"
+            , Columns: [
+                {
+                    displayName: "Reference No.", columnName: "REFERENCE_NO"
+                }
+                , {
+                    displayName: "Received Date", columnName: "RECEIVE_DATE"
+                }
+                , {
+                    displayName: "Reply/Action Date", columnName: "FINAL_REPLY_DATE"
+                }
+                , {
+                    displayName: "Subject Matter", columnName: "SUBJECT_MATTER"
+                }
+                , {
+                    displayName: "Channel of Enquiry", columnName: "CHANNEL"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+                , {
+                    displayName: "Handling Officer", columnName: "MODIFIED_BY"
+                }
+            ]
+        });
+
+        complaint = new searcher({
+            searchPath: "SearchComplaint"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultComplaintPanel"
+            , Columns: [
+                {
+                    displayName: "Reference No.", columnName: "REFERENCE_NO"
+                }
+                , {
+                    displayName: "Received Date", columnName: "RECEIVE_DATE"
+                }
+                , {
+                    displayName: "Interim Reply Date", columnName: "INTERIM_REPLY_DATE"
+                }
+                , {
+                    displayName: "Reply Action Date", columnName: "FINAL_REPLY_DATE"
+                }
+                , {
+                    displayName: "Type of Complaint", columnName: "SUBJECT_MATTER"
+                }
+                , {
+                    displayName: "Channel of Complaint", columnName: "CHANNEL"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+                , {
+                    displayName: "Handling Officer", columnName: "Modified_By"
+                }
+            ]
+        });
+
+        backFunc = function () {
+            $('#searchCriteria').css('display', '');
+            $('#result').css('display', 'none');
+            $("#complaintResult").css('display', 'none');
+            $("#enquiryResult").css('display', 'none');
+        };
+
+        exportFunc = function () {
+            $.post(domId("rootPath").value + "/MWProcessing/Fn10RPT_EnquiryComplaintProgressReport/Excel" + "?t=" + Date.now(), $("#inputForm").serialize())
+                .done(function (d) {
+                    if (d != null && d.key != null) {
+                        if (window.dlFrame == null) dlFrame = dom_(document.body, "iframe", { "display": "none", "name": "dlFrame" });
+                        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+                        dlForm.method = "post";
+                        dlForm.target = "dlFrame";
+                        dlForm.action = domId("rootPath").value + "/MWProcessing/Fn10RPT_EnquiryComplaintProgressReport/Excel" + "?t=" + Date.now();
+                        dom_(dlForm, "input", { "type": "hidden", "name": "key", "value": d.key });
+                        dlForm.submit();
+                        attr(dlForm, "html", "");
+                        dropClass(exportingDom, "exporting");
+                    }
+
+                });
+
+        };
+
+        printFunc = function () {
+            window.print();
+        };
+
+        attr("exportBtn", "onclick", { parameters: {}, callback: exportFunc });
+        attr("backBtn", "onclick", { parameters: {}, callback: backFunc });
+        attr("printBtn", "onclick", { parameters: {}, callback: printFunc });
+
+        $('#searchBtn').click(function () {
+            var reportType = $("#reportType option:selected").val();
+            if (reportType != "") {
+                if (reportType === 'Enquiry') {
+                    $("#enquiryResult").css('display', '');
+                    enquiry.search();
+                }
+                if (reportType === 'Complaint') {
+                    $("#complaintResult").css('display', '');
+                    complaint.search();
+                }
+            } else {
+                $("#enquiryResult").css('display', '');
+                enquiry.search();
+                $("#complaintResult").css('display', '');
+                complaint.search();
+            }
+            $('#searchCriteria').css('display', 'none');
+            $('#result').css('display', '');
+
+            var ref = $("#relatedRefNo").val();
+            var status = $("#status").val();
+            var receivedFrom = $("#receivedDateFrom").val();
+            var receivedTo = $("#receivedDateTo").val();
+            var channel = $("#receiptChannel").val();
+
+            if (ref != undefined)
+                $("#refNoCeri").text(ref);
+            if (status != undefined)
+                $("#statusCeri").text(status);
+            if (receivedFrom != undefined || receivedTo != undefined)
+                $("#receivedDateCeri").text("From " + receivedFrom + " To " + receivedTo);
+            if (channel != undefined)
+                $("#channelCeri").text(channel);
+        });
+    });
+</script>

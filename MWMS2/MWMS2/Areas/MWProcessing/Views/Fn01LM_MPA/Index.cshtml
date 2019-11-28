@@ -1,0 +1,60 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_MPASearchModel
+
+<div class="panelHeader">
+    Submission Info
+</div>
+
+<form id="inputForm" method="post">
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">DSN :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.DSN)
+                </div>
+                <div class="w3-col l2 m12 s12">Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.EFSS_REF_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">MW Item :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.MW_ITEM)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">PRC  :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PRC_NO)
+                </div>
+                <div class="w3-col l2 m12 s12">PBP  :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PBP_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Submission Date  :</div>
+                <div class="w3-col l4 m12 s12">
+                    @*@Html.TextBoxFor(m => m.P_MW_ACK_LETTER)*@
+                    <input class="inputDate" type="text" name="submissionDate" value="" />
+                </div>
+                <div class="w3-col l2 m12 s12">Received Date :	</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.RECEIVED_DATE, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button id="saveButton" class="searchButton btn btn-default" type="button"><i class="fa fa-save"></i> Save</button>
+        </div>
+    </div>
+</form>
+
+<div id="resultPanel"></div>

@@ -1,0 +1,132 @@
+﻿
+@model MWMS2.Areas.Signboard.Models.SignboardRecordCommonDisplayModel
+    <div class="displayForm">
+        <div class="panelHeader">Form Screening Check</div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">VS Submission No. in Form SC01C/ SC02C provided :</div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_VS_NO, "OK", new { @class = "w3-radio", @id = "vs_OK" }) <label for="vs_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_VS_NO, "Not OK", new { @class = "w3-radio", @id = "vs_NOK" }) <label for="vs_NOK">Not OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_VS_NO, "N/A", new { @class = "w3-radio", @id = "vs_NA" }) <label for="vs_NA">N/A</label>
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Date of inspection provided :	</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_INSP_DATE, "OK", new { @class = "w3-radio", @id = "inspec_OK" }) <label for="inspec_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_INSP_DATE, "Not OK", new { @class = "w3-radio", @id = "inspec_NOK" }) <label for="inspec_NOK">Not OK</label>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Date of commencement/ completion of works provided :	</div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_WORK_DATE, "OK", new { @class = "w3-radio", @id = "commen_date_OK" }) <label for="commen_date_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_WORK_DATE, "Not OK", new { @class = "w3-radio", @id = "commen_date_NOK" }) <label for="commen_date_NOK">Not OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_WORK_DATE, "N/A", new { @class = "w3-radio", @id = "commen_date_NA" }) <label for="commen_date_NA">N/A</label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Location and address of the signboard(s) provided :	</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIGNBOARD, "OK", new { @class = "w3-radio", @id = "sb_addr_OK" }) <label for="sb_addr_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIGNBOARD, "Not OK", new { @class = "w3-radio", @id = "sb_addr_NOK" }) <label for="sb_addr_NOK">Not OK</label>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Signature in the specified form provided : 	</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIG, "OK", new { @class = "w3-radio", @id = "sign_OK" }) <label for="sign_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIG, "Not OK", new { @class = "w3-radio", @id = "sign_NOK" }) <label for="sign_NOK">Not OK</label>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Date of signature provided : 	</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIG_DATE, "OK", new { @class = "w3-radio", @id = "sign_date_OK" }) <label for="sign_date_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SIG_DATE, "Not OK", new { @class = "w3-radio", @id = "sign_date_NOK" }) <label for="sign_date_NOK">Not OK</label>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">MW item No. for alteration/ strengthening works provided : 	</div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_MW_ITEM_NO, "OK", new { @class = "w3-radio", @id = "mw_item_OK" }) <label for="mw_item_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_MW_ITEM_NO, "Not OK", new { @class = "w3-radio", @id = "mw_item_NOK" }) <label for="mw_item_NOK">Not OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_MW_ITEM_NO, "N/A", new { @class = "w3-radio", @id = "mw_item_NA" }) <label for="mw_item_NA">N/A</label>
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Submission of the required supporting documents including (but not limited to) the prescribed plans and details/ photographs/ plans or description of works:
+                </div>
+
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SUPPORT_DOC, "OK", new { @class = "w3-radio", @id = "sup_doc_OK" }) <label for="sup_doc_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SUPPORT_DOC, "Not OK", new { @class = "w3-radio", @id = "sup_doc_NOK" }) <label for="sup_doc_NOK">Not OK</label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Information of the signboard owner/ the person who arranged for the works/ the appointed person provided :
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SBO_PWA_AP, "OK", new { @class = "w3-radio", @id = "info_owner_paw_ap_OK" }) <label for="info_owner_paw_ap_OK">OK</label>
+                    @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_SBO_PWA_AP, "Not OK", new { @class = "w3-radio", @id = "info_owner_paw_ap_NOK" }) <label for="info_owner_paw_ap_NOK">Not OK</label>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Others :<br /><br /><br />
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextAreaFor(x => x.B_SV_VALIDATION.B_SV_RECORD.S_CHK_OTHERS)
+                </div>
+
+            </div>
+        </div>
+    </div>

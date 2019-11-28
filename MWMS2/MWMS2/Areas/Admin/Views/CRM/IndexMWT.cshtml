@@ -1,0 +1,59 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_Model
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+<div id="searchCriteria">
+    @Html.HiddenFor(model => model.SystemType)
+    @if (MWMS2.Utility.AuthUtil.CanCreate)
+    { <button onclick='goTo("Form_MWT", [{name:"systemType",value:"@Model.SystemType"},{ name: "pageCode", value: domId("functionCode").value }])' name="NewItem" value="newItem"><i class="far fa-plus-square"></i> @Model.DisplayType</button>}
+</div>
+    <br>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) {  goTo("Form_MWT", [{ name: "id", value: row.UUID },
+    { name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchWithParentType"
+            , exportPath: "Excel_MWT"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+
+                { displayName: "Class", columnName: "PANEL" }
+                , {
+                    displayName: "Type", columnName: "CODE"
+                    , click: function (row) {
+                           try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                    }
+                }
+
+
+
+                , { displayName: "Description", columnName: "ENGLISH_DESCRIPTION" }
+
+            ]
+        }).search();
+    });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

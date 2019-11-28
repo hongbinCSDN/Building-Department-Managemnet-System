@@ -1,0 +1,108 @@
+﻿
+
+@model MWMS2.Areas.Registration.Models.MeetingRoomMemberListDisplayModel
+
+
+
+@{
+
+<div style="overflow-x:auto;" id="MemberListResultTable">
+  
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    HKID/Passport No
+                </th>
+                <th>
+                    Rank
+                </th>
+                <th style="white-space:normal">
+                    Post
+                </th>
+                <th>
+                    Career
+                </th>
+                <th>
+                    Role
+                </th>
+                <th>
+                    Absent
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var idx = 0; }
+
+            @{ if (Model.MemberList != null)
+                {
+                    foreach (var item in Model.MemberList)
+                    {
+
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.HKID @item.PassportNo
+                    </td>
+                    <td >
+                        @item.Rank
+                    </td>
+                    <td style="white-space:normal">
+                        @item.Post
+                    </td>
+                    <td>
+                        @item.Career
+                    </td>
+                    <td>
+                        <select name='@("memberListRole[" + item.UUID + "]")' style="width:auto">
+                            @foreach (var v in Model.GetCommitteeRole)
+                            {
+                                string isSelected = "";
+                                if (v.Value == item.Role)
+                                {
+                                    isSelected = "Selected";
+                                }
+                                <option @isSelected value='@v.Value'>@v.Text</option>
+
+                            }
+                        </select>
+
+                    </td>
+                    <td>
+                        @{
+
+                            string isChecked = "";
+                            if (item.Absent == "Y")
+                            {
+                                isChecked = "checked";
+                            }
+                        }
+                        <input type="checkbox" name='@("IsAbsentList[" + item.UUID + "]")' @isChecked value="@isChecked ">
+                    </td>
+                    <td>
+                        <button onclick="onDeleteMember('@item.UUID')" id="" class="btn btn-default w3-red" type="button"><i class="fa fa-trash"></i>  </button>
+
+                    </td>
+
+                </tr>
+                                        idx++;
+                                    }
+                                }
+                            }
+
+        </tbody>
+
+    </table>
+
+
+</div>
+
+}

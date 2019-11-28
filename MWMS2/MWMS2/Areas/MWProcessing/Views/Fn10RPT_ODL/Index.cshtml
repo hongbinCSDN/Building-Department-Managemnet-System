@@ -1,0 +1,92 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_ODLModel
+@*<div class="panelHeader">Search Criteria</div>*@
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document from R & D :</div>
+            <div class="w3-col l6 m12 s12">
+               <div id="Total">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default hide" type="button">Generate</button>
+        <button id="exportBtn" class="exportButton btn btn-default " type="button">Export</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    var ser;
+    domReady(function () {
+        ser = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Item No.", columnName: "ITEM_SEQUENCE_NO"
+                }
+                , {
+                    displayName: "Outstanding Document", columnName: "DSN"
+
+                }
+                , {
+                    displayName: "Barcode Generated Date", columnName: "BARCODEDATE"
+                }
+                , {
+                    displayName: "Barcode Generated Time", columnName: "BARCODETIME"
+                }
+                , {
+                    displayName: "Initial Dispatch Date", columnName: "INITIALDATE"
+                }
+                , {
+                    displayName: "Initial Dispatch Time", columnName: "INITIALTIME"
+                }
+                , {
+                    displayName: "Document Load"
+                    , formater: function (row) {
+                        var div = dom("div");
+                        var checkbox = dom("input")
+                        attr(checkbox, "type", "checkbox")
+                        attr(div, "class", "w3-center")
+                        div.appendChild(checkbox);
+                        if (row.DOCUMENT_LOAD == 'Y') {
+                            attr(checkbox, "checked", "checked")
+                        }
+                        return div;
+                    }
+                }
+                , {
+                    displayName: "Document Missing"
+                    , formater: function (row) {
+                        var div = dom("div");
+                        var checkbox = dom("input")
+                        attr(checkbox, "type", "checkbox")
+                        attr(div, "class", "w3-center")
+                        div.appendChild(checkbox);
+                        if (row.DOCUMENT_MISSING == 'Y') {
+                            attr(checkbox, "checked", "checked")
+                        }
+                        return div;
+                    }
+                }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("Total", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+                console.log();
+                attr("Total", "html", r.Total);
+            }
+        }).search();
+        attr("exportBtn", "onclick", {
+            callback: function (d, p, e) {
+                ser.export();
+            }
+        });
+    });
+</script>

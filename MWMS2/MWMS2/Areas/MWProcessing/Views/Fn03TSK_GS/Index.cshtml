@@ -1,0 +1,151 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_GSModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Type :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.SubmissionType, Model.SubmissionTypes, new { })
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.RefNo, new { })
+                @*<input type="text" />*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.Status, Model.Statuses, new { })
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Receive Date :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.ReceiveDate, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Source :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.Source, Model.Sources, new { })
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Referral Date :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.ReferralDate, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">
+                Name :
+                <label>
+                    @Html.RadioButtonFor(m => m.NameType, "P", new { @class = "w3-radio", @checked = "true" })
+                    Prefix
+                </label>
+                <label>
+                    @Html.RadioButtonFor(m => m.NameType, "W", new { @class = "w3-radio" })
+                    Wild card
+                </label>
+
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.Name)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Progress :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.Progress, Model.Progresses, new { })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Keyword :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.Keyword, new { })
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "DSN/ICC No.", columnName: "DSN_ICCNO"
+                }
+                , {
+                    displayName: "Ref. No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/EnquiryFormReadOnly", [{ name: "id", value: row.UUID }]);
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , {
+                    displayName: "Date of Assignment", columnName: "RECEIVE_DATE"
+                }
+                , {
+                    displayName: "Final Reply Due Date", columnName: "FinalReplyDueDate"
+                }
+                , {
+                    displayName: "Final Reply Remaining Days", columnName: "FinalReplyRemainingDays"
+                }
+                , {
+                    displayName: "Interim Reply Date", columnName: "INTERIM_REPLY_DATE"
+                }
+                , {
+                    displayName: "Interim Reply Remaining Days", columnName: "InterimReplyRemainingDays"
+                }
+                , {
+                    displayName: "Title", columnName: "CASE_TITLE"
+                }
+                , {
+                    displayName: "Channel", columnName: "CHANNEL"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+            ]
+        });
+
+    });
+</script>

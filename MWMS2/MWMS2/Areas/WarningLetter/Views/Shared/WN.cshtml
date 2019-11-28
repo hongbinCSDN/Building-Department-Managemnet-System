@@ -1,0 +1,687 @@
+@*@model IEnumerable<MWMS2.Dao.WL>*@
+
+@*@model IEnumerable<MWMS2.Models.ModelWN>*@
+@model MWMS2.Models.ModelWN
+
+@*<h3>Warning Letter</h3>*@
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#select_all_Offense').click(function () {
+                $('.v_Offense_Type_CheckBox').prop('checked', this.checked)
+            });
+            $('#select_all_MWItems_1').click(function () {
+                $('.v_MWItems_Type_CheckBox_1').prop('checked', this.checked)
+            });
+            $('#select_all_MWItems_2').click(function () {
+                $('.v_MWItems_Type_CheckBox_2').prop('checked', this.checked)
+            });
+            $('#select_all_MWItems_3').click(function () {
+                $('.v_MWItems_Type_CheckBox_3').prop('checked', this.checked)
+            });
+            $('#select_all_S58').click(function () {
+                $('.OffenseS58').prop('checked', this.checked)
+            });
+            $('#select_all_BO').click(function () {
+                $('.OffenseBO').prop('checked', this.checked)
+            });
+            $('#select_all_MBIS').click(function () {
+                $('.OffenseMBIS').prop('checked', this.checked)
+            });
+
+        });
+
+
+        domReady(function () {
+            new searcher({
+                searchPath: "WNSearch"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "CREATED_DATE"
+                , Columns: [
+                    {
+                        displayName: "Registration No.", columnName: "REGISTRATION_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                goTo("WNEditDetails", [{ name: "uuid", value: row.UUID }]);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Category", columnName: "CATEGORY" }
+                    //, { displayName: "Professional/ Company/ Individual Name (English)", columnName: "COMP_CONTRACTOR_NAME_ENG" }
+
+                    , { displayName: "Professional/ Company/ Individual Name (English)", columnName: "ASCOMPNAME" }
+                    , { displayName: "Professional/ Company/ Individual Name (Chinese)", columnName: "ASCOMPCHNNAME" }
+                    //, { displayName: "Professional/ Company/ Individual Name (Chinese)", columnName: "COMP_CONTRACTOR_NAME_CHI" }
+                    //, { displayName: "Authorized Signatory Name(English)", columnName: "ASFULLNAME" }
+                    //, { displayName: "Authorized Signatory Name(Chinese)", columnName: "AS_CHINESE_NAME" }
+                    //, { displayName: "Authorized Signatory Name(English)", columnName: "AUTHORIZED_SIGNATORY_NAME_ENG" }
+                    //, { displayName: "Authorized Signatory Name(Chinese)", columnName: "AUTHORIZED_SIGNATORY_NAME_CHI" }
+                    , { displayName: "Offense", columnName: "OFFENSE" }
+                    , { displayName: "MW Submission No. ", columnName: "MW_SUBMISSION_NO" }
+                    , { displayName: "MW Items", columnName: "MW_ITEMS" }
+                    , { displayName: "Title", columnName: "SUBJECT" }
+                    , { displayName: "Issued Date", columnName: "LETTER_ISSUE_DATE" }
+                    //, { displayName: "Issuer", columnName: "WL_ISSUED_BY" }
+                    , { displayName: "Section / Unit", columnName: "SECTION_UNIT" }
+                    , { displayName: "File Reference(4+2)", columnName: "FILEREFERENCE" }
+                    , { displayName: "Creation Post", columnName: "POST" }
+                    , { displayName: "Creation Date", columnName: "CREATED_DATE" }
+                    , { displayName: "Last Update", columnName: "MODIFIED_DATE" }
+                    , { displayName: "Related to", columnName: "RELATED_TO" }
+                    , { displayName: "Source", columnName: "SOURCE" }
+                    , { displayName: "Notice", columnName: "NOTICE_NO" }
+                ]
+                , cacheOption: { isEnable: true, cacheName: "WarningLetter" }
+            });
+        });
+    </script>
+
+
+
+}
+
+
+
+
+
+
+
+
+<div class="panelHeader">Search Criteria</div>
+
+<div id="searchCriteria">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Title :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBox("SUBJECT")
+            </div>
+        </div>
+
+    </div>
+    <div class="panelHeader">Registration Information</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Registration No. :<span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBox("REGISTRATION_NO", "", new { @Style = "max-width:600px" })
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Category No. : <span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                @*@Html.CheckBox("v_Cat_Checkbox", true, new { @value = "Professional" })
+                    @Html.CheckBox("v_Cat_Checkbox", true, new { @value = "Company" })
+                    @Html.CheckBox("v_Cat_Checkbox", true, new { @value = "Individual" })*@
+                <input type="checkbox" name="v_Cat_Checkbox" id="catP" value="Professional" /><label for="catP"> Professional</label>
+                <br />    <input type="checkbox" name="v_Cat_Checkbox" id="catC" value="Company" /><label for="catC"> Company</label>
+                <br />    <input type="checkbox" name="v_Cat_Checkbox" id="catI" value="Individual" /><label for="catI"> Individual</label>
+                <br />
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">    Name (Professional/Individual/Company/AS) :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBox("COMP_CONTRACTOR_NAME_ENG", "", new { @Style = "max-width:600px" })
+            </div>
+        </div>
+
+    </div>
+    <div class="panelHeader">Status as at WL Creation</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">    Professional/Individual/Company :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                <input type="checkbox" name="COM_Creation_Status" value="Active" id="COM_Creation_Status_A" /><label for="COM_Creation_Status_A"> Active</label>
+                <br> <input type="checkbox" name="COM_Creation_Status" value="Inactive" id="COM_Creation_Status_I" /><label for="COM_Creation_Status_I"> Inactive</label>
+
+
+
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">    AS : <span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                <input type="checkbox" name="AS_Creation_Status" value="Active" id="AS_Creation_Status_A" /><label for="AS_Creation_Status_A"> Current AS</label>
+                <br>   <input type="checkbox" name="AS_Creation_Status" value="Inactive" id="AS_Creation_Status_R" /><label for="AS_Creation_Status_R"> Removed AS</label>
+
+            </div>
+        </div>
+    </div>
+    @*<div class="panelHeader">Current Status</div>
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">    Professional/Individual/Company : <span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span> </div>
+                <div class="w3-col l6 m12 s12">
+                    <input type="checkbox" name="COM_Current_Status" value="Active" id="COM_Current_Status_A" /><label for="COM_Current_Status_A"> Active</label>
+                    <br> <input type="checkbox" name="COM_Current_Status" value="Inactive" id="COM_Current_Status_I" /><label for="COM_Current_Status_I"> Inactive</label>
+
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">    AS : <span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+                <div class="w3-col l6 m12 s12">
+                    <input type="checkbox" name="AS_Current_Status" value="Current" id="AS_Current_Status_A" /><label for="AS_Current_Status_A"> Current AS</label>
+                    <br>   <input type="checkbox" name="AS_Current_Status" value="Removed" id="AS_Current_Status_R" /><label for="AS_Current_Status_R"> Removed AS</label>
+
+                </div>
+            </div>
+        </div>*@
+
+    <div class="panelHeader">Minor Works</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">   MW Submission No. : <span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br /><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBox("MW_SUBMISSION_NO", "", new { @Style = "max-width:600px" })
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">   @*<input type="checkbox"  name="select_all_MWItems" id="select_all_MWItems" value="select_all" />*@MW Items :<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br /><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                <div class="scrollTableDivLower" style="height:250px;width:350px;text-align:left;float:left;overflow:auto;">
+                    <table>
+                        <tbody>
+
+                            <tr>
+                                <td valign="top" style="width:108px;">
+
+                                    <table>
+
+                                        <tbody>
+
+                                            <tr>
+
+                                                <td style="vertical-align:top">
+
+                                                    @{
+                                                        try
+                                                        {
+                                                            <input type="checkbox" name="select_all_MWItems_1" id="select_all_MWItems_1" value="select_all" /><label for="select_all_MWItems_1"> All</label>
+                                                            <BR />
+                                                            if (ViewBag.MWItems != null)
+                                                            {
+                                                                foreach (var item in ViewBag.MWItems)
+                                                                {
+                                                                    if (@item.DESCRIPTION_ENG.Substring(0, 1) != "1")
+                                                                    {
+                                                                        continue;
+
+                                                                    }
+                                                                    <input value="@item.DESCRIPTION_ENG" type="checkbox" class="v_MWItems_Type_CheckBox_1" name="v_MWItems_Type_CheckBox" id=@item.UUID />
+                                                                    <label for=@item.UUID>@item.DESCRIPTION_ENG</label>
+                                                                    <br />
+                                                                }
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Console.Write(ex.Message);
+                                                        }
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+
+
+                                    </table>
+
+                                </td>
+                                <td valign="top" style="width:108px;">
+
+                                    <table>
+                                        <tbody>
+                                            <tr>
+
+
+                                                <td style="vertical-align:top">
+                                                    @{ try
+                                                        {
+                                                            <input type="checkbox" name="select_all_MWItems_2" id="select_all_MWItems_2" value="select_all" /><label for="select_all_MWItems_2"> All</label>
+                                                            <BR />
+                                                            if (ViewBag.MWItems != null)
+                                                            {
+                                                                foreach (var item in ViewBag.MWItems)
+                                                                {
+                                                                    if (@item.DESCRIPTION_ENG.Substring(0, 1) != "2")
+                                                                    {
+                                                                        continue;
+
+                                                                    }
+                                                                    <input type="checkbox" value="@item.DESCRIPTION_ENG" class="v_MWItems_Type_CheckBox_2" name="v_MWItems_Type_CheckBox_2" id=@item.UUID />
+                                                                    <label for="@item.UUID">@item.DESCRIPTION_ENG</label>
+                                                                    <br />
+                                                                }
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Console.Write(ex.Message);
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+
+                                    </table>
+
+                                </td>
+                                <td valign="top" style="width:108px;">
+
+                                    <table>
+                                        <tbody>
+                                            <tr>
+
+
+                                                <td style="vertical-align:top">
+                                                    @{
+                                                        try
+                                                        {
+                                                            if (ViewBag.MWItems != null)
+                                                            {
+                                                                <input type="checkbox" name="select_all_MWItems_3" id="select_all_MWItems_3" value="select_all" /><label for="select_all_MWItems_3"> All</label>
+                                                                <BR />
+                                                                foreach (var item in ViewBag.MWItems)
+                                                                {
+                                                                    if (@item.DESCRIPTION_ENG.Substring(0, 1) != "3")
+                                                                    {
+                                                                        continue;
+
+                                                                    }
+                                                                    <input type="checkbox" value="@item.DESCRIPTION_ENG" class="v_MWItems_Type_CheckBox_3" name="v_MWItems_Type_CheckBox_3" id=@item.UUID />
+                                                                    <label for="@item.UUID">@item.DESCRIPTION_ENG</label>
+                                                                    <br />
+                                                                }
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Console.Write(ex.Message);
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+
+
+
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">MBIS/MWIS</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">    Related to :<span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                <input type="checkbox" name="v_Related_checkbox" value="MBIS" id="relMbis" /><label for="relMbis">MBIS</label>
+                <br /><input type="checkbox" name="v_Related_checkbox" value="MWIS" id="relMwis" /><label for="relMwis">MWIS</label>
+                <br /><input type="checkbox" name="v_Related_checkbox" value="MBISV" id="relMbisV" /><label for="relMbisV">MBISV</label>
+                <br /><input type="checkbox" name="v_Related_checkbox" value="MWISV" id="relMwisV" /><label for="relMwisV">MWISV</label>
+
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">
+                Other Reference No.   (e.g. Notice No.) :
+
+                <span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @*@Html.TextBox("OTHER_REFERENCE_NO", "", new { @Style = "max-width:600px" })*@
+                @Html.TextBox("NOTICE_NO", "", new { @Style = "max-width:600px" })
+
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">Offence</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div style="display:none"></div>
+            <div class="w3-col l4 m12 s12">
+                <b> <input type="checkbox" name="select_all_S58" id="select_all_S58" value="select_all" /> <label for="select_all_S58">Under s58 :</label></b>
+
+                <div class="w3-row hr"></div>
+                @{
+                    try
+                    {
+
+                        // var count = 0;
+                        if (ViewBag.OffenseType != null)
+                        {
+                            foreach (var item in ViewBag.OffenseType)
+                            {
+                                //if (count == 7)
+                                //{
+                                //    break;
+                                //}
+                                if (item.TYPE == "Under s58")
+                                {
+                                    <input type="checkbox" class="v_Offense_Type_CheckBox OffenseS58" name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG" id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                    <br />
+                                }
+
+                                //count++;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+            </div>
+            <div style="display:none"></div>
+            <div class="w3-col l4 m12 s12">
+                <b><input type="checkbox" name="select_all_BO" id="select_all_BO" value="select_all" /><label for="select_all_BO">Under BO :</label></b>
+                <div class="w3-row hr"></div>
+                @{
+                    try
+                    {
+                        //var secondCount = 0;
+
+                        if (ViewBag.OffenseType != null)
+                        {
+                            foreach (var item in ViewBag.OffenseType)
+                            {
+                                //if (secondCount < 7)
+                                //{
+                                //    secondCount++;
+                                //    continue;
+                                //}
+                                if (item.TYPE == "Under BO")
+                                {
+
+                                    <input type="checkbox" class="v_Offense_Type_CheckBox OffenseBO" name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG" id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                    <br />
+                                }
+                                //secondCount++;
+                                //if (secondCount == 13)
+                                //{
+                                //    break;
+                                //}
+
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+
+
+
+            </div>
+            <div style="display:none"></div>
+            <div class="w3-col l4 m12 s12">
+                <b><input type="checkbox" name="select_all_MBIS" id="select_all_MBIS" value="select_all" /><label for="select_all_MBIS">Under MBIS/MWIS :</label> </b>
+                @{
+                    try
+                    { <div class="w3-row hr"></div>
+                        //  var thirdCount = 0;
+                        if (ViewBag.OffenseType != null)
+                        {
+                            foreach (var item in ViewBag.OffenseType)
+                            {
+                                //if (thirdCount < 13)
+                                //{
+                                //    thirdCount++;
+                                //    continue;
+                                //}
+
+                                if (item.TYPE == "Under MBIS/MWIS")
+                                {
+
+                                    <input type="checkbox" class="v_Offense_Type_CheckBox OffenseMBIS" name="v_Offense_Type_CheckBox" value="@item.DESCRIPTION_ENG" id=@item.UUID /><label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                    <br />
+                                }
+                                //         thirdCount++;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <br />
+
+
+    @*<div class="panelHeader">Irregularities</div>    
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div style="display:none"></div>
+
+            <div class="w3-col l12 m12 s12">
+                <input type="checkbox" name="" id="" value="" />   <b> <label for="">Technical :</label> </b>
+
+
+                <div class="w3-row hr"></div>
+                @{
+                    try
+                    {
+                        if (ViewBag.IrrTechType != null)
+                        {
+                            foreach (var item in ViewBag.IrrTechType)
+                            {
+
+                                <input type="checkbox" class=" " name="" value="@item.DESCRIPTION_ENG" id=@item.UUID /> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+
+                                <br />
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div style="display:none"></div>
+            <div class="w3-col l12 m12 s12">
+                <input type="checkbox" name="" id="" value="" />        <b> <label for="">Procedural  :</label> </b>
+
+
+                <div class="w3-row hr"></div>
+                @{
+                    try
+                    {
+                        if (ViewBag.IrrProType != null)
+                        {
+                            foreach (var item in ViewBag.IrrProType)
+                            {
+                                <input type="checkbox" class=" " name="" value="@item.DESCRIPTION_ENG" id=@item.UUID /> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                <br />
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+                <br>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div style="display:none"></div>
+            <div class="w3-col l12 m12 s12">
+                <input type="checkbox" name="" id="" value="" /> <b> <label for="">Miscellaneous  :</label> </b>
+
+
+                <div class="w3-row hr"></div>
+                @{
+                    try
+                    {
+                        if (ViewBag.IrrMisType != null)
+                        {
+                            foreach (var item in ViewBag.IrrMisType)
+                            {
+                                <input type="checkbox" class=" " name="" value="@item.DESCRIPTION_ENG" id=@item.UUID /> <label for="@item.UUID"> @item.DESCRIPTION_ENG</label>
+                                <br />
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+                }
+                <br>
+            </div>
+
+        </div>
+
+    </div>*@
+
+
+    <div class="panelHeader">Administration</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">    Creation Date :@*<span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span>*@</div>
+
+
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBox("SearchString_CreateStartDate", "", new { @class = "inputDate" })     @*<input type="text" class="inputDate" />*@
+                To @Html.TextBox("SearchString_CreateEndDate", "", new { @class = "inputDate" })    @*<input type="text" class="inputDate" />*@
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">
+                Issued Date :@*<span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span>*@
+            </div>
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBox("SearchString_IssuedStartDate", "", new { @class = "inputDate" })      @*<input type="text" class="inputDate" />*@
+                To @Html.TextBox("SearchString_IssuedEndDate", "", new { @class = "inputDate" })    @*<input type="text" class="inputDate" />*@
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">   Section / Unit :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+            <div class="w3-col l6 m12 s12">
+                <input type="checkbox" name="v_Section_checkbox" value="A" id="SectA" /><label for="SectA">Section A</label>
+                <br /><input type="checkbox" name="v_Section_checkbox" value="B" id="SectB" /><label for="SectB">Section B</label>
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">
+                Case Officer (Post) :<span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBox("CASE_OFFICER", "", new { @Style = "max-width:600px" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">  Source :<span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span></div>
+            <div class="w3-col l9 m12 s12">
+                <input type="checkbox" name="v_Source_checkbox" value="FromAuditCheck" id="source1" /><label for="source1">From audit check</label>
+                <br /><input type="checkbox" name="v_Source_checkbox" value="FromComplaintCase" id="source2" /><label for="source2">From complaint case</label>
+                <br /><input type="checkbox" name="v_Source_checkbox" value="FromExtraAuditCheck" id="source3" /><label for="source3">From extra audit check</label>
+                <br /><input type="checkbox" name="v_Source_checkbox" value="Other" id="source4" /><label for="source4">Other</label>
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">  File Reference (4+2) :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBox("FILE_REF_FOUR", "", new { @Style = "max-width:75px; ", maxlength = "4", placeholder = "XXXX" })
+                @Html.TextBox("FILE_REF_TWO", "", new { @Style = "max-width:40px", maxlength = "2", placeholder = "XX" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">  Remark :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBox("REMARK", "", new { @Style = "max-width:600px" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-container footer">
+        <button class="w3-left btn btn-default" onclick='location.href="@Url.Action("WNCreate","WN")"' type="button"><i class="far fa-plus-square"></i> Create New</button>
+
+        @*<input type="button" onclick='location.href="@Url.Action("WNCreate","WN")"' value="Create New" />*@
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+
+</div>
+
+
+
+
+        <div id="resultPanel"></div>
+
+
+

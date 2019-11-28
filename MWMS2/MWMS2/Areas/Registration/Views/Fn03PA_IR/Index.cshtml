@@ -1,0 +1,159 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn03PA_IRSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Year :</div>
+            <div class="w3-col l6 m12 s12">
+                <select>
+                    <option>- All -</option>
+                    <option>2019</option>
+                    <option>2018</option>
+                    <option>2017</option>
+                    <option>2016</option>
+                    <option>2015</option>
+                    <option>2014</option>
+                    <option>2013</option>
+                    <option>2012</option>
+                    <option>2011</option>
+                    <option>2010</option>
+                    <option>2009</option>
+                    <option>2008</option>
+                </select>
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12"> Date :</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" class="inputDate" />
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Group :</div>
+            <div class="w3-col l6 m12 s12">
+                <select>
+                    <option>- All -</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                    <option>E</option>
+                    <option>F</option>
+                    <option>G</option>
+                    <option>H</option>
+                    <option>I</option>
+                    <option>J</option>
+                    <option>K</option>
+                    <option>L</option>
+                    <option>M</option>
+                    <option>N</option>
+                    <option>O</option>
+                    <option>P</option>
+                    <option>Q</option>
+                    <option>R</option>
+                    <option>S</option>
+                    <option>T</option>
+                    <option>U</option>
+                    <option>V</option>
+                    <option>W</option>
+                    <option>X</option>
+                    <option>Y</option>
+                    <option>Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Type :</div>
+            <div class="w3-col l6 m12 s12">
+                <select>
+                    <option>- All -</option>
+                    <option>MWCRC</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Surname. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.SurName)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Given Name. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.GivenName)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRef)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Interview / Assessment  No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.InterviewAssessmentNo)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">HKID : :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.HKID)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Passport No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.PassportNo)
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

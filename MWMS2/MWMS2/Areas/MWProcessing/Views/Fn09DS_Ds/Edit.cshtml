@@ -1,0 +1,182 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.Fn09DS_DsModel
+
+<div class="panelHeader">
+    Processing
+</div>
+
+<div class="w3-border displayForm">
+    <table class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Ref. No.
+                </th>
+                <th>
+                    Received Date
+                </th>
+                <th>
+                    Document Type
+                </th>
+                <th>
+                    Total Page
+                </th>
+                <th>
+                    View Image
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.P_MW_SCANNED_DOCUMENT_LIST)
+            {
+                <tr>
+                    <td>
+                        @Html.Label(item.DSN_SUB ?? "")
+                    </td>
+                    <td>
+                        @Html.Label(item.P_MW_DSN.RECORD_ID ?? "")
+
+                    </td>
+                    <td>
+                        @Html.Label(item.P_MW_DSN.MWU_RECEIVED_DATE.ToString() ?? "")
+                    </td>
+                    <td>
+                        @Html.Label(item.DOCUMENT_TYPE ?? "")
+                    </td>
+                    <td>
+                        @Html.Label(item.PAGE_COUNT.ToString() ?? "")
+                    </td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div class="panelHeader">
+    Re-assignment
+</div>
+
+
+<form id="inputForm" method="post">
+
+    @Html.HiddenFor(model => model.DSN)
+
+    @Html.HiddenFor(model => model.TaskID)
+
+    @Html.HiddenFor(model => model.GEN_NUM)
+
+
+    @Html.HiddenFor(model => model.GeneratedNumber)
+
+    <div id="searchCriteria" class="displayForm">
+        <!--
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m12 s12">Re-assign :</div>
+                        <div class="w3-col l4 m12 s12">
+                            @Html.RadioButtonFor(model => model.RE_ASSIGNMENT, "Y", new { @class = "w3-radio", @id = "RE_ASSIGNMENTY" }) Yes &nbsp;&nbsp;
+                            @Html.RadioButtonFor(model => model.RE_ASSIGNMENT, "N", new { @class = "w3-radio", @id = "RE_ASSIGNMENTN" }) No
+                        </div>
+                    </div>
+                </div>
+        -->
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Submission Type :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(model => model.submissionType, Model.submissionTypeList, new { id = "submissionType" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+
+                    @Html.HiddenFor(model => model.refNumber, new { id = "refNumber" })
+
+                    @Model.refNumber
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"></div>
+                <div class="w3-col l4 m12 s12">
+
+
+                    @if (!"Y".Equals(@Model.GeneratedNumber))
+                    {
+
+                        <button class="btn btn-default" id="genBtn" type="button">Generate Ref. No.</button>
+                    }
+
+                    <button class="btn btn-default" id="changeBtn" type="button">Change Type</button>
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+
+
+            @if (!String.IsNullOrWhiteSpace(@Model.refNumber))
+            {
+
+            <button class="btn btn-default" id="subBtn" type="button">Submit</button>
+
+            }
+            <button class="btn btn-default" id="canBtn" type="button">Cacnel</button>
+
+        </div>
+    </div>
+
+</form>
+
+    <script>
+
+        domReady(function () {
+            attr("genBtn", "onclick", { parameters: {}, callback: genBtn });
+            attr("changeBtn", "onclick", { parameters: {}, callback: changeBtn });
+            attr("subBtn", "onclick", { parameters: {}, callback: subBtn });
+            attr("canBtn", "onclick", { parameters: {}, callback: canBtn });
+
+        });
+
+        function genBtn() {
+            $("#inputForm").attr('action', 'genNumber');
+            $("#inputForm").submit();
+        }
+
+        function changeBtn() {
+            $("#inputForm").attr('action', 'changeType');
+            $("#inputForm").submit();
+        }
+        function subBtn() {
+
+            var refNumber = $('#refNumber').val();
+
+            if (refNumber == '') {
+                alert("No Reference Number");
+            }
+
+            $("#inputForm").attr('action', 'submit');
+            $("#inputForm").submit();
+        }
+        function canBtn() {
+            goTo("Index");
+        }
+       
+        var errMsg =  "@Html.Raw(Model.errorMsg)"; 
+
+        if (display(errMsg) != "") {
+             alert(errMsg);
+        }    
+        
+    </script>

@@ -1,0 +1,51 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<form id="inputForm">
+
+    <div class="panelHeader">Enquiry</div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormInfo.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquirer Details
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <label>
+            <input type="checkbox" name="contactInfo" value="" />
+            The citizen refuses to leave contact information
+        </label>
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormDetails.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquiry Address Keys
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormAddressKey.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquiry Address
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormAddress.cshtml", Model)
+
+</form>
+
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button id="nextBtn" class="btn btn-default" type="button">Next</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        var next;
+
+        next = function () {
+            goTo(domId("rootPath").value + '/MWProcessing/Fn02MWUR_GE/EnquiryFormChecklistReadOnly',[ { name: "id", value:  "@Model.P_MW_GENERAL_RECORD.UUID" }])
+        };
+
+        attr("nextBtn", "onclick", { parameters: {}, callback: next });
+
+    });
+
+</script>

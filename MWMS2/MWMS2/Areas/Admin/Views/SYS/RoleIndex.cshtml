@@ -1,0 +1,50 @@
+﻿@model MWMS2.Areas.Admin.Models.SysSearchModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+  
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.DisplayNameFor(model => model.SearchRoleCode) :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.SearchRoleCode)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.DisplayNameFor(model => model.SearchRoleDesc) :</div>
+            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.SearchRoleDesc)</div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button class="btn btn-default w3-left" type="button" id="createButton" ><i class="far fa-plus-square"></i> Create Role</button>
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    attr("createButton", "onclick", {
+        callback: function (d, p, e) {
+            goTo("CreateRole", [{ name: "id", value: 0 }]);
+        }
+    });
+    var searching; var searching2;
+    domReady(function () {
+        searching = new searcher({
+            searchPath: "SearchRoles"
+            , exportPath: "ExportRoles"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                  { displayName: "Role Name", columnName: "CODE" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+            ]
+            , ColumnClick: function (row) {
+                goTo("RoleDetail", [{ name: "SYS_ROLE_ID", value: row.UUID }]);
+            }
+        });
+    });
+</script>

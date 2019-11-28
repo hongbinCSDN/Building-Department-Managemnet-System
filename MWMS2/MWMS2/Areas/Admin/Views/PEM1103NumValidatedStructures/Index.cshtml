@@ -1,0 +1,37 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103NumValidatedStructuresModel
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+<div class="panelHeader">Number of Validated Structures</div>
+@using (Html.BeginForm("Save", "PEM1103NumValidatedStructures", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm" }))
+{
+    <div class="w3-border displayForm">
+        @Html.HiddenFor(model => model.UUID)
+        <div class="w3-row">
+            <div class="w3-col l4 m4 s4">
+                Since @Model.CurrentYearStartDate to :
+            </div>
+            <div class="w3-col l4 m4 s4">
+                @Model.CurrentDate
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l4 m4 s4">Number of Validated Structures</div>
+            <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.Number)</div>
+        </div>
+        <div class="w3-container footer">
+            <button id="createBtn" class="btn btn-default" type="submit">Save</button>
+            <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+        </div>
+    </div>
+}
+    <script>
+function cancel() {
+    //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+    goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+}
+    </script>

@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelAddress.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_ADDRESS_META_DATA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_ADDRESS_META_DATA">
+          <Key>
+            <PropertyRef Name="SYS_META_DATA_ID" />
+            <PropertyRef Name="REC_TYPE" />
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="SYS_META_DATA_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="REC_TYPE" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="PARENT_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="ENGLISH_DESCRIPTION" Type="varchar2" MaxLength="4000" />
+          <Property Name="CHINESE_DESCRIPTION" Type="varchar2" MaxLength="4000" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_BLK' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_BLK">
+          <Key>
+            <PropertyRef Name="ADR_BLK_ID" />
+          </Key>
+          <Property Name="ADR_BLK_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="SYS_REGION_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="SYS_DISTRICT_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="AREA_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="BLDG_NAME_E1" Type="varchar2" MaxLength="45" />
+          <Property Name="BLDG_NAME_E2" Type="varchar2" MaxLength="45" />
+          <Property Name="BLDG_NAME_E3" Type="varchar2" MaxLength="45" />
+          <Property Name="BLDG_NAME_C1" Type="varchar2" MaxLength="80" />
+          <Property Name="BLDG_NAME_C2" Type="varchar2" MaxLength="80" />
+          <Property Name="BLDG_NAME_C3" Type="varchar2" MaxLength="80" />
+          <Property Name="BLK_NO" Type="varchar2" MaxLength="163" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_BLK_FILEREF' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_BLK_FILEREF">
+          <Key>
+            <PropertyRef Name="ADR_BLK_FILEREF_ID" />
+          </Key>
+          <Property Name="ADR_BLK_FILEREF_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="ADR_BLK_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="FREF_SEQ" Type="varchar2" MaxLength="4" />
+          <Property Name="FREF_YR" Type="varchar2" MaxLength="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_BLK_SL' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_BLK_SL">
+          <Key>
+            <PropertyRef Name="ADR_BLK_SL_ID" />
+            <PropertyRef Name="ADR_BLK_ID" />
+            <PropertyRef Name="BLK_SL_TYPE" />
+            <PropertyRef Name="OSADR_GEN_E" />
+            <PropertyRef Name="OSADR_GEN_C" />
+          </Key>
+          <Property Name="ADR_BLK_SL_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="ADR_BLK_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="SYS_ST_LOC_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="ST_NO_NUM" Type="number" Precision="4" Scale="0" />
+          <Property Name="ST_NO_ALPHA" Type="varchar2" MaxLength="2" />
+          <Property Name="ST_NO_EXT" Type="varchar2" MaxLength="8" />
+          <Property Name="UNOFF_CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="BLK_SL_TYPE" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="PMS_ST_NO_CONFIRM" Type="varchar2" MaxLength="1" />
+          <Property Name="OSADR_ST_E1" Type="varchar2" MaxLength="45" />
+          <Property Name="OSADR_ST_E2" Type="varchar2" MaxLength="45" />
+          <Property Name="OSADR_GEN_E" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="OSADR_ST_C" Type="varchar2" MaxLength="80" />
+          <Property Name="OSADR_GEN_C" Type="varchar2" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_DISTRICT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_DISTRICT">
+          <Key>
+            <PropertyRef Name="SYS_DISTRICT_ID" />
+            <PropertyRef Name="CODE" />
+            <PropertyRef Name="REGION_ID" />
+            <PropertyRef Name="DESCRIP" />
+          </Key>
+          <Property Name="SYS_DISTRICT_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="5" Nullable="false" />
+          <Property Name="REGION_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="DESCRIP" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="DESCRIP_C" Type="varchar2" MaxLength="60" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_ST_LOC' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_ST_LOC">
+          <Key>
+            <PropertyRef Name="SYS_ST_LOC_ID" />
+            <PropertyRef Name="NATURE" />
+          </Key>
+          <Property Name="SYS_ST_LOC_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="SYS_ST_NAME_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID1" Type="number" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID2" Type="number" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID3" Type="number" Precision="20" Scale="0" />
+          <Property Name="SL_NAME_C" Type="varchar2" MaxLength="80" />
+          <Property Name="NATURE" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="LR_LOC" Type="varchar2" MaxLength="2" />
+          <Property Name="LR_ST" Type="varchar2" MaxLength="4" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_ST_NAME' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_ST_NAME">
+          <Key>
+            <PropertyRef Name="SYS_ST_NAME_ID" />
+            <PropertyRef Name="ST_NAME" />
+          </Key>
+          <Property Name="SYS_ST_NAME_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="ST_NAME" Type="varchar2" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.MWMS_UNIT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MWMS_UNIT">
+          <Key>
+            <PropertyRef Name="ADR_UNIT_ID" />
+            <PropertyRef Name="ADR_BLK_ID" />
+            <PropertyRef Name="UNT_NO_A_PREC" />
+          </Key>
+          <Property Name="ADR_UNIT_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="ADR_BLK_ID" Type="number" Precision="20" Scale="0" Nullable="false" />
+          <Property Name="ADR_BLK_SL_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="SYS_FLR_ALPHA_E_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="FLR_NUM" Type="number" Precision="4" Scale="0" />
+          <Property Name="FLR_ALPHA_E_SUFFIX" Type="varchar2" MaxLength="20" />
+          <Property Name="UNT_DESC_E_ID" Type="number" Precision="20" Scale="0" />
+          <Property Name="UNT_NO_NUM" Type="number" Precision="5" Scale="0" />
+          <Property Name="UNT_NO_ALPHA" Type="varchar2" MaxLength="5" />
+          <Property Name="UNT_NO_A_PREC" Type="varchar2" MaxLength="1" Nullable="false" />
+          <Property Name="UNT_NO_SUF" Type="varchar2" MaxLength="5" />
+        </EntityType>
+        <EntityContainer Name="ModelAddressStoreContainer">
+          <EntitySet Name="MWMS_ADDRESS_META_DATA" EntityType="Self.MWMS_ADDRESS_META_DATA" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_ADDRESS_META_DATA"."SYS_META_DATA_ID" AS "SYS_META_DATA_ID", 
+"MWMS_ADDRESS_META_DATA"."REC_TYPE" AS "REC_TYPE", 
+"MWMS_ADDRESS_META_DATA"."CODE" AS "CODE", 
+"MWMS_ADDRESS_META_DATA"."PARENT_ID" AS "PARENT_ID", 
+"MWMS_ADDRESS_META_DATA"."ENGLISH_DESCRIPTION" AS "ENGLISH_DESCRIPTION", 
+"MWMS_ADDRESS_META_DATA"."CHINESE_DESCRIPTION" AS "CHINESE_DESCRIPTION", 
+"MWMS_ADDRESS_META_DATA"."CREATED_BY" AS "CREATED_BY", 
+"MWMS_ADDRESS_META_DATA"."CREATED_DATE" AS "CREATED_DATE", 
+"MWMS_ADDRESS_META_DATA"."MODIFIED_BY" AS "MODIFIED_BY", 
+"MWMS_ADDRESS_META_DATA"."MODIFIED_DATE" AS "MODIFIED_DATE"
+FROM "MWMS2"."MWMS_ADDRESS_META_DATA" "MWMS_ADDRESS_META_DATA"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_BLK" EntityType="Self.MWMS_BLK" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_BLK"."ADR_BLK_ID" AS "ADR_BLK_ID", 
+"MWMS_BLK"."SYS_REGION_ID" AS "SYS_REGION_ID", 
+"MWMS_BLK"."SYS_DISTRICT_ID" AS "SYS_DISTRICT_ID", 
+"MWMS_BLK"."AREA_ID" AS "AREA_ID", 
+"MWMS_BLK"."BLDG_NAME_E1" AS "BLDG_NAME_E1", 
+"MWMS_BLK"."BLDG_NAME_E2" AS "BLDG_NAME_E2", 
+"MWMS_BLK"."BLDG_NAME_E3" AS "BLDG_NAME_E3", 
+"MWMS_BLK"."BLDG_NAME_C1" AS "BLDG_NAME_C1", 
+"MWMS_BLK"."BLDG_NAME_C2" AS "BLDG_NAME_C2", 
+"MWMS_BLK"."BLDG_NAME_C3" AS "BLDG_NAME_C3", 
+"MWMS_BLK"."BLK_NO" AS "BLK_NO"
+FROM "MWMS2"."MWMS_BLK" "MWMS_BLK"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_BLK_FILEREF" EntityType="Self.MWMS_BLK_FILEREF" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_BLK_FILEREF"."ADR_BLK_FILEREF_ID" AS "ADR_BLK_FILEREF_ID", 
+"MWMS_BLK_FILEREF"."ADR_BLK_ID" AS "ADR_BLK_ID", 
+"MWMS_BLK_FILEREF"."FREF_SEQ" AS "FREF_SEQ", 
+"MWMS_BLK_FILEREF"."FREF_YR" AS "FREF_YR"
+FROM "MWMS2"."MWMS_BLK_FILEREF" "MWMS_BLK_FILEREF"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_BLK_SL" EntityType="Self.MWMS_BLK_SL" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_BLK_SL"."ADR_BLK_SL_ID" AS "ADR_BLK_SL_ID", 
+"MWMS_BLK_SL"."ADR_BLK_ID" AS "ADR_BLK_ID", 
+"MWMS_BLK_SL"."SYS_ST_LOC_ID" AS "SYS_ST_LOC_ID", 
+"MWMS_BLK_SL"."ST_NO_NUM" AS "ST_NO_NUM", 
+"MWMS_BLK_SL"."ST_NO_ALPHA" AS "ST_NO_ALPHA", 
+"MWMS_BLK_SL"."ST_NO_EXT" AS "ST_NO_EXT", 
+"MWMS_BLK_SL"."UNOFF_CODE" AS "UNOFF_CODE", 
+"MWMS_BLK_SL"."BLK_SL_TYPE" AS "BLK_SL_TYPE", 
+"MWMS_BLK_SL"."PMS_ST_NO_CONFIRM" AS "PMS_ST_NO_CONFIRM", 
+"MWMS_BLK_SL"."OSADR_ST_E1" AS "OSADR_ST_E1", 
+"MWMS_BLK_SL"."OSADR_ST_E2" AS "OSADR_ST_E2", 
+"MWMS_BLK_SL"."OSADR_GEN_E" AS "OSADR_GEN_E", 
+"MWMS_BLK_SL"."OSADR_ST_C" AS "OSADR_ST_C", 
+"MWMS_BLK_SL"."OSADR_GEN_C" AS "OSADR_GEN_C"
+FROM "MWMS2"."MWMS_BLK_SL" "MWMS_BLK_SL"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_DISTRICT" EntityType="Self.MWMS_DISTRICT" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_DISTRICT"."SYS_DISTRICT_ID" AS "SYS_DISTRICT_ID", 
+"MWMS_DISTRICT"."CODE" AS "CODE", 
+"MWMS_DISTRICT"."REGION_ID" AS "REGION_ID", 
+"MWMS_DISTRICT"."DESCRIP" AS "DESCRIP", 
+"MWMS_DISTRICT"."DESCRIP_C" AS "DESCRIP_C"
+FROM "MWMS2"."MWMS_DISTRICT" "MWMS_DISTRICT"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_ST_LOC" EntityType="Self.MWMS_ST_LOC" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_ST_LOC"."SYS_ST_LOC_ID" AS "SYS_ST_LOC_ID", 
+"MWMS_ST_LOC"."SYS_ST_NAME_ID" AS "SYS_ST_NAME_ID", 
+"MWMS_ST_LOC"."SYS_LOC_NAME_ID1" AS "SYS_LOC_NAME_ID1", 
+"MWMS_ST_LOC"."SYS_LOC_NAME_ID2" AS "SYS_LOC_NAME_ID2", 
+"MWMS_ST_LOC"."SYS_LOC_NAME_ID3" AS "SYS_LOC_NAME_ID3", 
+"MWMS_ST_LOC"."SL_NAME_C" AS "SL_NAME_C", 
+"MWMS_ST_LOC"."NATURE" AS "NATURE", 
+"MWMS_ST_LOC"."LR_LOC" AS "LR_LOC", 
+"MWMS_ST_LOC"."LR_ST" AS "LR_ST"
+FROM "MWMS2"."MWMS_ST_LOC" "MWMS_ST_LOC"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_ST_NAME" EntityType="Self.MWMS_ST_NAME" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_ST_NAME"."SYS_ST_NAME_ID" AS "SYS_ST_NAME_ID", 
+"MWMS_ST_NAME"."ST_NAME" AS "ST_NAME"
+FROM "MWMS2"."MWMS_ST_NAME" "MWMS_ST_NAME"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MWMS_UNIT" EntityType="Self.MWMS_UNIT" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"MWMS_UNIT"."ADR_UNIT_ID" AS "ADR_UNIT_ID", 
+"MWMS_UNIT"."ADR_BLK_ID" AS "ADR_BLK_ID", 
+"MWMS_UNIT"."ADR_BLK_SL_ID" AS "ADR_BLK_SL_ID", 
+"MWMS_UNIT"."SYS_FLR_ALPHA_E_ID" AS "SYS_FLR_ALPHA_E_ID", 
+"MWMS_UNIT"."FLR_NUM" AS "FLR_NUM", 
+"MWMS_UNIT"."FLR_ALPHA_E_SUFFIX" AS "FLR_ALPHA_E_SUFFIX", 
+"MWMS_UNIT"."UNT_DESC_E_ID" AS "UNT_DESC_E_ID", 
+"MWMS_UNIT"."UNT_NO_NUM" AS "UNT_NO_NUM", 
+"MWMS_UNIT"."UNT_NO_ALPHA" AS "UNT_NO_ALPHA", 
+"MWMS_UNIT"."UNT_NO_A_PREC" AS "UNT_NO_A_PREC", 
+"MWMS_UNIT"."UNT_NO_SUF" AS "UNT_NO_SUF"
+FROM "MWMS2"."MWMS_UNIT" "MWMS_UNIT"</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelAddress" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EntitiesAddress" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MWMS_ADDRESS_META_DATA" EntityType="ModelAddress.MWMS_ADDRESS_META_DATA" />
+          <EntitySet Name="MWMS_BLK" EntityType="ModelAddress.MWMS_BLK" />
+          <EntitySet Name="MWMS_BLK_FILEREF" EntityType="ModelAddress.MWMS_BLK_FILEREF" />
+          <EntitySet Name="MWMS_BLK_SL" EntityType="ModelAddress.MWMS_BLK_SL" />
+          <EntitySet Name="MWMS_DISTRICT" EntityType="ModelAddress.MWMS_DISTRICT" />
+          <EntitySet Name="MWMS_ST_LOC" EntityType="ModelAddress.MWMS_ST_LOC" />
+          <EntitySet Name="MWMS_ST_NAME" EntityType="ModelAddress.MWMS_ST_NAME" />
+          <EntitySet Name="MWMS_UNIT" EntityType="ModelAddress.MWMS_UNIT" />
+        </EntityContainer>
+        <EntityType Name="MWMS_ADDRESS_META_DATA">
+          <Key>
+            <PropertyRef Name="SYS_META_DATA_ID" />
+            <PropertyRef Name="REC_TYPE" />
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="SYS_META_DATA_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="REC_TYPE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PARENT_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="ENGLISH_DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="CHINESE_DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="MWMS_BLK">
+          <Key>
+            <PropertyRef Name="ADR_BLK_ID" />
+          </Key>
+          <Property Name="ADR_BLK_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="SYS_REGION_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SYS_DISTRICT_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="AREA_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="BLDG_NAME_E1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BLDG_NAME_E2" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BLDG_NAME_E3" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="BLDG_NAME_C1" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="BLDG_NAME_C2" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="BLDG_NAME_C3" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="BLK_NO" Type="String" MaxLength="163" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_BLK_FILEREF">
+          <Key>
+            <PropertyRef Name="ADR_BLK_FILEREF_ID" />
+          </Key>
+          <Property Name="ADR_BLK_FILEREF_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="ADR_BLK_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="FREF_SEQ" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="FREF_YR" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_BLK_SL">
+          <Key>
+            <PropertyRef Name="ADR_BLK_SL_ID" />
+            <PropertyRef Name="ADR_BLK_ID" />
+            <PropertyRef Name="BLK_SL_TYPE" />
+            <PropertyRef Name="OSADR_GEN_E" />
+            <PropertyRef Name="OSADR_GEN_C" />
+          </Key>
+          <Property Name="ADR_BLK_SL_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="ADR_BLK_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="SYS_ST_LOC_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="ST_NO_NUM" Type="Int16" />
+          <Property Name="ST_NO_ALPHA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ST_NO_EXT" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="UNOFF_CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BLK_SL_TYPE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PMS_ST_NO_CONFIRM" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OSADR_ST_E1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="OSADR_ST_E2" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="OSADR_GEN_E" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OSADR_ST_C" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="OSADR_GEN_C" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_DISTRICT">
+          <Key>
+            <PropertyRef Name="SYS_DISTRICT_ID" />
+            <PropertyRef Name="CODE" />
+            <PropertyRef Name="REGION_ID" />
+            <PropertyRef Name="DESCRIP" />
+          </Key>
+          <Property Name="SYS_DISTRICT_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="CODE" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="REGION_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="DESCRIP" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIP_C" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_ST_LOC">
+          <Key>
+            <PropertyRef Name="SYS_ST_LOC_ID" />
+            <PropertyRef Name="NATURE" />
+          </Key>
+          <Property Name="SYS_ST_LOC_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="SYS_ST_NAME_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID1" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID2" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SYS_LOC_NAME_ID3" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SL_NAME_C" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="NATURE" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LR_LOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="LR_ST" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_ST_NAME">
+          <Key>
+            <PropertyRef Name="SYS_ST_NAME_ID" />
+            <PropertyRef Name="ST_NAME" />
+          </Key>
+          <Property Name="SYS_ST_NAME_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="ST_NAME" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MWMS_UNIT">
+          <Key>
+            <PropertyRef Name="ADR_UNIT_ID" />
+            <PropertyRef Name="ADR_BLK_ID" />
+            <PropertyRef Name="UNT_NO_A_PREC" />
+          </Key>
+          <Property Name="ADR_UNIT_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="ADR_BLK_ID" Type="Decimal" Nullable="false" Precision="20" Scale="0" />
+          <Property Name="ADR_BLK_SL_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="SYS_FLR_ALPHA_E_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="FLR_NUM" Type="Int16" />
+          <Property Name="FLR_ALPHA_E_SUFFIX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UNT_DESC_E_ID" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="UNT_NO_NUM" Type="Int16" />
+          <Property Name="UNT_NO_ALPHA" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UNT_NO_A_PREC" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="UNT_NO_SUF" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelAddressStoreContainer" CdmEntityContainer="EntitiesAddress">
+          <EntitySetMapping Name="MWMS_ADDRESS_META_DATA">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_ADDRESS_META_DATA">
+              <MappingFragment StoreEntitySet="MWMS_ADDRESS_META_DATA">
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CHINESE_DESCRIPTION" ColumnName="CHINESE_DESCRIPTION" />
+                <ScalarProperty Name="ENGLISH_DESCRIPTION" ColumnName="ENGLISH_DESCRIPTION" />
+                <ScalarProperty Name="PARENT_ID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="REC_TYPE" ColumnName="REC_TYPE" />
+                <ScalarProperty Name="SYS_META_DATA_ID" ColumnName="SYS_META_DATA_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_BLK">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_BLK">
+              <MappingFragment StoreEntitySet="MWMS_BLK">
+                <ScalarProperty Name="BLK_NO" ColumnName="BLK_NO" />
+                <ScalarProperty Name="BLDG_NAME_C3" ColumnName="BLDG_NAME_C3" />
+                <ScalarProperty Name="BLDG_NAME_C2" ColumnName="BLDG_NAME_C2" />
+                <ScalarProperty Name="BLDG_NAME_C1" ColumnName="BLDG_NAME_C1" />
+                <ScalarProperty Name="BLDG_NAME_E3" ColumnName="BLDG_NAME_E3" />
+                <ScalarProperty Name="BLDG_NAME_E2" ColumnName="BLDG_NAME_E2" />
+                <ScalarProperty Name="BLDG_NAME_E1" ColumnName="BLDG_NAME_E1" />
+                <ScalarProperty Name="AREA_ID" ColumnName="AREA_ID" />
+                <ScalarProperty Name="SYS_DISTRICT_ID" ColumnName="SYS_DISTRICT_ID" />
+                <ScalarProperty Name="SYS_REGION_ID" ColumnName="SYS_REGION_ID" />
+                <ScalarProperty Name="ADR_BLK_ID" ColumnName="ADR_BLK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_BLK_FILEREF">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_BLK_FILEREF">
+              <MappingFragment StoreEntitySet="MWMS_BLK_FILEREF">
+                <ScalarProperty Name="FREF_YR" ColumnName="FREF_YR" />
+                <ScalarProperty Name="FREF_SEQ" ColumnName="FREF_SEQ" />
+                <ScalarProperty Name="ADR_BLK_ID" ColumnName="ADR_BLK_ID" />
+                <ScalarProperty Name="ADR_BLK_FILEREF_ID" ColumnName="ADR_BLK_FILEREF_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_BLK_SL">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_BLK_SL">
+              <MappingFragment StoreEntitySet="MWMS_BLK_SL">
+                <ScalarProperty Name="OSADR_GEN_C" ColumnName="OSADR_GEN_C" />
+                <ScalarProperty Name="OSADR_ST_C" ColumnName="OSADR_ST_C" />
+                <ScalarProperty Name="OSADR_GEN_E" ColumnName="OSADR_GEN_E" />
+                <ScalarProperty Name="OSADR_ST_E2" ColumnName="OSADR_ST_E2" />
+                <ScalarProperty Name="OSADR_ST_E1" ColumnName="OSADR_ST_E1" />
+                <ScalarProperty Name="PMS_ST_NO_CONFIRM" ColumnName="PMS_ST_NO_CONFIRM" />
+                <ScalarProperty Name="BLK_SL_TYPE" ColumnName="BLK_SL_TYPE" />
+                <ScalarProperty Name="UNOFF_CODE" ColumnName="UNOFF_CODE" />
+                <ScalarProperty Name="ST_NO_EXT" ColumnName="ST_NO_EXT" />
+                <ScalarProperty Name="ST_NO_ALPHA" ColumnName="ST_NO_ALPHA" />
+                <ScalarProperty Name="ST_NO_NUM" ColumnName="ST_NO_NUM" />
+                <ScalarProperty Name="SYS_ST_LOC_ID" ColumnName="SYS_ST_LOC_ID" />
+                <ScalarProperty Name="ADR_BLK_ID" ColumnName="ADR_BLK_ID" />
+                <ScalarProperty Name="ADR_BLK_SL_ID" ColumnName="ADR_BLK_SL_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_DISTRICT">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_DISTRICT">
+              <MappingFragment StoreEntitySet="MWMS_DISTRICT">
+                <ScalarProperty Name="DESCRIP_C" ColumnName="DESCRIP_C" />
+                <ScalarProperty Name="DESCRIP" ColumnName="DESCRIP" />
+                <ScalarProperty Name="REGION_ID" ColumnName="REGION_ID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="SYS_DISTRICT_ID" ColumnName="SYS_DISTRICT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_ST_LOC">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_ST_LOC">
+              <MappingFragment StoreEntitySet="MWMS_ST_LOC">
+                <ScalarProperty Name="LR_ST" ColumnName="LR_ST" />
+                <ScalarProperty Name="LR_LOC" ColumnName="LR_LOC" />
+                <ScalarProperty Name="NATURE" ColumnName="NATURE" />
+                <ScalarProperty Name="SL_NAME_C" ColumnName="SL_NAME_C" />
+                <ScalarProperty Name="SYS_LOC_NAME_ID3" ColumnName="SYS_LOC_NAME_ID3" />
+                <ScalarProperty Name="SYS_LOC_NAME_ID2" ColumnName="SYS_LOC_NAME_ID2" />
+                <ScalarProperty Name="SYS_LOC_NAME_ID1" ColumnName="SYS_LOC_NAME_ID1" />
+                <ScalarProperty Name="SYS_ST_NAME_ID" ColumnName="SYS_ST_NAME_ID" />
+                <ScalarProperty Name="SYS_ST_LOC_ID" ColumnName="SYS_ST_LOC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_ST_NAME">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_ST_NAME">
+              <MappingFragment StoreEntitySet="MWMS_ST_NAME">
+                <ScalarProperty Name="ST_NAME" ColumnName="ST_NAME" />
+                <ScalarProperty Name="SYS_ST_NAME_ID" ColumnName="SYS_ST_NAME_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MWMS_UNIT">
+            <EntityTypeMapping TypeName="ModelAddress.MWMS_UNIT">
+              <MappingFragment StoreEntitySet="MWMS_UNIT">
+                <ScalarProperty Name="UNT_NO_SUF" ColumnName="UNT_NO_SUF" />
+                <ScalarProperty Name="UNT_NO_A_PREC" ColumnName="UNT_NO_A_PREC" />
+                <ScalarProperty Name="UNT_NO_ALPHA" ColumnName="UNT_NO_ALPHA" />
+                <ScalarProperty Name="UNT_NO_NUM" ColumnName="UNT_NO_NUM" />
+                <ScalarProperty Name="UNT_DESC_E_ID" ColumnName="UNT_DESC_E_ID" />
+                <ScalarProperty Name="FLR_ALPHA_E_SUFFIX" ColumnName="FLR_ALPHA_E_SUFFIX" />
+                <ScalarProperty Name="FLR_NUM" ColumnName="FLR_NUM" />
+                <ScalarProperty Name="SYS_FLR_ALPHA_E_ID" ColumnName="SYS_FLR_ALPHA_E_ID" />
+                <ScalarProperty Name="ADR_BLK_SL_ID" ColumnName="ADR_BLK_SL_ID" />
+                <ScalarProperty Name="ADR_BLK_ID" ColumnName="ADR_BLK_ID" />
+                <ScalarProperty Name="ADR_UNIT_ID" ColumnName="ADR_UNIT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

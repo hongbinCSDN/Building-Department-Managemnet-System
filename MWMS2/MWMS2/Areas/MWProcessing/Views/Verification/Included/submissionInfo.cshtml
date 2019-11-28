@@ -1,0 +1,94 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+<div class="panelHeader">
+    <label>
+        Submission Information
+    </label>
+    @if (!Model.IsSummary)
+    {
+        <button type="button" style="float:right;height:30px" hidden>Edit</button>
+    }
+</div>
+<div class="displayForm">
+    @Html.HiddenFor(model => model.P_MW_RECORD.UUID)
+    @Html.HiddenFor(model => model.P_MW_RECORD.S_FORM_TYPE_CODE)
+    @Html.HiddenFor(model => model.P_MW_REFERENCE_NO.UUID)
+    @Html.HiddenFor(model => model.P_MW_REFERENCE_NO.REFERENCE_NO)
+    @Html.HiddenFor(model => model.P_MW_DSN.DSN)
+    @Html.HiddenFor(model => model.V_UUID)
+    @Html.HiddenFor(model => model.IsReadonly)
+    @Html.HiddenFor(model => model.IsSummary)
+    @Html.HiddenFor(model => model.HandlingUnit)
+    @Html.HiddenFor(model => model.IsSAC)
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Ref. No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Form No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Previous MW No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_APPOINTED_PROFESSIONALs[0].MW_NO
+                <br />
+                @Model.P_MW_APPOINTED_PROFESSIONALs[3].MW_NO
+            </div>
+            <div class="w3-col l3 m12 s12">
+                File Reference No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.FILEREF_FOUR / @Model.P_MW_RECORD.FILEREF_TWO
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Received Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @(string.IsNullOrEmpty(Model.P_MW_RECORD.FIRST_RECEIVED_DATE.ToString()) ? "" : Model.P_MW_RECORD.FIRST_RECEIVED_DATE.ToString().Substring(0, 10))
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Location/Address of the proposed minor works are to be carried out
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_RECORD.LOCATION_OF_MINOR_WORK
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Commencement Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @(string.IsNullOrEmpty(Model.P_MW_RECORD.COMMENCEMENT_DATE.ToString()) ? "" : Model.P_MW_RECORD.COMMENCEMENT_DATE.ToString().Substring(0, 10))
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Completion Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @(string.IsNullOrEmpty(Model.P_MW_RECORD.COMPLETION_DATE.ToString()) ? "" : Model.P_MW_RECORD.COMPLETION_DATE.ToString().Substring(0, 10))
+            </div>
+        </div>
+    </div>
+
+</div>

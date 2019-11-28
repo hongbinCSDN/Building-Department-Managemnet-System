@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string r = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["controller"]);
+
+    if ( (r.ToLower().Contains("logout")) || (r.ToLower().Contains("login")) || (r.ToLower().Contains("timeout")))
+    {
+        Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
+    }
+
+
+}

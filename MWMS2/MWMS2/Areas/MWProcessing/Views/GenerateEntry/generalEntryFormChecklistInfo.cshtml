@@ -1,0 +1,103 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<div class="panelHeader">
+    Case Information
+</div>
+
+<div class="displayForm">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Ref No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+                @Html.HiddenFor(m => m.P_MW_REFERENCE_NO.REFERENCE_NO)
+            </div>
+            <div class="w3-col l3 m12 s12">
+                ICC No.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_GENERAL_RECORD.ICC_NUMBER
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Subject Matter
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_GENERAL_RECORD.SUBJECT_MATTER
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Channel
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Model.P_MW_GENERAL_RECORD.CHANNEL
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Received Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @if (Model.IsReadOnly)
+                {
+                    @Html.TextBoxFor(m => m.P_MW_GENERAL_RECORD.RECEIVE_DATE, new { @class = "inputDate", disabled = "disabled" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.P_MW_GENERAL_RECORD.RECEIVE_DATE, new { @class = "inputDate" })
+                }
+            </div>
+            <div class="w3-col l3 m12 s12">
+                Target Reply Date
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @if (Model.IsReadOnly)
+                {
+                    @Html.TextBoxFor(m => m.P_MW_GENERAL_RECORD.CLOSE_DATE, new { @class = "inputDate", disabled = "disabled" })
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.P_MW_GENERAL_RECORD.CLOSE_DATE, new { @class = "inputDate" })
+                }
+                @*@Html.TextBoxFor(m => m.P_MW_GENERAL_RECORD.CLOSE_DATE, new { @class = "inputDate" })*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="panelHeader">
+    Image(s)
+</div>
+
+<div class="displayForm">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Incoming
+            </div>
+            <div class="w3-col l9 m12 s12">
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Outgoing
+            </div>
+            <div class="w3-col l9 m12 s12">
+
+            </div>
+        </div>
+    </div>
+
+</div>

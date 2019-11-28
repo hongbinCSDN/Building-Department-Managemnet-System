@@ -1,0 +1,189 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.Fn01LM_SearchModel
+
+<div class="panelHeader">
+    Search Criteria
+</div>
+
+<div id="inputForm">
+    <div id="searchTable" class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Search MW No. or DSN (For Submission without MW NO):
+
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => m.DSNOrMWNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i>  Search</button>
+        </div>
+    </div>
+</div>
+
+<br />
+<div id="resultPanel">
+</div>
+
+<script type="text/javascript">
+
+    function onClickDSN(uuid) {
+        goTo(domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/Edit", [{ name: "id", value: uuid }]);
+    }
+    function onPrintPDF(uuid) {
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        //dlForm.target = "dlFrame";
+        dlForm.action = "PrintPDF";
+        dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": uuid });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+    domReady(function () {
+        var searching;
+
+
+        searching = new complexResultSearcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchTable"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "MW NO.", columnName: "MW_NO"
+                }
+                , {
+                    displayName: "Particulars", columnName: ""
+                }
+            ]
+        });
+
+        $(document).on('keypress', function (e) {
+            if (e.which == 13) {
+                searching.search();
+            }
+        });
+        //searching = new complexSearcher(searchParams);
+    });
+</script>
+<style type="text/css">
+    .wordClass {
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow: hidden;
+    }
+</style>
+<script id="resultTableTemp" type="text/x-handlebars-template">
+    {{#each Data}}
+    <tr class="complexResultTableTr">
+        <td style="border: 1px solid black !important;box-shadow:0px 0px  10px 5px #aaa;background-color:#E0E0E0;">
+            {{MW_NO}}
+        </td>
+        <td style="border: 1px solid black !important;box-shadow:0px 0px  10px 5px #aaa;background-color:#E0E0E0;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            Address:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.ADDRESS}}
+                            </span>
+                        </td>
+                        <td>
+                            File Ref No.:
+                            <span class="wordClass">
+                                {{{FINAL_RECORD.FILEREF_FOUR}}}
+                                {{{FINAL_RECORD.FILEREF_TWO}}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px">
+                            PBP:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.PBP_NO}}
+                                <img style="width:23px;height:23px;margin-top:-5px;" src="../../img/info_icon.png" />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            PRC:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.PRC_NO}}
+                                <img style="width:23px;height:23px;margin-top:-5px;" src="../../img/info_icon.png" />
+                            </span>
+                        </td>
+                        <td style="width:10%">
+                            Audit:
+                            <span class="wordClass">
+                                {{#if FINAL_RECORD.AUDIT_RELATED}}
+                                {{FINAL_RECORD.AUDIT_RELATED}}
+                                {{else}}
+                                N
+                                {{/if}}
+                                <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            開工:
+                            <span class="wordClass">
+                                {{formatDate FINAL_RECORD.COMM_DATE}} <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            完工:
+                            <span class="wordClass">
+                                {{formatDate FINAL_RECORD.COMP_DATE}} <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            MW items:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.ITEM_DISPLAY}}<br />
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        DSN :
+                        <a href="/MWMS2/MWProcessing/Fn01LM_Search/PrintPDF/{{UUID}}" target="_blank"><i class="fa fa-print"></i></a>
+                        <a href="#" onclick="onClickDSN('{{UUID}}')">{{DSN}}</a>
+                        <!--<a href="#" onclick="onPrintPDF('{{UUID}}')"><i class="fa fa-print"></i></a>-->
+                    </td>
+                    <td colspan="2">
+                        Form {{FORM_NO}} ({{NATURE}})
+                    </td>
+                    <td colspan="2">
+                        Received on: {{formatDate RECEIVED_DATE}}
+                    </td>
+                    <td>
+                        Ack'd on:{{formatDate LETTER_DATE}}
+                    </td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td>
+                        Mod Ref No.:
+                    </td>
+                    <td>
+                        MW 001/2018(MOD)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:120px"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:10%"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:18%"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {{/each}}
+</script>

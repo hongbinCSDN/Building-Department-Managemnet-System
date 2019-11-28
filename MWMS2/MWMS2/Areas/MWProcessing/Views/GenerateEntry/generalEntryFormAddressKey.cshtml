@@ -1,0 +1,155 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<div class="displayForm">
+    <table class="w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>Street/Road/Village</th>
+                <th>Street Number</th>
+                <th>Building/Estate</th>
+                <th>Floor</th>
+                <th>Flat/Room</th>
+                <th>District</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyAddress">
+            @if (Model.P_MW_ADDRESSES != null)
+            {
+                for (int i = 0; i < Model.P_MW_ADDRESSES.Count; i++)
+                {
+                    <tr>
+                        <td class="w3-padding">
+                            @Html.HiddenFor(m => m.P_MW_ADDRESSES[i].UUID)
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_STREET)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].STREE_NAME)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_STREET_NO)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].STREET_NO)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_BUILDINGNAME)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].BUILDING_NAME)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_FLOOR)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].FLOOR)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_FLAT)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].FLAT)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_DISTRICT)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISTRICT)
+                        </td>
+                        <td class="w3-padding">
+                            @*@Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].DISPLAY_REGION)*@
+                            @Html.TextBoxFor(m => m.P_MW_ADDRESSES[i].REGION)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Model.IsReadOnly)
+    {
+        <div class="w3-container footer">
+            <button id="addAddressBtn " class="btn btn-default disableBtnClass" onclick="addAddress('CLASS1')" type="button" disabled>Add</button>
+            <button class="btn btn-default disableBtnClass" onclick="goTo('Index')" type="button" disabled>Copy</button>
+        </div>
+    }
+    else
+    {
+        <div class="w3-container footer">
+            <button id="addAddressBtn" class="btn btn-default" onclick="addAddress('CLASS1')" type="button">Add</button>
+            <button class="btn btn-default" onclick="goTo('Index')" type="button">Copy</button>
+        </div>
+    }
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+
+    });
+    function addAddress() {
+        var rows = $("#tbodyAddress").find("tr").length;
+        var tr = dom("tr");
+
+        var td1 = dom("td");
+        var input1 = dom("input");
+        attr(input1, "id", "P_MW_ADDRESSES" + "_" + rows + "__STREE_NAME");
+        attr(input1, "name", "P_MW_ADDRESSES" + "[" + rows + "].STREE_NAME");
+        attr(input1, "width", "100%")
+        attr(input1, "type", "text");
+        td1.appendChild(input1);
+        attr(td1, "class", "w3-padding");
+
+        var td2 = dom("td");
+        var input2 = dom("input");
+        attr(input2, "id", "P_MW_ADDRESSES" + "_" + rows + "__STREET_NO");
+        attr(input2, "name", "P_MW_ADDRESSES" + "[" + rows + "].STREET_NO");
+        attr(input2, "width", "100%")
+        attr(input2, "type", "text");
+        td2.appendChild(input2);
+        attr(td2, "class", "w3-padding");
+
+        var td3 = dom("td");
+        var input3 = dom("input");
+        attr(input3, "id", "P_MW_ADDRESSES" + "_" + rows + "__BUILDING_NAME");
+        attr(input3, "name", "P_MW_ADDRESSES" + "[" + rows + "].BUILDING_NAME");
+        attr(input3, "width", "100%")
+        attr(input3, "type", "text");
+        td3.appendChild(input3);
+        attr(td3, "class", "w3-padding");
+
+        var td4 = dom("td");
+        var input4 = dom("input");
+        attr(input4, "id", "P_MW_ADDRESSES" + "_" + rows + "__FLOOR");
+        attr(input4, "name", "P_MW_ADDRESSES" + "[" + rows + "].FLOOR");
+        attr(input4, "width", "100%")
+        attr(input4, "type", "text");
+        td4.appendChild(input4);
+        attr(td4, "class", "w3-padding");
+
+        var td5 = dom("td");
+        var input5 = dom("input");
+        attr(input5, "id", "P_MW_ADDRESSES" + "_" + rows + "__FLAT");
+        attr(input5, "name", "P_MW_ADDRESSES" + "[" + rows + "].FLAT");
+        attr(input5, "width", "100%")
+        attr(input5, "type", "text");
+        td5.appendChild(input5);
+        attr(td5, "class", "w3-padding");
+
+        var td6 = dom("td");
+        var input6 = dom("input");
+        attr(input6, "id", "P_MW_ADDRESSES" + "_" + rows + "__DISTRICT");
+        attr(input6, "name", "P_MW_ADDRESSES" + "[" + rows + "].DISTRICT");
+        attr(input6, "width", "100%")
+        attr(input6, "type", "text");
+        td6.appendChild(input6);
+        attr(td6, "class", "w3-padding");
+
+        var td7 = dom("td");
+        var input7 = dom("input");
+        attr(input7, "id", "P_MW_ADDRESSES" + "_" + rows + "__REGION");
+        attr(input7, "name", "P_MW_ADDRESSES" + "[" + rows + "].REGION");
+        attr(input7, "width", "100%")
+        attr(input7, "type", "text");
+        td7.appendChild(input7);
+        attr(td7, "class", "w3-padding");
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        tr.appendChild(td7);
+
+        $("#tbodyAddress").append(tr);
+    };
+
+</script>

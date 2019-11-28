@@ -1,0 +1,880 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_SSDisplayModel
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sb_info_height = $("#sb-info-field").height();
+            $("#sb-info-title").height(sb_info_height);
+            var identity_no_height1 = $("#identity-no-field1").height();
+            $("#identity-no-label1").height(identity_no_height1);
+            var identity_no_height2 = $("#identity-no-field2").height();
+            $("#identity-no-label2").height(identity_no_height2);
+            var identity_no_height3 = $("#identity-no-field3").height();
+            $("#identity-no-label3").height(identity_no_height3);
+
+            $(window).resize(function () {
+                var sb_info_height = $("#sb-info-field").height();
+                $("#sb-info-title").height(sb_info_height);
+                var identity_no_height1 = $("#identity-no-field1").height();
+                $("#identity-no-label1").height(identity_no_height1);
+                var identity_no_height2 = $("#identity-no-field2").height();
+                $("#identity-no-label2").height(identity_no_height2);
+                var identity_no_height3 = $("#identity-no-field3").height();
+                $("#identity-no-label3").height(identity_no_height3);
+            });
+        });
+
+    </script>
+}
+
+<style>
+    .w3-row-bottom {
+        border-style: solid;
+        border-color: #fff;
+        border-width: 0px 0px 1px 0px;
+    }
+
+    .section-title {
+        font-weight: bold;
+        background-color: #DADADA;
+    }
+</style>
+
+<div class="sList">
+
+    <div class="w3-border displayForm">
+        <div class="w3-row" id="validation">
+            <div class="panelHeader">Validation</div>
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>Form Code</th>
+                        <th>Received Date</th>
+                        <th>Expiry Date</th>
+                        <th>Validation Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.ValidationList != null && Model.ValidationList.Count() > 0)
+                        {
+                            foreach (var item in Model.ValidationList)
+                            {
+                                string result = "";
+                                if (item.ValidationResult != null)
+                                {
+                                    if (item.ValidationResult.Equals("A"))
+                                    {
+                                        result = "Accept";
+                                    }
+                                    else if (item.ValidationResult.Equals("R"))
+                                    {
+                                        result = "Refuse";
+                                    }
+                                    else if (item.ValidationResult.Equals("CA"))
+                                    {
+                                        result = "Conditional Accept";
+                                    }
+                                }
+                                <tr>
+                                    <td>@item.FormCode</td>
+                                    <td>@item.ReceivedDate</td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td>@result</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div class="w3-border displayForm">
+        <div class="w3-row" id="signboard-info">
+            <div class="panelHeader">Signboard Information</div>
+            <div class="w3-row">
+                <div class="w3-col l4 m4 s4">Submission No.</div>
+                <div class="w3-col l8 m8 s8">@Model.SubmissionNo</div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l4 m4 s4" id="sb-info-title">Signboard Information</div>
+                <div class="w3-col l8 m8 s8" id="sb-info-field">
+                    <div class="w3-row">
+                        <div class="w3-col l3 m3 s3 ">Description</div>
+                        <div class="w3-col l7 m10 s10 ">@Model.Description</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4 ">Facade</div>
+                        <div class="w3-col l2 m2 s2">@Model.Facade</div>
+                        <div class="w3-col l4 m4 s4">Type</div>
+                        <div class="w3-col l2 m2 s2">@Model.Type</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4">Bottom Fixing at Floor</div>
+                        <div class="w3-col l2 m2 s2">@Model.BtmFloor</div>
+                        <div class="w3-col l4 m4 s4">Top Fixing at Floor</div>
+                        <div class="w3-col l2 m2 s2">@Model.TopFloor</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4">Display Area (m<sup>2</sup>)</div>
+                        <div class="w3-col l2 m2 s2">@Model.Area</div>
+                        <div class="w3-col l4 m4 s4">Projection (m)</div>
+                        <div class="w3-col l2 m2 s2">@Model.Projection</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4">Height of Signboard (m)</div>
+                        <div class="w3-col l2 m2 s2">@Model.Height</div>
+                        <div class="w3-col l4 m4 s4">Clearance above ground (m)</div>
+                        <div class="w3-col l2 m2 s2">@Model.Clearance</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4">LED/TV</div>
+                        <div class="w3-col l2 m2 s2">@Model.Led</div>
+                        <div class="w3-col l4 m4 s4">Building Portion</div>
+                        <div class="w3-col l2 m2 s2">@Model.SignboardBuilding</div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l4 m4 s4">Status</div>
+                        <div class="w3-col l2 m2 s2">@Model.Status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row" id="signboard-address">
+            <div class="w3-col l12 m12 s12 section-title">Signboard Address:</div>
+            <div class="w3-col l8 m8 s8">
+                <div class="w3-col l6 m6 s6 w3-row-bottom">Flat/Room</div>
+                <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.SignboardFlat</div>
+                <div class="w3-col l1 m1 s1 w3-row-bottom">Floor</div>
+                <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.SignboardFloor</div>
+                <div class="w3-col l1 m1 s1 w3-row-bottom">Block</div>
+                <div class="w3-col l2 m2 s2 w3-row-bottom">@Model.SignboardBlock</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">Building/Estate</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">@Model.SignboardBuilding</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">Street Number</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">@Model.SignboardStreetNo</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">Street/Road/Village</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">@Model.SignboardStreet</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">District</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">@Model.SignboardDistrict</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">Region</div>
+                <div class="w3-col l6 m6 s6 w3-row-bottom">
+                    @{
+                        if (Model.SignboardRegion.Equals("HK"))
+                        {
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "HK", new { disabled = "disabled", @checked = "checked" })
+                            @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "KLW", new { disabled = "disabled" })
+                            @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "NT", new { disabled = "disabled" })
+                            @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                        }
+                        else if (Model.SignboardRegion.Equals("KLW"))
+                        {
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "HK", new { disabled = "disabled" })
+                            @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "KLW", new { disabled = "disabled", @checked = "checked" })
+                            @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "NT", new { disabled = "disabled" })
+                            @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                        }
+                        else if (Model.SignboardRegion.Equals("NT"))
+                        {
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "HK", new { disabled = "disabled" })
+                            @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "KLW", new { disabled = "disabled" })
+                            @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "NT", new { disabled = "disabled", @checked = "checked" })
+                            @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "HK", new { disabled = "disabled" })
+                            @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "KLW", new { disabled = "disabled" })
+                            @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                            @Html.RadioButtonFor(model => model.SignboardRegion, "NT", new { disabled = "disabled" })
+                            @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                        }
+                    }
+                </div>
+                <div class="w3-col l6 m6 s6">RVD No.</div>
+                <div class="w3-col l6 m6 s6">@Model.SignboardRvdNo</div>
+            </div>
+            <div class="w3-col l4 m4 s4" style="border-bottom: none; text-align: center;">
+                @if (!Model.Thumbnail.Equals("No Thumbnail"))
+                {
+                    <img src="@Model.Thumbnail" style="width: @Model.SIGNBOARD_THUMBNAIL_WIDTH" type="image/jpeg" />
+                }
+                else
+                {
+                    <br /><br /><br />
+                    <div style="text-align: center; background-color: #EFEFEF;">@Model.Thumbnail</div>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    @if (Model.ShowPrivacy)
+    {
+        <div class=" w3-border displayForm">
+            <div class="w3-row" id="paw">
+                <div class="panelHeader">Privacy Information: Person assigning work (PAW)</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Chinese Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.PawChiName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">English Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.PawEngName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4" id="identity-no-label1">Identity No.</div>
+                    <div class="w3-col l8 m8 s8" id="identity-no-field1">
+                        @{
+                            if (Model.PawIdNo != null)
+                            {
+                                <div class="w3-col 12 m12 s12">@Model.PawIdNo</div>
+                            }
+                        }
+                        <div class="w3-col 12 m12 s12">
+                            @{
+                                if (Model.PawIdType.Equals("1"))
+                                {
+                                    @Html.RadioButtonFor(model => model.PawIdType, "1", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.PawIdType.Equals("2"))
+                                {
+                                    @Html.RadioButtonFor(model => model.PawIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "2", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.PawIdType.Equals("3"))
+                                {
+                                    @Html.RadioButtonFor(model => model.PawIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "3", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px; " })
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.PawIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.PawIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.")
+                                }
+                            }
+
+                        </div>
+                        <div class="w3-col 12 m12 s12">Country of Issue: @Model.PawIdIssueCountry</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row" id="paw-address">
+                <div class="w3-col l12 m12 s12 section-title">Correspondence Address:</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Flat/Room</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.PawFlat</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Floor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.PawFloor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Block</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">@Model.PawBlock</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Building/Estate</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.PawBuilding</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street Number</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.PawStreetNo</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street/Road/Village</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.PawStreet</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">District</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.PawDistrict</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Region</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">
+                        @{
+                            if (Model.PawRegion.Equals("HK"))
+                            {
+                                @Html.RadioButtonFor(model => model.PawRegion, "HK", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.PawRegion.Equals("KLW"))
+                            {
+                                @Html.RadioButtonFor(model => model.PawRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "KLW", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.PawRegion.Equals("NT"))
+                            {
+                                @Html.RadioButtonFor(model => model.PawRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "NT", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.PawRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.PawRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">E-mail Address</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.PawEmail</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">Contact No.</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.PawContact</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Fax No.</div>
+                    <div class="w3-col l8 m8 s8">@Model.PawFax</div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class=" w3-border displayForm">
+            <div class="w3-row" id="owner">
+                <div class="panelHeader">Owner of the Signboard</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Chinese Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.OwnerChiName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">English Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.OwnerEngName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4" id="identity-no-label2">Identity No.</div>
+                    <div class="w3-col l8 m8 s8" id="identity-no-field2">
+                        @{
+                            if (Model.OwnerIdNo != null)
+                            {
+                                <div class="w3-col 12 m12 s12">@Model.OwnerIdNo</div>
+                            }
+                        }
+                        <div class="w3-col 12 m12 s12">
+                            @{
+                                if (Model.OwnerIdType.Equals("1"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "1", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.OwnerIdType.Equals("2"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "2", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.OwnerIdType.Equals("3"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "3", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px; " })
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.OwnerIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.")
+                                }
+                            }
+
+                        </div>
+                        <div class="w3-col 12 m12 s12">Country of Issue: @Model.OwnerIdIssueCountry</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row" id="owner-address">
+                <div class="w3-col l12 m12 s12 section-title">Correspondence Address:</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Flat/Room</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.OwnerFlat</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Floor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.OwnerFloor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Block</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">@Model.OwnerBlock</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Building/Estate</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OwnerBuilding</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street Number</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OwnerStreetNo</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street/Road/Village</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OwnerStreet</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">District</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OwnerDistrict</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Region</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">
+                        @{
+                            if (Model.OwnerRegion.Equals("HK"))
+                            {
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "HK", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.OwnerRegion.Equals("KLW"))
+                            {
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "KLW", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.OwnerRegion.Equals("NT"))
+                            {
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "NT", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OwnerRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">E-mail Address</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OwnerEmail</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">Contact No.</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OwnerContact</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Fax No.</div>
+                    <div class="w3-col l8 m8 s8">@Model.OwnerFax</div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class=" w3-border displayForm">
+            <div class="w3-row" id="oi">
+                <div class="panelHeader">Particulars of the corresponding Owner's Corporation or Property Management Company when common areas may be involved by the works to be carried out</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Chinese Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.OiChiName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">English Name</div>
+                    <div class="w3-col l8 m8 s8">@Model.OiEngName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4" id="identity-no-label3">Identity No.</div>
+                    <div class="w3-col l8 m8 s8" id="identity-no-field3">
+                        @{
+                            if (Model.OiIdNo != null)
+                            {
+                                <div class="w3-col 12 m12 s12">@Model.OiIdNo</div>
+                            }
+                        }
+                        <div class="w3-col 12 m12 s12">
+                            @{
+                                if (Model.OiIdType.Equals("1"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OiIdType, "1", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.OiIdType.Equals("2"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OiIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "2", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px;" })
+                                }
+                                else if (Model.OiIdType.Equals("3"))
+                                {
+                                    @Html.RadioButtonFor(model => model.OiIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "3", new { disabled = "disabled", @checked = "checked" })
+                                    @Html.Label("3", "Business Registration No.", new { style = "margin-left: 5px; " })
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.OiIdType, "1", new { disabled = "disabled" })
+                                    @Html.Label("1", "HKID No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "2", new { disabled = "disabled" })
+                                    @Html.Label("2", "Passport No.", new { style = "margin-right: 10px;" })
+                                    @Html.RadioButtonFor(model => model.OiIdType, "3", new { disabled = "disabled" })
+                                    @Html.Label("3", "Business Registration No.")
+                                }
+                            }
+
+                        </div>
+                        <div class="w3-col 12 m12 s12">Country of Issue: @Model.OiIdIssueCountry</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row" id="oi-address">
+                <div class="w3-col l12 m12 s12 section-title">Correspondence Address:</div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Flat/Room</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.OiFlat</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Floor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">@Model.OiFloor</div>
+                    <div class="w3-col l1 m1 s1 w3-row-bottom">Block</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">@Model.OiBlock</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Building/Estate</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OiBuilding</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street Number</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OiStreetNo</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Street/Road/Village</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OiStreet</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">District</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">@Model.OiDistrict</div>
+                    <div class="w3-col l4 m4 s4 w3-row-bottom">Region</div>
+                    <div class="w3-col l8 m8 s8 w3-row-bottom">
+                        @{
+                            if (Model.OiRegion.Equals("HK"))
+                            {
+                                @Html.RadioButtonFor(model => model.OiRegion, "HK", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.OiRegion.Equals("KLW"))
+                            {
+                                @Html.RadioButtonFor(model => model.OiRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "KLW", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else if (Model.OiRegion.Equals("NT"))
+                            {
+                                @Html.RadioButtonFor(model => model.OiRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "NT", new { disabled = "disabled", @checked = "checked" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.OiRegion, "HK", new { disabled = "disabled" })
+                                @Html.Label("HK", "Hong Kong", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "KLW", new { disabled = "disabled" })
+                                @Html.Label("KLW", "Kowloon", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.OiRegion, "NT", new { disabled = "disabled" })
+                                @Html.Label("NT", "New Territories", new { style = "margin-left: 5px;" })
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">E-mail Address</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OiEmail</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">Contact No.</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OiContact</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Fax No.</div>
+                    <div class="w3-col l8 m8 s8">@Model.OiFax</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Name of the representative of the prescribed registered contractor</div>
+                    <div class="w3-col l8 m8 s8 center-at-middle-to-left">@Model.OiPrcName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">Contact No.</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OiPrcContact</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4">Name of the representative of the prescribed building professional appointed</div>
+                    <div class="w3-col l8 m8 s8 center-at-middle-to-left">@Model.OiPbpName</div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l4 m4 s4 ">Contact No.</div>
+                    <div class="w3-col l8 m8 s8 ">@Model.OiPbpContact</div>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+    <div class=" w3-border displayForm">
+        <div id="dsn">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>DSN Number</th>
+                        <th>Descriptions </th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.DocList != null && Model.DocList.Count() > 0)
+                        {
+                            foreach (var item in Model.DocList)
+                            {
+                                <tr>
+                                    <td>@item.DSN_NUMBER</td>
+                                    <td>@item.DOC_DESCRIPTION</td>
+                                    <td>
+                                        @if (item.FILE_PATH != null)
+                                        {
+                                            <button onclick="DownloadFile('@item.UUID')" class="btn btn-default">
+                                                <i class="far fa-file-image"></i>
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    @if (Model.ShowPrivacy)
+    {
+        <div class="w3-border displayForm">
+            <div id="photo-library">
+                <table class="resultTable">
+                    <thead>
+                        <tr>
+                            <th>Photo Library Description</th>
+                            <th>View Image (URL) </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.PhotoList != null && Model.PhotoList.Count() > 0)
+                            {
+                                foreach (var item in Model.PhotoList)
+                                {
+                                    <tr>
+                                        <td>@item.DESCRIPTION</td>
+                                        <td>
+                                            <button onclick="openPhotoLibFile('@item.UUID')" class="btn btn-default">
+                                                <i class="far fa-file-image"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+    }
+    <div class=" w3-border displayForm">
+        <div id="related-signboards">
+            <div class="panelHeader">Related Signboards of the Signboard</div>
+            <table class="resultTable">
+                <tbody>
+                    @{
+                        if (Model.SignboardRelationList != null && Model.SignboardRelationList.Count() > 0)
+                        {
+                            foreach (var item in Model.SignboardRelationList)
+                            {
+                                <tr>
+                                    <td>@item</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+
+    <!-- Optional -->
+    @if (Model.SvOrderList != null && Model.SvOrderList.Count() > 0)
+    {
+        <div class=" w3-border displayForm">
+            <div id="sv-order">
+                <table class="resultTable">
+                    <thead>
+                        <tr>
+                            <th>S24 Order No.</th>
+                            <th>Case No.</th>
+                            <th>Type Code</th>
+                            <th>Received Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SvOrderList)
+                        {
+                            <tr>
+                                <td>@item.ORDER_NO</td>
+                                <td>@item.CASE_NO</td>
+                                <td>@item.TYPE_CODE</td>
+                                <td>@item.RECEIVED_DATE</td>
+                                <td>@item.REMARKS</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+    }
+    <!-- Optional -->
+    @if (Model.SvGcList != null && Model.SvGcList.Count() > 0)
+    {
+        <div class=" w3-border displayForm">
+            <div id="sv-gc">
+                <table class="resultTable">
+                    <thead>
+                        <tr>
+                            <th>GC No.</th>
+                            <th>Case No.</th>
+                            <th>Received Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SvGcList)
+                        {
+                            <tr>
+                                <td>@item.GC_NUMBER</td>
+                                <td>@item.CASE_NO</td>
+                                <td>@item.RECEIVED_DATE</td>
+                                <td>@item.REMARKS</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+    }
+    <!-- Optional -->
+    @if (Model.SvComplainList != null && Model.SvComplainList.Count() > 0)
+    {
+        <div class=" w3-border displayForm">
+            <div id="sv-complain">
+                <table class="resultTable fix-table">
+                    <thead>
+                        <tr>
+                            <th>Report No.</th>
+                            <th>Case No.</th>
+                            <th>Report Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SvComplainList)
+                        {
+                            <tr>
+                                <td class="fix-td">@item.COMPLAIN_NUMBER</td>
+                                <td class="fix-td">@item.CASE_NO</td>
+                                <td class="fix-td">@item.COMPLAINT_DATE</td>
+                                <td class="fix-td">@item.REMARKS</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+    }
+
+
+    <div class="displayForm">
+        <div class="w3-container footer">
+            @*<input class="btn btn-default inputButton" id="btnBack" name="btnBack" value="Back" onclick='location.href="@Url.Action("Index", "Fn02TDL_SS")"' type="button">*@
+            <button onclick='location.href="@Url.Action("Index", "Fn02TDL_SS")"' class="CancelButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function DownloadFile(uuid) {
+        goTo('DownloadFile', [{ name: "uuid", value: uuid }], true);
+    }
+
+    function openPhotoLibFile(uuid) {
+        $.ajax({
+            url: "viewPhotoLibImage"
+            , type: "POST"
+            , data: {
+                uuid: uuid
+            }
+            , success: function (d) {
+                if (d != null) {
+                    window.open(d, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,51 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_UPSRSearchModel
+
+    <div id="searchCriteria">
+
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Signboard/ W.O./ S24 No.</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SearchFileRefNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Sort By:</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(model => model.SearchSortBy, Model.SortList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {displayName: "Date", columnName: "ST"}
+                , { displayName: "Time", columnName: "TIME" }
+                , { displayName: "Reference No.", columnName: "REFERENCE_NO" }
+                , { displayName: "Form Code", columnName: "FORM_CODE" }
+                , { displayName: "Type", columnName: "RECORD_TYPE" }
+                , { displayName: "Current Status", columnName: "TC" }
+                , { displayName: "Handling Officer", columnName: "BD_PORTAL_LOGIN" }
+            ]
+        });
+    });
+
+</script>
+

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MWMS2.Entity.B_S_SYSTEM_VALUE>
+
+<h3>Link Maintenance</h3>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Link Code</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">URL</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Ordering</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.CODE, "SPMLinkMaintenanceEdit", "SPMLinkMaintenance", new { id = item.UUID }, null)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.ORDERING)*@
+                        @((int)item.ORDERING)
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+
+
+
+
+
+</table>

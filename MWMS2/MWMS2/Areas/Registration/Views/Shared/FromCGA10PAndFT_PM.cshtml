@@ -1,0 +1,170 @@
+﻿@model MWMS2.Models.ProcessMonitorDisplayModel
+
+    <form id="inputForm" method="post" action="Save" enctype="multipart/form-data">
+
+        @Html.HiddenFor(model => model.C_COMP_APPLICATION.UUID)
+        @Html.HiddenFor(model => model.C_COMP_PROCESS_MONITOR.UUID)
+        @Html.HiddenFor(model => model.C_COMP_APPLICANT_INFO.UUID)
+        @Html.HiddenFor(model => model.MonitorType)
+        <script type="text/javascript">
+      
+        function SaveClick(){
+	        if ( (Trim(document.getElementById('vettingOfficer').value) == '')) {
+   		        alert('Please Select Vetting Officer!');
+		        return;
+	        }
+	        if ( (Trim(document.getElementById('receivedDate').value) == '')) {
+   		        alert('Please enter Date of Received!');
+		        return;
+	        }
+	
+	        thisForm = document.getElementById('inputForm');
+	        thisForm.action = 'Save';
+	        thisForm.submit();
+        }
+        </script>
+
+        @if (Model.MonitorType == "UPM_10DAYS")
+        {
+            <div class="panelHeader">&nbsp;General Contractor application &gt; Update Process Monitor on 10-Day Pledge</div>
+        }
+        else
+        {
+            <div class="panelHeader">&nbsp;General Contractor application &gt; Update Monitor on Fast-Track Processing of Form BA2A</div>
+        }
+
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Name of Contractor:</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">File Reference :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.C_COMP_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Vetting Officer :</div>
+                    <div class="w3-col l2 m6 s12">
+                        @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.VETTING_OFFICER, Model.VetOfficerList, new { @id = "vettingOfficer" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Assistant :</div>
+                    <div class="w3-col l2 m6 s12">
+                        @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.ASSISTANT, Model.AssistantList)
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.MonitorType == "UPM_10DAYS")
+            {
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Received Date :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RECEIVED_DATE, new { @class = "inputDate" ,@id="receivedDate"})
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">10-Day Pledge Due Date :</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_DUE_10_DAYS_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">10-Day Pledge Date of Initial Reply :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_INITIAL_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">No. of Working Days :</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.NO_WORKING_DAYS_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Fast-Track :</div>
+                        <div class="w3-col l1 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.FAST_TRCK, Model.CGAFastTrack)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Received Date :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RECEIVED_DATE, new { @class = "inputDate" ,@id="receivedDate"})
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">28-Day Due Date :</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.FAST_TRACK_DUE_28_DAYS_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Date of Certificate Issued :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CERTIFICATE_ISSUED_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Date of Withdraw :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.WITHDRAW_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Remarks :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextAreaFor(model => model.C_COMP_PROCESS_MONITOR.REMARKS)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                @*<input type="button" name="btnSave" id="btnSave" value="Save" onclick="SaveClick()" />*@
+
+                @if (MWMS2.Utility.AuthUtil.CanEdit)
+                {<button onclick="SaveClick()" type="button" name="btnSave" id="btnSave" class="saveButton btn btn-default"><i class="fa fa-save"></i> Save</button>}
+                    @*<input type="submit" value="Save" class="saveButton btn btn-default" />*@
+                @if (Model.pmUUID != null && MWMS2.Utility.AuthUtil.CanDelete)
+                {
+                    <button class="btnDel btn btn-default" type="button" onclick='goTo("Delete", [{ name: "id", value:"@Model.pmUUID"  }]);' value="delete"><i class="fa fa-trash"></i> Delete</button>
+                }
+                <button class="FinishButton backButton btn btn-default" type="button"> Cancel</button>
+            </div>
+        </div>
+    </form>

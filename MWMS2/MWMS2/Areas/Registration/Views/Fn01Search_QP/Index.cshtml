@@ -1,0 +1,287 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_QPSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <form id="inputForm">
+        <div id="searchCriteria">
+            @Html.HiddenFor(x => x.doSearch)
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">File Reference :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.FileRef)</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Registration No. :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.RegNo)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">HKID :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.HKID)</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Passport No. :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.PassportNo)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Surname :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.SurnName)</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Given Name :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.GivenName)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Chinese Name:</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(model => model.ChiName)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Company Name :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.ComName)</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">BR Number :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.BRNo)</div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">QP Type :<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.CheckBoxFor(o => o.Ap)                @Html.LabelFor(o => o.Ap)<br />
+                        @Html.CheckBoxFor(o => o.Rse)                @Html.LabelFor(o => o.Rse)<br />
+
+                        @Html.CheckBoxFor(o => o.Ri)                @Html.LabelFor(o => o.Ri)<br />
+                        @Html.CheckBoxFor(o => o.Rgbc)                @Html.LabelFor(o => o.Rgbc)<br />
+                        @Html.CheckBoxFor(o => o.TypeA)                @Html.LabelFor(o => o.TypeA)<br />
+                        @Html.CheckBoxFor(o => o.TypeG)                @Html.LabelFor(o => o.TypeG)<br />
+                        @Html.CheckBoxFor(o => o.Item36)                @Html.LabelFor(o => o.Item36)<br />
+                        @Html.CheckBoxFor(o => o.Item37)                @Html.LabelFor(o => o.Item37)<br />
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12"> <b>QP Card</b></div>
+                    <div class="w3-col l6 m12 s12"><input type="hidden" /></div>
+
+                    <div class="w3-col l6 m12 s12">Serial No. :</div>
+                    @*<div class="w3-col l6 m12 s12"><input type="text" /></div>*@
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.SerialNo)</div>
+
+                    <div class="w3-col l6 m12 s12">Issue Date :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.IssueDate, new { @class = "inputDate" })</div>
+                    @*<div class="w3-col l6 m12 s12"><input type="text" class="inputDate" /></div>*@
+
+                    <div class="w3-col l6 m12 s12">Expiry Date :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.ExpiryDate, new { @class = "inputDate" })</div>
+                    @*<div class="w3-col l6 m12 s12"><input type="text" class="inputDate" /></div>*@
+
+                    <div class="w3-col l6 m12 s12">Return Date :</div>
+                    <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.ReturnDate, new { @class = "inputDate" })</div>
+                    @*<div class="w3-col l6 m12 s12"><input type="text" class="inputDate" /></div>*@
+
+                </div>
+            </div>
+
+            <div class="w3-row">
+
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Interested in Providing Services of QP :</div>
+                    <div class="w3-col l6 m12 s12">
+
+                        @Html.DropDownListFor(model => model.QPService, Model.QPServiceList)
+
+                    </div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Service in MWIS :</div>
+                    <div class="w3-col l6 m12 s12">
+
+                        @Html.DropDownListFor(model => model.ServiceInMWIS, Model.ServiceInMWISList)
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="w3-container footer">
+                <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+                <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+            </div>
+
+
+            @*<div id="resultPanel"></div>*@
+
+            @Html.DropDownList("panelServiceInMWIS", Model.SerInMWISList, new { @class = "hide" })
+            @if (MWMS2.Utility.AuthUtil.CanViewMBI)
+            {
+                <div id="resultPanel2"></div>
+            }
+            else
+            {
+                <div id="resultPanel"></div>
+            }
+            @*@if (MWMS2.Utility.AuthUtil.FunctionCanViewDetails("3"))
+        {
+            <div id="resultPanel2"></div>
+        }
+        else
+        {
+            <div id="resultPanel"></div>
+        }*@
+            <div id="ErrorMessage" style="color:red"></div>
+        </div>
+    </form>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) {
+
+    goTo("Form", [{ name: "id", value: row.UUID }, { name: "regType", value: row.REGISTRATION_TYPE }]);
+            }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        domReady(function () {
+            searching2 = new searcher({
+                searchPath: "Search"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel2"
+                , exportPath: "Excel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Footer: false
+                , Columns: [
+                    {
+                        displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Name", columnName: "SURNAME" }
+                    , { displayName: "Chinese Name", columnName: "CHINESE_NAME" }
+                    , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                    , { displayName: "Interested in Providing Services of QP", columnName: "WILLINGNESS_QP" }
+                    , {
+                        displayName: "Service in MWIS", formater: function (row, idx) {
+                            console.log(row.UUID + "***");
+                            var select = dom("select");
+                            var options = domId("panelServiceInMWIS").querySelectorAll('option');
+                            for (var i = 0; i < options.length; i++) {
+                                var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                                if (row.QP_SERVICE_IN_MWIS == options[i].value) attr(option, "selected", true);
+                            }
+                            attr(select, "name", "PanelMWIS[" + row.FILE_REFERENCE_NO + "]");
+                            attr(select, "id", row.UUID);
+                            attr(select, "style", "width:auto");
+                            return select;
+                        }
+                    }
+                    , { displayName: "Expiry Date", columnName: "EXPIRY_DATE" }
+                    , { displayName: "QP Card Issue Date", columnName: "QP_CARD_ISSUE_DATE" }
+                    , { displayName: "QP Card Expiry Date", columnName: "QP_CARD_EXPIRY_DATE" }
+                    , { displayName: "QP Card Serial No.", columnName: "QP_CARD_SERIAL_NO" }
+                    , { displayName: "QP Card Return Date", columnName: "QP_CARD_RETURN_DATE" }
+                ]
+                , resultFootButtons: [
+                    createButton("Save", "fa-save", [{
+                        "onclick": {
+                            parameters: {}, callback: function () {
+                                attr("inputForm", "addClass", "saving");
+                                req("Save", "inputForm", function (data) {
+                                    attr("inputForm", "dropClass", "saving");
+                                    if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+                                    else {
+                                        if (typeof data.Message[0] != 'undefined') {
+                                            document.getElementById("ErrorMessage").innerHTML = data.Message[0];
+
+                                        }
+                                        console.log(data.Message[0]);
+                                        showErrorMessage(data.ErrorMessages);
+                                    }
+                                });
+
+
+                            }
+                        }
+                    }])
+                    //, createButton("Cancel", null, [{
+                    //    "onclick": {
+                    //        parameters: {}, callback: function () {
+                    //            goTo("Index");
+                    //        }
+                    //    }
+                    //}])
+                ]
+            });
+          
+        });
+
+
+    </script>
+        <script type="text/javascript">
+            domReady(function () {
+                searching  =     new searcher({
+                    searchPath: "Search"
+                    , exportPath: "Excel"
+                    , searchTable: "searchCriteria"
+                    , resultPanel: "resultPanel"
+                    , Columns: [
+                        {
+                            displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                            , click: function (row) {
+                                try {
+                                    if (row == null) return;
+                                    ViewDetail(row);
+                                } catch (err) { }
+                            }
+                        }
+                        , { displayName: "Name", columnName: "SURNAME" }
+                        , { displayName: "Chinese Name", columnName: "CHINESE_NAME" }
+                        , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                        , { displayName: "Interested in Providing Services of QP", columnName: "WILLINGNESS_QP" }
+                        //new update
+                        , { displayName: "Service in MWIS", columnName: "QP_SERVICE_IN_MWIS" }
+                        , { displayName: "Expiry Date", columnName: "EXPIRY_DATE" }
+                        , { displayName: "QP Card Issue Date", columnName: "QP_CARD_ISSUE_DATE" }
+                        , { displayName: "QP Card Expiry Date", columnName: "QP_CARD_EXPIRY_DATE" }
+                        , { displayName: "QP Card Serial No.", columnName: "QP_CARD_SERIAL_NO" }
+                        , { displayName: "QP Card Return Date", columnName: "QP_CARD_RETURN_DATE" }
+                    ]
+                });
+               
+            });
+        </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

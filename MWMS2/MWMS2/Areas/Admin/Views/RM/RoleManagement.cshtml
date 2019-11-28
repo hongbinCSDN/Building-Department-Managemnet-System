@@ -1,0 +1,54 @@
+﻿
+@*@model IEnumerable<MWMS2.Entity.B_S_USER_GROUP>
+
+<div class="right">
+    <input class="inputButton" id="" name="" value="Create New User Group" onclick="location.href='@Url.Action("RoleManagementEdit", "RoleMan")'" type="button">
+</div>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Description</th>
+            <th>
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.CODE, "RoleManagementEdit", "RoleMan", new { uuid = item.UUID }, null)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.STATUS)
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

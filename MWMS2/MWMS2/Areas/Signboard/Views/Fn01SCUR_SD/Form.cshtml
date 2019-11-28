@@ -1,0 +1,190 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn01SCUR_SDDisplayModel
+
+
+<form id="inputForm" method="post" action="SetASThumbnail" enctype="multipart/form-data">
+    @Html.HiddenFor(model => model.TargetDSNUUID)
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission No. :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.HiddenFor(x => x.SubmissionNo)
+                    @Html.DisplayFor(x => x.SubmissionNo)
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button id="refreshBtn" class="btn btn-default" type="reset" onclick="goTo('Form', [{ name: 'refNo', value: $('#SubmissionNo').val() }])">Refresh</button>
+
+            <button id="CreateBtn" onclick="onCreateSD()" class=" btn btn-default" type="button"><i class="far fa-plus-square"></i> Create DSN</button>
+
+        </div>
+
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+
+                        <th>
+                            DSN Number
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+                        <th>
+                            Scan Date
+                        </th>
+                        <th>
+                            Document Type
+                        </th>
+                        <th>
+                            Folder Type
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            View Image
+                        </th>
+                        <th>
+                            As Thumbnail
+                        </th>
+                        <th>
+                            Print
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.B_SV_SCANNED_DOCUMENT)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.B_SV_SUBMISSION.Count() == 0)
+                                    {
+                                        <button onclick="onDeleteSD('@item.UUID')" id="" class="btn btn-default" type="button"><i class="fa fa-trash"></i> Delete </button>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </td>
+                                <td>
+                                    @item.DSN_NUMBER
+                                </td>
+                                <td>
+                                    @item.CREATED_DATE
+                                </td>
+                                <td>
+                                    @item.SCAN_DATE
+                                </td>
+                                <td>
+                                    @item.DOCUMENT_TYPE
+                                </td>
+                                <td>
+                                    @item.FOLDER_TYPE
+                                </td>
+                                <td>
+                                    @item.DOC_DESCRIPTION
+                                </td>
+                                <td>
+                                    @*@item.FILE_PATH*@
+                                    @if (item.FILE_PATH !=null)
+                                    {
+                                        <button type="button" onclick="GetSMMSDImage('@item.UUID')"> <i class="far fa-file-image"></i></button>
+
+
+                                    }
+
+                                </td>
+                                <td>
+                                    @{
+
+                                        if (@item.AS_THUMBNAIL == null || @item.AS_THUMBNAIL == "N")
+                                        {
+                                            <button onclick="ChangeASThumbnail('@item.UUID')" id="" class="btn btn-default" type="button">Set</button>
+
+
+                                        }
+                                        else
+                                        {
+                                            <text>YES</text>
+
+                                        }
+
+
+                                    }
+
+
+                                </td>
+                                <td>
+                                    <button onclick="onPrintSD('@item.DSN_NUMBER')" id="" class="btn btn-default" type="button"><i class="fas fa-print"></i> Print </button>
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+
+                </tbody>
+
+            </table>
+
+
+
+        </div>
+
+    
+
+
+
+
+
+
+
+
+    </div>
+
+</form>
+<script>
+    function GetSMMSDImage(uuid) {
+
+        goTo('GetSDImg', [{ name: "uuid", value: uuid }], true);
+    }
+    function ChangeASThumbnail(uuid) {
+        //  attr("inputForm", "addClass", "saving");
+        domId("TargetDSNUUID").value = uuid;
+        domId("inputForm").action = "SetASThumbnail";
+        domId("inputForm").submit();
+
+    }
+    function onPrintSD(dsn)
+    {
+        var sn = document.getElementById("SubmissionNo").value;
+        window.location = ("MWMS2PrinterAgent:" + sn);
+
+
+        
+        window.location = ("MWMS2PrinterAgent:" + dsn);
+    }
+    function onCreateSD() {
+        //  attr("inputForm", "addClass", "saving");
+   
+        domId("inputForm").action = "CreateRecord";
+        domId("inputForm").submit();
+
+    }
+    function onDeleteSD(uuid)
+    {
+        domId("TargetDSNUUID").value = uuid;
+        domId("inputForm").action = "DeleteDSN";
+        domId("inputForm").submit();
+    }
+
+</script>

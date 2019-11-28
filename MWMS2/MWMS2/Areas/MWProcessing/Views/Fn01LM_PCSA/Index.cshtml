@@ -1,0 +1,119 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_PcsaSearchModel
+
+
+<div id="searchCriteria">
+    <div hidden id="divSelectResult" class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Selected MW No. : </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.HiddenFor(m => Model.IsGeneral)
+                <label id="lblSelectResult"></label>
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Click once to select case :</div>
+            <div class="w3-col l6 m12 s12">
+                <button type="button" onclick="randomSelection()">Select</button>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="panelHeader">Search Criteria</div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.DSN, new { @id = "DSN" })
+                @*<input type="text" />*@
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref. No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.RefNo, new { @id = "RefNo" })
+                @*<input type="text" />*@
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Selection Date :</div>
+            <div class="w3-col l6 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.SelectionDateFrom, "", new { @class = "inputDate" })
+                &nbsp;To&nbsp;@Html.TextBoxFor(model => model.SelectionDateTo, "", new { @class = "inputDate" })
+                @*From <input type="text" class="inputDate" />
+                    to<input type="text" class="inputDate" />*@
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    var tablePasc;
+
+    domReady(function () {
+        tablePasc = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Document S/N", columnName: "DSN", click: function (row) {
+                        if (row == null) return;
+                        goTo("Details", [
+                            { name: "uuid", value: row.UUID }
+                        ]);
+                    }
+                }
+                , { displayName: "MW No.", columnName: "MW_NO" }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Address", columnName: "ADDRESS" }
+                , { displayName: "Selection Date", columnName: "SELECTION_DATE" }
+                , { displayName: "Inspection Date", columnName: "INSPECTION_DATE" }
+                , { displayName: "Officer", columnName: "HANDLING_OFFICER" }
+                , { displayName: "Result", columnName: "PA_RESULT" }
+            ]
+            , onAfterSearch: function (r) {
+
+                var isGeneral = document.getElementById("IsGeneral").value.toLowerCase() == "true";
+
+                if (isGeneral && r.RefNo != null && r.RefNo != "") {
+                    var divSelectResult = document.getElementById("divSelectResult");
+                    divSelectResult.hidden = false;
+
+                    var lblSelectResult = document.getElementById("lblSelectResult");
+                    lblSelectResult.innerText = r.RefNo;
+                } else if (isGeneral && (r.RefNo == null || r.RefNo == "")) {
+                    alert('No submission was found within this date range');
+                }
+
+                $('#IsGeneral').val(false);
+            }
+        });
+    });
+
+    function randomSelection() {
+
+        $('#IsGeneral').val(true);
+
+        tablePasc.Page = 1;
+        tablePasc.search(false);
+    }
+</script>

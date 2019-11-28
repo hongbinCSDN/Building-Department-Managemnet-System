@@ -1,0 +1,46 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_STSearchModel
+    <div id="searchCriteria">
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m6 s12">Period :</div>
+                <div class="w3-col l9 m6 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.PeriodDateFrom, new { @class = "inputDate", @id = "ReportGazDateFrom" })
+                    &nbsp;To&nbsp;@Html.TextBoxFor(model => model.PeriodDateTo, new { @class = "inputDate", @id = "ReportGazDateTo" })
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l3 m12 s12">Status :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(model => model.Status, Model.StatusList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button" id="MRSearchBtn">
+                <i class="fa fa-search"></i> Search
+            </button>
+        </div>
+    </div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort:"DECODE(sua.SYS_RANK_ID, 'SPO', '1', 'PO', '2', 'TO', '3', 'TC', '4', '5') ,sua.BD_PORTAL_LOGIN"
+            , Columns: [
+                {displayName: "User", columnName: "USERNAME"}
+                , { displayName: "Validation", columnName: "VAL" }
+                , { displayName: "Audit", columnName: "AUD" }
+                //, { displayName: "Government Contractor", columnName: "GC" }
+                //, { displayName: "S24 Order", columnName: "S24ORDER" }
+            ]
+        });
+    });
+</script>

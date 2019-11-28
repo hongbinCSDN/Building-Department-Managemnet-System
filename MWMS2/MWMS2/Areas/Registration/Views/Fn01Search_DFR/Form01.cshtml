@@ -1,0 +1,256 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_DFRDisplayModel
+
+<div class="panelHeader">General Contractor Application > Search Deferral Records</div>
+
+<div id="searchCriteria">
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Name of Contractor :</div>
+            <div class="w3-col l7 m6 s12">@Html.TextBoxFor(model => model.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME, new { @readonly = "readonly" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">File Reference :</div>
+            <div class="w3-col l4 m6 s12">@Html.TextBoxFor(model => model.C_COMP_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Candidate :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBox("CandidateName" ,Model.showCandidateName(), new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Post :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SV_ROLE.CODE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Applicant Apply Type :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.RadioButtonFor(model => model.C_COMP_PROCESS_MONITOR.APPLY_STATUS, "A") Addition &nbsp;
+                @Html.RadioButtonFor(model => model.C_COMP_PROCESS_MONITOR.APPLY_STATUS, "I") Inclusion &nbsp;
+                @Html.RadioButtonFor(model => model.C_COMP_PROCESS_MONITOR.APPLY_STATUS, "N") Renewal &nbsp;
+                @Html.RadioButtonFor(model => model.C_COMP_PROCESS_MONITOR.APPLY_STATUS, "S") Restoration &nbsp;
+                @Html.RadioButtonFor(model => model.C_COMP_PROCESS_MONITOR.APPLY_STATUS, "D") Application after Deferral
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Interview Date :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INTERVIEW_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">CRC :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CRC_NAME, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Secretary :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.SECRETARY, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Assistant :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.ASSISTANT, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Type of Application :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.S_APPLICATION_FORM.CODE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Nature :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.NATURE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Received Date :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RECEIVED_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">BA2 10-Day Pledge Date of Initial Reply :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_DUE_10_DAYS_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of 3-alternative Letter :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.ALTERNATIVE_LETTER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Subsequent to 3-Alt. :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.SUBSEQUENT_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Preliminary Letter :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PRELIMINARY_LETTER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Result Letter :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RESULT_LETTER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Interview Result :	</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.S_INTERVIEW_RESULT.ENGLISH_DESCRIPTION, new { @readonly = "readonly" })
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Initial Reply :</div>
+            <div class="w3-col l1 m1 s1">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INITIAL_REPLY, new { @readonly = "readonly" })
+            </div> days from Received Date
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Interview :</div>
+            <div class="w3-col l1 m1 s1">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INTERVIEW, new { @readonly = "readonly" })
+            </div>days from Received Date
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Result Letter :</div>
+            <div class="w3-col l1 m1 s1">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RESULT_LETTER, new { @readonly = "readonly" })
+            </div>days from Received Date
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">End of Defer Date :</div>
+            <div class="w3-col l4 m3 s6">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DEFER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Certificate Issued :</div>
+            <div class="w3-col l4 m3 s6">
+                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CERTIFICATE_ISSUED_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Remarks :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextAreaFor(model => model.C_COMP_PROCESS_MONITOR.REMARKS, 8, 70, htmlAttributes: new {style = "width: 700px;", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        @*, [{name:'doSearch',value: 'Y'}]*@
+        <button  class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

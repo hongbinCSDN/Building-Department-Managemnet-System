@@ -1,0 +1,498 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_SSSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Reference No. :</div>
+            <div class="w3-col l9 m12 s12">
+                <select name="PrefixRefNo">
+
+                    <option value="MW">MW</option>
+                    <option value="VS">VS</option>
+
+                </select>
+                @Html.TextBoxFor(m => m.RefNo)
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                DSN :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.DSN)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Submission Nature :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+
+                <select name="SubmissionNature">
+
+                    <option value="">-All-</option>
+
+                    <option>Submission</option>
+
+                    <option>eSubmission</option>
+                    <option>ENQUIRY</option>
+                    <option>COMPLAINT</option>
+                    <option>ICU</option>
+
+                    <option>Direct Return</option>
+
+                    <option>Revised Case</option>
+
+                    <option>Withdrawal</option>
+
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Audit/Non Audit :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+
+                <select name="AuditRelated">
+
+                    <option value="">-All-</option>
+
+                    <option>Audit</option>
+
+                    <option>Non Audit</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Submission Type :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+
+                <select name="SubmissionType">
+
+                    <option value="">-All-</option>
+
+                    <option>MW Submission</option>
+
+                    <option>Validation Scheme</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Order No./ Direction/ Notice No./ BD reference :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => m.ItemInfo)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Status :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                <select>
+
+                    <option value="">- Select -</option>
+
+                    <option>In Progress</option>
+
+                    <option>Completed</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Received Date :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBoxFor(m => m.SubmissionDateForm, new { @class = "inputDate" })
+                to @Html.TextBoxFor(m => m.SubmissionDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Commencement Date :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBoxFor(m => m.CommenceDateFrom, new { @class = "inputDate" })
+                to @Html.TextBoxFor(m => m.CommenceDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Completion Date :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                From @Html.TextBoxFor(m => m.CompleteDateFrom, new { @class = "inputDate" })
+                to @Html.TextBoxFor(m => m.CompleteDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                File Reference No. :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                @*@Html.TextBoxFor(m => m.FileRefNo)*@
+                @Html.TextBoxFor(m => m.FileRefFour, new { style = "width:60px", maxlength = "4" })
+                /
+                @Html.TextBoxFor(m => m.FileRefTwo, new { style = "width:40px", maxlength = "2" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Unit :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => m.UnitId)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Block ID. :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => m.BlockId)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Item No. / Type of MW :
+
+            </div>
+
+            <div class="w3-col l9 m12 s12">
+                @Html.Action("GetCheckboxlistItemNoType", "ComItemNoType")
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="panelHeader">Location of the minor works carried out</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Location of Minor Work :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => m.LocationOfMW)
+                @*<select name="LocationOfMW">
+                        <option value="">And </option>
+                        <option>Or</option>
+                    </select>*@
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Street :	</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.MWAddress.DISPLAY_STREET)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Street No. :		</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.MWAddress.DISPLAY_STREET_NO)
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Building/Block :			</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.MWAddress.DISPLAY_BUILDINGNAME)
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Floor :			</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.MWAddress.DISPLAY_FLOOR)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Unit :		</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.MWAddress.UNIT_ID)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panelHeader">Appointed Person</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">English Name :	</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.AP.ENGLISH_NAME)
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Chinese Name :	</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.AP.CHINESE_NAME)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Certificate of Registration No. :		</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.AP.CERTIFICATION_NO)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panelHeader">Prescribed Registered Contractor</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">English Name :	</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.PRC.ENGLISH_NAME)
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Chinese Name :	</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.PRC.CHINESE_NAME)
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Certificate of Registration No. :		</div>
+            <div class="w3-col l9 m12 s12">
+
+                @Html.TextBoxFor(m => m.PRC.CERTIFICATION_NO)
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class=" btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+
+    </div>
+
+</div>
+
+<div id="resultDiv" style="display:none;" class="displayForm">
+    <div class="panelHeader">Result</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l7 m12 s12 w3-left-align">
+                No.of Submissions Related to the MW Item / MW Type Selected:
+                <br />
+                (Counted by Form Received)
+            </div>
+            <div class="w3-col l5 m12 s12">
+                <div id="countByDSN"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l7 m12 s12 w3-left-align">
+                No.of Cases Related to the MW Item / MW Type Selected:
+                <br />
+                (Counted by MW Submission No.)
+            </div>
+            <div class="w3-col l5 m12 s12">
+                <div id="countByMWNo"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Ref No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { returSn; }
+                            goTo(domId("rootPath").value + "/MWProcessing/ComSubmission/SubmissionInfoPage?backTo=Fn03TSK_SS/Index", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                            //goTo("/MWProcessing/Fn03TSK_SBAR/DetailPage", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , {
+                    displayName: "Item No.", columnName: "ITEMCODE"
+                }
+                , {
+                    displayName: "Commencement Date", columnName: "COMMENCEMENT_DATE"
+                }
+                , {
+                    displayName: "Completion Date", columnName: "COMPLETION_DATE"
+                }
+                , {
+                    displayName: "Location of Minor Work", columnName: "LOCATION_OF_MINOR_WORK"
+                }
+            ]
+            , onAfterSearch: function (r) {
+                $("#resultDiv").css("display", "block");
+                $("#countByDSN").text(r.CountByDSN);
+                $("#countByMWNo").text(r.CountByMWNo);
+            }
+        });
+
+        atcpAddress({
+            streetName: "MWAddress_DISPLAY_STREET"
+            , streetNo: "MWAddress_DISPLAY_STREET_NO"
+            , building: "MWAddress_DISPLAY_BUILDINGNAME"
+            , floor: "MWAddress_DISPLAY_FLOOR"
+            , unit: "MWAddress_UNIT_ID"
+        });
+    });
+</script>

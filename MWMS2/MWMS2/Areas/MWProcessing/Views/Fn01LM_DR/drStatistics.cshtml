@@ -1,0 +1,55 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_DRStatModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Period From :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.DateFrom, new { @id = "DateFrom", @class = "inputDate" })
+            </div>
+            <div class="w3-col l1 m6 s12">To :</div>
+            <div class="w3-col l5 m6 s12">
+                @Html.TextBoxFor(model => model.DateTo, new { @id = "DateTo", @class = "inputDate" })
+            </div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Reg no. of AP/ RI / Contractor :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.RegNo)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Generate</button>
+    </div>
+</div>
+<div id="resultPanel"></div>
+<div id="resultPanelV2"></div>
+@*<div id="remark" class="w3-row">
+        @foreach (var item in Model.IrregularitiesList)
+        {
+            @item.Code @Html.Label(item.Description)
+            <br />
+        }
+    </div>*@
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchStatistics"
+            , exportPath: "ExcelStatistics"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "Irregularities"
+            , Columns:[]
+        });
+        //new searcher({
+        //    searchPath: "SearchStatisticsV2"
+        //    , exportPath: "ExcelStatisticsV2"
+        //    , searchTable: "searchCriteria"
+        //    , resultPanel: "resultPanelV2"
+        //});
+    });
+</script>

@@ -1,0 +1,195 @@
+﻿@model MWMS2.Models.InterviewResultDisplayModel
+
+<form action="Save" method="post" enctype="multipart/form-data">
+   
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.C_INTERVIEW_CANDIDATES.UUID)
+    @Html.HiddenFor(model => model.C_INTERVIEW_CANDIDATES.REGISTRATION_TYPE)
+    @Html.HiddenFor(model => model.C_S_SYSTEM_VALUE.UUID)
+
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Result Type :</div>
+                <div class="w3-col l3 m12 s12">
+                    <span style="font-weight:bold;">
+                        @Html.DisplayFor(model => model.C_INTERVIEW_CANDIDATES.INTERVIEW_TYPE_DISPLAY)
+                    </span>
+                </div>
+
+                <div class="w3-col l3 m12 s12">Interview / Assessment No.:</div>
+                <div class="w3-col l3 m12 s12">
+                    <span style="font-weight:bold;">
+                        @Html.DisplayFor(model => model.C_INTERVIEW_CANDIDATES.INTERVIEW_NUMBER)
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Interview Date:</div>
+                <div class="w3-col l3 m12 s12">
+                    <span style="font-weight:bold;">
+                        @*bold*@
+                        @Html.DisplayFor(model => model.C_INTERVIEW_CANDIDATES.START_DATE)
+                    </span>
+                </div>
+
+                <div class="w3-col l3 m12 s12">Interview Time:</div>
+                <div class="w3-col l3 m12 s12">
+                    <span style="font-weight:bold;">
+                        @*display time*@
+                        @Html.DisplayFor(model => model.C_INTERVIEW_CANDIDATES.START_DATE_DISPLAY_TIME)
+                    </span>
+                   
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Name:</div>
+                <div class="w3-col l3 m12 s12">
+                    <span style="font-weight:bold;">
+                        @Html.DisplayFor(model => model.C_APPLICANT.SURNAME) @Html.DisplayFor(model => model.C_APPLICANT.GIVEN_NAME_ON_ID)
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Result:<font color="red">*</font></div>
+                <div class="w3-col l6 m12 s12">
+                    @*@Html.DropDownListFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_ID, Model.getResultTypeList())
+                    @Html.ValidationMessageFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_ID, "", new { @class = "text-danger" })*@
+                    @Html.DropDownListFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_ID, Model.getResultTypeList(), new { id="Result"})
+                    @Html.ValidationMessageFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_ID, "", new { @class = "text-danger" })
+                   
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Result Date:<font color="red">*</font></div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_DATE, new { @class = "inputDate", id = "ResultDate", maxlength = 10, autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.C_INTERVIEW_CANDIDATES.RESULT_DATE, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="w3-col l3 m12 s12">Absent:</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.DropDownListFor(model => model.C_INTERVIEW_CANDIDATES.IS_ABSENT, Model.getYesNo())
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Remarks:</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.EditorFor(model => model.C_INTERVIEW_CANDIDATES.REMARKS)
+                    @Html.ValidationMessageFor(model => model.C_INTERVIEW_CANDIDATES.REMARKS, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+
+                <div class="w3-col l3 m12 s12">Upload Assessment Form:</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.HiddenFor(model => model.ImportType)
+                    <input type="file" name="file" id="file" />
+                    @ViewBag.Message
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button class="Save" name="Save" id="Save"><i class="fa fa-save"></i>Save</button>}
+        @*<button onclick="history.go(-1);" class="Cancel" name="Cancel" id="Cancel">Cancel</button>*@
+            <button type="button"  class="backButton Cancel" name="Cancel" id="Cancel"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+    </div>
+    @*}*@
+</form>
+
+<script type="text/javascript">
+
+    //$("#ResultDate").blur(function () {
+    //    var aa = checkDateFormat(this.value);
+
+    //    if (!aa) {
+    //        alert('Invalid Date format');
+
+    //    }
+    //});
+    $("#Result").change(function () {
+        //alert($("#Result").val());
+        var result = $("#Result").val();
+        //alert(result);
+
+        if (result == "" || result == null) {
+
+            //alert("bye");
+
+            Result.rules("add", {
+                required: true,
+                messages: {
+                    required: "Result is required"
+                }
+            });
+        }
+
+        else {
+           
+            Result.rules("remove");
+        }
+    });
+
+
+    $(document).ready(function () {
+        $("#Result").change(function () {
+            alert("hello");
+       
+            
+
+            if ($(this).val() == "- All -") {
+                alert("bye");
+            
+                $("#Result").rules("add", {
+                   required: true,
+                    messages: {
+                    required: "Result is required"
+                    }
+                 });
+             }
+               
+            else {
+                alert($("#Result"));
+                 $("#Result").rules("remove");
+             }
+        });
+    });
+
+
+
+
+
+</script>
+

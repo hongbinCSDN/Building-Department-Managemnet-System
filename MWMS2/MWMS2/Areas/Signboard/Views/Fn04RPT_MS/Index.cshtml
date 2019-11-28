@@ -1,0 +1,33 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_MSSearchModel
+<script>
+    function Search() {
+        thisForm = document.getElementById('reportForm');
+        thisForm.action = 'SearchMS';
+        thisForm.submit();
+    }
+</script>
+<div class="panelHeader">
+    Search Criteria
+</div>
+<form action="SearchMS" method="post" id="reportForm">
+    <div id="searchCriteria">
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Period :
+                    </div>
+                    <div class="w3-col l9 m6 s12">
+                        &nbsp;From&nbsp;@Html.TextBoxFor(model => model.PeriodDateFrom, new { @class = "inputDate" })
+                        &nbsp;To&nbsp;@Html.TextBoxFor(model => model.PeriodDateTo, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-container footer">
+                <button onclick="Search()" class="searchButton btn btn-default" type="button" id="MRSearchBtn">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

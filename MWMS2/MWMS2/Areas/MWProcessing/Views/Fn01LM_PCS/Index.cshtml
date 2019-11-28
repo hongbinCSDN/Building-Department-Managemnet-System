@@ -1,0 +1,50 @@
+﻿
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+
+    </div>  
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref. No. :</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Selection Date :</div>
+            <div class="w3-col l6 m12 s12">
+                From <input type="text" class="inputDate" />
+                to<input type="text" class="inputDate" />
+            </div>
+        </div>
+
+    </div>
+
+<div class="w3-container footer">
+    <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+</div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>

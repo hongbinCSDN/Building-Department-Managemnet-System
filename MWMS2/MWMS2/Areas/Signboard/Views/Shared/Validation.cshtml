@@ -1,0 +1,1815 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+
+
+@*<div style="text-align: right; width: 100%;">Last Modified Date:@Html.DisplayFor(model => model.B_SV_VALIDATION.MODIFIED_DATE)</div>
+    <div style="text-align: right; width: 100%;">Last Modified By:@Html.DisplayFor(model => model.B_SV_VALIDATION.MODIFIED_BY)</div>*@
+
+<div style="text-align:right">
+    @*Last Modified Date : @Html.TextBoxFor(x => x.B_SV_VALIDATION.MODIFIED_DATE, "{0:dd/MM/yy hh:mm:ss}", new { @readonly = "readonly", @style = "outline: none;  border: none; width:200px" })*@
+    Last Modified Date : @Html.DisplayFor(x => x.MODIFIED_DATE)
+    Last Modified By : @Html.DisplayFor(x => x.B_SV_VALIDATION.MODIFIED_BY)
+
+</div>
+
+
+<br />
+<div style="text-align: right; width: 100%;">Data Entry By :@Html.DisplayFor(model => model.B_SV_VALIDATION.CREATED_BY)</div>
+
+@{if (Model.TaskType == "WF_VALIDATION_TO")
+    {
+
+        <div id="tabbar1" class="hide" style="pointer-events:none">
+            <div class="header">Checking > </div>
+            <div>SubmissionInformation Checking</div>
+            <div>Item Checking</div>
+            <div>Summary</div>
+        </div>
+
+    }
+
+
+}
+
+@using (Html.BeginForm("", "Fn02TDL_TDL", FormMethod.Post, new { @id = "inputForm", enctype = "multipart /form-data" }))
+{
+    @*<form id="inputForm" method="post" action="">*@
+
+    @Html.HiddenFor(model => model.EditMode)
+    @Html.HiddenFor(model => model.VIEW_MODE)
+    @Html.HiddenFor(model => model.TargetDSNUUID)
+    @Html.HiddenFor(model => model.TargetValidationUUID)
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.UUID)
+    @Html.HiddenFor(model => model.SaveMode)
+    @Html.HiddenFor(model => model.TaskType)
+
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.B_SV_RECORD.TO_USER_ID)
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.B_SV_RECORD.PO_USER_ID)
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.B_SV_RECORD.SPO_USER_ID)
+
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.UUID)
+    @Html.HiddenFor(model => model.letterUuid)
+    @Html.HiddenFor(model => model.B_SV_VALIDATION.SV_RECORD_ID)
+
+
+
+    <div class="panelHeader">Submission Information</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission No. :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.REFERENCE_NO)
+
+                </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Form Code   :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.FORM_CODE)
+
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Received Date :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.RECEIVED_DATE)
+
+                </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Location/Address of the Signboard :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.FULL_ADDRESS)
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">BCIS Block ID :<span hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+
+
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(x => x.B_SV_VALIDATION.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.BCIS_BLOCK_ID, new { @id = "bcisBlockId", @disabled = "true", @style = "border: none; border-color: transparent; background: none; color: black;" })
+                    @if (Model.TaskType != "WF_VALIDATION_SPO")
+                    {
+                        <span @*style="float: right;"*@>
+                            <input name="btnEditAddr" id="btnEditAddr" class="btn btn-default" type="button" value="Edit" onclick="popupAddress('@Model.B_SV_VALIDATION.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.UUID')">
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">BD ref. (4+2) :	</div>
+
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(x => x.B_SV_VALIDATION.B_SV_RECORD.B_SV_SIGNBOARD.B_SV_ADDRESS.FILE_REFERENCE_NO, new { @id = "BdRefNo", @disabled = "true", @style = "border: none; border-color: transparent; background: none; color: black;" })
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Related Order/DSRN (if applicable) :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.RELATED_ORDER_NO)
+
+                </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">With alteration/strengthening :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.WITH_ALTERATION)
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <br />
+
+
+        <div class="panelHeader">Handling Officers</div>
+        <div class="w3-row">
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">TO  :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.TO_POST)
+
+                </div>
+
+            </div>
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">PO	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.PO_POST)
+                </div>
+
+            </div>
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">SPO :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.SPO_POST)
+                </div>
+
+            </div>
+
+        </div>
+        <br />
+        <div class="panelHeader">Submitted Document</div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th class="TOClass">
+
+                        </th>
+
+                        <th>
+                            DSN Number
+                        </th>
+                        <th>
+                            Document Type
+                        </th>
+                        <th>
+                            Scan Date
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            View Image
+                        </th>
+                        <th>
+                            Folder Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*!!!!!@Html.HiddenFor(x => x.SubmittedDocList)*@
+                    @{
+
+                        var i = 0;
+                        foreach (var item in Model.SubmittedDocList)
+                        {
+
+                            <tr>
+                                <td class="TOClass">
+                                    @if (item.B_SV_SUBMISSION.Count() != 0 || Model.TaskType != "WF_VALIDATION_SPO")
+                                    {
+                                    }
+                                    else
+                                    {
+                                        <button onclick="onDeleteSD('@item.UUID')" id="" class="btn btn-default" type="button"><i class="fa fa-trash"></i> Delete </button>
+
+                                    }
+                                </td>
+                                <td>
+                                    @item.DSN_NUMBER
+                                </td>
+                                <td>
+                                    @item.DOCUMENT_TYPE
+                                </td>
+                                <td>
+                                    @item.SCAN_DATE
+                                </td>
+
+                                <td>
+                                    @item.DOC_DESCRIPTION
+                                </td>
+                                <td>
+                                    @if (item.FILE_PATH != null)
+                                    {
+                                        <div onclick="loadImage('@item.FILE_PATH')" style="width: 27.75px; height: 33.2px; font: inherit; margin: 3px 8px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 21px; text-align:center;">
+                                            <i class="far fa-file-image"></i>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    @*@Html.TextBoxFor(x=>x.SubmittedDocList[i].FOLDER_TYPE)*@
+                                    <select name='@("SubmittedDocListFolderType[" + item.UUID + "]")' style="width:auto">
+                                        @foreach (var v in Model.FolderType)
+                                        {
+                                            string isSelected = "";
+                                            if (v.Value == item.FOLDER_TYPE)
+                                            {
+                                                isSelected = "Selected";
+                                            }
+                                            <option @isSelected value="@v.Value">@v.Text</option>
+
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="w3-container footer TOClass">
+            <button onclick="postSubmittedDocs()" type="button"><i class="fa fa-save"></i> Save</button>
+        </div>
+        <br />
+
+
+        <div class="hide displayForm SummaryClass" id="PhotoLibArea" style="overflow-x:auto">
+            <div class="panelHeader">Photo Library/BCIS</div>
+            <div id="PhotoLibList"></div>
+
+            <div class="w3-container footer SummaryHideClass" id="PhotoLibBtn">
+                <button onclick="popupPhotoLib()" type="button"><i class="far fa-plus-square"></i> Add</button>
+            </div>
+        </div>
+
+
+
+        <br />
+        <div class="panelHeader">
+            Related Signboards of the Signboard
+
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable" id="RSS">
+                <tbody>
+                    @{
+                        if (Model.SignboardRelationList != null && Model.SignboardRelationList.Count() > 0)
+                        {
+                            foreach (var item in Model.SignboardRelationList)
+                            {
+                                <tr>
+                                    <td>
+                                        <button onclick='deleteSignboardRelation("@item.UUID")' type="button"><i class="fa fa-trash"></i> Delete</button>
+                                    </td>
+                                    @if (Model.B_SV_VALIDATION.B_SV_RECORD.REFERENCE_NO == item.SIGNBOARD_NO_1)
+                                    {
+                                        <td>@item.SIGNBOARD_NO_2</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.SIGNBOARD_NO_1</td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+        <div class="w3-container footer SummaryHideClass">
+            <button onclick="addSignboardRelation()" type="button"><i class="far fa-plus-square"></i> Add</button>
+        </div>
+
+        <div class="panelHeader">
+            Details of the Validation/MW Item
+
+
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Validation Items @Model.ValidationItemList.Count()
+                        </th>
+                        <th>
+                            Corresponding MW items
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.ValidationItemList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.VALIDATION_ITEM
+                                </td>
+                                <td>
+                                    @item.CORRESPONDING_ITEM
+                                </td>
+                            </tr>
+
+                        }
+
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <br />
+
+        <div name="tabname1">
+            <div id="tab1Div1"></div><br>
+            <div id="tab1Div2"></div><br>
+        </div>
+        <div name="tabname1">
+
+            <div id="tab2Div1"></div>
+            <div id="tab2Div2">
+                <div id="tabbar2"></div>
+                <br>
+                <div id="tabname2Area"></div>
+                <br>
+            </div>
+
+        </div>
+        <div name="tabname1">
+            <div id="tab3Div1"></div>
+            <br>
+            <div id="tab3Div2"></div>
+            <br>
+            <div id="tab3Div3" class="displayForm" style="overflow-x:auto"></div>
+            <br>
+            <div>@Html.Partial("ValidationResult", Model)</div>
+        </div>
+
+
+        <div id="MWItemList" class="displayForm  hide"></div>
+
+        <div id="pbpInfoTab" class="hide">
+            <div id="pbpInfo">
+                <br />
+                <div class="panelHeader">
+                    Particulars of PBP
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="resultTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    PBP
+                                </th>
+                                <th>
+                                    Certification of Registration No.
+                                </th>
+                                <th>
+                                    English Name
+                                </th>
+                                <th>
+                                    Chinese Name
+                                </th>
+                                <th>
+                                    Reg. No. & Name of PBP
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    AP
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_AP.CERTIFICATION_NO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_AP.ENGLISH_NAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_AP.CHINESE_NAME)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(x => x.PBP_AP_RESULT)
+
+                                    @{
+
+
+
+                                        <input type="button" id="PBP_AP_RESULTBtn" onclick="toggleOkBtn(this)" @((Model.PBP_AP_RESULT == "N/A") ? "disabled" : "") value="@Model.PBP_AP_RESULT" />
+
+                                    }
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    RSE
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RSE.CERTIFICATION_NO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RSE.ENGLISH_NAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RSE.CHINESE_NAME)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(x => x.PBP_RSE_RESULT)
+                                    <input type="button" id="PBP_RSE_RESULTBtn" onclick="toggleOkBtn(this)" @((Model.PBP_RSE_RESULT == "N/A") ? "disabled" : "") value="@Model.PBP_RSE_RESULT" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    RGE
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RGE.CERTIFICATION_NO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RGE.ENGLISH_NAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => x.AP_RGE.CHINESE_NAME)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(x => x.PBP_RGE_RESULT)
+                                    <input type="button" id="PBP_RGE_RESULTBtn" onclick="toggleOkBtn(this)" @((Model.PBP_RGE_RESULT == "N/A") ? "disabled" : "") value="@Model.PBP_RGE_RESULT" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <br />
+                <div style="overflow-x:auto">
+                    <table class="resultTable">
+                        <thead>
+                            <tr>
+                                <th colspan="3">Particulars of PRC</th>
+                                <th>Result</th>
+                                <th colspan="2">Particulars of AS</th>
+                                <th>Result</th>
+                            </tr>
+                            <tr>
+                                <th>Certification of Registration No.</th>
+                                <th>English Name of PRC</th>
+                                <th>Chinese Name of PRC</th>
+                                <th>Reg. No. & Name of PRC</th>
+                                <th>English Name of AS</th>
+                                <th>Chinese Name of AS</th>
+                                <th>Reg. No. & Name of AS</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(x => x.AP_PRC.CERTIFICATION_NO)</td>
+                                <td>@Html.DisplayFor(x => x.AP_PRC.ENGLISH_NAME)</td>
+                                <td>@Html.DisplayFor(x => x.AP_PRC.CHINESE_NAME)</td>
+                                <td>@Html.HiddenFor(x => x.PRC_RESULT)<input type="button" id="PRC_RESULTBtn" onclick="toggleOkBtn(this)" @((Model.PRC_RESULT == "N/A") ? "disabled" : "") value="@Model.PRC_RESULT" /></td>
+                                <td>@Html.DisplayFor(x => x.AP_PRC.AS_ENGLISH_NAME)</td>
+                                <td>@Html.DisplayFor(x => x.AP_PRC.AS_CHINESE_NAME)</td>
+                                <td>@Html.HiddenFor(x => x.PRC_AS_RESULT)<input type="button" id="PRC_AS_RESULTBtn" onclick="toggleOkBtn(this)" @((Model.PRC_AS_RESULT == "N/A") ? "disabled" : "") value="@Model.PRC_AS_RESULT" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+            </div>
+            <br />
+            @Html.Partial("validationToDoPbpPrcChecking", Model)
+        </div>
+
+
+        <div class="w3-container footer SummaryClass hide">
+            @if (!Model.EditMode.Equals("view"))
+            {
+                <button onclick="goExport('@Model.B_SV_VALIDATION.UUID', 'Data will be exported without saved. Are you sure to continue?', 'ValidationExportMailMerge')" type="button">Export validation data for mail merge</button>
+                <button onclick="goExport('@Model.B_SV_VALIDATION.UUID', 'Data will be exported without saved. Are you sure to continue?', 'ValidationExportExcel')" type="button">Export validation data for Excel</button>
+            }
+
+        </div>
+        <br>
+        <div class="w3-container footer">
+            <button class="TOClass" onclick="LastPage()" type="button"><i class="fa fa-arrow-left"></i></button>
+            <button onclick="genAuditForm('@Model.B_SV_VALIDATION.UUID', '@Model.TaskType')" id="" type="button"><i class="fa fa-save"></i> Audit Form</button>
+
+            <button onclick="genAdvisoryLetter('@Model.B_SV_VALIDATION.UUID', '@Model.TaskType')" id="" type="button"><i class="fa fa-save"></i> Advisory Letter </button>
+            @Html.DropDownListFor(model => model.advisoryLetter, Model.advisoryLetterList, new { @class = "form-control", style = "width: 150px" })
+            <button id="" type="button" onclick='popupComments(true)'><i class="fa fa-save"></i> View Comments </button>
+
+            @if (!Model.EditMode.Equals("view"))
+            {
+                <button id="" type="button" class="SaveClass POClass hide" onclick="Rollback()"><i class="fa fa-save"></i> Rollback to TO </button>
+                <button id="" type="button" class="SaveClass SPOBtnClass hide" onclick="Rollback()"><i class="fa fa-save"></i> Rollback to PO </button>
+                <button id="" type="button" class="SaveClass POClass hide" onclick="submitToDo('passPO')"><i class="fa fa-save"></i> For SPO Advice</button>
+
+                <button id="" type="button" class="SaveClass" onclick="SaveTOValidation()"><i class="fa fa-save"></i> Save as Draft </button>
+                <button id="SubmitBtn" class="SaveClass SummaryClass POClass hide disableBtnClass" disabled="disabled" type="button" onclick="SubmitToNextStage()"><i class="fa fa-save"></i> Confirm Process Complete </button>
+
+
+                <button id="" type="button" class="SaveClass SPOBtnClass hide" onclick="submitToDo('submitSPO')"><i class="fa fa-save"></i> Endorse</button>
+            }
+
+            <button class="TOClass" id="" type="button" onclick="NextPage()"><i class="fa fa-arrow-right"></i> </button>
+
+        </div>
+    </div>
+    <div id="test"></div>
+    @*</form>*@
+}
+
+<script>
+
+    $('input[type=radio][name="B_SV_VALIDATION.VALIDATION_RESULT"]').change(function () {
+        $("#SubmitBtn").removeClass("disableBtnClass");
+        $("#SubmitBtn").prop('disabled', false);
+    });
+
+    $('#RSS').on('click', 'button[type="button"]', function (e) {
+        $(this).closest('tr').remove()
+    })
+
+    function deleteSignboardRelation(a) {
+       // goTo("deleteSignboardRelation", [{  name: "uuid", value: a }],false);
+        $.ajax({
+            type: "POST",
+            url: "deleteSignboardRelation",
+            data: {
+
+                uuid: a,
+
+            },
+            success: function (data) {
+
+            }
+        });
+
+    }
+
+    var mwitemSearch;
+    var photoLibSearch;
+    var tempRSUUID = 1;
+    function popupComments(isReadonly) {
+        @*if (isReadonly) {
+            goTo("popupComment", [{  name: "uuid", value: "@Model.B_SV_VALIDATION.UUID" }, { name: "EditMode", value : "view" }],true);
+        }
+        else {
+            goTo("popupComment", [{ name: "uuid", value: "@Model.B_SV_VALIDATION.UUID" }, { name: "EditMode", value: "add" }],true);
+        }*@
+
+        var url = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+        if (isReadonly) {
+            url += '@Html.Raw(Url.Action("popupComment", "Fn02TDL_TDL", new { uuid = Model.B_SV_VALIDATION.UUID, EditMode = "view" }))';
+        }
+        else {
+            url += '@Html.Raw(Url.Action("popupComment", "Fn02TDL_TDL", new { uuid = Model.B_SV_VALIDATION.UUID, EditMode = "add" }))';
+        }
+        // return popupWind(url);
+        return window.open(url, null, "width:860px; height:400px; center:yes");
+
+    }
+
+    function MWItemSearch() {
+        mwitemSearch.search();
+    }
+    function PhotoLibSearch() {
+        photoLibSearch.search();
+    }
+
+
+    function NextPage() {
+
+        if (tabber1.currentIndex() == tabber1.tabItems.length - 1) { return;}
+
+
+        if (tabber1.currentIndex() == 1) {
+
+            console.log("The 1 length is : " + tabber1.tabItems.length);
+            console.log("The 2 length is : " + tabber2.tabItems.length);
+            if (tabber2.tabItems.length - 1 == tabber2.currentIndex() || tabber2.tabItems.length == 0 ) {
+                tabber1.select(tabber1.currentIndex() + 1);
+                $("#MWItemListBtn").addClass("hide");
+                $("#PhotoLibBtn").addClass("hide");
+
+            }
+            else {
+                tabber2.select(tabber2.currentIndex() + 1);
+            }
+
+        }
+        else {
+            tabber1.select(tabber1.currentIndex() + 1);
+            $("#MWItemListBtn").removeClass("hide");
+            $("#PhotoLibArea").removeClass("hide");
+            $("#PhotoLibBtn").removeClass("hide");
+            $("#pbpInfoTab").removeClass("hide");
+            if (tabber1.currentIndex() == 1) { tabber2.select(0); }
+        }
+
+
+
+    }
+    function LastPage() {
+        console.log("***"+tabber1.currentIndex());
+        console.log("***" +tabber2.currentIndex());
+        if (tabber1.currentIndex() == 1) {
+
+            if (tabber2.currentIndex() == 0) {
+                $("#MWItemListBtn").addClass("hide");
+                $("#PhotoLibArea").addClass("hide");
+                $("#PhotoLibBtn").addClass("hide");
+                $("#pbpInfoTab").addClass("hide");
+                tabber1.select(tabber1.currentIndex() - 1);
+            }
+            else {
+                tabber2.select(tabber2.currentIndex() - 1);
+
+            }
+        }
+        else {
+            if (tabber1.currentIndex() == 2)
+            {
+                tabber2.select(tabber2.tabItems.length - 1);
+                console.log("*XXX**" + tabber2.currentIndex());
+            }
+            tabber1.select(tabber1.currentIndex() - 1);
+            if (tabber1.currentIndex() == 1) { tabber2.select(tabber2.tabItems.length - 1); $("#PhotoLibArea").removeClass("hide"); $("#MWItemListBtn").removeClass("hide"); $("#PhotoLibArea").removeClass("hide"); $("#PhotoLibBtn").removeClass("hide"); }
+        }
+
+    }
+    function popupAddItem(a, b, c, d) {
+
+        goTo("popupMWItem", [{ name: "NewMWItem", value: a }, { name: "NewMWItemDes", value: b }, { name: "NewMWItemOrder", value: c }, { name: "NewMWItemUUID", value: d }], true);
+    }
+    function popupPhotoLib() {
+        goTo("popupPhotoLib", "", true);
+
+    }
+    function Rollback() {
+        disableAllBtns();
+        popupComments(false);
+
+
+    }
+    function redirectToTDL()
+    {
+        disableAllBtns();
+        rollbackToDoCallback()
+    }
+    function rollbackToDoCallback()
+    {
+        var form = document.getElementById("inputForm");
+        form.action = "Rollback";
+
+        form.submit();
+    }
+    //function RollbackSPO() {
+    //    var form = document.getElementById("inputForm");
+    //    form.action = "RollbackSPO";
+
+    //    form.submit();
+
+    //}
+    function submitToDo(result)
+    {
+        disableAllBtns();
+        var form = document.getElementById("inputForm");
+        if (result == "passPO") {
+
+            document.getElementById("SaveMode").value = "pass";
+
+            form.action = "SaveTOValidation";
+            form.submit();
+        } else if (result == "submitPO") {
+
+        }
+        else if (result == "submitSPO")
+        {
+            document.getElementById("SaveMode").value = "submit";
+
+            form.action = "SaveTOValidation";
+            form.submit();
+
+        }
+
+
+    }
+    function SaveTOValidation() {
+        //disableAllBtns();
+        console.log("Save");
+        document.getElementById("SaveMode").value = "draft";
+        req("SaveTOValidation", "inputForm", function (data) {
+            console.log(data);
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { alert("Save Success"); enableAllBtns(); }
+            else showErrorMessage(data.ErrorMessages);
+
+        });
+
+        //var form = document.getElementById("inputForm");
+        //form.action = "SaveTOValidation";
+        //document.getElementById("SaveMode").value = "draft";
+        //form.submit();
+    }
+    function SubmitToNextStage() {
+        console.log("***:")
+
+            disableAllBtns();
+            var form = document.getElementById("inputForm");
+            document.getElementById("SaveMode").value = "submit";
+
+            form.action = "SaveTOValidation";
+            form.submit();
+
+        console.log(document.getElementById("B_SV_VALIDATION_VALIDATION_RESULT").value);
+
+
+    }
+    $('#RSS').on('click', 'input[type="button"]', function (e) {
+        $(this).closest('tr').remove();
+
+    })
+    function addPhotoLibCallback(v1, v2) {
+        $.ajax({
+            type: "POST",
+            url: "AjaxAddPhotoLib",
+            data: {
+
+                desc: v1,
+                url: v2,
+            },
+            success: function (data) {
+                PhotoLibSearch();
+            }
+        });
+    }
+    function savePhotoLibCallback(v1, v2, v3) {
+        $.ajax({
+            type: "POST",
+            url: "AjaxSavePhotoLib",
+            data: {
+
+                desc: v1,
+                url: v2,
+                uuid: v3
+            },
+            success: function (data) {
+                PhotoLibSearch();
+            }
+        });
+    }
+
+    function saveMWItemCallback(v1, v2, v3, v4) {
+
+        $.ajax({
+            type: "POST",
+            url: "AjaxSaveMWItem",
+            data: {
+                mwitem: v1,
+                desc: v2,
+                rev: v3,
+                uuid: v4,
+            },
+            success: function (data) {
+                //mwitemSearch.search();
+                mwitemSearch.search(null, function () { ItemGrid1(mwitemSearch.Data); });
+            }
+        });
+    }
+
+    function addMWItemCallback(v1, v2, v3) {
+        $.ajax({
+            type: "POST",
+            url: "AjaxAddMWItem",
+            data: {
+                mwitem: v1,
+                desc: v2,
+                rev: v3,
+            },
+            success: function (data) {
+                mwitemSearch.search(null, function () { ItemGrid1(mwitemSearch.Data); tabber2.select(0); });
+
+            }
+        });
+    }
+    function addSignboardRelationCALLBACK(v1) {
+
+        var t = document.getElementById("RSS");
+        var row = t.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = "<input type='button'  value='Delete'> ";
+       // cell1.innerHTML = "<input type='button' onclick='deleteSignboardRelation(" + tempRSUUID +")' value='Delete'> ";
+        cell2.innerHTML = "<input type='hidden' name='NewRelatedSignboard' value='" + v1.REFERENCE_NO + "'>" + v1.REFERENCE_NO;
+        tempRSUUID++;
+    }
+
+
+    function toggleOkBtn(btnObj) {
+
+        var tmp = btnObj.id.substr(0, btnObj.id.length - 3);
+
+
+
+        if (btnObj.name != "") {
+            var fieldObj = document.getElementById(btnObj.name);
+
+        }
+
+
+        if (typeof fieldObj != "undefined") {
+            if (fieldObj.value == displayChecked)
+                fieldObj.value = displayUnchecked;
+            else if (fieldObj.value == displayUnchecked)
+                fieldObj.value = displayChecked;
+        }
+        if (btnObj.value == "OK") {
+            btnObj.value = "Not OK";
+            document.getElementById(tmp).value = "N";
+        }
+        else {
+
+            document.getElementById(tmp).value = "Y";
+            btnObj.value = "OK";
+        }
+
+    }
+
+
+
+    function addSignboardRelation() {
+
+        goTo("popupSignboardRelation", "", true);
+
+
+    }
+    function postSubmittedDocs() {
+
+        var form = document.getElementById("inputForm");
+        req("postSubmittedDocs", "inputForm", function (data) {
+            if (data.Result == 'SUCCESS' && data != null) {
+                console.log(data);
+                goTo('goToValidationToDoTO', [{ name: "uuid", value: data.Data.uuid }, { name: "type", value: data.Data.taskType}]);
+            }
+            alert(data.Message);
+        });
+        // form.action = "postSubmittedDocs";
+        // form.submit();
+
+    }
+
+    function onDeleteSD(uuid) {
+
+        document.getElementById("TargetDSNUUID").value = uuid;
+        var form = document.getElementById("inputForm");
+        form.action = "DeleteDSN";
+        form.submit();
+        //req("DeleteDSN"
+        //    , "inputForm"
+        //    , function (data) {
+        //        //attr("FormType", "html", data.FULL_NAME_DISPLAY);
+        //        //attr("FORM_TYPE", "value", data.FULL_NAME_DISPLAY);
+        //        $("#FormType").val(data.FULL_NAME_DISPLAY);
+        //    });
+
+    }
+    function allItemRemarksSetBtnClicked(a, b) {
+        var x = document.getElementsByClassName(a);
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].value += "\n" + b;
+        }
+    }
+
+    var tabber1;
+    var tabber2;
+    // $("#PhotoLibArea").removeClass("hide");
+    function ItemGrid1(r) {
+        console.log(r);
+        var inputKey = 0;
+
+       attr("tabbar2", "html", "");
+        attr(domName("tabname2"), "html", "");
+        attr(domId("tabname2Area"), "html", "");
+        tabber2 = new tabber({ tab: "tabbar2", area: "tabname2" });
+        console.log("IemGrid1 Start");
+
+            for (var i = 0; i < r.length; i++) {
+                console.log(r[i]);
+                tbl = document.createElement('table');
+                tbl.classList.add("resultTable");
+
+                    var span = dom("span");
+                    dom_(span, "span", {
+                        html: r[i].MW_ITEM_CODE + " "
+                    });
+                    dom_(span, "button", {
+                        type: "button",
+                        html: "Edit",
+                        onclick: {
+                            parameters: r[i]
+                            , callback: function (d, p, e) {
+                                popupAddItem(p.MW_ITEM_CODE, p.LOCATION_DESCRIPTION, p.REVISION, p.UUID);
+                            }
+
+                        }
+                    });
+                    var div = tabber2.addTab(span, 'tabname2Area').area;
+                attr(div, "addClass", "displayForm");
+
+
+                var header = dom_(tbl, "TBODY");
+                for (var k = 0; k < r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM.length; k++) {
+                    if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_TYPE == "HEADER_A" || r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_TYPE == "HEADER_B") {//header
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.DESCRIPTION == "ItemDesc") {
+
+                        }
+                        else {
+                             var Theadtr = header.insertRow();
+                            var headerCell = document.createElement("TH");
+                            headerCell.setAttribute('colSpan', '2');
+                            headerCell.innerHTML = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.DESCRIPTION;
+                            Theadtr.appendChild(headerCell);
+
+                            headerCell = document.createElement("TH");
+                            headerCell.innerHTML = "Item Detail";
+                            Theadtr.appendChild(headerCell);
+                            headerCell = document.createElement("TH");
+                            if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_TYPE == "HEADER_A")
+
+                                headerCell.innerHTML = "Remarks <input type='button' onclick='allItemRemarksSetBtnClicked(\"" + r[i].UUID + "\",\"@Model.currUser : OK" + "\")' value='OK' > <input type='button' onclick='allItemRemarksSetBtnClicked(\"" + r[i].UUID + "\",\"@Model.currUser : Not OK" + "\")' value='Not OK' >";
+
+                            else
+                                headerCell.innerHTML = "Remarks";
+                            Theadtr.appendChild(headerCell);
+                        }
+
+                    } else {
+                        var tr = dom_(header, "tr");
+                        var td = tr.insertCell();
+                        td.appendChild(document.createTextNode(r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_NO));
+                        td = tr.insertCell();
+                        td.appendChild(document.createTextNode(r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.DESCRIPTION));
+
+
+                        td = tr.insertCell();
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM == null) {
+                            var input = document.createElement('textarea');
+                            //input.type = "text";
+                            if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS != null) {
+                                input.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS;
+                            }
+                            input.name = "TargetMWItem[" + inputKey + "][TagertMWItemRemarks]";
+                            td.appendChild(input);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM = input;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM);
+
+                        td = tr.insertCell();
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM == null) {
+                            var input2 = document.createElement('textarea');
+                            //input2.type = "text";
+                            input2.name = "TargetMWItem[" + inputKey + "][TagertMWItemItemDetails]";
+                            input2.classList.add(r[i].UUID);
+                            if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS != null) {
+                                input2.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS;
+                            }
+                            td.appendChild(input2);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM = input2;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM);
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM == null) {
+                            var input3 = document.createElement('input');
+                            input3.type = "hidden";
+                            //if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID != null) {
+                            //    input3.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID;
+                            //}
+                            input3.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID;
+                            input3.name = "TargetMWItem[" + inputKey + "][TagertSMWUUID]";
+                            td.appendChild(input3);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM = input3;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM);
+
+
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM == null) {
+
+                            var input4 = document.createElement('input');
+                            input4.type = "hidden";
+                            //if (r[i].UUID != null) {
+                            //    input4.value = r[i].UUID;
+                            //}
+                            input4.value = r[i].UUID;
+                            input4.name = "TargetMWItem[" + inputKey + "][TargetSVRecordItemUUID]";
+                            //inputKey++;
+                            td.appendChild(input4);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM = input4;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM);
+                        inputKey++;
+                    }
+
+
+                }
+                div.appendChild(tbl);
+
+                //dom_(div, "br");
+
+
+
+
+
+
+
+
+
+
+
+                if (r[i].sItem[0].RESULT_TO_DOM == null) {
+
+
+
+                 var abc =  _dom(
+                        _dom(
+                            dom_(
+                                _dom(
+                                    dom_(
+                                        dom_(
+                                            div
+                                            , "div"
+                                            , [{ "addClass": "w3-row displayForm" }]
+                                        )
+                                        , "div"
+                                        , [{ "addClass": "w3-col l12 m12 s12" }]
+                                    )
+                                    , "div"
+                                    , [{ "addClass": "w3-col l6 m12 s12" }, { "html": "Result From TO" }]
+                                )
+                                , "div"
+                                , [{ "addClass": "w3-col l6 m12 s12" }]
+                            )
+                            , "button"
+                            , [
+                                { "type": "button" }, { "html": (r[i].sItem[0].RESULT_TO == "Y") ? "OK" : "Not OK" }, { "name": r[i].UUID }, {
+                                    "onclick": {
+                                        parameters: r[i], callback: function (d, p, e) {
+                                            if (d.innerHTML == "OK") {
+                                                d.innerHTML = "Not OK";
+
+                                                attr("TargetMWItemResult[" + p.UUID + "]", "value", "N");
+                                            }
+                                            else {
+                                                d.innerHTML = "OK";
+
+                                                attr("TargetMWItemResult[" + p.UUID + "]", "value", "Y");
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        )
+                        , "input"
+                        , [{ "type": "hidden" }, { "name": "TargetMWItemResult[" + r[i].UUID + "]" }, { "id": "TargetMWItemResult[" + r[i].UUID + "]" }, { "value": r[i].sItem[0].RESULT_TO }]
+                    );
+                    r[i].sItem[0].RESULT_TO_DOM = abc.parentNode.parentNode;
+                } else moveDom(div, (r[i].sItem[0].RESULT_TO_DOM));
+
+
+
+
+                dom_(div, "br");
+
+
+          //  tabber2.select(0);
+        }
+
+
+
+    }
+    function ItemGrid2(r) {
+
+        var inputKey = 0;
+        attr("tab3Div3", "html", "");
+            for (var i = 0; i < r.length; i++) {
+
+
+                tbl = document.createElement('table');
+                tbl.classList.add("resultTable");
+
+
+
+
+                var div = document.getElementById("tab3Div3");
+                    var HHeader = dom_(tbl, "TBODY");
+                    var HTheadtr = HHeader.insertRow();
+                    var HheaderCell = document.createElement("TH");
+                    HheaderCell.innerHTML = "Item";
+                    HTheadtr.appendChild(HheaderCell);
+
+
+                    HheaderCell = document.createElement("TH");
+                    HheaderCell.innerHTML = "Checking Items";
+                    HTheadtr.appendChild(HheaderCell);
+
+
+                    HheaderCell = document.createElement("TH");
+                    HheaderCell.innerHTML = "Item Details";
+                    HTheadtr.appendChild(HheaderCell);
+
+
+                    HheaderCell = document.createElement("TH");
+                    HheaderCell.innerHTML = "Remarks <input type='button' onclick='allItemRemarksSetBtnClicked(\"" + r[i].UUID + "\",\"@Model.currUser : OK" + "\")' value='OK' > <input type='button' onclick='allItemRemarksSetBtnClicked(\"" + r[i].UUID + "\",\"@Model.currUser : Not OK" + "\")' value='Not OK' >";
+                    HTheadtr.appendChild(HheaderCell);
+
+                var header = dom_(tbl, "TBODY");
+
+                for (var k = 0; k < r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM.length; k++) {
+
+
+                    if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_TYPE == "HEADER_A" || r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_TYPE == "HEADER_B") {//header
+
+                            var Theadtr = header.insertRow();
+                            if (k == 0) {
+
+                                HheaderCell = document.createElement("TH");
+                                HheaderCell.innerHTML = r[i].MW_ITEM_CODE;
+                                HheaderCell.setAttribute('rowSpan', r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM.length);
+
+                                Theadtr.appendChild(HheaderCell);
+                            }
+
+
+
+                            headerCell = document.createElement("TH");
+                            headerCell.setAttribute('colSpan', '3');
+                            headerCell.innerHTML = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.DESCRIPTION;
+                            Theadtr.appendChild(headerCell);
+
+
+
+
+
+
+
+
+                    } else {
+
+                        var tr = dom_(header, "tr");
+
+
+
+                        var td = tr.insertCell();
+
+                            td.appendChild(document.createTextNode(r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.CHECKLIST_NO + "." + r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.DESCRIPTION));
+
+
+
+
+
+                        td = tr.insertCell();
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM == null) {
+                            var input = document.createElement('textarea');
+                            input.classList.add("MWItemInput");
+                            if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS != null) {
+                                input.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS;
+                            }
+                            input.name = "TargetMWItem[" + inputKey + "][TagertMWItemRemarks]";
+                            td.appendChild(input);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM = input;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].REMARKS_DOM);
+
+
+                        td = tr.insertCell();
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM == null) {
+                            var input2 = document.createElement('textarea');
+                            input2.classList.add("MWItemInput");
+                            input2.name = "TargetMWItem[" + inputKey + "][TagertMWItemItemDetails]";
+                            input2.classList.add(r[i].UUID);
+                            if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS != null) {
+                                input2.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS;
+                            }
+                            td.appendChild(input2);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM = input2;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].ITEM_DETAILS_DOM);
+
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM == null) {
+                            var input3 = document.createElement('input');
+
+                            input3.type = "hidden";
+                            input3.value = r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID;
+                            input3.name = "TargetMWItem[" + inputKey + "][TagertSMWUUID]";
+                            td.appendChild(input3);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM = input3;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].B_S_MW_ITEM_CHECKLIST_ITEM.UUID_DOM);
+
+
+                        console.log("***");
+                        console.log(r[i].UUID_DOM);
+                        console.log("***");
+
+                        if (r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM == null) {
+
+                            var input4 = document.createElement('input');
+
+                            input4.type = "hidden";
+                            input4.value = r[i].UUID;
+                            input4.name = "TargetMWItem[" + inputKey + "][TargetSVRecordItemUUID]";
+                           // inputKey++;
+                            td.appendChild(input4);
+                            r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM = input4;
+                        } else moveDom(td, r[i].sItem[0].B_SV_RECORD_ITEM_CHECKLIST_ITEM[k].UUID_DOM);
+                        inputKey++;
+                    }
+
+
+
+                }
+                div.appendChild(tbl);
+
+                dom_(div, "br");
+                if (r[i].sItem[0].RESULT_TO_DOM == null) {
+                 var btn=   _dom(
+                        _dom(
+                            dom_(
+                                _dom(
+                                    dom_(
+                                        dom_(
+                                            div
+                                            , "div"
+                                            , [{ "addClass": "w3-row displayForm" }]
+                                        )
+                                        , "div"
+                                        , [{ "addClass": "w3-col l12 m12 s12" }]
+                                    )
+                                    , "div"
+                                    , [{ "addClass": "w3-col l6 m12 s12" }, { "html": "Result From TO" }]
+                                )
+                                , "div"
+                                , [{ "addClass": "w3-col l6 m12 s12" }]
+                            )
+                            , "button"
+                         , [{ "type": "button" }, { "html": (r[i].sItem[0].RESULT_TO == "Y") ? "OK" : "Not OK" }, { "name": r[i].UUID }, {"class":"TOBtn"}, {
+                                "onclick": {
+                                    parameters: r[i], callback: function (d, p, e) {
+                                        if (d.innerHTML == "OK") {
+                                            d.innerHTML = "Not OK";
+
+                                            attr("TargetMWItemResult[" + p.UUID + "]", "value", "N");
+                                        }
+                                        else {
+                                            d.innerHTML = "OK";
+
+                                            attr("TargetMWItemResult[" + p.UUID + "]", "value", "Y");
+                                        }
+                                    }
+                                }
+                            }]
+                        )
+                        , "input"
+                        , [{ "type": "hidden" }, { "name": "TargetMWItemResult[" + r[i].UUID + "]" }, { "id": "TargetMWItemResult[" + r[i].UUID + "]" }, { "value": r[i].sItem[0].RESULT_TO }]
+                    );
+
+                    r[i].sItem[0].RESULT_TO_DOM = btn.parentNode;
+
+                } else moveDom(div, (r[i].sItem[0].RESULT_TO_DOM));
+
+
+                if (document.getElementById("TaskType").value != "WF_VALIDATION_TO") {
+
+
+                        var btn = _dom(
+                            _dom(
+                                dom_(
+                                    _dom(
+                                        dom_(
+                                            dom_(
+                                                div
+                                                , "div"
+                                                , [{ "addClass": "w3-row" }]
+                                            )
+                                            , "div"
+                                            , [{ "addClass": "w3-col l12 m12 s12" }]
+                                        )
+                                        , "div"
+                                        , [{ "addClass": "w3-col l6 m12 s12" }, { "html": "Result From PO" }]
+                                    )
+                                    , "div"
+                                    , [{ "addClass": "w3-col l6 m12 s12" }]
+                                )
+                                , "button"
+                                , [{ "type": "button" }, { "html": (r[i].sItem[0].RESULT == "Y") ? "OK" : "Not OK" }, { "name": r[i].UUID + "PO" }, { "class": "POBtn" }, {
+                                    "onclick": {
+                                        parameters: r[i], callback: function (d, p, e) {
+                                            if (d.innerHTML == "OK") {
+                                                d.innerHTML = "Not OK";
+
+                                                attr("TargetMWItemPOResult[" + p.UUID + "]", "value", "N");
+                                            }
+                                            else {
+                                                d.innerHTML = "OK";
+
+                                                attr("TargetMWItemPOResult[" + p.UUID + "]", "value", "Y");
+                                            }
+                                        }
+                                    }
+                                }]
+                            )
+                            , "input"
+                            , [{ "type": "hidden" }, { "name": "TargetMWItemPOResult[" + r[i].UUID + "]" }, { "id": "TargetMWItemPOResult[" + r[i].UUID + "]" }, { "value": r[i].sItem[0].RESULT }]
+                        );
+
+
+
+
+
+                }
+
+
+
+
+                    _dom(
+                        _dom(
+                            dom_(
+                                _dom(
+                                    dom_(
+                                        dom_(
+                                            div
+                                            , "div"
+                                            , [{ "addClass": "w3-row displayForm" }]
+                                        )
+                                        , "div"
+                                        , [{ "addClass": "w3-col l12 m12 s12" }]
+                                    )
+                                    , "div"
+                                    , [{ "addClass": "w3-col l6 m12 s12" }, { "html": "Site Audit Result" }]
+                                )
+                                , "div"
+                                , [{ "addClass": "w3-col l6 m12 s12" }]
+                            )
+                            , "button"
+                            , [{ "type": "button" }, { "html": (r[i].SITE_AUDIT_RESULT == "Y") ? "OK" : (r[i].SITE_AUDIT_RESULT == "N") ? "Not OK" : "N/A" }, { "name":"SAResultBtn" }, {
+                                "onclick": {
+                                    parameters: r[i], callback: function (d, p, e) {
+                                        //console.log(d.innerHTML);
+                                        if (d.innerHTML == "OK") {
+                                          //  d.innerHTML = "Not OK";
+                                            attr(domName("SAResultBtn"), "html", "Not OK");
+
+                                            attr(domName("TargetMWItemSAResult"), "value", "N");
+                                        }
+                                        else if (d.innerHTML == "Not OK") {
+                                          //  d.innerHTML = "O/S";
+
+                                            attr(domName("SAResultBtn"), "html", "O/S");
+                                            attr(domName("TargetMWItemSAResult"), "value", "O");
+                                        }
+                                        else if (d.innerHTML == "O/S") {
+                                            d.innerHTML = "N/A";
+                                            attr(domName("SAResultBtn"), "html", "N/A");
+
+                                            attr(domName("TargetMWItemSAResult"), "value", "NA");
+                                        }
+                                        else {
+
+                                            d.innerHTML = "OK";
+                                            attr(domName("SAResultBtn"), "html", "OK");
+                                            attr(domName("TargetMWItemSAResult"), "value", "Y");
+                                        }
+                                    }
+                                }
+                            }]
+                        )
+                        , "input"
+                        , [{ "type": "hidden" }, { "name": "TargetMWItemSAResult" }, { "id": "TargetMWItemSAResult" }, { "value": r[i].SITE_AUDIT_RESULT == null ? "" : r[i].SITE_AUDIT_RESULT }]
+                    );
+
+                //dom_(div, "br");
+
+                console.log(r[i].STRUCT_CALC_CHECK + "******");
+                if (document.getElementById("TaskType").value != "WF_VALIDATION_TO") {
+                    _dom(
+                        _dom(
+                            dom_(
+                                _dom(
+                                    dom_(
+                                        dom_(
+                                            div
+                                            , "div"
+                                            , [{ "addClass": "w3-row displayForm" }]
+                                        )
+                                        , "div"
+                                        , [{ "addClass": "w3-col l12 m12 s12" }]
+                                    )
+                                    , "div"
+                                    , [{ "addClass": "w3-col l6 m12 s12" }, { "html": "Structural Calculation Check" }]
+                                )
+                                , "div"
+                                , [{ "addClass": "w3-col l6 m12 s12" }]
+                            )
+                            , "button"
+                            , [{ "type": "button" }, { "html": (r[i].STRUCT_CALC_CHECK == "Y") ? "OK" : (r[i].STRUCT_CALC_CHECK == "N") ? "Not OK" : "N/A" }, { "name": "SCCResultBtn" }, {
+                                "onclick": {
+                                    parameters: r[i], callback: function (d, p, e) {
+
+                                        if (d.innerHTML == "OK") {
+
+                                            attr(domName("SCCResultBtn"), "html", "Not OK");
+
+                                            attr(domName("TargetMWItemSCCResult"), "value", "N");
+                                        }
+                                        else if (d.innerHTML == "Not OK") {
+                                            //  d.innerHTML = "O/S";
+
+                                            attr(domName("SCCResultBtn"), "html", "O/S");
+                                            attr(domName("TargetMWItemSCCResult"), "value", "O");
+                                        }
+                                        else if (d.innerHTML == "O/S") {
+                                            d.innerHTML = "N/A";
+                                            attr(domName("SCCResultBtn"), "html", "N/A");
+
+                                            attr(domName("TargetMWItemSCCResult"), "value", "NA");
+                                        }
+                                        else {
+
+                                            d.innerHTML = "OK";
+                                            attr(domName("SCCResultBtn"), "html", "OK");
+                                            attr(domName("TargetMWItemSCCResult"), "value", "Y");
+                                        }
+                                    }
+                                }
+                            }]
+                        )
+                        , "input"
+                        , [{ "type": "hidden" }, { "name": "TargetMWItemSCCResult" }, { "id": "TargetMWItemSCCResult" }, { "value": r[i].STRUCT_CALC_CHECK == null ? "" : r[i].STRUCT_CALC_CHECK }]
+                    );
+
+                    dom_(div, "br");
+
+
+                }
+
+
+                    for (var n = 0; n < document.getElementsByClassName("SAR").length; n++) {
+                        document.getElementsByClassName("SAR")[n].classList.remove("hide");
+
+                    };
+
+        }
+
+
+    }
+
+
+
+    function loadSummary()
+    {
+        if (document.getElementById("TaskType").value !== "WF_VALIDATION_TO") {
+
+            moveDom(domId("tab3Div1"), attr(MWItemList, "dropClass", "hide"));
+            moveDom(domId("tab3Div2"), attr(pbpInfoTab, "dropClass", "hide"));
+            console.log("loadSummary : "+mwitemSearch.Data);
+            ItemGrid2(mwitemSearch.Data);
+
+            //   attr(domClass("TOClass"), "addClass", "hide");
+            attr(domId("SubmitBtn"), "dropClass", "hide")
+
+            attr(domClass("TOBtn"), "addClass", "disableBtnClass");
+            attr(domClass("TOBtn"), "disabled", true);
+
+            attr(domClass("TOClass"), "addClass", "hide");
+            attr(domClass("POClass"), "dropClass", "hide");
+            attr(domClass("SummaryHideClass"), "addClass", "hide");
+            attr(domClass("SummaryClass"), "dropClass", "hide");
+            if (document.getElementById("TaskType").value === "WF_VALIDATION_SPO") {
+
+                attr(domClass("POClass"), "addClass", "hide");
+                attr(domClass("GetValidationClass"), "readonly", true);
+                attr(domClass("MWItemInput"), "readonly", true);
+
+                attr(domClass("SPOBtnClass"), "dropClass", "hide");
+
+                attr(domClass("POBtn"), "addClass", "disableBtnClass");
+                attr(domClass("POBtn"), "disabled", true);
+
+            }
+        }
+
+    }
+    function disableAllBtns() {
+        console.log("Disable All Btn");
+        $("button:button").each(function () {
+            $(this).attr("disabled", "disabled");
+        });
+    }
+    function enableAllBtns() {
+        //console.log("Disable All Btn");
+        $("button:button").each(function () {
+            $(this).prop("disabled", false);
+        });
+    }
+
+    domReady(function () {
+        if (document.getElementById("EditMode") != null && document.getElementById("VIEW_MODE"))
+        if (document.getElementById("EditMode").value == document.getElementById("VIEW_MODE").value ) {
+            disableAllBtns();
+        }
+
+        if (document.getElementById("B_SV_VALIDATION_VALIDATION_RESULT").checked == true)
+        {
+            $("#SubmitBtn").removeClass("disableBtnClass");
+            $("#SubmitBtn").prop('disabled', false);
+
+        }
+
+        @*if (document.getElementById("TaskType").value == "WF_VALIDATION_TO")
+        {
+            if (document.getElementById("B_SV_VALIDATION_B_SV_RECORD_TO_USER_ID").value != @MWMS2.Utility.SessionUtil.LoginPost.UUID)
+            {
+                attr(domClass("SaveClass"), "addClass", "disableBtnClass");
+                attr(domClass("SaveClass"), "disabled", true);
+            }
+        } else if (document.getElementById("TaskType").value == "WF_VALIDATION_PO")
+        {
+            if (document.getElementById("B_SV_VALIDATION_B_SV_RECORD_PO_USER_ID").value != @MWMS2.Utility.SessionUtil.LoginPost.UUID)
+            {
+                attr(domClass("SaveClass"), "addClass", "disableBtnClass");
+                attr(domClass("SaveClass"), "disabled", true);
+            }
+
+        }
+        else if (document.getElementById("TaskType").value == "WF_VALIDATION_SPO")
+        {
+            if (document.getElementById("B_SV_VALIDATION_B_SV_RECORD_SPO_USER_ID").value != @MWMS2.Utility.SessionUtil.LoginPost.UUID)
+            {
+                attr(domClass("SaveClass"), "addClass", "disableBtnClass");
+                attr(domClass("SaveClass"), "disabled", true);
+            }
+
+        }*@
+
+
+
+
+        photoLibSearch = new searcher({
+            searchPath: "PhotoLibSearch"
+            , searchTable: "searchCriteria"
+            , resultPanel: "PhotoLibList"
+            // , Sort:
+            //  , SortType: "2"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "&nbsp;", formater: function (row) {
+                        if (document.getElementById("TaskType").value != "WF_VALIDATION_TO") {
+                        }
+                        else {
+                            return createButton("Edit", "fa-edit", [{
+                                "onclick": {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        if (row == null) return;
+                                        goTo("popupPhotoLib", [{ name: "PhotoLibUUID", value: row.UUID }, { name: "PhotoLibDes", value: row.DESCRIPTION }, { name: "PhotoLibUrl", value: row.URL }], true);
+                                    }
+                                }
+                            }]);
+
+                        }
+
+                    }
+                }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+                , {
+                    displayName: "URL",
+                    formater: function (row) {
+                        var btn = createButton("", "far fa-file-image", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    loadPhotoLib(row.URL);
+                                }
+                            }
+                        }]);
+                        return btn;
+                    }
+                }
+
+            ]
+
+        }).search();
+
+        mwitemSearch = new searcher({
+            searchPath: "MWItemSearch"
+            , searchTable: "SearchCriteria"
+            , resultPanel: "MWItemList"
+            , Footer: false
+            , Columns: [
+                { displayName: "MW Item No.", columnName: "MW_ITEM_CODE" }
+                , { displayName: "Description", columnName: "LOCATION_DESCRIPTION" }
+                , { displayName: "Relevant Order/ Direction/ Notice No./ BD Reference No. ", columnName: "REVISION" }
+
+            ]
+            //, resultFootButtons: [
+            //    dom("button", [{ type: "button" }, { html: "Add Item" }, { onclick: { callback: function () { popupAddItem();}}}])
+            //]
+
+
+            , onAfterSearch: function (r) {
+                console.log(r.QueryParameters)
+                if (r.QueryParameters != null)
+                {
+                    InitNewMWCap();
+                }
+            }
+        }).search(null, loadSummary);
+
+        //domId("MWItemList")
+
+
+
+
+        dom_(dom_(
+            domId("MWItemList")
+            , "div"
+            , [{ "addClass": "w3-container footer hide" }, {"id":"MWItemListBtn"}]
+        )
+
+            , "button"
+            , [{ "type": "button" }, { "html": "Add Item" }, {
+                "onclick": { callback: function () { popupAddItem(); } }
+            }
+            ]
+            );
+
+
+
+        tabber2 = new tabber({ tab: "tabbar2", area: "tabname2" });
+
+
+        tabber1 = new tabber({
+            tab: "tabbar1"
+            , area: "tabname1"
+            , ontab: function (tabIdx, area) {
+                attr(domId("SubmitBtn"), "addClass", "hide")
+                attr(domClass("SummaryClass"), "addClass", "hide");
+                if (tabIdx == 0) {
+                    moveDom(domId("tab1Div1"), attr(MWItemList, "dropClass", "hide"));
+                    moveDom(domId("tab1Div2"), attr(pbpInfoTab, "dropClass", "hide"));
+                }
+                else if (tabIdx == 1) {
+                    moveDom(domId("tab2Div1"), attr(MWItemList, "dropClass", "hide"));
+                    ItemGrid1(mwitemSearch.Data);
+                }
+                else if (tabIdx == 2) {
+                    moveDom(domId("tab3Div1"), attr(MWItemList, "dropClass", "hide"));
+                    moveDom(domId("tab3Div2"), attr(pbpInfoTab, "dropClass", "hide"));
+                    ItemGrid2(mwitemSearch.Data);
+                    attr(domClass("SummaryClass"), "dropClass", "hide");
+                    attr(domId("SubmitBtn"), "dropClass", "hide")
+                }
+
+            }
+        });
+    });
+
+    function popupAddress(svAddressUuid) {
+        goTo("popupAddress", [{ name: "uuid", value: svAddressUuid }, { name: "uuid", value: svAddressUuid }],true);
+    }
+
+    function addAddressCallback(BCIS, BDref) {
+        document.getElementById("bcisBlockId").value = BCIS;
+        document.getElementById("BdRefNo").value = BDref;
+    }
+
+    function loadPhotoLib(url) {
+        window.open(url, null, "dialogWidth:700px; dialogHeight:500px; center:yes");
+        return false;
+    }
+
+    function loadImage(url) {
+        window.open(url, null, "dialogWidth:700px; dialogHeight:500px; center:yes");
+        return false;
+    }
+
+    function goExport(uuid, msg, task) { // task: ValidationExportMailMerge or ValidationExportExcel
+        var answer = confirm(msg);
+        if (answer) {
+            //domId("Uuid").value = uuid;
+            //domId("taskForm").action = "AuditExport";
+            //domId("taskForm").submit();
+
+            goTo(task, [{ name: "uuid", value: uuid }]);
+
+            document.body.classList.remove("bodyLoading")
+        }
+        else {
+            return;
+        }
+    }
+
+    function genAuditForm(uuid, taskType) {
+        SaveTOValidation();
+
+        var letterUuid = 'AuditForm';
+        document.getElementById("letterUuid").value = letterUuid;
+        $.ajax({
+            type: "POST",
+            url: 'checkFileExistValidation',
+            data: 'model:' + $("#inputForm").serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != null && data.Result == "SUCCESS") {
+                    var inputForm = document.getElementById("inputForm");
+                    inputForm.action = "mergeLetter";
+                    inputForm.submit();
+                } else {
+                    alert(data.Message[0]);
+                }
+            }
+        });
+
+    }
+
+    function genAdvisoryLetter(uuid, taskType) {
+        SaveTOValidation();
+
+        var letterUuid = document.getElementById("advisoryLetter").value;
+        document.getElementById("letterUuid").value = letterUuid;
+        $.ajax({
+            type: "POST",
+            url: 'checkFileExistValidation',
+            data: 'model:' + $("#inputForm").serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != null && data.Result == "SUCCESS") {
+                    var inputForm = document.getElementById("inputForm");
+                    inputForm.action = "mergeLetter";
+                    inputForm.submit();
+                } else {
+                    alert(data.Message[0]);
+                }
+            }
+        });
+    }
+
+    function GetCRMImage(uuid) {
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }], true);
+    }
+
+</script>

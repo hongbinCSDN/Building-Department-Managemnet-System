@@ -1,0 +1,75 @@
+﻿@model MWMS2.Areas.Registration.Models.CRMDataExportModel
+
+<form id="inputForm" method="post" action="ExportData">
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Category :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Category, Model.CATEGORY_CODE_List)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Applicant Role :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.ApplicantRole, Model.APPLICANT_ROLE_List)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">PNRC :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.PNRC, Model.PRACTICE_NOTES_List)
+                </div>
+            </div>
+        </div>
+
+        @*<div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                Select Data To Export :
+            </div>
+        </div>*@
+        <div class="panelHeader"> Select Data To Export :</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @Html.EditorFor(model => model.exportOfficeInfo)
+                Office Telephone Nos. & Email & Fax Nos. & AS Applicants & TD Applicants
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @Html.EditorFor(model => model.exportCorrAddress)
+                Correspondence Address, PNRC
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @Html.EditorFor(model => model.exportBuildingSafety)
+                Building Safety (includes address, telephone nos, remark notes)
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="exportBtn" class="searchButton btn btn-default" type="button">
+                <i class="fa fa-save"></i> Export
+            </button>
+        </div>
+
+    </div>
+
+</form>
+    <script type="text/javascript">
+        domReady(function () {
+            attr("exportBtn", "onclick", {
+                parameters: {}, callback: function () {
+                    thisForm = document.getElementById('inputForm');
+                    $("#inputForm").attr('action', 'ExportApplicationData');
+                    $("#inputForm").submit();
+
+                }
+            });
+        });
+    </script>

@@ -1,0 +1,196 @@
+﻿@model MWMS2.Areas.Admin.Models.DirectReturnRosterModel
+
+<div class="panelHeader">
+    <label>
+        Direct Return Roster
+    </label>
+</div>
+<div id="searchCriteria">
+    <form id="inputForm" class="displayForm" method="post">
+        <div class="w3-row">
+            @Html.HiddenFor(m => Model.P_S_DIRECT_RETURN_ROSTER.UUID)
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Date:
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => Model.P_S_DIRECT_RETURN_ROSTER.ON_DUTY_DATE, new { @class = "inputDate", onblur = "getRosterInfoByDate(value)" })
+                </div>
+            </div>
+
+            <div class="w3-col l3 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    TO:
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => Model.P_S_DIRECT_RETURN_ROSTER.OFFICER_TO)
+                </div>
+            </div>
+
+            <div class="w3-col l3 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    PO:
+                </div>
+                <div class="w3-col l8 m12 s12">
+                    @Html.TextBoxFor(m => Model.P_S_DIRECT_RETURN_ROSTER.OFFICER_PO)
+                </div>
+            </div>
+
+            <div class="w3-col l2 m12 s12">
+                <div class="right">
+                    <button type="button" id="btnSearch" onclick="clickSearch()">Search</button>
+                    <button type="button" id="btnAdd" onclick="clickAdd()">Add</button>
+                    <button type="button" id="btnUpdate" onclick="clickUpdate()">Update</button>
+                    <button type="button" id="btnReset" onclick="clickReset()">Reset</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="resultPanel"></div>
+</div>
+
+
+<script type="text/javascript">
+
+    var tableSearch;
+
+    function getIsUpdate() {
+        var isUpdate = $("#P_S_DIRECT_RETURN_ROSTER_UUID").val() != "";
+        return isUpdate;
+    }
+
+    function refreshButton() {
+        var btnAdd = document.getElementById("btnAdd");
+        var btnUpdate = document.getElementById("btnUpdate");
+
+        btnAdd.hidden = getIsUpdate();
+        btnUpdate.hidden = !getIsUpdate();
+    }
+
+    function clickAdd() {
+        console.log('Add');
+        attr("searchCriteria", "addClass", "saving");
+        $.post("Add", $("#inputForm").serialize(), function (data) {
+            attr("searchCriteria", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                clickReset();
+                clickSearch();
+                alert('Add successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function clickUpdate() {
+        console.log('Update');
+        attr("searchCriteria", "addClass", "saving");
+        $.post("Update", $("#inputForm").serialize(), function (data) {
+            attr("searchCriteria", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                clickReset();
+                clickSearch();
+                alert('Update successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function clickDelete(obj) {
+        console.log(obj);
+        attr("searchCriteria", "addClass", "deleting");
+        $.post("Delete", { "P_S_DIRECT_RETURN_ROSTER": obj }, function (data) {
+            attr("searchCriteria", "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                clickSearch();
+                alert('Delete successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function clickReset() {
+        document.getElementById("inputForm").reset();
+        $("#P_S_DIRECT_RETURN_ROSTER_UUID").val("");
+        refreshButton();
+    }
+
+    function clickSearch() {
+        tableSearch.search();
+    }
+
+    function getRosterInfoByDate(value, isFromTable) {
+        if (isFromTable) { $("#P_S_DIRECT_RETURN_ROSTER_ON_DUTY_DATE").val(date2String(new Date(value))); }
+        $.post("GetRosterInfoByDate", { "onDutyDate": value }, function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                if (data.Data != null) {
+                    $("#P_S_DIRECT_RETURN_ROSTER_UUID").val(data.Data["UUID"]);
+                    $("#P_S_DIRECT_RETURN_ROSTER_OFFICER_TO").val(data.Data["OFFICER_TO"]);
+                    $("#P_S_DIRECT_RETURN_ROSTER_OFFICER_PO").val(data.Data["OFFICER_PO"]);
+                } else {
+                    $("#P_S_DIRECT_RETURN_ROSTER_UUID").val("");
+                    $("#P_S_DIRECT_RETURN_ROSTER_OFFICER_TO").val("");
+                    $("#P_S_DIRECT_RETURN_ROSTER_OFFICER_PO").val("");
+                }
+
+                refreshButton();
+            }
+            else {
+                console.log(data);
+            }
+        }, "json");
+    }
+
+
+    domReady(function () {
+        tableSearch = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "Date", columnName: "ON_DUTY_DATE" }
+                , { displayName: "TO", columnName: "OFFICER_TO" }
+                , { displayName: "PO", columnName: "OFFICER_PO" }
+                , {
+                    displayName: "Edit", formater: function (row) {
+                        return createButton("", "fa-edit", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    getRosterInfoByDate(row.ON_DUTY_DATE, true);
+                                }
+                            }
+                        }]);
+                    }
+                }
+                , {
+                    displayName: "Delete", formater: function (row) {
+                        return createButton("", "fa-trash", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    clickDelete(row);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+        });
+
+        tableSearch.search();
+
+        refreshButton();
+    });
+</script>

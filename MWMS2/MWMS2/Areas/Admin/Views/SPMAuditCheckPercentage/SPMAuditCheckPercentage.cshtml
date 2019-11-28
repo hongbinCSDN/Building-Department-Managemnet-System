@@ -1,0 +1,82 @@
+﻿
+@model MWMS2.Entity.B_S_AUDIT_CHECK_PERCENTAGE
+
+@section scripts{
+
+    <script type="text/javascript">
+        function YearChange(element) {
+            $.ajax({
+                type: "POST",
+                url: "SelectedYearChange",
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { year: element.value },
+                success: function (data) {
+
+                    $('#Percentage').val(data.YearPercentage);
+                    if (data.MODIFIED_DATE != undefined) {
+                        document.getElementById("MODIFIED_DATE").innerHTML = data.MODIFIED_DATE;
+                    }
+                    else {
+                        document.getElementById("MODIFIED_DATE").innerHTML = ""
+                    }
+                    if (data.MODIFIED_BY != undefined) {
+                        document.getElementById("MODIFIED_BY").innerHTML = data.MODIFIED_BY;
+                    }
+                    else {
+                        document.getElementById("MODIFIED_BY").innerHTML = ""
+                    }
+                },
+            });
+
+        }
+
+    </script>
+}
+<h3> Audit check % </h3>
+@*<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    <span id="MODIFIED_DATE">
+        @ViewBag.MODIFIED_DATE
+    </span>
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    <span id="MODIFIED_BY">
+        @Html.DisplayFor(model => model.MODIFIED_BY)
+    </span>
+</div>*@
+@using (Html.BeginForm("SPMAuditCheckPercentage", "SPMAuditCheckPercentage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="sList w3-border displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m3 s3">Year :	</div>
+            <div class="w3-col l9 m9 s9">
+                @Html.DropDownListFor(model => model.YEAR, (IEnumerable<SelectListItem>)ViewBag.Year, new { style = "width:auto", @onchange = "YearChange(this)", id = "Year" })
+            </div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m3 s3">Percentage :	</div>
+            <div class="w3-col l9 m9 s9">
+                @Html.TextBoxFor(model => model.PERCENTAGE, new { style = "width: auto", id = "Percentage", @type = "number" }) %
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <input class="btn btn-default" type="submit" id="submit" value="Submit" />
+        @*<input class="inputButton btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("Index","SMMSysParaMan")"' type="button">*@
+        <button onclick='location.href="@Url.Action("Index","SMMSysParaMan")"' id="btnCancel" name="btnCancel" class="CancelButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+
+</div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br>

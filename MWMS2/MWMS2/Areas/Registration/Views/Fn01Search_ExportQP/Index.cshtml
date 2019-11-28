@@ -1,0 +1,104 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_ExportQPSearchModel
+
+<div id="searchCriteria">
+    <form id="inputForm" method="post" action="ExportQPExcelData">
+        <table id="Table3" class="resultTable">
+            <thead>
+                <tr>
+                    <th>Select Type of Data</th>
+                    <th>Output Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @*<a id="qpExcelBtn" href="javascript:triggerExport()">QP List</a>*@
+                        @*<button id="qpExcelBtn" class="Save" name="Save">QP List</button>*@
+                        <i class="fa fa-print"></i><input type="submit" value="QP List" />
+                    </td>
+
+                    <td>Excel</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(model => model.AP)      AP       <br>
+                        @Html.CheckBoxFor(model => model.RI)      RI       <br>
+                        @Html.CheckBoxFor(model => model.RSE)     RSE      <br>
+                        @Html.CheckBoxFor(model => model.GBC)     GBC      <br>
+                        @Html.CheckBoxFor(model => model.MWCInd)  MWC(W)   <br>
+                        @Html.CheckBoxFor(model => model.MWCComp) MWC
+
+
+                        <!--
+                        <input type="checkbox" id="AP" name="QP1" />AP     <br>
+                        <input type="checkbox" id="RI" name="QP2" />RI     <br>
+                        <input type="checkbox" id="RSE" name="QP1" />RSE     <br>
+                        <input type="checkbox" id="RGBC" name="QP1" />RGBC <br>
+                        <input type="checkbox" id="RMWCInd" name="QP1" />RWMC(Individual) <br>
+                        <input type="checkbox" id="RMWCComp" name="QP1" />RMWC(Company)
+                            -->
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </form>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    domReady(function () {
+    attr("qpExcelBtn", "onclick", {
+        parameters: {}, callback: function () {
+            thisForm = document.getElementById('ExportDataForm');
+            $("#inputForm").attr('action', 'ExportQPExcelData');
+            $("#inputForm").submit();
+
+        }
+    });
+
+    //attr("qpExcelBtn", "onclick", {
+    //    callback: function () {
+    //        req("ExportQPExcelData", "displayForm", function (data) {
+    //            console.log(data);
+    //        });
+    //    }
+    //});
+
+    //function triggerExport() {
+
+    //    // default fileName
+    //    var fileName = "Contractor.txt";
+
+    //    // default url
+    //    var targetUrl = '/Fn02GCA_UAS/ExportCertificate';
+    //    if ("CERT" == exportType) {
+    //        targetUrl = '/Fn02GCA_UAS/ExportCertificate';
+    //    } else if ("LETTER" == exportType) {
+    //        targetUrl = '/Fn02GCA_UAS/ExportLetter';
+    //    } else if ("LETTER_WITH_CODE" == exportType) {
+    //        targetUrl = '/Fn02GCA_UAS/ExportLetterWithCode';
+    //    } else {
+    //    }
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: targetUrl,
+    //        //contentType: "charset=utf-8;",
+    //        data: {
+    //            process: selectedProcess
+    //            , certNo: certNo
+    //            , compAppUuid: compAppUuid
+
+    //        },
+    //        success: function (data) {
+
+    //        }
+    //    })
+    //}
+
+    });
+</script>

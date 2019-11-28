@@ -1,0 +1,127 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn03TSK_SBARModel
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Receive Date from
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(m => m.ReceiveDateFrom, new { @class = "inputDate" })
+                to
+                @Html.TextBoxFor(m => m.ReceiveDateTo, new { @class = "inputDate" })
+            </div>
+            <div class="w3-col l3 m12 s12">
+                PBP/PRC Reg no.
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(m => m.RegNo)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Type of MW form
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+            </div>
+            <div class="w3-col l3 m12 s12">
+                @for (int i = 0; i < Model.Checkbox_TypeofMwforms.Count; i++)
+                {
+                    <label>
+                        @Html.CheckBoxFor(m => m.Checkbox_TypeofMwforms[i].IsChecked, new { @class = "w3-checkbox" })
+                        @Html.HiddenFor(m => m.Checkbox_TypeofMwforms[i].Code)
+                        @Model.Checkbox_TypeofMwforms[i].Description
+                    </label>
+                    if (i == 2 || i == 4)
+                    {
+                        <br />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12" style="height:400px;">
+                Item No./Type of MW
+            </div>
+            <div class="w3-col l5 m12 s12">
+                @Html.Action("GetCheckboxlistItemNoType", "ComItemNoType")
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Audit result
+                @for (int i = 0; i < Model.Checkbox_Irregularities.Count - 1; i++)
+                {
+                    <div>&nbsp;</div>
+                }
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @for (int i = 0; i < Model.Checkbox_Irregularities.Count; i++)
+                {
+                    <div>
+                        <label>
+                            @Html.CheckBoxFor(m => m.Checkbox_Irregularities[i].IsChecked)
+                            @Html.HiddenFor(m => m.Checkbox_Irregularities[i].Code)
+                            @Model.Checkbox_Irregularities[i].Description
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        @*<button class="btn btn-default" type="button">Export</button>*@
+        <button class="searchButton btn btn-default" type="button" id="searchButton"><i class="fa fa-search"></i>Search</button>
+    </div>
+</div>
+
+<div id="resultTable"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        var search;
+        search = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultTable"
+            , Columns: [
+                {
+                    displayName: "Ref No.", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { returSn; }
+                            goTo(
+                                domId("rootPath").value+"/MWProcessing/ComSubmission/SubmissionInfoPage?backTo=Fn03TSK_SBAR/Index", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                            //goTo("/MWProcessing/Fn03TSK_SBAR/DetailPage", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                        }
+                        catch (err) {
+
+                        }
+                    }
+                }
+                , { displayName: "Receive Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Form No.", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Commencement Date", columnName: "COMMENCEMENT_DATE" }
+                , { displayName: "Completion Date", columnName: "COMPLETION_DATE" }
+                , { displayName: "Item No.", columnName: "MW_ITEM_CODE" }
+
+            ]
+        });
+
+        
+    });
+
+</script>
+

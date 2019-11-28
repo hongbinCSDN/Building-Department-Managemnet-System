@@ -1,0 +1,177 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_DFRDisplayModel
+
+<div class="panelHeader">Professional Application > Search Deferral Records</div>
+
+<div id="searchCriteria">
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Applicant Name :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBox("appName", Model.showIndApplicatName(), new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">File Reference :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Category Code :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_S_CATEGORY_CODE.CODE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Date of Received :</div>
+            <div class="w3-col l8 m6 s12" />
+            @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RECEIVED_DATE, new { @readonly = "readonly"})
+        </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Audit Check :</div>
+            <div class="w3-col l3 m6 s12">
+            @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.AUDIT_TEXT, new { @readonly = "readonly" }) </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Latest Date of Supplementary Documents for Postponing Interview :</div>
+            <div class="w3-col l8 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.SUPPLE_DOCUMENT_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="panelHeader">Reference :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Ask :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REFERENCE_ASK_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panelHeader">Reg. Board :</div>
+
+    @* two date template *@
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Ask :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REGISTRATION_ASK_DATE, new { @readonly = "readonly" })
+            </div>
+            <div class="w3-col l3 m6 s12">Date of Reply:</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.REGISTRATION_REPLY_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panelHeader">Interview :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Notify :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.INTERVIEW_NOTIFY_DATE, new { @readonly = "readonly" })
+            </div>
+            <div class="w3-col l3 m6 s12">Date of Interview :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.INTERVIEW_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panelHeader">Result Letter (Issue Date) :</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Accept :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_ACCEPT_DATE, new { @readonly = "readonly" })
+            </div>
+            <div class="w3-col l3 m6 s12">Date of Defer :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_DEFER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Refuse :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.RESULT_REFUSE_DATE, new { @readonly = "readonly" })
+            </div>
+            <div class="w3-col l3 m6 s12">End of Defer Date :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.DEFER_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panelHeader">Gazette :</div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of Gazette :</div>
+            <div class="w3-col l9 m6 s12">
+                @Html.TextBoxFor(model => model.C_IND_PROCESS_MONITOR.GAZETTE_DATE, new { @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-container footer">
+        @*, [{name:'doSearch',value: 'Y'}]*@
+        <button  class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

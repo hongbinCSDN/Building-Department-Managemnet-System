@@ -1,0 +1,97 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Miinor Works Item Maintenance
+</div>
+
+@using (Html.BeginForm("SaveMWI", "CRM", FormMethod.Post, new { enctype = "multipart/form-data", id = "inputForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_SYSTEM_VALUE.UUID, new { id = "UUID" })
+    @Html.HiddenFor(model => model.SystemType)
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Class:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_SYSTEM_VALUE.C_S_SYSTEM_VALUE2.CODE, Model.getClass())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Type:</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_SYSTEM_VALUE.C_S_SYSTEM_VALUE2.C_S_SYSTEM_VALUE2.CODE, Model.getType())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Item:</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_SYSTEM_VALUE.CODE)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description:</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.TextAreaFor(o => o.C_S_SYSTEM_VALUE.ENGLISH_DESCRIPTION, new { id = "SiteDescription", style = "width: 100%" })
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexMWI", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+
+}
+
+
+<script>
+
+    //hide building safety code if is old record
+    $(document).ready(function () {
+        var UUID = $('#UUID').val();
+
+        if (UUID == '' || UUID == null) {
+            //alert(UUID);
+            $('#C_S_SYSTEM_VALUE_C_S_SYSTEM_VALUE2_CODE').removeAttr('disabled');
+
+        }
+        else {
+            // alert(UUID);
+            $('#C_S_SYSTEM_VALUE_C_S_SYSTEM_VALUE2_CODE').attr('disabled', 'disabled');
+
+        }
+
+    });
+    function onSaveForm() {
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveMWI", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo(domId("rootPath").value + "/Admin/CRM/IndexMWI", [{ name: "pageCode", value: domId("functionCode").value }]);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>

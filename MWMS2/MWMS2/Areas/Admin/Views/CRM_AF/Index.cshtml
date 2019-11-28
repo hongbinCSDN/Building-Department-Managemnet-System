@@ -1,0 +1,64 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_AFModel
+
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+    <div class="panelHeader">Application Form</div>
+
+    <div id="searchCriteria">
+        @if (MWMS2.Utility.AuthUtil.CanCreate)
+        { <button onclick="createNew()" name="NewCode" value="New Code"><i class="far fa-plus-square"></i> New Application Form</button>}
+    </div>
+    <br>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+
+    <script type="text/javascript">
+        function createNew() {
+            window.location.href = domId("rootPath").value + "/Admin/CRM_AF/CreateNew";
+        }
+
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Columns: [
+                    {
+                        displayName: "Code", columnName: "CODE"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+
+                    , { displayName: "Registration Type", columnName: "REGISTRATION_TYPE" }
+                    , { displayName: "Engish Description", columnName: "ENGLISH_DESCRIPTION" }
+                    , { displayName: "Chinese Description", columnName: "CHINESE_DESCRIPTION" }
+                    , { displayName: "Ordering", columnName: "ORDERING" }
+                    , { displayName: "Is Active", columnName: "IS_ACTIVE" }
+                ]
+            }).search();
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

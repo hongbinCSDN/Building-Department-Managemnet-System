@@ -1,0 +1,1054 @@
+﻿﻿@model MWMS2.Areas.Registration.Models.CompDisplayModel
+<div class="panelHeader">@ViewBag.Title</div>
+<div id="tabbar1" class="hide">
+    <div>Company Info</div>
+    <div id="applTab">Applicants</div>
+
+    <div id="TabStatus" class="hide">Status</div>
+    <div id="TabBuildingSafety" class="hide">Building Safety</div>
+</div>
+<div class="w3-row hr"></div>
+<form id="inputForm" method="post">
+    @Html.HiddenFor(o => o.EditFormKey)
+    @Html.HiddenFor(o => o.C_COMP_APPLICATION.UUID)
+    @Html.HiddenFor(o => o.EditMode)
+    @Html.HiddenFor(o => o.RegType)
+    <div class="displayForm">@Html.Partial("TabPageCompBaseInfo")</div>
+    <div class="w3-row hr"></div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageCompAddInfo")</div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageCompApplicantList")</div>
+
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageCompStatus")</div>
+    <div name="tabname1" class="displayForm hide">@Html.Partial("TabPageCompBuildingSafety")</div>
+
+
+    <div id="ApplicantDiv" name="tabname1" class="displayForm hide"></div>
+    <div id="AppHistDiv" name="tabname1" class="displayForm hide"></div>
+    <div class="displayForm">
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button id="saveButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Save Application</button>}
+            <button id="backButton" class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+            @if (MWMS2.Utility.AuthUtil.CanDelete && Model.C_COMP_APPLICATION.UUID != "1")
+            {<button id="deleteButton" class="btn btn-default" type="button"><i class="fa fa-trash"></i> Delete Aapplication</button>}
+        </div>
+    </div>
+</form>
+
+
+
+@*@if (Model.C_COMP_APPLICATION != null)
+    {
+
+        <script>
+            attr("TabStatus", "dropClass", "hide")
+            attr("TabBuildingSafety", "dropClass", "hide")
+        </script>
+    }*@
+
+@if (!int.TryParse(Model.C_COMP_APPLICATION.UUID, out int Dumm))
+{
+
+    <script>
+        attr("TabStatus", "dropClass", "hide")
+        attr("TabBuildingSafety", "dropClass", "hide")
+    </script>
+
+}
+
+
+
+<script>
+    var tabber1;
+    var applicantTableObject;
+    var appHistTableObject;
+    var appHistTableViewObject;
+    var CurMwCapTableObject;
+    var MwCapTableObject;
+    function PopUpPoolingTable(pn)
+    {
+        if (typeof pn != "string") {
+    //        alert(pn.value);
+            goTo("PopupPoolingDetails", [{ name: "m_PoolingRefNo", value: pn.value }], true);
+        }
+        else {
+            goTo("PopupPoolingDetails", [{ name: "m_PoolingRefNo", value: pn }], true);
+        }
+
+    }
+    function checkRefuseStatus(a)
+    {
+        if (a != null)
+        {
+            if (a.value == null || a.value == "") {
+                document.getElementById("C_COMP_APPLICANT_INFO_MASTER_REFUSE_BY").disabled = true;
+            }
+            else { document.getElementById("C_COMP_APPLICANT_INFO_MASTER_REFUSE_BY").disabled = false; }
+        }
+
+    }
+
+
+    function AddPoolingRefNoTB(d, p, e) {
+        //Create new textbox
+        var newTextBox = document.createElement("input");
+        var ListTB = document.querySelectorAll("input[name^='PoolingRefNo']")
+        var ListBtn = document.querySelectorAll("button[name^='PoolingButton']")
+        var ListRemoveBtn = document.querySelectorAll("button[name^='PoolingRemoveButton']")
+
+        console.log(ListTB.length + "/" + ListBtn.length);
+        //Set textbox attribute
+        newTextBox.setAttribute("type", "text");
+        newTextBox.setAttribute("id", "PoolingRefNo" + (ListTB.length + 1).toString());
+        newTextBox.setAttribute("name", "PoolingRefNo" );
+        newTextBox.setAttribute("Style", "max-width:200px; margin-right:5px;");
+
+        var newSearch = document.createElement("button");
+        newSearch.setAttribute("type", "button");
+        newSearch.setAttribute("onclick", "PopUpPoolingTable(" + "PoolingRefNo" + (ListTB.length + 1).toString()+ ")");
+        newSearch.setAttribute("name", "PoolingButton");
+        newSearch.setAttribute("id", "PoolingButton" + (ListBtn.length + 1).toString());
+
+        var newRemove = document.createElement("button");
+        newRemove.setAttribute("type", "button");
+        //newRemove.setAttribute("onclick", "MinusPoolingRefNoTB(" + "PoolingRefNo" + (ListRemoveBtn.length + 1).toString() + ")");
+        newRemove.setAttribute("onclick", "MinusPoolingRefNoTB(" + (ListRemoveBtn.length + 1).toString() + ")");
+        newRemove.setAttribute("name", "PoolingRemoveButton");
+        newRemove.setAttribute("id", "PoolingRemoveButton" + (ListRemoveBtn.length + 1).toString());
+        newRemove.setAttribute("Style", "max-width:200px; margin-left:5px;");
+        newRemove.innerText = "Remove";
+
+        //<button type="button" id="PoolingButton1"><i class="fa fa-search"></i></button>
+        //add textbox to addPanel
+        var el = document.createElement("i");
+        el.setAttribute("Class", "fa fa-search");
+        document.getElementById("AddPanel").appendChild(newTextBox);
+
+        document.getElementById("AddPanel").appendChild(newSearch);
+
+        document.getElementById("AddPanel").appendChild(newRemove);
+        newSearch.appendChild(el);
+        //document.getElementById("AddPanel").appendChild(document.createElement("br"));
+       // insertAfter(document.getElementsByName("PoolingRefNo" + (ListTB.length + 1).toString())[0],el);
+        RefreshMinusBtn();
+
+    }
+    function MinusPoolingRefNoTB(pn) {
+        var ListTB = document.querySelectorAll("input[name^='PoolingRefNo']");
+        console.log(ListTB.length.toString());
+        //var tb = document.getElementById("PoolingRefNo" + ListTB.length.toString());
+        var tb = document.getElementById("PoolingRefNo" + pn);
+
+        var ListBtn = document.querySelectorAll("button[name^='PoolingButton']");
+        console.log(ListBtn.length.toString());
+        //var searchBtn = document.getElementById("PoolingButton" + (ListBtn.length).toString());
+       // var searchBtn = document.getElementById("PoolingButton" + (pn-1));
+
+        var searchBtn = document.getElementById("PoolingButton" + pn);
+        var removeBtn = document.getElementById("PoolingRemoveButton" + pn);
+
+        tb.parentNode.removeChild(tb);
+        searchBtn.parentNode.removeChild(searchBtn);
+        removeBtn.parentNode.removeChild(removeBtn);
+     //   document.getElementById("AddPanel").removeChild(tb);
+     //   document.getElementById("AddPanel").removeChild(searchBtn);
+        //  document.getElementById("AddPanel").removeChild(removeBtn);
+        //var x = document.getElementById("AddPanel").getElementsByTagName('br');
+        //x[pn - 1].parentNode.removeChild(x[pn - 1]);
+    }
+
+    function RefreshMinusBtn() {
+        //var ListTB = document.getElementsByName("newTextBox");
+        var ListTB = document.querySelectorAll("input[name^='PoolingRefNo']")
+        var minusBtn = document.getElementById("MinusPoolingRefNoBtn");
+        //if (ListTB.length == 3) {
+        //    minusBtn.setAttribute("disabled", "true");
+        //    minusBtn.setAttribute("hidden", "true");
+        //} else {
+        //    minusBtn.removeAttribute("disabled");
+        //    minusBtn.removeAttribute("hidden");
+        //}
+    }
+
+    function CopyFromChineseAddress()
+    {
+
+        for (var i = 1; i <= 5; i++) {
+            document.getElementById('C_COMP_APPLICATION_C_ADDRESS2_ADDRESS_LINE' + i).value =
+                document.getElementById('C_COMP_APPLICATION_C_ADDRESS_ADDRESS_LINE' + i).value;
+        }
+
+    }
+    function CopyFromEnglishAddress() {
+
+        for (var i = 1; i <= 5; i++) {
+            document.getElementById('C_COMP_APPLICATION_C_ADDRESS_ADDRESS_LINE' + i).value =
+                document.getElementById('C_COMP_APPLICATION_C_ADDRESS2_ADDRESS_LINE' + i).value;
+        }
+
+    }
+
+
+    function GenerateSerialNo() {
+        $.ajax({
+            type: "POST",
+            url: 'GenerateSerialNo',
+            data: {
+                uuid: '@Model.C_COMP_APPLICATION.UUID',
+
+
+            },
+            success: function (data) {
+                console.log(data);
+                $("C_COMP_APPLICANT_INFO_CARD_EXPIRY_DATE").val(data.EXPIRY_DATE);
+                document.getElementById('C_COMP_APPLICANT_INFO_CARD_EXPIRY_DATE').flatpickr({ dateFormat: "d/m/Y" }).setDate(data.EXPIRY_DATE)
+                $("#C_COMP_APPLICANT_INFO_CARD_SERIAL_NO").val(data.SERIAL_NO);
+            }
+        });
+    }
+
+
+
+
+
+
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+            else showErrorMessage(data.ErrorMessages);
+
+        }, "json");
+    }
+    function onBackForm(d, p, e) {/* goTo("Index");*/ }
+    function onDeleteForm(d, p, e) {
+        var popuper1 = new popuper({
+            title: "Confirmation Message"
+            , message: "Are you sure you want to delete?"
+            , buttons: [
+                createButton("Yes", "fa-check", [{
+                    "onclick": {
+                        parameters: { row: p.row }, callback: function (d, p, e) {
+                            popuper1.close();
+                            attr("inputForm", "addClass", "deleting");
+                            req("Delete", "inputForm", function (data) {
+                                attr("inputForm", "dropClass", "deleting");
+                                if (data != null && data.Result != null && data.Result == "SUCCESS")
+                                    goTo("Index");
+                                else { alert(data.Message) };
+                            });
+                        }
+                    }
+                }, { "addClass": "w3-red" }])
+                , createButton("No", "fa-trash", [{ "onclick": { parameters: { row: p.row }, callback: function (d, p, e) { popuper1.close(); } } }])
+            ]
+        }).open();
+    }
+
+    function onBackApplicant() { tabber1.select(1); }
+    function _onDraftApplicant()
+    {
+        attr("inputForm", "addClass", "saving");
+        req("DraftApplicant", "ApplicantDiv", function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS")
+                tabber1.select(1);
+            else {
+                if (data.Message == "Invalid file type, please confrim the file type.") {
+                    alert(data.Message);
+                }
+                showErrorMessage(data.ErrorMessages);
+            };
+        });
+    }
+    function onDraftApplicant() {
+       
+        if (document.getElementById("C_COMP_APPLICANT_INFO_C_APPLICANT_HKID").value == null || document.getElementById("C_COMP_APPLICANT_INFO_C_APPLICANT_HKID").value =="") {
+            _onDraftApplicant();
+        }
+        else
+        {
+            if (checkHkid(document.getElementById("C_COMP_APPLICANT_INFO_C_APPLICANT_HKID").value)) {
+                _onDraftApplicant();
+            } else {
+                alert("HKID is not valid");
+            }
+           
+
+        }
+      
+        //if (checkHkid(document.getElementById("C_COMP_APPLICANT_INFO_C_APPLICANT_HKID").value)) {
+        //    attr("inputForm", "addClass", "saving");
+        //    req("DraftApplicant", "ApplicantDiv", function (data) {
+        //        attr("inputForm", "dropClass", "saving");
+        //        if (data != null && data.Result != null && data.Result == "SUCCESS")
+        //            tabber1.select(1);
+        //        else {
+        //            if (data.Message == "Invalid file type, please confrim the file type.") {
+        //                alert(data.Message);
+        //            }
+        //            showErrorMessage(data.ErrorMessages);
+        //        };
+        //    });
+
+        //}
+        //else
+        //{
+        //    alert("HKID is not valid");
+        //}
+
+    
+        //$.post("DraftApplicant", $(parseForm("ApplicantDiv")).serialize(), function (data) { attr("inputForm", "dropClass", "saving"); if (data != null && data.Result != null && data.Result == "SUCCESS") tabber1.select(1); }, "json");
+    }
+    function onDeleteApplicant(d, p, e) {
+        var id = p == null || p.row == null ? null : p.row.C_COMP_APPLICANT_INFO_UUID;
+        $.post("DeleteApplicant", { "C_COMP_APPLICANT_INFO.UUID": id }, function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") applicantTableObject.search();
+            else { alert(data.Message);}
+
+
+        }, "json");
+    }
+    function onOpenImage(d, p, e)
+    {
+
+        console.log(p);
+
+        goTo("GetSignImg", [{ name: "uuid", value: p.row.FILEUUID }] ,true)
+    }
+    function onLoadApplicant(C_COMP_APPLICANT_INFO_UUID) {
+        applicantTableObject.setLoading();
+
+        $.post("TabPageCompApplicantInfo", {
+            "C_COMP_APPLICATION.UUID": domId("C_COMP_APPLICATION_UUID").value
+            , "C_COMP_APPLICANT_INFO.UUID": C_COMP_APPLICANT_INFO_UUID
+        }, function (page) {
+
+
+            domId("ApplicantDiv").innerHTML = page;
+            attr("saveApplicantButton", "onclick", { parameters: {}, callback: onDraftApplicant });
+            attr("backApplicantButton", "onclick", { parameters: {}, callback: onBackApplicant });
+            tabber1.select(4);
+            datepickize($("#ApplicantDiv").find(".inputDate"));
+            applicantTableObject.clearLoading();
+
+            initAppHistTable();
+            appHistTableObject.search();
+            initCurMwCapTable();
+            console.log('test');
+            CurMwCapTableObject.search();
+            attr("newAppHistButton", "onclick", { parameters: {}, callback: function (d, p, e) { onLoadAppHist(domName("C_COMP_APPLICANT_INFO.UUID")[0].value, null); } });
+            }
+
+        );
+
+    }
+
+    function onDraftAppHist(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("DraftAppHist", $(parseForm("AppHistDiv")).serialize(),
+            function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS")
+                    onLoadApplicant(domName("C_COMP_APPLICANT_INFO_MASTER.C_COMP_APPLICANT_INFO.UUID")[0].value);
+                else showErrorMessage(data.ErrorMessages);
+            }, "json");
+    }
+    function onDeleteAppHist(d, p, e) {
+        var id = p == null || p.row == null ? null : p.row.UUID;
+        $.post("DeleteAppHist", { "C_COMP_APPLICANT_INFO_MASTER.UUID": id  }, function (data) { if (data != null && data.Result != null && data.Result == "SUCCESS") appHistTableObject.search(); }, "json");
+    }
+    function onLoadAppHist(C_COMP_APPLICANT_INFO_UUID, C_COMP_APPLICANT_INFO_MASTER_UUID) {
+        appHistTableObject.setLoading();
+        domName("C_COMP_APPLICANT_INFO_MASTER_UUID")[0].value = C_COMP_APPLICANT_INFO_MASTER_UUID;
+
+        $.post("TabPageCompAppHist", $(parseForm("ApplicantDiv")).serialize(), function (page) {
+            domId("AppHistDiv").innerHTML = page;
+            attr("saveAppHistButton", "onclick", { callback: onDraftAppHist });
+            attr("backAppHistButton", "onclick", { callback: function () { onLoadApplicant(domName("C_COMP_APPLICANT_INFO_MASTER.C_COMP_APPLICANT_INFO.UUID")[0].value); } });
+            tabber1.select(5);
+            datepickize($("#AppHistDiv").find(".inputDate"));
+            appHistTableObject.clearLoading();
+            initAppHistViewTable();
+            appHistTableViewObject.search();
+            initMwCapTable();
+            MwCapTableObject.search();
+        });
+    }
+    function initAppplicantTable() {
+        applicantTableObject = new searcher({
+            searchPath: "AjaxApplicantList"
+            , searchTable: "C_COMP_APPLICATION_UUID"
+            , resultPanel: "ApplicantTable"
+            , Sort: "FILE_REFERENCE_NO"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("", "fa-edit", [{ "onclick": { parameters: { row: row }, callback: function (d, p, e) { onLoadApplicant(p.row.C_COMP_APPLICANT_INFO_UUID); } } }]);
+                    }
+                }
+                , {
+                    displayName: "HKID / Passport No.", formater: function (row) {
+                        var BR = row.HKID_PASSPORT_DISPLAY;
+                        var span = dom("span");
+                        var textSpan = dom_(span, "span", [{ "html": BR }]);
+
+                        var button = createButton("", "fa-search", [{
+                            "onclick": {
+                                parameters: { BR: BR }, callback: function (d, p, e) {
+                                    console.log(row);
+                                    applicantInfo(row.C_APPLICANT_UUID, row.C_COMP_APPLICANT_INFO_UUID,
+                                        '@Model.C_COMP_APPLICATION.FILE_REFERENCE_NO',
+                                        '@Model.RegType');
+                                }
+                            }
+                        }]);
+                        span.appendChild(button);
+                        return span;
+
+                    }
+                }
+                //                , { displayName: "HKID / Passport No.", columnName: "HKID_PASSPORT_DISPLAY" }
+                , { displayName: "Title", columnName: "TITLE" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Sex", columnName: "GENDER" }
+                , { displayName: "Role", columnName: "ROLE" }
+                , { displayName: "Status", columnName: "STATUS" }
+                , { displayName: "Date of Acceptance", columnName: "ACCEPTANCE_DATE", format: "date" }
+                , { displayName: "Date of Removal", columnName: "REMOVAL_DATE", format: "date" }
+                , { displayName: "Date of Withdraw", columnName: "WITHDRAWN_DATE", format: "date" }
+                , { displayName: "QP Card Isue Date", columnName: "CARD_ISSUE_DATE", format: "date" }
+                , { displayName: "QP Card Expiry Date", columnName: "CARD_EXPIRY_DATE", format: "date" }
+                , { displayName: "QP Card Serial No.", columnName: "CARD_SERIAL_NO" }
+                , { displayName: "QP Card Return Date", columnName: "CARD_RETURN_DATE", format: "date" }
+                , { displayName: "Remarks", columnName: "REMARK" }
+                , {
+                    displayName: "Specimen Signature", formater: function (row) {
+                        if (row.FILEEXSIST == true)
+                        {
+                            return createButton("", "fa-file-image", [{
+                                "onclick": { parameters: { row: row }, callback: onOpenImage }
+
+                            }])
+                        }
+
+                    }
+                }
+                , { displayName: "&nbsp;", formater: function (row) { return createButton("", "fa-trash", [{ "onclick": { parameters: { row: row }, callback: onDeleteApplicant } }, { "addClass": "w3-red" }]); } }
+            ]
+            , rowStyle: function (row, idx) {
+                console.log("eform: " + row.EFORM);
+                console.log("change row yellow: " + row);
+                if (row.EFORM == true) {
+                    return { backgroundColor: "#F3F781" };
+                }
+            }
+        });
+    }
+
+
+    function applicantInfo(appId, compUUID, fileRefNo, regType) {
+
+
+        var rptForm = document.createElement("FORM");
+        rptForm.setAttribute("id", "myFormABC");
+
+        var y = document.createElement("INPUT");
+        y.setAttribute("type", "hidden");
+        y.setAttribute("id", "rptId");
+        y.setAttribute("name", "rptId");
+        y.setAttribute("value", "CRM0094");
+        rptForm.appendChild(y);
+
+        y = document.createElement("INPUT");
+        y.setAttribute("type", "hidden");
+        y.setAttribute("id", "appln_id");
+        y.setAttribute("name", "appln_id");
+        y.setAttribute("value", appId);
+        rptForm.appendChild(y);
+
+        y = document.createElement("INPUT");
+        y.setAttribute("type", "hidden");
+        y.setAttribute("id", "c_appln_id");
+        y.setAttribute("name", "c_appln_id");
+        y.setAttribute("value", compUUID);
+        rptForm.appendChild(y);
+
+        y = document.createElement("INPUT");
+        y.setAttribute("type", "hidden");
+        y.setAttribute("id", "file_ref_no");
+        y.setAttribute("name", "file_ref_no");
+        y.setAttribute("value", fileRefNo);
+        rptForm.appendChild(y);
+        y = document.createElement("INPUT");
+        y.setAttribute("type", "hidden");
+        y.setAttribute("id", "reg_type");
+        y.setAttribute("name", "reg_type");
+        y.setAttribute("value", regType);
+        rptForm.appendChild(y);
+
+        document.body.appendChild(rptForm);
+
+        openReport("myFormABC");
+
+
+
+    }
+
+
+
+    function initAppHistTable() {
+        appHistTableObject = new searcher({
+            searchPath: "AjaxAppHistList"
+            , searchTable: "C_COMP_APPLICANT_INFO_UUID"
+            , resultPanel: "AppHistTable"
+            , Sort: ""
+            , Footer: false
+            , Columns: [
+                { displayName: "&nbsp;", formater: function (row) { return createButton("", "fa-edit", [{ "onclick": { parameters: { row: row }, callback: function (d, p, e) { onLoadAppHist(domName("C_COMP_APPLICANT_INFO.UUID")[0].value, row.UUID); } } }]); } }
+                , { displayName: "Application Date" ,columnName: "APPLICATION_DATE", format: "date" }
+                , { displayName: "Application Form" ,columnName: "APPLICATION_FORM_ID" }
+                , { displayName: "I, II & III " ,columnName: "APPLY_I" }
+                , { displayName: "II & III " ,columnName: "APPLY_II" }
+                , { displayName: "III" ,columnName: "APPLY_III" }
+                , { displayName: "Approved by" ,columnName: "APPROVED_BY" }
+                , { displayName: "Approved Date" ,columnName: "APPROVED_DATE", format: "date" }
+                , { displayName: "I, II & III " ,columnName: "APPROVED_I" }
+                , { displayName: "II & III " ,columnName: "APPROVED_II" }
+                , { displayName: "III" ,columnName: "APPROVED_III" }
+                , { displayName: "Status" ,columnName: "STATUS_CODE" }
+                , {  displayName: "" ,displayName: "&nbsp;", formater: function (row) { return createButton("", "fa-times", [{ "onclick": { parameters: { row: row }, callback: onDeleteAppHist } }, { "addClass": "w3-red" }]); } }
+            ]
+            , Header: function () {
+                var thead = dom("thead");
+                var tr1 = dom_(thead, "tr");
+                console.log("tr1 "+tr1);
+                dom_(tr1, "th", [{ rowspan: 2 }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Application Date", format: "date" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Application Form" }]);
+                dom_(tr1, "th", [{ colspan: 3, html: "Apply Class/ Type" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Approved by" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Approved Date", format: "date" }]);
+                dom_(tr1, "th", [{ colspan: 3, html: "Approved Class/ Type" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Status" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "" }]);
+                var tr2 = dom_(thead, "tr");
+                dom_(tr2, "th", [{ html: "I, II & III" }]);
+                dom_(tr2, "th", [{ html: "II & III" }]);
+                dom_(tr2, "th", [{ html: "III" }]);
+                dom_(tr2, "th", [{ html: "I, II & III" }]);
+                dom_(tr2, "th", [{ html: "II & III" }]);
+                dom_(tr2, "th", [{ html: "III" }]);
+                return thead;
+            }
+            , rowStyle: function (row, idx) {
+                console.log("eform: " + row.EFORM);
+                console.log("change row yellow(app hist): " + row);
+                if (row.EFORM == true) {
+                    return { backgroundColor: "#F3F781" };
+                }
+            }
+        });
+    }
+    function initCurMwCapTable() {
+        CurMwCapTableObject = new searcher({
+            searchPath: "AjaxCurMwCapList"
+            , searchTable: "C_COMP_APPLICANT_INFO_UUID"
+            , resultPanel: "CurMwCapTable"
+            , Sort: ""
+            , Footer: false
+            , Columns: [
+                { displayName: "MW Type", columnName: "ITEM_TYPE" }
+                , { displayName: "Description", columnName: "ITEM_DESCRIPTION" }
+                , { displayName: "Class I, II & III", formater: function (row) { return dom("input", [{ type: "radio" }, { "disabled": true }, { "checked": row.CLS_I_APPROVE == "Y" }]); } }
+                , { displayName: "Class II & III", formater: function (row) { return dom("input", [{ type: "radio" }, { "disabled": true }, { "checked": row.CLS_II_APPROVE == "Y" }]); } }
+                , { displayName: "Class III", formater: function (row) { return dom("input", [{ type: "radio" }, { "disabled": true }, { "checked": row.CLS_III_APPROVE == "Y" }]); } }
+            ]
+        });
+    }
+    function initAppHistViewTable() {
+        appHistTableViewObject = new searcher({
+            searchPath: "AjaxAppHistList"
+            , searchTable: "inputForm"
+            , resultPanel: "AppHistViewTable"
+            , Sort: ""
+            , Footer: false
+            , Columns: [
+                { displayName: "Application Date", columnName: "APPLICATION_DATE", format: "date" }
+                , { displayName: "Application Form" , columnName: "APPLICATION_FORM_ID" }
+                , { displayName: "I, II & III " ,columnName: "APPLY_I" }
+                , { displayName: "II & III " ,columnName: "APPLY_II" }
+                , { displayName: "III " ,columnName: "APPLY_III" }
+                , { displayName: "Approved by " ,columnName: "APPROVED_BY" }
+                , { displayName: "Approved Date" ,columnName: "APPROVED_DATE", format: "date" }
+                , { displayName: "I, II & III " ,columnName: "APPROVED_I" }
+                , { displayName: "II & III" ,columnName: "APPROVED_II" }
+                , { displayName: "III " ,columnName: "APPROVED_III" }
+                , { displayName: "Status" ,columnName: "STATUS_CODE" }
+            ]
+            , onAfterSearch: function (r) {
+               
+                checkRefuseStatus(document.getElementById("C_COMP_APPLICANT_INFO_MASTER_REFUSE_DATE")); }
+
+            , Header: function () {
+
+                var thead = dom("thead");
+                var tr1 = dom_(thead, "tr");
+                dom_(tr1, "th", [{ rowspan: 2, html: "Application Date", format: "date" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Application Form" }]);
+                dom_(tr1, "th", [{ colspan: 3, html: "Apply Class/ Type" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Approved by" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Approved Date", format: "date" }]);
+                dom_(tr1, "th", [{ colspan: 3, html: "Approved Class/ Type" }]);
+                dom_(tr1, "th", [{ rowspan: 2, html: "Status" }]);
+                var tr2 = dom_(thead, "tr");
+                dom_(tr2, "th", [{ html: "I, II & III" }]);
+                dom_(tr2, "th", [{ html: "II & III" }]);
+                dom_(tr2, "th", [{ html: "III" }]);
+                dom_(tr2, "th", [{ html: "I, II & III" }]);
+                dom_(tr2, "th", [{ html: "II & III" }]);
+                dom_(tr2, "th", [{ html: "III" }]);
+                return thead;
+            }
+        });
+    }
+    function checkRadio(radio) {
+     //   console.log();
+        if (radio.checked == true) {
+            radio.checked = false;
+            console.log(radio.classList[0]);
+           // if (radio.classList[0] == "TypeApply123AllItem") {              
+            for (var x = 0; x <= document.getElementsByClassName(radio.classList[0].replace("All","")).length;x++) {
+
+                if (document.getElementsByClassName(radio.classList[0].replace("All", ""))[x]!=null)
+                    document.getElementsByClassName(radio.classList[0].replace("All", ""))[x].checked = false;
+                }
+          //  }
+
+        } else {
+           
+          
+            radio.checked = true;
+        }
+    }
+    function initMwCapTable() {
+        MwCapTableObject = new searcher({
+            searchPath: "AjaxMwCapList"
+            , searchTable: "C_COMP_APPLICANT_INFO_MASTER_UUID"
+            , resultPanel: "MwCapTable"
+            , Sort: ""
+            , Footer: false
+            , Columns: [
+                { displayName: "MW Type", columnName: "ITEM_TYPE" }
+                , { displayName: "Description", columnName: "ITEM_DESCRIPTION" }
+
+                , {
+                    headerFormater: function (row, idx) {
+                      
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class I, II & III ");
+                     
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApply123AllItem inputMidRadio" }, {name:"TypeApplyAll"}, { type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApply123AllItem", "TypeApply123Item"); } } }]);
+                        return r;
+                    }
+                    ,
+                /*    displayName: "Class I, II & III"*/ formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 1 }, { name: "SelectedTypeApply" + idx }, { "Class": "TypeApply123Item TypeApplyItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_I_APPLY == "Y" }]); }
+                }
+                , {
+                    headerFormater: function (row, idx) {
+
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class II & III ");
+
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApply23AllItem inputMidRadio" }, { name: "TypeApplyAll" },{ type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApply23AllItem", "TypeApply23Item"); } } }]);
+                        return r;
+                    }
+                    /*displayName: "Class II & III   "*/, formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 2 }, { name: "SelectedTypeApply" + idx }, { "Class": " TypeApply23Item TypeApplyItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_II_APPLY == "Y" }]); } }
+                , {
+                    headerFormater: function (row, idx) {
+
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class III ");
+
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApply3AllItem inputMidRadio" }, { name: "TypeApplyAll" }, { type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApply3AllItem", "TypeApply3Item"); } } }]);
+                        return r;
+                    }
+                    /*displayName: "Class III        "*/, formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 3 }, { name: "SelectedTypeApply" + idx }, { "Class": "TypeApply3Item TypeApplyItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_III_APPLY == "Y" }]); } }
+
+                , {
+                    headerFormater: function (row, idx) {
+
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class I, II & III ");
+
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApprove123AllItem inputMidRadio" }, { name: "TypeApproveAll" }, { type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApprove123AllItem", "TypeApprove123Item"); } } }]);
+                        return r;
+                    }
+
+                    /* displayName: "Class I, II & III"*/, formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 1 }, { name: "SelectedTypeApprove" + idx }, { "Class": "TypeApprove123Item TypeApproveItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_I_APPROVE == "Y" }]); } }
+                , {
+                    headerFormater: function (row, idx) {
+
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class II & III ");
+
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApprove23AllItem inputMidRadio" }, { name: "TypeApproveAll" }, { type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApprove23AllItem", "TypeApprove23Item"); } } }]);
+                        return r;
+                    }
+                    /*displayName: "Class II & III   "*/, formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 2 }, { name: "SelectedTypeApprove" + idx }, { "Class": "TypeApprove23Item TypeApproveItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_II_APPROVE == "Y" }]); } }
+                , {
+                    headerFormater: function (row, idx) {
+
+                        var r = dom("span");
+                        var l = document.createElement("LABEL");
+                        var t = document.createTextNode("Class III ");
+
+                        l.appendChild(t);
+                        //l.appendChild(document.createElement("BR"));
+                        r.appendChild(l);
+                        var checkbox = dom_(r, "input", [{ addClass: " TypeApprove3AllItem inputMidRadio" }, { name: "TypeApproveAll" }, { type: "radio" }, { "ondblclick": "checkRadio(this)" }, { "onclick": { callback: function () { checkAller("TypeApprove3AllItem", "TypeApprove3Item"); } } }]);
+                        return r;
+                    }
+                    /*displayName: "Class III        "*/, formater: function (row, idx) { return dom("input", [{ type: "radio" }, { value: 3 }, { name: "SelectedTypeApprove" + idx }, { "Class": " TypeApprove3Item TypeApproveItem inputMidRadio" }, { "ondblclick": "checkRadio(this)" }, { "checked": row.CLS_III_APPROVE == "Y" }]); }
+                }
+            ]
+            , onAfterSearch: function (r) {
+                console.log(r.QueryParameters.masterUuid);
+                $('.TypeApplyItem').closest('td').addClass("AlignCenter");
+                $('.TypeApproveItem').closest('td').addClass("AlignCenter");
+                if (r.QueryParameters.masterUuid == null) {
+                    InitNewMWCap();
+                }
+            }
+        });
+    }
+    function initTabber() {
+        tabber1 = tabber({
+            tab: "tabbar1", area: "tabname1", ontab: function (tabIdx) {
+                console.log(tabIdx);
+                if (tabIdx == 1) { applicantTableObject.search(); }
+                if (tabIdx == 4 || tabIdx==5) {
+                    document.getElementById("applTab").classList.add("selected");
+                }
+            }
+        });
+    }
+    function InitNewMWCap()
+    {
+        $('.TypeApproveItem').prop('checked', false)
+        $('.TypeApplyItem').prop('checked', false);
+
+    }
+    domReady(function () {
+        eformChangesNotify();
+
+        attr("AddPoolingRefNoBtn", "onclick", { parameters: {}, callback: AddPoolingRefNoTB });
+        attr("MinusPoolingRefNoBtn", "onclick", { parameters: {}, callback: MinusPoolingRefNoTB });
+        initAppplicantTable();
+        initTabber();
+        attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+      //  attr("backButton", "onclick", { parameters: {}, callback: onBackForm });
+        attr("deleteButton", "onclick", { parameters: {}, callback: onDeleteForm });
+        attr("newApplicantButton", "onclick", { parameters: {}, callback: function () { onLoadApplicant(); } });
+
+        attr("copyTelButton", "onclick", { parameters: {}, callback: function () { domName("C_COMP_APPLICATION.BS_TELEPHONE_NO1")[0].value = domName("C_COMP_APPLICATION.TELEPHONE_NO1")[0].value; } });
+        attr("copyFaxButton", "onclick", { parameters: {}, callback: function () { domName("C_COMP_APPLICATION.BS_FAX_NO1")[0].value = domName("C_COMP_APPLICATION.FAX_NO1")[0].value; } });
+        attr("copyRegionButton", "onclick", { parameters: {}, callback: function () { domName("C_COMP_APPLICATION.BS_REGION_CODE_ID")[0].value = domName("C_COMP_APPLICATION.REGION_CODE_ID")[0].value; } });
+        attr("copyEmailButton", "onclick", { parameters: {}, callback: function () { domName("C_COMP_APPLICATION.BS_EMAIL_ADDRESS")[0].value = domName("C_COMP_APPLICATION.EMAIL_ADDRESS")[0].value; } });
+
+        attr("copyChineseAddressButton", "onclick", {
+            parameters: {}, callback: function () {
+                domName("C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE1")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE1")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE2")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE2")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE3")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE3")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE4")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE4")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE5")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE5")[0].value;
+            }
+        });
+        attr("copyEnglishAddressButton", "onclick", {
+            parameters: {}, callback: function () {
+                domName("C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE1")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE1")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE2")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE2")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE3")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE3")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE4")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE4")[0].value;
+                domName("C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE5")[0].value = domName("C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE5")[0].value;
+            }
+        });
+        attr("eFormButton", "onclick", {
+            parameters: {}, callback: function () {
+                goToEform();
+            }
+        });
+        attr("brButton", "onclick", {
+            parameters: {}, callback: function () {
+                goTo("PopupBrDetails", [{ name: "BR_NO", value: domName("C_COMP_APPLICATION.BR_NO")[0].value }], true);
+            }
+        });
+
+        attr("companyNameButton", "onclick", {
+            parameters: {}, callback: function () {
+                goTo("PopupCompanyName", [{ name: "C_COMP_APPLICATION_UUID", value: domName("C_COMP_APPLICATION.UUID")[0].value }], true);
+            }
+        });
+
+
+        attr("C_COMP_APPLICATION_APPLICATION_DATE", "onblur", {
+            parameters: {}, callback: function (d, p, e) {
+                CalDueDate(d);
+            }
+        });
+        attr("C_COMP_APPLICATION_FIRST_APPLICATION_DATE", "onblur", {
+            parameters: {}, callback: function (d, p, e) {
+                CalDueDate(d);
+            }
+        });
+        if (domId("EditMode").value == "False") {
+            domId("C_COMP_APPLICATION_WILLINGNESS_QP").value = "I";
+            domId("C_COMP_APPLICATION_INTERESTED_FSS").value = "I";
+        }
+    });
+
+    function CalDueDate(o) {
+        if (o.value == "" || domId("C_COMP_APPLICATION_DUE_DATE").value != "") return;
+        $.ajax({
+            url: "AjaxProcDueDate"
+            , data: { "applicationDate": o.value }
+            , type: 'post'
+            , success: function (data) {
+                if (data != "") {
+                    domId("C_COMP_APPLICATION_DUE_DATE").flatpickr({ dateFormat: "d/m/Y" }).setDate(data);
+
+                }
+            }
+        });
+    }
+
+    function goToEform() {
+        var file_ref_no = domName("C_COMP_APPLICATION.FILE_REFERENCE_NO")[0].value;
+        if (file_ref_no != "" || file_ref_no != null) {
+            var sel = document.getElementById("RegPrefix");
+            if (sel != null)
+            {
+                var prefix = sel.options[sel.selectedIndex].text;
+                console.log(prefix);
+                var suffix = document.getElementById("C_COMP_APPLICATION_FILE_REFERENCE_NO").value;
+                file_ref_no = prefix + " " + suffix;
+            }
+
+        }
+
+        console.log(file_ref_no);
+        goTo("WindowEForm", [{ name: "FILE_REF", value: file_ref_no }], true);
+    }
+
+    function eformChangesNotify(Uuid, RefNo, FileType, TableName) {
+        if (TableName == "EFSS_COMPANY") {
+            console.log(TableName);
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "Uuid": Uuid, "RefNo": RefNo, "FileType": FileType },
+                url: "EformEFSSCompany",
+                success: function (text) {
+                    console.log("success!! " + Uuid);
+                    var data = jData(text);
+                    var eformFields = data[0];
+                    var eformItems = data[1];
+                    console.log(eformFields);
+                    console.log(eformItems);
+
+                    for (var i = 0; i < eformFields.length; i++) {
+                        var target_element = document.getElementById(eformFields[i]);
+                        target_element.value = eformItems[i];
+                        target_element.style.backgroundColor = "#F3F781";
+                        target_element.style.backgroundImage = "none"
+                        console.log(target_element);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        cache: false,
+                        data: { "formId": Uuid, "formType": FileType, "refNo": RefNo },
+                        url: "AddEformApplicant",
+                        success: function (text) {
+                            var data = jData(text);
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                console.log("hi");
+                                if (tabber1.currentIndex() == 1) {
+                                    console.log("current index is 1!")
+                                    tabber1.select(0);
+                                    tabber1.select(1);
+                                }
+                                console.log(data.Result);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            alert("Error!");
+                        }
+                    });
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+
+            });
+        }
+        else if (TableName == "EFSS_MWC") {
+            console.log(TableName);
+            $.ajax({
+                type: "POST",
+                cache: false,
+                data: { "Uuid": Uuid, "RefNo": RefNo, "FileType": FileType },
+                url: "EformEFSSMWC",
+                success: function (text) {
+                    console.log("success!! " + Uuid);
+                    var data = jData(text);
+                    var eformFields = data[0];
+                    var eformItems = data[1];
+                    console.log(eformFields);
+                    console.log(eformItems);
+
+                    for (var i = 0; i < eformFields.length; i++) {
+                        if (eformFields[i] == "APPLICATIONDATE") {
+                            var firstApplicationDate = document.getElementById("C_COMP_APPLICATION_FIRST_APPLICATION_DATE").value;
+                            if (firstApplicationDate == null) {
+                                eformFields[i] = "C_COMP_APPLICATION_FIRST_APPLICATION_DATE";
+                            }
+                            else {
+                                eformFields[i] = "C_COMP_APPLICATION_APPLICATION_DATE";
+                            }
+                        }
+                        var target_element = document.getElementById(eformFields[i]);
+                        target_element.value = eformItems[i];
+                        target_element.style.backgroundColor = "#F3F781";
+                        target_element.style.backgroundImage = "none"
+                        console.log(target_element);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        cache: false,
+                        data: { "formId": Uuid, "formType": FileType, "refNo": RefNo },
+                        url: "AddEformApplicant",
+                        success: function (text) {
+                            var data = jData(text);
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                console.log("hi");
+                                if (tabber1.currentIndex() == 1) {
+                                    console.log("current index is 1!")
+                                    tabber1.select(0);
+                                    tabber1.select(1);
+                                }
+                                console.log("NWC add eform app data: " + data);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            alert("Error!");
+                        }
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    alert("Error!");
+                }
+
+            });
+        }
+    }
+    function GetApplicant() {
+        // alert($("#C_APPLICANT_HKID").val());
+        $.ajax({
+            type: "POST",
+            url: domId("rootPath").value + '/Registration/Fn05MWIA_MWIA/GetApplicantById',
+            data: {
+
+                hkid: $("#C_APPLICANT_HKID").val(),
+                passportno: $("#C_APPLICANT.PASSPORT_NO").val()
+            },
+            success: function (data) {
+                console.log(data); if (data.ErrorMessage != null) {
+                    document.getElementById("ErrorDiv").innerHTML = data.ErrorMessage;
+                }
+                else {
+                    document.getElementById("ErrorDiv").innerHTML = "";
+
+                    $("#C_APPLICANT_SURNAME").val(data.Surname);
+                    $("#C_APPLICANT_TITLE_ID").val(data.Title);
+                    $("#C_APPLICANT_GENDER").val(data.Sex);
+                    $("#C_APPLICANT_GIVEN_NAME_ON_ID").val(data.GivenName);
+                    $("#C_APPLICANT_CHINESE_NAME").val(data.ChineseName);
+
+                    $("#C_IND_CERTIFICATE_APPLICATION_STATUS_ID").val(data.Status);
+
+
+
+
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE1").val(data.HOME_ADDRESS_CHI1);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE2").val(data.HOME_ADDRESS_CHI2);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE3").val(data.HOME_ADDRESS_CHI3);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE4").val(data.HOME_ADDRESS_CHI4);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE5").val(data.HOME_ADDRESS_CHI5);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE1").val(data.HOME_ADDRESS_ENG1);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE2").val(data.HOME_ADDRESS_ENG2);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE3").val(data.HOME_ADDRESS_ENG3);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE4").val(data.HOME_ADDRESS_ENG4);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE5").val(data.HOME_ADDRESS_ENG5);
+
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE1").val(data.OFFICE_ADDRESS_CHI1);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE2").val(data.OFFICE_ADDRESS_CHI2);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE3").val(data.OFFICE_ADDRESS_CHI3);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE4").val(data.OFFICE_ADDRESS_CHI4);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE5").val(data.OFFICE_ADDRESS_CHI5);
+
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE1").val(data.OFFICE_ADDRESS_ENG1);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE2").val(data.OFFICE_ADDRESS_ENG2);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE3").val(data.OFFICE_ADDRESS_ENG3);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE4").val(data.OFFICE_ADDRESS_ENG4);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE5").val(data.OFFICE_ADDRESS_ENG5);
+
+                    $("#C_IND_APPLICATION_FAX_NO1").val(data.FAX_NO1);
+                    $("#C_IND_APPLICATION_FAX_NO2").val(data.FAX_NO2);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO1").val(data.TELEPHONE_NO1);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO2").val(data.TELEPHONE_NO2);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO3").val(data.TELEPHONE_NO3);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO1").val(data.EMERGENCY_NO1);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO2").val(data.EMERGENCY_NO2);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO3").val(data.EMERGENCY_NO3);
+                    $("#C_IND_APPLICATION_ENGLISH_CARE_OF").val(data.ENGLISH_CARE_OF);
+                    $("#C_IND_APPLICATION_CHINESE_CARE_OF").val(data.CHINESE_CARE_OF);
+                    $("#C_IND_APPLICATION_CORRESPONDENCE_LANG_ID").val(data.CORRESPONDENCE_LANG_ID);
+                    //$("#C_APPLICANT_SURNAME").val(data.POST_TO                 );
+                    $("#C_IND_APPLICATION_EMAIL").val(data.EMAIL);
+
+                }
+            }
+        })
+    }
+
+</script>

@@ -1,0 +1,127 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_ReceiptModel
+
+<form id="receiptForm">
+    <div id="searchCriteria">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Document from R &amp; D :</div>
+                <div class="w3-col l3 m12 s12">
+                    <label id="totalNoOfRecord"></label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Document Serial No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input name="DSN" style="max-width:250px;" type="text" onkeydown="checkEnter(event)"/>(Scan Barcode)
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button" onclick="confirmOutstanding()"><i class="fa fa-search"></i> Confirm O/S</button>
+            <button class=" btn btn-default" type="button" onclick="confirmReceived()"><i class="fa fa-search"></i> Confirm Receipt</button>
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="panelHeader">
+        Incoming Document
+    </div>
+    <div id="resultPanel"></div>
+</form>
+
+
+<script type="text/javascript">
+    function confirmOutstanding() {
+        $("#receiptForm").attr('action', 'OustandingAction');
+        $("#receiptForm").submit();
+    }
+
+    function receiveCounted() {
+        $("#receiptForm").attr('action', 'ReceiveCountedDsnAction');
+        $("#receiptForm").submit();
+    }
+
+    function confirmReceived() {
+        $("#receiptForm").attr('action', 'ConfirmReceivedAction');
+        $("#receiptForm").submit();
+    }
+
+    function checkEnter(evt) {
+        var characterCode;
+        var e = (window.event) ? window.event : evt;
+        if (e && e.which) {
+            characterCode = e.which;
+        } else {
+            characterCode = e.keyCode;
+        }
+        if (characterCode == 13) {
+            e.returnValue = false;
+            e.cancelBubble = true;
+            return receiveCounted();
+        } else {
+            return true;
+        }
+    }
+
+</script>
+
+<script type="text/javascript">
+    var searcher1;
+    domReady(function () {
+        searcher1 = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "DT"
+            , Columns: [
+                {
+                    displayName: "Date", columnName: "DT"
+                }
+                , {
+                    displayName: "Time", columnName: "T"
+                }
+                , {
+                    displayName: "Document S/N", columnName: "DSN"
+                }
+                , {
+                    displayName: "Received", columnName: "STATUS"
+                }
+                , {
+                    displayName: "Outstanding", formater: function (row, idx) {
+                        if ("Counted" == row.STATUS) {
+                            var dsnTxt = document.createElement('input');
+                            dsnTxt.type = "text";
+                            dsnTxt.name = "ConfirmReceiptList[" + row.DSN + "]";
+                            //dsnTxt.style = "display: none;";
+                            dsnTxt.setAttribute("style", "display:none");
+                            dsnTxt.value = row.DSN;
+                            return dsnTxt;
+                        } else {
+                            var osChk = document.createElement('input');
+                            osChk.type = "checkbox";
+                            osChk.style = "text-align: center; vertical-align: middle;";
+                            osChk.name = "OutstandingList[" + row.DSN + "]";
+                            return osChk;
+                        }
+                    }
+                }
+            ]
+            , onAfterSearch: function () {
+                // set Total no of record
+                document.getElementById("totalNoOfRecord").innerHTML = searcher1.Total;
+            }
+            //}).goToPage();
+        }).search();
+    });
+</script>

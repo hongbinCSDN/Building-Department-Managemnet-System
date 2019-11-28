@@ -1,0 +1,126 @@
+﻿
+@*@model MWMS2.Areas.Signboard.Models.SignboardRecordCommonDisplayModel*@
+@model MWMS2.Areas.Signboard.Models.IssueLetterDisplayModel
+
+<div class="panelHeader">Validation Information <button onclick="HideVI()" type="button"><span id="VISHOW">Show</span></button></div>
+<div id="VI" class="displayForm" style="display:none">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Validity of AP/ RSE/ RGE/ RI appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_RECORD.VALIDITY_AP, "OK", new { @class = "w3-radio", @id = "VALIDITY_AP1" }) <label for="VALIDITY_AP1">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_RECORD.VALIDITY_AP, "Not OK", new { @class = "w3-radio", @id = "VALIDITY_AP2" }) <label for="VALIDITY_AP2">Not OK</label> 
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">
+                Signature of AP/ RSE/ RGE/ RI appointed :<br />
+                Specimen Signature of AP :
+                <button type="button" onclick="GetCRMImage('@Model.AP_AP.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                Specimen Signature of RSE:
+                <button type="button" onclick="GetCRMImage('@Model.AP_RSE.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                Specimen Signature of RGE :
+                <button type="button" onclick="GetCRMImage('@Model.AP_RGE.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+                Specimen Signature of RI :
+                <button type="button" onclick="GetCRMImage('@Model.AP_RGE.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button><br />
+
+            </div>
+
+            <div class="w3-col l8 m12 s12">
+
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.SIGNATURE_AP, "OK", new { @class = "w3-radio", @id = "SIGNATURE_AP_1" }) <label for="SIGNATURE_AP_1">OK</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.SIGNATURE_AP, "Not OK", new { @class = "w3-radio", @id = "SIGNATURE_AP_2" }) <label for="SIGNATURE_AP_2">Not OK</label>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Capacity of AS appointed w.r.t. stated MW item no. :	</div>
+
+            <div class="w3-col l8 m12 s12">
+
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.ITEM_STATED, "OK", new { @class = "w3-radio", @id = "ITEM_STATED_1" }) <label for="ITEM_STATED_1">OK</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.ITEM_STATED, "Not OK", new { @class = "w3-radio", @id = "ITEM_STATED_2" }) <label for="ITEM_STATED_2">Not OK</label>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">
+                Signature of AS appointed : <br />
+                Specimen Signature : 
+                <button type="button" onclick="GetCRMImage('@Model.AP_PRC.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button>
+            </div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.SIGNATURE_AS, "OK", new { @class = "w3-radio", @id = "SIGNATURE_AS_1" }) <label for="SIGNATURE_AS_1">OK</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.SIGNATURE_AS, "Not OK", new { @class = "w3-radio", @id = "SIGNATURE_AS_2" }) <label for="SIGNATURE_AS_2">Not OK</label>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Information of Signboard Owner provided :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.INFO_SIGNBOARD_OWNER_PROVIDED, "OK", new { @class = "w3-radio", @id = "INFO_SIGNBOARD_OWNER_PROVIDED_1" }) <label for="INFO_SIGNBOARD_OWNER_PROVIDED_1">OK</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.INFO_SIGNBOARD_OWNER_PROVIDED, "Not OK", new { @class = "w3-radio", @id = "INFO_SIGNBOARD_OWNER_PROVIDED_2" }) <label for="INFO_SIGNBOARD_OWNER_PROVIDED_2">Not OK</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.INFO_SIGNBOARD_OWNER_PROVIDED, "N/A", new { @class = "w3-radio", @id = "INFO_SIGNBOARD_OWNER_PROVIDED_3" }) <label for="INFO_SIGNBOARD_OWNER_PROVIDED_3">N / A</label>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Other irregularities as marked : 	</div>
+
+            <div class="w3-col l8 m12 s12">
+
+                @Html.TextAreaFor(x =>x.B_SV_RECORD.OTHER_IRREGULARITIES)
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Recommendation : 	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.RECOMMENDATION, "Accept", new { @class = "w3-radio", @id = "RECOMMENDATION_1" }) <label for="RECOMMENDATION_1">Accept</label>
+                @Html.RadioButtonFor(x =>x.B_SV_RECORD.RECOMMENDATION, "Refuse", new { @class = "w3-radio", @id = "RECOMMENDATION_2" }) <label for="RECOMMENDATION_2">Refuse</label>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

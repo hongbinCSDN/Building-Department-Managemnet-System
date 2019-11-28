@@ -1,0 +1,319 @@
+﻿@model MWMS2.Models.ModelWN
+<h3>Warning Letter</h3>
+
+
+
+@using (Html.BeginForm("WNCreateConfirm", "WN", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UUID)
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <th>
+                    Subject :
+                </th>
+                <td>
+                    @Html.DisplayFor(m => m.SUBJECT)
+
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Registration No. :
+                </th>
+                <td>
+                    @Html.DisplayFor(m => m.REGISTRATION_NO)
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    Category
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.CATEGORY)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Professional/ Company/ Individual Name(Eng) :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.COMP_CONTRACTOR_NAME_ENG)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Professional/ Company/ Individual Name(Chi) :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.COMP_CONTRACTOR_NAME_CHI)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Status as at WL Create :
+                </th>
+
+                <td></td>
+            </tr>
+            <tr>
+                <th>
+                    Authorized Signatory Name(Eng) :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.AUTHORIZED_SIGNATORY_NAME_ENG)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Authorized Signatory Name(Chi) :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.AUTHORIZED_SIGNATORY_NAME_CHI)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Status of AS as at WL Create :
+                </th>
+
+                <td></td>
+
+            </tr>
+            <tr>
+                <th>
+                    MW Submission No. :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.MW_SUBMISSION_NO)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    MW Items :
+                </th>
+
+                <td>
+                    @{ if (Model.v_MWItems_Type_CheckBox != null)
+                        {
+                            foreach (var item in Model.v_MWItems_Type_CheckBox)
+                            {
+                                <input hidden checked type="checkbox" name="v_MWItems_Type_CheckBox" value="@item" id=@item />
+                                var temp = item + ",";
+                                @Html.DisplayFor(m => temp, new { @name = "v_MWItems_Type_CheckBox" })
+
+
+                            }
+                        }
+
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    MBIS/ MWIS Related to :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.RELATED_TO)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Notice No. :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.NOTICE_NO)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Offense :
+                </th>
+
+                <td>
+
+                    @{ if (Model.v_Offense_Type_CheckBox != null)
+                        {
+                            foreach (var item in Model.v_Offense_Type_CheckBox)
+                            {
+                                <input hidden checked type="checkbox" name="v_Offense_Type_CheckBox" value="@item" id=@item />
+                                @Html.DisplayFor(m => item, new { @name = "v_Offense_Type_CheckBox" })
+                                <br />
+                            }
+                            @*@Html.DisplayFor(m => item)*@
+                        }
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Issued Date :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.v_IssuedDate)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Creation Date :
+                </th>
+
+                <td>
+                    @System.DateTime.Now.ToShortDateString()
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Section / Unit :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.SECTION_UNIT)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Case Officer :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.CASE_OFFICER)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Source :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.SOURCE)
+                </td>
+            <tr>
+                <th>
+                    File Reference (4 + 2) :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.FILE_REF_FOUR) / @Html.DisplayFor(m => m.FILE_REF_TWO)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Remark :
+                </th>
+
+                <td>
+                    @Html.DisplayFor(m => m.REMARK)
+                </td>
+
+            </tr>
+            <tr>
+                <th>
+                    Attachmet :
+                </th>
+                <td>
+                    @{ var FileCount = 0;
+                        for (int i = 0; i < Model.v_Temp_file.Count(); i++)
+                        {
+                            @*@Html.HiddenFor(m => Model.v_Temp_file[i].Item1)*@
+                            <i class="far fa-file"></i>@Model.v_Temp_file[i].Item2
+
+                        }
+                        @*foreach (var item in Model.M_WL_FILE)
+                            {
+
+                                <i class="far fa-file"></i>@item.FILE_NAME
+
+                                <br />
+
+
+                            }*@
+                    }
+
+
+
+                </td>
+            </tr>
+            @*<tr><th>Attachment :</th><td colspan="5"><a style="padding:10px" target="_blank" href="img/WN.pdf"><i class="far fa-file"></i></a><a style="padding:10px" target="_blank" href="img/WN.pdf"><i class="far fa-file"></i></a><a style="padding:10px" target="_blank" href="img/WN.pdf"><i class="far fa-file"></i></a></td></tr>*@
+
+        </tbody>
+
+
+    </table>
+
+    @*for (int i = 0; i < Model.M_WL_TYPE_OF_OFFENSE.Count(); i++)
+        {
+
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].CREATED_BY)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].CREATED_DATE)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].MODIFIED_BY)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].MODIFIED_DATE)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].WL_TYPE_OF_OFFENSE_ENG)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].WL_TYPE_OF_OFFENSE_CHI)
+            @Html.HiddenFor(m => Model.M_WL_TYPE_OF_OFFENSE[i].WL_UUID)
+
+        }
+
+        for (int i = 0; i < Model.M_WL_MW_ITEM.Count(); i++)
+        {
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].CREATED_BY)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].CREATED_DATE)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].MODIFIED_BY)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].MODIFIED_DATE)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].WL_MW_ITEM_ENG)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].WL_MW_ITEM_CHI)
+            @Html.HiddenFor(m => Model.M_WL_MW_ITEM[i].WL_UUID)
+        }*@
+
+    for (int i = 0; i < Model.M_WL_FILE.Count(); i++)
+    {
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].CREATED_BY)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].CREATED_DATE)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].MODIFIED_BY)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].MODIFIED_DATE)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].FILE_NAME)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].LETTER_FILE)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].WL_UUID)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].STATUS_DESCRIPTION)
+        @Html.HiddenFor(m => Model.M_WL_FILE[i].STATUS_DESCRIPTION)
+        
+    }
+
+
+
+
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+
+
+    <input type="submit" value="Confirm" />
+}
+

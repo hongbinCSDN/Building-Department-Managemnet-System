@@ -1,0 +1,101 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn08ICC_IccModel
+
+<form id="inputForm" method="post">
+    <div class="panelHeader">Search Criteria</div>
+
+
+
+    <span id="errorMsg" name="errorMsg"> </span>
+
+
+    <div id="searchCriteria" class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">ICC No. :</div>
+
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(m => m.iccNo, new { @id = "iccNo" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Type :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.DropDownListFor(model => model.assignType, Model.typeList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Assign Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Model.assignNo
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Assign Officer. : <br />&nbsp;&nbsp;</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.RadioButtonFor(model => model.assignOfficerType, "A", new { @class = "w3-radio", @id = "assignOfficeType" }) Automatic &nbsp;&nbsp;<br/>
+                    @Html.RadioButtonFor(model => model.assignOfficerType, "M", new { @class = "w3-radio", @id = "assignOfficeTypeM" }) Manual
+                    @Html.DropDownListFor(model => model.assignedOfficer, Model.UserList, new { id = "assignedOfficer" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+
+            @if (@Model.isSaved)
+            {
+                <button class="btn btn-default" id="newBtn" type="button">New</button>
+            }
+            else
+            {
+                <button class="btn btn-default" id="subBtn" type="button">Submit</button>
+            }
+        </div>
+    </div>
+</form>
+
+<script>
+        domReady(function () {
+            attr("subBtn", "onclick", { parameters: {}, callback: subBtn });
+            attr("newBtn", "onclick", { parameters: {}, callback: newRecord });
+        });
+
+        function newRecord() {
+            goTo('Index');
+        }
+        function subBtn() {
+
+            var result = $("#iccNo").val();
+            if (result == "" || result == null) {
+                alert('Please input ICC Number!');
+                return;
+            }
+
+            var inputOfficerType = $('input[name=assignOfficerType]:checked').val();
+            if (inputOfficerType == "M") {
+                var HandingOfficer = document.getElementById("assignedOfficer").value; 
+                if ("" == HandingOfficer) {
+                    alert("Please select one Assign Officer!");
+                    $("#assignedOfficer").focus();
+                    return;
+                }
+            }
+            $("#inputForm").attr('action', 'save');
+            $("#inputForm").submit();
+        }
+
+        var errMsg = "@Model.errorMsg";
+
+        if (display(errMsg) != "") {
+            alert(errMsg);
+        }     
+
+
+</script>

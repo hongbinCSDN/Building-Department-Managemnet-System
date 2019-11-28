@@ -1,0 +1,77 @@
+
+
+-=============================Step 1. Create users===========================================================
+alter session set "_ORACLE_SCRIPT"=true;
+create user MWMS2 IDENTIFIED BY 123456;
+grant execute on sys.dbms_crypto to MWMS2;
+Grant CONNECT TO MWMS2;
+Grant RESOURCE TO MWMS2;
+Grant DBA TO MWMS2;
+Grant execute on sys.dbms_crypto to MWMS2;
+
+
+
+-=============================-Step 2. Export full dmp from production=======================================
+
+---------Step 2. Export full dmp from CRM---------
+set oracle_sid=CRM
+exp userid=CRM/Apoon1667 file=D:\Oracle_dump\CRM_20181228_1830.dmp log=D:\Oracle_dump\CRM_20181228_1830.log
+---------Export full dmp from SMM---------
+set oracle_sid=SMM
+exp userid=SMM/123456 file=D:\fulldmp\SMM08012019.dmp log=D:\fulldmp\SMM08012019.log
+---------Export full dmp from PEM---------
+set oracle_sid=PEMPROD
+exp userid=BPM/123456 file=D:\fulldmp\PEM20190225_1010.dmp log=D:\fulldmp\PEM20190225_1010.log
+
+
+
+
+-======================================-Step 3.CREATE TABLESPACE===============================================
+
+CREATE TABLESPACE "BPMDATA"
+NOLOGGING
+DATAFILE 'D:/Users/admin/Desktop/oradata/BPM/BPMDATA.dbf' SIZE 5120M,
+'D:/Users/admin/Desktop/oradata/BPM/BPMDATA02.dbf' SIZE 10240M,
+'D:/Users/admin/Desktop/oradata/BPM/BPMDATA03.dbf' SIZE 5120M,
+'D:/Users/admin/Desktop/oradata/BPM/BPMDATA04.dbf' SIZE 10240M EXTENT
+MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+CREATE TABLESPACE "SMMDATA"
+NOLOGGING
+DATAFILE 'D:/Users/admin/Desktop/oradata/SMM/SMMDATA.dbf' SIZE 10240M,
+'D:/Users/admin/Desktop/oradata/SMM/SMMDATA01.dbf' SIZE 10240M EXTENT
+MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT AUTO;
+
+
+-=============================-Step 4. import data===============================================================
+
+
+---------CRM---------
+set oracle_sid=ORCL
+imp userid=MWMS2/123456 file=D:\Users\admin\Desktop\Brand\ProFullDmp\CRM\CRM_db_190225_1010.dmp fromuser=CRM touser=MWMS2
+
+--drop CRM TABLE
+--rename CRM TABLE
+--drop CRM trigger
+
+---------SMM---------
+set oracle_sid=ORCL
+imp userid=MWMS2/123456 file=D:\Users\admin\Desktop\Brand\CreateDB\Ex_IN_portDB\SMM.dmp fromuser=SMM touser=MWMS2
+
+--drop CRM TABLE
+--rename CRM TABLE
+--drop CRM trigger
+
+
+---------PEM---------
+set oracle_sid=ORCL
+imp userid=MWMS2/123456 file=C:\Dmp\PEM20190228_1820.dmp fromuser=BPM touser=MWMS2
+
+--drop CRM TABLE
+--rename CRM TABLE
+--drop CRM trigger
+
+-=============================-Step 4. import data===============================================================
+run 0,1,2,3
+
+

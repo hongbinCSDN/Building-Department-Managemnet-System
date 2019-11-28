@@ -1,0 +1,118 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Authority Name Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveAN", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_AUTHORITY.UUID)
+
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Name (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.ENGLISH_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Name (Chn):</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.EditorFor(o => o.C_S_AUTHORITY.CHINESE_NAME)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Rank (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.ENGLISH_RANK)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Rank (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.CHINESE_RANK)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Telephone No.:</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.TELEPHONE_NO)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Fax No.:</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.FAX_NO)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Acting Person (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.ENGLISH_ACTION_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Acting Person (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.CHINESE_ACTION_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Acting Rank (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.ENGLISH_ACTION_RANK)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Acting Rank (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_AUTHORITY.CHINESE_ACTION_RANK)</div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexAN", [{name: "pageCode", value: domId("functionCode").value}]);' class=" btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+
+</form>
+ 
+@*}*@
+<script>
+    function onSaveForm() {
+        $.post("SaveAN", $("#inputForm").serialize(), function (data) {
+            console.log(data);
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo("IndexAN", [{ name: "systemType", value: "@Model.SystemType" },{ name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+</script>
+

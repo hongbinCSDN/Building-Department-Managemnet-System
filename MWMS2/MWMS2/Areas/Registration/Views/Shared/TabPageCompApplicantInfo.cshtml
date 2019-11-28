@@ -1,0 +1,284 @@
+﻿@model MWMS2.Areas.Registration.Models.ApplicantDisplayListModel
+
+
+@Html.HiddenFor(o => o.C_COMP_APPLICANT_INFO.UUID)
+@Html.HiddenFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.UUID)
+@Html.HiddenFor(o => o.C_COMP_APPLICANT_INFO_MASTER_UUID)
+
+@if (Model.RegType == MWMS2.Constant.RegistrationConstant.REGISTRATION_TYPE_MWCA)
+{
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <h3 class="panelHeader">Application History</h3>
+            <button id="newAppHistButton" type="button">New Record for MW Capability</button>
+            <div id="AppHistTable"></div>
+        </div>
+    </div>
+    <div class="w3-row hr"></div>
+
+    <div class="w3-row">
+        <h3 class="panelHeader">Current MW Capability</h3>
+        <div class="w3-col l12 m12 s12">
+
+            <div id="CurMwCapTable"></div>
+        </div>
+    </div>
+
+    <div class="w3-row hr"></div>
+}
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.CORRESPONDENCE_LANG_ID) :</div>
+        <div class="w3-col l9 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO.CORRESPONDENCE_LANG_ID, Model.CORRESPONDENCE_LANG_List)
+        </div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.APPLICANT_ROLE_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO.APPLICANT_ROLE_ID, Model.APPLICANT_ROLE_List)
+        </div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.SUPPORTED_BY_ID) :</div>
+        <div class="w3-col l6 m6 s12">@Html.DisplayTextFor(o => o.C_COMP_APPLICANT_INFO.SUPPORTED_BY_ID)</div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.HKID) <font color="red">*</font> :</div>
+        <div class="w3-col l9 m6 s12">
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.HKID)
+            <div style="color:red" id="ErrorDiv"></div>
+            <input type="button" onclick="GetApplicant()" value="Get HKID/Passport No" />
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.PASSPORT_NO) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.PASSPORT_NO)</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.TITLE_ID) :</div>
+        <div class="w3-col l6 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.TITLE_ID, Model.TITLE_List)
+        </div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.GENDER) :</div>
+        <div class="w3-col l6 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.GENDER, Model.GENDER_List)
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">Date of Birth :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.DOB, new { @class = "inputDate" })</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.SURNAME) <font color="red">*</font> :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.SURNAME)</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.GIVEN_NAME_ON_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.GIVEN_NAME_ON_ID)</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.CHINESE_NAME) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.C_APPLICANT.CHINESE_NAME)</div>
+    </div>
+</div>
+
+
+<div class="w3-row hr"></div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l6 m6 s12">Residential Address (Eng):</div>
+        <div class="w3-col l6 m6 s12">Residential Address (Chn):</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l6 m6 s12">
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_E1)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_E2)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_E3)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_E4)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_E5)<br />
+        </div>
+        <div class="w3-col l6 m6 s12">
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_C1)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_C2)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_C3)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_C4)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_ADDRESS_C5)<br />
+        </div>
+    </div>
+</div>
+<div class="w3-row hr"></div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.OFFICE_TEL) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.OFFICE_TEL)</div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.MOBILE_TEL) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.MOBILE_TEL)</div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.RES_TEL) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.RES_TEL)</div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.EMAIL1) 1):</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.EMAIL1)</div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.EMAIL1) 2):</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.EMAIL2)</div>
+    </div>
+</div>
+<div class="w3-row hr"></div>
+
+<div class="w3-row">
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.ACCEPT_DATE) :</div>
+        <div class="w3-col l6 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.ACCEPT_DATE, new { @class = "inputDate" })</div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.APPLICANT_STATUS_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12">
+            @Html.DropDownListFor(o => o.C_COMP_APPLICANT_INFO.APPLICANT_STATUS_ID, Model.APPLICANT_STATUS_ID_List)
+        </div>
+    </div>
+</div>
+
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.REMARK) :<span class="w3-hide-medium w3-hide-small"><br /><br />&nbsp;</span></div>
+        <div class="w3-col l9 m6 s12">@Html.TextAreaFor(o => o.C_COMP_APPLICANT_INFO.REMARK)</div>
+    </div>
+</div>
+
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.REMOVAL_DATE) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.REMOVAL_DATE, new { @class = "inputDate" })</div>
+    </div>
+</div>
+
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.INTERVIEW_WITHDRAWN_DATE) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.INTERVIEW_WITHDRAWN_DATE, new { @class = "inputDate" })</div>
+    </div>
+</div>
+
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.INTERVIEW_REFUSAL_DATE) :</div>
+        <div class="w3-col l9 m6 s12">@Html.TextBoxFor(o => o.C_COMP_APPLICANT_INFO.INTERVIEW_REFUSAL_DATE, new { @class = "inputDate" })</div>
+    </div>
+</div>
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICANT_INFO.FILE_PATH_NONRESTRICTED) :</div>
+        <div class="w3-col l9 m6 s12">
+            <input type="file" id="APPLICANT_FILE" name="APPLICANT_FILE" style="vertical-align: middle;" />
+            <div id="DocArea">
+                @if (!string.IsNullOrWhiteSpace(Model.C_COMP_APPLICANT_INFO.FILE_PATH_NONRESTRICTED))
+                {@*@Html.ActionLink("Get Signature Images", "GetSignImg", null, new { filepath = Model.C_IND_CERTIFICATE.FILE_PATH_NONRESTRICTED }, new { @class = "ImageClass" })*@
+                <a href="GetSignImg?filepath=@Model.C_COMP_APPLICANT_INFO.FILE_PATH_NONRESTRICTED"><i class="far fa-file-image"></i></a>
+                <button type="button" onclick="DelDoc()" class="w3-red"> <i class="fas fa-times"></i></button>}
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.C_COMP_APPLICANT_INFO.UUID != null)
+{
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">QP Card  :  </div>
+            <div class="w3-col l9 m12 s12">
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Date of Issue :  </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(model => model.C_COMP_APPLICANT_INFO.CARD_ISSUE_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Date of Expiry :  </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(model => model.C_COMP_APPLICANT_INFO.CARD_EXPIRY_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Serial No. :  </div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.C_COMP_APPLICANT_INFO.CARD_SERIAL_NO, new { @style = "width:200px" })
+                <input type="button" value="Generate" onclick="GenerateSerialNo()" />
+
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Return Date  :  </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(model => model.C_COMP_APPLICANT_INFO.CARD_RETURN_DATE, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+}
+
+<div class="w3-container footer">
+    <button id="saveApplicantButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Draft Submit</button>
+    <button id="backApplicantButton" class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+</div>
+

@@ -1,0 +1,187 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DsnMappingModel
+
+<div class="panelHeader">
+    Assign New Document S/N
+</div>
+<form id="inputForm" class=" w3-border displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Document S/N :</div>
+            <div class="w3-col l4 m12 s12">
+                @Html.HiddenFor(m => m.DSN)
+                @Model.DSN
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Ref. Number. :</div>
+            <div class="w3-col l4 m12 s12">
+                <input id="txtReferenceNo" name="ReferenceNo" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Form No. :</div>
+            <div class="w3-col l4 m12 s12">
+                <input id="txtFormNo" name="FormNo" type="text" onkeyup = "InputToUpper(this)" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12">Document Type :</div>
+            <div class="w3-col l4 m12 s12">
+                <input id="txtDocType" type="hidden" />
+                <input id="radioDocTypeF" name="DocType" value="F" type="radio" class="w3-radio" onchange="changeDocType(value)" checked /> Form
+                <input id="radioDocTypeE" name="DocType" value="E" type="radio" class="w3-radio" onchange="changeDocType(value)" /> Enquiry
+                <input id="radioDocTypeC" name="DocType" value="C" type="radio" class="w3-radio" onchange="changeDocType(value)" /> Complaint
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m12 s12"></div>
+            <div class="w3-col l4 m12 s12">
+                <button id="btnAssign" class="btn btn-default" type="button" onclick="assignNewDsn()">Assign</button>
+                <button id="btnBack" class="btn btn-default" type="button" onclick="goTo('Index')">Back</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<script type="text/javascript">
+
+    function submitInfo() {
+        attr("inputForm", "addClass", "saving");
+        $.post("Assign", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("Index", null);
+            }
+            else {
+                if (data.ErrorMessages["alertError"] != undefined || data.ErrorMessages["alertError"] != null) {
+                    alert(data.ErrorMessages["alertError"][0]);
+                }
+                    
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function InputToUpper(obj) {
+        if (obj.value != "") {
+            obj.value = obj.value.toUpperCase();
+        }
+    }
+
+    function assignNewDsn() {
+
+        if (document.getElementById("radioDocTypeF").checked) {
+            document.getElementById("txtDocType").value = "F";
+        }
+
+        if (document.getElementById("radioDocTypeE").checked) {
+            document.getElementById("txtDocType").value = "E";
+        }
+
+        if (document.getElementById("radioDocTypeC").checked) {
+            document.getElementById("txtDocType").value = "C";
+        }
+
+
+
+        var newFormNo = $('#txtFormNo').val();
+        if (document.getElementById("radioDocTypeF").checked &&
+            newFormNo != 'MW01' &&
+            newFormNo != 'MW02' &&
+            newFormNo != 'MW03' &&
+            newFormNo != 'MW04' &&
+            newFormNo != 'MW05' &&
+            newFormNo != 'MW06' &&
+            newFormNo != 'MW07' &&
+            newFormNo != 'MW08' &&
+            newFormNo != 'MW09' &&
+            newFormNo != 'MW10' &&
+            newFormNo != 'MW11' &&
+            newFormNo != 'MW12' &&
+            newFormNo != 'MW31' &&
+            newFormNo != 'MW32' &&
+            newFormNo != 'MW33') { alert('Form No. not valid.'); return; }
+
+        var isDisabled = $('#txtReferenceNo').attr('disabled');
+        if (!isDisabled) {
+            $('#txtReferenceNo').val($.trim($('#txtReferenceNo').val()));
+
+            var parsed = -1;
+            if ($('#txtReferenceNo').val().length == '11') {
+                parsed = TryParseInt($('#txtReferenceNo').val().substring(2), -1);
+            }
+            if ($('#txtReferenceNo').val().length == '12') {
+                parsed = TryParseInt($('#txtReferenceNo').val().substring(3), -1);
+            }
+
+            if (!($('#txtReferenceNo').val().substring(0, 2) == 'MW'
+                || $('#txtReferenceNo').val().substring(0, 2) == 'VS'
+                || $('#txtReferenceNo').val().substring(0, 3) == 'Enq'
+                || $('#txtReferenceNo').val().substring(0, 3) == 'Com')) {
+                alert('Ref. number not valid.');
+                return;
+            }
+            if (!($('#txtReferenceNo').val().length == '11'
+                || $('#txtReferenceNo').val().length == '12')) {
+                alert('Ref. number not valid.');
+                return;
+            }
+            if (parsed == -1) {
+                alert('Ref. number not valid.');
+                return;
+            }
+        }
+        if (document.getElementById("radioDocTypeF").checked) {
+            var formNoValid = $('#txtFormNo').val() != "";
+            if (!formNoValid) {
+                alert('Please input Form Number.');
+                return;
+            }
+        }
+        if ($('#txtReferenceNo').attr('disabled') == "" && $('#txtReferenceNo').val() == "") {
+            alert('Please input MW Number.');
+            return;
+        }
+
+        submitInfo();
+
+    }
+
+    function TryParseInt(str, defaultValue) {
+        var retValue = defaultValue;
+        if (str != null) {
+            if (str.length > 0) {
+                if (!isNaN(str)) {
+                    retValue = parseInt(str);
+                }
+            }
+        }
+        return retValue;
+    }
+
+    function changeDocType(docType) {
+        if (docType == 'F') {
+            $('#txtFormNo').removeAttr('disabled');
+            return;
+        }
+        if (docType == 'E' || docType == 'C') {
+            $('#txtFormNo').val('');
+            $('#txtFormNo').attr('disabled', 'disabled');
+            return;
+        }
+    }
+
+</script>
+

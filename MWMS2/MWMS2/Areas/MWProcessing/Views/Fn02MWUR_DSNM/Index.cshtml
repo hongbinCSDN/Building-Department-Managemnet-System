@@ -1,0 +1,111 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DsnMappingModel
+
+
+<div class="panelHeader">
+    Search Criteria
+</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">No. of Record :</div>
+            <div class="w3-col l6 m12 s12">
+                <label id="totalNoOfRecord">@Model.Total</label>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                <input name="DSN" type="text" onkeydown="getDsnInfo(event,value)" />
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">R&D Delivered Date :</div>
+            <div class="w3-col l6 m12 s12">
+                From <input name="FromDate" type="text" class="inputDate" /> To<input name="ToDate" type="text" class="inputDate" />
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div><div class="panelHeader">
+    Incoming Document
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    function getDsnInfo(event, value) {
+
+        if (event.keyCode == 13) {
+            //Get Dsn Info
+            $.post("GetDsnInfo", [{ name: "DSN", value: value }], function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo("Detail", [{ name: "DSN", value: value }]);
+                }
+                else {
+                    if (data.ErrorMessages["alertError"] != undefined || data.ErrorMessages["alertError"] != null) {
+                        alert(data.ErrorMessages["alertError"][0]);
+                    }
+                    showErrorMessage(data.ErrorMessages);
+                    //console.log(data);
+                }
+            }, "json");
+        }
+    }
+
+
+    domReady(function () {
+        resultTable = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Document S/N", columnName: "DSN"
+                }
+                , {
+                    displayName: "Date", columnName: "Date"
+                }
+                , {
+                    displayName: "Time", columnName: "Time"
+                }
+                , {
+                    displayName: "Received", columnName: "Received"
+                }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+
+                        return createButton("Mapping", "fa-file", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    goTo("Detail", [{ name: "DSN", value: row.DSN }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+            , onAfterSearch: function () {
+                // set Total no of record
+                document.getElementById("totalNoOfRecord").innerHTML = resultTable.Total;
+            }
+        });
+    });
+</script>

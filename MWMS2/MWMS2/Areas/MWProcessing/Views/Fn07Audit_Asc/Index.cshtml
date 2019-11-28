@@ -1,0 +1,261 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn07Audit_AscSearchPart1Model
+
+<div class="panelHeader">Summary</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Audit Assigned Date:</div>
+            <div class="w3-col l9 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.AuditAssignedDateFrom, "", new { @id = "AuditAssignedDateFrom", @class = "inputDate" })
+                &nbsp;To&nbsp;@Html.TextBoxFor(model => model.AuditAssignedDateTo, "", new { @id = "AuditAssignedDateTo", @class = "inputDate" })
+                <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+        @*<div class="w3-col l6 m12 s12">
+                <button class="searchButton btn btn-default" type="button">Get Records</button>
+            </div>*@
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+<br />
+
+<div class="panelHeader">Search Minor Work Item</div>
+<br />
+<div class="panelHeader">Search Criteria :</div>
+<div id="searchCriteria2">
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Reference No. :</div>
+            <div class="w3-col l3 m12 s12">
+                <select name="typeOfRefNo" style="float:left;width:auto">
+                    <option value="MW">MW</option>
+                    <option value="VS">VS</option>
+                </select>
+                <input type="text" style="float:left;width:auto" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Submission Type :</div>
+            <div class="w3-col l4 m12 s12">
+                <select name="submitType" style="width:auto">
+
+                    <option value="">-All-</option>
+
+                    <option value="MW Submission">MW Submission</option>
+
+                    <option value="Validation Scheme">Validation Scheme</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Item No. :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Class  :</div>
+            <div class="w3-col l4 m12 s12">
+                <select name="classCode" style="width:auto">
+
+                    <option value="">-All-</option>
+
+                    <option value="CLASS_I">Class I</option>
+
+                    <option value="CLASS_II">Class II</option>
+
+                    <option value="CLASS_III">Class III</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Status :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date :</div>
+            <div class="w3-col l4 m12 s12">
+                From
+                <input class="inputDate" type="text">
+                To
+                <input class="inputDate" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Commencement Date :</div>
+            <div class="w3-col l4 m12 s12">
+                From
+                <input class="inputDate" type="text">
+                To
+                <input class="inputDate" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Completion Date :</div>
+            <div class="w3-col l4 m12 s12">
+                From
+                <input class="inputDate" type="text">
+                To
+                <input class="inputDate" type="text">
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Location of the minor works carried out :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Street :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Street No. :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Building/Block :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Floor :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Unit :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Appointed Person :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">English Name :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Chinese Name :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Certificate of Registration No. :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Prescribed Registered Contractor :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">English Name :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Chinese Name :</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Certificate of Registration No.:</div>
+            <div class="w3-col l4 m12 s12">
+                <input type="text" />
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div style="float:right">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+
+</div>
+<div id="resultPanel2"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchPart1"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+
+        new searcher({
+            searchPath: "SearchPart2"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria2"
+            , resultPanel: "resultPanel2"
+        });
+    });
+</script>

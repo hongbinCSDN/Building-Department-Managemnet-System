@@ -1,0 +1,158 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_TSRGenerateModel
+
+
+<div class="panelHeader">
+    Type of Submission Record
+</div>
+
+<div class="displayForm">
+    <table class="w3-table-all resultTable">
+        <thead>
+            <tr class="w3-white">
+                <th colspan="2">Type of Submission(By Class)</th>
+                <th>Aug-2019</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="w3-white">
+                <td rowspan="2">MW Class I</td>
+                <td>
+                    <div>
+                        Notice of Commencement <br />
+                        (Form MW01+Form MW11 with Class I items)
+                    </div>
+                </td>
+                <td>8</td>
+                <td>8</td>
+            </tr>
+            <tr class="w3-white">
+                <td>
+                    Certificate of Completion <br />
+                    (Form MW02)
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+
+            <tr class="w3-white">
+                <td rowspan="2">MW Class II</td>
+                <td>
+                    <div>
+                        Notice of Commencement <br />
+                        (Form MW03 + <br />
+                        Form MW01 with Class II items + <br />
+                        Form MW11 with Class II items + <br />
+                        Form MW12 with Class II items)
+                    </div>
+                </td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr class="w3-white">
+                <td>
+                    <div>
+                        Certificate of Completion <br />
+                        (Form MW04 + Form MW02 with Class II items)
+                    </div>
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+
+            <tr class="w3-white">
+                <td>MW Class III</td>
+                <td>
+                    <div>
+                        Notice and Certificate of Completion <br />
+                        (Form MW05 + MW05(item3.6) + <br />
+                        Form MW02 with Class III items + <br />
+                        Form MW04 with Class III items + <br />
+                        Form MW06 with Class III items)
+                    </div>
+                </td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+
+            <tr class="w3-white">
+                <td rowspan="4">No. of Validated Structures</td>
+                <td>
+                    <div>
+                        Item 1 - Unauthorised Metal Supporting Structure for AC Unit, <br />
+                        Water Cooling Tower or Associated Air Duct
+                    </div>
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr class="w3-white">
+                <td>
+                    <div>
+                        Item 2 - Unauthorised Metal Supporting Frame for AC Unit or Associated Duct
+                    </div>
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr class="w3-white">
+                <td>
+                    <div>
+                        Item 3 - Unauthorised Drying Rack
+                    </div>
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr class="w3-white">
+                <td>
+                    <div>
+                        Item 4 - Unauthorised Canopy
+                    </div>
+                </td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <table class="w3-table-all resultTable">
+        <thead>
+            <tr>
+                <th>Type of Form</th>
+                <th>Aug-2019</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TypeOfForms)
+            {
+                <tr>
+                    <td>@item.Form</td>
+                    <td>@item.Aug</td>
+                    <td>@item.Total</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="w3-container footer">
+        <button id="submitBtn" class="btn btn-default" type="button" onclick="print()">Print</button>
+        <button id="backBtn" class="btn btn-default" type="button" onclick="back()">Back</button>
+    </div>
+</div>
+
+<script>
+    function back() {
+        goTo(domId("rootPath").value + "/MWProcessing/Fn10RPT_TSR/Index");
+    }
+    function print() {
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        //dlForm.target = "dlFrame";
+        dlForm.action = domId("rootPath").value + "/MWProcessing/Fn10RPT_TSR/Print";
+        //dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": data.Message[0] });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+    
+</script>

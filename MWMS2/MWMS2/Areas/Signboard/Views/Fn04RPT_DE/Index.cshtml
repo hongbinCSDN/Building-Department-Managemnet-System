@@ -1,0 +1,201 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_DESearchModel
+<script>
+    function showReport(id) {
+        showReportForm(id);
+        //return true;
+    }
+    function showReportForm(divID) {
+        var sDivs = $(".reportSelection").get();
+        for (var i = 0; i < sDivs.length; i++) {
+            if (sDivs[i].id == divID) {
+                sDivs[i].style.display = "";
+            } else {
+                sDivs[i].style.display = "none";
+            }
+        }
+    }
+    function ExportValDataExpSelReport() {
+        thisForm = document.getElementById('pnlValDataExpSelForm');
+        thisForm.action = 'ExportValidationDataForSelection';
+        thisForm.submit();
+    }
+    function DataExport() {
+        thisForm = document.getElementById('pnlExpDateForm');
+        thisForm.action = 'DataExportByExpiryDate';
+        thisForm.submit();
+    }
+    function searchForm() {
+        if ((document.getElementById("SubNo").value) == "") {
+            alert("Please enter one or more search criteria.");
+            return;
+        }
+        else {
+            a.search();
+        }
+    }
+</script>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnValDataExp" href="javascript:showReportForm('ValDataExpForm')">Validation Data Export</a>
+        </div>
+    </div>
+    <div id="ValDataExpForm" style="display:none;" class="reportSelection w3-row">
+        <form action="SearchIndCertRecord" method="post" id="searchCriteria">
+            <div>
+                <div class="w3-col l12 m12 s12">
+                    <div class="panelHeader">Criteria: </div>
+                    <div class="displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Submission No. </div>
+                                <div class="w3-col l4 m12 s12">
+                                    @Html.TextBoxFor(model => model.SubNo)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container footer">
+                            <button onclick="searchForm()" class="searchButton btn btn-default" type="button" id="lbtnValDataExp">
+                                <i class="fa fa-search"></i>Search
+                            </button>
+                            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div id="resultPanel"></div>
+                    </div>
+                    <script type="text/javascript">
+                        domReady(function () {
+                            a =
+                                new searcher({
+                                    searchPath: "SearchDataExport"
+                                    , searchTable: "searchCriteria"
+                                    , resultPanel: "resultPanel"
+                                    , Columns: [
+                                        { displayName: "Submission No.", columnName: "REFNO" }
+                                        , { displayName: "Form Code", columnName: "FCODE" }
+                                        , { displayName: "Received Date", columnName: "RECDATE" }
+                                        , { displayName: "Validation Result", columnName: "VALRES" }
+                                        , { displayName: "Expiry Date", columnName: "SIGNEXPDATE" }
+                                        , {
+                                            displayName: "Export", formater: function (row) {
+                                                var span = dom("span");
+                                                var button = createButton("", "fa-print", [{
+                                                    "onclick": {
+                                                        parameters: { UUID: row.UUID }, callback: function (d, p, e) {
+                                                            goTo("ExportResultList", [{ name: "UUID", value: p.UUID }], true);
+                                                        }
+                                                    }
+                                                }]);
+                                                span.appendChild(button);
+                                                return span;
+                                            }
+
+                                        }
+                                    ]
+                                });
+                        });
+                    </script>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnValDataExpSel" href="javascript:showReportForm('ValDataExpSelForm')"> Validation Data Export(Selection)</a>
+        </div>
+    </div>
+    <div id="ValDataExpSelForm" style="display:none;" class="reportSelection w3-row">
+        <form action="ExpValDataForSel" method="post" id="pnlValDataExpSelForm">
+            <div class="w3-col l12 m12 s12">
+                <div class="panelHeader">Criteria: </div>
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Submission No.</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(model => model.SearchFileRefNo)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Batch No.</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(model => model.SearchBatchNumber)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Handling Officer</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.HandlingOfficer, Model.HandlingOfficerList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Form Code</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.SearchFormCode, Model.SearchFormCodeList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Validation Result</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.SearchStatus, Model.SearchStatusList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12"> Endorsed By</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.EndorsedBy, Model.EndorsedByList)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="ExportValDataExpSelReport()" class="searchButton btn btn-default" type="button" id="lbtnExpInfo">
+                            <i class="fa fa-print"></i>Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <img src="../../img/expand.gif">&nbsp; <a id="lbtnExpDate" href="javascript:showReportForm('ExpDateForm')"> Data Export(By Expiry Date)</a>
+        </div>
+    </div>
+    <div id="ExpDateForm" style="display:none;" class="reportSelection w3-row">
+        <form action="DataExportByExpiryDate" method="post" id="pnlExpDateForm">
+            <div class="w3-col l12 m12 s12">
+                <div class="panelHeader">Criteria: </div>
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Period
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ExpDateFrom, new { @class = "inputDate" })
+                                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ExpDateTo, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-container footer">
+                        <button onclick="DataExport()" class="searchButton btn btn-default" type="button" id="lbtnExpInfo">
+                            <i class="fa fa-print"></i>Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

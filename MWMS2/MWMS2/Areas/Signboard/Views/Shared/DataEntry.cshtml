@@ -1,0 +1,214 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntrySearchModel
+
+   @if (true)  //(MWMS2.Utility.AuthUtil.CanList)
+    
+    {
+        <script>
+            function onBatchAssignment() {
+                //for (int i = 0;i<){}
+                //var x = document.getElementsByName("selectedDSN")[0].value;
+                //document.getElementById("demo").innerHTML = x;
+
+                //thisForm = document.getElementById('dataEntryForm');
+                //thisForm.action = 'BatchAssignment';
+                //thisForm.submit();
+
+
+                $.ajax({
+                    url: 'BatchAssignment'
+                    , type: 'POST'
+                    , data: {
+                        selectedDSNList: SelectedDSNList
+                    }
+                    , success: function (data) {
+                        SelectedDSNList = new Array();
+                        DataEntryList.search();
+                    }
+                });
+
+            }
+
+
+            function removeBatch(uuid) {
+
+                thisForm = document.getElementById('dataEntryForm');
+                msg = 'Are you sure remove this item from batch?';
+                var answer = confirm(msg);
+                if (answer) {
+                    thisForm.svSubmissionUUID.value = uuid;
+                    thisForm.action = 'RemoveBatch';
+                    thisForm.submit();
+                }
+                else {
+                    return;
+                }
+
+            }
+            //function onEdit(uuid, formCode) {
+            //    thisForm = document.getElementById('dataEntryForm');
+            //    thisForm.svSubmissionUUID.value = uuid;
+            //    thisForm.editMode.value = 'edit';
+            //    thisForm.action = 'editDataEntry';
+            //    thisForm.submit();
+            //}
+
+            /**/</script>
+        <form action="LetterModule" method="post" id="dataEntryForm">
+            <div class="panelHeader">
+                Search Criteria
+            </div>
+            <div id="searchCriteria">
+
+                <input type="hidden" name="svSubmissionUUID" id="svSubmissionUUID" />
+                <input type="hidden" name="formMode" id="formMode" />
+                <input type="hidden" name="editMode" id="editMode" />
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Submission No. :</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.TextBoxFor(model => model.searchFileRefNo)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                SCU Received Date :
+                            </div>
+                            <div class="w3-col l4 m6 s12">
+                                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.searchReceivedDateFrom, new { @class = "inputDate" })
+                                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.searchReceivedDateTo, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m12 s12">Status :</div>
+                            <div class="w3-col l4 m12 s12">
+                                @Html.DropDownListFor(model => model.Status, Model.StatusList)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+                    <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+                </div>
+                <div id="resultPanel"></div>
+            </div>
+        </form>
+        <div class="displayForm">
+            <div class="w3-container footer">
+                <button onclick="onBatchAssignment()" class="btn btn-default" type="button"><i class="fa fa-search"></i> Assign Batch Number</button>
+            </div>
+        </div>
+
+        if (true)//(MWMS2.Utility.AuthUtil.CanViewDetails)
+        {
+            <script type="text/javascript">function ViewDetail(row) { goTo("EditDataEntry", [{ name: "id", value: row.UUID }, { name: "formCode", value: row.FCODE }]); }</script>
+        }
+        else
+        {
+            <script type="text/javascript">function ViewDetail(row) { }</script>
+        }
+        <script type="text/javascript">
+            var DataEntryList;
+            var SelectedDSNList = new Array();
+            domReady(function () {
+                DataEntryList = new searcher({
+                    searchPath: "LoadDataEntry"
+                    , exportPath: "Excel"
+                    , searchTable: "searchCriteria"
+                    , resultPanel: "resultPanel"
+                    , Columns: [
+                        {
+                            displayName: "Submission No.", columnName: "REFNO"
+                            , click: function (row) {
+                                try {
+                                    if (row == null) return;
+                                    ViewDetail(row);
+                                } catch (err) { }
+                            }
+                        }
+                        , { displayName: "DSN No", columnName: "DSNNUM" }
+                        , { displayName: "Form Code", columnName: "FCODE" }
+                        , { displayName: "Received Date", columnName: "RECEDATE" }
+                        , { displayName: "Time", columnName: "RDTIME" }
+                        , { displayName: "Status", columnName: "STATUS" }
+                        , {
+                            displayName: "Batch Number",
+                            formater: function (row) {
+                                var span = dom("span", { "id": "Row" + row.UUID });    //row.DSNNUM
+                                if (row.BNO != null) {
+                                    span.innerHTML = row.BNO;
+                                    var button = createButton("", "fa fa-trash", [{
+                                        "onclick": {
+                                            parameters: { svSubmission: row.svSubmission }
+                                            , callback: function (d, p, e) {
+                                                msg = 'Are you sure remove this item from batch?';
+                                                var answer = confirm(msg);
+                                                if (answer) {
+                                                    $.ajax({
+                                                        url: domId("rootPath").value + '/Signboard/Fn01SCUR_LM/removeBatch'
+                                                        , type: 'POST'
+                                                        , data: {
+                                                            UUID: row.UUID
+                                                        }
+                                                        , success: function (data) {
+                                                            //window.location.href = "/Signboard/Fn01SCUR_LM/Index";
+                                                            DataEntryList.search();
+                                                        }
+                                                    });
+                                                }
+                                              
+                                            }
+                                        }
+                                    }]);
+                                    span.appendChild(button);
+                                }
+                                else {
+                                    dom_(span, "input", [{ "type": "hidden" }, { "id": "selected" + row.UUID }, { "name": "selectedDSNList" }]);
+                                    var button = createButton("No", null, [{
+                                        "onclick": {
+                                            parameters: { DSN: row.UUID } //row.DSNNUM
+                                            , callback: function (d, p, e) {
+                                                domId("selected" + d.DSN);//d.DSN
+                                                if (domId("selected" + p.DSN).value == p.DSN) {//p.DSN
+                                                    domId("selected" + p.DSN).value = "";//p.DSN
+                                                    //d.children[1].innerHTML = "&nbsp;No";
+                                                    d.innerHTML = "<span>&nbsp;No</span>";
+                                                    SelectedDSNList.splice(SelectedDSNList.indexOf(row.UUID), 1);
+                                                } else {
+                                                    domId("selected" + p.DSN).value = p.DSN;//p.DSN
+                                                    //d.children[1].innerHTML = "&nbsp;Yes";
+                                                    d.innerHTML = "<span>&nbsp;Yes</span>";
+                                                    SelectedDSNList.push(row.UUID)
+
+                                                }
+                                            }
+                                        }
+                                    }]);
+                                    span.appendChild(button);
+                                }
+
+                                //var BactchNum = getElementById('BactchNum').value
+                                //if (BactchNum != null) {
+                                //    span.appendChild(BactchNum);
+                                //}
+                                return span;
+                            }
+
+                        }
+                    ]
+                }).search();
+            });
+
+
+
+        </script>
+    }
+    else
+    {
+        < b > Access denied, please contact your supervisor.</ b >
+    }

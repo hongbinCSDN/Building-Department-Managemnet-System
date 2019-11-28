@@ -1,0 +1,150 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_MRASearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x => x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Interview Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    From&nbsp;@Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                    To&nbsp;@Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"> Room :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DropDownListFor(model => model.Room, Model.RoomList)
+                    @*<select>
+                        <option>- All -</option>
+                        <option>Room 2109</option>
+                        <option>Room 1817A</option>
+                        <option>Room 1813</option>
+                        <option>Room 1816</option>
+                        <option>ROOM 2117</option>
+                        <option>ROOM 2118</option>
+                        <option>ROOM 2116</option>
+                        <option>2116A</option>
+                        <option>2116B</option>
+                        <option>ROOM 1817A</option>
+                        <option>ROOM 1816</option>
+                        <option>ROOM 1813</option>
+                        <option>ROOM 106A</option>
+                        <option>ROOM 106B</option>
+                        <option>ROOM 106C</option>
+                    </select>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {<button class="btn btn-default w3-left" onclick="goTo('Form')" name="NewRole" value="New Reservation"><i class="far fa-plus-square"></i>New Reservation</button>}
+            <button btn btn-default" onclick="SearchAvailableRoom()" type="button"><i class="fa fa-search"></i> View Available Rooms</button>
+            <button onclick="SearchReservedRoom()" class=" btn btn-default" type="button"><i class="fa fa-search"></i> View Reserved Rooms</button>
+
+        </div>
+
+    </div>
+    <div id="resultPanel"></div>
+    <div id="SearchAvailableRoom"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Available_Form", [{ name: "rid", value: row.V4 }, { name: "sid", value: row.V5 }, { name: "IntDate", value: row.V2 }]); }</script>
+        <script type="text/javascript">function ViewDetail2(row) { goTo("Form", [{ name: "id", value: row.UUID }, { name: "MEETING_NUMBER", value: row.MEETING_NUMBER }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+        <script type="text/javascript">function ViewDetail2(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        var AvailableRoom;
+        var ReversedRoom;
+
+        domReady(function () {
+
+            AvailableRoom = new searcher({
+                searchPath: "AjaxAvailableRoom"
+                , searchTable: "searchCriteria"
+                , resultPanel: "SearchAvailableRoom"
+                , Sort: "V1,V2,V3"
+                // , Footer: false
+                , Columns: [
+                    {
+                        displayName: "Room", columnName: "V1"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+                    , { displayName: "Interview Date", columnName: "V2" }
+                    , { displayName: "Session", columnName: "V3" }
+
+
+                ]
+            });
+
+
+            ReversedRoom = new searcher({
+                searchPath: "Search" //Search
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "INTERVIEW_DATE,MEETING_NUMBER,CODE"
+                , Columns: [
+                    {
+                        displayName: "Room", columnName: "ROOM"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail2(row);
+                            } catch (err) { }
+                        }
+                    }
+
+                    , { displayName: "Meeting Number", columnName: "MEETING_NUMBER" }
+                    , { displayName: "Interview Date", columnName: "INTERVIEW_DATE" }
+                    , { displayName: "Session", columnName: "CODE" }
+                    , { displayName: "Canceled", columnName: "IS_CANCEL" }
+
+                ]
+            });
+        });
+        function SearchReservedRoom() {
+            $("#SearchAvailableRoom").css("display", "none");
+            $("#resultPanel").css("display", "");
+            document.getElementsByClassName("resultFooter")[0].style.display = "";
+            document.getElementsByClassName("resultFooter")[1].style.display = "none";
+            //  $(".resultFooter")[0].css("display", "")
+            //  $(".resultFooter")[1].css("display", "none")
+            ReversedRoom.search();
+        }
+        function SearchAvailableRoom() {
+            document.getElementsByClassName("resultFooter")[0].style.display = "none";
+            document.getElementsByClassName("resultFooter")[1].style.display = "";
+            //$(".resultFooter").css("display", "none")
+            // $(".resultFooter")[0].css("display", "none")
+            // $(".resultFooter")[1].css("display", "")
+            $("#resultPanel").css("display", "none")
+            $("#SearchAvailableRoom").css("display", "")
+            AvailableRoom.search();
+        }
+    </script>
+
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

@@ -1,0 +1,61 @@
+﻿@model MWMS2.Areas.Signboard.Models.SignboardRecordCommonDisplayModel
+
+<div class="panelHeader">Generate Acknowledgement Letter  </div>
+<div id="PC" class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">TO Handling Officer  :	</div>
+
+            <div class="w3-col l8 m12 s12">
+               @Html.DropDownListFor(model=> model.B_SV_VALIDATION.B_SV_RECORD.TO_OFFICER,Model.TO_Handling_Officer_List)
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">I.O. Address  :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.TextBoxFor(x => x.B_SV_RECORD.IO_ADDRESS)
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Last Acknowledgment Letter Issue Date  :	</div>
+
+            <div class="w3-col l8 m12 s12">
+              
+                @Html.TextBoxFor(m => m.B_SV_RECORD.ACK_LETTERISS_DATE, "{0:dd/MM/yyyy hh:mm:ss}", new { @disabled = "true", @style = "border: none; border-color: transparent; background: none; color: black;" })
+                <br />
+             
+               
+
+            </div>
+
+        </div>
+    </div>
+ 
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Letter Type   :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.DropDownListFor(x=>x.SelectedLetterType,Model.getLetterType)
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Letter   :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.DropDownListFor(x => x.SelectedLetter, Model.getLetter)
+            </div>
+
+        </div>
+    </div>
+</div>

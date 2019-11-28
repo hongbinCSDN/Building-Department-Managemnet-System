@@ -1,0 +1,1068 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntryDisplayModel
+
+    <form action="common" method="post" id="dataEntryImageForm">
+        @*@Html.HiddenFor(model => model.certificationNo)
+        @Html.HiddenFor(model => model.chineseName)
+        @Html.HiddenFor(model => model.englishName)*@
+    </form>
+
+
+    <form action="SaveDataEntry" method="post" id="dataEntryForm" enctype="multipart/form-data">
+        @Html.HiddenFor(model => model.RegType)
+        @Html.HiddenFor(model => model.SvSignboard.FILE_REFERENCE_NO)
+        @Html.HiddenFor(model => model.SvRecord.UUID)
+        @Html.HiddenFor(model => model.SvSubmission.UUID)
+        @Html.HiddenFor(model => model.SaveMode)
+        @Html.HiddenFor(model => model.ExportLetterFlag)
+        @Html.HiddenFor(model => model.FormCode)
+        @Html.HiddenFor(model => model.FormMode)
+
+
+        @Html.HiddenFor(model => model.B_SV_RECORD.UUID)
+     
+        <script>
+            function onHome() {
+                thisForm = document.getElementById('dataEntryForm');
+
+                if (confirm('Are you sure leave this page?')) {
+                    //thisForm.submitButton.disabled = true;
+                    if (thisForm.saveButton != undefined) {
+                        thisForm.saveButton.disabled = true;
+                    }
+                    thisForm.btnHome.disabled = true;
+                    thisForm.action = 'Index';
+                    thisForm.submit();
+                }
+            }
+
+            function onSaveSubmitValidation(checkAddress) {
+                if (document.getElementById('SvSignboard_B_SV_ADDRESS_RV_BLOCK_ID').value == "" &&
+                    !confirm("Are you confirm to submit with empty RV Block ID")) {
+                    return false;
+                }
+                var ele = $(".recordNotFound");
+
+                if (ele != null && ele.length > 0) {
+                    var c = confirm("Do you want to submit with warning data?");
+                    if (!c) { return false; }
+                }
+
+                if (document.getElementById('SvSignboard_B_SV_ADDRESS_BCIS_DISTRICT').value == '') {
+                    alert("Please select BCIS district.");
+                    return false;
+                }
+                if (checkAddress) if (document.getElementById('Owner_NAME_CHINESE').value == "" &&
+                    document.getElementById('Owner_NAME_ENGLISH').value == "") {
+                    alert("Either Chinese Name or English Name of Particulars of the Signboard owner must not blank.");
+                    return false;
+                }
+                var invalidDateFields = jQuery(".invalidDate");
+                if (invalidDateFields.length > 0) {
+                    invalidDateFields.eq(0).select();
+                    alert("Invalid date format.");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function onSubmit() {
+                var itemCount = domName("xxx.UUID").length;
+                var validationItemCount = domName("B_SV_RECORD_ITEM_UUID").length;
+
+                //// Checking added for check at least one item of
+                //// Validation or MW should be select
+                if (itemCount == 1 && validationItemCount == 1) {
+                    var mwItem = domName("B_SV_RECORD_ITEM_MW_ITEM_CODE_atcp")[0];
+                    var validationItem = domName("B_SV_RECORD_VALIDATION_ITEM_VALIDATION_ITEM_atcp")[0];
+
+                    if (mwItem.value == "" && validationItem.value == "") {
+                        alert("At least one validation item or one minor work item should be select.");
+                        return;
+                    }
+
+                }
+                //// Checking for Validation Items
+                //if (validationItemCount < 1) { alert("please select at least 1 item."); return; }
+                //else {
+                //    for (var i = 0; i < validationItemCount; i++) {
+                //        var d = domName("B_SV_RECORD_VALIDATION_ITEM_VALIDATION_ITEM_atcp[" + i + "]")[0];
+                //        if (d.value == "" && validationItemCount > 1) {
+                //            d.focus();
+                //            alert("please select valid validation item");
+                //            return;
+                //        }
+                //    }
+                //}
+                //// Checking for MW Items
+                //if (itemCount < 1) { alert("please select at least 1 item."); return; }
+                //else {
+                //    for (var i = 0; i < itemCount; i++) {
+                //        var d = domName("B_SV_RECORD_ITEM_MW_ITEM_CODE_atcp[" + i + "].mwItemCode")[0];
+                //        if (d.value == "" && itemCount > 1) {
+                //            d.focus();
+                //            alert("please select valid minor work item");
+                //            return;
+                //        }
+                //    }
+                //}
+                if (!onSaveSubmitValidation(true)) {
+                    return;
+                }
+                thisForm = document.getElementById('dataEntryForm');
+                thisForm.submitButton.disabled = true;
+                if (thisForm.saveButton != undefined) {
+                    thisForm.saveButton.disabled = true;
+                }
+                thisForm.btnHome.disabled = true;
+                //thisForm.editMode.value = '';
+                thisForm.action = 'SubmitDataEntry';
+                //thisForm.saveMode.value = '<%=ApplicationConstants.SUBMIT_MODE%>';
+                thisForm.submit();
+            }
+
+
+
+            function copyFromBaseDataEntry() {
+                thisForm = document.getElementById('dataEntryForm');
+                //thisForm.submitButton.disabled = true;
+                if (thisForm.saveButton != undefined) {
+                    thisForm.saveButton.disabled = true;
+                }
+                thisForm.btnHome.disabled = true;
+                thisForm.action = 'copyFromBaseDataEntry';
+
+                thisForm.submit();
+            }
+
+
+            function onLMSave() {
+                thisForm = document.getElementById('dataEntryForm');
+
+                //thisForm.submitButton.disabled = true;
+                //if (thisForm.saveButton != undefined) {
+                //    thisForm.saveButton.disabled = true;
+                //}
+                thisForm.btnHome.disabled = true;
+                thisForm.action = 'SaveDataEntry';
+                //thisForm.saveMode.value = 'save';
+                //thisForm.editMode.value = '';
+                thisForm.submit();
+            }
+
+            function onDESave() {
+                if (document.getElementById('SvSignboard_B_SV_ADDRESS_BCIS_BLOCK_ID').value == "") {
+
+                    alert("The BCIS Block ID is missing, please enter the BCIS Block ID.");
+                    return;
+                }
+
+                //if ($("#VDItemDiv").find('.latcpElement').val() == "") {
+                //    alert("please select valid validation item.");
+                //    return;
+                //}
+
+                //if ($("#MWItemDiv").find('.latcpElement').val() == "") {
+                //    alert("please select vaid minor work item.");
+                //    return;
+                //}
+
+
+
+
+
+                thisForm = document.getElementById('dataEntryForm');
+
+                thisForm.submitButton.disabled = true;
+                if (thisForm.saveButton != undefined) {
+                    thisForm.saveButton.disabled = true;
+                }
+                thisForm.btnHome.disabled = true;
+               // thisForm.action = 'SaveDataEntry';
+               // thisForm.submit();
+
+
+
+
+                req("SaveDataEntry", "dataEntryForm", function (data) {
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") { alert("Save Success"); }
+                    else showErrorMessage(data.ErrorMessages);
+
+
+                    thisForm.submitButton.disabled = false;
+                    if (thisForm.saveButton != undefined) {
+                        thisForm.saveButton.disabled = false;
+                    }
+                    thisForm.btnHome.disabled = false;
+                });
+
+
+
+
+
+
+            }
+
+
+            function copyPAWAddressToSignboard() {
+                document.getElementById('dataEntryObject.signboard.svAddress.street').value =
+                    document.getElementById('dataEntryObject.paw.svAddress.street').value;
+                document.getElementById('dataEntryObject.signboard.svAddress.streetNo').value =
+                    document.getElementById('dataEntryObject.paw.svAddress.streetNo').value;
+                document.getElementById('dataEntryObject.signboard.svAddress.buildingname').value =
+                    document.getElementById('dataEntryObject.paw.svAddress.buildingname').value;
+                document.getElementById('dataEntryObject.signboard.svAddress.district').value =
+                    document.getElementById('dataEntryObject.paw.svAddress.district').value;
+                document.getElementById('dataEntryObject.signboard.svAddress.block').value =
+                    document.getElementById('dataEntryObject.paw.svAddress.block').value;
+
+                var radioFrom = document.getElementsByName('dataEntryObject.signboard.svAddress.region');
+                var radioTo = document.getElementsByName('dataEntryObject.paw.svAddress.region');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            function copySignboardAddressToPAW() {
+                document.getElementById('Paw_B_SV_ADDRESS_STREET').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET').value;
+                document.getElementById('Paw_B_SV_ADDRESS_STREET_NO').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET_NO').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BUILDINGNAME').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BUILDINGNAME').value;
+                document.getElementById('Paw_B_SV_ADDRESS_DISTRICT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_DISTRICT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLAT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLAT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLOOR').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLOOR').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BLOCK').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('Paw.B_SV_ADDRESS.REGION');
+                var radioTo = document.getElementsByName('SvSignboard.B_SV_ADDRESS.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            function copySignboardAddressToOwner() {
+                document.getElementById('OwnerAddress_STREET').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET').value;
+                document.getElementById('OwnerAddress_STREET_NO').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET_NO').value;
+                document.getElementById('OwnerAddress_BUILDINGNAME').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BUILDINGNAME').value;
+                document.getElementById('OwnerAddress_DISTRICT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_DISTRICT').value;
+                document.getElementById('OwnerAddress_FLAT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLAT').value;
+                document.getElementById('OwnerAddress_FLOOR').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLOOR').value;
+                document.getElementById('OwnerAddress_BLOCK').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('OwnerAddress.REGION');
+                var radioTo = document.getElementsByName('SvSignboard.B_SV_ADDRESS.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            function copySignboardOwnerAddressToOI() {
+                document.getElementById('Oi_B_SV_ADDRESS_STREET').value =
+                    document.getElementById('OwnerAddress_STREET').value;
+                document.getElementById('Oi_B_SV_ADDRESS_STREET_NO').value =
+                    document.getElementById('OwnerAddress_STREET_NO').value;
+                document.getElementById('Oi_B_SV_ADDRESS_BUILDINGNAME').value =
+                    document.getElementById('OwnerAddress_BUILDINGNAME').value;
+                document.getElementById('Oi_B_SV_ADDRESS_DISTRICT').value =
+                    document.getElementById('OwnerAddress_DISTRICT').value;
+                document.getElementById('Oi_B_SV_ADDRESS_FLAT').value =
+                    document.getElementById('OwnerAddress_FLAT').value;
+                document.getElementById('Oi_B_SV_ADDRESS_FLOOR').value =
+                    document.getElementById('OwnerAddress_FLOOR').value;
+                document.getElementById('Oi_B_SV_ADDRESS_BLOCK').value =
+                    document.getElementById('OwnerAddress_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('Oi.B_SV_ADDRESS.REGION');
+                var radioTo = document.getElementsByName('OwnerAddress.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+
+            function copySignboardAddressToOI() {
+                document.getElementById('Oi_B_SV_ADDRESS_STREET').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET').value;
+                document.getElementById('Oi_B_SV_ADDRESS_STREET_NO').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_STREET_NO').value;
+                document.getElementById('Oi_B_SV_ADDRESS_BUILDINGNAME').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BUILDINGNAME').value;
+                document.getElementById('Oi_B_SV_ADDRESS_DISTRICT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_DISTRICT').value;
+                document.getElementById('Oi_B_SV_ADDRESS_FLAT').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLAT').value;
+                document.getElementById('Oi_B_SV_ADDRESS_FLOOR').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_FLOOR').value;
+                document.getElementById('Oi_B_SV_ADDRESS_BLOCK').value =
+                    document.getElementById('SvSignboard_B_SV_ADDRESS_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('Oi.B_SV_ADDRESS.REGION');
+                var radioTo = document.getElementsByName('SvSignboard.B_SV_ADDRESS.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            function copyOwnerToPAW() {
+                document.getElementById('Paw_B_SV_ADDRESS_STREET').value =
+                    document.getElementById('OwnerAddress_STREET').value;
+                document.getElementById('Paw_B_SV_ADDRESS_STREET_NO').value =
+                    document.getElementById('OwnerAddress_STREET_NO').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BUILDINGNAME').value =
+                    document.getElementById('OwnerAddress_BUILDINGNAME').value;
+
+                document.getElementById('Paw_B_SV_ADDRESS_DISTRICT').value =
+                    document.getElementById('OwnerAddress_DISTRICT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLAT').value =
+                    document.getElementById('OwnerAddress_FLAT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLOOR').value =
+                    document.getElementById('OwnerAddress_FLOOR').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BLOCK').value =
+                    document.getElementById('OwnerAddress_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('Paw.B_SV_ADDRESS.REGION');
+                var radioTo = document.getElementsByName('OwnerAddress.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            function copyCorporationsAddressToPAW() {
+                document.getElementById('Paw_B_SV_ADDRESS_STREET').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_STREET').value;
+                document.getElementById('Paw_B_SV_ADDRESS_STREET_NO').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_STREET_NO').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BUILDINGNAME').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_BUILDINGNAME').value;
+                document.getElementById('Paw_B_SV_ADDRESS_DISTRICT').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_DISTRICT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLAT').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_FLAT').value;
+                document.getElementById('Paw_B_SV_ADDRESS_FLOOR').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_FLOOR').value;
+                document.getElementById('Paw_B_SV_ADDRESS_BLOCK').value =
+                    document.getElementById('Oi_B_SV_ADDRESS_BLOCK').value;
+
+                var radioFrom = document.getElementsByName('Paw.B_SV_ADDRESS.REGION');
+                var radioTo = document.getElementsByName('Oi.B_SV_ADDRESS.REGION');
+                var radioLength = radioFrom.length;
+                for (var i = 0; i < radioLength; i++) {
+                    radioFrom[i].checked = radioTo[i].checked;
+                }
+            }
+
+            //validation page : //////////////////////////////////////
+
+            jQuery(document).ready(function () {
+
+                var checktoday = $.datepicker.formatDate('dd/mm/yy', new Date());
+
+                jQuery(".inputTextarea").each(function () { attrs(this, { "rows": "5", "cols": "60" }); });
+
+                attr("nextButton", "onclick", {
+                    "callback": function () {
+
+                        if (document.getElementById('SvSignboard_B_SV_ADDRESS_BCIS_BLOCK_ID').value == "") {
+
+                            alert("The BCIS Block ID is missing, please enter the BCIS Block ID.");
+                            return;
+                        }
+
+                        attrs(domId("Table2"), { "addClass": "noSpan" });
+                        attrs(domId("Table3"), { "dropClass": "noSpan" });
+                        attrs(domId("Table2"), { "addClass": "hideSpan" });
+                        attrs(domId("Table3"), { "dropClass": "hideSpan" });
+
+                        window.scrollTo(0, 0);
+                    }
+                });
+
+                attr("backButton", "onclick", {
+                    "callback": function () {
+                        attrs(domId("Table2"), { "dropClass": "noSpan" });
+                        attrs(domId("Table3"), { "addClass": "noSpan" });
+                        attrs(domId("Table2"), { "dropClass": "hideSpan" });
+                        attrs(domId("Table3"), { "addClass": "hideSpan" });
+                        window.scrollTo(0, 0);
+                    }
+                });
+
+            });
+
+
+
+            domReady(function () {
+
+                $("#SelectedLetterType").change(function () {
+
+                    var end = this.value;
+                    $.ajax({
+                        type: "POST",
+                        url: 'getLetter',
+                        data: 'model:' + $("#dataEntryForm").serialize(),
+                        success: function (data) {
+                            console.log(data);
+
+                            $("#SelectedLetter").empty();
+                            $.each(data.B_S_LETTER_TEMPLATE_List, function (i) {
+
+
+                                var optionhtml = '<option value="' +
+                                    data.B_S_LETTER_TEMPLATE_List[i].UUID + '">' + data.B_S_LETTER_TEMPLATE_List[i].LETTER_NAME + '</option>';
+
+                                $("#SelectedLetter").append(optionhtml);
+                            });
+
+
+                        }
+                    });
+                });
+            });
+
+            function onLMGenerateLetter() {
+                $.ajax({
+                    type: "POST",
+                    url: 'checkFileExist',
+                    data: 'model:' + $("#dataEntryForm").serialize(),
+                    success: function (data) {
+                        console.log(data);
+                        if (data != null && data.Result == "SUCCESS") {
+                            thisForm = document.getElementById('dataEntryForm');
+                            thisForm.action = 'GenerateLetter';
+                            thisForm.submit();
+
+                        } else {
+                            alert(data.Message[0]);
+                        }
+                    }
+                });
+            }
+            function onDEGenerateLetter() {
+                $.ajax({
+                    type: "POST",
+                    url: 'checkFileExist',
+                    data: 'model:' + $("#dataEntryForm").serialize(),
+                    success: function (data) {
+                        console.log(data);
+                        if (data != null && data.Result == "SUCCESS") {
+                            thisForm = document.getElementById('dataEntryForm');
+                            thisForm.action = 'GenerateLetter';
+                            thisForm.submit();
+                        } else {
+                            alert(data.Message[0]);
+                        }
+                    }
+                });
+            }
+
+            function onGetimage(id) {
+                thisForm = document.getElementById('dataEntryImageForm');
+                document.getElementById('certificationNo').value = document.getElementById(id).value;
+                if (id == "dataEntryObject.prc.certificationNo") {
+                    document.getElementById('chineseName').value = document.getElementById("dataEntryObject.prc.asChineseName").value;
+                    document.getElementById('englishName').value = document.getElementById("dataEntryObject.prc.asEnglishName").value;
+                }
+                else {
+                    document.getElementById('chineseName').value = '';
+                    document.getElementById('englishName').value = '';
+                }
+                thisForm.action = 'viewCRMImage';
+                thisForm.setAttribute("target", "_blank");
+                thisForm.submit();
+            }
+
+
+/**/</script>
+        <div id="Table2">
+            @if (Model.RegType == "Data Entry")
+            {
+                <div class="panelHeader">
+                    <label>
+                        Data Entry
+                    </label>
+                </div>
+            }else{
+                <div class="panelHeader">
+                    <label>
+                        Letter Module
+                    </label>
+                </div>
+            }
+
+            @Html.Partial("~/Areas/Signboard/Views/Shared/LastModifiedDate.cshtml")
+
+            <div class="w3-border displayForm">
+                <!-- InstanceBeginEditable name="content" -->
+                @if (Model.FormCode == "SC01C")
+                {
+                    <input type="button" onclick="copyFromBaseDataEntry()"
+                           value="Copy From SC01" />
+                }
+                @if (Model.FormCode == "SC02C")
+                {
+                    <input type="button" onclick="copyFromBaseDataEntry()"
+                           value="Copy From SC02" />
+                }
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">Submission No. : </div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.DisplayFor(model => model.SvSubmission.REFERENCE_NO)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">Form Language :</div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.RadioButtonFor(model => model.SvRecord.LANGUAGE_CODE, "EN", new { @class = "inputRadio w3-radio", @id = "LangCode1" }) <label for="LangCode1">English</label>
+                            @Html.RadioButtonFor(model => model.SvRecord.LANGUAGE_CODE, "ZH", new { @class = "inputRadio w3-radio", @id = "LangCode2" })<label for="LangCode2">Traditional Chinese</label> 
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">Received Date :</div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "inputDate" })
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">Form Code :</div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.DisplayFor(model => model.SvSubmission.FORM_CODE)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l4 m6 s12">Batch Number :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.SvSubmission.BATCH_NO, new { @maxlength = "36" })
+                        </div>
+                    </div>
+                </div>
+                @if (Model.EformUpdatedDate != null)
+                {
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">Eform Updated Date :</div>
+                            <div class="w3-col l8 m6 s12">
+                                @Html.TextBoxFor(model => model.EformUpdatedDate, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.FormMode.Equals("2"))
+                {
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">RFID :</div>
+                            <div class="w3-col l8 m6 s12">
+                                @Html.TextBoxFor(model => model.Rfid, new { @maxlength = "200" })
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            @if (Model.RegType == "Data Entry")
+            {
+                <div class="panelHeader">
+                    <label>
+                        Data Entry Module Information
+                    </label>
+                </div>
+            }
+            else
+            {
+                <div class="panelHeader">
+                    <label>
+                        Letter Module Information
+                    </label>
+                </div>
+            }
+            @Html.Partial("~/Areas/Signboard/Views/Shared/SignboardDetails.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/ValidationItemList.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/OwnerPersonInfo.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/OiPersonInfo.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/PawPersonInfo.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/WorkSchedule.cshtml")
+            @Html.Partial("~/Areas/Signboard/Views/Shared/AppointedPerson.cshtml")
+
+            <!-- InstanceEndEditable -->
+
+            <style>
+                #Table3 .fLabel {
+                    vertical-align: top;
+                    text-align: right;
+                }
+
+                .inputTextarea {
+                    border: 1px solid #7F9DB9;
+                    background: #FFF url(../images/fld_bg.jpg) no-repeat;
+                    padding: 2px;
+                    vertical-align: middle;
+                }
+
+                .hide {
+                    display: none;
+                }
+
+                .hideSpan {
+                    visibility: hidden;
+                }
+
+                .noSpan {
+                    position: absolute;
+                    left: -3000px;
+                    top: -3000px;
+                }
+            </style>
+
+            @if (Model.RegType == "Letter Module")
+            {
+                @Html.Partial("~/Areas/Signboard/Views/Shared/FormScreeningCheck.cshtml", Model)
+                @Html.Partial("~/Areas/Signboard/Views/Shared/PreliminaryCheck.cshtml", Model)
+                <div class="displayForm">
+                    <div class="w3-container footer">
+                        <div class="right">
+                            <button onclick="onLMGenerateLetter()" id="le_letterButton" class="btn btn-default" type="button"><i class="fa fa-print"></i> Save and Export Letter</button>
+
+                            @if (!Model.FormMode.Equals("2"))
+                            {
+                                <button onclick="onLMSave()" id="saveButton" class="btn btn-default" name="saveButton" type="button"><i class="fa fa-save"></i> Save as Draft</button>
+                            }
+                            <button onclick="onHome()" id="btnHome" class="CancelButton btn btn-default" name="btnHome" type="button"><i class="fa fa-times"></i> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="displayForm">
+                    <div class="w3-container footer">
+                        <div class="right">
+                            <input class="btn btn-default inputButton" type="button" id="nextButton"
+                                   value="Next" style="width: 100px;" />
+                        </div>
+                        <div class="right">
+                            @if (!Model.FormMode.Equals("2"))
+                            {
+                                <button onclick="onDESave()" id="saveButton" class="btn btn-default" name="saveButton" type="button"><i class="fa fa-save"></i> Save as Draft</button>
+                            }
+                            <button onclick="onHome()" id="btnHome" class="CancelButton btn btn-default" name="btnHome" type="button"><i class="fa fa-times"></i> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.RegType == "Data Entry")
+        {
+            <script>
+
+            </script>
+            <div id="Table3" class="hideSpan noSpan displayForm">
+                <br />
+                <div class="panelHeader">
+                    <label>
+                        Validation Information <button id="btnValInfo" type="button"  onclick="showReportForm('pnlValInfo')">Open</button>
+                                               <button id="btnValInfoHide" type="button" onclick="showReportForm('pnlValInfoHide')" style="display:none">Hide</button>
+                    </label>
+                </div>
+                <div class="displayForm">
+                    <div id="pnlValInfo" style="display:none;" class="reportSelection displayForm">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Validity of AP/ RSE/ RGE/ RI appointed:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.VALIDITY_AP, "OK",new { @class = "w3-radio", @disabled = "disabled", @id = "v_AP_OK" }) <label for="v_AP_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.VALIDITY_AP, "Not OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "v_AP_NOK" }) <label for="v_AP_NOK">Not OK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Signature of AP/ RSE/ RGE/ RI appointed:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.SIGNATURE_AP, "OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "s_AP_OK" }) <label for="s_AP_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.SIGNATURE_AP, "Not OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "s_AP_NOK" }) <label for="s_AP_NOK">Not OK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">
+                                    Specimen Signature of AP:
+                                    <button type="button" onclick="GetCRMImage('@Model.Ap.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button>
+                                </div>
+                                <div class="w3-col l8 m12 s12">
+                                    @*<img alt="ico"
+                                         onclick="onGetimage('dataEntryObject.ap.certificationNo')"
+                                         src="<%=request.getContextPath()%>/images/ico_view.gif"
+                                         style="cursor: pointer;" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">
+                                    Specimen Signature of RSE:
+                                    <button type="button" onclick="GetCRMImage('@Model.Rse.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button>
+                                </div>
+                                <div class="w3-col l8 m12 s12">
+                                    @*<img alt="ico"
+                                         onclick="onGetimage('dataEntryObject.rse.certificationNo')"
+                                         src="<%=request.getContextPath()%>/images/ico_view.gif"
+                                         style="cursor: pointer;" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">
+                                    Specimen Signature of RGE:
+                                    <button type="button" onclick="GetCRMImage('@Model.Rge.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button>
+                                </div>
+                                <div class="w3-col l8 m12 s12">
+                                    @*<img alt="ico"
+                                         onclick="onGetimage('dataEntryObject.rge.certificationNo')"
+                                         src="<%=request.getContextPath()%>/images/ico_view.gif"
+                                         style="cursor: pointer;" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">
+                                    Specimen Signature of RI:
+                                    <button type="button" onclick="GetCRMImage('@Model.Rge.CERTIFICATION_NO')"> <i class="far fa-file-image"></i></button>
+                                </div>
+                                <div class="w3-col l8 m12 s12">
+                                    @*<img alt="ico"
+                                         onclick="onGetimage('dataEntryObject.rge.certificationNo')"
+                                         src="<%=request.getContextPath()%>/images/ico_view.gif"
+                                         style="cursor: pointer;" />*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Capacity of AS appointed w.r.t. stated MW item no.:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.ITEM_STATED, "OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "cap_AS_MW_OK" }) <label for="cap_AS_MW_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.ITEM_STATED, "Not OK" , new { @class = "w3-radio", @disabled = "@disabled", @id = "cap_AS_MW_NOK" }) <label for="cap_AS_MW_NOK">Not OK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Validity of PRC appointed:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.VALIDITY_PRC, "OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "v_PRC_OK" }) <label for="v_PRC_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.VALIDITY_PRC, "Not OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "v_PRC_NOK" }) <label for="v_PRC_NOK">Not OK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Signature of AS appointed:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.SIGNATURE_AS, "OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "s_AS_OK" }) <label for="s_AS_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.SIGNATURE_AS, "Not OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "s_AS_NOK" }) <label for="s_AS_NOK">Not OK</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Information of Signboard Owner provided:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.INFO_SIGNBOARD_OWNER_PROVIDED, "OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "info_owner_OK" }) <label for="info_owner_OK">OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.INFO_SIGNBOARD_OWNER_PROVIDED, "Not OK", new { @class = "w3-radio", @disabled = "@disabled", @id = "info_owner_NOK" }) <label for="info_owner_NOK">Not OK</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.INFO_SIGNBOARD_OWNER_PROVIDED, "N/A", new { @class = "w3-radio", @disabled = "@disabled", @id = "info_owner_NA" }) <label for="info_owner_NA">N/A</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Other irregularities as marked:<br /><br><br /></div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.TextAreaFor(model => model.SvRecord.OTHER_IRREGULARITIES, new { @maxlength = "1000" , @disabled = "@disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l4 m12 s12">Recommendation:</div>
+                                <div class="w3-col l8 m12 s12">
+                                    @Html.RadioButtonFor(model => model.SvRecord.RECOMMENDATION, "A", new { @class = "w3-radio", @disabled = "@disabled", @id = "recommend_A" }) <label for="recommend_A">Accept</label>
+                                    @Html.RadioButtonFor(model => model.SvRecord.RECOMMENDATION, "R", new { @class = "w3-radio", @disabled = "@disabled", @id = "recommend_R" }) <label for="recommend_R">Refuse</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @Html.Partial("~/Areas/Signboard/Views/Shared/FormScreeningCheck.cshtml", Model)
+                @Html.Partial("~/Areas/Signboard/Views/Shared/PreliminaryCheck.cshtml", Model)
+                <div class="displayForm">
+                    <div class="panelHeader">
+                        <label>
+                            Generate Acknowledgement Letter
+                            <br />
+                        </label>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">TO Handling Officer</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model=> model.TO_Handling_Officer,Model.TO_Handling_Officer_List)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">I.O. Address</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.TextBoxFor(model => model.B_SV_RECORD.IO_ADDRESS, new { @maxlength = "500" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">Last Acknowledgment Letter Issue Date</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.HiddenFor(model => model.B_SV_RECORD.ACK_LETTERISS_DATE, new { @class = "inputDate" })
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">Letter Type</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.SelectedLetterType, Model.SelectedLetterTypeList)
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l4 m6 s12">Letter</div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.DropDownListFor(model => model.SelectedLetter, Model.LetterList)
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    <div class="btnSet btnSetTypeA">
+                        <div class="left" style="text-align: left !important">
+                            <button id="backButton" class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+                        </div>
+                    </div>
+                    <div class="btnSet btnSetTypeA">
+                        <div class="right">
+                            <button onclick="onDEGenerateLetter()" id="letterButton" class="btn btn-default" type="button"><i class="fa fa-print"></i> Save and Export Letter</button>
+
+
+                            <input class="inputButton" type="button" id="submitButton"
+                                   name="submitButton" value="Submit"
+                                   onclick="onSubmit()" />
+
+                            @if (!Model.FormMode.Equals("2"))
+                            {
+                                <button onclick="onDESave()" id="saveButton" class="btn btn-default" name="saveButton" type="button"><i class="fa fa-save"></i> Save as Draft</button>
+
+                            }
+                            <button onclick="onHome()" id="btnHome" class="CancelButton btn btn-default" name="btnHome" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </form>
+<script>
+    function showReport(id) {
+        showReportForm(id);
+    }
+    function showReportForm(divID) {
+        var sDivs = $(".reportSelection").get();
+        for (var i = 0; i < sDivs.length; i++) {
+            if (sDivs[i].id == divID) {
+                sDivs[i].style.display = "";
+                attr("btnValInfoHide", "style", "display:''")
+                attr("btnValInfo", "style", "display:none")
+            } else {
+                sDivs[i].style.display = "none";
+                attr("btnValInfoHide", "style", "display:none")
+                attr("btnValInfo", "style", "display:''")
+            }
+        }
+    }
+    domReady(function () {
+        atcpAddress({
+            streetName: "SvSignboard_B_SV_ADDRESS_STREET"
+            , streetNo: "SvSignboard_B_SV_ADDRESS_STREET_NO"
+            , building: "SvSignboard_B_SV_ADDRESS_BUILDINGNAME"
+            , floor: "SvSignboard_B_SV_ADDRESS_FLOOR"
+            , unit: "SvSignboard_B_SV_ADDRESS_FLAT"
+            , bcisBlock: "SvSignboard_B_SV_ADDRESS_BCIS_BLOCK_ID"
+            , bcisDistrict: "SvSignboard_B_SV_ADDRESS_BCIS_DISTRICT"
+            , blkNo: "SvSignboard_B_SV_ADDRESS_BLOCK"
+            , region: "SvSignboard.B_SV_ADDRESS.REGION"
+        });
+        atcpAddress({
+            streetName: "OwnerAddress_STREET"
+            , streetNo: "OwnerAddress_STREET_NO"
+            , building: "OwnerAddress_BUILDINGNAME"
+            , floor: "OwnerAddress_FLOOR"
+            , unit: "OwnerAddress_FLAT"
+            , blkNo: "OwnerAddress_BLOCK"
+            , region: "OwnerAddress.REGION"
+        });
+        atcpAddress({
+            streetName: "Oi_B_SV_ADDRESS_STREET"
+            , streetNo: "Oi_B_SV_ADDRESS_STREET_NO"
+            , building: "Oi_B_SV_ADDRESS_BUILDINGNAME"
+            , floor: "Oi_B_SV_ADDRESS_FLOOR"
+            , unit: "Oi_B_SV_ADDRESS_FLAT"
+            , blkNo: "Oi_B_SV_ADDRESS_BLOCK"
+            , region: "Oi.B_SV_ADDRESS.REGION"
+        });
+        atcpAddress({
+            streetName: "Paw_B_SV_ADDRESS_STREET"
+            , streetNo: "Paw_B_SV_ADDRESS_STREET_NO"
+            , building: "Paw_B_SV_ADDRESS_BUILDINGNAME"
+            , floor: "Paw_B_SV_ADDRESS_FLOOR"
+            , unit: "Paw_B_SV_ADDRESS_FLAT"
+            , blkNo: "Paw_B_SV_ADDRESS_BLOCK"
+            , region: "Paw.B_SV_ADDRESS.REGION"
+        });
+        atcpcertification_no(
+        {
+                certification_no: "Ap_CERTIFICATION_NO"
+                , chineseName: "Ap_CHINESE_NAME"
+                , englishName: "Ap_ENGLISH_NAME"
+                , contactNo: "Ap_CONTACT_NO"
+                , faxNo: "Ap_FAX_NO"
+                , expiryDate: "Ap_EXPIRY_DATE"
+        });
+        atcpcertification_no(
+        {
+                certification_no: "Rse_CERTIFICATION_NO"
+                , chineseName: "Rse_CHINESE_NAME"
+                , englishName: "Rse_ENGLISH_NAME"
+                , contactNo: "Rse_CONTACT_NO"
+                , faxNo: "Rse_FAX_NO"
+                , expiryDate: "Rse_EXPIRY_DATE"
+        });
+        atcpcertification_no(
+        {
+                certification_no: "Prc_CERTIFICATION_NO"
+                , chineseName: "Prc_CHINESE_NAME"
+                , englishName: "Prc_ENGLISH_NAME"
+                , contactNo: "Prc_CONTACT_NO"
+                , faxNo: "Prc_FAX_NO"
+                , expiryDate: "Prc_EXPIRY_DATE"
+                , asEngName: "Prc_AS_ENGLISH_NAME"
+                , asChnName: "Prc_AS_CHINESE_NAME"
+        });
+        atcpcertification_no(
+        {
+                certification_no: "Rge_CERTIFICATION_NO"
+                , chineseName: "Rge_CHINESE_NAME"
+                , englishName: "Rge_ENGLISH_NAME"
+                , contactNo: "Rge_CONTACT_NO"
+                , faxNo: "Rge_FAX_NO"
+                , expiryDate: "Rge_EXPIRY_DATE"
+        });
+
+    });
+
+    atcpSMMContact({
+        chineseName: "Owner_NAME_CHINESE"
+        , englishName: "Owner_NAME_ENGLISH"
+        , idNumber: "Owner_ID_NUMBER"
+    });
+    atcpSMMContact({
+        chineseName: "Oi_NAME_CHINESE"
+        , englishName: "Oi_NAME_ENGLISH"
+        , idNumber: "Oi_ID_NUMBER"
+    });
+    atcpSMMContact({
+        chineseName: "Paw_NAME_CHINESE"
+        , englishName: "Paw_NAME_ENGLISH"
+        , idNumber: "Paw_ID_NUMBER"
+    });
+
+    /*
+    Owner_NAME_CHINESE
+    Owner_NAME_ENGLISH
+    Owner_ID_NUMBER
+    */
+
+    function GetCRMImage(uuid) {
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }], true);
+    }
+</script>
+
+
+@if (Model.Saved)
+{
+    <script>
+    var ExportLetterFlag = document.getElementById("exportLetterFlag").Value;
+        if (ExportLetterFlag == "Y") {
+            alert('Save successfully!');
+        }
+        //$(document).ready(function () {
+        //    if (exportLetterFlag.Equals("Y")) {
+        //        var uuid = document.getElementById("dataEntryObject.svRecordUUID").value;
+        //        var letterUuid = document.getElementById("selectedLetter").value;
+
+        //        thisForm = document.getElementById('dataEntryForm');
+        //        document.getElementById("exportLetterFlag").value = '';
+        //        if (letterUuid.length > 0) {
+        //            thisForm.action = 'mergeAndSaveLetter' + uuid + '&letterUuid=' + letterUuid;
+        //        }
+
+
+        //    if (letterUuid.length > 0) {
+        //        setTimeout(function () {
+        //            thisForm.submit();
+        //        }, 1000)
+        //        //thisForm.submit();
+        //    }
+        //}
+        //});
+    </script>
+}

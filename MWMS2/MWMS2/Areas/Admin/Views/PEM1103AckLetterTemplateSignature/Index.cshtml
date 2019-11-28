@@ -1,0 +1,47 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103AckLetterTemplateSignatureModel
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+
+@*<div class="panelHeader">Acknowledgement Letter Template Signature</div>*@
+@using (Html.BeginForm("Save", "PEM1103AckLetterTemplateSignature", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm" }))
+{
+    <div class="w3-border displayForm">
+        <div class="panelHeader">Template Eng Signature</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m4 s4">SPO Name :</div>
+                <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.SPO_Eng_Name)</div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m4 s4">SPO Position :</div>
+                <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.SPO_Eng_Position)</div>
+            </div>
+        </div>
+        <div class="panelHeader">Template Chi Signature</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m4 s4">SPO Name :</div>
+                <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.SPO_Chi_Name)</div>
+
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m4 s4">SPO Position :</div>
+                <div class="w3-col l8 m8 s8">@Html.TextBoxFor(model => model.SPO_Chi_Position)</div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button id="createBtn" class="btn btn-default" type="submit">Save</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+}
+<script>
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+        goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+    }
+</script>

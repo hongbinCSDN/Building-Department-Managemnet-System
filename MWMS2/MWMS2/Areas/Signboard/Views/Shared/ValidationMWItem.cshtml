@@ -1,0 +1,94 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+
+
+
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    @Html.HiddenFor(x => x.SelectedValidationMWItem)
+                    @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem].Where(x => x.CHECKLIST_TYPE == "HEADER_A").FirstOrDefault().DESCRIPTION
+                </th>
+                <th>
+                    Item Details
+                </th>
+                <th>
+                    Remarks
+                    <button type="button">OK</button>
+                    <button type="button">Not OK</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var Idx = 1;
+                for (int i = 1; i < Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem].Count(); i++)
+                {
+
+                    if (Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem][i].CHECKLIST_TYPE == "HEADER_B")
+                    {
+                        break;
+                    }
+                    <tr>
+                        <td>
+                            @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem][i].CHECKLIST_NO
+                        </td>
+                        <td>
+                            @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem][i].DESCRIPTION
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    Idx++;
+                }
+
+
+            }
+
+        </tbody>
+    </table>
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem].Where(x => x.CHECKLIST_TYPE == "HEADER_B").FirstOrDefault().DESCRIPTION
+                </th>
+                <th>
+                    Item Details
+                </th>
+                <th>
+                    Remarks
+                    <button type="button">OK</button>
+                    <button type="button">Not OK</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                for (int i = Idx + 1; i < Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem].Count(); i++)
+                {
+
+
+                    <tr>
+                        <td>
+                            @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem][i].CHECKLIST_NO
+                        </td>
+                        <td>
+                            @Model.b_S_MW_ITEM_CHECKLIST_ITEMsList[Model.SelectedValidationMWItem][i].DESCRIPTION
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                }
+
+
+            }
+
+        </tbody>
+    </table>
+

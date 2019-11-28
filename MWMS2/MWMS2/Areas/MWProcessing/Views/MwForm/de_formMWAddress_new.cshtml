@@ -1,0 +1,91 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_DeFormModel
+
+
+@Html.HiddenFor(model => model.MWAddress.UUID)
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Location or address of the Minor Works</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.P_MW_RECORD.LOCATION_OF_MINOR_WORK, new { maxlength = "1000", @class = "w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Street/Road/Village</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.DISPLAY_STREET, new { @class="w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Street Number</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.DISPLAY_STREET_NO, new { @class="w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Building/Estate</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.BUILDING_NAME, new { @class="w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Floor</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.FLOOR, new { @class="w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">Flat/Room</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.FLAT, new { @class="w3-col l6 m12 s12" })
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12" style="height:83px;">District</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.MWAddress.DISTRICT, new { @class="w3-col l6 m12 s12" })
+            <div class="w3-col l7 m12 s12">
+                <label>
+                    @Html.RadioButtonFor(model => model.MWAddress.REGION, "HK", new { @class = "w3-radio" }) Hong Kong
+                </label>
+                <label>
+                    @Html.RadioButtonFor(model => model.MWAddress.REGION, "KLW", new { @class = "w3-radio" }) Kowloon
+                </label>
+                <label>
+                    @Html.RadioButtonFor(model => model.MWAddress.REGION, "NT", new { @class = "w3-radio" }) New Territories
+                </label>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l4 m6 s12">RVD No.</div>
+        <div class="w3-col l8 m6 s12">
+            @Html.TextBoxFor(model => model.P_MW_RECORD.PERMIT_NO, new { @class = "w3-col l6 m12 s12", maxlength = "15" })
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    domReady(function(){
+    atcpAddress({
+        streetName: "MWAddress_DISPLAY_STREET"
+        , streetNo: "MWAddress_DISPLAY_STREET_NO"
+        , building: "MWAddress_BUILDING_NAME"
+        , floor: "MWAddress_FLOOR"
+        , unit: "MWAddress_FLAT"
+        });
+    });
+</script>

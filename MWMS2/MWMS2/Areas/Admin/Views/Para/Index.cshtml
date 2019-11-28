@@ -1,0 +1,409 @@
+﻿
+
+@model MWMS2.Areas.Admin.Models.ParaModel
+
+
+@if (Model.CommFunc != null && Model.CommFunc.Count > 0)
+{
+    <div class="panelHeader">System Common Management</div>
+    <div class="displayForm">
+        @foreach (var func in Model.CommFunc)
+        {
+            <div class="w3-row"><div class="link w3-col l12 m12 s12" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</div></div>
+
+
+
+
+
+
+        }
+    </div>
+}
+<br />
+<br />
+
+
+
+<div id="tabbar1" class="hide">
+    @if (Model.CRMFunc != null && Model.CRMFunc.Count > 0)
+    {<div>Registration</div>}
+    @if (Model.PEMFunc != null && Model.PEMFunc.Count > 0)
+    {<div>MW Processing</div>}
+    @if (Model.SMMFunc != null && Model.SMMFunc.Count > 0)
+    {<div>Signboard</div>}
+    @if (Model.WLMFunc != null && Model.WLMFunc.Count > 0)
+    {<div>Warning Letter</div>}
+</div>
+
+
+@if (Model.CRMFunc != null && Model.CRMFunc.Count > 0)
+{
+    <div name="tabname1" class="displayForm hide">
+        <div class="displayForm">
+            @foreach (var func in Model.CRMFunc)
+            {
+                <div class="w3-row"><div class="link w3-col l12 m12 s12" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</div></div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.PEMFunc != null && Model.PEMFunc.Count > 0)
+{
+    <div name="tabname1" class="displayForm hide">
+        <div class="displayForm">
+            @foreach (var func in Model.PEMFunc)
+            {
+                <div class="w3-row"><div class="link w3-col l12 m12 s12" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</div></div>
+            }
+        </div>
+    </div>
+}
+@if (Model.SMMFunc != null && Model.SMMFunc.Count > 0)
+{
+    <div name="tabname1" class="displayForm hide">
+        <div class="displayForm">
+            @foreach (var func in Model.SMMFunc)
+            {
+                <div class="w3-row"><div class="link w3-col l12 m12 s12" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</div></div>
+            }
+        </div>
+    </div>
+}
+@if (Model.WLMFunc != null && Model.WLMFunc.Count > 0)
+{
+    <div name="tabname1" class="displayForm hide">
+        <div class="displayForm">
+            @foreach (var func in Model.WLMFunc)
+            {
+                <div class="w3-row"><div class="link w3-col l12 m12 s12" onclick="javascript:goTo('@HttpRuntime.AppDomainAppVirtualPath/@MWMS2.Constant.ApplicationConstant.AppPath@func.URL',[{name:'pageCode',value:'@func.CODE'}])">@func.DESCRIPTION</div></div>
+            }
+        </div>
+    </div>
+}
+
+<div id="SMMAdmin" class="w3-container admin" style="padding-right:0; padding-left:0px; display:none">
+    <table class="inputTable">
+        <tbody>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1103" href="/SMM1103/SMM1103?pageCode=SMM1103">
+                        - System Parameter Management
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1104" href="?pageCode=SMM1104">
+                        - SCU Team Management
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1105" href="/SMM1105/SMM1105?pageCode=SMM1105">
+                        - Update Signboard Application
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1106" href="/SMM1106/SMM1106?pageCode=SMM1106">
+                        - Update Job Assignment
+                    </a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1107" href="/SMM1107/SMM1107?pageCode=SMM1107">
+                        - Validation Option
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1108" href="/SMM1108/SMM1108?pageCode=SMM1108">
+                        - Reason for Refuse
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_SMM1109" href="/SMM1109/SMM1109?pageCode=SMM1109">
+                        - Types of Signboard
+                    </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div id="CRMAdmin" class="w3-container admin" style="padding-right:0; padding-left:0px; display:none">
+
+
+    <table class="inputTable">
+
+        <tbody>
+            <tr>
+                <td>
+                    <a id="menu_CRM0701" href="/CRM07/CRM0701">
+                        - Applicant Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0702" href="/CRM07/CRM0702">
+                        - Applicant Status
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0703" href="?pageCode=CRM0703">
+                        - Application Form
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0704" href="?pageCode=CRM0704">
+                        - Authority Name
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0705" href="?pageCode=CRM0705">
+                        - Buildings Safety &amp; Code
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0706" href="?pageCode=CRM0706">
+                        - Buildings Safety &amp; Code Item
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0707" href="?pageCode=CRM0707">
+                        - Company Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0708" href="?pageCode=CRM0708">
+                        - Panel Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0709" href="?pageCode=CRM0709">
+                        - Committee Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0710" href="?pageCode=CRM0710">
+                        - Conviction Source
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0711" href="?pageCode=CRM0711">
+                        - Category Code
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0712" href="?pageCode=CRM0712">
+                        - Category Group
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0713" href="?pageCode=CRM0713">
+                        - HTML Notes
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0714" href="?pageCode=CRM0714">
+                        - Interview Result
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0715" href="?pageCode=CRM0715">
+                        - Panel Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0716" href="?pageCode=CRM0716">
+                        - Committee Role
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0717" href="?pageCode=CRM0717">
+                        - Non-building Works Related
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0718" href="?pageCode=CRM0718">
+                        - Period of Validity
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0719" href="?pageCode=CRM0719">
+                        - Practice Notes
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0720" href="?pageCode=CRM0720">
+                        - Professional Registration Board
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0721" href="?pageCode=CRM0721">
+                        - Room Details
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0722" href="?pageCode=CRM0722">
+                        - Society Name
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0723" href="?pageCode=CRM0723">
+                        - Title
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0724" href="?pageCode=CRM0724">
+                        - Public Holiday Management
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0725" href="?pageCode=CRM0725">
+                        - Minor Works Class
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0726" href="?pageCode=CRM0726">
+                        - Minor Works Type
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0727" href="?pageCode=CRM0727">
+                        - Minor Works Item
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0728" href="?pageCode=CRM0728">
+                        - Vetting Officer
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a id="menu_CRM0729" href="?pageCode=CRM0729">
+                        - Secretary
+
+
+
+
+                    </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    domReady(function () { tabber({ tab: "tabbar1", area: "tabname1" }); });
+</script>

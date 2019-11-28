@@ -1,0 +1,288 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+
+@{ Dictionary<string, object> attr = new Dictionary<string, object>();}
+<div class="sList" id="formInfoCheck">
+    <form id="inputForm" method="post">
+
+        <div id="BaseHeader" class="panelHeader">
+            <label>Cheking ></label>
+            <label id="BaseTitle1" style="margin-left:5px;">Submission Information Checking</label>
+            > <label id="BaseTitle2" style="margin-left:5px;">PRC Checking</label>
+        </div>
+
+        @Html.HiddenFor(model => model.P_MW_RECORD_FORM_CHECKLIST.UUID)
+        @Html.HiddenFor(model => model.P_MW_RECORD.PRE_SITE_AUDIT_RELATED)
+        @Html.HiddenFor(model => model.P_MW_RECORD.SITE_AUDIT_RELATED)
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/submissionInfo.cshtml")
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/scannedDoc.cshtml")
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/itemInfo.cshtml")
+
+        <div id="BaseContent" class="w3-border displayForm">
+
+            <div id="BaseForm1" class="w3-border displayForm">
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Submission Information Checking
+                            </th>
+                            <th>
+                                Result
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Completion date & commencement date
+                                <br />
+                                Commencement Date: TBC
+                                <br />
+                                Completion Date: TBC
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_DATE, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_DATE, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_DATE_RMK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Other Information</td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER_RMK)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Work items restrict to 3.16 and/or 3.17</td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM32_WORK_ITEMS, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM32_WORK_ITEMS, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM32_WORK_ITEMS_RMK)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="BaseForm2" class="w3-border displayForm">
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th colspan="3">Particulars of PRC</th>
+                            <th>Result</th>
+                            <th colspan="2">Particulars of AS</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Certification of Registration No.</td>
+                            <td>
+                                English Name of PRC
+                            </td>
+                            <td>Chinese Name of PRC</td>
+                            <td>Name of PRC</td>
+                            <td>
+                                English Name of AS
+                            </td>
+                            <td>
+                                Chinese Name of AS
+                            </td>
+                            <td>
+                                Name of AS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="white-space: normal;">
+                                @Model.AppointedPRC.CERTIFICATION_NO
+                            </td>
+                            <td style="white-space: normal;">
+                                @Model.AppointedPRC.ENGLISH_NAME
+                                @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_ENGLISH_NAME_MSG))
+                                {
+                                    @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_ENGLISH_NAME_MSG)
+                                }
+                            </td>
+                            <td style="white-space: normal;">
+                                @Model.AppointedPRC.CHINESE_NAME
+                                @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_CHINESE_NAME_MSG))
+                                {
+                                    @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_CHINESE_NAME_MSG)
+                                }
+                            </td>
+                            <td style="white-space: normal;">
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME, "N", new { @class = "w3-radio" }) Not OK
+                                @if (Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME == "N")
+                                {
+                                    <label style="color:#FF0000;">
+                                        @Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_NAME_MSG
+                                    </label>
+                                }
+                            </td>
+                            <td style="white-space: normal;">
+                                @Model.AppointedPRC.ENGLISH_COMPANY_NAME
+                                @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_ENGLISH_NAME_MSG))
+                                {
+                                    @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_ENGLISH_NAME_MSG)
+                                }
+                            </td>
+                            <td style="white-space: normal;">
+                                @Model.AppointedPRC.CHINESE_COMPANY_NAME
+                                @if (!string.IsNullOrEmpty(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_CHINESE_NAME_MSG))
+                                {
+                                    @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_CHINESE_NAME_MSG)
+                                }
+                            </td>
+                            <td style="white-space: normal;">
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME, "N", new { @class = "w3-radio" }) Not OK
+                                @if (Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME == "N")
+                                {
+                                    <label style="color:#FF0000;">
+                                        @Model.P_MW_RECORD_FORM_CHECKLIST.PRC_INFO_AS_NAME_MSG
+                                    </label>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class=" w3-table-all w3-hoverable resultTable">
+                    <thead>
+                        <tr>
+                            <th>PRC Checking</th>
+                            <th>Result</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Validity of PRC</td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID_RMK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Capability of PRC
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP_RMK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Validity of Authorized Signatory
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID_RMK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Signature Of AS
+                                <br />
+                                Specimen Signature:
+                                <img src="~/img/view.gif" />
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN_RMK)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Availability of other suitable AS
+                                <br />
+                                @Html.Raw(@Model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER_AS_LIST)
+                            </td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER_RMK)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                PRC Signature Date
+                                <br />
+                                @(string.IsNullOrEmpty(Model.AppointedPRC.ENDORSEMENT_DATE.ToString()) ? "" : Model.AppointedPRC.ENDORSEMENT_DATE.ToString().Substring(0, 10))
+                            </td>
+                            @{
+                                attr.Add("class", "w3-radio");
+                                if (Model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE_RMK == "N/A") { attr.Add("disabled", "true"); attr.Add("readonly", "true"); }
+
+                                <td>
+                                    @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE, "O", attr)<span>OK</span>
+                                    @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE, "N", attr)<span>Not OK</span>
+                                </td>
+
+                                attr.Remove("class");
+                                attr.Remove("disabled");
+                                <td>
+                                    @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE_RMK, attr)
+                                </td>
+                                attr.Remove("readonly");
+                            }
+                        </tr>
+
+                        <tr>
+                            <td colspan="3">Other Checking</td>
+                        </tr>
+                        <tr>
+                            <td>Other Information</td>
+                            <td>
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER, "O", new { @class = "w3-radio" }) OK
+                                @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER, "N", new { @class = "w3-radio" }) Not OK
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER_RMK)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/verification_footer.cshtml")
+
+        @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/submit_buttons.cshtml")
+    </form>
+</div>
+

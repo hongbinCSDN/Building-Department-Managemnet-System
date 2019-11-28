@@ -1,0 +1,650 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn01LM_ModModel
+
+<div id="navigator" class="w3-container w3-round-medium ">BA16</div>
+<br />
+<form id="inputForm" method="post">
+    <div id="navigator" class="w3-container w3-round-medium ">Application Info</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(model => model.P_MW_MODIFICATION.UUID)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Mod. Ref. No :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.Label(string.IsNullOrEmpty(Model.P_MW_MODIFICATION.REFERENCE_NO) ? "" : Model.P_MW_MODIFICATION.REFERENCE_NO)
+                    @Html.HiddenFor(m => m.P_MW_MODIFICATION.REFERENCE_NO)
+                    @*@Html.TextBoxFor(model => model.P_MW_MODIFICATION.REFERENCE_NO, new { @id = "REFERENCE_NO" })*@
+                    @*<input type="text" />*@
+                </div>
+                <div class="w3-col l2 m12 s12">Email Address :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.EMAIL, new { @id = "EMAIL" })
+                    @*<input type="text" />*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">DSN:</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.Label(string.IsNullOrEmpty(Model.P_MW_MODIFICATION.DSN) ? "" : Model.P_MW_MODIFICATION.DSN)
+                    @Html.HiddenFor(m => m.P_MW_MODIFICATION.DSN)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">MW Ref No :</div>
+                <div class="w3-col l4 m12 s12" style="position:relative">
+                    <div id="AddPanel" class="w3-col l6 m6 s6">
+                        @if (Model.listMwNo.Count > 0)
+                        {
+                            for (int i = 1; i <= Model.listMwNo.Count; i++)
+                            {
+                                @Html.TextBox(("MwRefNo" + i), Model.listMwNo[i - 1].MW_NO)
+                                @*<input type="text" id="MwRefNo" name="MwRefNo" />*@
+                            }
+                        }
+                        else
+                        {
+                            <input type="text" id="MwRefNo" name="MwRefNo1" />
+                            <input type="text" id="MwRefNo" name="MwRefNo2" />
+                            <input type="text" id="MwRefNo" name="MwRefNo3" />
+                        }
+                    </div>
+                    <div class="w3-col l6 m6 s6" style="position:absolute;float:left;width:50%;bottom:0;right:0;">
+                        <button id="AddMWRefNoBtn" class="btn btn-default" type="button">Add</button>
+                        <button id="MinusMWRefNoBtn" class="btn btn-default" type="button">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="navigator" class="w3-container w3-round-medium ">Details of the Building </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Address :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.ADDRESS, new { @id = "ADDRESS" })
+                    @*<input type="text" />*@
+                </div>
+                <div class="w3-col l2 m12 s12">Lot No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.LOT_NO, new { @id = "LOT_NO" })
+                    @*<input type="text" />*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Name of Applicant :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.APPLICANT_NAME, new { @id = "APPLICANT_NAME" })
+                    @*<input type="text" />*@
+                </div>
+                <div class="w3-col l2 m12 s12">Received Date :</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.RECEIVED_DATE, new { @id = "RECEIVED_DATE", @class = "inputDate" })
+                    @*<input type="text" class="inputDate" />*@
+                </div>
+            </div>
+        </div>
+        @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l2 m12 s12">Handing staff (PO) :</div>
+                    <div class="w3-col l4 m12 s12">
+                        @Html.DropDownListFor(model => model.HandingStaff, Model.HandingStaffList)
+
+                    </div>
+                </div>
+            </div>*@
+        <div id="navigator" class="w3-container w3-round-medium ">Details of the Modification and/or Exemption Sought  </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">《建築物條例》/ 規例 Buildings Ordinance / Regulations :</div>
+                <div class="w3-col l2 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.REGULATIONS, new { @id = "REGULATIONS" })
+                    @*<input type="text" />*@
+                </div>
+                <div class="w3-col l2 m12 s12">Type of Works</div>
+                <div class="w3-col l3 m12 s12">
+                    @*@Html.TextBoxFor(model => model.P_MW_MODIFICATION.IS_BUILDING_WORKS, new { @id = "REGULATIONS" })*@
+                    @*<input type="text" />*@
+                    @Html.DropDownListFor(model => model.WorkType, Model.WorkTypeList)
+                    @*<select style="width:auto">
+                            <option value="Y">Building works</option>
+                            <option value="Y">Street works</option>
+                        </select>*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Description of Modification/Exemption Sought : </div>
+                <div class="w3-col l7 m12 s12">
+                    @Html.TextAreaFor(model => model.P_MW_MODIFICATION.DESC_OF_MODI, new { @id = "DESC_OF_MODI" })
+                    @*<textarea></textarea>*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Location of Subject and Drawing Number : </div>
+                <div class="w3-col l7 m12 s12">
+                    @Html.TextAreaFor(model => model.P_MW_MODIFICATION.LOC_OF_SUBJECT, new { @id = "LOC_OF_SUBJECT" })
+                    @*<textarea></textarea>*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Special circumstances in connection <br>
+                    with the said works in support of this application, <br />
+                    including reasons for not being able to comply <br />
+                    with the Buildings Ordinance/Regulations : <br />
+                </div>
+                <div class="w3-col l7 m12 s12">
+                    @Html.TextAreaFor(model => model.P_MW_MODIFICATION.UNABLE_TO_COMPLY_REASON, new { @id = "UNABLE_TO_COMPLY_REASON" })
+                    @*<textarea></textarea>*@
+                </div>
+            </div>
+        </div>
+        @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l4 m12 s12">
+                        Description of Modification/Exemption Sought :
+                    </div>
+                    <div class="w3-col l7 m12 s12">
+                        @Html.TextAreaFor(model => model.P_MW_MODIFICATION.DESC_OF_MODI, new { @id = "DESC_OF_MODI" })
+                        <textarea></textarea>
+                    </div>
+                </div>
+            </div>*@
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">
+                    Justifications, Proposed Remedies <br>
+                    and Supporting Documents (if any) :
+                </div>
+                <div class="w3-col l7 m12 s12">
+                    @Html.TextAreaFor(model => model.P_MW_MODIFICATION.SUPPORTING_DOCUMENT, new { @id = "SUPPORTING_DOCUMENT" })
+                    @*<textarea></textarea>*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Name of Applicant :</div>
+                <div class="w3-col l2 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.APPLICANT_NAME, new { @id = "APPLICANT_NAME" })
+                    @*<input type="text" />*@
+                </div>
+                <div class="w3-col l2 m12 s12">Received Date :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.RECEIVED_DATE, "", new { @id = "ReceivedDate", @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12"> Capacity of Applicant :</div>
+                <div class="w3-col l2 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.APPLICANT_CAPACITY, new { @id = "APPLICANT_CAPACITY" })
+                    @*<input type="text" />*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Handling staff (PO) :</div>
+                <div class="w3-col l2 m12 s12">
+                    @Html.TextBoxFor(model => model.P_MW_MODIFICATION.HANDING_STAFF)
+                    @*<input type="text" />*@
+                    @*@Html.DropDownListFor(model => model.HandingStaff, Model.HandingStaffList)*@
+                    @*<select style="width:auto">
+                            <option value="BS1">BS1</option>
+                            <option value="SE4">SE4</option>
+                            <option value="BS6">BS6</option>
+                        </select>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button class="btn btn-default" onclick="goToIndex()" type="button"><i class=""></i> Cancel</button>
+            <button id="UpdateBtn" class="btn btn-default" type="button"><i class=""></i> Update</button>
+        </div>
+
+        <div id="navigator" class="w3-container w3-round-medium ">Scanned Document</div>
+        <div id="IncomingDocument"></div>
+        <br />
+        <br />
+        <div id="OutgoingDocument"></div>
+
+        <br />
+        <div id="navigator" class="w3-container w3-round-medium ">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l1 m12 s12">
+                        <label>Status :</label>
+                    </div>
+                    <div class="w3-col l2 m12 s12">
+                        @Html.DropDownListFor(m => m.P_MOD_BD106.STATUS, Model.GetBD106Status(), new { id = "bd106Status" })
+                    </div>
+                </div>
+            </div>
+
+            @*<select id="BD106" name="BD106" style="width:auto">
+                    <option onclick="PEM0301Modi()" value="1">Accept</option>
+                    <option onclick="PEM0301Modi()" value="2">Not Accept</option>
+                </select>*@
+        </div>
+
+        <br />
+        <div id="navigator" class="w3-container w3-round-medium ">BD106</div>
+        @Html.HiddenFor(model => model.P_MOD_BD106.UUID)
+
+        <div id="statusAccept" class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Permit No. :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.PERMIT_NO)
+                        @*<input type="text" />*@
+                    </div>
+                    <div class="w3-col l2 m12 s12">Our Ref. No. :</div>
+                    <div class="w3-col l4 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.OUR_REF_NO)
+                        @*<input type="text" />*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Issue Date :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.ISSUE_DATE_OF_BD106, new { @id = "ISSUE_DATE_OF_BD106", @class = "inputDate" })
+                        @*<input type="text" class="inputDate" />*@
+                    </div>
+                    <div class="w3-col l2 m12 s12">
+                        Completed Date :
+                        <div>
+                            <input type="checkbox" name="notiReceived" value="" /> Notification Received
+                        </div>
+                    </div>
+                    <div class="w3-col l4 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.COMPLETION_DATE, new { @id = "aCOMPLETION_DATE", @class = "inputDate" })
+                        @*<input type="text" class="inputDate" />*@
+                        <button id="CompletedLetterBtn" class="searchButton btn btn-default" type="button"><i class=""></i>Issue Reminder(Letter)</button>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Annual Inspection Date :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.ANNUAL_INSPECTION_DATE, new { @id = "ANNUAL_INSPECTION_DATE", @class = "inputDate" })
+                        @*<input type="text" class="inputDate" />*@
+                        <button id="AnnualLetterBtn" class="searchButton btn btn-default" type="button"><i class=""></i>Issue Inspection Reminder(Letter)</button>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Referral date to LSS :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.LSS_REFERRAL_DATE, new { @id = "LSS_REFERRAL_DATE", @class = "inputDate" })
+                        @*<input type="text" class="inputDate" disabled />*@
+                    </div>
+                    <div class="w3-col l2 m12 s12">Referral date to EBD :</div>
+                    <div class="w3-col l4 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.EBD_REFERRAL_DATE, new { @id = "EBD_REFERRAL_DATE", @class = "inputDate" })
+                        @*<input type="text" class="inputDate" disabled />*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+
+                @*@Html.TextBoxFor(m=>m.P_MOD_BD106_ANNUAL_INSP)
+                    @Html.TextBoxFor(m=>m.P_MOD_BD106_ANNUAL_INSP)
+                    @Html.TextBoxFor(m=>m.P_MOD_BD106_ANNUAL_INSP)*@
+
+                <div id="AddSiteInspectPannel" class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12 mwms-clone-div">Site Inspection Completed :</div>
+                    <div class="w3-col l3 m12 s12 mwms-clone-div">
+                        @*@Html.TextBoxFor(model => model.P_MOD_BD106.SITE_INSP_COMPLETED, new { @id = "SITE_INSP_COMPLETED" })*@
+                        <label>
+                            <input class="w3-radio" type="radio" name="siteInspectComp_0" value="Y" checked="checked" />
+                            @*@Html.RadioButtonFor(m => m.P_MOD_BD106.SITE_INSP_COMPLETED, "Y", new { @class = "w3-radio", @checked = "true" })*@Y
+                        </label>|
+                        <label>
+                            <input class="w3-radio" type="radio" name="siteInspectComp_0" value="N" />
+                            @*@Html.RadioButtonFor(m => m.P_MOD_BD106.SITE_INSP_COMPLETED, "N", new { @class = "w3-radio", name = "siteInspectComp_1" })*@N
+                        </label>
+                        @*<select disabled style="width:auto">
+                                <option></option>
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>*@
+                    </div>
+                    <div class="w3-col l2 m12 s12 mwms-clone-div">Site Inspection Date :</div>
+                    <div class="w3-col l4 m12 s12 mwms-clone-div">
+                        <input class="inputDate" type="text" name="siteInspectDate_0" value="" />
+
+                        @*@Html.TextBoxFor(model => model.P_MOD_BD106.SITE_INSP_DATE, new { @id = "SITE_INSP_DATE", @class = "inputDate" })*@
+                        @*<input type="text" class="inputDate" disabled />*@
+                        <button id="AddSiteInspect" class="searchButton btn btn-default" type="button"><i class=""></i>Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Result of BD's site inspection :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.DropDownListFor(m => m.P_MOD_BD106.INSP_RESULT, Model.GetResultSiteInspection())
+                        @*@Html.TextBoxFor(model => model.P_MOD_BD106.INSP_RESULT, new { @id = "INSP_RESULT" })*@
+                        @*<select disabled style="width:auto">
+                                <option>In Order</option>
+                                <option>NOT In Order</option>
+                            </select>*@
+                    </div>
+                    <div class="w3-col l2 m12 s12">Is Valid :</div>
+                    <div id="siteRadio" class="w3-col l4 m12 s12">
+                        @*@Html.TextBoxFor(model => model.P_MOD_BD106.IS_VALID, new { @id = "IS_VALID" })*@
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MOD_BD106.IS_VALID, "Y", new { @class = "w3-radio", @checked = "true" })Y
+                        </label>|
+                        <label>
+                            @Html.RadioButtonFor(m => m.P_MOD_BD106.IS_VALID, "N", new { @class = "w3-radio" })N
+                        </label>
+                        @*<select disabled style="width:auto">
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>*@
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12"> Regulation(s) exempted/modified list :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @for (int i = 0; i < Model.listBD106Item.Count(); i++)
+                        {
+                            @Html.CheckBoxFor(model => Model.listBD106Item[i].IsChecked)
+                            @Html.HiddenFor(model => Model.listBD106Item[i].UUID, new { })
+                            @Html.HiddenFor(model => Model.listBD106Item[i].CODE, new { })
+                            @Html.HiddenFor(model => Model.listBD106Item[i].S_SYSTEM_VALUE_UUID, new { })
+                            @*@Html.Label(Model.IrregularitiesList[i].Description)*@
+                            @Model.listBD106Item[i].DESCRIPTION
+                            <br />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="statusNotAccept" class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12"> Reply Date :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MOD_BD106.COMPLETION_DATE, new {id= "naCOMPLETION_DATE", @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            <button class="btn btn-default" type="button" onclick="goToIndex()"><i class=""></i> Cancel</button>
+            <button id="SaveBtn" class="btn btn-default" type="button"><i class=""></i> Save</button>
+        </div>
+    </div>
+</form>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        attr("UpdateBtn", "onclick", { parameters: {}, callback: onUpdateForm });
+        attr("AddMWRefNoBtn", "onclick", { parameters: {}, callback: AddMWRefNoTB });
+        attr("MinusMWRefNoBtn", "onclick", { parameters: {}, callback: MinusMWRefNoTB });
+        attr("SaveBtn", "onclick", { parameters: {}, callback: onSaveForm });
+        attr("AddSiteInspect", "onclick", { parameters: {}, callback: AddSiteInspection });
+        attr("bd106Status", "onchange", { parameters: {}, callback: onStatusChange });
+        attr("AnnualLetterBtn", "onclick", { parameters: {}, callback: onGenerateAnnualLetter });
+        attr("CompletedLetterBtn", "onclick", { parameters: {}, callback: onGenerateCompletedLetter });
+    });
+
+    function onGenerateCompletedLetter() {
+        var row = { uuid: $("#P_MW_MODIFICATION_UUID").val() };
+        console.log(row);
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        dlForm.action = domId("rootPath").value + "/MWProcessing/Fn01LM_MOD/GenerateCompletionLetter";
+        dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": row.uuid });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+
+    function onGenerateAnnualLetter() {
+        //goTo(domId("rootPath").value + "/MWProcessing/Fn01LM_MOD/GenerateAnnualLetter", null)
+        var row = { uuid: $("#P_MW_MODIFICATION_UUID").val() };
+        console.log(row);
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        dlForm.action = domId("rootPath").value + "/MWProcessing/Fn01LM_MOD/GenerateAnnualLetter";
+        dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": row.uuid });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+
+    function onUpdateForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Update", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+
+    function AddMWRefNoTB(d, p, e) {
+
+        //Create new textbox
+        var newTextBox = document.createElement("input");
+        var ListTB = document.querySelectorAll("input[name^='MwRefNo']")
+
+        //Set textbox attribute
+        newTextBox.setAttribute("type", "text");
+        newTextBox.setAttribute("id", "MwRefNo");
+        newTextBox.setAttribute("name", "MwRefNo" + (ListTB.length + 1).toString());
+
+        //add textbox to addPanel
+        document.getElementById("AddPanel").append(newTextBox);
+
+        RefreshMinusBtn();
+
+    }
+    function MinusMWRefNoTB() {
+        var ListTB = document.querySelectorAll("input[name^='MwRefNo']");
+        var tb = document.getElementsByName("MwRefNo" + ListTB.length.toString());
+        document.getElementById("AddPanel").removeChild(tb[0]);
+
+        RefreshMinusBtn();
+    }
+
+    function RefreshMinusBtn() {
+        //var ListTB = document.getElementsByName("newTextBox");
+        var ListTB = document.querySelectorAll("input[name^='MwRefNo']")
+        var minusBtn = document.getElementById("MinusMWRefNoBtn");
+        if (ListTB.length <= 3) {
+            minusBtn.setAttribute("disabled", "true");
+            minusBtn.setAttribute("hidden", "true");
+        } else {
+            minusBtn.removeAttribute("disabled");
+            minusBtn.removeAttribute("hidden");
+        }
+    }
+
+    RefreshMinusBtn();
+
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchIncomingDoc"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "IncomingDocument"
+            , Columns: [
+                { columnName: "DOCUMENT_TYPE" }
+                , { columnName: "FOLDER_TYPE" }
+                , { columnName: "SCAN_DATE", format: "date" }
+                , { columnName: "DSN_SUB" }
+                , { columnName: "FORM_CODE" }
+                , {
+                    displayName: "View Image", formater: function (row) {
+                        return createButton("View", "fa-file-image", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    //window.open();
+                                    //goTo("EditForm", [{ name: "uuid", value: row.FILE_PATH }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+            , Header: function () {
+                var thead = dom("thead");
+                var tr1 = dom_(thead, "tr");
+                dom_(tr1, "th", [{ colspan: 6, html: "Incoming Document", style: "text-align:center" }]);
+                var tr2 = dom_(thead, "tr");
+                dom_(tr2, "th", [{ html: "Document Type" }]);
+                dom_(tr2, "th", [{ html: "Folder Type" }]);
+                dom_(tr2, "th", [{ html: "Scanned Date" }]);
+                dom_(tr2, "th", [{ html: "Document S/N" }]);
+                dom_(tr2, "th", [{ html: "Form No." }]);
+                dom_(tr2, "th", [{ html: "View Image" }]);
+                return thead;
+            }
+        }).search();
+        new searcher({
+            searchPath: "SearchOutgoingDoc"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "OutgoingDocument"
+            , Columns: [
+                { columnName: "DOCUMENT_TYPE" }
+                , { columnName: "FOLDER_TYPE" }
+                , { columnName: "SCAN_DATE", format: "date" }
+                , { columnName: "DSN_SUB" }
+                , { columnName: "FORM_CODE" }
+                , {
+                    displayName: "View Image", formater: function (row) {
+                        return createButton("View", "fa-file-image", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    //window.open();
+                                    //goTo("EditForm", [{ name: "uuid", value: row.FILE_PATH }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+            , Header: function () {
+                var thead = dom("thead");
+                var tr1 = dom_(thead, "tr");
+                dom_(tr1, "th", [{ colspan: 6, html: "Outgoing Document", style: "text-align:center" }]);
+                var tr2 = dom_(thead, "tr");
+                dom_(tr2, "th", [{ html: "Document Type" }]);
+                dom_(tr2, "th", [{ html: "Folder Type" }]);
+                dom_(tr2, "th", [{ html: "Scanned Date" }]);
+                dom_(tr2, "th", [{ html: "Document S/N" }]);
+                dom_(tr2, "th", [{ html: "Form No." }]);
+                dom_(tr2, "th", [{ html: "View Image" }]);
+                return thead;
+            }
+        }).search();
+
+        changBD106ByStatus();
+    });
+
+    // Begin Add by Chester 2017-07-03
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveBD106", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+
+    function AddSiteInspection(d, p, e) {
+        var ListSiteInspectComp = document.querySelectorAll("input[name^='siteInspectComp']");
+        var ListSiteInspectDate = document.querySelectorAll("input[name^='siteInspectDate']");
+        //Create new textbox
+        var cloneSiteInspect = $(".mwms-clone-div").clone();
+        cloneSiteInspect.removeClass("mwms-clone-div");
+        cloneSiteInspect.find(":radio").attr("name", "siteInspectComp_" + (ListSiteInspectComp.length / 2).toString());
+        cloneSiteInspect.find(":text").val("");
+        cloneSiteInspect.find(":text").attr("name", "siteInspectDate_" + (ListSiteInspectDate.length).toString()).addEvent;
+        //cloneSiteInspect.find(":text").on("focus", function () {
+        //    $(this).flatpickr({ dateFormat: "d/m/Y" });
+        //});
+        cloneSiteInspect.find(":text").flatpickr({ dateFormat: "d/m/Y" });
+        cloneSiteInspect.children("button").remove();
+        cloneSiteInspect.appendTo("#AddSiteInspectPannel");
+
+
+        //add textbox to addPanel
+        //newSiteRow.appendChild(newSiteInspectComLb);
+        //newSiteRow.appendChild(newSiteInspectComRadio);
+        //newSiteRow.appendChild(newSiteInspectDateLb);
+        //newSiteRow.appendChild(newSiteInspectDateTb);
+        //document.getElementById("AddSiteInspectPannel").append(newSiteRow);
+
+        //RefreshMinusBtn();
+
+    }
+    function onStatusChange(d, p, e) {
+        changBD106ByStatus();
+    }
+
+    function changBD106ByStatus() {
+        if ($("#bd106Status option:selected").val() === "Accept") {
+            $("#statusNotAccept").css("display", "none");
+            $("#statusAccept").css("display", "block");
+            $("#aCOMPLETION_DATE").removeAttr("disabled");
+            $("#naCOMPLETION_DATE").attr("disabled", "true");
+        }
+        else {
+            $("#statusNotAccept").css("display", "block");
+            $("#statusAccept").css("display", "none");
+            $("#naCOMPLETION_DATE").removeAttr("disabled");
+            $("#aCOMPLETION_DATE").attr("disabled", "true");
+        }
+
+
+    }
+    // End Add by Chester 2017-07-03
+
+    function goToIndex() {
+        goTo(domId('rootPath').value + '/MWProcessing/Fn03TSK_Tdl/Index');
+    }
+</script>

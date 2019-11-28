@@ -1,0 +1,93 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_SDModel
+
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">No. of Outstanding :</div>
+            <div class="w3-col l6 m12 s12" id="noOfOutstanding">
+                
+            </div>
+        </div>
+
+    </div>
+    <div class="panelHeader">Scan</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Document S/N :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(m => m.ScanDSN,new { @id="scanDSN" })
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panelHeader">
+        Scan and Dispatch Document
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.DSN)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Compiling Date :</div>
+            <div class="w3-col l6 m12 s12">
+                From @Html.TextBoxFor(m => m.CompilingDateFrom, new { @class = "inputDate" })
+                to @Html.TextBoxFor(m => m.CompilingDateTo, new { @class = "inputDate" })
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "DSN"
+            , Columns: [
+                {
+                    displayName: "Document S/N", columnName: "DSN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Detail", [{ name: "uuid", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "Assignment Date", columnName: "DT"
+                }
+                , {
+                    displayName: "Time", columnName: "T"
+                }
+                , {
+                    displayName: "Ref. No.", columnName: "RECORD_ID"
+                }
+                , {
+                    displayName: "Status", columnName: "STATUS"
+                }
+            ]
+            , onAfterSearch: function (r) {
+                attr("noOfOutstanding", "html", r.Total)
+            }
+        }).goToPage();
+    });
+</script>

@@ -1,0 +1,53 @@
+﻿<script>
+    domReady(function ()
+    {
+        new searcher({
+            searchPath: "Search"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "ITEM_NO"
+            , Columns: [
+                {
+                    displayName: "Item No", columnName: "ITEM_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null)
+                                return null;
+                            goTo("Edit", [
+                                { name: "uuid", value: row.UUID }
+                            ]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "English Description", columnName: "ENG_DESCRIPTION"
+                }
+                ,
+                {
+                    displayName: "Chinese Description", columnName: "CHI_DESCRIPTION"
+                }
+                , {
+                    displayName: "Image Not Transfer to RRM", columnName: "TRANSFER_RRM"
+                }
+            ]
+        }).search();
+    });
+</script>
+<div class="panelHeader">Import MW Item Description</div>
+<div id="searchCriteria" class="w3-border displayForm">
+    <div id="resultPanel"></div>
+    <div class="w3-container footer">
+        <button id="createBtn" class="btn btn-default" type="button" onclick="create()">Create</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+</div>
+<script>
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+        goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+    }
+
+    function create() {
+        window.location.href = domId("rootPath").value + "/Admin/PEM1103ImportMWItem/Edit";
+    }
+</script>

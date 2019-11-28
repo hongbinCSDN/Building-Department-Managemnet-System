@@ -1,0 +1,46 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_ESSRSearchModel
+
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date :</div>
+            <div class="w3-col l6 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ScanDateFrom, new { @class = "inputDate", @id = "ReceivedDateFrom" })
+                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ScanDateTo, new { @class = "inputDate", @id = "ReceivedDateTo" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "GROUP_DATE"
+            , Columns: [
+                { displayName: "Date", columnName: "GROUP_DATE" },
+                { displayName: "Record Count (MW Submission)", columnName: "COUNT_MW" },
+                { displayName: "Record Count (Direct Return)", columnName: "COUNT_DR" },
+                { displayName: "Total Record Count", columnName: "COUNT_TOTAL" },
+                { displayName: "Status", columnName: "RECEIVED" },
+        ]});
+    });
+</script>

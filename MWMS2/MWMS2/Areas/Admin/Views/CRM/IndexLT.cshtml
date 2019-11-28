@@ -1,0 +1,92 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_Model
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+<div id="searchCriteria">
+    @Html.HiddenFor(model => model.SystemType)
+    @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {
+        
+
+
+                   <button onclick='goTo("Form_LT", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' name="NewTemplate" value="new"> <i class="far fa-plus-square"></i> New Template</button>}
+</div>
+    <br>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) {  goTo("Form_LT", [{ name: "id", value: row.UUID },
+    { name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+    domReady(function () {
+        //  attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+        new searcher({
+            searchPath: "SearchLT"
+            , exportPath: "Excel_LT"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            //, Sort: "CODE"
+            , Columns: [
+
+                @*{
+                    displayName: "Edit", formater: function (row) {
+                        //var BR = row.BR_NO;
+                        var span = dom("span");
+                        //var textSpan = dom_(span, "span", [{ "html": BR }]);
+                        var button = createButton("Edit", "", [{
+                            "onclick": {
+                                callback: function (d, p, e) {
+                                     try {
+                                          if (row == null) return;
+                                          goTo("Form_LT", [{ name: "id", value: row.UUID },
+                                          { name: "systemType", value: "@Model.SystemType" }]);
+
+                                      } catch (err) { }
+
+                                }
+                            }
+                        }]);
+                        span.appendChild(button);
+                        return span;
+
+                    }
+                }*@
+                  { displayName: "No.", columnName: "CODE" }
+                //, { displayName: "Letter No.", columnName: "LETTER_NO" }
+                , {
+                    displayName: "Letter No", columnName: "LETTER_NO"
+                    , click: function (row) {
+                        try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                    }
+                }
+                , { displayName: "Type", columnName: "LETTER_NAME" }
+                , { displayName: "Remark", columnName: "REMARK" }
+                , { displayName: "Registration Type", columnName: "REGISTRATION_TYPE" }
+                , { displayName: "Ordering", columnName: "ORDERING" }
+                , { displayName: "File", columnName: "FILE_NAME" }
+
+
+
+            ]
+        }).search();
+    });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

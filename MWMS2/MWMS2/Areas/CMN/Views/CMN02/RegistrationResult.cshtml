@@ -1,0 +1,76 @@
+﻿@model MWMS2.Areas.CMN.Models.CMN02Model
+
+<div class="displayForm" style="overflow-x:auto">
+
+    @if (!string.IsNullOrEmpty(Model.Keyword))
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">
+                    Search by keyword :
+                </div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DisplayFor(x => x.Keyword)
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <div id="resultPanel" class="" style="overflow-x: auto; border:1px solid #AAA !important">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Expiry Date</th>
+                    <th>Registration No.</th>
+                    <th>AS Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.Data != null)
+                {
+                    int rowSpan = 1;
+                    bool showName = true;
+                    for (int i = 0; i < Model.Data.Count; i++)
+                    {
+                        if (rowSpan != 1) { rowSpan = rowSpan - 1; showName = false; }
+                        else
+                        {
+                            showName = true;
+                            for (int j = i + 1; j < Model.Data.Count; j++)
+                            {
+                                if(Model.Data[i]["UKEY"].ToString() != null && Model.Data[i]["UKEY"].ToString() != "")
+                                {
+                                    if (Model.Data[i]["UKEY"].ToString() == Model.Data[j]["UKEY"].ToString())
+                                    {
+                                        rowSpan = rowSpan + 1;
+                                    }
+                                }
+                            }
+                        }
+                        <tr>
+                            @if (showName)
+                            {
+                                <td rowspan='@rowSpan'>@Model.Data[i]["NAME"]</td>}
+                            <td>@Model.Data[i]["EXPIRY_DATE"]</td>
+                            <td>@Model.Data[i]["REGISTRATION_NO"]</td>
+                            <td>@Model.Data[i]["AS_NAME"]</td>
+                            <td><button onclick='goTo("Detail",  [{name:"REGISTRATION_NO",value:"@Model.Data[i]["REGISTRATION_NO"]"}])' class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> View</button></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="w3-container footer">
+        <button type="button" class="backButton"><i class="fa fa-arrow-left"></i>Back</button>
+    </div>
+</div>
+
+
+
+
+

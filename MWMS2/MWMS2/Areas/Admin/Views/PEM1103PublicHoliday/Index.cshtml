@@ -1,0 +1,84 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103PublicHolidayModel
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+
+<div class="panelHeader">Public Holiday</div>
+@using (Html.BeginForm("Save", "PEM1103PublicHoliday", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm",@id="HolidayForm" }))
+{
+    @Html.HiddenFor(model => model.Year)
+<div class="w3-border displayForm">
+    <div class="w3-row w3-container">
+        <div class="w3-col l2 m2 s2">Year</div>
+        <div class="w3-col l10 m10 s10">
+            @Html.DropDownList(Model.Year, new SelectList(Model.YearList, "Value", "Text", Model.Year), new { @name = "selectYear", @size = "1", @style = "max-width: 200px;", @id = "yearDropDownList", @onchange = "changeYear()" })
+        </div>
+    </div>
+    <div class="w3-row w3-container">
+        <div class="w3-col l2 m2 s2">Date</div>
+        <div class="w3-col l9 m9 s9">Holiday Name / Description</div>
+        <div class="w3-col l1 m1 s1"></div>
+    </div>
+    @for (int i = 0; i < Model.holidays.Count; i++)
+    {
+        @Html.HiddenFor(model => model.holidays[i].UUID)
+        <div class="w3-row w3-container">
+            <div class="w3-col l2 m2 s2">
+                @Html.TextBoxFor(model => model.holidays[i].Date, new { @class = "inputDate" })
+            </div>
+            <div class="w3-col l9 m9 s9">
+                @Html.TextBoxFor(model => model.holidays[i].HolidayName_Desc)
+            </div>
+            <div class="w3-col l1 m1 s1">
+                <button class="btn btn-default" type="button"
+                        onclick="javascript:if(confirm('Do you want to delete this record?'))  window.location = '@Url.Action("Delete","PEM1103PublicHoliday",new { UUID = Model.holidays[i].UUID,count = Model.holidays.Count,year = Model.Year })'">
+                    Delete
+                </button>
+            </div>
+        </div>
+
+    }
+    <div class="w3-container footer">
+        <button id="addNewInput" class="btn btn-default" type="button" onclick="window.location = '@Url.Action("AddNewInput","PEM1103PublicHoliday",new { count = Model.holidays.Count, year = Model.Year })'">Add</button>
+        <button id="createBtn" class="btn btn-default" type="button" onclick="checkDate()">Save</button>
+        <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+    </div>
+</div>
+}
+<script>
+    domReady(function () {
+        new searcher({
+
+        })
+    });
+
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+        goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+    }
+
+    function changeYear() {
+        window.location.href = domId("rootPath").value + "/Admin/PEM1103PublicHoliday/Index?year=" + $('#yearDropDownList').val() ;
+
+    }
+    function checkDate() {
+        for (var i = 0; i < @Model.holidays.Count; i++) {
+            var date = $('#holidays_' + i + '__Date').val();
+            if (date == null || date == '') {
+                alert("Please input the date.");
+                return;
+            }
+            if (date != null && date != '' && date.substr(date.length - 4) != $('#yearDropDownList').val()) {
+                alert('Invalid year or fields value.');
+                return;
+            }
+        }
+        var form = document.getElementById('HolidayForm');
+        form.submit();
+    }
+
+</script>

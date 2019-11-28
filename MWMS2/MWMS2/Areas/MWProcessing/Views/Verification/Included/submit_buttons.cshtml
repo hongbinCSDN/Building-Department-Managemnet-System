@@ -1,0 +1,585 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+<div class="displayForm">
+    <div class="w3-container footer">
+
+        <button id="btnPrevious" onclick="changeStepIndex(false)" class="btn btn-default w3-left enabled" type="button">Previous Item</button>
+        <button id="btnPreviousPage" class="btn btn-default w3-left enabled" onclick="changePageIndex(false)" type="button">Previous Page</button>
+        <button id="saveButton" onclick="onSave()" class="btn btn-default" type="button"> Save as Draft</button>
+        <button id="btnRollBack" class="btn btn-default" onclick="rollbackComment()" type="button"> Roll Back Comment</button>
+        <button id="btnSaveAndNext" class="btn btn-default" type="button"> Save and next</button>
+        <button id="btnNext" onclick="changeStepIndex(true)" class="btn btn-default enabled" type="button"> Next</button>
+        <button id="btnSubNext" class="btn btn-default" type="button" style="display:none">Next</button>
+        <button id="btnSubmit" class="btn btn-default enabled" onclick="clickSumbit()" type="button"> Submit</button>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("btnSaveAndNext", "onclick", { parameters: {}, callback: onSaveAndNext });
+    });
+
+    function onSave(d, p, e) {
+        var isValid = formchecklistValid();
+        if (!isValid) {
+            alert('Please check all the radio boxes');
+            return;
+        }
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveAndNext", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                alert('Save Successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function onSaveAndNext(d, p, e) {
+        var isValid = formchecklistValid();
+        if (!isValid) {
+            alert('Please check all the radio boxes');
+            return;
+        }
+        attr("inputForm", "addClass", "saving");
+        $.post("SaveAndNext", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                //goTo("Index", null);
+
+                if (stepFormIndex == (GetStepFormCount() - 1)) {
+                    //Next Page
+                    changePageIndex(true);
+                } else {
+                    changeStepIndex(true);
+                }
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    var pageIndex = 0;
+    var stepFormIndex = 0;
+    var pageList = ["Base"];
+    var formCode = "";
+    var isReadonly = false;
+    var isSummary = false;
+
+    var finalItemList = [];
+
+    function GetStepList() {
+
+        var isPSAC = ($('#P_MW_RECORD_PRE_SITE_AUDIT_RELATED').val() == "Y");
+
+        var isSAC = ($('#IsSAC').val().toLowerCase() == "true");
+
+        if (isPSAC) {
+            pageList.push("PSAC");
+        }
+
+
+        if (document.querySelectorAll("label[id^='ItemTitle']").length > 0) {
+            pageList.push("Item");
+        }
+
+
+        if (isSAC) {
+            pageList.push("SAC");
+        }
+
+    }
+
+    function RefreshStep() {
+        //Get Index Step Name
+        var stepName = pageList[pageIndex];
+
+        for (var i = 0; i < pageList.length; i++) {
+            IsDisplayFormById(pageList[i] + "Content", (pageList[i] == stepName))
+        }
+        var TitleList = [];
+        var FormList = [];
+
+        if (stepName == 'FinalItem') {
+            TitleList = document.querySelectorAll("label[id^='" + stepName + "Title'][class='need']");
+            FormList = document.querySelectorAll("div[id^='" + stepName + "Form'][class='need']");
+        } else {
+            TitleList = document.querySelectorAll("label[id^='" + stepName + "Title']");
+            FormList = document.querySelectorAll("div[id^='" + stepName + "Form']");
+        }
+
+        ////Get Title List
+        //var TitleList = document.querySelectorAll("label[id^='" + stepName + "Title']");
+
+        ////Get Form List
+        //var FormList = document.querySelectorAll("div[id^='" + stepName + "Form']");
+
+        //Fcous Title
+
+        for (var i = 0; i < TitleList.length; i++) {
+            IsHightLightTitleById(TitleList[i].id, (i == stepFormIndex));
+        }
+
+
+        //Fcous Form
+        for (var i = 0; i < FormList.length; i++) {
+            IsDisplayFormById(FormList[i].id, (i == stepFormIndex));
+        }
+    }
+
+    function GetStepFormCount() {
+        //Get Index Step Name
+        var stepName = pageList[pageIndex];
+
+        //Get Title List
+        if (stepName == "FinalItem") {
+            return finalItemList.length;
+        } else {
+
+            return document.querySelectorAll("label[id^='" + stepName + "Title']").length;
+        }
+
+    }
+
+    function refreshFinalItemTag() {
+
+        //Get Title List
+        var TitleList = document.querySelectorAll("label[id^='FinalItemTitle']");
+
+        for (var i = 0; i < TitleList.length; i++) {
+            var ItemCode = TitleList[i].id.substring(('FinalItemTitle').length);
+
+            if (finalItemList.includes(ItemCode)) {
+                //add tag
+                TitleList[i].className = "need";
+                TitleList[i].hidden = false;
+            } else {
+                TitleList[i].className = "";
+                TitleList[i].hidden = true;
+            }
+        }
+
+        //Get Form List
+        var FormList = document.querySelectorAll("div[id^='FinalItemForm']");
+
+        for (var i = 0; i < FormList.length; i++) {
+            var ItemCode = FormList[i].id.substring(('FinalItemForm').length);
+            if (finalItemList.includes(ItemCode)) {
+                //add tag
+                FormList[i].className = "need";
+                FormList[i].hidden = false;
+            } else {
+                FormList[i].className = "";
+                FormList[i].hidden = true;
+            }
+        }
+
+
+
+    }
+
+    function RefreshBaseStep(BaseTitleList, BaseFormList) {
+
+
+        //Fcous Title
+        for (let index in BaseTitleList) {
+
+            IsHightLightTitleById(BaseTitleList[index].id, (index == stepFormIndex));
+        }
+
+        //Fcous Form
+        for (let index in BaseFormList) {
+            IsDisplayFormById(BaseFormList[index].id, (index == stepFormIndex));
+        }
+    }
+
+    function IsHightLightTitleById(Id, IsTrue) {
+        var Title = document.getElementById(Id);
+        if (Title == null || Title == undefined) { return; }
+        Title.style.backgroundColor = (IsTrue ? "yellow" : "");
+        Title.style.color = (IsTrue ? "black" : "");
+    }
+
+    function IsDisplayFormById(Id, IsTrue) {
+
+        var Item = document.getElementById(Id);
+        if (Item == null || Item == undefined) { return; }
+        Item.style.display = (IsTrue ? "" : "none");
+    }
+
+    function RefreshStepButton() {
+
+        var StepFormCount = GetStepFormCount();
+        //Refresh Previous Button
+        IsDisplayFormById('btnPrevious', (stepFormIndex > 0 && stepFormIndex < StepFormCount));
+
+        //Refresh Next Button
+        IsDisplayFormById('btnNext', (stepFormIndex >= 0 && stepFormIndex < (StepFormCount - 1)));
+
+        //Refresh Next Button
+        IsDisplayFormById('btnSaveAndNext', (stepFormIndex >= 0 && stepFormIndex < (StepFormCount - 1)));
+
+        //Refresh Submit Button
+        IsDisplayFormById('btnSubmit', (((stepFormIndex == (StepFormCount - 1)) && (pageIndex < pageList.length)) || (pageIndex == pageList.length + 1)));
+
+        //Refresh Submit Button When Is Readonly
+        if (isReadonly && !isSummary) {
+            IsDisplayFormById('btnSubmit', (stepFormIndex == (StepFormCount - 1) && (pageIndex < pageList.length - 1)));
+        }
+
+
+        //Refresh Previous Page Button
+        IsDisplayFormById('btnPreviousPage', (pageIndex > 0 && pageIndex <= pageList.length - 1));
+
+        //Refresh Roll Back Comment
+        IsDisplayFormById('btnRollBack', (pageIndex == 0 && stepFormIndex == 0));
+
+    }
+
+    function changeStepIndex(IsNext) {
+        var isValid = formchecklistValid();
+        if (!isValid) {
+            alert('Please check all the radio boxes');
+            return;
+        }
+
+        //Get Index Step Name
+        var stepName = pageList[pageIndex];
+
+        if (IsNext) {
+            stepFormIndex += 1;
+        } else {
+            stepFormIndex -= 1;
+        }
+
+        RefreshStep();
+        RefreshStepButton();
+    }
+
+    function clickSumbit() {
+
+        if (isReadonly && !isSummary) {
+            if (stepFormIndex == (GetStepFormCount() - 1)) {
+                //Next Page
+                changePageIndex(true);
+            } else {
+                changeStepIndex(true);
+            }
+
+            return;
+        }
+
+        if (pageIndex > pageList.length) {
+            var isValid = recomendationValid();
+            if (!isValid) {
+                alert('Please check the recommendation');
+                return;
+            }
+            attr("inputForm", "addClass", "saving");
+            $.post("SummarySubmit", $("#inputForm").serialize(), function (data) {
+                attr("inputForm", "dropClass", "saving");
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        } else {
+            //changePageIndex(true);
+            var isValid = formchecklistValid();
+            if (!isValid) {
+                alert('Please check all the radio boxes');
+                return;
+            }
+            onSaveAndNext();
+        }
+    }
+
+    function changePageIndex(IsNext) {
+
+        var isValid = formchecklistValid();
+        if (!isValid) {
+            alert('Please check all the radio boxes');
+            return;
+        }
+
+        //Next Form Index
+        stepFormIndex += 1;
+
+        //Refresh Last Step Status
+        RefreshStep();
+
+        //Change Page Index
+        if (IsNext) {
+            pageIndex += 1;
+        } else {
+            pageIndex -= 1;
+        }
+        //Reset Form Index
+        stepFormIndex = 0;
+
+        if (pageIndex == pageList.length) {
+            if (isReadonly) {
+                pageIndex = 0;
+
+            } else {
+                toSummaryForm();
+            }
+
+        }
+
+        //Refresh Header
+        refreshHeader();
+
+        //Refresh Current Step Form And button
+        RefreshStep();
+        RefreshStepButton();
+    }
+
+    function toSummaryForm() {
+        //Get UUID
+        var uuid = $("#P_MW_RECORD_UUID").val();
+        var vUuid = $("#V_UUID").val();
+        var datas = [];
+
+        datas.push({ name: "R_UUID", value: uuid });
+        datas.push({ name: "IsSummary", value: true });
+        datas.push({ name: "V_UUID", value: vUuid });
+
+        goTo("Summary", datas);
+    }
+
+    function fillTitle() {
+        var baseHeader = document.getElementById('BaseHeader');
+
+        var titleHtml = "";
+        for (var i = 1; i < pageList.length; i++) {
+            titleHtml = " > <label id='" + pageList[i] + "Header' style='margin-left:5px;'>" + pageList[i] + "</label>";
+            baseHeader.innerHTML += titleHtml;
+        }
+    }
+
+    function refreshHeader() {
+        var headerList = document.querySelectorAll("label[id$='Header']");
+
+        for (var i = 0; i < headerList.length; i++) {
+            IsHightLightTitleById(headerList[i].id, (i == (pageIndex - 1)));
+        }
+    }
+
+
+    ////Start Listen for return value of the rollback page
+    //var rollbackResult = {};
+    //Object.defineProperty(rollbackResult, 'isRollback', {
+    //    set: function (value) {
+    //        goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Index", null);
+    //    }
+    //});
+    ////End Listen for return value of the rollback page
+
+    function rollbackComment() {
+        //get reocrd uuid
+
+        var uuid = $('#P_MW_RECORD_UUID').val();
+        var handlingUnit = $('#HandlingUnit').val();
+
+        goTo(domId("rootPath").value + "/MWProcessing/Comment/AddComment",
+            [
+                { name: "RECORD_ID", value: uuid },
+                { name: "IsRollback", value: false },
+                { name: "SubmissionType", value: "Verification" },
+                { name: "HandlingUnit", value: handlingUnit }
+            ], true);
+    }
+
+    function getNeedFianlItemCheck() {
+        var matchItemList = document.querySelectorAll("input[name$='.IsMatchItem'][type='checkbox'][class$='main']");
+        finalItemList = [];
+        for (var i = 0; i < matchItemList.length; i++) {
+
+            var fianlItemCodeName = matchItemList[i].name.substring(0, matchItemList[i].name.lastIndexOf(".")) + ".ItemCode";
+            var fianlItemCode = document.getElementsByName(fianlItemCodeName)[0].value;
+
+            if (!matchItemList[i].checked) {
+                if (!finalItemList.includes(fianlItemCode)) {
+                    finalItemList.push(fianlItemCode);
+                }
+            }
+        }
+
+        if (finalItemList.length > 0) {
+            if (!pageList.includes('FinalItem')) {
+                pageList.push('FinalItem')
+            }
+        } else {
+            if (pageList.includes('FinalItem')) {
+                pageList.pop();
+            }
+        }
+        refreshFinalItemTag();
+
+    }
+
+    function readonlyPage() {
+
+        if (!isReadonly) { return; }
+
+        var inputForm = document.getElementById('inputForm');
+        var inputList = inputForm.querySelectorAll("input");
+        var ddlList = inputForm.querySelectorAll("select");
+        var btnList = inputForm.querySelectorAll("button");
+        var taList = inputForm.querySelectorAll("textarea");
+
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].type == "hidden") { continue; }
+            inputList[i].disabled = true;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].disabled = true;
+        }
+
+        for (var i = 0; i < btnList.length; i++) {
+
+            if (btnList[i].className.indexOf("enabled") < 0) {
+                btnList[i].disabled = true;
+                btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+            }
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+            taList[i].disabled = true;
+        }
+    }
+
+    function recomendationValid() {
+        var recommendationList = document.querySelectorAll("input[name='P_MW_SUMMARY_MW_ITEM_CHECKLIST.RECOMMEDATION_APPLICATION']");
+
+        var isChecked = false;
+        for (var i = 0; i < recommendationList.length; i++) {
+            if (recommendationList[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+
+        return isChecked;
+    }
+
+    function formchecklistValid() {
+
+        //get current page
+        var currentPage = pageList[pageIndex];
+
+        //only check first part
+        if (currentPage != pageList[0]) {
+            return true;
+        }
+
+        //get current item
+        FormList = document.querySelectorAll("div[id^='" + currentPage + "Form']");
+
+        if (FormList) {
+            var currentItem = FormList[stepFormIndex];
+        }
+
+        //get formchecklist radio button
+        var formchecklist = currentItem.querySelectorAll("input[type='radio'][name^='P_MW_RECORD_FORM_CHECKLIST']");
+
+        var result = true;
+
+        var lastName = "";
+        var currentName = "";
+
+        var isChecked = false;
+
+        if (formchecklist) {
+            lastName = formchecklist[0].name;
+        }
+
+        for (var i = 0; i < formchecklist.length; i++) {
+
+            //get name
+            currentName = formchecklist[i].name;
+
+            //skip if disabled
+            if (formchecklist[i].disabled) { continue; }
+
+            //check name
+            if (currentName == lastName) {
+
+                if (formchecklist[i].checked) {
+                    //is checked
+                    isChecked = formchecklist[i].checked;
+                }
+            } else {
+
+                //if three is no checked return false
+                if (!isChecked) {
+                    result = false;
+                    break;
+                } else {
+                    lastName = currentName;
+                    isChecked = formchecklist[i].checked;
+                }
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+    domReady(function () {
+        //Get Form Code
+        formCode = document.getElementById("P_MW_RECORD_S_FORM_TYPE_CODE").value;
+        isReadonly = document.getElementById("IsReadonly").value.toLowerCase() == "true";
+        isSummary = document.getElementById("IsSummary").value.toLowerCase() == "true";
+
+        if ($('#IsSummary').val() == "true") {
+            GetStepList();
+            for (var i = 0; i < pageList.length; i++) {
+                IsDisplayFormById(pageList[i] + "Content", true);
+            }
+
+            pageIndex = pageList.length + 1;
+            console.log(pageIndex);
+            RefreshStepButton();
+
+            //Refresh Roll Back Comment
+            IsDisplayFormById('btnRollBack', (pageIndex == 0));
+
+        } else {
+            GetStepList();
+            RefreshStepButton();
+            RefreshStep();
+            //refreshDdlSelect2();
+            fillTitle();
+
+            //get final item
+            if (formCode == "MW02" || formCode == "MW04" || formCode == "MW10") {
+                getNeedFianlItemCheck();
+            }
+
+            readonlyPage();
+        }
+
+
+
+    });
+</script>

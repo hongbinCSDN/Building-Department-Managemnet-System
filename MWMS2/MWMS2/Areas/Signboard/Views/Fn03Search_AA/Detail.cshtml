@@ -1,0 +1,538 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn03SRC_AADisplayModel
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+        function okResult(event) {
+            $("#auditResult").empty();
+            $("#auditResult").append("<option value='a'>(a) In order</option> ");
+            $("#auditResult").append("<option value='b'>(b) Not in order</option>");
+            $("#auditResult").append("<option value='bi'>i. Pending</option>");
+            $("#auditResult").append("<option value='bii'>ii.	Intermediate action taken (remark)</option>");
+            $("#auditResult").append("<option value='biii'>iii. Final action taken (remark)</option>");
+        }
+
+        function notOkResult(event) {
+            $("#auditResult").empty();
+            $("#auditResult").append("<option value='a'>(a) Overdue</option> ");
+            $("#auditResult").append("<option value='b'>(b) Not yet overdue</option>");
+            $("#auditResult").append("<option value='bi'>i. Pending</option>");
+            $("#auditResult").append("<option value='bii'>ii. Intermediate action taken (remark)</option>");
+        }
+
+        function goExport(uuid, msg) {
+            var answer = confirm(msg);
+            if (answer) {
+                domId("Uuid").value = uuid;
+                domId("taskForm").action = "AuditExport";
+                domId("taskForm").submit();
+            }
+            else {
+                return;
+            }
+        }
+
+        function goExportExcel(uuid, msg) {
+            var answer = confirm(msg);
+            if (answer) {
+                domId("Uuid").value = uuid;
+                domId("taskForm").action = "AuditExportExcel";
+                domId("taskForm").submit();
+
+            }
+            else {
+                return;
+            }
+        }
+
+        function abc() {
+            console.log("abc");
+        }
+
+        function popupComments(isReadonly) {
+            var url = '@Request.Url.GetLeftPart(UriPartial.Authority)';
+            if (isReadonly) {
+                url += '@Html.Raw(Url.Action("List", "Fn03Search_AA", new { auditUuid = Model.Uuid, RecordType = Model.RecordType, EditMode = "view" }))';
+            }
+            else {
+                url += '@Html.Raw(Url.Action("List", "Fn03Search_AA", new { auditUuid = Model.Uuid, RecordType = Model.RecordType, EditMode = "add" }))';
+            }
+            // return popupWind(url);
+            return window.open(url, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+        }
+
+        function popupWind(url) {
+            window.open(url, null, "dialogWidth:700px; dialogHeight:400px; center:yes");
+        }
+
+        function submitForm(mode) {
+
+            thisForm = document.getElementById("taskForm");
+            thisForm.btnViewComments.disabled = true;
+            thisForm.btnSaveAsDraft.disabled = true;
+            if (thisForm.btnTOSubmit != undefined) {
+                thisForm.btnTOSubmit.disabled = true;
+            }
+            if (thisForm.btnPOSubmit != undefined) {
+                thisForm.btnPOSubmit.disabled = true;
+                thisForm.btnRollback.disabled = true;
+                thisForm.btnSpoReview.disabled = true;
+            }
+            if (thisForm.btnSpoSubmit != undefined) {
+                thisForm.btnSpoSubmit.disabled = true;
+                thisForm.btnRollback.disabled = true;
+            }
+            $("#EditMode")[0].value = mode;
+            //thisForm.action = "Save";
+            //thisForm.submit();
+            /////////////////////////////////////////////////////////////////////////////////
+            $.post("Save", $("#taskForm").serialize(), function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    window.location = domId("rootPath").value + '/Signboard/Fn02TDL_TDL/Index';
+                }
+                else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            }, "json");
+        }
+
+        function rollbackToDo() {
+            disableAllBtns();
+            popupComments(false);
+           // submitForm('@Model.ROLLBACK_MODE');
+        }
+
+        function rollbackToDoCallback() {
+            submitForm('@Model.ROLLBACK_MODE');
+        }
+
+        function redirectToTDL() {
+            rollbackToDoCallback();
+            window.location = domId("rootPath").value + '/Signboard/Fn02TDL_TDL/Index';
+        }
+
+        function disableAllBtns() {
+            $("input:button").each(function () {
+                $(this).attr("disabled", "disabled");
+            });
+        }
+
+    </script>
+}
+
+<style type="text/css">
+    .fLabel {
+        font-weight: bold;
+        text-align: left !important;
+        background-color: #DADADA;
+    }
+
+    .fText {
+        padding-left: 10px;
+    }
+
+    #audit .fLabel {
+        font-weight: bold;
+        text-align: right !important;
+        background-color: #DADADA;
+    }
+
+    #audit .fText {
+        padding-left: 10px;
+    }
+
+    #audit .text-box {
+        max-width: 300px !important;
+    }
+
+    .one-row {
+        border-style: solid;
+        border-color: #fff;
+        border-width: 0px 0px 1px 0px;
+    }
+
+    .one-block {
+    }
+
+    .inner-element {
+        text-align: left !important;
+        background-color: inherit !important;
+    }
+
+    .inner-header {
+        padding-left: 20px;
+        background-color: #DADADA;
+    }
+
+    .fix-table {
+        table-layout: fixed;
+    }
+
+    .fix-td {
+        word-wrap: break-word !important;
+        white-space: normal !important;
+    }
+</style>
+
+<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    <span id="MODIFIED_DATE">
+        @Html.DisplayFor(x => x.ModifiedDate)
+    </span>
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    <span id="MODIFIED_BY">
+        @Html.DisplayFor(x => x.ModifiedBy)
+    </span>
+</div>
+
+<div class="sList w3-border displayForm" id="caseInfo">
+    <div class="w3-row">
+        <div class="panelHeader">Signboard Information</div>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="fLabel fText" style="width: 20%;">Submission No.</td>
+                    <td class="fText" style="width: 20%;">@Model.FileRefNo</td>
+                    <td class="fLabel fText" style="width: 20%;">Form Code</td>
+                    <td class="fText">@Model.FormCode</td>
+                </tr>
+                <tr>
+                    <td class="fLabel fText" style="width: 20%;">Received Date</td>
+                    <td class="fText" style="width: 20%;">@Model.ReceivedDate</td>
+                    <td class="fLabel fText" style="width: 20%;">Location/Address of the Signboard</td>
+                    <td class="fText">@Model.SignboardAddress</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<div class="sList w3-border displayForm" id="mwItemInfo">
+    <div class="w3-row">
+        <div class="panelHeader">Details of the Minor Work</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th style=" text-align: left; padding-left: 10px;">Minor Work item</th>
+                    <th style=" text-align: left; padding-left: 10px;">Description</th>
+                    <th style=" text-align: left; padding-left: 10px;">Relevant Order/ Direction/ Notice No./ BD Reference No.</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.SvRecordItem != null)
+                    {
+                        foreach (var item in Model.SvRecordItem)
+                        {
+                            <tr>
+                                <td>@item.MW_ITEM_CODE</td>
+                                <td>@item.LOCATION_DESCRIPTION</td>
+                                <td>@item.REVISION</td>
+                            </tr>
+                        }
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+<div class="sList w3-border displayForm" id="pbpInfo">
+    <div class="w3-row">
+        <div class="panelHeader">Particulars of PBP</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th style=" text-align: left; padding-left: 10px;">PBP</th>
+                    <th style=" text-align: left; padding-left: 10px;">Certification of Registration No.</th>
+                    <th style=" text-align: left; padding-left: 10px;">English Name</th>
+                    <th style=" text-align: left; padding-left: 10px;">Chinese Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AP</td>
+                    <td>@Model.Ap.CERTIFICATION_NO</td>
+                    <td>@Model.Ap.ENGLISH_NAME</td>
+                    <td>@Model.Ap.CHINESE_NAME</td>
+                </tr>
+                <tr>
+                    <td>RSE</td>
+                    <td>@Model.Rse.CERTIFICATION_NO</td>
+                    <td>@Model.Rse.ENGLISH_NAME</td>
+                    <td>@Model.Rse.CHINESE_NAME</td>
+                </tr>
+                <tr>
+                    <td>RGE</td>
+                    <td>@Model.Rge.CERTIFICATION_NO</td>
+                    <td>@Model.Rge.ENGLISH_NAME</td>
+                    <td>@Model.Rge.CHINESE_NAME</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="sList w3-border displayForm" id="prcInfo">
+    <div class="w3-row">
+        <div class="panelHeader">Particulars of PRC</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th style=" text-align: left; padding-left: 10px;">Certification of Registration No.</th>
+                    <th style=" text-align: left; padding-left: 10px;">English Name of PRC</th>
+                    <th style=" text-align: left; padding-left: 10px;">Chinese Name of PRC</th>
+                    <th style=" text-align: left; padding-left: 10px;">English Name of AS</th>
+                    <th style=" text-align: left; padding-left: 10px;">Chinese Name of AS</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    <tr>
+                        <td>@Model.Prc.CERTIFICATION_NO</td>
+                        <td>@Model.Prc.ENGLISH_NAME</td>
+                        <td>@Model.Prc.CHINESE_NAME</td>
+                        <td>@Model.Prc.AS_ENGLISH_NAME</td>
+                        <td>@Model.Prc.AS_CHINESE_NAME</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+<div class="sList w3-border displayForm" id="submittedDoc">
+    <div class="w3-row">
+        <div class="panelHeader">Incoming Document</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th style=" text-align: left; padding-left: 10px;">DSN Number</th>
+                    <th style=" text-align: left; padding-left: 10px;">Document Type</th>
+                    <th style=" text-align: left; padding-left: 10px;">Scanned Date</th>
+                    <th style=" text-align: left; padding-left: 10px;">View Image</th>
+                    <th style=" text-align: left; padding-left: 10px;">Private (SCU)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.DocList != null && Model.DocList.Count() > 0)
+                    {
+                        foreach (var item in Model.DocList)
+                        {
+                            <tr>
+                                <td>@item.DSN_NUMBER</td>
+                                <td>@item.DOCUMENT_TYPE</td>
+                                <td>@item.SCAN_DATE</td>
+                                <td>
+                                    @if (item.FILE_PATH != null)
+                                    {
+                                        <button class="btn btn-default">
+                                            <a href="@item.FILE_PATH" target="_blank" class="button3">
+                                                <i class="far fa-file-image"></i>
+                                            </a>
+                                        </button>
+                                    }
+                                </td>
+                                <td>@item.FOLDER_TYPE</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+<div class="sList w3-border displayForm" id="photoLibrary">
+    <div class="w3-row">
+        <div class="panelHeader">Photo Library</div>
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th style=" text-align: left; padding-left: 10px; width: 70%;">Photo Library Description </th>
+                    <th style=" text-align: left; padding-left: 10px; width: 30%;">View Image (URL)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.PhotoLib != null && Model.PhotoLib.Count() > 0)
+                    {
+                        foreach (var item in Model.PhotoLib)
+                        {
+                            if (item.URL == null)
+                            {
+                                item.URL = "https://dp2.bd.hksarg/wpls_prod/jsp/spa/spa0102.jsp?BK_ID=";
+                            }
+                            <tr>
+                                <td>@item.DESCRIPTION</td>
+                                <td>
+                                    <button class="btn btn-default">
+                                        @*<a onclick="popupWind('DownloadFile?path=@Url.Content(item.FILE_PATH)')"><i class="far fa-file-image"></i></a>*@
+                                        <a href="@item.URL" target="_blank" class="button3">
+                                            <i class="far fa-file-image"></i>
+                                        </a>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<br />
+@using (Html.BeginForm("Save", "Fn03Search_AA", FormMethod.Post, new { @id = "taskForm", enctype = "multipart /form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.Uuid)
+    @Html.HiddenFor(model => model.ErrMsg)
+    @Html.HiddenFor(model => model.EditMode)
+    @Html.HiddenFor(model => model.RecordType)
+    @Html.HiddenFor(model => model.SvReocrdUuid)
+
+
+    <div class="sList w3-border displayForm" id="auditInfo">
+        <div class="w3-row">
+            <div class="panelHeader">Audit Information</div>
+            <table id="audit">
+                <tbody>
+                    <tr>
+                        <td class="fLabel" style="width: 20%;">Status:</td>
+                        <td style="width: 53%;">@Html.DropDownListFor(model => model.AuditStatus, Model.AuditStatusList, new { @class = "form-control", @style = "width: 400px;" })</td>
+                    </tr>
+                    <tr>
+                        <td class="fLabel" style="width: 20%;">Audit Check Officer:</td>
+                        <td style="width: 53%;">@Html.TextBoxFor(model => model.OtherOfficer, new { @class = "text-box" })</td>
+                        <td class="fLabel" style="width: 15%;">Referral Date</td>
+                        <td>@Html.TextBoxFor(model => model.ReferralDate, new { @class = "inputDate", @id = "ReferralDate" })</td>
+                    </tr>
+                    <tr>
+                        <td class="fLabel" style="width: 20%;">Remarks:</td>
+                        <td style="width: 53%;">@Html.TextBoxFor(model => model.Remarks, new { @class = "text-box", @style = "min-width: 100%;" })</td>
+                        <td class="fLabel" style="width: 15%;">Reply Date</td>
+                        <td>@Html.TextBoxFor(model => model.ReplyDate, new { @class = "inputDate", @id = "ReplyDate" })</td>
+                    </tr>
+                    <tr>
+                        <td class="fLabel" style="width: 20%;">Result: </td>
+                        <td style="width: 53%;">
+                            @if (Model.AuditResultOption == null)
+                            {
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Complete", new { @onclick = "okResult(event)" })
+                                @Html.Label("Complete", "Completed", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Not yet complete", new { @onclick = "notOkResult(event)" })
+                                @Html.Label("Not yet complete", "Not yet complete ", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                <br />
+                                @Html.DropDownListFor(model => model.AuditResult, Enumerable.Empty<SelectListItem>(), new { @id = "auditResult", @class = "form-control", @style = "width: 400px;" })
+                            }
+                            else if (Model.AuditResultOption.Equals(Model.AUDIT_RESULT_COMPELETE))
+                            {
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Complete", new { @checked = "checked", @onclick = "okResult(event)" })
+                                @Html.Label("Complete", "Completed", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Not yet complete", new { @onclick = "notOkResult(event)" })
+                                @Html.Label("Not yet complete", "Not yet complete ", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                <br />
+                                @Html.DropDownListFor(model => model.AuditResult, Model.auditResultCompleteList, new { @id = "auditResult", @class = "form-control", @style = "width: 400px;" })
+                            }
+                            else if (Model.AuditResultOption.Equals(Model.AUDIT_RESULT_NOT_COMPELETE))
+                            {
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Complete", new { @onclick = "okResult(event)" })
+                                @Html.Label("Complete", "Completed", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                @Html.RadioButtonFor(model => model.AuditResultOption, "Not yet complete", new { @checked = "checked", @onclick = "notOkResult(event)" })
+                                @Html.Label("Not yet complete", "Not yet complete ", new { style = "margin-left: 5px; margin-right: 15px;" })
+                                <br />
+                                @Html.DropDownListFor(model => model.AuditResult, Model.auditResultNotCompleteList, new { @id = "auditResult", @class = "form-control", @style = "width: 400px;" })
+
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div style="background-color: #DADADA; padding: 5px 0px 5px 0px;">
+        <input type="button" style="width: 400px;" value="Export audit data for mail merge"
+               name="btnNext" id="btnExport" class="btn btn-default inputButton"
+               onclick="goExport('@Model.Uuid','Data will be exported without saved. Are you sure to continue?')">
+        <input type="button" style="width: 400px;" value="Export audit data for Excel"
+               name="btnExcel" id="btnExcel" class="btn btn-default inputButton"
+               onclick="goExportExcel('@Model.Uuid','Data will be exported without saved. Are you sure to continue?')">
+    </div>
+
+    if (!Model.EditMode.Equals("view"))
+    {
+        <hr style="margin-top: 0 !important; margin-bottom: 0 !important;" />
+        <div class="w3-container footer" style="background-color: #DADADA; padding: 10px 10px 10px 0px; text-align: right;">
+
+            <input type="button" onclick="popupComments(true)"
+                   style="width: 170px;" value="View Comments" class="btn btn-default inputButton"
+                   name="btnViewComments" id="btnViewComments" />
+
+            @if (Model.ViewEditMode != "view")
+            {
+                if (Model.WfStatus.Equals(Model.WF_MAP_AUDIT_TO))
+                {
+                    <input class="btn btn-default inputButton" type="button" id="btnSaveAsDraft"
+                           name="btnSaveAsDraft" value="Save as Draft" style="width: 170px;"
+                           onclick="submitForm('@Model.SAVE_MODE')" />
+                    <input class="btn btn-default inputButton" type="button" id="btnTOSubmit"
+                           name="btnTOSubmit" value="TO Confirm Process Complete"
+                           style="width: 320px;"
+                           onclick="submitForm('@Model.SUBMIT_MODE')" />
+                }
+                else if (Model.WfStatus.Equals(Model.WF_MAP_AUDIT_PO))
+                {
+                    <input class="btn btn-default inputButton" type="button" id="btnRollback"
+                           name="btnRollback" value="Rollback to TO" style="width: 170px;"
+                           onclick="rollbackToDo()" />
+                    <input class="btn btn-default inputButton" type="button" id="btnSpoReview"
+                           name="btnSpoReview" value="For SPO advice" style="width: 170px;"
+                           onclick="submitForm('@Model.PASS_MODE')" />
+                    <input class="btn btn-default inputButton" type="button" id="btnSaveAsDraft"
+                           name="btnSaveAsDraft" value="Save as Draft" style="width: 170px;"
+                           onclick="submitForm('@Model.SAVE_MODE')" />
+                    <input class="btn btn-default inputButton" type="button" id="btnPOSubmit"
+                           name="btnPOSubmit" value="PO Confirm Process Complete"
+                           style="width: 320px;"
+                           onclick="submitForm('@Model.SUBMIT_MODE')" />
+                }
+                else if (Model.WfStatus.Equals(Model.WF_MAP_AUDIT_SPO))
+                {
+                    <input class="btn btn-default inputButton" type="button" id="btnRollback"
+                           name="btnRollback" value="Rollback to PO" style="width: 170px;"
+                           onclick="rollbackToDo()" />
+                    <input class="btn btn-default inputButton" type="button" id="btnSaveAsDraft"
+                           name="btnSaveAsDraft" value="Save as Draft" style="width: 170px;"
+                           onclick="submitForm('@Model.SAVE_MODE')" />
+                    <input class="btn btn-default inputButton" type="button" id="btnSpoSubmit"
+                           name="btnSpoSubmit" value="SPO Confirm Process Complete"
+                           style="width: 320px;"
+                           onclick="submitForm('@Model.SUBMIT_MODE')" />
+                }
+            }
+        </div>
+    }
+
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}

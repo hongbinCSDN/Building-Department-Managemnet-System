@@ -1,0 +1,91 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_GCNSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    @Html.HiddenFor(x => x.doSearch)
+    <div id="searchCriteria">
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">File Reference :</div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.TextBoxFor(model => model.FileRef)
+                        @*@ViewData["Message"]*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m12 s12">Company Name :</div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.TextBoxFor(model => model.ComName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+                <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "fileRef", value: row.FILE_REFERENCE_NO }, { name: "comName", value: row.ENGLISH_COMPANY_NAME }, { name: "regType", value: row.REGISTRATION_TYPE }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        domReady(function () {
+            searching =new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: "File Ref.", columnName: "FILE_REFERENCE_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+                    , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                    , { displayName: "Status", columnName: "ENGLISH_DESCRIPTION" }
+
+                    , { displayName: "Date of Expiry", columnName: "EXPIRY_DATE" }
+                    //, {
+                    //    displayName: "Name", columnName: "NAME"
+                    //    , click: function (row) {
+                    //        try {
+                    //            if (row == null) return;
+                    //            goTo("Form", [{ name: "id", value: row.UUID }, { name: "type", value: row.CONVICTIONTYPE }]);
+                    //        } catch (err) { }
+                    //    }
+                    //}
+
+                ]
+            });
+           
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

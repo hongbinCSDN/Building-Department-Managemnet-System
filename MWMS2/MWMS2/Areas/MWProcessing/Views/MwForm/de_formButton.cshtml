@@ -1,0 +1,46 @@
+﻿
+<div class="w3-container footer">
+    <button id="submitBtn" class="btn btn-default" type="button">Submit</button>
+    <button id="draftBtn" class="btn btn-default" type="button">Save as Draft</button>
+    <button id="ACBtn" class="btn btn-default hide" type="button">Accept All Conflits</button>
+    <button id="OCBtn" class="btn btn-default hide" type="button">Override and Confirm</button>
+    <button class="btn btn-default" onclick="goTo('Index')" type="button">Home</button>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("draftBtn", "onclick", { parameters: {}, callback: onSaveAsDraftForm });
+        attr("submitBtn", "onclick", { parameters: {}, callback: onSubmitForm });
+    });
+
+    function onSaveAsDraftForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post(domId("rootPath").value + "/Fn02MWUR_DE/SaveAsDraft", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_DE/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function onSubmitForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post(domId("rootPath").value + "/Fn02MWUR_DE/SubmitForm", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_DE/Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>

@@ -1,0 +1,312 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_VSSearchModel
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}
+
+    <div id="searchCriteria">
+
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission No. :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.RefNo)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Status :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Status, Model.StatusList)
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Class :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Class, Model.ClassList)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Received Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ReceivedDateFrom, new { @class = "inputDate", @id = "ReceivedDateFrom" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ReceivedDateTo, new { @class = "inputDate", @id = "ReceivedDateTo" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Item No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.ItemNo, Model.ItemNoList)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Related Order No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.RelatedOrderNo)
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">With Alteration/Strengthening :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Alternation, Model.AlternationList)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Order No./ Direction/ Notice No./ BD reference :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.OrderNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Recommendation :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DropDownListFor(model => model.Recommend, Model.RecommendationList)
+                </div>
+            </div>
+        </div>
+        <div class="panelHeader">
+            Signboard Location
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Street :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Street)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Street No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.StreetNo)
+                </div>
+            </div>
+        </div>  <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Building/Block :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Building)
+                </div>
+            </div>
+        </div>  <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">District :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.District)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Region :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Region, Model.RegionList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Person Who Arranged the Works :	</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Paw)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row panelHeader" style="padding-left: 0px !important;">
+            <div class="w3-col l3 m12 s12" style="padding-left: 20px !important;">Related Party</div>
+            <div class="w3-col l3 m12 s12">@Html.DropDownListFor(model => model.RelatedParty, Model.RelatedPartyList)</div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">English Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.EnglishName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.ChineseName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Certificate of Registration No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.CertOfRegNo)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panelHeader">
+
+            Handling Officer
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Handling Officer Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.HandlingOfficer, Model.HandlingOfficerList)
+                    <!--Html.DropDownListFor(model => model.HandlingOfficer, Model.HandlingOfficerList)-->
+                </div>
+            </div>
+        </div>
+
+        <div class="panelHeader">
+
+            Work Schedule
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Inspection Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.InspectDateFrom, new { @class = "inputDate", @id = "InspectDateFrom" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.InspectDateTo, new { @class = "inputDate", @id = "InspectDateTo" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Actual Alteration/Strengthening Completion Date</div>
+                <div class="w3-col l9 m12 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.CompletionDateFrom, new { @class = "inputDate", @id = "CompletionDateFrom" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.CompletionDateTo, new { @class = "inputDate", @id = "CompletionDateTo" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Validation Expiry Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ValidationExpiryDateFrom, new { @class = "inputDate", @id = "ExpiryDateFrom" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ValidationExpiryDateTo, new { @class = "inputDate", @id = "ExpiryDateTo" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Expiry Date Period :</div>
+                <div class="w3-col l9 m12 s12">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ExpiryDateFrom, new { @class = "inputDate", @id = "ExpiryDateFrom" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ExpiryDateTo, new { @class = "inputDate", @id = "ExpiryDateTo" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Signboard Removed :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.CheckBoxFor(model => model.SignboardRemoved)
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+        </div>
+
+</div>
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "REF_NO"
+            , Columns: [
+                {
+                    displayName: "Thumbnail ",
+                    formater: function (row) {
+                        var span = dom("span", { "id": "Row" + row.REF_NO });
+                        if (row.FILE_PATH != "No Thumbnail") {
+                            var child = dom("img", { "src": row.FILE_PATH, "style": "width: @Model.SIGNBOARD_THUMBNAIL_WIDTH", "type": "image/jpeg" });
+                        }
+                        else {
+                            var child = dom("span", { "html": row.FILE_PATH });
+                        }
+                        @*var embed = dom("embed", { "src": row.FILE_PATH, "style": "width: @Model.SIGNBOARD_THUMBNAIL_WIDTH", "type": "image/jpeg" });*@
+                        span.appendChild(child);
+                        return span;
+                    }
+                },
+                {
+                    displayName: "Submission No.", columnName: "REF_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Form", [{ name: "refNo", value: /*"8a85bda64a76fd9c014b065abcc14dfd"*/row.REF_NO }]);
+                        } catch (err) { }
+                    }
+                },
+                // { displayName: "Recommendation", columnName: "RECOMMENDATION" },
+                { displayName: "Validation Item No", columnName: "VALIDATION_ITEM" },
+                { displayName: "MW Item No", columnName: "MW_ITEM_CODE" },
+                { displayName: "ExpiryDate", columnName: "EXPIRY_DATE" },
+                { displayName: "Location of Signboard", columnName: "LOCATION" },
+                { displayName: "Signboard Removal Date", columnName: "REMOVAL_DISCOV_DATE" },
+                // { displayName: "Received Date", columnName: "RECEIVED_DATE" },
+                // { displayName: "Status", columnName: "STATUS" }//,
+                // { displayName: "Case Officer", columnName: "" }
+            ]
+        });
+
+        atcpAddress({
+            streetName: "Street"
+            , streetNo: "StreetNo"
+            , building: "Building"
+            // District
+            //, floor: "Paw_B_SV_ADDRESS_FLOOR"
+            //, unit: "Paw_B_SV_ADDRESS_FLAT"
+            //, blkNo: "Paw_B_SV_ADDRESS_BLOCK"
+            , region: "Region"
+        });
+    });
+</script>

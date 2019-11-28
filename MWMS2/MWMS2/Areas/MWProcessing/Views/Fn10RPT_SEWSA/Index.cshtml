@@ -1,0 +1,66 @@
+﻿
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button">View Report</button>
+    </div>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                //{ displayName: "Task               ", columnName: "TASK" }
+                {
+                    displayName: "Ref.No.            ", columnName: "REFERENCE_NO"
+                    //, click: function (row) {
+                    //    try {
+                    //        if (row == null) { return; }
+                    //
+                    //        if (row.TASK == "Acknowledgement") {
+                    //            goTo("Acknowledgement", [{ name: "R_UUID", value: row.R_UUID }, { name: "V_UUID", value: row.V_UUID }]);
+                    //        } else {
+                    //            goTo("Verification", [{ name: "R_UUID", value: row.R_UUID }, { name: "V_UUID", value: row.V_UUID }]);
+                    //        }
+                    //
+                    //    }
+                    //    catch (err) {
+                    //    }
+                    //}
+                }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+            //, onBeforeSearch: function (r) {
+            //    attr("SubmissionCount", "html", "Loading..");
+            //}
+            //, onAfterSearch: function (r) {
+            //     attr("SubmissionCount", "html", r.Total);
+            // }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+</script>

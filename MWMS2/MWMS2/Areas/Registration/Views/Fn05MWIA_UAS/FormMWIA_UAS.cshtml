@@ -1,0 +1,1544 @@
+﻿@model MWMS2.Models.UpdateAppStatusDisplayModel
+@using (Html.BeginForm("Save", "Fn05MWIA_UAS", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.C_IND_APPLICATION.UUID)
+    @Html.HiddenFor(model => model.C_IND_CERTIFICATE.UUID)
+    @Html.HiddenFor(model => model.CatCode)
+
+    <script type="text/javascript">
+        function GenerateSerialNo() {
+            $.ajax({
+                type: "POST",
+                url: '/Fn05MWIA_MWIA/GenerateSerialNo',
+                data: {
+                    id: '@Model.C_IND_APPLICATION.UUID',
+                    // id: $("#C_APPLICATION.UUID").val(),
+
+                },
+                success: function (data) {
+                    console.log(data);
+                    //$("#C_IND_CERTIFICATE_CARD_EXPIRY_DATE").val(data.EXPIRY_DATE);
+                    document.getElementById('expiryQp').flatpickr({ dateFormat: "d/m/Y" }).setDate(data.EXPIRY_DATE)
+                    $("#SelectedCertificate_CARD_SERIAL_NO").val(data.SERIAL_NO);
+                }
+            });
+        }
+        function backhome() {
+            goTo("Index");
+        }
+        $(document).ready(function () {
+            //domReady(function () {
+            $(function () {
+                $('#generateCertRPT0011b').click(function () {
+                    //var temp = $("#reportAuthorityUUIDNewRegistration").val();
+                    //this.href = this.href.replace("signatureValue", temp);
+                    //this.href.attr("AVC", "23432")
+                    //alert("TT:"+temp);
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript" charset="utf-8">
+    function triggerExport(certNo, exportType) {
+
+        //var process = document.getElementById('process').value;
+        var selectedProcess = document.getElementById('process').value;
+        var compAppUuid = document.getElementById('C_IND_APPLICATION_UUID').value;
+        var indCertUuid = document.getElementById('C_IND_CERTIFICATE_UUID').value;
+        //var issueDt = document.getElementById('reportIssueDateNewRegistration').value;
+        //var lastDocRecDt = document.getElementById('reportRcvddateNewRegistration').value;
+        //var signature = document.getElementById('reportAuthorityUUIDNewRegistration').value;
+        var issueDt = "";
+        var lastDocRecDt = "";
+        var signature = "";
+
+        // base on selectedProcess, get different input
+        if ("1" == selectedProcess) {
+            // new Registration
+            issueDt = document.getElementById('newRegRptIssueDt').value;
+            lastDocRecDt = "";
+            signature = document.getElementById('reportAuthorityUUIDNewRegistration').value;
+        } else if ("2" == selectedProcess) {
+            // Retention
+            issueDt = document.getElementById('retentionRptIssueDt').value;
+            lastDocRecDt = document.getElementById('retentionLastDocRecDt').value;
+            signature = document.getElementById('retentionAuthorityName').value;
+        } else if ("3" == selectedProcess) {
+            // Restoration
+            issueDt = document.getElementById('restorationRptIssueDt').value;
+            lastDocRecDt = document.getElementById('restorationLastDocRecDt').value;
+            signature = document.getElementById('restorationAuthorityName').value;
+        } else if ("5" == selectedProcess) {
+            // Removal
+            issueDt = document.getElementById('removalRptIssueDt').value;
+            lastDocRecDt = document.getElementById('removalLastDocRecDt').value;
+            signature = document.getElementById('removalAuthorityName').value;
+        }
+
+        // check checkbox of Retension missingItem
+        var missingItemRetensionChkList = document.getElementsByName("missingItem");
+        var checked = "CHECKED";
+        var missingItemRetensionNullChk = "";
+        var missingItemRetensionChequeChk = "";
+        var missingItemRetensionProfRegCertChk = "";
+        var missingItemRetensionOthersChk = "";
+        var missingItemRetensionIncompleteFormChk = "";
+        for (i = 0; i < missingItemRetensionChkList.length; i++) {
+            var missingItemChk = missingItemRetensionChkList[i];
+            if (missingItemChk.checked) {
+                if (i == 0) { missingItemRetensionNullChk = checked; }
+                else if (i == 1) { missingItemRetensionChequeChk = checked; }
+                else if (i == 2) { missingItemRetensionProfRegCertChk = checked; }
+                else if (i == 3) { missingItemRetensionOthersChk = checked; }
+                else if (i == 4) { missingItemRetensionIncompleteFormChk = checked; }
+            }
+        }
+
+        // check checkbox of Restoration missingItem
+        var missingItemRestorationChkList = document.getElementsByName("missingItem");
+        var missingItemRestorationNullChk = "";
+        var missingItemRestorationChequeChk = "";
+        var missingItemRestorationProfRegCertChk = "";
+        var missingItemRestorationOthersChk = "";
+        var missingItemRestorationIncompleteFormChk = "";
+        for (i = 0; i < missingItemRetensionChkList.length; i++) {
+            var missingItemChk = missingItemRetensionChkList[i];
+            if (missingItemChk.checked) {
+                if (i == 0) { missingItemRetensionNullChk = checked; }
+                else if (i == 1) { missingItemRestorationChequeChk = checked; }
+                else if (i == 2) { missingItemRestorationProfRegCertChk = checked; }
+                else if (i == 3) { missingItemRestorationOthersChk = checked; }
+                else if (i == 4) { missingItemRestorationIncompleteFormChk = checked; }
+            }
+        }
+
+        // default fileName
+        var fileName = "AP_RSE.txt";
+
+        // default url
+        var targetUrl = '/Fn05MWIA_UAS/ExportCertificate';
+        if ("CERT" == exportType) {
+            targetUrl = '/Fn05MWIA_UAS/ExportCertificate';
+            fileName = "AP_RSE.txt";
+        } else if ("LETTER" == exportType) {
+            targetUrl = '/Fn05MWIA_UAS/ExportLetter';
+            fileName = "AP_RSE.txt";
+        } else if ("LETTER_WITH_CODE" == exportType) {
+            targetUrl = '/Fn05MWIA_UAS/ExportLetterWithCode';
+            fileName = "AP_RSE.txt";
+        } else if ("QP_CARD" == exportType) {
+            targetUrl = '/Fn05MWIA_UAS/ExportQPCard';
+            fileName = "QP_CARD.txt";
+        } else {
+        }
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    //contentType: "charset=utf-8;",
+        //    data: {
+        //        process: process
+        //        , certNo: certNo
+        //        , compAppUuid: compAppUuid
+        //        , issueDt: issueDt
+        //        , lastDocRecDt: lastDocRecDt
+        //        , signature: signature
+        //    },
+        //    success: function (data) {
+        //        download('cert', data);
+        //    }
+        //})
+        downloadFile(targetUrl, {
+                process: selectedProcess
+                , certNo: certNo
+                , indCertUuid: indCertUuid
+                , rptIssueDt: issueDt
+                , rptRcvdDt: lastDocRecDt
+                , signature: signature
+                , missingItemRetensionNullChk: missingItemRetensionNullChk
+                , missingItemRetensionChequeChk: missingItemRetensionChequeChk
+                , missingItemRetensionProfRegCertChk: missingItemRetensionProfRegCertChk
+                , missingItemRetensionOthersChk: missingItemRetensionOthersChk
+                , missingItemRetensionIncompleteFormChk: missingItemRetensionIncompleteFormChk
+                , missingItemRestorationNullChk: missingItemRestorationNullChk
+                , missingItemRestorationChequeChk: missingItemRestorationChequeChk
+                , missingItemRestorationProfRegCertChk: missingItemRestorationProfRegCertChk
+                , missingItemRestorationOthersChk: missingItemRestorationOthersChk
+                , missingItemRestorationIncompleteFormChk: missingItemRestorationIncompleteFormChk
+        });
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    //contentType: "charset=utf-8;",
+        //    data: {
+        //        process: selectedProcess
+        //        , certNo: certNo
+        //        , indCertUuid: indCertUuid
+        //        , rptIssueDt: issueDt
+        //        , rptRcvdDt: lastDocRecDt
+        //        , signature: signature
+        //        , missingItemRetensionNullChk: missingItemRetensionNullChk
+        //        , missingItemRetensionChequeChk: missingItemRetensionChequeChk
+        //        , missingItemRetensionProfRegCertChk: missingItemRetensionProfRegCertChk
+        //        , missingItemRetensionOthersChk: missingItemRetensionOthersChk
+        //        , missingItemRetensionIncompleteFormChk: missingItemRetensionIncompleteFormChk
+        //        , missingItemRestorationNullChk: missingItemRestorationNullChk
+        //        , missingItemRestorationChequeChk: missingItemRestorationChequeChk
+        //        , missingItemRestorationProfRegCertChk: missingItemRestorationProfRegCertChk
+        //        , missingItemRestorationOthersChk: missingItemRestorationOthersChk
+        //        , missingItemRestorationIncompleteFormChk: missingItemRestorationIncompleteFormChk
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+    }
+
+
+        function calDate(id) {
+        var postDate;
+        var selectedProcess = document.getElementById("process");
+        var selectedType = selectedProcess.options[selectedProcess.selectedIndex].text;
+
+            if (selectedType == 'New Registration') {
+                postDate = $('#C_IND_CERTIFICATE_REGISTRATION_DATE').val()
+            }
+            else if (selectedType == 'Retention') {
+                postDate = $('#C_IND_CERTIFICATE_RETENTION_DATE').val()
+            }
+            else if (selectedType == 'Restoration') {
+                postDate = $('#C_IND_CERTIFICATE_RESTORE_DATE').val()
+            }
+        document.getElementById("NewRegExtDate").value = "";
+        document.getElementById("RetExtDate").value = "";
+        document.getElementById("RetAppDate").value = "";
+        document.getElementById("ResExtDate").value = "";
+        document.getElementById("ResAppDate").value = "";
+
+        $(".EditClass").html("");
+
+        var NewRegValPerList = $("#NewRegVP option:selected").text();
+
+        var RetValPerList = $("#RetVP option:selected").text();
+
+        var ResValPerList = $("#ResVP option:selected").text();
+         
+            $.post('@Url.Action("CalculateIndDate", "Fn05MWIA_UAS")', { id: id, selectedType: selectedType, registrationDate: postDate, NewRegValPerList: NewRegValPerList, RetValPerList: RetValPerList, ResValPerList: ResValPerList, code: document.getElementById("CatCode").value }
+            , function (data) {
+                if (selectedType =="New Registration") {
+                    document.getElementById("NewRegExtDate").value = data.NEWREGEXTEND_DATE;
+                }
+                else if (selectedType =="Retention") {
+                    document.getElementById("RetExtDate").value = data.RETEXTEND_DATE;
+                    document.getElementById("RetAppDate").value = data.DateRetApp;
+                }
+                else if (selectedType =="Restoration") {
+                    document.getElementById("ResExtDate").value = data.RESEXTEND_DATE;
+                    document.getElementById("ResAppDate").value = data.DateResApp;
+                }
+                //else if (selectedType =="QP Card Application") {
+                //    document.getElementById("QpExtDate").value = data.EXTEND_DATE;
+                //}
+            });
+    }
+    // download a file
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + decodeURIComponent(text));
+        //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+
+        alert("SS: " + decodeURIComponent(text));
+
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+    function generateSerialNo() {
+        if (document.getElementById("serialNoQp").value != "") {
+            if (!confirm("Are you sure you want to Re-Generate Serial No.?")) {
+                return;
+            }
+        }
+        var uuid = document.getElementById("C_IND_APPLICATION_UUID").value;
+        $.ajax({
+            type: "POST",
+            url: '/Fn05MWIA_UAS/GenerateSerialNo',
+            data: {"uuid":uuid},
+            success: function (data) {
+                if (date != "") {
+                    var split = data.split("-");
+                    document.getElementById("serialNoQp").value = split[0];
+                    document.getElementById("expiryQp").value = split[1];
+                }
+            }
+        })
+    }
+    </script>
+    <div class="panelHeader">MW Individual Application &gt; Update application status</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">File Reference:</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO)</div>
+                <div class="w3-col l3 m6 s12">Category Code:</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_S_CATEGORY_CODE.CODE)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l3 m12 s12">English Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(o => o.C_IND_APPLICATION.C_APPLICANT.SURNAME) @Html.DisplayFor(o => o.C_IND_APPLICATION.C_APPLICANT.GIVEN_NAME_ON_ID)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Chinese Name:</div>
+                <div class="w3-col l9 m6 s12">@Html.DisplayFor(o => o.C_APPLICANT.CHINESE_NAME)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of application:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE)</span></div>
+                <div class="w3-col l3 m6 s12">Registration No.:</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.CERTIFICATION_NO)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of gazette:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.GAZETTE_DATE)*@
+                        @Model.C_IND_CERTIFICATE.GAZETTE_DATE
+                        </span></div>
+
+                <div class="w3-col l3 m6 s12">Date of registration:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.REGISTRATION_DATE)*@
+                        @Model.C_IND_CERTIFICATE.REGISTRATION_DATE
+                        </span></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Extended date of expiry:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.EXTENDED_DATE)*@
+                        @Model.C_IND_CERTIFICATE.EXTENDED_DATE
+                        </span></div>
+
+                <div class="w3-col l3 m6 s12">Date of expiry:</div>
+                <div class="w3-col l3 m6 s12">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.EXPIRY_DATE)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of retention application:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.RETENTION_APPLICATION_DATE)</span></div>
+
+                <div class="w3-col l3 m6 s12">Date of retention:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.RETENTION_DATE)*@
+                        @Model.C_IND_CERTIFICATE.RETENTION_DATE
+                        </span></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of restoration application:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.RESTORATION_APPLICATION_DATE)</span></div>
+
+                <div class="w3-col l3 m6 s12">Date of restoration:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.RESTORE_DATE)*@
+                        @Model.C_IND_CERTIFICATE.RESTORE_DATE
+                        </span></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of removal:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.REMOVAL_DATE)</span></div>
+
+                <div class="w3-col l3 m6 s12">Date of approval:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">
+                    @*@Html.DisplayFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE)*@
+                        @Model.C_IND_CERTIFICATE.APPROVAL_DATE
+                      </span></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Vetting Date:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.VETTING_DATE)</span></div>
+
+                <div class="w3-col l3 m6 s12">Date of mail:</div>
+                <div class="w3-col l3 m6 s12"><span class="EditClass">@Html.DisplayFor(o => o.C_IND_CERTIFICATE.DOCUMENT_MAIL_DATE)</span></div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Address(English): <span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br />&nbsp;</span></div>
+                <div class="w3-col l9 m6 s12">@Html.Raw(Model.C_IND_ADDRESS_English.ADDRESS_FULL_HTML_DISPLAY)</div>
+
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Select process:</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.DateType, Model.IndDateTypeList, new { @id = "process", @onchange = "onChangeProcess()" })
+                </div>
+
+            </div>
+        </div>
+
+        <div id="processContent" style="display:none">
+            @if (Model.SaveSuccess == true)
+            {
+                <div id="completed" style="color:green">Application has been updated</div>
+            }
+            <div id="pnlNewReg">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of application:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlNewRegApplicationDate">@*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDate" })*@</div>
+                            <div class="w3-col l3 m6 s12">Form used:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlNewRegApplicationFormID">
+                            @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Validity period:</div>
+                            <div class="w3-col l1 m6 s12" id="pnlNewRegPeriodOfValidityID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList, new { @id = "NewRegVP", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of Registration:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlNewRegRegistrationDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.REGISTRATION_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of Gazette:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlNewRegGazetteDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.GAZETTE_DATE, new { @class = "inputDate" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of Approval:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlNewRegApprovalDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Extended Date of Expiry:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.IndNewRegExtDate, new { @id = "NewRegExtDate", @class = "DisableTextClass", @readonly = "readonly" })</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><u>Print Parameters:</u></div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Issue Date:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(o => o.reportIssueDateNewRegistration, new { @class = "inputDate", id = "newRegRptIssueDt" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Signature Name:</div>
+                            <div class="w3-col l2 m6 s12" id="pnlNewRegSignatureName">
+                                @*@Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l6 m6 s12">
+                                <a id="btnPrintCert" href="javascript:triggerExport('RPT0011A', 'CERT')">Export Certificate (RPT0011a)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l6 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0005A', 'LETTER')">Export Letter: Application for Inclusion (MMD0005a)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlNewRegConf">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"></div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.CheckBoxFor(model => model.isConfirmMail, false)
+                                <label for="chkNewRegConfirm">Confirmation on issue of Certificate</label>
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of mail:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.DOCUMENT_MAIL_DATE, new { @class = "inputDate" })</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlRetention">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of application:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRetentionApplicationDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Form used:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRetentionApplicationFormID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Validity period:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRetentionPeriodOfValidityID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList, new { @id = "RetVP", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of approval:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRetentionApprovalDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE, new { @class = "inputDate" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of retention:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.RETENTION_DATE, new { @class = "inputDate", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of retention application:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.dateIndRetentionApplcationRet, new { @id = "RetAppDate", @class = "DisableTextClass", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Missing items:<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                            <div class="w3-col l3 m6 s12">
+                                @foreach (var item in Model.MissIndItemByType)
+                                {
+                                    string tmp = "";
+                                    if (item.Selected == true)
+                                    { tmp = "checked"; }
+
+
+                                    <input type="checkbox" value="@item.Value" @tmp name="missingItemRet" id="@item.Value" />
+                                    @Html.Label(item.Text, new { @for = @item.Value })
+                                    <br />
+
+                                }
+                            </div>
+                            <div class="w3-col l3 m6 s12">Vetting Date:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @if (Model.IndDateVetting is null) { Model.IndDateVetting = DateTime.Today; }
+                                @Html.TextBoxFor(model => model.IndDateVetting, new { @class = "inputDate" })
+                            </div>
+                            <div class="w3-col l3 m6 s12">Extended Date of Expiry:<span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br />&nbsp;</span></div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.IndRetExtDate, new { @id = "RetExtDate", @class = "DisableTextClass", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><u>Print Parameters:</u></div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Issue Date:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.reportIssueDateNewRegistration, new { @class = "inputDate", id = "retentionRptIssueDt" })</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Last Document Received Date:</div>
+                            <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.reportRcvddateNewRegistration, new { @class = "inputDate", id = "retentionLastDocRecDt" })</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Signature Name:</div>
+                            <div class="w3-col l2 m6 s12" id="pnlRetentionSignatureName">
+                                @*@Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList, new { id = "retentionAuthorityName" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintCert" href="javascript:triggerExport('RPT0011B', 'CERT')">Export Certificate (RPT0011B)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0009b', 'LETTER')">Export Letter: Application for Inclusion (MMD0009b)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('FAX_TEMPLATE_RETENTION', 'LETTER')">Export Letter: Fax Template</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlRetentConf">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"></div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.CheckBoxFor(model => model.isConfirmMail, false)
+                                <label for="chkRetentConfirmRetConfirm">Confirmation on issue of Certificate</label>
+                            </div>
+                            <div class="w3-col l2 m6 s12">Date of mail:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.DOCUMENT_MAIL_DATE, new { @class = "inputDate" })</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlRestoration">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of application:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRestorationApplicationDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Form used:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRestorationApplicationFormID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Validity period:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRestorationPeriodOfValidityID">
+                               @* @Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList, new { @id = "ResVP", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of approval:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlRestorationApprovalDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE, new { @class = "inputDate" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of restoration:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.RESTORE_DATE, new { @class = "inputDate", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of restoration application:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.dateIndRestorationApplicationRes, new { @id = "ResAppDate", @class = "DisableTextClass", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Missing items: <span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br /><br />&nbsp;</span></div>
+                            <div class="w3-col l3 m6 s12">
+                                @foreach (var item in Model.MissIndItemByType)
+                                {
+                                    string tmp = "";
+                                    if (item.Selected == true)
+                                    { tmp = "checked"; }
+
+
+                                    <input type="checkbox" value="@item.Value" @tmp name="missingItem" id="@item.Value" />
+                                    @Html.Label(item.Text, new { @for = @item.Value })
+                                    <br />
+
+                                }
+                            </div>
+                            <div class="w3-col l3 m6 s12">Vetting Date:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.IndDateVetting, new { @class = "inputDate" })
+                            </div>
+                            <div class="w3-col l3 m6 s12">Extended Date of Expiry: <span class="w3-hide-medium w3-hide-small"><br /><br /><br /><br />&nbsp;</span></div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.IndResExtDate, new { @id = "ResExtDate", @class = "DisableTextClass", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><u>Print Parameters:</u></div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Issue Date:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(model => model.reportIssueDateNewRegistration, new { @class = "inputDate", id = "restorationRptIssueDt" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Last Document Received Date:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(model => model.reportRcvddateNewRegistration, new { @class = "inputDate", id = "restorationLastDocRecDt" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Signature Name:</div>
+                            <div class="w3-col l9 m6 s12" id="pnlRestorationSignatureName">
+                                @*@Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList, new { id = "restorationAuthorityName" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintCert" href="javascript:triggerExport('RPT0011B', 'CERT')">Export Certificate (RPT0011b)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0009b', 'LETTER')">Export Letter: Application for Inclusion (MMD0009b)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('FAX_TEMPLATE_RESTORATION', 'LETTER')">Export Letter: Fax Template</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlRestoreConf">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"></div>
+                            <div class="w3-col l4 m6 s12">
+                                @Html.CheckBoxFor(model => model.isConfirmMail, false)Confirmation on issue of Certificate
+                            </div>
+                            <div class="w3-col l2 m6 s12">Date of mail:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.DOCUMENT_MAIL_DATE, new { @class = "inputDate" })</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlReRegistration">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of application:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlReRegistrationApplicationDate">@*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDate" })*@</div>
+                            <div class="w3-col l3 m6 s12">Form used:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlReRegistrationApplicationFormID">@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Validity period:</div>
+                            <div class="w3-col l3 m6 s12" id="pnlReRegistrationPeriodOfValidityID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList)*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Registration no.:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.CERTIFICATION_NO)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlRemoval" class="w3-row">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of Removal:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.REMOVAL_DATE, new { @class = "inputDate" })</div>
+                            <div class="w3-col l3 m6 s12">Date of mail:</div>
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.DOCUMENT_MAIL_DATE, new { @class = "inputDate" })</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><u>Print Parameters:</u></div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Issue Date:</div>
+                            <div class="w3-col l2 m6 s12">@Html.TextBoxFor(model => model.reportIssueDateNewRegistration, new { @class = "inputDate", id = "removalRptIssueDt" })</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Last Document Received Date:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(model => model.reportRcvddateNewRegistration, new { @class = "inputDate", id = "removalLastDocRecDt" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Signature Name:</div>
+                            <div class="w3-col l2 m6 s12" id="pnlReRegistrationSignatureName">
+                                @*@Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList, new { id = "removalAuthorityName" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0007A_1', 'LETTER_WITH_CODE')">Export Letter: Removal of Contractor in the Register (MMD0007a_1)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0007B_1', 'LETTER_WITH_CODE')">Export Letter: Removal of Contractor in the Register (MMD0007b_1)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l9 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0007C_1', 'LETTER_WITH_CODE')">Export Letter: Removal of Contractor in the Register (MMD0007c_1)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="exportQpCardTr">
+                <div class="displayForm">
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of application:</div>
+                            <div class="w3-col l3 m6 s12" id="exportQpCardTrApplicationDate">@*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDate" })*@</div>
+                            <div class="w3-col l3 m6 s12">Form used:</div>
+                            <div class="w3-col l3 m6 s12" id="exportQpCardTrApplicationFormID">@*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)*@</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-row l12 m12 s12">
+
+                            <div class="w3-col l3 m6 s12">Validity period:</div>
+                            <div class="w3-col l9 m6 s12" id="exportQpCardTrPeriodOfValidityID">
+                                @*@Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList)*@
+                            </div>
+                            @*<div class="w3-col l4 m6 s12">Registration No.:</div>
+                        <div class="w3-col l3 m6 s12">          @Html.TextBoxFor(model => model.C_IND_CERTIFICATE.CERTIFICATION_NO)</div>*@
+
+
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of Registration:</div>
+                            <div class="w3-col l3 m6 s12" id="exportQpCardTrRegistrationDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.REGISTRATION_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Date of Gazette:</div>
+                            <div class="w3-col l3 m6 s12" id="exportQpCardTrGazetteDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.GAZETTE_DATE, new { @class = "inputDate" })*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Date of Approval:</div>
+                            <div class="w3-col l3 m6 s12" id="exportQpCardTrApprovalDate">
+                                @*@Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE, new { @class = "inputDate" })*@
+                            </div>
+                            <div class="w3-col l3 m6 s12">Extended Date of Expiry:</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.EXTENDED_DATE, new { @id = "QpExtDate", @class = "DisableTextClass", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><u>Print Parameters:</u></div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Issue Date:</div>
+                            <div class="w3-col l2 m6 s12">
+                                @Html.TextBoxFor(o => o.reportIssueDateNewRegistration, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Signature Name:</div>
+                            <div class="w3-col l2 m6 s12" id="exportQpCardTrSignatureName">
+                                @*@Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList)*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l6 m6 s12">
+                                <a id="btnPrintCert" href="javascript:triggerExport('RPT0011A', 'QP_CARD')">Export QP Card</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l6 m6 s12">
+                                <a id="btnPrintCert" href="javascript:triggerExport('RPT0011A', 'CERT')">Export Certificate (RPT0011a)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"><img src="~/img/form.gif" />&nbsp;</div>
+                            <div class="w3-col l6 m6 s12">
+                                <a id="btnPrintLtr1" href="javascript:triggerExport('MMD0005B', 'LETTER')">Export Letter: Application for Inclusion (MMD0005b)</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            @*<div id="processDetailContent">
+
+        </div>*@
+        </div>
+        <div>&nbsp;</div>
+        <div class="w3-container footer">
+            @*<input type="submit" value="Save" class="saveButton btn btn-default" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="submit" value="Save" class="saveButton btn btn-default"><i class="fa fa-save"></i> Save</button>}
+            <button class="btn btn-default backButton" type="button"> Finish</button>
+        </div>
+    </div>
+
+}
+<div style="display:none" class="displayForm">
+    <div id="applicationDate">
+        @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPLICATION_DATE, new { @class = "inputDateAppend" })
+    </div>
+    <div id="applicationFormID">
+        @Html.DropDownListFor(model => model.C_IND_CERTIFICATE.APPLICATION_FORM_ID, Model.PAFormList)
+    </div>
+    <div id="periodofValidityID">
+        @Html.DropDownListFor(model => model.C_IND_CERTIFICATE.PERIOD_OF_VALIDITY_ID, Model.ValidityPeriodList, new { @id = "NewRegVP", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })
+    </div>
+    <div id="registrationDate">
+        @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.REGISTRATION_DATE, new { @class = "inputDateAppend", @onchange = "calDate('" + Model.C_IND_APPLICATION.UUID + "');" })
+    </div>
+    <div id="gazetteDate">
+        @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.GAZETTE_DATE, new { @class = "inputDateAppend" })
+    </div>
+    <div id="approvalDate">
+        @Html.TextBoxFor(o => o.C_IND_CERTIFICATE.APPROVAL_DATE, new { @class = "inputDateAppend" })
+    </div>
+    <div id="signatureName">
+        @Html.DropDownListFor(model => model.reportAuthorityUUIDNewRegistration, Model.AuthorityList)
+    </div>
+</div>
+
+@*<script type="text/javascript">
+        function processHideAll() {
+            var pContent2 = $("#processContent").css({ "display": " " });
+        }
+    </script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+      
+        onChangeProcess();
+    });
+
+    //Remove Application Date
+    function RemoveApplicationDate() {
+        document.getElementById("pnlNewRegApplicationDate").innerHTML = "";
+        document.getElementById("pnlRetentionApplicationDate").innerHTML = "";
+        document.getElementById("pnlRestorationApplicationDate").innerHTML = "";
+        document.getElementById("pnlReRegistrationApplicationDate").innerHTML = "";
+        document.getElementById("exportQpCardTrApplicationDate").innerHTML = "";
+    }
+
+    //Remove Application Form ID
+    function RemoveApplicationFormID() {
+        document.getElementById("pnlNewRegApplicationFormID").innerHTML = "";
+        document.getElementById("pnlRetentionApplicationFormID").innerHTML = "";
+        document.getElementById("pnlRestorationApplicationFormID").innerHTML = "";
+        document.getElementById("pnlReRegistrationApplicationFormID").innerHTML = "";
+        document.getElementById("exportQpCardTrApplicationFormID").innerHTML = "";
+    }
+
+    //Remove Period of Validity ID
+    function RemovePeriodofValidityID() {
+        document.getElementById("pnlNewRegPeriodOfValidityID").innerHTML = "";
+        document.getElementById("pnlRetentionPeriodOfValidityID").innerHTML = "";
+        document.getElementById("pnlRestorationPeriodOfValidityID").innerHTML = "";
+        document.getElementById("pnlReRegistrationPeriodOfValidityID").innerHTML = "";
+        document.getElementById("exportQpCardTrPeriodOfValidityID").innerHTML = "";
+    }
+
+    //Remove Registration Date
+    function RemoveRegistrationDate() {
+        document.getElementById("pnlNewRegRegistrationDate").innerHTML = "";
+        document.getElementById("exportQpCardTrRegistrationDate").innerHTML = "";
+    }
+
+    //Remove Gazette Date
+    function RemoveGazetteDate() {
+        document.getElementById("pnlNewRegGazetteDate").innerHTML = "";
+        document.getElementById("exportQpCardTrGazetteDate").innerHTML = "";
+    }
+
+    //Remove Approval Date
+    function RemoveApprovalDate() {
+        document.getElementById("pnlNewRegApprovalDate").innerHTML = "";
+        document.getElementById("pnlRetentionApprovalDate").innerHTML = "";
+        document.getElementById("pnlRestorationApprovalDate").innerHTML = "";
+        document.getElementById("exportQpCardTrApprovalDate").innerHTML = "";
+    }
+
+    function RemoveSignatureName() {
+        document.getElementById("pnlNewRegSignatureName").innerHTML = "";
+        document.getElementById("pnlRetentionSignatureName").innerHTML = "";
+        document.getElementById("pnlRestorationSignatureName").innerHTML = "";
+        document.getElementById("pnlReRegistrationSignatureName").innerHTML = "";
+        document.getElementById("exportQpCardTrSignatureName").innerHTML = "";
+    }
+
+    function onChangeProcess() {
+        $("#processContent").css({ "display": "" });
+        var pContent = $("#process").val();
+        console.log(pContent);
+
+        var applicationDateHtml = document.getElementById("applicationDate").innerHTML;
+        var applicationFormIDHtml = document.getElementById("applicationFormID").innerHTML;
+        var periodofValidityIDHtml = document.getElementById("periodofValidityID").innerHTML; 
+        var registrationDateHtml = document.getElementById("registrationDate").innerHTML;
+        var gazetteDateHtml = document.getElementById("gazetteDate").innerHTML; approvalDate
+        var approvalDateHtml = document.getElementById("approvalDate").innerHTML;
+        var signatureNameHtml = document.getElementById("signatureName").innerHTML;
+
+        if (pContent == 0) {
+            $("#pnlNewRegConf").hide();
+            $("#pnlNewReg").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 1) {
+            RemoveApplicationDate();
+            attr("pnlNewRegApplicationDate", "html", applicationDateHtml);
+
+            RemoveApplicationFormID();
+            attr("pnlNewRegApplicationFormID", "html", applicationFormIDHtml);
+
+            RemovePeriodofValidityID();
+            attr("pnlNewRegPeriodOfValidityID", "html", periodofValidityIDHtml);
+
+            RemoveRegistrationDate();
+            attr("pnlNewRegRegistrationDate", "html", registrationDateHtml);
+
+            RemoveGazetteDate();
+            attr("pnlNewRegGazetteDate", "html", gazetteDateHtml);
+
+            RemoveApprovalDate();
+            attr("pnlNewRegApprovalDate", "html", approvalDateHtml);
+
+            RemoveSignatureName();
+            attr("pnlNewRegSignatureName", "html", signatureNameHtml);
+
+            $("#pnlNewRegConf").hide();
+            $("#pnlNewReg").show();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 6) {
+
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").show();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 2) {
+            
+            RemoveApplicationDate();
+            attr("pnlRetentionApplicationDate", "html", applicationDateHtml);
+
+            RemoveApplicationFormID();
+            attr("pnlRetentionApplicationFormID", "html", applicationFormIDHtml);
+
+            RemovePeriodofValidityID();
+            attr("pnlRetentionPeriodOfValidityID", "html", periodofValidityIDHtml);
+
+            RemoveApprovalDate();
+            attr("pnlRetentionApprovalDate", "html", approvalDateHtml);
+
+            RemoveSignatureName();
+            attr("pnlRetentionSignatureName", "html", signatureNameHtml);
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").show();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 7) {
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").show();
+            $("#pnlRestoration").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 3) {
+            RemoveApplicationDate();
+            attr("pnlRestorationApplicationDate", "html", applicationDateHtml);
+
+            RemoveApplicationFormID();
+            attr("pnlRestorationApplicationFormID", "html", applicationFormIDHtml);
+
+            RemovePeriodofValidityID();
+            attr("pnlRestorationPeriodOfValidityID", "html", periodofValidityIDHtml);
+
+            RemoveApprovalDate();
+            attr("pnlRestorationApprovalDate", "html", approvalDateHtml);
+
+            RemoveSignatureName();
+            attr("pnlRestorationSignatureName", "html", signatureNameHtml);
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").show();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 8) {
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRestoreConf").show();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 5) {
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#pnlRemoval").show();
+            $("#pnlReRegistration").hide();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 4) {
+            RemoveApplicationDate();
+            attr("pnlReRegistrationApplicationDate", "html", applicationDateHtml);
+
+            RemoveApplicationFormID();
+            attr("pnlReRegistrationApplicationFormID", "html", applicationFormIDHtml);
+
+            RemovePeriodofValidityID();
+            attr("pnlReRegistrationPeriodOfValidityID", "html", periodofValidityIDHtml);
+
+            RemoveSignatureName();
+            attr("pnlReRegistrationSignatureName", "html", signatureNameHtml);
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").show();
+            $("#exportQpCardTr").hide();
+        }
+        if (pContent == 9) {
+            RemoveApplicationDate();
+            attr("exportQpCardTrApplicationDate", "html", applicationDateHtml);
+
+            RemoveApplicationFormID();
+            attr("exportQpCardTrApplicationFormID", "html", applicationFormIDHtml);
+
+            RemovePeriodofValidityID();
+            attr("exportQpCardTrPeriodOfValidityID", "html", periodofValidityIDHtml);
+
+            RemoveRegistrationDate();
+            attr("exportQpCardTrRegistrationDate", "html", registrationDateHtml);
+
+            RemoveGazetteDate();
+            attr("exportQpCardTrGazetteDate", "html", gazetteDateHtml);
+
+            RemoveApprovalDate();
+            attr("exportQpCardTrApprovalDate", "html", approvalDateHtml);
+
+            RemoveSignatureName();
+            attr("exportQpCardTrSignatureName", "html", signatureNameHtml);
+
+            $("#pnlNewReg").hide();
+            $("#pnlNewRegConf").hide();
+            $("#pnlRetention").hide();
+            $("#pnlRetentConf").hide();
+            $("#pnlRestoration").hide();
+            $("#pnlRestoreConf").hide();
+            $("#pnlRemoval").hide();
+            $("#pnlReRegistration").hide();
+            $("#exportQpCardTr").show();
+        }
+        datepickize('.inputDateAppend');
+    }
+
+    function processHideAll() {
+        var pContent2 = $("#processContent").css({ "display": " " });
+    }
+
+
+
+    //$(document).ready(function () {
+    //    $("#process").change();
+    //    $("#process").change(function (evt) {
+    //        $("#processContent").css({ "display": "" });
+    //        var pContent = $("#process").val();
+    //        if (pContent == 0) {
+    //            document.getElementById("processDetailContent").innerHTML = "";
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 1) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlNewReg").innerHTML;
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlNewReg").show();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 6) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlNewRegConf").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").show();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 2) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRetention").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").show();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 7) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRetentConf").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").show();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 3) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRestoration").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").show();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 8) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRestoreConf").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRestoreConf").show();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 5) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRemoval").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#pnlRemoval").show();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 4) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlReRegistration").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").show();
+    //            //$("#exportQpCardTr").hide();
+    //        }
+    //        if (pContent == 9) {
+    //            document.getElementById("processDetailContent").innerHTML = document.getElementById("exportQpCardTr").innerHTML;
+    //            //$("#pnlNewReg").hide();
+    //            //$("#pnlNewRegConf").hide();
+    //            //$("#pnlRetention").hide();
+    //            //$("#pnlRetentConf").hide();
+    //            //$("#pnlRestoration").hide();
+    //            //$("#pnlRestoreConf").hide();
+    //            //$("#pnlRemoval").hide();
+    //            //$("#pnlReRegistration").hide();
+    //            //$("#exportQpCardTr").show();
+    //        }
+    //    });
+    //});
+
+
+
+    //$("#process").change(function (evt) {
+    //    $("#processContent").css({ "display": "" });
+    //    var pContent = $("#process").val();
+    //    if (pContent == 0) {
+    //        document.getElementById("processDetailContent").innerHTML = "";
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 1) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlNewReg").innerHTML;
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlNewReg").show();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 6) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlNewRegConf").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").show();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 2) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRetention").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").show();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 7) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRetentConf").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").show();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 3) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRestoration").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").show();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 8) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRestoreConf").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRestoreConf").show();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 5) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlRemoval").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#pnlRemoval").show();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 4) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("pnlReRegistration").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").show();
+    //        //$("#exportQpCardTr").hide();
+    //    }
+    //    if (pContent == 9) {
+    //        document.getElementById("processDetailContent").innerHTML = document.getElementById("exportQpCardTr").innerHTML;
+    //        //$("#pnlNewReg").hide();
+    //        //$("#pnlNewRegConf").hide();
+    //        //$("#pnlRetention").hide();
+    //        //$("#pnlRetentConf").hide();
+    //        //$("#pnlRestoration").hide();
+    //        //$("#pnlRestoreConf").hide();
+    //        //$("#pnlRemoval").hide();
+    //        //$("#pnlReRegistration").hide();
+    //        //$("#exportQpCardTr").show();
+    //    }
+    //});
+    //function processHideAll() {
+    //    var pContent2 = $("#processContent").css({ "display": " " });
+    //}
+</script>

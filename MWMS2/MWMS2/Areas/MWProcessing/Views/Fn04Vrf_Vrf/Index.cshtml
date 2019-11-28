@@ -1,0 +1,133 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn04VRF_VRFModel
+
+<div class="panelHeader">
+    Search Minor Work Item
+</div>
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.RefNo)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Date :	</div>
+            <div class="w3-col l6 m12 s12">
+                From  @Html.TextBoxFor(m => m.SubmissionDateFrom, new { @class = "inputDate" })
+                To @Html.TextBoxFor(m => m.SubmissionDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Form No. :			</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.FormNo, Model.FormNos, new { })
+                @*<select name="FormNo">
+                        <option value="">- Select -</option>
+                        <option>MW01</option>
+                        <option>MW02</option>
+                        <option>MW03</option>
+                        <option>MW04</option>
+                        <option>MW05</option>
+                        <option>MW06</option>
+                        <option>MW07</option>
+                        <option>MW08</option>
+                        <option>MW09</option>
+                        <option>MW10</option>
+                        <option>MW11</option>
+                        <option>MW12</option>
+                        <option>MW31</option>
+                        <option>MW32</option>
+                        <option>MW33</option>
+                    </select>*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :		</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.Status, Model.Statuses)
+                @*<select name="Status">
+                        <option value="">- Select -</option>
+                        <option>Open</option>
+                        <option>Completed</option>
+                    </select>*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Type :		</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.SubmissionType, Model.SubmissionTypes)
+                @*<select name="SubmissionType">
+                        <option value="">- Select -</option>
+                        <option value="Commencement">Commencement</option>
+                        <option value="Completion">Completion</option>
+                        <option value="Validation Scheme">Validation Scheme</option>
+                    </select>*@
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Minor Work Item :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.MWItem)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "Task               ", columnName: "TASK" }
+                , {
+                    displayName: "Ref.No.            ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Verification",
+                                [
+                                    { name: "R_UUID", value: row.R_UUID },
+                                    { name: "V_UUID", value: row.V_UUID },
+                                    { name: "TaskUserID", value: row.USER_ID }
+                                ]);
+
+                        }
+                        catch (err) {
+                        }
+                    }
+                }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+        });
+    });
+</script>

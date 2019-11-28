@@ -1,0 +1,273 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.PsacDetailModel
+
+<div class="displayForm">
+    <form id="inputForm" class="displayForm">
+        @Html.HiddenFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.UUID)
+        <div class="panelHeader">Details of Pre-commencement Audit case</div>
+        <div class="w3-row">
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Receipt Counter :</div>
+                <div class="w3-col l6 m12 s12">
+                    @{
+                        string counter = "";
+                        if (Model.P_MW_ACK_LETTER.COUNTER == "1")
+                        {
+                            counter = "Kwun Tong";
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER == "2")
+                        {
+                            counter = "Pioneer Centre";
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER == "3")
+                        {
+                            counter = "E-submission";
+                        }
+                        else if (Model.P_MW_ACK_LETTER.COUNTER == "4")
+                        {
+                            counter = "WKGO";
+                        }
+                    }
+                    @counter
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">DSN :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.DSN
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Order Related :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.ORDER_RELATED
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">MW No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.MW_NO (@Model.P_MW_DSN.FORM_CODE)
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Previous MW No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.PREVIOUS_RELATED_MW_NO
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">SSP included? :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.SSP
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Received Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.RECEIVED_DATE
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Letter Date :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.LETTER_DATE
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">Signboard :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.SIGNBOARD_RELATED
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">開工 :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.COMM_DATE
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">完工 :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.COMP_DATE
+                </div>
+            </div>
+
+            <div class="w3-col l4 m12 s12">
+                <div class="w3-col l6 m12 s12">SDF Related :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Model.P_MW_ACK_LETTER.SDF_RELATED
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">MW Items :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.ITEM_DISPLAY
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Address :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.ADDRESS
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">PBP :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.PBP_NO @Model.PbpInfo.CHINESE_NAME @Model.PbpInfo.SURNAME @Model.PbpInfo.GIVEN_NAME
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">PRC :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.PRC_NO @Model.PrcInfo.CHINESE_NAME @Model.PrcInfo.SURNAME @Model.PrcInfo.GIVEN_NAME
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">PAW :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.PAW
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">I.O./Mgt. :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.IO_MGT
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Remarks :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Model.P_MW_ACK_LETTER.REMARK
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="panelHeader">Update of the Pre-comm.Audit Result</div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Carried out by :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.HANDLING_OFFICER)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Date of inspection :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextBoxFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.INSPECTION_DATE, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Inspection Result :</div>
+                <div class="w3-col l10 m12 s12">
+                    <label>@Html.RadioButtonFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.PA_RESULT, "Works not yet commenced", new { @class = "w3-radio" }) Works not yet commenced   </label>
+                    <label>@Html.RadioButtonFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.PA_RESULT, "Works commenced already", new { @class = "w3-radio" }) Works commenced already    </label>
+                    <label>@Html.RadioButtonFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.PA_RESULT, "Inaccessible", new { @class = "w3-radio" }) Inaccessible                          </label>
+                    <label>@Html.RadioButtonFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.PA_RESULT, "Not yet inspected", new { @class = "w3-radio" }) Not yet inspected                </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Remarks :</div>
+                <div class="w3-col l10 m12 s12">
+                    @Html.TextAreaFor(m => Model.P_MW_ACK_LETTER_PREAUDIT.PA_REMARK)
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="footer">
+        <button type="button" onclick="updatePsac()">Update</button>
+        <button type="button" onclick="closeDetailPage()">Close Without Save</button>
+        <button type="button" onclick="removePsac()">Remove from Pre-comm Audit List</button>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    function updatePsac() {
+        attr("inputForm", "addClass", "deleting");
+        $.post("UpdatePsac", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Update Successfully');
+
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function closeDetailPage() {
+        goTo("Index");
+    }
+
+    function removePsac() {
+        attr("inputForm", "addClass", "deleting");
+        $.post("RemovePsac", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Delete Successfully');
+                closeDetailPage();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>

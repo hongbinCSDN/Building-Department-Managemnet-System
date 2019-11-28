@@ -1,0 +1,102 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_MRASearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Interview Date :</div>
+            <div class="w3-col l6 m12 s12">
+                from &nbsp; @Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                to &nbsp; @Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12"> Room :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Room, Model.RoomList)
+                @*<select>
+                    <option>- All -</option>
+                    <option>Room 2109</option>
+                    <option>Room 1817A</option>
+                    <option>Room 1813</option>
+                    <option>Room 1816</option>
+                    <option>ROOM 2117</option>
+                    <option>ROOM 2118</option>
+                    <option>ROOM 2116</option>
+                    <option>2116A</option>
+                    <option>2116B</option>
+                    <option>ROOM 1817A</option>
+                    <option>ROOM 1816</option>
+                    <option>ROOM 1813</option>
+                    <option>ROOM 106A</option>
+                    <option>ROOM 106B</option>
+                    <option>ROOM 106C</option>
+                </select>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button btn btn-default" type="button"><i class="fa fa-search"></i> View Available Rooms</button>
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> View Reserved Rooms</button>
+        <button onclick="window.location='/Registration/FN02GCA_MRA/Form'" name="NewRole" value="New Reservation">New Reservation</button>
+    </div>
+
+</div>
+<div id="SearchAvailableRoom"> </div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    var AvailableRoom;
+    function SearchAvailableRoom()
+    {
+    }
+    domReady(function () {
+        AvailableRoom = new searcher({
+            searchPath: "AjaxAvailableRoom"
+            , searchTable: "searchCriteria"
+            , resultPanel: "SearchAvailableRoom"
+         //   , Sort: "FULLNAME"
+            // , Footer: false
+            , Columns: [
+                {
+                    displayName: "Room", columnName: "V1"
+                    , click: function (row) {
+                        try { if (row == null) return; alert("Clicked Room No.  : " + row.ROOM); alert("Clicked UUID  : " + row.UUID); } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Interview Date", columnName: "V2" }
+                , { displayName: "Session", columnName: "V3" }
+
+
+            ]
+        });
+
+        new searcher({
+            searchPath: "Search" //Search
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "INTERVIEW_DATE"
+            , Columns: [
+                {
+                    displayName: "Room", columnName: "ROOM"
+                    , click: function (row) {
+                        try { if (row == null) return; alert("Clicked Room No.  : " + row.ROOM); alert("Clicked UUID  : " + row.UUID); } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Meeting Number", columnName: "MEETING_NUMBER" }
+                , { displayName: "Interview Date", columnName: "INTERVIEW_DATE" }
+                , { displayName: "Session", columnName: "CODE" }
+                , { displayName: "Canceled", columnName: "IS_CANCEL" }
+
+            ]
+        });
+    });
+</script>

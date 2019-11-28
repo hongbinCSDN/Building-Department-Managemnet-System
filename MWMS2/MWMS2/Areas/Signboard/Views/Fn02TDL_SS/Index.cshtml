@@ -1,0 +1,309 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_SSSearchModel
+
+
+<div id="searchCriteria">
+
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Number :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.RefNo)
+            </div>
+        </div>
+        @*<div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">MW Submission Number :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.MwNo)
+            </div>
+        </div>*@
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Related Order No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.RelatedOrderNo)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference (4+2) :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRefNo)
+            </div>
+        </div>
+        @*<div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Validation Submission No :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.ValidationNo)
+            </div>
+        </div>*@
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Record Type :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.RecordType, Model.RecordTypeList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Expiry Date Period :</div>
+            <div class="w3-col l9 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ExpiryDateFrom, new { @class = "inputDate", @id = "ExpiryDateFrom" })
+                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ExpiryDateTo, new { @class = "inputDate", @id = "ExpiryDateTo" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Facade :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Facade)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Type :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Type)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Bottom fixing at Floor :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.BotFixingAtFloor)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">	Top fixing at Floor :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.TopFixingAtFloor)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Display Area (m<sup>2</sup>) :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.DisplayArea)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">	Projection (m) :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Projection)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Height of Signboard (m)	 :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.HeightOfSb)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">	Clearance above ground (m) :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.ClearanceAbvGround)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">LED/TV :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.LedOrTv, Model.LedOrTvList)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">	Building Portion :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.BlgPortion)
+            </div>
+        </div>
+    </div>
+    <div class="panelHeader">
+
+        Signboard Location
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Street Name :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Street)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Street No. :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.StreetNo)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Building/Block :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Building)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">District :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.District)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Region :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.Region, Model.RegionList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">BCIS Area Code :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.BcisAreaCode, Model.BcisAreaCodeList)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Signboard Owner :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.SbOwner)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">PAW :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.Paw)
+            </div>
+        </div>
+    </div>
+    @*<div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Source of Information :	</div>
+            <div class="w3-col l6 m12 s12">
+                @for (int i = 0; i < Model.SourceOfInfoList.Count(); i++)
+                {
+                    @Html.CheckBoxFor(model => model.SourceOfInfo[i], Model.SourceOfInfoList[i].Value)
+                    @Html.DisplayFor(model => model.SourceOfInfoList[i].Text)
+                    <br />
+                }
+            </div>
+        </div>
+    </div>*@
+
+
+
+    <div class="displayForm">
+        <div class="w3-container footer">
+            <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+
+    function checkThumbnailPath(filePath) {
+        $.ajax({
+            type: "POST",
+            url: 'CheckThumbnailFilePath',
+            data: {
+                path: filePath
+            },
+            async: false,
+            success: function (data) {
+                console.log(data);
+                return data.Result;
+            }
+        });
+   
+    }
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "REF_NO"
+            , Columns: [
+                {
+                    displayName: "Thumbnail ",
+                    formater: function (row) {
+                        var span = dom("span", { "id": "Row" + row.REF_NO });
+                        if (row.THUMBNAIL != "No Thumbnail") {
+                            var child = dom("img", { "src": row.THUMBNAIL, "style": "width: @Model.SIGNBOARD_THUMBNAIL_WIDTH", "type": "image/jpeg" });
+                        }
+                        else {
+                            var child = dom("span", { "html": row.THUMBNAIL });
+                        }
+                        span.appendChild(child);
+                        return span;
+                    }
+                },
+                {
+                    displayName: "Submission No.", columnName: "REF_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Form", [{ name: "id", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                },
+                { displayName: "Chinese Name", columnName: "CHIN_NAME" },
+                { displayName: "English Name", columnName: "ENG_NAME" },
+                { displayName: "Address of Signboard Owner", columnName: "ADDRESS" },
+                { displayName: "Building Name", columnName: "BUILDING_NAME" },
+                { displayName: "Street Name", columnName: "STREET" },
+                { displayName: "Street No", columnName: "STREET_NO" },
+                { displayName: "Facade", columnName: "FACADE" },
+                { displayName: "Type", columnName: "TYPE" },
+                { displayName: "Height of Signboard", columnName: "HEIGHT" },
+                { displayName: "Clearance from Ground", columnName: "CLEARANCE" },
+                { displayName: "LED/TV", columnName: "LED" },
+                { displayName: "Building Portion", columnName: "BUILDING_PORTION" },
+                { displayName: "Validation Result", columnName: "VALIDATION_RESULT" },
+                { displayName: "Signboard Removal Date", columnName: "REMOVAL_DATE" }
+            ]
+        });
+
+        atcpAddress({
+            streetName: "Street"
+            , streetNo: "StreetNo"
+            , building: "Building"
+            //, floor: "SvSignboard_B_SV_ADDRESS_FLOOR"
+            //, unit: "SvSignboard_B_SV_ADDRESS_FLAT"
+            //, bcisBlock: "SvSignboard_B_SV_ADDRESS_BCIS_BLOCK_ID"
+            , bcisDistrict: "BcisAreaCode"
+            //, blkNo: "SvSignboard_B_SV_ADDRESS_BLOCK"
+            , region: "Region"
+        });
+    });
+
+</script>

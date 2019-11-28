@@ -1,0 +1,91 @@
+﻿@model MWMS2.Areas.CMN.Models.CMN02Model
+
+<div class="displayForm" id="searchCriteria" style="overflow-x:auto">
+    @Html.HiddenFor(x => x.Keyword)
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">
+                Search by keyword :
+            </div>
+            <div class="w3-col l9 m6 s12">
+                @Html.DisplayFor(x => x.Keyword)
+            </div>
+        </div>
+
+    </div>
+    <div id="resultPanel"></div>
+
+</div>
+
+<script type="text/javascript">
+    var searching;
+    domReady(function () {
+        searching = new searcher({
+            searchPath: "ProcessingSearch"
+           // , exportPath: "ProcessingExcel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            //, Sortable: true
+            , Sort: "MW_DSN"
+            , Columns: [
+
+                { displayName: "SCREENED NATURE", columnName: "SUBMISSION_NATURE" }
+                , { displayName: "DSN", columnName: "MW_DSN" }
+                , { displayName: "DATE RECEIVED", columnName: "FIRST_RECEIVED_DATE" }
+                , { displayName: "DOC TYPE", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "REFERENCE NO.", columnName: "REFERENCE_NO" }
+                // , { displayName: "RECEIPT POINT", columnName: "REFERENCE_NO          " }
+                , { displayName: "REG. NO. of AP / APPOINTED PERSON", columnName: "CERTIFICATION_NO_AP" }
+                , { displayName: "REG. NO. of PRC", columnName: "CERTIFICATION_NO_PRC" }
+                , { displayName: "WORKS LOCATION", columnName: "LOCATION_OF_MINOR_WORK" }
+                , { displayName: "Street", columnName: "STREE_NAME" }
+                , { displayName: "Street No.", columnName: "STREET_NO" }
+                , { displayName: "Building / Block", columnName: "BUILDING_NAME" }
+                , { displayName: "Floor", columnName: "FLOOR" }
+                , { displayName: "Unit", columnName: "FLAT" }
+                //MW. Item(s)
+                , { displayName: "Site Audit Related", columnName: "SITE_AUDIT_RELATED" }
+                , { displayName: "Pre Site Audit Related", columnName: "PRE_SITE_AUDIT_RELATED" }
+                , { displayName: "Audit Related", columnName: "AUDIT_RELATED" }
+                , { displayName: "Verification SPO", columnName: "VERIFICATION_SPO" }
+                , { displayName: "Commencement Date", columnName: "COMMENCEMENT_DATE" }
+                , { displayName: "Completion Date", columnName: "COMPLETION_DATE" }
+                , { displayName: "Owner ", columnName: "NAME_ENGLISH_OWNER" }
+                , { displayName: "Owner Contact Number", columnName: "CONTACT_NO_OWNER" }
+                , { displayName: "OI", columnName: "NAME_ENGLISH_OI" }
+                , { displayName: "OI Contact", columnName: "CONTACT_NO_OI" }
+                , { displayName: "File Reference (4+2)", columnName: "FILEREF_FOUR_TWO" }
+                //, { displayName: "File Reference (4+2)", columnName: "FILEREF_FT" }
+
+
+
+
+
+
+
+
+
+            ]
+            , onAfterSearch: function (r) {
+                var exportButton = createButton("Back", "fa fa-arrow-left", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+
+                            goTo("Index");
+                        }
+                    }
+                }]);
+
+
+                exportButton.style.float = "right";
+                document.getElementsByClassName("resultFooter")[0].appendChild(exportButton);
+            }
+        });
+
+
+        searching.search();
+    });
+</script>
+
+
+

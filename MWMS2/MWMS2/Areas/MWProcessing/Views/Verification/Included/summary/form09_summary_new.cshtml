@@ -1,0 +1,229 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+<div id="BaseContent" class="w3-border displayForm">
+
+    <div id="BaseForm1" class="w3-border displayForm">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Submission Information Checking
+                    </th>
+                    <th>
+                        Result
+                    </th>
+                    <th>
+                        Remarks
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Notification</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_NOT, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_NOT, "C", new { @class = "w3-radio", @disabled = "true" }) Conditional
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_NOT, "N", new { @class = "w3-radio", @disabled = "true" }) Refusal
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_NOT_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID_MSG)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_DETAIL_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_DETAIL_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_DETAIL_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.AP_VALID_MSG)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="BaseForm2" class="w3-border displayForm">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>PBP Checking</th>
+                    <th>Result</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">Checking of AP/RI/RSE/RGE</td>
+                </tr>
+                <tr>
+                    <td>Validity of appointed AP/RI/RSE/RGE (nominator)</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Nominator
+                        <br />
+                        @Html.CheckBox("FORM09_REASON_ILL", Model.P_MW_FORM.FORM09_REASON_ILL == "Y", new { @disabled = "True" }) Illness
+                        <br />
+                        @Html.CheckBox("FORM09_REASON_ABSENCE", Model.P_MW_FORM.FORM09_REASON_ABSENCE == "Y", new { @disabled = "True" }) Temporary absence from HK
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_REASON, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_REASON, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_REASON_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Acting Period
+                        <br />
+                        Commencement Date: @(string.IsNullOrEmpty(Model.AppointedOther1.EFFECT_FROM_DATE.ToString()) ? "" : Model.AppointedOther1.EFFECT_FROM_DATE.ToString().Substring(0, 10))
+                        <br />
+                        Completion Date: @(string.IsNullOrEmpty(Model.AppointedOther1.EFFECT_TO_DATE.ToString()) ? "" : Model.AppointedOther1.EFFECT_TO_DATE.ToString().Substring(0, 10))
+                        <br />
+                        @Html.CheckBox("FORM09_FURTHER_NOTICE", Model.P_MW_FORM.FORM09_FURTHER_NOTICE == "Y", new { @disabled = "True" }) Until further notice
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_ACTING_PERIOD, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_ACTING_PERIOD, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.FORM09_ACTING_PERIOD_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                @for (int i = 0; i < Model.P_MW_FORM_09s.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            Appointed AP/RI/RSE/RGE match up with nominator @Model.P_MW_FORM_09s[i].MW_NUMBER
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => Model.P_MW_FORM_09s[i].TO_CHECKING, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                            @Html.RadioButtonFor(model => Model.P_MW_FORM_09s[i].TO_CHECKING, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => Model.P_MW_FORM_09s[i].TO_RMK, new { @disabled = "true" })
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>
+                        Validity of appointed AP/RI/RSE/RGE (nominee)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Signature of AP/RI/RSE/RGE (nominator)
+                        <br />
+                        Specimen Signature:<img src='/img/view.gif'>
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Signature of AP/RI/RSE/RGE (nominee)
+                        <br />
+                        Specimen Signature:<img src='/img/view.gif'>
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_SIGN, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_SIGN, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_AP_SIGN_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        AP/RI/RSE/RGE(Nominator) Signature Date
+                        <br />
+                        Signature Date: @(string.IsNullOrEmpty(Model.AppointedOther0.ENDORSEMENT_DATE.ToString()) ? "" : Model.AppointedOther0.ENDORSEMENT_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        AP/RI/RSE/RGE(Nominee) Signature Date
+                        <br />
+                        Signature Date: @(string.IsNullOrEmpty(Model.AppointedOther1.ENDORSEMENT_DATE.ToString()) ? "" : Model.AppointedOther1.ENDORSEMENT_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_SIGNATURE_DATE, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_SIGNATURE_DATE, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_NEW_SIGNATURE_DATE_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">Checking Other Information</td>
+                </tr>
+                <tr>
+                    <td>Other Information</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

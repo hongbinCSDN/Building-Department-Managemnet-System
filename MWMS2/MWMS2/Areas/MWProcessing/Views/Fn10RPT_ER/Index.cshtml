@@ -1,0 +1,33 @@
+﻿
+@*<div class="panelHeader">Search Criteria</div>*@
+<div id="searchCriteria">
+
+    <div class="panelHeader">Error: Duplicate Completion Form</div>
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button">Search</button>
+    </div>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "MW_NO, FORM_NO"
+            , Columns: [
+                {
+                    displayName: "MW No.", columnName: "MW_NO"
+                },
+                {
+                    displayName: "DSN", columnName: "DSN"
+                }, {
+                    displayName: "FORM No", columnName: "FORM_NO"
+                },
+
+            ]
+        });
+    });
+</script>

@@ -1,0 +1,368 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn06CMM_CGSearchModel
+
+<form id="inputForm">
+    @*@Html.HiddenFor(model => model.C_COMMITTEE.UUID)*@
+    @Html.HiddenFor(model => model.C_COMMITTEE_GROUP.UUID)
+
+    <div class="panelHeader">Search Member</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                @*<div class="w3-col l12 m12 s12">*@
+                @Html.RadioButtonFor(model => model.SearchType, "1", new { id = "SearchType1" })<label for="SearchType1">By Panel</label>
+                @*</div>*@
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Panel :</div>
+                <div class="w3-col l3 m12 s12">@Html.DropDownListFor(model => model.Panel, Model.SYSTEM_TYPE_PANEL_TYPE_List)</div>
+                <div class="w3-col l3 m12 s12">Year :</div>
+                <div class="w3-col l3 m12 s12">@Html.DropDownListFor(model => model.Year, Model.getNextYearAndLastTenYear)</div>
+            </div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l12 m12 s12">
+
+                @Html.RadioButtonFor(model => model.SearchType, "2", new { id = "SearchType2" })<label for="SearchType2">One-By-One</label>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">@Html.LabelFor(o => o.Surname) :</div>
+                <div class="w3-col l3 m12 s12">@Html.TextBoxFor(o => o.Surname, new { disabled = "disabled" })</div>
+                <div class="w3-col l3 m12 s12">@Html.LabelFor(o => o.GivenName) :</div>
+                <div class="w3-col l3 m12 s12">@Html.TextBoxFor(o => o.GivenName, new { disabled = "disabled" })</div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12"><div id="resultPanel"></div></div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Panel :</div>
+                <div class="w3-col l3 m12 s12">
+
+                    @{
+                        if (Model.C_COMMITTEE_GROUP == null)
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.C_COMMITTEE.C_COMMITTEE_PANEL.PANEL_TYPE_ID, Model.SYSTEM_TYPE_PANEL_TYPE_List)
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.C_COMMITTEE.C_COMMITTEE_PANEL.PANEL_TYPE_ID, Model.SYSTEM_TYPE_PANEL_TYPE_List, new { @disabled = "disabled" })
+
+                        }
+
+                    }
+
+
+                </div>
+
+                <div class="w3-col l3 m12 s12">Year :</div>
+                <div class="w3-col l3 m12 s12">
+                    @{
+                        if (Model.C_COMMITTEE_GROUP == null)
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.YEAR, Model.getNextYearAndLastTenYear)
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.YEAR, Model.getNextYearAndLastTenYear, new { @disabled = "disabled" })
+
+
+                        }
+                    }
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Committee :</div>
+                <div class="w3-col l3 m12 s12">
+
+                    @{
+                        if (Model.C_COMMITTEE_GROUP == null)
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.COMMITTEE_TYPE_ID, Model.SYSTEM_TYPE_COMMITTEE_TYPE_List)
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.COMMITTEE_TYPE_ID, Model.SYSTEM_TYPE_COMMITTEE_TYPE_List, new { @disabled = "disabled" })
+
+                        }
+
+                    }
+
+
+                </div>
+
+                <div class="w3-col l3 m12 s12">Committee Group :</div>
+                <div class="w3-col l3 m12 s12">
+                    @{
+                        if (Model.C_COMMITTEE_GROUP == null)
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.NAME, Model.AToZList)
+                        }
+                        else
+                        {
+
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.NAME, Model.AToZList, new { @disabled = "disabled" })
+
+
+                        }
+                    }
+
+                </div>
+
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Month :</div>
+                <div class="w3-col l3 m12 s12">
+
+                    @{
+                        if (Model.C_COMMITTEE_GROUP == null)
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.MONTH, Model.MonthList)
+
+
+
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(o => o.C_COMMITTEE_GROUP.MONTH, Model.MonthList, new { @disabled = "disabled" })
+                        }
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12"><div id="resultPanel2"></div></div>
+            </div>
+        </div>
+    </div>
+
+    @Html.DropDownList("panelRoleTemp", Model.PANEL_ROLE_List, new { @class = "hide" })
+    <div id="ErrorMessage" style="color:red"></div>
+</form>
+
+
+
+
+<script type="text/javascript">
+    domReady(function () {
+
+
+        $.post("AjaxPanelParent", {}, function (r) {
+            console.log(r);
+            for (var i = 0; i < r.Data.length; i++) {
+                attr(domId("C_COMMITTEE_GROUP_COMMITTEE_TYPE_ID").querySelectorAll("option[value='" + r.Data[i].UUID + "']"), "addClass", r.Data[i].PARENT_ID);
+                attr(domId("C_COMMITTEE_GROUP_COMMITTEE_TYPE_ID").querySelectorAll("option[value='" + r.Data[i].UUID + "']"), "addClass", "panelAll");
+            }
+        }, "json");
+        attr("C_COMMITTEE_GROUP_C_COMMITTEE_C_COMMITTEE_PANEL_PANEL_TYPE_ID", "onblur", {
+            callback: function (d, p, e) {
+                if (d.value != "") {
+                    attr(domClass("panelAll"), "addClass", "hide");
+                    attr(domClass(d.value), "dropClass", "hide");
+                } else {
+                    attr(domClass("panelAll"), "dropClass", "hide");
+                }
+            }
+        });
+
+
+
+
+
+        $(function () {
+            $('input:radio[name="SearchType"]').change(
+                function () {
+                    if ($(this).is(':checked') && $(this).val() == 1) {
+                        var cells = document.getElementById("Panel");
+                        cells.disabled = false;
+                        var cells = document.getElementById("Year");
+                        cells.disabled = false;
+
+
+                        var cells = document.getElementById("Surname");
+                        cells.disabled = true;
+                        var cells = document.getElementById("GivenName");
+                        cells.disabled = true;
+
+                    }
+                    else {
+                        var cells = document.getElementById("Panel");
+                        cells.disabled = true;
+                        var cells = document.getElementById("Year");
+                        cells.disabled = true;
+
+
+                        var cells = document.getElementById("Surname");
+                        cells.disabled = false;
+                        var cells = document.getElementById("GivenName");
+                        cells.disabled = false;
+                    }
+                });
+        });
+        new searcher({
+            searchPath: "SearchPanelMember"
+            , searchTable: "inputForm"
+            , resultPanel: "resultPanel"
+            , Sort: "NAME"
+            , Columns: [
+                {
+                    headerFormater: function () {
+                        var checkbox = dom("input");
+                        attr(checkbox, "type", "checkbox");
+                        attr(checkbox, "addClass", "checkAllMember");
+                        return checkbox;
+                    }, formater: function (row, idx) {
+                        var checkbox = dom("input");
+                        attr(checkbox, "type", "checkbox");
+                        attr(checkbox, "addClass", "checkMember");
+                        attr(checkbox, "name", "CheckMembers");
+                        attr(checkbox, "value", row.UUID);
+                        return checkbox;
+                    }
+                }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Rank", columnName: "RANK" }
+                , { displayName: "Post", columnName: "POST" }
+                , { displayName: "Career", columnName: "CAREER" }
+
+            ]
+            , onAfterSearch: function () {
+                checkAller("checkAllMember", "checkMember");
+            }
+            , resultFootButtons: [
+                createButton("Add to Member List", "fa-save", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            req("AddToMember", "inputForm", function (d) {
+                                draftingTable.search();
+                            });
+                        }
+                    }
+                }])
+            ]
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var draftingTable = new searcher({
+            searchPath: "SearchCommitteeMember"
+            , searchTable: "C_COMMITTEE_GROUP_UUID"
+            , resultPanel: "resultPanel2"
+            , Sort: "NAME"
+            , Footer: false
+            , Columns: [
+                { displayName: "Name", columnName: "NAME" }
+                , { displayName: "HKID/Passport No", columnName: "HKID_PASSPORT" }
+                , { displayName: "Rank", columnName: "RANK" }
+                , { displayName: "Post", columnName: "POST" }
+                , { displayName: "Career", columnName: "CAREER" }
+                , {
+                    displayName: "Role", formater: function (row, idx) {
+                        var select = dom("select");
+                        var options = domId("panelRoleTemp").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.ROLE_ID == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "PanelRole[" + row.UUID + "]");
+                        attr(select, "id", row.UUID);
+                        attr(select, "style", "width:auto");
+                        return select;
+                    }
+                }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        var btn =
+                            createButton("", "fa-trash"
+                                , [{
+                                    "onclick": {
+                                        parameters: { row: row.UUID }
+                                        , callback: function (d, p, e) {
+                                            req("Delete", p.row, function (ret) {
+                                                draftingTable.search();
+                                            });
+                                        }
+                                    }
+                                }, { "addClass": "w3-red" }]);
+                        return btn;
+                    }
+                }
+            ]
+            , resultFootButtons: [
+                createButton("Cancel", "fa fa-times", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            goTo("Index");
+                        }
+                    }
+                }])
+                , createButton("Save", "fa-save", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            attr("inputForm", "addClass", "saving");
+                            req("Save", "inputForm", function (data) {
+                                attr("inputForm", "dropClass", "saving");
+                                if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+                                else {
+                                    if (typeof data.Message[0] != 'undefined') {
+                                        //document.getElementById("ErrorMessage").innerHTML = data.Message[0];
+                                        alert(data.Message[0]);
+                                    }
+                                    console.log(data.Message[0]);
+                                    showErrorMessage(data.ErrorMessages);
+                                }
+                                //draftingTable.search();
+                            });
+                        }
+                    }
+                }])
+
+            ]
+        }).search();
+    });
+
+</script>

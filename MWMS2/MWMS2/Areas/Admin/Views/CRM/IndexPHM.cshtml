@@ -1,0 +1,138 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_Model
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <form id="inputForm" method="post">
+
+        <div id="searchCriteria">
+            @Html.HiddenFor(model => model.SystemType)
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        @Html.DropDownListFor(model => model.Year, Model.getYear(), new { id = "HDATE" })
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            @*<div class="w3-container">
+                    <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+                </div>*@
+
+            <div id="resultPanel"></div>
+
+            <div class="w3-container footer">
+                @if (MWMS2.Utility.AuthUtil.CanEdit)
+                {<button class="Save btn btn-default" name="Save" id="Save"><i class="fa fa-save"></i> Save</button>}
+            </div>
+
+        </div>
+
+    </form>
+    <script type="text/javascript">
+        var resultTable;
+
+        domReady(function () {
+            resultTable = new searcher({
+                searchPath: "SearchPHM"
+                //, exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "HOLIDAY"
+                , Columns: [
+                    { displayName: "No. ", columnName: "ROW_NO" },
+                    {
+                        displayName: "Date", formater: function (row) {
+                            var input = dom("input");
+                            attr(input, "type", "text");
+                            attr(input, "addClass", "inputDate");
+                            attr(input, "value", date2String(new Date(row.HDATE)));
+                            attr(input, "id", "Publicholidays[" + row.ROW_INDEX + "].HOLIDAY");
+                            attr(input, "name", "Publicholidays[" + row.ROW_INDEX + "].HOLIDAY");
+                            // attr(input, "name", "HolidayDateList[" + row.ROW_ID + "]");
+                            return input;
+                        }
+                    }
+                    , {
+                        displayName: "Description (Eng)", formater: function (row) {
+                            var t = dom("input");
+                            attr(t, "type", "text");
+                            attr(t, "value", display(row.ENGLISH_DESCRIPTION));
+                            attr(t, "id", "Publicholidays[" + row.ROW_INDEX + "].ENGLISH_DESCRIPTION");
+                            attr(t, "name", "Publicholidays[" + row.ROW_INDEX + "].ENGLISH_DESCRIPTION");
+                            //attr(t, "name", "HolidayEngList[" + row.ROW_ID + "]");
+                            return t;
+                        }
+                    }
+                    , {
+                        displayName: "Description (Chn)", formater: function (row) {
+                            var t = dom("input");
+                            attr(t, "type", "text");
+                            attr(t, "value", display(row.CHINESE_DESCRIPTION));
+                            // attr(t, "name", "HolidayChiList[" + row.ROW_ID + "]");
+                            attr(t, "id", "Publicholidays[" + row.ROW_INDEX + "].CHINESE_DESCRIPTION");
+                            attr(t, "name", "Publicholidays[" + row.ROW_INDEX + "].CHINESE_DESCRIPTION");
+
+                            return t;
+
+                        }
+                    }
+                    //, { displayName: "Description (Eng)", columnName: "ENGLISH_DESCRIPTION" }
+                    //, { displayName: "Description (Chn)", columnName: "CHINESE_DESCRIPTION" }
+
+                    //function (row) { return createButton("", "fa-edit", [{ "onclick": { parameters: { row: row }, callback: function (d, p, e) { onLoadApplicant(p.row.C_COMP_APPLICANT_INFO_UUID); } } }]); }
+                ]
+            }).search();
+        });
+
+
+
+
+
+        attr("Save", "onclick", {
+            callback: function () {
+                /// alert($(parseForm("resultPanel")).serialize());
+                // try {
+                //     if (row == null) return;
+                //     alert("hi");
+                //     goTo("SavePHM", [{ name: "id", value: row.HDATE }, { name: "engDesc", value: row.ENGLISH_DESCRIPTION }, { name: "chiDesc", value: row.CHINESE_DESCRIPTION }]);
+                //} catch (err) { }
+                //goTo("SavePHM", [{ name: "id", value: row.HDATE }, { name: "engDesc", value: row.ENGLISH_DESCRIPTION }, { name: "chiDesc", value: row.CHINESE_DESCRIPTION }]);
+
+                // $.post("SavePublicHoilday", ("#inputForm").serialize(), function (page) {
+
+                // });
+
+                $.post("SavePublicHoilday", $("#inputForm").serialize(), function (data) {
+                    attr("inputForm", "dropClass", "saving");
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                        goTo("IndexPHM", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                    }
+                    else showErrorMessage(data.ErrorMessages);
+
+                }, "json");
+
+                // alert("wow");
+            }
+        });
+
+        $("#HDATE").change(function () {
+            dateChange();
+        });
+
+        function dateChange() {
+
+            resultTable.search();
+        }
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

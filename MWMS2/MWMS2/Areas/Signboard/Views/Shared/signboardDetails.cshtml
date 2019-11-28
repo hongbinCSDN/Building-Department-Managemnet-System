@@ -1,0 +1,505 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntryDisplayModel
+<script>
+    $(document).ready(function () {
+
+    });
+    function addSignboardLocationCALLBACK(v1) {
+
+        console.log(v1);
+        // alert(v1);
+        var res = v1.replace("{Eng Building Name}", document.getElementById('SvSignboard_B_SV_ADDRESS_BUILDINGNAME').value);
+        res = res.replace("{Chi Building Name}", document.getElementById('SvSignboard_B_SV_ADDRESS_BUILDINGNAME').value);
+
+        res = res.replace("{Chi Floor}", document.getElementById('SvSignboard_B_SV_ADDRESS_FLOOR').value);
+        res = res.replace("{Eng Floor}", document.getElementById('SvSignboard_B_SV_ADDRESS_FLOOR').value);
+
+        res = res.replace("{Chi Road Name}", document.getElementById('SvSignboard_B_SV_ADDRESS_STREET').value);
+        res = res.replace("{Eng Road Name}", document.getElementById('SvSignboard_B_SV_ADDRESS_STREET').value);
+
+        document.getElementById("SvSignboard_LOCATION_OF_SIGNBOARD").value = res;
+
+    }
+    function SearchLocationSignboard() {
+        goTo("SearchLocationSignboard", "", true);
+    }
+    function selectSignboardLocationTemplate() {
+
+        var template = popup('signboardLocationTemplate.do?method=popup', null,
+            'dialogWidth:750px; dialogHeight:400px; center:yes');
+        if (typeof template == "undefined") return;
+
+        var signboardLocationTextArea =
+            document.getElementById("dataEntryObject.signboard.locationOfSignboard");
+        var streetNameTextField =
+            document.getElementById("dataEntryObject.signboard.svAddress.street");
+        var buildingNameTextField =
+            document.getElementById("dataEntryObject.signboard.svAddress.buildingname");
+        var floorTextField =
+            document.getElementById("dataEntryObject.signboard.svAddress.floor");
+        var streetNoTextField =
+            document.getElementById("dataEntryObject.signboard.svAddress.streetNo");
+
+        var engRoadNameTemplate = template.engRoadName;
+        var engBuildingNameTemplate = template.engBuildingName;
+        var engFloorTemplate = template.engFloor;
+        var engStreetNoTemplate = template.engStreetNo;
+        var chiBuildingNameTemplate = template.chiBuildingName;
+        var chiRoadNameTemplate = template.chiRoadName;
+        var chiFloorTemplate = template.chiFloor;
+        var chiStreetNoTemplate = template.chiStreetNo;
+
+        //if(signboardLocationTextArea.value == "")
+        signboardLocationTextArea.value = template.descEng + "\r\n" + "\r\n" + template.descChi;
+        // if(streetNameTextField.value != ""){
+        if (typeof engRoadNameTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(engRoadNameTemplate, streetNameTextField.value);
+        if (typeof chiRoadNameTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(chiRoadNameTemplate, streetNameTextField.value);
+        // }
+        // if(buildingNameTextField.value != ""){
+        if (typeof engBuildingNameTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(engBuildingNameTemplate, buildingNameTextField.value);
+        if (typeof chiBuildingNameTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(chiBuildingNameTemplate, buildingNameTextField.value);
+        // }
+        // if(floorTextField.value != ""){
+        if (typeof engFloorTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(engFloorTemplate, floorTextField.value);
+        if (typeof chiFloorTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(chiFloorTemplate, floorTextField.value);
+        // }
+        // if(streetNoTextField.value != ""){
+        if (typeof engStreetNoTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(engStreetNoTemplate, streetNoTextField.value);
+        if (typeof chiStreetNoTemplate != "undefined")
+            signboardLocationTextArea.value = signboardLocationTextArea.value
+                .ReplaceAll(chiStreetNoTemplate, streetNoTextField.value);
+        // }
+    }
+
+
+    function onChangeDistrict() {
+        var regionList = document.getElementsByName("dataEntryObject.signboard.svAddress.region");
+        for (var i = 0, length = regionList.length; i < length; i++) {
+            if (regionList[i].checked) {
+                // do whatever you want with the checked radio
+                region = regionList[i].value;
+
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+
+        $.post(
+            '<%=request.getContextPath()%>/dataEntry.do?method=changeRegionAjax&region=' + region
+
+            , function cbf(data) {
+
+                var result = eval(data);
+                document.getElementById("bcisDistrictDiv").innerHTML = result.bcisDistrict;
+
+            }
+        );
+
+        /* var select = document.getElementById("dataEntryObject.signboard.svAddress.bcisDistrict");
+
+         var regionList = document.getElementsByName("dataEntryObject.signboard.svAddress.region");
+        for (var i = 0, length = regionList.length; i < length; i++) {
+                if (regionList[i].checked) {
+                    // do whatever you want with the checked radio
+                    region = regionList[i].value;
+
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+         var options = select.getElementsByTagName("option");
+         for(var i = 0;i < options.length; i++) {
+
+              if(options[i].className == region) {
+                    //options[i].style.display = "none";
+
+                    select.value="";
+
+                    jQuery(options[i]).toggleOption(true);
+              } else {
+
+                    select.value="";
+
+                    jQuery(options[i]).toggleOption(false);
+                    //options[i].style.display = "";
+              }
+         }*/
+    }
+    jQuery.fn.toggleOption = function (show) {
+        jQuery(this).toggle(show);
+        if (show) {
+            if (jQuery(this).parent('span.toggleOption').length)
+                jQuery(this).unwrap();
+        } else {
+            if (jQuery(this).parent('span.toggleOption').length == 0)
+                jQuery(this).wrap('<span class="toggleOption" style="display: none;" />');
+        }
+
+
+
+    };
+
+</script>
+@Html.HiddenFor(model => model.FormCode)
+<div class="displayForm">
+
+    @*<div class="w3-row">
+        &nbsp;Signboard Information
+    </div>*@
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Location of Signboard : <span class="w3-hide-medium w3-hide-small"><br /><br /><br />&nbsp;</span></div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextAreaFor(model => model.SvSignboard.LOCATION_OF_SIGNBOARD)
+                @*<input type="button" value="Search" class="inputButton"
+                       onclick="SearchLocationSignboard()" />*@
+                <button onclick="SearchLocationSignboard()" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </div>
+    </div>
+    @if (Model.FormMode.Equals("2"))
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Description :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.DESCRIPTION, new { @maxlength = "20" })
+                    <input type="button" value="Search" class="inputButton"
+                           style="width: 75px" onclick="selectSignboardLocationTemplate()" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Facade :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.FACADE, new { @maxlength = "20" })
+                    <input type="button" value="Search" class="inputButton"
+                           style="width: 75px" onclick="selectSignboardLocationTemplate()" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Type :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.DropDownListFor(model => model.SvSignboard.TYPE, Model.TYPEList)
+                    <input type="button" value="Search" class="inputButton"
+                           style="width: 75px" onclick="selectSignboardLocationTemplate()" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Bottom fixing at Floor :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.BTM_FLOOR, new { @maxlength = "20" })
+                    <input type="button" value="Search" class="inputButton"
+                           style="width: 75px" onclick="selectSignboardLocationTemplate()" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Top fixing at Floor :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.TOP_FLOOR, new { @maxlength = "20" })
+                    <input type="button" value="Search" class="inputButton"
+                           style="width: 75px" onclick="selectSignboardLocationTemplate()" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Display Area(m<sup>2</sup>) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.A_M2, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Projection (m) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.P_M, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Height of signboard(m) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.H_M, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Clearance above ground (m) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.H2_M, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">LED/TV :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.LED, Model.LEDList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Building Portion :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.BUILDING_PORTION, new { @maxlength = "20" })
+                </div>
+            </div>
+        </div>
+    }
+    <div class="w3-row" style="display: none;">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">SvSignboard.B_SV_ADDRESS :</div>
+            <div class="w3-col l4 m6 s12">
+                <input class="inputButton" type="button"
+                       value="Copy from PAW SvSignboard.B_SV_ADDRESS" style="width: 150px;"
+                       onclick="copyPAWAddressToSignboard()" />
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Street/Road/Village :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.STREET, new { @maxlength = "500" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Street Number :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.STREET_NO, new { @maxlength = "500" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Building/Estate :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.BUILDINGNAME, new { @maxlength = "500" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Flat/Room :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.FLAT, new { @maxlength = "500" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Floor :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.FLOOR, new { @maxlength = "500" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12">Block :</div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.BLOCK, new { @maxlength = "30" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m6 s12" @*style="height:43px;"*@>District : <span class="w3-hide-medium w3-hide-small"><br />&nbsp;</span></div>
+            <div class="w3-col l4 m6 s12">
+                @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.DISTRICT)
+                <br />
+                @Html.RadioButtonFor(model => model.SvSignboard.B_SV_ADDRESS.REGION, "HK", new { @class = "w3-radio", @id = "sb_district_HK" }) <label for="sb_district_HK">Hong Kong</label>
+                @Html.RadioButtonFor(model => model.SvSignboard.B_SV_ADDRESS.REGION, "KLW", new { @class = "w3-radio", @id = "sb_district_KLN" }) <label for="sb_district_KLN">Kowloon</label>
+                @Html.RadioButtonFor(model => model.SvSignboard.B_SV_ADDRESS.REGION, "NT", new { @class = "w3-radio", @id = "sb_district_NT" }) <label for="sb_district_NT">New Territories</label>
+            </div>
+        </div>
+    </div>
+    @if (Model.RegType == "Data Entry")
+    {
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">RVD No. :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.RVD_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">RVD Block ID. :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.RV_BLOCK_ID, new { @disabled = "disabled" })
+                </div>
+                <input id="tempRVDInput" type="text"
+                       onpropertychange="changeRVD(this)" style="display: none"
+                       onchange="changeRVD(this)" />
+                <script>
+                    function changeRVD(sender) {
+                        if (this.value != '') {
+                            var listRVD;
+                            eval('listRVD = ' + sender.value);
+                            var outString = "";
+                            for (var i = 0; i < listRVD.length; i++) {
+                                outString += listRVD[i] + "<br/>";
+                            }
+                            document.getElementById('tempRVDLabel').innerHTML = outString;
+                        }
+                    }
+                </script>
+                <span id="tempRVDLabel"></span>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">BCIS Block ID :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.BCIS_BLOCK_ID, new { @maxlength = "36" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">BCIS District :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.DropDownListFor(model => model.SvSignboard.B_SV_ADDRESS.BCIS_DISTRICT, Model.BcisDistrictList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">BD ref. (4+2) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvSignboard.B_SV_ADDRESS.FILE_REFERENCE_NO, new { @maxlength = "36" })
+                </div>
+            </div>
+        </div>
+        <!-- UR AJAX-->
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Area Code :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.AREA_CODE)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">No of Signboard involved :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.involved)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">LSO VS Operation Year :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.LSO_VS_OPERATION_YEAR)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Related Order No :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.RELATED_ORDER_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">No of Signboard validated :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.validated)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Previous submission number :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.PREVIOUS_SUBMISSION_NUMBER)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Recommendation :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.DropDownListFor(model => model.SvRecord.RECOMMENDATION, Model.RecList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">No of Submission (Erection) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.NO_OF_SUBMISSION_ERECTION)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">No of Submission (Removal) :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.SvRecord.SIGNBOARD_REMOVAL)
+                </div>
+            </div>
+        </div>
+    }
+    @* no order24  *@
+    @*<tr>
+            <td class="fLabelOption">
+                Related Order/DSRN (if applicable)
+            </td>
+            <td class="fField">
+                <html:select property="dataEntryObject.signboard.s24OrderType"
+                                styleClass="inputSelect"
+                                styleId="dataEntryObject.signboard.s24OrderType">
+                    <option value="">N/A</option>
+                    <tld:lookuplist lookupname="<%=ApplicationConstants.SYSTEM_TYPE_S_ORDER%>"
+                                    optionValue="<%=LookupListTag.CODE%>"
+                                    optionDisplay="<%=LookupListTag.DESCRIPTION%>"
+                                    property="dataEntryObject.signboard.s24OrderType" />
+                </html:select>
+
+                <html:text property="dataEntryObject.signboard.s24OrderNo"
+                            styleId="dataEntryObject.signboard.s24OrderNo"
+                            style="width:300px;" styleClass="inputTextOption" maxlength="36" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            </tr>
+            </table>
+        </div>*@
+</div>

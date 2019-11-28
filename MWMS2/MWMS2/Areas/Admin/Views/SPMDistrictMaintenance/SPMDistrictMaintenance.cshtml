@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MWMS2.Models.ModelSystemValue>
+
+<h3>District Maintenance</h3>
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        @*<input class="btn btn-default inputButton" id="" name="" value="Create District" onclick="location.href='@Url.Action("SPMDistrictMaintenanceCreate", "SPMDistrictMaintenance")'" type="button">*@
+        <button class="btn btn-default" id="" name="" value="Create District" onclick="location.href='@Url.Action("SPMDistrictMaintenanceCreate", "SPMDistrictMaintenance")'" type="button"><i class="far fa-plus-square"></i> Create District</button>
+    </div>
+</div>
+<br>
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">District Code</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">District Name</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Region</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Ordering</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.CODE, "SPMDistrictMaintenanceEdit", "SPMDistrictMaintenance", new { id = item.UUID }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ORDERING)
+                    </td>
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>

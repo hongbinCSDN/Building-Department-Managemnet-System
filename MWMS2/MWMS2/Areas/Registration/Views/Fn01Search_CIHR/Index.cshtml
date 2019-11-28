@@ -1,0 +1,123 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_CIHRSearchModel
+    <script>
+        $(document).ready(function () {
+            $("#category").change(function () {
+                $(".application_type").hide();
+                var selectedCategory = document.getElementById("category");
+                var selectedType = selectedCategory.options[selectedCategory.selectedIndex].text;
+                if (selectedType == "AP" || selectedType == "RSE"
+                    || selectedType == "RGE" || selectedType == "RI"
+                    || selectedType == "SC(D)" || selectedType == "SC(F)"
+                    || selectedType == "SC(GI)" || selectedType == "SC(SF)"
+                    || selectedType == "SC(V)") {
+                    $("#application_type_ip").show();
+                } else if (selectedType == "GBC") {
+                    $("#application_type_gbc").show();
+                } else if (selectedType == "MWC" || selectedType == "MWC(P)") {
+                    $("#application_type_mwc").show();
+                } else {
+                    $("#application_type_mwcw").show();
+                }
+            }).change();
+            //    attr("exportButtion", "onclick", {
+            //        callback: function () {
+            //            goTo("Export", [{ name: "FileRef", value: document.getElementById("FileRef").value }
+            //                , { name: "VettingOfficer", value: document.getElementById("VettingOfficer").value}
+            //                , { name: "DateFromReceived", value: document.getElementById("DateFromReceived").value }
+            //                , { name: "DateToReceived", value: document.getElementById("DateToReceived").value }
+            //                , { name: "DateFromDue", value: document.getElementById("DateFromDue").value }
+            //                , { name: "DateToDue", value: document.getElementById("DateToDue").value }
+            //                , { name: "TypeOfRegisters", value: document.getElementById("TypeOfRegisters").value }
+            //                , { name: "application_type_gbc", value: document.getElementById("application_type_gbc").value }
+            //                , { name: "application_type_mwc", value: document.getElementById("application_type_mwc").value }
+            //                , { name: "application_type_ip", value: document.getElementById("application_type_ip").value }
+            //                , { name: "application_type_mwcw", value: document.getElementById("application_type_mwcw").value }
+            //            ]);
+            //        }
+            //    });
+        });
+
+        function printCaseInHandReport() {
+            thisForm = document.getElementById('reportForm');
+            thisForm.REPORT_NAME.value = 'caseInHand';
+            thisForm.application_type.value = $(".application_type").filter(":visible").val();
+            thisForm.action = 'exportButtion';
+            thisForm.target = 'bd_wind';
+            popupWind('');
+            thisForm.submit();
+        }
+    </script>
+    <form action="exportButtion" method="post" id="reportForm">
+        <input type="hidden" name="rptId" value="CRM0014">
+        <input type="hidden" name="REPORT_NAME" value="caseInHand">
+
+
+
+
+        <div class="panelHeader">Cases In Hand Report</div>
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">File Reference :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.TextBoxFor(model => model.FileRef, new { @id = "FileRef" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">Vetting Officer :</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DropDownListFor(model => model.VettingOfficer, Model.VetOfficerList, new { @id = "VettingOfficer" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Received Date :</div>
+                    <div class="w3-col l9 m12 s12">
+                        &nbsp;From&nbsp;@Html.TextBoxFor(model => model.DateFromReceived, "", new { @id = "DateFromReceived", @class = "inputDate" })
+                        &nbsp;To&nbsp;@Html.TextBoxFor(model => model.DateToReceived, "", new { @id = "DateToReceived", @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Due Date :</div>
+                    <div class="w3-col l9 m12 s12">
+                        &nbsp;From&nbsp;@Html.TextBoxFor(model => model.DateFromDue, "", new { @id = "DateFromDue", @class = "inputDate" })
+                        &nbsp;To&nbsp;@Html.TextBoxFor(model => model.DateToDue, "", new { @id = "DateToDue", @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Type of Registers :</div>
+                    <div class="w3-col l2 m12 s12">
+                        @Html.DropDownListFor(model => model.TypeOfRegisters, Model.TypeOfRegistersList, new { @id = "category" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Type of Application :</div>
+                    <div class="w3-col l1 m12 s12">
+                        @Html.DropDownListFor(model => model.TypeOfApplication, Model.TypeOfApplicationList_GBC, new { @id = "application_type_gbc", @class = "application_type" })
+                        @Html.DropDownListFor(model => model.TypeOfApplication, Model.TypeOfApplicationList_MWC, new { @id = "application_type_mwc", @class = "application_type" })
+                        @Html.DropDownListFor(model => model.TypeOfApplication, Model.TypeOfApplicationList_IP, new { @id = "application_type_ip", @class = "application_type" })
+                        @Html.DropDownListFor(model => model.TypeOfApplication, Model.TypeOfApplicationList_MWCW, new { @id = "application_type_mwcw", @class = "application_type" })
+                        @Html.HiddenFor(model => model.application_type, new { @name = "application_type" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button onclick="openReport('reportForm')" class="searchButton btn btn-default" type="button" id="btnRPT0008">
+                    <i class="fa fa-print"></i>Export Cases In Hand Report
+                </button>
+                @*<a href="openReport('')">Export Cases In Hand Report</a>*@
+            </div>
+        </div>
+    </form>

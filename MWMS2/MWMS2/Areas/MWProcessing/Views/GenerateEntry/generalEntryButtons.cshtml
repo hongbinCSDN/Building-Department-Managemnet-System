@@ -1,0 +1,42 @@
+﻿<div class="displayForm">
+    <div class="w3-container footer">
+        <button id="submitBtn" class="btn btn-default" type="button">Submit</button>
+        <button id="draftBtn" class="btn btn-default" type="button">Save as Draft</button>
+        <button class="btn btn-default" onclick="goTo('Index')" type="button">Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        var submit
+            , saveAsDraft;
+
+        submit = function () {
+            $.post(domId("rootPath").value +"/MWProcessing/Fn02MWUR_GE/SubmitEntry", $("#inputForm").serialize(), function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    goTo('Index');
+                } else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            });
+        };
+
+        saveAsDraft = function () {
+            $.post(domId("rootPath").value +"/MWProcessing/Fn02MWUR_GE/SaveEntry", $("#inputForm").serialize(), function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    alert('Save Successfully');
+                } else {
+                    showErrorMessage(data.ErrorMessages);
+                    console.log(data);
+                }
+            });
+        };
+
+        attr("submitBtn", "onclick", { parameters: {}, callback: submit });
+        attr("draftBtn", "onclick", { parameters: {}, callback: saveAsDraft });
+
+    });
+
+</script>

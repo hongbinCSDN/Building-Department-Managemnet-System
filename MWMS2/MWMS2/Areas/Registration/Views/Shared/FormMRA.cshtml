@@ -1,0 +1,388 @@
+﻿
+@model MWMS2.Areas.Registration.Models.MeetingRoomDisplayModel
+
+
+
+
+    <form id="inputForm" method="post">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.C_MEETING.UUID)
+        @Html.HiddenFor(model => model.C_INTERVIEW_SCHEDULE.UUID)
+        @Html.HiddenFor(model => model.TargetMeetingMemberToDelete)
+        @Html.HiddenFor(model => model.MemberlistChanged)
+        @Html.HiddenFor(model => model.RegType)
+        @Html.HiddenFor(model => model.MEETING_NUMBER)
+
+        <div class="displayForm" id="searchCriteria">
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Interview Date<font color="red">*</font> :  </div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.InterviewSchDateTime, "", new { @class = "inputDate" })<input type="button" value="Load Meeting Group" onclick="LoadMeetingGroup()" /></div>
+
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Session<font color="red">*</font>: </div>
+                    <div class="w3-col l9 m6 s12">@Html.DropDownListFor(model => model.C_INTERVIEW_SCHEDULE.TIME_SESSION_ID, Model.GetTimeSession)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Room <font color="red">*</font>:  </div>
+                    <div class="w3-col l9 m6 s12">
+
+                        @Html.DropDownListFor(model => model.C_INTERVIEW_SCHEDULE.ROOM_ID, Model.RoomList)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Committee Group <font color="red">*</font> :  </div>
+                    <div class="w3-col l9 m6 s12">@Html.DropDownListFor(model => model.C_MEETING.COMMITTEE_GROUP_ID, Model.GetCommitteeGroup, new { @onchange = "GetCommitteeGroupChange()" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Cancel Meeting : </div>
+                    <div class="w3-col l9 m6 s12">@Html.DropDownListFor(model => model.C_INTERVIEW_SCHEDULE.IS_CANCEL, Model.YESNOption)</div>
+
+                </div>
+            </div>
+            <br>
+
+
+            <div class="panelSubHeader">
+                Member List for Meeting Group
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @Html.RadioButtonFor(x => x.SearchBy, "C", new { Checked = "checked" })
+                    By Committee Group
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    Please Select :
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12">Panel :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.DropDownListFor(x => x.CSearchCommitteePanel, Model.GetCSearchCommitteePanel, new { @class = "ByCommittee" })</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12"> Year :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.DropDownListFor(model => model.CSearchYear, Model.GetCSearchYear, new { @class = "ByCommittee" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12">Committee :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.DropDownListFor(x => x.CSearchCommittee, Model.GetCSearchCommittee, new { @class = "ByCommittee" })</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12"> Committee Group :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.DropDownListFor(model => model.CSearchCommitteeGroup, Model.GetCSearchCommitteeGroup, new { @class = "ByCommittee" })</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Month :  </div>
+                    <div class="w3-col l9 m6 s12">@Html.DropDownListFor(x => x.CSearchMonth, Model.GetCSearchMonth, new { @class = "ByCommittee" })</div>
+                </div>
+
+            </div>
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @Html.RadioButtonFor(x => x.SearchBy, "O")
+                    One-By-One
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12">Surname :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.TextBoxFor(model => model.OSearchSurname, new { @class = "OneByOne", disabled = "disabled" })</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m3 s12"> Given Name :  </div>
+                    <div class="w3-col l6 m3 s12">@Html.TextBoxFor(model => model.OSearchGivenname, new { @class = "OneByOne", disabled = "disabled" })</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @*<input type="button" value="Search" onclick="SearchAppplicantTable()" />*@
+                    <button onclick="SearchAppplicantTable()" type="button" value="Search"><i class="fa fa-search"></i> Search</button>
+                </div>
+            </div>
+            <div class="w3-row" id="SearchMemberList">
+
+
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    @*<input type="button" value="Add to Memeber List" onclick="AddtoMemberList()" />*@
+                    @if (MWMS2.Utility.AuthUtil.CanEdit)
+                    {<button type="button" onclick="AddtoMemberList()"><i class="far fa-plus-square"></i> Add to Memeber List</button>}
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="panelSubHeader">    Member List for Meeting Group</div>
+            <br />
+
+            <div class="w3-row" id="memberDiv">
+                <div class="w3-col l12 m12 s12">@Html.Partial("CommitteeMemberListTable", Model.MemberList)</div>
+            </div>
+
+
+            <div class="w3-container footer">
+                @if (MWMS2.Utility.AuthUtil.CanEdit)
+                {<button id="saveButton" onclick="onSaveForm()" class="btn btn-default" type="button"><i class="fa fa-save"></i> Save Application</button>}
+            <button id="backButton"  class=" backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+            </div>
+
+            <br>
+            @*<button id="cancelMeeting" class="btn btn-default" type="button">
+                <i class="fa fa-save"></i> Export
+            </button>*@
+            <a href="javascript:triggerExport('Cancel')"> Cancellation of CRC meeting (MMD0012B.doc)</a><br>
+            <a href="javascript:triggerExport('CRC')"> Contractors registration committee (for filing only) (MMD0013B_1.doc)</a><br>
+            <a href="javascript:triggerExport('MBR')"> Contractors registration committee (MMD0013B_2.doc)</a><br>
+
+
+        </div>
+
+    </form>
+<script>
+    var applicantTableObject;
+    domReady(function () {
+        //console.log(document.getElementById("C_INTERVIEW_SCHEDULE_INTERVIEW_DATE").value);
+        //if (document.getElementById("C_INTERVIEW_SCHEDULE_INTERVIEW_DATE").value === "01/01/0001" || document.getElementById("C_INTERVIEW_SCHEDULE_INTERVIEW_DATE").value === "01/01/1") { console.log("123"); document.getElementById("C_INTERVIEW_SCHEDULE_INTERVIEW_DATE").value = ""; }
+
+        applicantTableObject = new searcher({
+            searchPath: "AjaxMemberList"
+            , searchTable: "searchCriteria"
+            , resultPanel: "SearchMemberList"
+            , Sort: "FULLNAME"
+            // , Footer: false
+            , Columns: [
+                {
+
+                    headerFormater: function (row) {
+                        var r = dom("span");
+                        var checkbox = dom_(r, "input", [{ type: "checkbox" }, { class: "formCheckboxAll" }]);
+                        return r;
+                    }
+                    , formater: function (row) {
+                        var r = dom("span");
+                        var checkbox = dom_(r, "input", [{ type: "checkbox" }, { name: "NewMemberUUID" }, { value: row.UUID }, { class: "MemberChkb" }]);
+
+                        return r;
+                    }
+                }
+
+                , { displayName: "Name", columnName: "FULLNAME" }
+                , { displayName: "Rank", columnName: "RANK" }
+                , { displayName: "Post", columnName: "POST" }
+                , { displayName: "Career", columnName: "CAREER" }
+            ]
+        });
+    });
+    function SearchAppplicantTable() {
+        applicantTableObject.search(null, function () { checkAller("formCheckboxAll", "MemberChkb"); });
+    }
+    function onDeleteMember(uuid) {
+        //  alert(uuid);
+        $("#TargetMeetingMemberToDelete").val(uuid);
+        $.ajax({
+
+            url: 'AjaxDeleteDrafttoMemberList',
+            data: '{model:' + $("#inputForm").serialize() + '}',
+            type: 'POST',
+            dataType: "html",
+            success: function (data) {
+
+
+                $("#memberDiv").html(data);
+            }
+        });
+    }
+
+
+
+
+    $(function () {
+        $('input:radio[name="SearchBy"]').change(
+            function () {
+                if ($(this).is(':checked') && $(this).val() == 'C') {
+                    var cells = document.getElementsByClassName("ByCommittee");
+                    for (var i = 0; i < cells.length; i++) {
+                        cells[i].disabled = false;
+                    }
+                    var cells = document.getElementsByClassName("OneByOne");
+                    for (var i = 0; i < cells.length; i++) {
+                        cells[i].disabled = true;
+                    }
+                }
+                else {
+                    var cells = document.getElementsByClassName("OneByOne");
+                    for (var i = 0; i < cells.length; i++) {
+                        cells[i].disabled = false;
+                    }
+                    var cells = document.getElementsByClassName("ByCommittee");
+                    for (var i = 0; i < cells.length; i++) {
+                        cells[i].disabled = true;
+                    }
+                }
+            });
+    });
+    function AddtoMemberList() {
+
+        console.log("123");
+        $.ajax({
+
+            url: 'AjaxAddDrafttoMemberList',
+            data: 'model:' + $("#inputForm").serialize() ,
+            type: 'POST',
+            dataType: "html",
+            success: function (data) {
+                console.log(data);
+
+                $("#memberDiv").html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                alert("Error!");
+            }
+        });
+
+        $(".MemberChkb").prop('checked', false);
+
+    }
+    function LoadMeetingGroup() {
+        var $el = $("#C_MEETING_COMMITTEE_GROUP_ID");
+        var controller = $("#RegType").val();
+        if (controller == 'CGC') {
+            controller = 'Fn02GCA_MRA'
+        }
+        else
+            if (controller == 'IP') {
+                controller = 'Fn03PA_MRA'
+            }
+            else
+                if (controller == 'MW') {
+                    controller = 'Fn04MWCA_MRA'
+                }
+        //else
+        //    if (controller == 'CMW') {
+        //        controller = 'Fn05MWIA_MRA'
+        //    }
+        $el.empty(); // remove old options
+        $.ajax({     
+            url: 'LoadGroup',
+            data: '{model:' + $("#inputForm").serialize() + '}',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                console.log("data: " + data);
+                console.log($el);
+                for (var item in data) {
+                    console.log("item.value: " + item.Value)
+                    $el.append($("<option></option>")
+                        .attr("value", data[item].Value).text(data[item].Text));
+
+
+                }
+
+            }
+        });
+
+
+    }
+
+    function GetCommitteeGroupChange() {
+        $("#MemberlistChanged").val("Changed");
+        console.log($("#C_MEETING_COMMITTEE_GROUP_ID").val());
+        $("#memberDiv").load("LoadMember", { id: $("#C_MEETING_COMMITTEE_GROUP_ID").val() });
+
+    }
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+            else {
+              //  alert(data.Message);
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+   
+</script>
+
+<script type="text/javascript" charset="utf-8">
+
+    function triggerExport(exportType) {
+
+        var UUID = document.getElementById('C_INTERVIEW_SCHEDULE_UUID').value;
+        var MeetingMember = document.getElementById('MEETING_NUMBER').value
+
+        var targetUrl = '/Fn02GCA_MRA/ExportMRACancelMeeting';
+        var fileName = "CancellationMeeting.txt";
+
+        if ("Cancel" == exportType) {
+            targetUrl = '/Fn02GCA_MRA/ExportMRACancelMeeting';
+            fileName = "CancellationMeeting.txt";
+        } else if ("CRC" == exportType) {
+            targetUrl = '/Fn02GCA_MRA/ExportCRCMeeting';
+            fileName = "ExportCRCMeeting.txt";
+        } else if ("MBR" == exportType) {
+            targetUrl = '/Fn02GCA_MRA/CRCMeetingMBR';
+            fileName = "CRCMeetingMBR.txt";
+        }
+       // var committeeGrp = 
+        downloadFile(targetUrl, {
+            UUID: UUID,
+            MeetingMember:MeetingMember
+        });
+        //$.ajax({
+        //    type: "POST",
+        //    url: targetUrl,
+        //    //contentType: "charset=utf-8;",
+        //    data: {
+
+
+        //    },
+        //    success: function (data) {
+        //        download(fileName, data);
+        //    }
+        //})
+       
+    }
+
+    function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + decodeURIComponent(text));
+        //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+
+        //alert("SS: " + decodeURIComponent(text));
+
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+</script>

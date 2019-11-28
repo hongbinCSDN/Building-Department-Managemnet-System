@@ -1,0 +1,201 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_SADDisplayModel
+
+
+
+<div class="panelHeader">DSN Information</div>
+
+<form id="inputForm">
+    <div class="displayForm" id="searchCriteria">
+        @Html.HiddenFor(x => x.DSN)
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">DSN :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DisplayFor(x => x.DSN)
+
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">No. of Sub-document :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(x => x.SubDocNo)
+                    <button>Print Barcode for sub-document</button>
+                    <button>Print Barcode for additional sub-document</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Form :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DisplayFor(x => x.Form)
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Submission Type :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.DisplayFor(x => x.SubmissionType)
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SSP Submitted :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.RadioButtonFor(x => x.SSPSubmitted, "Y", new { @id = "SSPY", @class = "w3-radio" })<label for="SSPY">Yes</label>
+
+                    @Html.RadioButtonFor(x => x.SSPSubmitted, "N", new { @id = "SSPN", @class = "w3-radio" })<label for="SSPN">No</label>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-container footer">
+            <button type="button" class="btn btn-default" onclick="goTo('Index')">Cancel</button>
+        </div>
+    </div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(model => model.UUID)
+    </div>
+</form>
+
+<div id="resultPanel">
+
+</div>
+
+<script>
+    var SearchDocList;
+    domReady(function () {
+        SearchDocList = new searcher({
+            searchPath: domId("rootPath").value + "/Fn02MWUR_SAD/SearchScanDoc"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "DSN", columnName: "DSN_SUB"
+                }
+                , {
+                    displayName: "Document Type", columnName: "DOCUMENT_TYPE"
+                }
+                , {
+                    displayName: "Total Page", columnName: "PAGE_COUNT"
+                }
+                , {
+                    displayName: "Date", columnName: "CREATED_DATE"
+                }
+                , {
+                    displayName: "View Image", formater: function (row) {
+                        return createButton("View", "fa fa-file-image", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    if (row.FILE_PATH != null) {
+                                        //var path = row.FILE_PATH.replace('\\', '/');
+                                        goTo(domId("rootPath").value + "/Doc/Download"
+                                            , [
+                                                { name: "fileType", value: 'PEM' }
+                                                , { name: "fileUuid", value: row.FILE_PATH }
+                                            ]
+                                            , false);
+                                    }
+                                }
+                            }
+                        }])
+                    }
+                }
+                , {
+                    displayName: "Action", formater: function (row) {
+                        return createButton("Delete", "fa-trash", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    console.log(row);
+                                    var path = domId("rootPath").value + "/Fn02MWUR_DE/DeleteScanDoc";
+                                    if (confirm("Are you sure delete this record?")) {
+                                        $.ajax({
+                                            url: path
+                                            , type: "POST"
+                                            , data: {
+                                                UUID: row.UUID
+                                            }
+                                            , success: function (data) {
+                                                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                                    SearchDocList.search();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }])
+                    }
+                }
+            ]
+            , onAfterSearch: function (r) {
+                if (r.Total == 0) {
+                    attr("scanBtn", "disabled", "disabled");
+                    attr("scanBtn", "class", "btn btn-default w3-gray w3-hover-gray");
+                    attr("SSPY", "disabled", "disabled");
+                    attr("SSPN", "disabled", "disabled");
+                    attr("compButtom", "disabled", "disabled");
+                    attr("compButtom", "class", "btn btn-default w3-gray w3-hover-gray");
+                } else {
+                    attr("scanBtn", "disabled", false);
+                    attr("scanBtn", "class", "btn btn-default");
+                    attr("SSPY", "disabled", false);
+                    attr("SSPN", "disabled", false);
+                    attr("compButtom", "disabled", false);
+                    attr("compButtom", "class", "btn btn-default");
+                }
+            }
+            , resultFootButtons: [
+                createButton("Back", "fa-save", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_SAD/Index")
+                        }
+                    }
+                }])
+                , createButton("Complete Scan", "fa-save", [{ "id": "compButtom" },
+                {
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            $.post(domId("rootPath").value + "/MWProcessing/Fn02MWUR_SAD/CompleteScan", $("#inputForm").serialize(), function (data) {
+                                if (data.Result != null && data.Result == "SUCCESS") {
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_SAD/Index");
+                                }
+                                else {
+                                    showErrorMessage(data.ErrorMessages);
+                                    console.log(data);
+                                }
+                            }, "json");
+                        }
+                    }
+                }])
+                , createButton("Refresh", "fa-save", [{
+                    "onclick": {
+                        parameters: {}, callback: function (data) {
+                            console.log(data);
+                            SearchDocList.search();
+                        }
+                    }
+                }])
+            ]
+        }).search();
+
+    });
+</script>

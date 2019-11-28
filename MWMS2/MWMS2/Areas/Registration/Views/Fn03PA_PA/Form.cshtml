@@ -1,0 +1,1264 @@
+﻿
+@model MWMS2.Areas.Registration.Models.Fn01Search_PADisplayModel
+
+<script type="text/javascript">
+    function GetCRMImage(uuid) {
+
+
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }], true);
+    }
+    function DelDoc()
+    {
+        $.ajax({
+            type: "POST",
+            url: 'DelDoc',
+            data: {
+                id: '@Model.C_IND_APPLICATION.UUID',
+            },
+           success: function (data) {
+            $('#DocArea').css("display", "none");
+            }
+        });
+
+
+                        }
+    var tabber1;
+
+    var qualificationTableObject;
+    ////var certificateTableObject;
+    function onSaveForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Save", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.result != null && data.result == "SUCCESS") { goTo("Index"); }
+        }, "json");
+    }
+
+    function onBackForm(d, p, e) { goTo("Index"); }
+    function onDeleteForm(appUUID) {
+        var popuper1 = new popuper({
+            title: "Confirmation Message"
+            , message: "Are you sure you want to delete?"
+            , buttons: [
+                createButton("Yes", "fa-check", [{
+                    "onclick": {
+                        parameters: { row: appUUID }, callback: function (d, p, e) {
+                            popuper1.close();
+                            goTo("Delete", [{ name: "id", value: appUUID }]);
+
+                        }
+                    }
+                }, { "addClass": "w3-red" }])
+                , createButton("No", "fa-trash", [{ "onclick": { parameters: { row: appUUID }, callback: function (d, p, e) { popuper1.close(); } } }])
+            ]
+        }).open();
+    }
+
+    function onBackQualification() {
+        tabber1.select(1);
+        for (var i = 0; i < document.getElementsByClassName("footer").length; i++) {
+            document.getElementsByClassName("footer")[i].classList.remove("hide");
+        }
+    }
+    function onSaveQualification(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("AddDraftQualification", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                tabber1.select(1);
+                for (var i = 0; i < document.getElementsByClassName("footer").length; i++) {
+                    document.getElementsByClassName("footer")[i].classList.remove("hide");
+                }
+            } else {
+                showErrorMessage(data.ErrorMessages);
+            }
+        }, "json");
+    }
+    function onBackCertificate() {
+        tabber1.select(2);
+        for (var i = 0; i < document.getElementsByClassName("footer").length; i++) {
+            document.getElementsByClassName("footer")[i].classList.remove("hide");
+        }
+    }
+    function onSaveCertificate(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+
+        req("AddDraftCertificate", "inputForm", function (data) {
+            console.log("123");
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                tabber1.select(2);
+                for (var i = 0; i < document.getElementsByClassName("footer").length; i++) {
+                    document.getElementsByClassName("footer")[i].classList.remove("hide");
+                }
+            } else {
+                if (data.Result == "Failed") {
+                    alert(data.Message);
+                }
+                showErrorMessage(data.ErrorMessages);
+                
+            }
+        });
+        //$.post("AddDraftCertificate", $("#inputForm").serialize(), function (data) {
+        //    attr("inputForm", "dropClass", "saving");
+        //    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+        //        tabber1.select(2);
+        //    }
+        //}, "json");
+    }
+
+
+    function onDeleteQualification(d, p, e) {
+        var id = p == null || p.row == null ? null : p.row.UUID;
+        $.post("DeleteQualification", { "id": id }, function (data) {
+            console.log(data)
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                qualificationTableObject.search();
+            }
+        }, "json");
+    }
+    function getCertificateTable(IndUUID) {
+
+        $.post("TabPageIndCertificateTable", { "id": IndUUID }, function (page) {
+            domId("CertificateTableResult").innerHTML = page;
+            attr("CertificateResultTable", "onclick", { parameters: {}, callback: onLoadCertificate });
+            //tabber1.select(2);
+        })
+    }
+
+    function onDeleteCertificate(UUID) {
+
+        $.post("DeleteCertificate", { "id": UUID }, function (data) {
+            console.log(data)
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                getCertificateTable($("#C_IND_APPLICATION_UUID").val());
+            }
+        }, "json");
+    }
+
+    function DisDivChecboxAreaUpdate(object) {
+        ////alert($(object).children("option:selected").text());
+        v_selectedPrbType = $(object).children("option:selected").text();
+
+        if (v_selectedPrbType == "RI(E)") {
+            //alert("1");
+            $("#div_RIE").css("display", "");
+            $("#div_RIS").css("display", "none");
+            $("#div_RIS :checkbox").prop("checked", false);
+        }
+        else if (v_selectedPrbType == "RI(S)") {
+            $("#div_RIE").css("display", "none");
+            $("#div_RIS").css("display", "");
+            $("#div_RIE :checkbox").prop("checked", false);
+        }
+        else {
+            $("#div_dd :checkbox").prop("checked", false);
+            $("#div_RIE").css("display", "none");
+            $("#div_RIS").css("display", "none");
+            /// $("#div_dd").empty();
+        }
+
+    }
+
+    function ModifyQCDropDownList(object, flag) {
+        if (full_qcodeList == "") {
+            var _val = $("#QUALIFICATIONCODE").val();
+            $("#QUALIFICATIONCODE").val("");
+            full_qcodeList = $("#QUALIFICATIONCODE").html();
+            $("#QUALIFICATIONCODE").val(_val);
+        }
+        $("#div_RIE").css("display", "none");
+        $("#div_RIS").css("display", "none");
+        $("#div_dd :checkbox").prop("checked", false);
+        var v_selectedPrb = $(object).children("option:selected").text();
+        //alert(v_selectedPrb);
+
+        if (v_selectedPrb == "AP/RSE" || v_selectedPrb == "ERB (GEL)" || v_selectedPrb == "ERB(CVL/STR)") {
+
+            $("#QUALIFICATIONCODE").empty();
+            $("#QUALIFICATIONCODE").append(full_qcodeList);
+            $("#QUALIFICATIONCODE").val($("#QUALIFICATIONCODE option:first").val())
+            $("#QUALIFICATIONCODETYPE").val($("#QUALIFICATIONCODE option:first").val())
+
+            $("#QUALIFICATIONCODE option").each(function () {
+                if ($(this).text() == "RI(A)" || $(this).text() == "RI(E)" || $(this).text() == "RI(S)") {
+                    $(this).remove();
+
+                }
+            });
+        }
+        else if (v_selectedPrb == "ARB") {
+            $("#QUALIFICATIONCODE").empty();
+            $("#QUALIFICATIONCODE").append(full_qcodeList);
+            $("#QUALIFICATIONCODE").val($("#QUALIFICATIONCODE option:first").val())
+            $("#QUALIFICATIONCODETYPE").val($("#QUALIFICATIONCODE option:first").val())
+
+            $("#QUALIFICATIONCODE option").each(function () {
+                if ($(this).text() == "RI(S)" || $(this).text() == "RI(E)") {
+                    $(this).remove();
+                }
+            });
+        } else if (v_selectedPrb == "SRB") {
+            $("#QUALIFICATIONCODE").empty();
+            $("#QUALIFICATIONCODE").append(full_qcodeList);
+            $("#QUALIFICATIONCODE").val($("#QUALIFICATIONCODE option:first").val())
+            $("#QUALIFICATIONCODETYPE").val($("#QUALIFICATIONCODE option:first").val())
+
+            $("#QUALIFICATIONCODE option").each(function () {
+                if ($(this).text() == "RI(A)" || $(this).text() == "RI(E)") {
+                    $(this).remove();
+                }
+
+            });
+        }
+        else if (v_selectedPrb == "ERB") {
+
+
+            $("#QUALIFICATIONCODE").empty();
+            $("#QUALIFICATIONCODE").append(full_qcodeList);
+            $("#QUALIFICATIONCODE").val($("#QUALIFICATIONCODE option:first").val())
+            $("#QUALIFICATIONCODETYPE").val($("#QUALIFICATIONCODE option:first").val())
+
+            $("#QUALIFICATIONCODE option").each(function () {
+                if ($(this).text() == "RI(S)" || $(this).text() == "RI(A)") {
+                    $(this).remove();
+
+                }
+            })
+        } else {
+            $("#QUALIFICATIONCODE").empty();
+            $("#QUALIFICATIONCODE").append(full_qcodeList);
+            $("#QUALIFICATIONCODE").val($("#QUALIFICATIONCODE option:first").val())
+            $("#QUALIFICATIONCODETYPE").val($("#QUALIFICATIONCODE option:first").val())
+
+        }
+
+    }
+
+    function GetApplicant() {
+
+        //alert($("#C_APPLICANT_HKID").val());
+        $.ajax({
+            type: "POST",
+            url: 'GetApplicantById',
+            data: {
+
+                hkid: $("#C_APPLICANT_HKID").val(),
+                passportno: $("#C_APPLICANT_PASSPORT_NO").val()
+            },
+            success: function (data) {
+                if (data.ErrorMessage != null) {
+                    document.getElementById("ErrorDiv").innerHTML = data.ErrorMessage;
+                }
+                else
+                {
+                    document.getElementById("ErrorDiv").innerHTML = "";
+                    $("#C_APPLICANT_SURNAME").val(data.Surname);
+                    $("#C_APPLICANT_TITLE_ID").val(data.Title);
+                    $("#C_APPLICANT_GENDER").val(data.Sex);
+                    $("#C_APPLICANT_GIVEN_NAME_ON_ID").val(data.GivenName);
+                    $("#C_APPLICANT_CHINESE_NAME").val(data.ChineseName);
+                    //alert(data.Status);
+                    $("#C_IND_CERTIFICATE_APPLICATION_STATUS_ID").val(data.Status);
+
+
+
+
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE1").val(data.HOME_ADDRESS_CHI1);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE2").val(data.HOME_ADDRESS_CHI2);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE3").val(data.HOME_ADDRESS_CHI3);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE4").val(data.HOME_ADDRESS_CHI4);
+                    $("#HOME_ADDRESS_CHI_ADDRESS_LINE5").val(data.HOME_ADDRESS_CHI5);
+
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE1").val(data.HOME_ADDRESS_ENG1);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE2").val(data.HOME_ADDRESS_ENG2);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE3").val(data.HOME_ADDRESS_ENG3);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE4").val(data.HOME_ADDRESS_ENG4);
+                    $("#HOME_ADDRESS_ENG_ADDRESS_LINE5").val(data.HOME_ADDRESS_ENG5);
+
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE1").val(data.OFFICE_ADDRESS_CHI1);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE2").val(data.OFFICE_ADDRESS_CHI2);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE3").val(data.OFFICE_ADDRESS_CHI3);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE4").val(data.OFFICE_ADDRESS_CHI4);
+                    $("#OFFICE_ADDRESS_CHI_ADDRESS_LINE5").val(data.OFFICE_ADDRESS_CHI5);
+
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE1").val(data.OFFICE_ADDRESS_ENG1);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE2").val(data.OFFICE_ADDRESS_ENG2);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE3").val(data.OFFICE_ADDRESS_ENG3);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE4").val(data.OFFICE_ADDRESS_ENG4);
+                    $("#OFFICE_ADDRESS_ENG_ADDRESS_LINE5").val(data.OFFICE_ADDRESS_ENG5);
+
+                    $("#C_IND_APPLICATION_FAX_NO1").val(data.FAX_NO1);
+                    $("#C_IND_APPLICATION_FAX_NO2").val(data.FAX_NO2);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO1").val(data.TELEPHONE_NO1);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO2").val(data.TELEPHONE_NO2);
+                    $("#C_IND_APPLICATION_TELEPHONE_NO3").val(data.TELEPHONE_NO3);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO1").val(data.EMERGENCY_NO1);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO2").val(data.EMERGENCY_NO2);
+                    $("#C_IND_APPLICATION_EMERGENCY_NO3").val(data.EMERGENCY_NO3);
+                    $("#C_IND_APPLICATION_ENGLISH_CARE_OF").val(data.ENGLISH_CARE_OF);
+                    $("#C_IND_APPLICATION_CHINESE_CARE_OF").val(data.CHINESE_CARE_OF);
+                    $("#C_IND_APPLICATION_CORRESPONDENCE_LANG_ID").val(data.CORRESPONDENCE_LANG_ID);
+                    //$("#C_APPLICANT_SURNAME").val(data.POST_TO                 );
+                    $("#C_IND_APPLICATION_EMAIL").val(data.EMAIL);
+
+
+
+                }
+                console.log(data);
+                console.log(data.ErrorMessage);
+
+
+
+
+
+
+            }
+        })
+    }
+
+
+
+
+    function onLoadQualification(d, p, e) {
+        console.log(p.row);
+        var id = p == null || p.row == null ? null : p.row.UUID;
+        console.log(id);
+
+        $.post("TabPageIndQualification", { "id": id == null ? "" : id }, function (page) {
+            for (var i = 0; i < document.getElementsByClassName("footer").length; i++)
+            {
+                document.getElementsByClassName("footer")[i].classList.add("hide");
+            }
+            domId("QualificationForm").innerHTML = page;
+            attr("saveQualificationButton", "onclick", { parameters: {}, callback: onSaveQualification });
+            attr("backQualificationButton", "onclick", { parameters: {}, callback: onBackQualification });
+            tabber1.select(6);
+            datepickize($("#QualificationForm").find(".inputDate"));
+            $("#QUALIFICATIONCODE").change(function () {
+
+                DisDivChecboxAreaUpdate(this);
+
+            });
+            $("#PRB").change(function () {
+
+                ModifyQCDropDownList(this);
+
+
+            });
+            // $("#PRB").change();
+            $("#QUALIFICATIONCODE").change();
+        });
+
+        var rows = document.getElementsByClassName("Y");
+        for (var i = 0; i < rows.length; i++) {
+            console.log("yellow dayo!");
+            rows[i].style.backgroundColor = "#F3F781";
+        }
+    }
+      function GenerateSerialNo() {
+        $.ajax({
+            type: "POST",
+            url: 'GenerateSerialNo',
+            data: {
+                id: '@Model.C_IND_APPLICATION.UUID',
+                // id: $("#C_APPLICATION.UUID").val(),
+
+            },
+            success: function (data) {
+                console.log(data);
+                //$("#C_IND_CERTIFICATE_CARD_EXPIRY_DATE").val(data.EXPIRY_DATE);
+                document.getElementById('SelectedCertificate_CARD_EXPIRY_DATE').flatpickr({ dateFormat: "d/m/Y" }).setDate(data.EXPIRY_DATE)
+                $("#SelectedCertificate_CARD_SERIAL_NO").val(data.SERIAL_NO);
+                console.log(data.SERIAL_NO);
+            }
+        });
+    }
+    function onLoadCertificate(p) {
+        console.log(p);
+        var id = p == null || p == null ? null : p;
+        console.log(id);
+
+        $.post("TabPageIndCertificate", { "id": id == null ? "" : id }, function (page) {
+  for (var i = 0; i < document.getElementsByClassName("footer").length; i++)
+            {
+                document.getElementsByClassName("footer")[i].classList.add("hide");
+            }
+            domId("CertificateForm").innerHTML = page;
+            attr("saveCertificateButton", "onclick", { parameters: {}, callback: onSaveCertificate });
+            attr("backCertificateButton", "onclick", { parameters: {}, callback: onBackCertificate });
+            tabber1.select(7);
+            datepickize($("#CertificateForm").find(".inputDate"));
+
+            $("#CATEGORY_CODE").change(function () {
+
+                var selectElement = document.getElementById('CATEGORY_CODE');
+                var selectedValue = selectElement[selectElement.selectedIndex].text;
+                var referenceNo = document.getElementById('C_IND_APPLICATION_FILE_REFERENCE_NO').value;
+                document.getElementById('REGISTRATION_NO').value = selectedValue + ' ' + referenceNo.substring(2);
+
+
+            });
+        });
+    }
+    var v_selectedPrb;
+    var full_qcodeList = "";
+    var v_selectedPrbType;
+
+
+
+
+    domReady(function () {
+        var currentIdx = 0;
+        attr("SaveBtn", "onclick", {
+            parameters: {}, callback: function () {
+
+                if (document.getElementById("C_APPLICANT_HKID").value == null || document.getElementById("C_APPLICANT_HKID").value == "") {
+                    req("SaveValidation", "inputForm", function (data) {
+                        console.log(data);
+                        if (data != null && data.Result != null && data.Result == "SUCCESS") { console.log("123"); document.getElementById("inputForm").submit(); }
+                        else showErrorMessage(data.ErrorMessages);
+                    });
+                }
+                else
+                {
+                    if (checkHkid(document.getElementById("C_APPLICANT_HKID").value)) {
+                        req("SaveValidation", "inputForm", function (data) {
+                            console.log(data);
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") { console.log("123"); document.getElementById("inputForm").submit(); }
+                            else showErrorMessage(data.ErrorMessages);
+                        });
+                    }
+                    else {
+                        alert("HKID is not valid");
+
+                    }
+                }
+               
+
+     
+            }
+        }
+        );
+
+
+       // attr("saveButton", "onclick", { parameters: {}, callback: onSaveForm });
+        //attr("backButton", "onclick", { parameters: {}, callback: onBackForm });
+        // attr("deleteButton", "onclick", { parameters: {}, callback: onDeleteForm });
+        attr("newQualificationButton", "onclick", { parameters: {}, callback: onLoadQualification });
+        ////attr("newCertificateButton", "onclick", { parameters: {}, callback: onLoadCertificate });
+        //////v_selectedPrb = $("#QualiDisList_PRB").val();
+
+        qualificationTableObject = new searcher({
+            searchPath: "GetQualificationByIndUuid"
+            , searchTable: "inputForm"
+            , resultPanel: "qualificationTable"
+            , Sort: "FILE_REFERENCE_NO"
+            , Footer: false
+            , Columns: [
+                {
+                    displayName: "&nbsp;"
+                    , formater: function (row) {
+
+                        return createButton("Edit", "fa-edit",
+                            [{ "onclick": { parameters: { row: row }, callback: onLoadQualification } }]
+                        );
+                    }
+                }
+                , { displayName: "PRB", columnName: "PRB" }
+                , { displayName: "Category Code", columnName: "QUALIFICATIONCODE" }
+                , { displayName: "Registration No.", columnName: "REGISTRATIONNO" }
+               // , { displayName: "Expiry Date", columnName: "EXPIRYDATE" }
+                , { displayName: "Expiry Date", columnName: "EXPIRYDATESTRING" }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("Delete", "fa-trash",
+                            [{ "onclick": { parameters: { row: row }, callback: onDeleteQualification } }]
+                        );
+                    }
+                }
+
+            ]
+        });
+
+
+        attr("surnameButton", "onclick", {
+            parameters: {}, callback: function () {
+                goTo("PopupSURNAMEDetails", [{ name: "UUID", value: '@Model.C_APPLICANT.UUID' }, { name: "PASSPORT", value: $("#C_APPLICANT_PASSPORT").val() }], true);
+            }
+        });
+
+        attr("hkidButton", "onclick", {
+            parameters: {}, callback: function () {
+                goTo("PopupHKIDDetails", [{ name: "HKID", value: $("#C_APPLICANT_HKID").val() }, { name: "PASSPORT", value: $("#C_APPLICANT_PASSPORT").val() }], true);
+            }
+        });
+        tabber1 = tabber({
+            tab: "tabbar1"
+            , area: "tabname1"
+            , ontab: function (tabIdx) {
+                console.log(tabIdx + "***");
+                if (tabIdx == 1) {
+                    qualificationTableObject.search();
+                }
+                else if (tabIdx == 2) {
+                    ////alert($("#C_IND_APPLICATION_UUID").val());
+                    getCertificateTable($("#C_IND_APPLICATION_UUID").val());
+                }
+
+                else if (tabIdx == 4) {
+                    if (confirm("Go To Process Monitor")) {
+                        goTo("ProcessMonitor", [{ name: "RefNo", value: $("#C_IND_APPLICATION_FILE_REFERENCE_NO").val() }]);
+                    }
+                    else {
+                        tabber1.select(currentIdx);
+
+                    }
+                }
+                else if (tabIdx == 5) {
+                    if (confirm("Go To Update Application Status")) {
+                        goTo("UpdateApplicationStatus", [{ name: "RefNo", value: $("#C_IND_APPLICATION_FILE_REFERENCE_NO").val() }]);
+                    }
+                    else {
+
+                        tabber1.select(currentIdx);
+                    }
+                }
+                else if (tabIdx == 6) {
+                    document.getElementById("qualiTab").classList.add("selected");
+                }
+                else if (tabIdx == 7)
+                {
+                    document.getElementById("certTab").classList.add("selected");
+                }
+
+                if (tabIdx != 4 && tabIdx != 5)
+                {
+                    currentIdx = tabIdx;
+                }
+               
+              
+            }
+        });
+
+        $("#showQpCard").change(function () {
+            if ($(this).val() == "Y") { $(".QpCard").css("display", "") }
+            else { $(".QpCard").css("display", "none") }
+        });
+        $(function () {
+            $('#btnGetId').click(function () {
+                //alert($("#C_APPLICANT_HKID").val());
+                var temp = $("#C_APPLICANT_HKID").val();
+                this.href = this.href.replace("HongKongID", temp);
+
+                var temp = $("#C_APPLICANT.PASSPORT_NO").val();
+                this.href = this.href.replace(" PassportNo", temp);
+
+
+
+            });
+        });
+
+
+
+
+        $('#SelectedCertiUUID').change(function () {
+
+            if ($(this).val() != "") {
+                $(".ShowQpInfo").css("display", "")
+                $.ajax({
+                    type: "POST",
+                    url: 'GetSelectedCertiDetails',
+                    data: {
+
+                        id: $(this).val()
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $("#SelectedCertificate_CARD_EXPIRY_DATE").val(data.EXPIRY_DATE);
+                        $("#SelectedCertificate_CARD_ISSUE_DATE").val(data.ISSUE_DATE);
+                        $("#SelectedCertificate_CARD_APP_DATE").val(data.APP_DATE);
+                        $("#SelectedCertificate_CARD_SERIAL_NO").val(data.SERIAL_NO);
+                        $("#SelectedCertificate_CARD_RETURN_DATE").val(data.RETURN_DATE);
+
+                    }
+                })
+            }
+
+        });
+    });
+
+    function selectEform(mode) {
+        console.log(mode);
+        var fileRefNo = document.getElementById("C_IND_APPLICATION_FILE_REFERENCE_NO").value;
+        console.log(fileRefNo);
+        goTo("WindowProfEForm", [{ name: "FILE_REF", value: fileRefNo }], true);
+
+    }
+
+    function eformChangesNotify(Uuid, RefNo, FileType) {
+        console.log("#2 PA Eform...");
+        console.log("FileType: " + FileType);
+        $.ajax({
+            type: "POST",
+            cache: false,
+            data: { "Uuid": Uuid, "RefNo": RefNo, "FileType": FileType },
+            url: "EformEfssProfessional",
+            //async: false,
+            success: function (text) {
+                console.log("success!! " + Uuid);
+                var data = jData(text);
+                var eformFields = data[0];
+                var eformItems = data[1];
+                //console.log(eformFields);
+                //console.log(eformItems);
+
+                for (var i = 0; i < eformFields.length; i++) {
+                    var target_element = document.getElementById(eformFields[i]);
+                    target_element.value = eformItems[i];
+                    target_element.style.backgroundColor = "#F3F781";
+                    target_element.style.backgroundImage = "none"
+                    console.log(target_element);
+
+                    // checkbox
+                    var target_checkbox;
+                    if (eformFields[i] == "BsItems_1__Checked") {
+                        target_checkbox = document.getElementById(eformFields[i]);
+                        if (eformItems[i] == 'Y') {
+                            target_checkbox.checked = true;
+                        }
+                        else if (eformItem[i] == 'N') {
+                            target_checkbox.checked = false;
+                        }
+                    }
+                }
+                if (FileType != "BA24") {
+                    $.ajax({
+                        type: "POST",
+                        cache: false,
+                        data: { "EFSS_PROFESSIONAL_UUID": Uuid, "FILE_REFNO": RefNo },
+                        url: "AddEformCertificate",
+                        //async: false,
+                        success: function (text) {
+                            var data = jData(text);
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                console.log("hi");
+                                if (tabber1.currentIndex() == 2) {
+                                    console.log("current index is 2!")
+                                    tabber1.select(1);
+                                    tabber1.select(2);
+                                }
+                                console.log(data.Result);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            alert("Error!");
+                        }
+                    });
+                }                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                alert("Error!");
+            }
+        });
+    }
+
+</script>
+
+
+<div class="panelHeader">
+    Edit Professional Application
+</div>
+<br />
+<div id="tabbar1" class="hide">
+    <div>Personal Info</div>
+    <div id="qualiTab">Qualifications</div>
+    <div id="certTab">Certificate Info</div>
+    @{if (Model.C_IND_APPLICATION.UUID != null)
+        {
+            <div>Building Safety</div>
+            <div>Process Monitor</div>
+            <div>Update Application Status</div>
+        }
+    }
+
+
+</div>
+@using (Html.BeginForm("Save", "Fn03PA_PA", FormMethod.Post, new { enctype = "multipart/form-data", @id = "inputForm" }))
+{
+    @Html.HiddenFor(o => o.EditFormKey)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.C_IND_APPLICATION.UUID)
+
+
+<div id="searchCriteria" class="displayForm">
+
+    <div class="w3-row hr"></div>
+    <div style="color:red" id="ErrorDiv"></div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">File Reference<font color="red">*</font> : </div>
+            <div class="w3-col l2 m12 s12 data">
+                @Html.TextBoxFor(o => o.C_IND_APPLICATION.FILE_REFERENCE_NO)
+                
+            </div>
+            <div class="w3-col l7 m2 s3 data">
+                <input name="btnGetEform" onclick="selectEform('edit');" value="E-form" id="btnGetEform" title="Get E-form." class="smallprint" type="button">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-col l12 m6 s12">
+
+            <div class="w3-col l3 m6 s12"> HKID <font color="red">*</font>:</div>
+            <div class="w3-col l3 m4 s9">
+                @{
+                    if (Model.result == false)
+                    {
+
+                        @Html.Raw("<font color='red'>" + Model.ErrMsg + "</font>");
+
+                    }
+
+                    @Html.TextBoxFor(model => model.C_APPLICANT.HKID, Model.getDecryptHKID())
+
+                    @*@Html.ActionLink("Get HKID/Passport No", "GetApplicantById", new { id = Model.C_IND_APPLICATION.UUID, hkid = "HongKongID", passportno = "PassportNo" }, new { id = "btnGetId", type = "button" })*@
+
+                }
+            </div>
+            <div class="w3-col l6 m2 s3 data">
+                <input type="button" onclick="GetApplicant()" value="Get HKID/Passport No" />
+                <button type="button" id="hkidButton"><i class="fa fa-search"></i> </button>
+            </div>
+       
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Passport No.<span class="smallprint"> :</span></div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.C_APPLICANT.PASSPORT_NO, Model.getDecryptPassportNo())
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Title :</div>
+            <div class="w3-col l6 m12 s12">@Html.DropDownListFor(x => x.C_APPLICANT.TITLE_ID, Model.getTitle())</div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Sex :</div>
+            <div class="w3-col l6 m12 s12">@Html.DropDownListFor(x => x.C_APPLICANT.GENDER, Model.getGender())</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+
+            <div class="w3-col l6 m6 s12"> Surname <font color="red">*</font>:</div>
+            <div class="w3-col l4 m4 s9 data">   @Html.TextBoxFor(x => x.C_APPLICANT.SURNAME)</div>
+            <div class="w3-col l2 m2 s3 data"><button type="button" id="surnameButton"><i class="fa fa-search"></i></button></div>
+
+
+
+
+
+
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Given Name <font color="red">*</font>:</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(x => x.C_APPLICANT.GIVEN_NAME_ON_ID)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Chinese Name <font color="red">*</font>: </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(x => x.C_APPLICANT.CHINESE_NAME)
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Date of Birth : </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(x => x.C_APPLICANT.DOB, new { @class = "inputDate" })
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    <div class="w3-row hr"></div>
+
+    <div name="tabname1" class="">
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m6 s12">
+                    <div class="w3-col l3 m12 s12">Communication Language <font color="red">*</font>: </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.DropDownListFor(x => x.C_IND_APPLICATION.CORRESPONDENCE_LANG_ID, Model.getCommunicationLanguage())
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l12 m12 s12">Correspondence Address :</div>
+                </div>
+            </div>*@
+            <div class="panelHeader">Correspondence Address :</div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12" style="text-align:left">
+                        (English)
+
+                        <input type="button" name="btnCopyOAddrE" value="Copy from Office Address" onclick="copyEngOfficeAddrToHome()" id="btnCopyOAddrE" class="smallprint">
+                    </div>
+                    <div class="w3-col l6 m6 s12">
+                        (Chinese)
+                        <input type="button" name="btnCopyOAddrC" value="Copy from Office Address" onclick="copyChnOfficeAddrToHome()" id="btnCopyOAddrC" class="smallprint">
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_ENG.ADDRESS_LINE1)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_CHI.ADDRESS_LINE1)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_ENG.ADDRESS_LINE2)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_CHI.ADDRESS_LINE2)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_ENG.ADDRESS_LINE3)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_CHI.ADDRESS_LINE3)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_ENG.ADDRESS_LINE4)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_CHI.ADDRESS_LINE4)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_ENG.ADDRESS_LINE5)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.HOME_ADDRESS_CHI.ADDRESS_LINE5)</div>
+                </div>
+            </div>
+            <br />
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        C/o:
+                    </div>
+                    <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.ENGLISH_CARE_OF)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        C/o (Chn):
+                    </div>
+                    <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.CHINESE_CARE_OF)</div>
+                </div>
+            </div>
+            <br />
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12" style="text-align:left">
+
+                        Office Address (English)
+
+                        <input type="button" name="btnCopyHAddrE" value="Copy from Corr. Address" onclick="copyEngHomeAddrToOffice()" id="btnCopyHAddrE" class="smallprint">
+                    </div>
+                    <div class="w3-col l6 m6 s12">
+                        (Chinese)
+                        <input type="button" name="btnCopyHAddrC" value="Copy from Corr. Address" onclick="copyChnHomeAddrToOffice()" id="btnCopyHAddrC" class="smallprint">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_ENG.ADDRESS_LINE1)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_CHI.ADDRESS_LINE1)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_ENG.ADDRESS_LINE2)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_CHI.ADDRESS_LINE2)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_ENG.ADDRESS_LINE3)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_CHI.ADDRESS_LINE3)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_ENG.ADDRESS_LINE4)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_CHI.ADDRESS_LINE4)</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_ENG.ADDRESS_LINE5)</div>
+                    <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.OFFICE_ADDRESS_CHI.ADDRESS_LINE5)</div>
+                </div>
+            </div>
+            <br />
+            <hr width="100%" size="2" color="#336699" style="border-color: #336699; border-top: 5px solid #336699;">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Emergency Nos.:
+                    </div>
+                    <div class="w3-col l3 m6 s12">1) @Html.TextBoxFor(model => model.C_IND_APPLICATION.EMERGENCY_NO1, new { @style="width: 90%;" })</div>
+                    <div class="w3-col l3 m6 s12" style="text-align:left; background-color: #EFEFEF;">2) @Html.TextBoxFor(model => model.C_IND_APPLICATION.EMERGENCY_NO2, new { @style = "width: 90%;" })</div>
+                    <div class="w3-col l3 m6 s12">3) @Html.TextBoxFor(model => model.C_IND_APPLICATION.EMERGENCY_NO3, new { @style = "width: 90%;" })</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Telephone Nos.<font color="red">*</font>:
+                    </div>
+                    <div class="w3-col l3 m6 s12">1) @Html.TextBoxFor(model => model.C_IND_APPLICATION.TELEPHONE_NO1, new { @style = "width: 90%;" })</div>
+                    <div class="w3-col l3 m6 s12" style="text-align:left; background-color: #EFEFEF;">2) @Html.TextBoxFor(model => model.C_IND_APPLICATION.TELEPHONE_NO2, new { @style = "width: 90%;" })</div>
+                    <div class="w3-col l3 m6 s12">3) @Html.TextBoxFor(model => model.C_IND_APPLICATION.TELEPHONE_NO3, new { @style = "width: 90%;" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Fax Nos. :
+                    </div>
+                    <div class="w3-col l3 m6 s12">1) @Html.TextBoxFor(model => model.C_IND_APPLICATION.FAX_NO1, new { @style = "width: 90%;" })</div>
+                    <div class="w3-col l3 m6 s12" style="text-align:left; background-color: #EFEFEF;">2) @Html.TextBoxFor(model => model.C_IND_APPLICATION.FAX_NO2, new { @style = "width: 90%;" })</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Email :
+                    </div>
+                    <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.EMAIL)</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Remarks :
+                    </div>
+                    <div class="w3-col l9 m6 s12"> @Html.TextAreaFor(model => model.C_IND_APPLICATION.REMARKS, 4, 50, "")</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        PNAP :
+                    </div>
+                    <div class="w3-col l3 m6 s12">@Html.DropDownListFor(x => x.C_IND_APPLICATION.PRACTICE_NOTES_ID, Model.getPNAPByType())</div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">
+                        Qualifications :
+                    </div>
+                    <div class="w3-col l9 m6 s12"> @Html.TextAreaFor(model => model.C_IND_APPLICATION.QUALIFICATION, 4, 50, "")</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div name="tabname1" class="hide">
+        @if (MWMS2.Utility.AuthUtil.CanCreate)
+        {<button id="newQualificationButton" type="button"><i class="far fa-plus-square"></i>New Qualification</button>}
+
+        <div id="qualificationTable"></div>
+    </div>
+
+
+
+
+    <div id="CertificateTableResult" name="tabname1" class="hide">
+
+
+
+        @*<input type="button" name="uclCert:btnAdd" value="New Certificate" id="uclQual_btnAdd" class="smallprint" onclick="javascript:certificateFrom('new');">*@
+
+    </div>
+
+    <div name="tabname1" class="hide">
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">
+                        Interested in Providing Services of QP:
+                    </div>
+                    <div class="w3-col l6 m6 s12">@Html.DropDownListFor(x => x.C_IND_APPLICATION.WILLINGNESS_QP, Model.GetYNIOption())</div>
+                </div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">
+                        Interested in Providing Services in Fire Safety:
+                    </div>
+                    <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.C_IND_APPLICATION.INTERESTED_FSS, Model.GetYNIOption())</div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l6 m6 s12">
+                        Services in MWIS:
+                    </div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DropDownListFor(model => model.ServiceInMWIS, Model.GetMWISOption())
+                    </div>
+                </div>
+            </div>
+
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Apply for QP Card:
+                            </div>
+                            <div class="w3-col l9 m6 s12">@Html.DropDownList("showQpCard", Model.getYNOption())</div>
+                        </div>
+                    </div>
+                    <div class="w3-row QpCard" style="display:">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                Certificate:
+                            </div>
+                            <div class="w3-col l9 m6 s12">@Html.DropDownListFor(model => model.SelectedCertiUUID, Model.getCertiList())</div>
+                        </div>
+                    </div>
+                    <div class="displayForm ShowQpInfo" style="display:none">
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12">
+                                    Date of Application :
+                                </div>
+                                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.SelectedCertificate.CARD_APP_DATE, "", new { @class = "inputDate" })</div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12">
+                                    Date of Issue :
+                                </div>
+                                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.SelectedCertificate.CARD_ISSUE_DATE, "", new { @class = "inputDate" })</div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12">
+                                    Date of Expiry :
+                                </div>
+                                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.SelectedCertificate.CARD_EXPIRY_DATE, "", new { @class = "inputDate" })</div>
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12">
+                                    Serial No. :
+                                </div>
+                                <div class="w3-col l9 m6 s12">
+                                    @Html.TextBoxFor(x => x.SelectedCertificate.CARD_SERIAL_NO,"",new { @style="width:200px;"})
+                                    <input type="button" value="Generate" onclick="GenerateSerialNo()" />
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-col l12 m12 s12">
+                                <div class="w3-col l3 m6 s12">
+                                    Return Date :
+                                </div>
+                                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.SelectedCertificate.CARD_RETURN_DATE, "", new { @class = "inputDate" })</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                C/o :
+                            </div>
+                            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.C_IND_APPLICATION.ENGLISH_BS_CARE_OF)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">
+                                C/o (Chn) :
+                            </div>
+                            <div class="w3-col l9 m6 s12">@Html.TextBoxFor(x => x.C_IND_APPLICATION.CHINESE_BS_CARE_OF)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">
+                                Address  (English)
+
+                                <input type="button" name="uclBS:btnCopyAddr" value="Copy from correspondance address" onclick="copyEngAddrToBs()" id="uclBS_btnCopyAddr" class="smallprint">
+                            </div>
+                            <div class="w3-col l6 m6 s12">
+                                Address (Chinese)
+                                <input type="button" name="uclBS:btnCopyChnAddr" value="Copy from correspondance address" onclick="copyChnAddrToBs()" id="uclBS_btnCopyChnAddr" class="smallprint">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_ENG.ADDRESS_LINE1)</div>
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_CHI.ADDRESS_LINE1)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_ENG.ADDRESS_LINE2)</div>
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_CHI.ADDRESS_LINE2)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_ENG.ADDRESS_LINE3)</div>
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_CHI.ADDRESS_LINE3)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_ENG.ADDRESS_LINE4)</div>
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_CHI.ADDRESS_LINE4)</div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_ENG.ADDRESS_LINE5)</div>
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.BS_ADDRESS_CHI.ADDRESS_LINE5)</div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="w3-row">
+                        <div class="w3-col l6 m12 s12">
+                            <div class="w3-col l6 m6 s12">Telephone No. :</div>
+                            <div class="w3-col l4 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.BS_TELEPHONE_NO1)</div>
+                            <div class="w3-col l2 m6 s12"><input type="button" onclick="copyTelNoToBs()" value="Copy" /></div>
+                        </div>
+                        <div class="w3-col l6 m12 s12">
+                            <div class="w3-col l6 m6 s12">Fax No. :</div>
+                            <div class="w3-col l5 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.BS_FAX_NO1)</div>
+                            <div class="w3-col l1 m6 s12"><input type="button" onclick="copyFaxNoToBs()" value="Copy" /></div>
+                        </div>
+
+                    </div>
+
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12">Email :</div>
+                            <div class="w3-col l8 m6 s12">@Html.TextBoxFor(model => model.C_IND_APPLICATION.BS_EMAIL,new {@style="width:400px" })
+                                <input type="button" onclick="copyEmailToBs()" value="Copy" />
+                            </div>
+                            @*<div class="w3-col l1 m6 s12"><input type="button" onclick="copyEmailToBs()" value="Copy" /></div>*@
+                        </div>
+
+                    </div>
+
+                    <br />
+
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12" style="overflow-x: auto;">@Html.Partial("DivBuildingSafetyCheckList", Model.BsModel)</div>
+                    </div>
+                    @*<table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" />
+                        </th>
+                        <th>
+                            BS Code
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+            </table><br />*@
+
+                </div>
+                @*<div id="uclQual_pnlForm" name="tabname1" class="hide">*@
+
+            </div>
+    <div name="tabname1" class="hide">
+
+    </div>
+    <div name="tabname1" class="hide">
+
+    </div>
+    <div id="QualificationForm" name="tabname1" class="hide">
+
+    </div>
+
+
+    <div id="CertificateForm" name="tabname1" class="hide">
+
+    </div>
+
+
+
+
+    <div class="w3-container footer">
+        @*<input type="button" id="SaveBtn" value="Save Application" />*@
+        @if (MWMS2.Utility.AuthUtil.CanEdit)
+        {<button type="button" id="SaveBtn"><i class="fa fa-save"></i> Save Application</button>}
+        @*<input type="submit" value="Save Application" />*@
+        <button id="backButton" class="btn btn-default backButton" type="button"><i class="fa fa-times"></i> Cancel</button>
+        @if (MWMS2.Utility.AuthUtil.CanDelete && Model.C_IND_APPLICATION.UUID!=null)
+        {<button id="deleteButton" onclick='onDeleteForm("@Model.C_IND_APPLICATION.UUID")' class="btn btn-default" type="button"><i class="fa fa-trash"></i>  Delete Aapplication</button>}
+    </div>
+}

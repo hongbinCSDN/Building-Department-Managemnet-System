@@ -1,0 +1,171 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103VRNDSearchModel
+
+<form id="inputForm">
+    <div class="panelHeader">Rule of conditional letter and refusal</div>
+    <div id="searchCriteria"></div>
+    <div id="resultPanel"></div>
+
+    @Html.DropDownList("DNCompareTemp", Model.DNCompareList, new { @class = "hide" })
+    @Html.DropDownList("CLCompareTemp", Model.CLCompareList, new { @class = "hide" })
+    @Html.DropDownList("RefusalCompareTemp", Model.RefusalCompareList, new { @class = "hide" })
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "FORM_CODE"
+            , Columns: [
+                { displayName: "Specified Form", columnName: "FORM_CODE" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+                , { displayName: "B(MW)R", columnName: "BMWR" }
+                //, { displayName: "Days of Notification", columnName: "DAYS_OF_NOTIFICATION" }
+                , {
+                    displayName: "Days of Notification", formater: function (row, idx) {
+
+                        var select = dom("select");
+                        var options = domId("DNCompareTemp").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.DAYS_OF_NOTIFICATION_COMPARE == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "DNCompare[" + row.UUID + "]");
+                        attr(select, "id", row.UUID);
+                        attr(select, "style", "width:auto");
+
+                        var span = dom("span");
+                        span.innerText = "X ";
+
+                        var input = dom("input");
+                        attr(input, "name", "DN[" + row.UUID + "]");
+                        attr(input, "id", row.UUID);
+                        attr(input, "type", "number");
+                        attr(input, "style", "width:auto");
+                        attr(input, "value", row.DAYS_OF_NOTIFICATION);
+                        attr(input, "min", 0);
+
+                        var div = dom("div");
+                        attr(div, "style", "width:auto");
+                        div.appendChild(span);
+                        div.appendChild(select);
+                        div.appendChild(input);
+
+                        return div;
+                    }
+                }
+                //, { displayName: "Conditional Letter", columnName: "" }
+                , {
+                    displayName: "Conditional Letter", formater: function (row, idx) {
+
+                        var input = dom("input");
+                        attr(input, "name", "CL1Value[" + row.UUID + "]");
+                        attr(input, "id", row.UUID);
+                        attr(input, "type", "number");
+                        attr(input, "style", "width:auto");
+                        attr(input, "value", row.CONDITIONAL_LETTER_VALUE1);
+
+                        var select = dom("select");
+                        var options = domId("CLCompareTemp").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.CONDITIONAL_LETTER_COMPARE1 == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "CL1Compare[" + row.UUID + "]");
+                        attr(select, "id", row.UUID);
+                        attr(select, "style", "width:auto");
+
+                        var span = dom("span");
+                        span.innerText = " X ";
+
+                        var select2 = dom("select");
+                        var options = domId("CLCompareTemp").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select2, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.CONDITIONAL_LETTER_COMPARE2 == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select2, "name", "CL2Compare[" + row.UUID + "]");
+                        attr(select2, "id", row.UUID);
+                        attr(select2, "style", "width:auto");
+
+                        var input2 = dom("input");
+                        attr(input2, "name", "CL2Value[" + row.UUID + "]");
+                        attr(input2, "id", row.UUID);
+                        attr(input2, "type", "number");
+                        attr(input2, "style", "width:auto");
+                        attr(input2, "value", row.CONDITIONAL_LETTER_VALUE2);
+
+                        var div = dom("div");
+                        attr(div, "style", "width:auto");
+                        div.appendChild(input);
+                        div.appendChild(select);
+                        div.appendChild(span);
+                        div.appendChild(select2);
+                        div.appendChild(input2);
+
+                        return div;
+                    }
+                }
+                //, { displayName: "Refusal", columnName: "REFUSAL_VALUE" }
+                , {
+                    displayName: "Refusal", formater: function (row, idx) {
+
+                        var select = dom("select");
+                        var options = domId("RefusalCompareTemp").querySelectorAll('option');
+                        for (var i = 0; i < options.length; i++) {
+                            var option = dom_(select, "option", [{ value: options[i].value }, { html: options[i].innerHTML }]);
+                            if (row.REFUSAL_COMPARE == options[i].value) attr(option, "selected", true);
+                        }
+                        attr(select, "name", "RefusalCompare[" + row.UUID + "]");
+                        attr(select, "id", row.UUID);
+                        attr(select, "style", "width:auto");
+
+                        var input = dom("input");
+                        attr(input, "name", "RefusalValue[" + row.UUID + "]");
+                        attr(input, "id", row.UUID);
+                        attr(input, "type", "number");
+                        attr(input, "style", "width:auto");
+                        attr(input, "value", row.REFUSAL_VALUE);
+
+                        var div = dom("div");
+                        attr(div, "style", "width:auto");
+                        div.appendChild(select);
+                        div.appendChild(input);
+
+                        return div;
+                        //return input;
+                    }
+                }
+            ]
+            , resultFootButtons: [
+                createButton("Save", "fa-save", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            attr("inputForm", "addClass", "saving");
+                            req("Save", "inputForm", function (data) {
+                                attr("inputForm", "dropClass", "saving");
+                                if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+                                else {
+                                    document.getElementById("ErrorMessage").innerHTML = data.Message[0];
+                                    console.log(data.Message[0]);
+                                    showErrorMessage(data.ErrorMessages);
+                                }
+                                //draftingTable.search();
+                            });
+
+
+                        }
+                    }
+                }])
+                , createButton("Cancel", "fa-times", [{
+                    "onclick": {
+                        parameters: {}, callback: function () {
+                            goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+                        }
+                    }
+                }])
+            ]
+        }).search();
+    });
+</script>

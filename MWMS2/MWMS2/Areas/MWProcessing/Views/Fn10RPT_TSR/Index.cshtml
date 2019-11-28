@@ -1,0 +1,59 @@
+﻿
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l3 m12 s12">Period :</div>
+            <div class="w3-col l9 m12 s12">
+                From
+                <input type="text" class="inputDate" id="fromDate" name="fromDate">
+                To
+                <input type="text" class="inputDate" id="toDate" name="toDate">
+            </div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Report Format</div>
+            <div class="w3-col l6 m12 s12">
+                Monthly
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l3 m12 s12">Type of Report :</div>
+            <div class="w3-col l6 m12 s12">
+                <select name="classCode" style="width:auto">
+
+                    <option value="">-All-</option>
+
+                    <option value="Byclass">By Class</option>
+
+                    <option value="ByForm">By Form</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button class="btn btn-default" type="button" onclick="generate()">Generate</button>
+        <button class="btn btn-default" type="button">Export</button>
+    </div>
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchMod"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+    function generate() {
+        goTo(domId("rootPath").value + "/MWProcessing/Fn10RPT_TSR/Generate")
+       
+    }
+</script>

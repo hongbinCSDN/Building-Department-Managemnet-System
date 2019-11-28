@@ -1,0 +1,169 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_DFRSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+       @Html.HiddenFor(x => x.doSearch)
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">File Reference :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => model.FileRef)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Company Name :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => model.CompName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.SurnName)
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Chinese Name :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => model.ChineseName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Deferral Period (mth) :</div>
+                <div class="w3-col l9 m12 s12">
+                    @*<select name="DeferralPeriodSymbol">
+                        <option>&gt;=</option>
+                        <option>&gt;</option>
+                        <option>=</option>
+                        <option>&lt;=</option>
+                        <option>&lt;</option>
+                    </select>
+                    &nbsp;*@
+
+                    @*<input type="number" min="1" max="12" onkeydown="return event.keyCode !== 69" name="DeferralValue" id="DeferralValue" />*@
+
+                    @Html.DropDownListFor(model => model.DeferralPeriodSymbol, Model.DeferralPeriodSymbolList)
+                    @Html.TextBoxFor(model => model.DeferralValue, new { @type = "number", @min = "1", @max = "12", @onkeydown = "return event.keyCode !== 69" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Referral Type :</div>
+                <div class="w3-col l9 m12 s12">
+                    <input type="checkbox" name="ChkProf" id="ChkProf" checked /> Professional &nbsp;
+                    <input type="checkbox" name="ChkGBC" id="ChkGBC" checked /> General Contractor &nbsp;
+                    <input type="checkbox" name="ChkMWC" id="ChkMWC" checked /> MW Company &nbsp;
+                    <input type="checkbox" name="ChkMWCI" id="ChkMWCI" checked /> MW Individual &nbsp;
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            <button onclick="searchForm()" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) {
+    goTo("ViewForm", [{ name: "referralType", value: row.REFERRAL_TYPE }
+                    , { name: "indProMonUuid", value: row.IND_PRO_MON_UUID }
+                    , { name: "compProMonUuid", value: row.COMP_PRO_MON_UUID }
+                ]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        var a;
+        domReady(function () {
+            a = new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , sort: "CERTIFICATION_NO"
+                , Columns: [
+                    { displayName: "Referral Type", columnName: "REFERRAL_TYPE" }
+                    , {
+                        displayName: "File Ref.", columnName: "FILE_REF_NO"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Name", columnName: "ENG_NAME" }
+                    , { displayName: "Category Code", columnName: "CAT_CODE" }
+                    , { displayName: "Company Name", columnName: "COMP_NAME" }
+                    , { displayName: "Candidate Name", columnName: "CANDIDATE_NAME" }
+                    , { displayName: "Received Date", columnName: "REC_DATE" }
+                    , { displayName: "Defer Date", columnName: "DEFERRAL_DATE" }
+                    , { displayName: "Role", columnName: "ROLE" }
+                ]
+            });
+          
+        });
+
+        //$(".searchButton").click(function () {
+        //    alert("u r in");
+        //    var DeferralValue = $('#DeferralValue').val();
+        //    if (DeferralValue == null || DeferralValue == "") {
+        //        alert("Please enter one or more search criteria.");
+        //        return;
+        //    }
+        //});
+
+        function searchForm() {
+
+            var DeferralValue = $('#DeferralValue').val();
+            if (DeferralValue == null || DeferralValue == "") {
+                alert("Please enter one or more search criteria (Include Deferral Period).");
+                return;
+            } else if (parseInt(document.getElementById("DeferralValue").value) <0 ) {
+
+                alert("Month must be larger than 1");
+            }
+            else {
+                a.search();
+            }
+
+        }
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

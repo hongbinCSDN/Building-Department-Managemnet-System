@@ -1,0 +1,986 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+@if (!Model.IsSummary)
+{
+    <div id="ItemContent" class="w3-border displayForm" style="display:none">
+        <div id="WicForm" class="w3-border displayForm">
+            <div class="panelHeader">
+                <label>Location/Address of the proposed minor works are to be carried out</label>
+            </div>
+            <table id="AddressTable" class=" w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th>Building/Address</th>
+                        <th>Floor</th>
+                        <th>Unit</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.P_MW_ADDRESSes.Count(); i++)
+                    {
+                        string address = "";
+
+                        if (!string.IsNullOrEmpty(Model.P_MW_ADDRESSes[i].STREE_NAME))
+                        {
+                            address += Model.P_MW_ADDRESSes[i].STREE_NAME;
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.P_MW_ADDRESSes[i].STREET_NO))
+                        {
+                            if (address != "")
+                            {
+                                address += " , ";
+                            }
+                            address += Model.P_MW_ADDRESSes[i].STREET_NO;
+                        }
+
+                        if (!string.IsNullOrEmpty(Model.P_MW_ADDRESSes[i].BUILDING_NAME))
+                        {
+                            if (address != "")
+                            {
+                                address += " , ";
+                            }
+                            address += Model.P_MW_ADDRESSes[i].BUILDING_NAME;
+                        }
+                        <tr>
+                            <td>
+                                @address
+                            </td>
+                            <td>
+                                @Model.P_MW_ADDRESSes[i].FLOOR
+                            </td>
+                            <td>
+                                @Model.P_MW_ADDRESSes[i].FLAT
+                                @Html.HiddenFor(model => model.P_MW_ADDRESSes[i].UUID)
+                            </td>
+                            <td>
+                                <button type="button" onclick="RemoveAddressRow(this)" class="btn btn-default">Delete</button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="panelHeader">
+                <label>Add relevant address</label>
+            </div>
+            <div id="AddressTemplate" class="w3-border displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m12 s12">
+                            Street/Road/Village
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            <input name="P_MW_ADDRESS.STREE_NAME" type="text" />
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            Street Number
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            <input name="P_MW_ADDRESS.STREET_NO" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m12 s12">
+                            Building/Estate
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            <input name="P_MW_ADDRESS.BUILDING_NAME" type="text" />
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            Floor
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            <input name="P_MW_ADDRESS.FLOOR" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m12 s12">
+                            Flat/Room
+                        </div>
+                        <div class="w3-col l3 m12 s12">
+                            <input name="P_MW_ADDRESS.FLAT" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <button type="button" onclick="AddAddressInfo()" class="btn btn-default w3-right">Add</button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        @*循环生成ItemNO Title*@
+        <div class="panelHeader">
+            <label>Details of the Minor Work</label>
+            <br />
+            <label>Item No.</label>
+            @foreach (var item in Model.FilterP_MW_RECORD_ITEMs)
+            {
+                @Html.Label("", item.MW_ITEM_CODE, new { @id = "ItemTitle" + item.MW_ITEM_CODE + item.CLASS_CODE + item.ORDERING.ToString(), @style = "padding-left:10px;display:'none'" })
+                @*<label style="padding-left:10px;">@item.MW_ITEM_CODE</label>*@
+            }
+
+
+        </div>
+
+        @{
+            //記錄列表行數
+            int ItemRow = 0;
+        }
+        @*循环生成Table*@
+        @for (int i = 0; i < Model.FilterP_MW_RECORD_ITEMs.Count(); i++)
+        {
+            var item = Model.FilterP_MW_RECORD_ITEMs[i];
+
+            var tableID = "ItemForm" + item.MW_ITEM_CODE + item.CLASS_CODE + item.ORDERING.ToString();
+
+            @Html.Hidden("ItemNo", Model.FilterP_MW_RECORD_ITEMs[i].MW_ITEM_CODE)
+            <div id="@tableID" class="w3-border displayForm" style="display:none;">
+
+                @{
+                    if ((Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW02" || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW04") && (Model.FinalRecordItem != "Y"))
+                    {
+                        if (item.MW_ITEM_CODE.StartsWith("3"))
+                        {
+                            <table class=" w3-table-all w3-hoverable resultTable">
+                                <thead>
+                                    <tr>
+                                        <th>Item Detail in @Model.P_MW_RECORD.S_FORM_TYPE_CODE</th>
+                                        <th>
+                                            <table class=" w3-table-all w3-hoverable resultTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Minor work Item</th>
+                                                        <th>Description</th>
+                                                        <th style="white-space: normal;">Relevant Order/ Direction/ Notice/ BD Reference No.</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tr style="color:black;font-size:18px;font-weight:400;">
+                                                    <td>
+                                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].UUID)
+                                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].MW_ITEM_CODE)
+                                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].ORDERING)
+                                                        @item.MW_ITEM_CODE
+                                                    </td>
+                                                    <td style="white-space: normal;">@item.LOCATION_DESCRIPTION</td>
+                                                    <td style="white-space: normal;">@item.RELEVANT_REFERENCE</td>
+                                                </tr>
+
+                                            </table>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        }
+                        else
+                        {
+                            <table class=" w3-table-all w3-hoverable resultTable">
+                                <thead>
+                                    <tr>
+                                        <th>Item Detail in @Model.P_MW_RECORD.S_FORM_TYPE_CODE</th>
+                                        <th>
+                                            <table class=" w3-table-all w3-hoverable resultTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <th>Descriptions of the differences</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="color:black;font-size:18px;font-weight:400;">
+                                                        <td style="white-space: normal;">@item.LOCATION_DESCRIPTION</td>
+                                                        <td>@item.REVISION</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td>
+                                        @*PreItemCheckList*@
+                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].UUID)
+                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].MW_ITEM_CODE)
+                                        @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].ORDERING)
+                                        @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW02")
+                                        {
+                                            <label>
+                                                @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "N", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,true);" })
+                                                <span>New Revised Class I & II item</span>
+                                            </label>
+                                            <br />
+                                            <label>
+                                                @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "Y", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,false);" })
+                                                <span>Revised Class I & II </span>
+                                            </label>
+
+                                        }
+                                        else
+                                        {
+                                            <label>
+                                                @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "N", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,true);" })
+                                                <span>New Revised Class II item</span>
+                                            </label>
+                                            <br />
+                                            <label>
+                                                @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "Y", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,false);" })
+                                                <span>Revised Class II item</span>
+                                            </label>
+
+                                        }
+                                    </td>
+                                    <td>
+                                        <table class=" w3-table-all w3-hoverable resultTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Match variation item</th>
+                                                    <th>Corresponding MW item</th>
+                                                    <th>Description</th>
+                                                    <th style="white-space: normal;">Relevant Order/ Direction/ Notice/ BD Reference No.</th>
+                                                </tr>
+                                            </thead>
+                                            @*PreItem*@
+                                            @for (int iPre = 0; iPre < Model.PreMwItems.Count(); iPre++)
+                                            {
+                                                string preItemName = "PreMwItems[" + iPre + "].REVISED_ITEM_ID";
+                                                string chName = "PreMwItems[" + iPre + "].IsMatchItem";
+                                                <tr>
+                                                    <td>
+                                                        @Html.HiddenFor(m => m.PreMwItems[iPre].FianlItemUUID)
+                                                        @Html.HiddenFor(m => m.PreMwItems[iPre].ItemCode)
+
+                                                        @if (Model.PreMwItems[iPre].ItemCode == Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE)
+                                                        {
+                                                            if (Model.PreRecordItemChecklists[i].VARIATION_DECLARED == "Y")
+                                                            {
+                                                                <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                                @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @onchange = "setMatchItem(checked,name);getNeedFianlItemCheck();", @class = Model.PreMwItems[iPre].ItemCode + " matchItem main" })
+                                                            }
+                                                            else
+                                                            {
+                                                                <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                                @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @onchange = "setMatchItem(checked,name);getNeedFianlItemCheck();", @class = Model.PreMwItems[iPre].ItemCode + " matchItem main", @disabled = "True" })
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            var record = (from x in Model.P_MW_RECORD_ITEMs
+                                                                          where x.MW_ITEM_CODE == Model.PreMwItems[iPre].ItemCode
+                                                                          select x).FirstOrDefault();
+                                                            if (record == null)
+                                                            {
+                                                                if (!Model.PreMwItems[iPre].IsGenerate)
+                                                                {
+                                                                    <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                                    @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @class = Model.PreMwItems[iPre].ItemCode + " matchItem main", @disabled = "True" })
+                                                                    Model.PreMwItems[iPre].IsGenerate = true;
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.CheckBox(chName, Model.PreMwItems[iPre].IsMatchItem, new { @disabled = "True" });
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.CheckBox(chName + "Copy", Model.PreMwItems[iPre].IsMatchItem, new { @disabled = "True" });
+                                                            }
+
+                                                        }
+
+                                                    </td>
+                                                    <td>@Model.PreMwItems[iPre].ItemCode</td>
+                                                    <td style="white-space: normal;">@Model.PreMwItems[iPre].Location</td>
+                                                    <td style="white-space: normal;">@Model.PreMwItems[iPre].DescOfVariation</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+
+                    if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW10")
+                    {
+                        <table class=" w3-table-all w3-hoverable resultTable">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        Minor works carried out
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Item Detail in Form 10</th>
+                                    <th>
+                                        <table class=" w3-table-all w3-hoverable resultTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Carried out MW Item</th>
+                                                    <th>Description</th>
+                                                    <th>Descriptions of the differences</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="color:black;font-size:18px;font-weight:400;">
+                                                    <td>@item.MW_ITEM_CODE</td>
+                                                    <td style="white-space: normal;">@item.LOCATION_DESCRIPTION</td>
+                                                    <td>@item.RELEVANT_REFERENCE</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="white-space: normal;">
+                                    @*PreItemCheckList*@
+                                    @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].UUID)
+                                    @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].MW_ITEM_CODE)
+                                    @Html.HiddenFor(m => Model.PreRecordItemChecklists[i].ORDERING)
+                                    @if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW02")
+                                    {
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "Y", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,false);" })
+                                            <span>Item in Form 10 matched with corresponding item</span>
+                                        </label>
+                                        <br />
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "N", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,true);" })
+                                            <span>Item in Form 10 not matched with corresponding item</span>
+                                        </label>
+
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "Y", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,false);" })
+                                            <span>Item in Form 10 matched with corresponding item</span>
+                                        </label>
+                                        <br />
+                                        <label>
+                                            @Html.RadioButtonFor(m => m.PreRecordItemChecklists[i].VARIATION_DECLARED, "N", new { @class = "w3-radio", @onchange = "changeMatchItem(name,value);changeChildItem(name,true);" })
+                                            <span>Item in Form 10 not matched with corresponding item</span>
+                                        </label>
+
+                                    }
+                                </td>
+                                <td>
+                                    <table class=" w3-table-all w3-hoverable resultTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Match variation item</th>
+                                                <th>Corresponding MW item</th>
+                                                <th>Description</th>
+                                                <th style="white-space: normal;">Relevant Order/ Direction/ Notice/ BD Reference No.</th>
+                                            </tr>
+                                        </thead>
+                                        @*PreItem*@
+                                        @for (int iPre = 0; iPre < Model.PreMwItems.Count(); iPre++)
+                                        {
+                                            string preItemName = "PreMwItems[" + iPre + "].REVISED_ITEM_ID";
+                                            string chName = "PreMwItems[" + iPre + "].IsMatchItem";
+                                            <tr>
+                                                <td>
+                                                    @Html.HiddenFor(m => m.PreMwItems[iPre].FianlItemUUID)
+                                                    @Html.HiddenFor(m => m.PreMwItems[iPre].ItemCode)
+
+                                                    @if (Model.PreMwItems[iPre].ItemCode == Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE)
+                                                    {
+                                                        if (Model.PreRecordItemChecklists[i].VARIATION_DECLARED == "Y")
+                                                        {
+                                                            <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                            @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @onchange = "setMatchItem(checked,name);getNeedFianlItemCheck();", @class = Model.PreMwItems[iPre].ItemCode + " matchItem main" })
+                                                        }
+                                                        else
+                                                        {
+                                                            <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                            @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @onchange = "setMatchItem(checked,name);getNeedFianlItemCheck();", @class = Model.PreMwItems[iPre].ItemCode + " matchItem main", @disabled = "True" })
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        var record = (from x in Model.P_MW_RECORD_ITEMs
+                                                                      where x.MW_ITEM_CODE == Model.PreMwItems[iPre].ItemCode
+                                                                      select x).FirstOrDefault();
+                                                        if (record == null)
+                                                        {
+                                                            if (!Model.PreMwItems[iPre].IsGenerate)
+                                                            {
+                                                                <input name="@preItemName" type="hidden" value="@Model.P_MW_RECORD_ITEMs[i].UUID" />
+                                                                @Html.CheckBoxFor(m => m.PreMwItems[iPre].IsMatchItem, new { @class = Model.PreMwItems[iPre].ItemCode + " matchItem main", @disabled = "True" })
+                                                                Model.PreMwItems[iPre].IsGenerate = true;
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.CheckBox(chName, Model.PreMwItems[iPre].IsMatchItem, new { @disabled = "True" });
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.CheckBox(chName, Model.PreMwItems[iPre].IsMatchItem, new { @disabled = "True" });
+                                                        }
+
+                                                    }
+
+
+                                                </td>
+                                                <td>@Model.PreMwItems[iPre].ItemCode</td>
+                                                <td style="white-space: normal;">@Model.PreMwItems[iPre].Location</td>
+                                                <td style="white-space: normal;">@Model.PreMwItems[iPre].DescOfVariation</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+
+
+                }
+
+                <table id="@tableID" class=" w3-table-all w3-hoverable resultTable">
+
+
+                    @{
+                        var ChildItemList = Model.RecordItemCheckListItems.Where(d => d.MW_ITEM_NO == item.MW_ITEM_CODE && d.CLASS_CODE == item.CLASS_CODE && d.CLASS_CODE_ORDERING == item.ORDERING).OrderBy(o => o.ORDERING).ToList();
+
+                        bool isExistsSelect2 = false;
+
+                        var NatureList = Model.P_S_MW_ITEM_NATUREs;
+
+                        List<SelectListItem> DdlNatureList = new List<SelectListItem>();
+                        DdlNatureList.Add(new SelectListItem { Value = "", Text = "- Select -" });
+
+                        foreach (var natureItem in NatureList)
+                        {
+                            DdlNatureList.Add(new SelectListItem { Value = natureItem.NATURE_CODE, Text = natureItem.NATURE_DESC });
+                        }
+
+                        var CheckboxList = Model.P_S_MW_ITEM_CHECKBOXs.Where(d => d.ITEM_NO == item.MW_ITEM_CODE).ToList();
+
+                        List<SelectListItem> DdlCheckboxList = new List<SelectListItem>();
+                        DdlCheckboxList.Add(new SelectListItem { Value = "", Text = "- Select -" });
+
+                        foreach (var checkboxItem in CheckboxList)
+                        {
+                            DdlCheckboxList.Add(new SelectListItem { Value = checkboxItem.UUID, Text = checkboxItem.DESCRIPTION });
+                        }
+
+                        List<SelectListItem> DdlSelect2List = new List<SelectListItem>();
+                        foreach (var Select2Item in ChildItemList.Where(w => w.CHECKLIST_TYPE == "SELECT_2"))
+                        {
+                            DdlSelect2List.Add(new SelectListItem { Value = Select2Item.DESCRIPTION, Text = Select2Item.DESCRIPTION });
+                        }
+
+                    }
+
+                    @for (int j = 0; j < ChildItemList.Count(); j++)
+                    {
+
+                        <div style="display:none">
+                            @Html.HiddenFor(model => model.RecordItemCheckListItems[ItemRow].S_MW_ITEM_CHECKLIST_ITEM_ID)
+                            @Html.HiddenFor(model => model.RecordItemCheckListItems[ItemRow].MW_RECORD_ITEM_CHECKLIST_ID)
+                            @Html.HiddenFor(model => model.RecordItemCheckListItems[ItemRow].CHECKLIST_TYPE)
+                            @Html.HiddenFor(model => model.RecordItemCheckListItems[ItemRow].CHECKLIST_NO)
+                            @Html.HiddenFor(model => model.RecordItemCheckListItems[ItemRow].MW_ITEM_NO)
+                        </div>
+
+                        var childItem = Model.RecordItemCheckListItems[ItemRow];
+                        //Header
+                        if (childItem.CHECKLIST_TYPE == "HEADER_A" || childItem.CHECKLIST_TYPE == "HEADER_B" || childItem.CHECKLIST_TYPE == "HEADER_C" || childItem.CHECKLIST_TYPE == "SELECT_2")
+                        {
+                            if (childItem.CHECKLIST_TYPE == "HEADER_A")
+                            {
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
+                                        <th>NA</th>
+                                        <th>Yes</th>
+                                        <th>No</th>
+                                        <th>More Info. Req.</th>
+                                        <th>Remarks</th>
+                                        <th>Remarks(PO)</th>
+                                    </tr>
+                                </thead>
+                            }
+                            else if (childItem.CHECKLIST_TYPE == "HEADER_B")
+                            {
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Requirements:-</th>
+                                        <th>&nbsp;</th>
+                                        <th>Accept</th>
+                                        <th>Not Accept</th>
+                                        <th>More Info. Req.</th>
+                                        <th>Remarks</th>
+                                        <th>Remarks(PO)</th>
+                                    </tr>
+                                </thead>
+                            }
+                            else if (childItem.CHECKLIST_TYPE == "HEADER_C")
+                            {
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Photo & Plan checking</th>
+                                        <th>&nbsp;</th>
+                                        <th>Accept</th>
+                                        <th>Not Accept</th>
+                                        <th>Not Submitted</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                            }
+                            else if (childItem.CHECKLIST_TYPE == "SELECT_2" && !isExistsSelect2)
+                            {
+                                <tr>
+                                    <td>@Model.RecordItemCheckListItems[ItemRow].CHECKLIST_NO </td>
+                                    <td colspan="5">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(DdlSelect2List, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].REMARKS, new { @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ta", @id = Model.RecordItemCheckListItems[ItemRow].ID + "_rmk" })
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                isExistsSelect2 = true;
+                            }
+                        }
+                        else if (!(childItem.CHECKLIST_TYPE.Equals("RADIO_6") || childItem.CHECKLIST_TYPE.Equals("SELECT_4")
+                            || childItem.CHECKLIST_TYPE.Equals("SELECT_4_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_1_ACK_SHOW")
+                            || childItem.CHECKLIST_TYPE.Equals("SELECT_4_2_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_3_ACK_SHOW")
+                            || childItem.CHECKLIST_TYPE.Equals("RADIO_6_AUTO_BTN")))
+                        {
+
+                            <tr>
+                                <td style="width:50px;">
+                                    @Model.RecordItemCheckListItems[ItemRow].CHECKLIST_NO
+                                </td>
+
+                                @if (childItem.CHECKLIST_TYPE.Equals("RADIO_1_AUTO_BTN") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_ACK_SHOW_AB"))
+                                {
+                                    <td style="white-space: normal;width: 500px;">
+                                        @childItem.DESCRIPTION
+                                        <br />
+                                        <input value="Result From PEM" type="button" onclick="autoSelectValue(@childItem.ID,true)" />
+                                    </td>
+
+
+                                }
+                                else
+                                {
+                                    <td style="white-space: normal;width: 500px;">
+                                        @childItem.DESCRIPTION
+                                    </td>
+                                }
+
+                                @if (childItem.CHECKLIST_TYPE.Equals("RADIO_1") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_ACK_SHOW")
+                                     || childItem.CHECKLIST_TYPE.Equals("RADIO_1_ACK_SHOW_AB") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_AUTO_BTN")
+                                     || childItem.CHECKLIST_TYPE.Equals("RADIO_1_JS_HIDEFIELD") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_GROUP_CHECK")
+                                     || childItem.CHECKLIST_TYPE.Equals("RADIO_2") || childItem.CHECKLIST_TYPE.Equals("RADIO_5"))
+                                {
+                                    if (childItem.CHECKLIST_TYPE.Equals("RADIO_1_JS_HIDEFIELD") || childItem.CHECKLIST_TYPE.Equals("RADIO_5"))
+                                    {
+                                        <td style="width:50px;"></td>
+                                        <td style="width:80px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                        </td>
+                                        <td style="width:120px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "N", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "N" })
+                                        </td>
+                                        <td style="width:170px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "M", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "M" })
+                                        </td>
+                                    }
+                                    else if (childItem.CHECKLIST_TYPE.Equals("RADIO_1_GROUP_CHECK"))
+                                    {
+                                        <td style="width:50px;"></td>
+                                        <td style="width:80px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "groupCheck('" + Model.RecordItemCheckListItems[ItemRow].ID + "');", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                        </td>
+                                        <td style="width:120px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "N", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "groupCheck('" + Model.RecordItemCheckListItems[ItemRow].ID + "';", @id = Model.RecordItemCheckListItems[ItemRow].ID + "N" })
+                                        </td>
+                                        <td style="width:170px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "M", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "groupCheck('" + Model.RecordItemCheckListItems[ItemRow].ID + "');", @id = Model.RecordItemCheckListItems[ItemRow].ID + "M" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="width:50px;"></td>
+                                        <td style="width:80px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                        </td>
+                                        <td style="width:120px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "N", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @id = Model.RecordItemCheckListItems[ItemRow].ID + "N" })
+                                        </td>
+                                        <td style="width:170px;">
+                                            @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "M", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @id = Model.RecordItemCheckListItems[ItemRow].ID + "M" })
+                                        </td>
+                                    }
+
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("RADIO_3")
+                                    || childItem.CHECKLIST_TYPE.Equals("TITLE_1"))
+                                {
+                                    <td style="width:50px;"></td>
+                                    <td style="width:80px;"></td>
+                                    <td style="width:120px;"></td>
+                                    <td style="width:170px;"></td>
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("RADIO_4"))
+                                {
+                                    <td></td>
+                                    <td>
+                                        @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("SELECT_1")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3") || childItem.CHECKLIST_TYPE.Equals("SELECT_3_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3_2_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3_3_ACK_SHOW"))
+                                {
+                                    <td colspan="4">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(Model.ENEList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("TEXT_1"))
+                                {
+                                    <td colspan="4">
+                                        @Html.TextBoxFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, new { @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_txt" })
+                                    </td>
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("NATURE"))
+                                {
+                                    <td colspan="4">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(DdlNatureList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("DROP_DOWN")
+                                    || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2") || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2_ACK_SHOW"))
+                                {
+                                    if (childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2") || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2_ACK_SHOW"))
+                                    {
+                                        <td colspan="4">
+                                            @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(DdlCheckboxList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td colspan="4">
+                                            @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(DdlCheckboxList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                        </td>
+                                    }
+
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("SELECT_3_1_ACK_SHOW"))
+                                {
+                                    <td colspan="4">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(Model.YNList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+                                }
+
+                                <td>
+                                    @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].REMARKS, new { @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ta", @id = Model.RecordItemCheckListItems[ItemRow].ID + "_rmk" })
+                                </td>
+
+                                @if (childItem.CHECKLIST_TYPE.Equals("RADIO_1") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("RADIO_1_ACK_SHOW_AB") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_AUTO_BTN")
+                                    || childItem.CHECKLIST_TYPE.Equals("RADIO_1_GROUP_CHECK") || childItem.CHECKLIST_TYPE.Equals("RADIO_1_JS_HIDEFIELD")
+                                    || childItem.CHECKLIST_TYPE.Equals("RADIO_2"))
+                                {
+                                    <td>
+                                        @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].PO_REMARK, new { @disabled = "true", @class = childItem.MW_ITEM_NO + "_ta_po" })
+                                    </td>
+                                }
+
+                                else if (childItem.CHECKLIST_TYPE.Equals("RADIO_3") || childItem.CHECKLIST_TYPE.Equals("RADIO_4")
+                                    || childItem.CHECKLIST_TYPE.Equals("RADIO_5")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_1") || childItem.CHECKLIST_TYPE.Equals("TEXT_1") || childItem.CHECKLIST_TYPE.Equals("NATURE")
+                                    || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN") || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2") || childItem.CHECKLIST_TYPE.Equals("DROP_DOWN_2_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3") || childItem.CHECKLIST_TYPE.Equals("SELECT_3_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3_1_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_3_2_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_3_3_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("TITLE_1"))
+                                {
+                                    <td> </td>
+                                }
+
+
+                            </tr>
+                        }
+                        else if (childItem.CHECKLIST_TYPE.Equals("RADIO_6") || childItem.CHECKLIST_TYPE.Equals("SELECT_4")
+                           || childItem.CHECKLIST_TYPE.Equals("SELECT_4_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_1_ACK_SHOW")
+                           || childItem.CHECKLIST_TYPE.Equals("SELECT_4_2_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_3_ACK_SHOW")
+                           )
+                        {
+                            <tr style="display:none;">
+                                <td style="width:50px;">
+                                    @Model.RecordItemCheckListItems[ItemRow].CHECKLIST_NO
+                                </td>
+
+                                @if (childItem.CHECKLIST_TYPE.Equals("RADIO_6"))
+                                {
+                                    <td style="width:50px;"></td>
+                                    <td style="width:80px;">
+                                        @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                    </td>
+                                    <td style="width:120px;">
+                                        @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "N", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "N" })
+                                    </td>
+                                    <td style="width:170px;">
+                                        @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "M", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "M" })
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].REMARKS, new { @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ta", @id = Model.RecordItemCheckListItems[ItemRow].ID + "_rmk" })
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].PO_REMARK, new { @disabled = "true", @class = childItem.MW_ITEM_NO + "_ta_po" })
+                                    </td>
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("SELECT_4") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_ACK_SHOW")
+                                    || childItem.CHECKLIST_TYPE.Equals("SELECT_4_2_ACK_SHOW") || childItem.CHECKLIST_TYPE.Equals("SELECT_4_3_ACK_SHOW"))
+                                {
+                                    <td colspan="4">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(Model.YNList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+                                    <td> </td>
+                                }
+                                else if (childItem.CHECKLIST_TYPE.Equals("SELECT_4_ACK_SHOW"))
+                                {
+                                    <td colspan="4">
+                                        @Html.DropDownListFor(model => Model.RecordItemCheckListItems[ItemRow].ANSWER, new SelectList(Model.ENEList, "Value", "Text", Model.RecordItemCheckListItems[ItemRow].ANSWER), new { @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID, @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ddl" })
+                                    </td>
+                                    <td> </td>
+                                }
+
+
+                            </tr>
+                        }
+                        else if (childItem.CHECKLIST_TYPE.Equals("RADIO_6_AUTO_BTN"))
+                        {
+                            <tr style="display:none;">
+                                <td style="width:50px;">
+                                    @Model.RecordItemCheckListItems[ItemRow].CHECKLIST_NO
+                                </td>
+                                <td style="white-space: normal;width: 500px;">
+                                    @childItem.DESCRIPTION
+                                    <br />
+                                    <input value="Result From PEM" type="button" onclick="autoSelectValue(@childItem.ID,true)" />
+                                </td>
+                                <td style="width:80px;">
+                                    @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "Y", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "Y" })
+                                </td>
+                                <td style="width:120px;">
+                                    @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "N", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "N" })
+                                </td>
+                                <td style="width:170px;">
+                                    @Html.RadioButtonFor(model => model.RecordItemCheckListItems[ItemRow].ANSWER, "M", new { @class = "w3-radio " + Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_radio", @onchange = "hideFields(" + Model.P_MW_RECORD_ITEMs[i].MW_ITEM_CODE + ",id,value);", @id = Model.RecordItemCheckListItems[ItemRow].ID + "M" })
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].REMARKS, new { @class = Model.RecordItemCheckListItems[ItemRow].ID + " " + childItem.MW_ITEM_NO + "_ta", @id = Model.RecordItemCheckListItems[ItemRow].ID + "_rmk" })
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(model => model.RecordItemCheckListItems[ItemRow].PO_REMARK, new { @disabled = "true", @class = childItem.MW_ITEM_NO + "_ta_po" })
+                                </td>
+                            </tr>
+                        }
+
+                        ItemRow += 1;
+                    }
+
+                </table>
+            </div>
+
+        }
+
+    </div>
+
+    if (Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW02" || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW04" || Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW10")
+    {
+        <div id="FinalItemContent" class="w3-border displayForm" style="display:none">
+            @*Title*@
+            <div class="panelHeader">
+                <label>Details of the Minor Work</label>
+                <br />
+                <label>Item No.</label>
+                @foreach (var item in Model.PreMwItems)
+                {
+                    @Html.Label("", item.ItemCode, new { @id = "FinalItemTitle" + item.ItemCode + item.CLASS_CODE + item.ORDERING.ToString(), @style = "padding-left:10px;display:'none'" })
+                }
+            </div>
+
+            @{ int FinalItemRow = 0; string submissionType = Model.P_MW_RECORD.S_FORM_TYPE_CODE == "MW10" ? "MW10" : "Original"; }
+            @for (int i = 0; i < Model.PreMwItems.Count(); i++)
+            {
+
+                var FianlItem = Model.PreMwItems[i];
+                //var FianlCheckList = Model.FianlRecordItemCheckListItems.Where(d => d.MW_ITEM_NO == FianlItem.ItemCode && d.CLASS_CODE == FianlItem.CLASS_CODE && d.CLASS_CODE_ORDERING == FianlItem.ORDERING).OrderBy(o => o.ORDERING).ToList();
+                var FianlCheckList = Model.FinalRecordItemCheckListItems.Where(d => d.MW_ITEM_NO == FianlItem.ItemCode).OrderBy(o => o.ORDERING).ToList();
+
+                //var tableID = "FinalItemForm" + FianlItem.ItemCode + FianlItem.CLASS_CODE + FianlItem.ORDERING.ToString();
+                var tableID = "FinalItemForm" + FianlItem.ItemCode;
+                <div id="@tableID" class="w3-border displayForm" style="display:none;">
+                    <table class=" w3-table-all w3-hoverable resultTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>NA</th>
+                                <th>Yes</th>
+                                <th>No</th>
+                                <th>More Info. Req.</th>
+                                <th>Remarks</th>
+                                <th>Remarks(PO)</th>
+                            </tr>
+                        </thead>
+
+                        @for (int j = 0; j < FianlCheckList.Count(); j++)
+                        {
+                            <div style="display:none">
+                                @Html.HiddenFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].S_MW_ITEM_CHECKLIST_ITEM_ID)
+                                @Html.HiddenFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].MW_RECORD_ITEM_CHECKLIST_ID)
+                                @Html.HiddenFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].CHECKLIST_TYPE)
+                                @Html.HiddenFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].CHECKLIST_NO)
+                                @Html.HiddenFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].MW_ITEM_NO)
+                            </div>
+
+                            if (FianlCheckList[j].CHECKLIST_NO != null && FianlCheckList[j].SUBMISSION_TYPE == submissionType)
+                            {
+                                <tr>
+                                    <td>@Model.FinalRecordItemCheckListItems[FinalItemRow].CHECKLIST_NO</td>
+                                    <td style="white-space: normal;width: 500px;">@Model.FinalRecordItemCheckListItems[FinalItemRow].DESCRIPTION</td>
+                                    <td></td>
+                                    <td>
+                                        @Html.RadioButtonFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].ANSWER, "Y", new { @class = "w3-radio " })
+                                    </td>
+                                    <td>
+                                        @Html.RadioButtonFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].ANSWER, "N", new { @class = "w3-radio " })
+                                    </td>
+                                    <td>
+                                        @Html.RadioButtonFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].ANSWER, "M", new { @class = "w3-radio " })
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].REMARKS)
+                                    </td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.FinalRecordItemCheckListItems[FinalItemRow].PO_REMARK, new { @disabled = "true" })
+                                    </td>
+                                </tr>
+                            }
+
+
+                            FinalItemRow += 1;
+                        }
+
+                    </table>
+                </div>
+            }
+
+        </div>
+    }
+
+}
+else
+{
+    int intRow = 0;
+    <div id="ItemContent" class="w3-border displayForm">
+        <label id="ItemTitle" style="display:none"></label>
+        <table id="ItemTable" class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th rowspan="2"></th>
+                    <th rowspan="2">Item Checking items</th>
+                    <th colspan="2">Checking Result</th>
+                    <th rowspan="2">TO Remarks</th>
+                </tr>
+                <tr>
+                    <th>Not OK</th>
+                    <th>More information required</th>
+                </tr>
+            </thead>
+            @for (int i = 0; i < Model.P_MW_RECORD_ITEMs.Count(); i++)
+            {
+                var item = Model.P_MW_RECORD_ITEMs[i];
+                var ChildItemList = Model.RecordItemCheckListItems.Where(d => d.MW_ITEM_NO == item.MW_ITEM_CODE && d.CLASS_CODE == item.CLASS_CODE && d.CLASS_CODE_ORDERING == item.ORDERING && (d.ANSWER == "N" || d.ANSWER == "M")).OrderBy(o => o.ORDERING).ToList();
+                var rowCount = ChildItemList.Count();
+
+                <tbody>
+                    @for (int j = 0; j < ChildItemList.Count(); j++)
+                    {
+
+                        if (j == 0)
+                        {
+                            <tr>
+                                <td rowspan="@rowCount">
+                                    @(item.ORDERING + 1)
+                                </td>
+                                <td rowspan="@rowCount">
+                                    @item.MW_ITEM_CODE
+                                </td>
+                                <td style="white-space: normal;width: 500px;">
+                                    @ChildItemList[j].CHECKLIST_NO. @ChildItemList[j].DESCRIPTION--@ChildItemList[j].ANSWER
+                                </td>
+                                <td>
+                                    @Html.RadioButton("Radio" + intRow, "N", ChildItemList[j].ANSWER == "N", new { @class = "w3-radio", @disabled = "true" })
+                                </td>
+                                <td>
+                                    @Html.RadioButton("Radio" + intRow, "M", ChildItemList[j].ANSWER == "M", new { @class = "w3-radio", @disabled = "true" })
+                                </td>
+                                <td>
+                                    @Html.TextArea("textArea" + intRow, ChildItemList[j].REMARKS, new { @disabled = "true" })
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td style="white-space: normal;width: 500px;">
+                                    @ChildItemList[j].CHECKLIST_NO. @ChildItemList[j].DESCRIPTION --@ChildItemList[j].ANSWER
+                                </td>
+                                <td>
+                                    @Html.RadioButton("Radio" + intRow, "N", ChildItemList[j].ANSWER == "N", new { @class = "w3-radio", @disabled = "true" })
+                                </td>
+                                <td>
+                                    @Html.RadioButton("Radio" + intRow, "M", ChildItemList[j].ANSWER == "M", new { @class = "w3-radio", @disabled = "true" })
+                                </td>
+                                <td>
+                                    @Html.TextArea("textArea" + intRow, ChildItemList[j].REMARKS, new { @disabled = "true" })
+                                </td>
+                            </tr>
+                        }
+                        intRow += 1;
+                    }
+                </tbody>
+            }
+
+        </table>
+
+    </div>
+}
+
+@Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/mwItem_js.cshtml")

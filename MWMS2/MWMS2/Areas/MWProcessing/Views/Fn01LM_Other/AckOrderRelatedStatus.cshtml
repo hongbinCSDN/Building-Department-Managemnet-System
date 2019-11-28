@@ -1,0 +1,83 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_OtherChangeORS
+
+<form id="statusInputForm" method="post">
+    <div class="panelHeader">
+        Change Order Related status
+    </div>
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">DSN   :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.DSN, new { id = "dsn" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Order Related :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>
+                        @Html.RadioButtonFor(m => m.OrderRelated, "Y", new { @class = "w3-radio", id = "orderRelatedY" })
+                        Yes   |
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.OrderRelated, "N", new { @class = "w3-radio", id = "orderRelatedN", @checked = "checked" })
+                        NO
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button id="updateAckOrderRelatedStatusBtn" class="searchButton btn btn-default" type="button"> Submit</button>
+            <button class="searchButton btn btn-default" type="reset"> Reset</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    domReady(function () {
+        attr("updateAckOrderRelatedStatusBtn", "onclick", { parameters: {}, callback: onUpdateAckOrderRelatedStatus });
+        attr("dsn", "onblur", { parameters: {}, callback: onblurGetOrderRelated });
+    });
+
+    function onblurGetOrderRelated() {
+        $.post("GetOrderRelated", $("#statusInputForm").serialize(), function (data) {
+            //attr("statusInputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                var orderRelated = data.Message[0];
+                console.log(orderRelated);
+
+                if (orderRelated === 'Y') {
+                    //$("#orderRelatedY").checked = true;
+                    console.log("True");
+                    $("#orderRelatedY").attr("checked", "checked");
+                    $("#orderRelatedN").removeAttr("checked");
+                }
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function onUpdateAckOrderRelatedStatus() {
+
+        attr("statusInputForm", "addClass", "saving");
+        $.post("UpdateAckOrderRelatedStatus", $("#statusInputForm").serialize(), function (data) {
+            attr("statusInputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                showErrorMessage(data.ErrorMessages);
+                alert("Update Order Related status successfully");
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+</script>

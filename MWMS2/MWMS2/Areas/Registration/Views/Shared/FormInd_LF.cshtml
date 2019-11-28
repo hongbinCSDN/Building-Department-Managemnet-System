@@ -1,0 +1,329 @@
+﻿@model MWMS2.Models.LeaveFormDisplayModel
+    <form id="inputForm" method="post" action="Save" enctype="multipart/form-data">
+
+        @Html.HiddenFor(model => model.C_IND_APPLICATION.UUID)
+        @Html.HiddenFor(model => model.RegType)
+        @Html.HiddenFor(model => model.C_IND_CERTIFICATE.UUID)
+        @Html.HiddenFor(model => model.mode)
+        @Html.HiddenFor(model => model.SaveSuccess)
+        @Html.HiddenFor(model => model.ErrorMessage)
+        <script type="text/javascript">
+            function backhome() {
+                goTo("Index", [{ name: 'doSearch', value: true }]);
+            }
+            function SetMode(mode) {
+
+                document.getElementById("leaveInformation").style.display = "none";
+                document.getElementById("CancelInformation").style.display = "none";
+                document.getElementById("buttonInformation").style.display = "none";
+                document.getElementById("mode").value = mode;
+                if (mode == "L") {
+                    document.getElementById("leaveInformation").style.display = "";
+                    document.getElementById("buttonInformation").style.display = "";
+
+                    document.getElementById("inputStartDate").value = "";
+                    document.getElementById("inputEndDate").value = "";
+                    document.getElementById("upLoadLeaveImage").value = "";
+                    document.getElementById('upLoadBA21LeaveImage').value = '';
+                    document.getElementById("inputRemarks").value = "";
+                }
+                if (mode == "C") {
+                    document.getElementById("CancelInformation").style.display = "";
+                    document.getElementById("buttonInformation").style.display = "";
+                    document.getElementById("inputCancelStartDate").value = "";
+                    document.getElementById("inputCancelEndDate").value = "";
+                    document.getElementById("upLoadLeaveImage").value = "";
+                    document.getElementById('upLoadBA21LeaveImage').value = '';
+                    document.getElementById("inputCancelRemarks").value = "";
+                }
+            }
+            function NewLeave() {
+                SetMode("L");
+            }
+            function NewCancel() {
+                SetMode("C");
+            }
+            function cancelInput() {
+                SetMode("");
+            }
+
+            $("document").ready(function () {
+                if ("true" == domName("SaveSuccess")[0].value) {
+                    alert("Record save successfully!")
+                }
+                attr("saveButton", "onclick", {
+                    callback: function () {
+                        attr("inputForm", "addClass", "saving");
+                        $.post("Validate", $("#inputForm").serialize(), function (data) {
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                domId("inputForm").submit();
+                            }
+                            else {
+                                attr("inputForm", "dropClass", "saving");
+                                showErrorMessage(data.ErrorMessages);
+                                console.log(data);
+                            }
+                        }, "json");
+                    }
+                });
+            })
+            function popupWind(url) {
+                window.open(url, "bd_wind", "width=800,height=600,status=0,toolbar=0,location=0,menuber=0,resizable=1,scrollbars=1");
+            }
+/**/</script>
+
+        @if (Model.RegType == "IP")
+        {
+            <div class="panelHeader">Professional Application &gt; BA21 Maintenance</div>
+        }
+        else
+        {
+            <div class="panelHeader">MW Individual Application &gt; BA21 Maintenance</div>
+        }
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Applicant Name:</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(model => model.ASName)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Chinese Name:</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(model => model.ChiName)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Reg. No:</div>
+                    <div class="w3-col l6 m6 s12">
+                        @Html.DisplayFor(model => model.C_IND_CERTIFICATE.CERTIFICATION_NO)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col hr"></div>
+            <div class="w3-row">
+                <div class="w3-col l3 m6 s12">
+                    @*<input type="button" name="btnNew" value="Add New Leave" id="btnNew" onclick="NewLeave()" />*@
+                    <button name="btnNew" value="Add New Leave" type="button" id="btnNew" onclick="NewLeave()"><i class="far fa-plus-square"></i> Add New Leave</button>
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    @*<input type="button" name="btnNewCancel" value="Add Cancel Leave" id="btnNewCancel" onclick="NewCancel()" />*@
+                    <button name="btnNewCancel" value="Add Cancel Leave" type="button"  id="btnNewCancel" onclick="NewCancel()"><i class="far fa-plus-square"></i> Add Cancel Leave</button>
+                </div>
+                <div class="w3-col l3 m6 s12">
+                    @*<input type="button" name="btnBack" value="Back" id="btnBack" style="width: 144px;" onclick="backhome()" />*@
+                    <button  ><i class="fa fa-times" onclick="backhome()"></i> Cancels</button>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">Leave/Replacement Records History:</div>
+                </div>
+            </div>
+            <div class="w3-col l12 m6 s12">
+                <table class="resultTable" style="width: 100%;  max-width: 100%; table-layout: fixed;  word-wrap: break-word;">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                Start date
+                            </th>
+                            <th>
+                                End date
+                            </th>
+                            <th>
+                                Image file of Form BA21
+                            </th>
+                            <th>
+                                Image file of Resumption Letter
+                            </th>
+                            <th>
+                                Cancel Status
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.LeaveFormList != null)
+                            {
+                                int idx = 0;
+                                foreach (var item in Model.LeaveFormList)
+                                {
+                                    idx++;
+                                    <tr>
+                                        <td>@item.LEAVE_START_DATE</td>
+                                        <td>@item.LEAVE_END_DATE</td>
+                                        <td>
+                                            @if (item.FILE_PATH_BA21 != null)
+                                            {
+                                                <a onclick="popupWind('DownloadFile?path=@Url.Content(item.FILE_PATH_BA21)')"><img src="~/img/view.gif" /></a>
+                                                @*<a target="_view" href="DownloadFile?path=@Url.Content(item.FILE_PATH_BA21)"><img src="~/img/view.gif" /></a>*@
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.FILE_PATH_LEAVE != null)
+                                            {
+                                                <a onclick="popupWind('DownloadFile?path=@Url.Content(item.FILE_PATH_LEAVE)')"><img src="~/img/view.gif" /></a>
+                                                @*<a target="_view" href="DownloadFile?path=@Url.Content(item.FILE_PATH_LEAVE)"><img src="~/img/view.gif" /></a>*@
+                                            }
+                                        </td>
+                                        <td>@item.IS_CANCEL</td>
+                                        <td>@item.REMARK</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="w3-row">
+            </div>
+            <div id="leaveInformation" class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Leave&nbsp;Information:</div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Start Date:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.IndStartDate, new { @class = "inputDate", @id = "inputStartDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">End Date:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.IndEndDate, new { @class = "inputDate", @id = "inputEndDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            UUpload Image file of Form BA21:
+                            <br />
+                            (format: pdf, gif, jpg)
+                        </div>
+                        <div class="w3-col l3 m6 s12">
+                            <input type="file" name="LeaveFormForm" id="upLoadBA21LeaveImage" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            UUpload Image file of Resumption Letter:
+                            <br />
+                            (format: pdf, gif, jpg)
+                        </div>
+                        <div class="w3-col l3 m6 s12">
+                            <input type="file" name="LeaveFormForm" id="upLoadLeaveImage" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            Remarks: (100 characters)
+                        </div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.TextAreaFor(model => model.IndRemark, new { @id = "inputRemarks" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="CancelInformation" class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Leave&nbsp;Information:</div>
+                        <div class="w3-col l3 m6 s12">
+                            <span id="lblCL" style="color: Khaki; font-size: Medium; font-weight: bold;">Cancel Leave</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Start Date:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.CancelIndStartDate, new { @class = "inputDate", @id = "inputCancelStartDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">End Date:</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.TextBoxFor(model => model.CancelIndEndDate, new { @class = "inputDate", @id = "inputCancelEndDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            UUpload Image file of Form BA21:
+                            <br />
+                            (format: pdf, gif, jpg)
+                        </div>
+                        <div class="w3-col l3 m6 s12">
+                            <input type="file" name="LeaveFormForm" id="upLoadBA21LeaveImage" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            UUpload Image file of Resumption Letter:
+                            <br />
+                            (format: pdf, gif, jpg)
+                        </div>
+                        <div class="w3-col l3 m6 s12">
+                            <input type="file" name="LeaveFormForm" id="upLoadLeaveImage" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">
+                            Remarks: (100 characters)
+                        </div>
+                        <div class="w3-col l8 m6 s12">
+                            @Html.TextAreaFor(model => model.CancelIndRemark, new { @id = "inputCancelRemarks" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="buttonInformation" class="w3-container footer">
+                @if (MWMS2.Utility.AuthUtil.CanEdit)
+                {<button type="button" value="Save" id="saveButton" class="saveButton btn btn-default"><i class="fa fa-save"></i>Save</button>}
+                <button class="backButton CancelButton btn btn-default" type="button"> Cancel</button>
+            </div>
+        </div>
+        <script>
+            SetMode("");
+        </script>
+        @if (Model.ErrorMessage != null)
+        {
+            <script>
+                alert('@Model.ErrorMessage');
+            </script>
+        }
+        @if (Model.SaveSuccess == true)
+        {
+            <script>
+                alert("Record save successfully!");
+            </script>
+        }
+    </form>

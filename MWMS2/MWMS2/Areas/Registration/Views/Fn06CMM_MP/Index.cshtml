@@ -1,0 +1,83 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn06CMM_MPSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x=>x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.Surname)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Chinese Name :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.ChiName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {<button class="btn btn-default w3-left" type="button" onclick='location.href="@Url.Action("Edit", "Fn06CMM_MP")"'><i class="far fa-plus-square"></i> New Member</button>}
+
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Edit", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+
+
+
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "NAME"
+                , Columns: [
+                    {
+                        displayName: "Name", columnName: "NAME"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Rank", columnName: "RANK" }
+                ]
+            });
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+

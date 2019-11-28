@@ -1,0 +1,3371 @@
+﻿<script type="text/javascript">
+
+    function RemoveAddressRow(obj) {
+
+        var index = obj.parentNode.parentNode.rowIndex - 1;
+        var tb = document.getElementById('AddressTable');
+
+        //get template data
+        var AddressInfo = {};
+
+        //get Record ID
+        var Record = document.getElementsByName('P_MW_RECORD.UUID')[0];
+        AddressInfo[Record.name] = Record.value;
+
+        var cell = tb.tBodies[0].rows[index].cells[2];
+
+        currentRow = cell.querySelectorAll("input[name^='P_MW_ADDRESSes[']");
+
+        for (var i = 0; i < currentRow.length; i++) {
+            var name = currentRow[i].name.substring(currentRow[i].name.indexOf('.'));
+            AddressInfo['P_MW_ADDRESS' + name] = currentRow[i].value;
+        }
+
+        attr("AddressTable", "addClass", "deleting");
+        $.post("DeleteAddressInfo", AddressInfo, function (data) {
+            attr("AddressTable", "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                tb.deleteRow(index + 1);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+
+    }
+
+    function AddAddressInfo() {
+
+        //get template data
+        var AddressInfo = {};
+
+        //get Record ID
+        var Record = document.getElementsByName('P_MW_RECORD.UUID')[0];
+        AddressInfo[Record.name] = Record.value;
+
+        addressTemplate = document.getElementById('AddressTemplate');
+        var inputList = addressTemplate.querySelectorAll("input[name^='P_MW_ADDRESS.']");
+
+        var isEmptyForm = true;
+
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].value != undefined && inputList[i].value != null && inputList[i].value.trim() != "") {
+                isEmptyForm = false;
+            }
+
+            AddressInfo[inputList[i].name] = inputList[i].value;
+        }
+
+        if (isEmptyForm) {
+            alert('Address information cannot be all empty');
+            return;
+        }
+
+        //console.log(AddressInfo);
+        attr("AddressTemplate", "addClass", "saving");
+        $.post("AddAddressInfo", AddressInfo, function (data) {
+            attr("AddressTemplate", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                AddAddressRow(data.Data);
+                //goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function AddAddressRow(obj) {
+        //Html string
+        var trHtml = "<td></td>"
+            + "<td></td>"
+            + "<td></td>"
+            + "<td><button type='button' onclick='RemoveAddressRow(this)' class='btn btn-default'>Delete<buttong></td>";
+
+        //get table
+        var tb = document.getElementById('AddressTable');
+
+        //get table rows count
+        var index = tb.tBodies[0].rows.length;
+        //add row
+        tb.tBodies[0].insertRow(index);
+        tb.tBodies[0].rows[index].innerHTML = trHtml;
+
+        var streeName = "";
+        var streetNo = "";
+        var buildingName = "";
+        var address = "";
+        var floor = "";
+        var flat = "";
+
+        if (obj['STREE_NAME']) {
+            streeName = obj['STREE_NAME'];
+            address += streeName;
+        }
+
+        if (obj['STREET_NO']) {
+
+            if (address != "") {
+                address += " , "
+            }
+            streetNo = obj['STREET_NO'];
+            address += streetNo;
+        }
+
+        if (obj['BUILDING_NAME']) {
+            if (address != "") {
+                address += " , "
+            }
+            buildingName = obj['BUILDING_NAME'];
+            address += buildingName;
+        }
+
+        if (obj['FLOOR']) {
+            floor = obj['FLOOR'];
+        }
+
+        if (obj['FLAT']) {
+            flat = obj['FLAT'];
+        }
+
+
+        tb.tBodies[0].rows[index].cells[0].innerText = address;
+        tb.tBodies[0].rows[index].cells[1].innerText = floor;
+        //tb.tBodies[0].rows[index].cells[2].innerText = obj['FLAT'];
+
+        var hiddenHtml = "";
+
+        var UUIDHtml = flat + "<input name='P_MW_ADDRESSes[" + index + "].UUID' type='text' value='" + obj['UUID'] + "' style='display:none;' />";
+        hiddenHtml += UUIDHtml;
+
+        tb.tBodies[0].rows[index].cells[2].innerHTML = hiddenHtml;
+    }
+
+    function disabledQuestion(uuid, checkedValue) {
+        if (checkedValue == 'Y') {
+            showQuestion(uuid);
+        } else {
+
+            $('.' + uuid).show();
+            rootElement = document.getElementById(uuid);
+            radioY = document.getElementById(uuid + "Y");
+            radioN = document.getElementById(uuid + "N");
+            radioM = document.getElementById(uuid + "M");
+            radioRMK = document.getElementById(uuid + "_rmk");
+            if (rootElement != null) {
+                rootElement.disabled = true;
+                rootElement.style.display = "inline";
+            }
+            if (radioY != null) {
+                radioY.disabled = true;
+                radioY.checked = false;
+                radioY.style.display = 'inline';
+            }
+            if (radioN != null) {
+                radioN.disabled = true;
+                radioN.checked = false;
+                radioN.style.display = 'inline';
+            }
+            if (radioM != null) {
+                radioM.disabled = true;
+                radioM.checked = false;
+                radioM.style.display = 'inline';
+            }
+            if (radioRMK != null) {
+                radioRMK.disabled = true;
+                radioRMK.value = "";
+                radioRMK.style.display = 'inline';
+            }
+
+        }
+    }
+
+    function showQuestion(uuid) {
+
+        $('.' + uuid).show();
+        rootElement = document.getElementById(uuid);
+        radioY = document.getElementById(uuid + "Y");
+        radioN = document.getElementById(uuid + "N");
+        radioM = document.getElementById(uuid + "M");
+        radioRMK = document.getElementById(uuid + "_rmk");
+        if (rootElement != null) {
+            rootElement.disabled = false;
+            rootElement.style.display = "inline";
+        }
+        if (radioY != null) {
+            radioY.disabled = false;
+            radioY.style.display = 'inline';
+        }
+        if (radioN != null) {
+            radioN.disabled = false;
+            radioN.style.display = 'inline';
+        }
+        if (radioM != null) {
+            radioM.disabled = false;
+            radioM.style.display = 'inline';
+        }
+        if (radioRMK != null) {
+            radioRMK.disabled = false;
+            radioRMK.style.display = 'inline';
+        }
+    }
+
+    function disabledQuestionWithValue(uuid, checkedValue) {
+        if (checkedValue == 'Y') {
+            showQuestion(uuid);
+        } else {
+
+            $('.' + uuid).show();
+            rootElement = document.getElementById(uuid);
+            radioY = document.getElementById(uuid + "Y");
+            radioN = document.getElementById(uuid + "N");
+            radioM = document.getElementById(uuid + "M");
+            radioRMK = document.getElementById(uuid + "_rmk");
+            if (rootElement != null) {
+                rootElement.disabled = true;
+                rootElement.style.display = "inline";
+            }
+            if (radioY != null) {
+                radioY.disabled = true;
+                radioY.style.display = 'inline';
+            }
+            if (radioN != null) {
+                radioN.disabled = true;
+                radioN.style.display = 'inline';
+            }
+            if (radioM != null) {
+                radioM.disabled = true;
+                radioM.style.display = 'inline';
+            }
+            if (radioRMK != null) {
+                radioRMK.disabled = true;
+                radioRMK.style.display = 'inline';
+            }
+
+        }
+    }
+
+
+    //use hideFields type:
+    // SELECT_2 , RADIO_1_JS_HIDEFIELD , RADIO_5 , RADIO_6 , RADIO_6_AUTO_BTN , SELECT_1
+    // DROP_DOWN_2 , DROP_DOWN_2_ACK_SHOW , SELECT_3 , SELECT_3_ACK_SHOW , SELECT_3_1_ACK_SHOW
+    // SELECT_3_2_ACK_SHOW , SELECT_3_3_ACK_SHOW , SELECT_4 , SELECT_4_ACK_SHOW , SELECT_4_1_ACK_SHOW
+    // SELECT_4_2_ACK_SHOW , SELECT_4_3_ACK_SHOW
+
+    function hideFields() {
+        /*prefillCheckbox();*/
+        //var mwItemNo = '${parseMwItemNoStr}';
+        //var dataVersion = document.getElementById('defaultDataVersion').value;
+
+        //get item no
+        var ItemList = document.querySelectorAll('label[id^=ItemTitle]');
+        var mwItemNo = '';
+        for (var i = 0; i < ItemList.length; i++) {
+
+            if (ItemList[i].style.backgroundColor == 'yellow') {
+                mwItemNo = ItemList[i].innerText;
+                break;
+            }
+
+        }
+
+        document.querySelectorAll('label[id^=ItemTitle]')[0].style.backgroundColor
+
+        //set default data version
+        var dataVersion = 'OLD';
+
+        if (dataVersion == 'OLD') {
+
+            if (mwItemNo == '1.11') {
+                if (document.getElementById('8a859347278919310127891931fa00ac-1-1.11-SELECT_2').value == 'Footing located on ground') {
+                    var uuid = '8a859347278919310127891931fa00ae-1-1.11-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891931fa00ad-1-1.11-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                } else if (document.getElementById('8a859347278919310127891931fa00ac-1-1.11-SELECT_2').value == 'Footing located below ground water level') {
+                    var uuid = '8a859347278919310127891931fa00ad-1-1.11-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891931fa00ae-1-1.11-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+
+            if (mwItemNo == '1.22') {
+                if (document.getElementById('8a859347278919310127891931fa0161-1-1.22-SELECT_1').value == 'Y') {
+                    var uuid = '8a859347278919310127891931fa0163-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891931fa0162-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                } else {
+                    var uuid = '8a859347278919310127891931fa0162-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891931fa0163-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+                if (document.getElementById('8a859347278919310127891931fa0164-1-1.22-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891931fa0165-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891931fa0165-1-1.22-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '1.25') {
+                if (document.getElementById('8a8593472789193101278919320a0196e-1-1.25-SELECT_2').value == '(e1) Work beside crest of slope with gradient ≤ 30o') {
+                    var uuid = '8a8593472789193101278919320a0196-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a0197-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0198-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a8593472789193101278919320a0196e-1-1.25-SELECT_2').value == '(e2) Work beside crest of slope with gradient > 30o') {
+                    var uuid = '8a8593472789193101278919320a0196-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0197-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a0198-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else if (document.getElementById('8a8593472789193101278919320a0196e-1-1.25-SELECT_2').value == '(e3) Work beside the top of a retaining wall') {
+                    var uuid = '8a8593472789193101278919320a0196-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0197-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0198-1-1.25-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                }
+            }
+            /////
+            if (mwItemNo == '1.26') {
+                if (document.getElementById('8a8593472789193101278919320a01a91-1-1.26-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919320a01a9-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a01aa-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a01ab-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else {
+                    var uuid = '8a8593472789193101278919320a01a9-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a01aa-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a01ab-1-1.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            /**if(mwItemNo=='1.28'){
+            if(document.getElementById('8a8593472789193101278919320a01c91').value!='Y'){
+              var uuid='8a8593472789193101278919320a01ca';
+              document.getElementById(uuid+'Y').disabled =true;
+              document.getElementById(uuid+'N').disabled =true;
+              document.getElementById(uuid+'M').disabled =true;
+              document.getElementById(uuid+'_rmk').disabled =true;
+             }else{
+              var uuid='8a8593472789193101278919320a01ca';
+              document.getElementById(uuid+'Y').disabled =false;
+              document.getElementById(uuid+'N').disabled =false;
+              document.getElementById(uuid+'M').disabled =false;
+              document.getElementById(uuid+'_rmk').disabled =false;
+             }
+             }*/
+            ///////
+            if (mwItemNo == '1.29') {
+                if (document.getElementById('8a8593472789193101278919320a01d9-1-1.29-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919320a01da-1-1.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919320a01da-1-1.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '1.30') {
+                if (document.getElementById('8a8593472789193101278919320a01e8-1-1.30-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919320a01e9-1-1.30-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919320a01e9-1-1.30-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            if (mwItemNo == '1.32') {
+                if (document.getElementById('8a8593472789193101278919320a0203-1-1.32-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919320a0204-1-1.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919320a0204-1-1.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '1.36') {
+                if (document.getElementById('8a8593472789193101278919320a0241e-1-1.36-SELECT_2').value == '(e1) Work beside crest of slope with gradient ≤ 30o') {
+                    var uuid = '8a8593472789193101278919320a0241-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a0242-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0243-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a8593472789193101278919320a0241e-1-1.36-SELECT_2').value == '(e2) Work beside crest of slope with gradient > 30o') {
+                    var uuid = '8a8593472789193101278919320a0241-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0242-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919320a0243-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a8593472789193101278919320a0241e-1-1.36-SELECT_2').value == '(e3) Work beside the top of a retaining wall') {
+                    var uuid = '8a8593472789193101278919320a0241-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0242-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919320a0243-1-1.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                }
+            }
+            ////////********************************************************
+            if (mwItemNo == '2.1') {
+                if (document.getElementById('8a8593472789193101278919321902af-1-2.1-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919321902b0-1-2.1-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919321902b0-1-2.1-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '2.10') {
+                if (document.getElementById('8a85934727891931012789193229032e-1-2.10-SELECT_2').value == 'Footing located on ground') {
+                    var uuid = '8a859347278919310127891932290330-1-2.10-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229032f-1-2.10-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                } else if (document.getElementById('8a85934727891931012789193229032e-1-2.10-SELECT_2').value == 'Footing located below ground water level') {
+                    var uuid = '8a85934727891931012789193229032f-1-2.10-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891932290330-1-2.10-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '2.19') {
+                if (document.getElementById('8a8593472789193101278919322903af-1-2.19-SELECT_1').value == 'Y') {
+                    var uuid = '8a8593472789193101278919322903b1-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322903b0-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                } else {
+                    var uuid = '8a8593472789193101278919322903b0-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322903b1-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+                if (document.getElementById('8a8593472789193101278919322903b2-1-2.19-SELECT_1').value == 'Y') {
+                    var uuid = '8a8593472789193101278919322903b3-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919322903b3-1-2.19-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '2.2') {
+                if (document.getElementById('8a8593472789193101278919321902be-1-2.2-SELECT_1') != null) {
+                    if (document.getElementById('8a8593472789193101278919321902be-1-2.2-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919321902bf-1-2.2-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919321902bf-1-2.2-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                else if (document.getElementById('8a85934727891931012789s32190280ac3-2-2.2-SELECT_1') != null) {
+                    if (document.getElementById('8a85934727891931012789s32190280ac3-2-2.2-SELECT_1').value != 'Y') {
+                        var uuid = '8a85934727891931012789s32190280ac4-2-2.2-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a85934727891931012789s32190280ac4-2-2.2-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+            }
+            //////
+            if (mwItemNo == '2.26') {
+                if (document.getElementById('8a859347278919310127891932290419-1-2.26-SELECT_1').value == 'Y') {
+                    var uuid = '8a85934727891931012789193229041b-1-2.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229041a-1-2.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                } else {
+                    var uuid = '8a85934727891931012789193229041a-1-2.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229041b-1-2.26-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '2.28') {
+                if (document.getElementById('8a859347278919310127891932290439-1-2.28-SELECT_2').value == '(e1) Work beside crest of slope with gradient ≤ 30°') {
+                    var uuid = '8a85934727891931012789193229043c-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a85934727891931012789193229043d-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229043e-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a859347278919310127891932290439-1-2.28-SELECT_2').value == '(e2) Work beside crest of slope with gradient > 30°') {
+                    var uuid = '8a85934727891931012789193229043c-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229043d-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a85934727891931012789193229043e-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a859347278919310127891932290439-1-2.28-SELECT_2').value == '(e3) Work beside the top of a retaining wall') {
+                    var uuid = '8a85934727891931012789193229043c-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229043d-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229043e-1-2.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '2.29') {
+                if (document.getElementById('8a85934727891931012789193229044d-1-2.29-SELECT_1').value != 'Y') {
+                    var uuid = '8a85934727891931012789193229044e-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193229044f-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891932290450-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else {
+                    var uuid = '8a85934727891931012789193229044e-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a85934727891931012789193229044f-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a859347278919310127891932290450-1-2.29-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '2.32') {
+                if (document.getElementById('8a859347278919310127891932290476-1-2.32-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891932290477-1-2.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932290477-1-2.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '2.36') {
+                if (document.getElementById('8a8593472789193101278919322904ae-1-2.36-SELECT_2').value == '(e1) Work beside crest of slope with gradient ≤ 30°') {
+                    var uuid = '8a8593472789193101278919322904b1-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919322904b2-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322904b3-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a8593472789193101278919322904ae-1-2.36-SELECT_2').value == '(e2) Work beside crest of slope with gradient > 30°') {
+                    var uuid = '8a8593472789193101278919322904b1-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322904b2-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                    var uuid = '8a8593472789193101278919322904b3-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                } else if (document.getElementById('8a8593472789193101278919322904ae-1-2.36-SELECT_2').value == '(e3) Work beside the top of a retaining wall') {
+                    var uuid = '8a8593472789193101278919322904b1-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322904b2-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a8593472789193101278919322904b3-1-2.36-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '2.8') {
+                if (document.getElementById('8a85934727891931012789193229030d-1-2.8-SELECT_1').value == 'Y') {
+                    var uuid = '8a85934727891931012789193229030f-1-2.8-RADIO_1';
+                    var uuid = '8a85934727891931012789193229030e-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    document.getElementById(uuid + 'Y').checked = false;
+                    document.getElementById(uuid + 'N').checked = false;
+                    document.getElementById(uuid + 'M').checked = false;
+                    var uuid = '8a85934727891931012789193229030e-1-2.8-RADIO_1';
+                    var uuid = '8a85934727891931012789193229030f-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                } else {
+                    var uuid = '8a85934727891931012789193229030e-1-2.8-RADIO_1';
+                    var uuid = '8a85934727891931012789193229030f-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    document.getElementById(uuid + 'Y').checked = false;
+                    document.getElementById(uuid + 'N').checked = false;
+                    document.getElementById(uuid + 'M').checked = false;
+
+                    var uuid = '8a85934727891931012789193229030f-1-2.8-RADIO_1';
+                    var uuid = '8a85934727891931012789193229030e-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+                if (document.getElementById('8a859347278919310127891932290310-1-2.8-SELECT_1').value == 'Y') {
+                    var uuid = '8a859347278919310127891932290311-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932290311-1-2.8-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            ////////********************************************************
+            if (mwItemNo == '3.1') {
+                if (document.getElementById('8a8593472789193101278919322904f9-1-3.1-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919322904fa-1-3.1-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919322904fa-1-3.1-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.14') {
+                if (document.getElementById('8a8593472789193101278919323805b3-1-3.14-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919323805b4-1-3.14-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919323805b4-1-3.14-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.2') {
+                if (document.getElementById('8a859347278919310127891932290508-1-3.2-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891932290509-1-3.2-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932290509-1-3.2-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.21') {
+                if (document.getElementById('8a85934727891931012789193238061d-1-3.21-SELECT_2').value == 'Signboard located on balcony or canopy') {
+                    var uuid = '8a859347278919310127891932380620-1-3.21-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a85934727891931012789193238061f-1-3.21-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                } else if (document.getElementById('8a85934727891931012789193238061d-1-3.21-SELECT_2').value == 'Signboard hung underneath soffit of balcony or Canopy') {
+                    var uuid = '8a85934727891931012789193238061f-1-3.21-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891932380620-1-3.21-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            /////
+            if (mwItemNo == '3.27') {
+                if (document.getElementById('8a859347278919310127891932380679-1-3.27-SELECT_1').value != 'Y') {
+                    var uuid = '8a85934727891931012789193238067a-1-3.27-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a85934727891931012789193238067a-1-3.27-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.28') {
+                if (document.getElementById('8a859347278919310127891932380688-1-3.28-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891932380689-1-3.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932380689-1-3.28-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.32') {
+                if (document.getElementById('8a8593472789193101278919324806c3-1-3.32-SELECT_1').value != 'Y') {
+                    var uuid = '8a8593472789193101278919324806c4-1-3.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a8593472789193101278919324806c4-1-3.32-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if ('${submissionType}' == 'Completion') {
+                if (mwItemNo == '3.34') {
+                    if (document.getElementById('8a8593472789193101278919324806e1-1-3.34-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806e2-1-3.34-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806e2-1-3.34-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.35') {
+                    if (document.getElementById('8a8593472789193101278919324806f0-1-3.35-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806f1-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806f1-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+
+                    if (document.getElementById('8a8593472789193101278919324806f2-1-3.35-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806f3-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806f3-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.36') {
+                    if (document.getElementById('8a859347278919310127891932480701-1-3.36-SELECT_1').value != 'Y') {
+                        var uuid = '8a859347278919310127891932480702-1-3.36-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a859347278919310127891932480702-1-3.36-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.37') {
+                    if (document.getElementById('8a859347278919310127891932480711-1-3.37-SELECT_1').value != 'Y') {
+                        var uuid = '8a859347278919310127891932480712-1-3.37-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a859347278919310127891932480712-1-3.37-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+            }
+            ///////////////////////
+            if ('${submissionType}' == 'Validation Scheme') {
+                if (mwItemNo == '3.34') {
+                    if (document.getElementById('8a8593472789193101278919324806e1a-1-3.34-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806e2a-1-3.34-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806e2a-1-3.34-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.35') {
+                    if (document.getElementById('8a8593472789193101278919324806f0a-1-3.35-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806f1a-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806f1a-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+
+                    if (document.getElementById('8a8593472789193101278919324806f2a-1-3.35-SELECT_1').value != 'Y') {
+                        var uuid = '8a8593472789193101278919324806f3a-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a8593472789193101278919324806f3a-1-3.35-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.36') {
+                    if (document.getElementById('8a859347278919310127891932480701a-1-3.36-SELECT_1').value != 'Y') {
+                        var uuid = '8a859347278919310127891932480702a-1-3.36-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a859347278919310127891932480702a-1-3.36-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+                //////
+                if (mwItemNo == '3.37') {
+                    if (document.getElementById('8a859347278919310127891932480711a-1-3.37-SELECT_1').value != 'Y') {
+                        var uuid = '8a859347278919310127891932480712a-1-3.37-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = true;
+                        document.getElementById(uuid + 'N').disabled = true;
+                        document.getElementById(uuid + 'M').disabled = true;
+                        document.getElementById(uuid + '_rmk').disabled = true;
+                    } else {
+                        var uuid = '8a859347278919310127891932480712a-1-3.37-RADIO_1';
+                        document.getElementById(uuid + 'Y').disabled = false;
+                        document.getElementById(uuid + 'N').disabled = false;
+                        document.getElementById(uuid + 'M').disabled = false;
+                        document.getElementById(uuid + '_rmk').disabled = false;
+                    }
+                }
+            }
+            ////////////////////////////////////
+            //////
+            if (mwItemNo == '3.38') {
+                if (document.getElementById('8a859347278919310127891932480722-1-3.38-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891932480723-1-3.38-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932480723-1-3.38-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+            //////
+            if (mwItemNo == '3.6') {
+                if (document.getElementById('8a85934727891931012789193238053e-1-3.6-SELECT_2').value == 'Distance between win. or win. wall and ground is more than 3.5m but not more than 100mm') {
+                    var uuid = '8a859347278919310127891932380541-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891932380540-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+
+                } else if (document.getElementById('8a85934727891931012789193238053e-1-3.6-SELECT_2').value == 'Distance between win. or win. wall and ground is not more than 3.5m ') {
+                    var uuid = '8a859347278919310127891932380540-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+
+                    var uuid = '8a859347278919310127891932380541-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+                if (document.getElementById('8a859347278919310127891932380542-1-3.6-SELECT_1').value != 'Y') {
+                    var uuid = '8a859347278919310127891932380543-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = true;
+                    document.getElementById(uuid + 'N').disabled = true;
+                    document.getElementById(uuid + 'N').checked = true;
+                    document.getElementById(uuid + 'M').disabled = true;
+                    document.getElementById(uuid + '_rmk').disabled = true;
+                } else {
+                    var uuid = '8a859347278919310127891932380543-1-3.6-RADIO_1';
+                    document.getElementById(uuid + 'Y').disabled = false;
+                    document.getElementById(uuid + 'N').disabled = false;
+                    document.getElementById(uuid + 'N').checked = false;
+                    document.getElementById(uuid + 'M').disabled = false;
+                    document.getElementById(uuid + '_rmk').disabled = false;
+                }
+            }
+        }
+        // ------- below for all new item --------------------------------------------------
+        else if (dataVersion == "NEW") {
+            if (mwItemNo == '1.45') {
+
+            }
+            if (mwItemNo == '1.46') {
+                document.getElementById('208895A166274F17BE4F5E58AC0CA526Y').onclick = hideFields;
+                document.getElementById('208895A166274F17BE4F5E58AC0CA526N').onclick = hideFields;
+                document.getElementById('208895A166274F17BE4F5E58AC0CA526M').onclick = hideFields;
+                if (document.getElementById('208895A166274F17BE4F5E58AC0CA526N').checked) {
+                    var uuid = 'AA285300BB764EBC8B10C5BCCA078068';
+                    disableTarget(uuid, true);
+
+                    var uuid = '9AD595286EE549E182F16574F39EEA9E';
+                    disableTarget(uuid, true);
+
+                    var uuid = '60E8B05275294FE8B8ACBDCCEA9E465B';
+                    disableTarget(uuid, true);
+
+                    var uuid = '6F9D35FB3C9A486AA565DB0B4A37EB84';
+                    disableTarget(uuid, true);
+
+                    var uuid = '6684FDCF7E5042A19DA910617369A0EE';
+                    disableTarget(uuid, true);
+
+                    var uuid = 'EBE8681FA1844ECD9ACCA6D2337D4ABB';
+                    disableTarget(uuid, true);
+
+                    var uuid = '6684FDCF7E5042A19DA910617369A0EE';
+                    disableTarget(uuid, true);
+                } else {
+                    var uuid = 'AA285300BB764EBC8B10C5BCCA078068';
+                    disableTarget(uuid, false);
+
+                    var uuid = '9AD595286EE549E182F16574F39EEA9E';
+                    disableTarget(uuid, false);
+
+                    var uuid = '60E8B05275294FE8B8ACBDCCEA9E465B';
+                    disableTarget(uuid, false);
+
+                    var uuid = '6F9D35FB3C9A486AA565DB0B4A37EB84';
+                    disableTarget(uuid, false);
+
+                    var uuid = '6684FDCF7E5042A19DA910617369A0EE';
+                    disableTarget(uuid, false);
+
+                    var uuid = 'EBE8681FA1844ECD9ACCA6D2337D4ABB';
+                    disableTarget(uuid, false);
+
+                    var uuid = '6684FDCF7E5042A19DA910617369A0EE';
+                    disableTarget(uuid, false);
+                }
+            }
+        }
+        // --- end 1.6 --------------- //
+
+        if (mwItemNo == '1.47') {
+            document.getElementById('C6E74D4794F943C7B81FA44C9C8E8DA5Y').onclick = hideFields;
+            document.getElementById('C6E74D4794F943C7B81FA44C9C8E8DA5N').onclick = hideFields;
+            document.getElementById('C6E74D4794F943C7B81FA44C9C8E8DA5M').onclick = hideFields;
+            if (document.getElementById('C6E74D4794F943C7B81FA44C9C8E8DA5N').checked) {
+                var uuid = '738AF4BA44434B21B8EC4151B2C4544E';
+                disableTarget(uuid, true);
+
+                var uuid = '73765CC8CCFB4037A8769A1B79A1C28D';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = '738AF4BA44434B21B8EC4151B2C4544E';
+                disableTarget(uuid, false);
+
+                var uuid = '73765CC8CCFB4037A8769A1B79A1C28D';
+                disableTarget(uuid, false);
+            }
+        }
+        // --- end 1.47 --------------- //
+
+        if (mwItemNo == '1.48') {
+            document.getElementById('5C6FBBDC6356412EBC9D7CB3810A9D47Y').onclick = hideFields;
+            document.getElementById('5C6FBBDC6356412EBC9D7CB3810A9D47N').onclick = hideFields;
+            document.getElementById('5C6FBBDC6356412EBC9D7CB3810A9D47M').onclick = hideFields;
+            if (document.getElementById('5C6FBBDC6356412EBC9D7CB3810A9D47N').checked) {
+                disableTarget('D17171A35DB843C59A8589EA56364870', true);
+                disableTarget('4A0BB36499FF4BADA649B121E20271EA', true);
+            }
+            else {
+            }
+        }
+        // --- end 1.48 --------------- //
+
+        if (mwItemNo == '1.49') {
+            document.getElementById('91D279158A10438DAFED97A48A499C79Y').onclick = hideFields;
+            document.getElementById('91D279158A10438DAFED97A48A499C79N').onclick = hideFields;
+            document.getElementById('91D279158A10438DAFED97A48A499C79M').onclick = hideFields;
+            if (document.getElementById('91D279158A10438DAFED97A48A499C79N').checked) {
+                var uuid = 'C96BA5F9C5CF44ED857DC2C171156415';
+                disableTarget(uuid, true);
+
+                var uuid = '3F070ED4EF8443BFA5F3251221C728F1';
+                disableTarget(uuid, true);
+
+                var uuid = '6503534038174217AE44ECCDB640B6B0';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = 'C96BA5F9C5CF44ED857DC2C171156415';
+                disableTarget(uuid, false);
+
+                var uuid = '3F070ED4EF8443BFA5F3251221C728F1';
+                disableTarget(uuid, false);
+
+                var uuid = '6503534038174217AE44ECCDB640B6B0';
+                disableTarget(uuid, false);
+            }
+        }
+        // --- end 1.49 --------------- //
+
+        if (mwItemNo == '1.50') {
+        }
+        // --- end 1.50 --------------- //
+
+        if (mwItemNo == '1.51') {
+        }
+        // --- end 1.51 --------------- //
+
+        if (mwItemNo == '1.52') {
+        }
+        // --- end 1.52 --------------- //
+
+        if (mwItemNo == '1.8') {
+            // enable all field
+            document.getElementById('87011259443F4066AE1C71EC7276BEA4').disabled = false;  //c
+            document.getElementById('87011259443F4066AE1C71EC7276BEA4_rmk').disabled = false;
+            var uuid = '5E85CE4747E54E478DFEB7666DA9B6B2'; //c1
+            disableTarget(uuid, false);
+
+            var uuid = 'C84A4BF3FE6949BDB75E587E6EE6D871'; //c2
+            disableTarget(uuid, false);
+
+            var uuid = '294488EA98AE46848E9E4E9C734D4FD7'; //c1
+            disableTarget(uuid, false);
+            // ------
+
+            var workTypeSelect = document.getElementById('C312EDD34F5E4F5FB7B1BA3FAE92059C');
+            workTypeSelect.onchange = hideFields;
+            //if "pole" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070269') {
+                document.getElementById('87011259443F4066AE1C71EC7276BEA4').disabled = true;  //c
+                document.getElementById('87011259443F4066AE1C71EC7276BEA4_rmk').disabled = true;
+                var uuid = '5E85CE4747E54E478DFEB7666DA9B6B2'; //c1
+                disableTarget(uuid, true);
+
+                var uuid = 'C84A4BF3FE6949BDB75E587E6EE6D871'; //c2
+                disableTarget(uuid, true);
+
+                var uuid = '294488EA98AE46848E9E4E9C734D4FD7'; //c1
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 1.8 --------------- //
+
+        if (mwItemNo == '2.41') {
+            var workTypeSelect = document.getElementById('436100B604CF4EB48EA40844BECE0FF3');
+            workTypeSelect.onchange = hideFields;
+            //if "pole" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070208') {
+                var uuid = '928293EEE0704EA5B249B2D47C142F57';
+                disableTarget(uuid, true);
+
+                var uuid = '0EABA51E31364C8E96328471DB695D3D';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = '928293EEE0704EA5B249B2D47C142F57';
+                disableTarget(uuid, false);
+
+                var uuid = '0EABA51E31364C8E96328471DB695D3D';
+                disableTarget(uuid, false);
+            }
+            document.getElementById('132C419214B74C44881A023FB6E66CF8Y').onclick = hideFields;
+            document.getElementById('132C419214B74C44881A023FB6E66CF8N').onclick = hideFields;
+            document.getElementById('132C419214B74C44881A023FB6E66CF8M').onclick = hideFields;
+            if (document.getElementById('132C419214B74C44881A023FB6E66CF8N').checked) {
+                var uuid = '55D7C501416C421D9BEB9302A855AA0C';
+                disableTarget(uuid, true);
+
+                var uuid = '928293EEE0704EA5B249B2D47C142F57';
+                disableTarget(uuid, true);
+
+                var uuid = '0EABA51E31364C8E96328471DB695D3D';
+                disableTarget(uuid, true);
+
+                var uuid = '5FB9A0FCB1C249CCB5BCD5657A780A0F';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = '55D7C501416C421D9BEB9302A855AA0C';
+                disableTarget(uuid, false);
+
+                //if "pole" is picked
+                if (workTypeSelect.value != '8a85934727891931012789193248070208') {
+                    var uuid = '928293EEE0704EA5B249B2D47C142F57';
+                    disableTarget(uuid, false);
+
+                    var uuid = '0EABA51E31364C8E96328471DB695D3D';
+                    disableTarget(uuid, false);
+                }
+
+                var uuid = '5FB9A0FCB1C249CCB5BCD5657A780A0F';
+                disableTarget(uuid, false);
+            }
+        }
+        // --- end 2.41 --------------- //
+
+        if (mwItemNo == '2.42') {
+        }
+        // --- end 2.42 --------------- //
+
+        if (mwItemNo == '2.43') {
+            var workTypeSelect = document.getElementById('F9DB695856A249E6AFC2937AC57A0BE0');
+            workTypeSelect.onchange = hideFields;
+
+            // --- enable all field
+            document.getElementById('11FAF48AF7D347A8BC140E513F92CC22').disabled = false;
+            document.getElementById('11FAF48AF7D347A8BC140E513F92CC22_rmk').disabled = false;
+            var uuid = '2420D09FCED64C0D9B0CA70D89D6936F';
+            disableTarget(uuid, false);
+
+            var uuid = '5775623C53234CD384975861E5D0400D';
+            disableTarget(uuid, false);
+
+            var uuid = '89A6ED31D5504CE2B8893C9E4431E9D1';
+            disableTarget(uuid, false);
+
+            var uuid = '8C3BCA8A1BDD40818CC7305C35975656';
+            disableTarget(uuid, false);
+
+            var uuid = '6F4626C56D9D4C52A214F5E54B26818F';
+            disableTarget(uuid, false);
+
+            var uuid = '7B05DA6DE3D94EF6950F332D4961973B';
+            disableTarget(uuid, false);
+
+            var uuid = 'AC003ECCA96740FE85731CCA455BFC20';
+            disableTarget(uuid, false);
+
+            var uuid = 'F6ABA11DD7F04B2E8517FD5C34B0D0D1'; //b
+            disableTarget(uuid, false);
+
+            var uuid = '4467797083084B38975C470150982383'; //c
+            disableTarget(uuid, false);
+
+            var uuid = 'A8CB8600949247F2A87B598E30434299'; //d
+            disableTarget(uuid, false);
+
+            var uuid = '40CD83E90F5848AB8931B733A1896D8E'; //e
+            disableTarget(uuid, false);
+
+            var uuid = '63A80E6E54C5459EBEDCC1A30505CF0B'; //g
+            disableTarget(uuid, false);
+
+            var uuid = '6F4626C56D9D4C52A214F5E54B26818F'; //i
+            disableTarget(uuid, false);
+
+            var uuid = 'C513D0F6C3C64D75B2530614CB9BBA76'; //k
+            disableTarget(uuid, false);
+
+            var uuid = 'BDD26BFA8F7C4A2BA8B255389343B429'; //n
+            disableTarget(uuid, false);
+            // ---
+
+            //if "mesh fence"/"metal railing" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070220' || workTypeSelect.value == '8a85934727891931012789193248070221') {
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22').disabled = true;
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22_rmk').disabled = true;
+                var uuid = '2420D09FCED64C0D9B0CA70D89D6936F';
+                disableTarget(uuid, true);
+
+                var uuid = '5775623C53234CD384975861E5D0400D';
+                disableTarget(uuid, true);
+            }
+
+            //if "pole" is picked
+            else if (workTypeSelect.value == '8a85934727891931012789193248070222') {
+                var uuid = '89A6ED31D5504CE2B8893C9E4431E9D1';
+                disableTarget(uuid, true);
+
+                var uuid = '8C3BCA8A1BDD40818CC7305C35975656';
+                disableTarget(uuid, true);
+
+                var uuid = '6F4626C56D9D4C52A214F5E54B26818F';
+                disableTarget(uuid, true);
+
+                var uuid = '7B05DA6DE3D94EF6950F332D4961973B';
+                disableTarget(uuid, true);
+
+                var uuid = 'AC003ECCA96740FE85731CCA455BFC20';
+                disableTarget(uuid, true);
+            }
+
+            //if "mesh fence & metal railing" is picked
+            else if (workTypeSelect.value == '8a85934727891931012789193248070223') {
+                var uuid = '89A6ED31D5504CE2B8893C9E4431E9D1';
+                disableTarget(uuid, true);
+
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22').disabled = true;
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22_rmk').disabled = true;
+                var uuid = '2420D09FCED64C0D9B0CA70D89D6936F';
+                disableTarget(uuid, true);
+
+                var uuid = '5775623C53234CD384975861E5D0400D';
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('058D187AB55D4A24B21E222F8A5F9673Y').onclick = hideFields;
+            document.getElementById('058D187AB55D4A24B21E222F8A5F9673N').onclick = hideFields;
+            document.getElementById('058D187AB55D4A24B21E222F8A5F9673M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('058D187AB55D4A24B21E222F8A5F9673N').checked) {
+                var uuid = 'F6ABA11DD7F04B2E8517FD5C34B0D0D1'; //b
+                disableTarget(uuid, true);
+
+                var uuid = '4467797083084B38975C470150982383'; //c
+                disableTarget(uuid, true);
+
+                var uuid = 'A8CB8600949247F2A87B598E30434299'; //d
+                disableTarget(uuid, true);
+
+                var uuid = '40CD83E90F5848AB8931B733A1896D8E'; //e
+                disableTarget(uuid, true);
+
+                var uuid = '89A6ED31D5504CE2B8893C9E4431E9D1'; //f
+                disableTarget(uuid, true);
+
+                var uuid = '63A80E6E54C5459EBEDCC1A30505CF0B'; //g
+                disableTarget(uuid, true);
+
+                var uuid = '8C3BCA8A1BDD40818CC7305C35975656'; //h
+                disableTarget(uuid, true);
+
+                var uuid = '6F4626C56D9D4C52A214F5E54B26818F'; //i
+                disableTarget(uuid, true);
+
+                var uuid = '7B05DA6DE3D94EF6950F332D4961973B'; //j
+                disableTarget(uuid, true);
+
+                var uuid = 'C513D0F6C3C64D75B2530614CB9BBA76'; //k
+                disableTarget(uuid, true);
+
+                var uuid = 'AC003ECCA96740FE85731CCA455BFC20'; //l
+                disableTarget(uuid, true);
+
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22').disabled = true;  //m
+                document.getElementById('11FAF48AF7D347A8BC140E513F92CC22_rmk').disabled = true;
+                var uuid = '2420D09FCED64C0D9B0CA70D89D6936F'; //m1
+                disableTarget(uuid, true);
+
+                var uuid = '5775623C53234CD384975861E5D0400D'; //m2
+                disableTarget(uuid, true);
+
+                var uuid = 'BDD26BFA8F7C4A2BA8B255389343B429'; //n
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.43 --------------- //
+
+        if (mwItemNo == '2.44') {
+            var workTypeSelect = document.getElementById('E480E4497FBF43A5A99862758667C0EB');
+            workTypeSelect.onchange = hideFields;
+            // enable all field
+            var uuid = '3C09E3D3126441248718025686A7AC46';	//d
+            disableTarget(uuid, false);
+
+            var uuid = 'D7410E03C3D6482CA707F7B31BC31472';	//e
+            disableTarget(uuid, false);
+
+            var uuid = '5F3386DF153F44D09836E7ED22420A41';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '0CF4975809DF4E9794AE859BBAF9808F';	//c
+            disableTarget(uuid, false);
+
+            var uuid = '3C09E3D3126441248718025686A7AC46';	//d
+            disableTarget(uuid, false);
+
+            var uuid = 'D7410E03C3D6482CA707F7B31BC31472';	//e
+            disableTarget(uuid, false);
+
+            var uuid = 'A5E1C91343734AE7B982EA079AC90AFC';	//f
+            disableTarget(uuid, false);
+            // ------
+
+            //if "pole" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070229') {
+                var uuid = '3C09E3D3126441248718025686A7AC46';	//d
+                disableTarget(uuid, true);
+
+                var uuid = 'D7410E03C3D6482CA707F7B31BC31472';	//e
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('C6F7F8AFA9F640A38C5ED166CE18A69BY').onclick = hideFields;
+            document.getElementById('C6F7F8AFA9F640A38C5ED166CE18A69BN').onclick = hideFields;
+            document.getElementById('C6F7F8AFA9F640A38C5ED166CE18A69BM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('C6F7F8AFA9F640A38C5ED166CE18A69BN').checked) {
+                var uuid = '5F3386DF153F44D09836E7ED22420A41';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '0CF4975809DF4E9794AE859BBAF9808F';	//c
+                disableTarget(uuid, true);
+
+                var uuid = '3C09E3D3126441248718025686A7AC46';	//d
+                disableTarget(uuid, true);
+
+                var uuid = 'D7410E03C3D6482CA707F7B31BC31472';	//e
+                disableTarget(uuid, true);
+
+                var uuid = 'A5E1C91343734AE7B982EA079AC90AFC';	//f
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.44 --------------- //
+
+        if (mwItemNo == '2.45') {
+            document.getElementById('BE0C06140FDD4E139B93962082F0C3B8Y').onclick = hideFields;
+            document.getElementById('BE0C06140FDD4E139B93962082F0C3B8N').onclick = hideFields;
+            document.getElementById('BE0C06140FDD4E139B93962082F0C3B8M').onclick = hideFields;
+            // if on roof = N
+            if (document.getElementById('BE0C06140FDD4E139B93962082F0C3B8N').checked) {
+                var uuid = '09C204B56EEF4266B2DCEE7137326C8B';
+                disableTarget(uuid, true);
+
+                var uuid = '6703B904CDFE451D8700D8D963CC7F73';
+                disableTarget(uuid, true);
+
+                var uuid = '010D02BBE4A44FD3A8A809D682CD602C';
+                disableTarget(uuid, true);
+
+                var uuid = '779A66580D4E497E8E3874A266F5C4AF';
+                disableTarget(uuid, true);
+
+                var uuid = '5DAE85003B1B431189E9A3BF6A235706';
+                disableTarget(uuid, true);
+
+                var uuid = 'CDD0CA9A7A6F45EBB212F3D820F3BA39';
+                disableTarget(uuid, true);
+
+                var uuid = '3FD7839D8A4942D3B860A9B626EEFEF9';
+                disableTarget(uuid, true);
+
+                var uuid = 'A75A33A6B17D46AC81C7F45B6AEADB0D';
+                disableTarget(uuid, true);
+
+                var uuid = 'C35E50C9009E40D6ABB311E103DBA1C0';
+                disableTarget(uuid, true);
+
+                var uuid = '2E202A52C4C24C0BA5B3A8CEF93AFF1F';
+                disableTarget(uuid, true);
+
+                var uuid = '93E36129D9B44BDD8BA8A8F098E33ADF';
+                disableTarget(uuid, true);
+
+                var uuid = '451E5A9543164B2EA80CB43B33C07CEB';
+                disableTarget(uuid, true);
+
+                var uuid = '0A1BA31D66AD47A9BEFF8510016EE84A';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = '09C204B56EEF4266B2DCEE7137326C8B';
+                disableTarget(uuid, false);
+
+                var uuid = '6703B904CDFE451D8700D8D963CC7F73';
+                disableTarget(uuid, false);
+
+                var uuid = '010D02BBE4A44FD3A8A809D682CD602C';
+                disableTarget(uuid, false);
+
+                var uuid = '779A66580D4E497E8E3874A266F5C4AF';
+                disableTarget(uuid, false);
+
+                var uuid = '5DAE85003B1B431189E9A3BF6A235706';
+                disableTarget(uuid, false);
+
+                var uuid = 'CDD0CA9A7A6F45EBB212F3D820F3BA39';
+                disableTarget(uuid, false);
+
+                var uuid = '3FD7839D8A4942D3B860A9B626EEFEF9';
+                disableTarget(uuid, false);
+
+                var uuid = 'A75A33A6B17D46AC81C7F45B6AEADB0D';
+                disableTarget(uuid, false);
+
+                var uuid = 'C35E50C9009E40D6ABB311E103DBA1C0';
+                disableTarget(uuid, false);
+
+                var uuid = '2E202A52C4C24C0BA5B3A8CEF93AFF1F';
+                disableTarget(uuid, false);
+
+                var uuid = '93E36129D9B44BDD8BA8A8F098E33ADF';
+                disableTarget(uuid, false);
+
+                var uuid = '451E5A9543164B2EA80CB43B33C07CEB';
+                disableTarget(uuid, false);
+
+                var uuid = '0A1BA31D66AD47A9BEFF8510016EE84A';
+                disableTarget(uuid, false);
+            }
+        }
+        // --- end 2.45 --------------- //
+
+        if (mwItemNo == '2.46') {
+            // enable all field
+            var uuid = 'A4EB3D38A27A4D5180D9575E8B03D13C';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '04393D123732479F8DB1CA493016C33B';	//c
+            disableTarget(uuid, false);
+
+            var uuid = 'A8DE62DF61C24843B01976A2D08D8C41';	//d
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('C9BA993DB90741498ECF746B3B3C2F85Y').onclick = hideFields;
+            document.getElementById('C9BA993DB90741498ECF746B3B3C2F85N').onclick = hideFields;
+            document.getElementById('C9BA993DB90741498ECF746B3B3C2F85M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('C9BA993DB90741498ECF746B3B3C2F85N').checked) {
+                var uuid = 'A4EB3D38A27A4D5180D9575E8B03D13C';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '04393D123732479F8DB1CA493016C33B';	//c
+                disableTarget(uuid, true);
+
+                var uuid = 'A8DE62DF61C24843B01976A2D08D8C41';	//d
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.46 --------------- //
+
+        if (mwItemNo == '2.47') {
+            document.getElementById('D54C310F512C499C9FCA0953FA1303ACY').onclick = hideFields;
+            document.getElementById('D54C310F512C499C9FCA0953FA1303ACN').onclick = hideFields;
+            document.getElementById('D54C310F512C499C9FCA0953FA1303ACM').onclick = hideFields;
+            // if on roof = N
+            if (document.getElementById('D54C310F512C499C9FCA0953FA1303ACN').checked) {
+                var uuid = '680BEC4830204D2EB4DFD56504375F15';
+                disableTarget(uuid, true);
+
+                var uuid = 'DCAE0D14F15F44C3BA31038AE4B1DA96';
+                disableTarget(uuid, true);
+
+                var uuid = '7F3767390132461FAC04DB89BF48AFC8';
+                disableTarget(uuid, true);
+            }
+            else {
+                var uuid = '680BEC4830204D2EB4DFD56504375F15';
+                disableTarget(uuid, false);
+
+                var uuid = 'DCAE0D14F15F44C3BA31038AE4B1DA96';
+                disableTarget(uuid, false);
+
+                var uuid = '7F3767390132461FAC04DB89BF48AFC8';
+                disableTarget(uuid, false);
+            }
+        }
+        // --- end 2.47 --------------- //
+
+        if (mwItemNo == '2.48') {
+            var natureOfWorkSelect = document.getElementById('BFF74EE34A974E989BC41ACE31CE506C');
+            natureOfWorkSelect.onchange = hideFields;
+
+            // enable all field
+            var uuid = 'C803F28A65334F6185AE60F03B24B704';	//h
+            disableTarget(uuid, false);
+
+            var uuid = '518D20029E7149FAA18E7E8FC1D965D2';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '51DEEB90602E404A9251A096DA7FA195';	//c
+            disableTarget(uuid, false);
+
+            var uuid = 'AD3793B3D71E4FCDAF1BE551F1424EB1';	//d
+            disableTarget(uuid, false);
+            // ------
+
+            // natureOfWorkSelect = Alteration
+            if (natureOfWorkSelect.value == 'Alteration(including reinstatement, strengthening)') {
+                var uuid = 'C803F28A65334F6185AE60F03B24B704';	//h
+                disableTarget(uuid, true);
+            }
+            // natureOfWorkSelect = Erection
+            else if (natureOfWorkSelect.value == 'Erection (including addition, construction,formation, installation, laying, thickening)') {
+                var uuid = 'C803F28A65334F6185AE60F03B24B704';	//h
+                disableTarget(uuid, true);
+            }
+
+            // natureOfWorkSelect = Removal
+            else if (natureOfWorkSelect.value == 'Removal') {
+            }
+
+            document.getElementById('352DFE355CA04BFC83357D4A5B05CFEDY').onclick = hideFields;
+            document.getElementById('352DFE355CA04BFC83357D4A5B05CFEDN').onclick = hideFields;
+            document.getElementById('352DFE355CA04BFC83357D4A5B05CFEDM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('352DFE355CA04BFC83357D4A5B05CFEDN').checked) {
+                var uuid = '518D20029E7149FAA18E7E8FC1D965D2';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '51DEEB90602E404A9251A096DA7FA195';	//c
+                disableTarget(uuid, true);
+
+                var uuid = 'AD3793B3D71E4FCDAF1BE551F1424EB1';	//d
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.48 --------------- //
+
+        if (mwItemNo == '2.49') {
+            var natureOfWorkSelect = document.getElementById('B92CC75E06A14A85A0C59AFC2AF0C71D');
+            natureOfWorkSelect.onchange = hideFields;
+            // enable all field
+            var uuid = '87353E6413D84894A961B482B08B0582';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '143039ED011A49D8858A37383DDCCDF1';	//c
+            disableTarget(uuid, false);
+
+            document.getElementById('28D1E639551F44E38EEA051B81F4B544').disabled = false;  //d
+            document.getElementById('28D1E639551F44E38EEA051B81F4B544_rmk').disabled = false;
+            var uuid = '834A8E7B3A9840DD9234D0171041F7A3'; //d1
+            disableTarget(uuid, false);
+
+            var uuid = '8C911E926D8B481983F36AD958F169F6'; //d2
+            disableTarget(uuid, false);
+
+            var uuid = '4ABFA2B6E8E14A409B33165BBB6C3235';	//e
+            disableTarget(uuid, false);
+
+            var uuid = '994132545C9544AAA709C9CF1742ECD3';	//f
+            disableTarget(uuid, false);
+
+            var uuid = 'D24EFC1480874BC3B94B18A6355DD226';	//g
+            disableTarget(uuid, false);
+            // ------
+
+            // natureOfWorkSelect = Removal
+            if (natureOfWorkSelect.value == 'Removal') {
+                document.getElementById('28D1E639551F44E38EEA051B81F4B544').disabled = true;  //d
+                document.getElementById('28D1E639551F44E38EEA051B81F4B544_rmk').disabled = true;
+                var uuid = '834A8E7B3A9840DD9234D0171041F7A3'; //d1
+                disableTarget(uuid, true);
+
+                var uuid = '8C911E926D8B481983F36AD958F169F6'; //d2
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('B7912B72D19F46188A9E9AEFFAFC717AY').onclick = hideFields;
+            document.getElementById('B7912B72D19F46188A9E9AEFFAFC717AN').onclick = hideFields;
+            document.getElementById('B7912B72D19F46188A9E9AEFFAFC717AM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('B7912B72D19F46188A9E9AEFFAFC717AN').checked) {
+                var uuid = '87353E6413D84894A961B482B08B0582';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '143039ED011A49D8858A37383DDCCDF1';	//c
+                disableTarget(uuid, true);
+
+                document.getElementById('28D1E639551F44E38EEA051B81F4B544').disabled = true;  //d
+                document.getElementById('28D1E639551F44E38EEA051B81F4B544_rmk').disabled = true;
+                var uuid = '834A8E7B3A9840DD9234D0171041F7A3'; //d1
+                disableTarget(uuid, true);
+
+                var uuid = '8C911E926D8B481983F36AD958F169F6'; //d2
+                disableTarget(uuid, true);
+
+                var uuid = '4ABFA2B6E8E14A409B33165BBB6C3235';	//e
+                disableTarget(uuid, true);
+
+                var uuid = '994132545C9544AAA709C9CF1742ECD3';	//f
+                disableTarget(uuid, true);
+
+                var uuid = 'D24EFC1480874BC3B94B18A6355DD226';	//g
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.49 --------------- //
+
+        if (mwItemNo == '2.50') {
+            // enable all field
+            var uuid = '4E9929E8A59D40CCBBFD4E52BDCF5E94';	//b
+            disableTarget(uuid, false);
+
+            var uuid = 'E96DEEACF76D45E7A2E7CFB865582E43';	//c
+            disableTarget(uuid, false);
+
+            var uuid = '8F717BCC56174C7D8D89DD7747112468';	//d
+            disableTarget(uuid, false);
+            // ------
+            document.getElementById('04C706CAE38548CCA2EB906CBFB65BBDY').onclick = hideFields;
+            document.getElementById('04C706CAE38548CCA2EB906CBFB65BBDN').onclick = hideFields;
+            document.getElementById('04C706CAE38548CCA2EB906CBFB65BBDM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('04C706CAE38548CCA2EB906CBFB65BBDN').checked) {
+                var uuid = '4E9929E8A59D40CCBBFD4E52BDCF5E94';	//b
+                disableTarget(uuid, true);
+
+                var uuid = 'E96DEEACF76D45E7A2E7CFB865582E43';	//c
+                disableTarget(uuid, true);
+
+                var uuid = '8F717BCC56174C7D8D89DD7747112468';	//d
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.50 --------------- //
+
+        if (mwItemNo == '2.51') {
+        }
+        // --- end 2.52 --------------- //
+
+        if (mwItemNo == '2.52') {
+        }
+        // --- end 2.52 --------------- //
+
+        if (mwItemNo == '2.53') {
+        }
+        // --- end 2.53 --------------- //
+
+        if (mwItemNo == '2.54') {
+        }
+        // --- end 2.54 --------------- //
+
+        if (mwItemNo == '2.55') {
+        }
+        // --- end 2.55 --------------- //
+
+        if (mwItemNo == '2.56') {
+            // enable all field
+            document.getElementById('39B4F9B06AF943EB80E1639278CF9A67').disabled = false;  //d
+            document.getElementById('39B4F9B06AF943EB80E1639278CF9A67_rmk').disabled = false;
+            var uuid = '0222AFD16A0E4F708080D4BE4AEE4AA2'; //d1
+            disableTarget(uuid, false);
+
+            var uuid = '67BAC80F9130498787E2B0BA2C93083B'; //d2
+            disableTarget(uuid, false);
+
+            var uuid = '330EAD71766C4070A11C18C931436BEA'; //d3
+            disableTarget(uuid, false);
+
+            document.getElementById('10DDE91585874858B7B4DAF3643FC762').disabled = false;  //c
+            document.getElementById('10DDE91585874858B7B4DAF3643FC762_rmk').disabled = false;
+            var uuid = '15FF7DC82857459683CCAB3277B59B21'; //c1
+            disableTarget(uuid, false);
+
+            var uuid = 'ECD9A91550454A7380372B59BDAB5DAA'; //c2
+            disableTarget(uuid, false);
+
+            var uuid = '8C06DFCD84B34E0CAF94B89FE942B2B8'; //c3
+            disableTarget(uuid, false);
+
+            var uuid = 'A9269881A9AD438FB9108DFA4393DD9F'; //c4
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('6072FE627CA4414891E4FEBECDDB4455Y').onclick = hideFields;
+            document.getElementById('6072FE627CA4414891E4FEBECDDB4455N').onclick = hideFields;
+            document.getElementById('6072FE627CA4414891E4FEBECDDB4455M').onclick = hideFields;
+            //if requirement b1 = N
+            if (document.getElementById('6072FE627CA4414891E4FEBECDDB4455N').checked) {
+                document.getElementById('39B4F9B06AF943EB80E1639278CF9A67').disabled = true;  //d
+                document.getElementById('39B4F9B06AF943EB80E1639278CF9A67_rmk').disabled = true;
+                var uuid = '0222AFD16A0E4F708080D4BE4AEE4AA2'; //d1
+                disableTarget(uuid, true);
+
+                var uuid = '67BAC80F9130498787E2B0BA2C93083B'; //d2
+                disableTarget(uuid, true);
+
+                var uuid = '330EAD71766C4070A11C18C931436BEA'; //d3
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('2BD3F0159C5A41459C5907A804C2FA08Y').onclick = hideFields;
+            document.getElementById('2BD3F0159C5A41459C5907A804C2FA08N').onclick = hideFields;
+            document.getElementById('2BD3F0159C5A41459C5907A804C2FA08M').onclick = hideFields;
+            //if requirement b2 = N
+            if (document.getElementById('2BD3F0159C5A41459C5907A804C2FA08N').checked) {
+                document.getElementById('10DDE91585874858B7B4DAF3643FC762').disabled = true;  //c
+                document.getElementById('10DDE91585874858B7B4DAF3643FC762_rmk').disabled = true;
+                var uuid = '15FF7DC82857459683CCAB3277B59B21'; //c1
+                disableTarget(uuid, true);
+
+                var uuid = 'ECD9A91550454A7380372B59BDAB5DAA'; //c2
+                disableTarget(uuid, true);
+
+                var uuid = '8C06DFCD84B34E0CAF94B89FE942B2B8'; //c3
+                disableTarget(uuid, true);
+
+                var uuid = 'A9269881A9AD438FB9108DFA4393DD9F'; //c4
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.56 --------------- //
+
+        if (mwItemNo == '2.7') {
+            // enable all field
+            document.getElementById('A367E0E1D6B9435BB896652CC6DBBD10').disabled = false;  //c
+            document.getElementById('A367E0E1D6B9435BB896652CC6DBBD10_rmk').disabled = false;
+
+            var uuid = '6FC2323DD44F4552B511CEC77200ED96';	//c1
+            disableTarget(uuid, false);
+
+            var uuid = '9DED3D302F6749C9B3AA7D1B010B7A3D';	//c2
+            disableTarget(uuid, false);
+
+            var uuid = 'A7A10371A57644AB8F703C451EC95C91';	//d
+            disableTarget(uuid, false);
+
+            var uuid = '1B196B6187A04E0E94A0024F34A52501';	//e
+            disableTarget(uuid, false);
+            // ------
+
+            var workTypeSelect = document.getElementById('CA2FD3E870F74907B3DC17FF1E0A4906');
+            workTypeSelect.onchange = hideFields;
+            //if "pole" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070288') {
+                document.getElementById('A367E0E1D6B9435BB896652CC6DBBD10').disabled = true;  //c
+                document.getElementById('A367E0E1D6B9435BB896652CC6DBBD10_rmk').disabled = true;
+
+                var uuid = '6FC2323DD44F4552B511CEC77200ED96';	//c1
+                disableTarget(uuid, true);
+
+                var uuid = '9DED3D302F6749C9B3AA7D1B010B7A3D';	//c2
+                disableTarget(uuid, true);
+
+                var uuid = 'A7A10371A57644AB8F703C451EC95C91';	//d
+                disableTarget(uuid, true);
+
+                var uuid = '1B196B6187A04E0E94A0024F34A52501';	//e
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 2.7 --------------- //
+
+        if (mwItemNo == '3.43') {
+            // enable all field
+            document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28').disabled = false;  //j
+            document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28_rmk').disabled = false;
+            var uuid = 'CB32A22613C04F1684A3EDD7816AA687'; //j1
+            disableTarget(uuid, false);
+
+            var uuid = '4B52618D25AB4CB2A9C144F695B8F504'; //j2
+            disableTarget(uuid, false);
+
+            document.getElementById('C0FC6D8BCD974A4C8E8DC9E9996DD2F1').disabled = false;  //h
+            document.getElementById('C0FC6D8BCD974A4C8E8DC9E9996DD2F1_rmk').disabled = false;
+            var uuid = 'EA3051384B1A43CA938BD34C70E92E8B'; //h1
+            disableTarget(uuid, false);
+
+            var uuid = '7CBCF09598E44BBCBD434089A6727646'; //h2
+            disableTarget(uuid, false);
+
+            var uuid = '47F59E9D66E34ADFB7744DD895236040'; //h3
+            disableTarget(uuid, false);
+
+            var uuid = '0BBE3DBBA4DE4095AE51B141A927B12B'; //f
+            disableTarget(uuid, false);
+
+            var uuid = 'A00B6FF067FF4CE58489BCA753A177F8';	//b
+            disableTarget(uuid, false);
+            // ------
+
+            var workTypeSelect = document.getElementById('4A241C274F544A8ABAB06B4D246DA17B');
+            workTypeSelect.onchange = hideFields;
+            //if "mesh fence" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070246') {
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28').disabled = true;  //j
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28_rmk').disabled = true;
+                var uuid = 'CB32A22613C04F1684A3EDD7816AA687'; //j1
+                disableTarget(uuid, true);
+
+                var uuid = '4B52618D25AB4CB2A9C144F695B8F504'; //j2
+                disableTarget(uuid, true);
+            }
+            //if "metal railing" is picked
+            else if (workTypeSelect.value == '8a85934727891931012789193248070247') {
+                var uuid = '0BBE3DBBA4DE4095AE51B141A927B12B'; //f
+                disableTarget(uuid, true);
+
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28').disabled = true;  //j
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28_rmk').disabled = true;
+                var uuid = 'CB32A22613C04F1684A3EDD7816AA687'; //j1
+                disableTarget(uuid, true);
+
+                var uuid = '4B52618D25AB4CB2A9C144F695B8F504'; //j2
+                disableTarget(uuid, true);
+            }
+            //if "pole" is picked
+            else if (workTypeSelect.value == '8a85934727891931012789193248070248') {
+                document.getElementById('C0FC6D8BCD974A4C8E8DC9E9996DD2F1').disabled = true;  //h
+                document.getElementById('C0FC6D8BCD974A4C8E8DC9E9996DD2F1_rmk').disabled = true;
+                var uuid = 'EA3051384B1A43CA938BD34C70E92E8B'; //h1
+                disableTarget(uuid, true);
+
+                var uuid = '7CBCF09598E44BBCBD434089A6727646'; //h2
+                disableTarget(uuid, true);
+
+                var uuid = '47F59E9D66E34ADFB7744DD895236040'; //h3
+                disableTarget(uuid, true);
+            }
+            //if "mesh fence & metal railing" is picked
+            else if (workTypeSelect.value == '8a85934727891931012789193248070249') {
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28').disabled = true;  //j
+                document.getElementById('BF25CB14C3E245BDA2A2D332EBAD3F28_rmk').disabled = true;
+                var uuid = 'CB32A22613C04F1684A3EDD7816AA687'; //j1
+                disableTarget(uuid, true);
+
+                var uuid = '4B52618D25AB4CB2A9C144F695B8F504'; //j2
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('7235CCEE24984FA8820D34DEDFD6E955Y').onclick = hideFields;
+            document.getElementById('7235CCEE24984FA8820D34DEDFD6E955N').onclick = hideFields;
+            document.getElementById('7235CCEE24984FA8820D34DEDFD6E955M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('7235CCEE24984FA8820D34DEDFD6E955N').checked) {
+                var uuid = 'A00B6FF067FF4CE58489BCA753A177F8';	//b
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.43 --------------- //
+
+        if (mwItemNo == '3.44') {
+            // enable all field
+            document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0').disabled = false;  //d
+            document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0_rmk').disabled = false;
+            var uuid = 'F06F9AF07B2C4DD2BF91E7A337574C92'; //d1
+            disableTarget(uuid, false);
+
+            var uuid = '1150BDA30C9043A6AD4E2A6C69743E50'; //d2
+            disableTarget(uuid, false);
+
+            var uuid = '17319508F9384D3CBD606696800B99E5';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '6FB895BB4EB1426D88AAFA99026A25A1';	//c
+            disableTarget(uuid, false);
+            // ------
+
+            var workTypeSelect = document.getElementById('547D288CBDAC413DA77010B89792696C');
+            workTypeSelect.onchange = hideFields;
+            //if "pole" is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070255') {
+                document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0').disabled = true;  //d
+                document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0_rmk').disabled = true;
+                var uuid = 'F06F9AF07B2C4DD2BF91E7A337574C92'; //d1
+                disableTarget(uuid, true);
+
+                var uuid = '1150BDA30C9043A6AD4E2A6C69743E50'; //d2
+                disableTarget(uuid, true);
+            }
+
+            document.getElementById('B45BE170F8BA413BBBB8D26190059B30Y').onclick = hideFields;
+            document.getElementById('B45BE170F8BA413BBBB8D26190059B30N').onclick = hideFields;
+            document.getElementById('B45BE170F8BA413BBBB8D26190059B30M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('B45BE170F8BA413BBBB8D26190059B30N').checked) {
+                var uuid = '17319508F9384D3CBD606696800B99E5';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '6FB895BB4EB1426D88AAFA99026A25A1';	//c
+                disableTarget(uuid, true);
+
+                document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0').disabled = true;  //d
+                document.getElementById('328AAC74B3894923B1C665CD9F9DF6B0_rmk').disabled = true;
+                var uuid = 'F06F9AF07B2C4DD2BF91E7A337574C92'; //d1
+                disableTarget(uuid, true);
+
+                var uuid = '1150BDA30C9043A6AD4E2A6C69743E50'; //d2
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.44 --------------- //
+
+        if (mwItemNo == '3.45') {
+            // enable all field
+            var uuid = '0A9D0B46D4B14B2B830DCCD3FCFF9743';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '418C8B4C22BE498EA7504C4B63DB4120';	//c
+            disableTarget(uuid, false);
+
+            var uuid = '2E1AAA6124BC441EA81E8EC61B6A9FF0';	//d
+            disableTarget(uuid, false);
+
+            var uuid = 'AD96C67A434241CB83C01B8D199E61FA';	//e
+            disableTarget(uuid, false);
+
+            var uuid = '0E9799A61921468A84D62139BA521C1B';	//f
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('84934FD8DCA0484B822021691ACD57A2Y').onclick = hideFields;
+            document.getElementById('84934FD8DCA0484B822021691ACD57A2N').onclick = hideFields;
+            document.getElementById('84934FD8DCA0484B822021691ACD57A2M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('84934FD8DCA0484B822021691ACD57A2N').checked) {
+                var uuid = '0A9D0B46D4B14B2B830DCCD3FCFF9743';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '418C8B4C22BE498EA7504C4B63DB4120';	//c
+                disableTarget(uuid, true);
+
+                var uuid = '2E1AAA6124BC441EA81E8EC61B6A9FF0';	//d
+                disableTarget(uuid, true);
+
+                var uuid = 'AD96C67A434241CB83C01B8D199E61FA';	//e
+                disableTarget(uuid, true);
+
+                var uuid = '0E9799A61921468A84D62139BA521C1B';	//f
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.45 --------------- //
+
+        if (mwItemNo == '3.46') {
+            // enable all field
+            var uuid = 'D3C8471969614723AA9C6F6E28DFC2A7';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '77F30AB6D8E444A0AF6925A9105DCE4C';	//c
+            disableTarget(uuid, false);
+
+            var uuid = '07F0BF60F6FA44ABB8586EC5229D2A51';	//d
+            disableTarget(uuid, false);
+
+            var uuid = '0FB7CC4D07704908AFDAF68D1F53C530';	//e
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('6EFE46AB1F4E4BF599EDAFD263C24988Y').onclick = hideFields;
+            document.getElementById('6EFE46AB1F4E4BF599EDAFD263C24988N').onclick = hideFields;
+            document.getElementById('6EFE46AB1F4E4BF599EDAFD263C24988M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('6EFE46AB1F4E4BF599EDAFD263C24988N').checked) {
+                var uuid = 'D3C8471969614723AA9C6F6E28DFC2A7';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '77F30AB6D8E444A0AF6925A9105DCE4C';	//c
+                disableTarget(uuid, true);
+
+                var uuid = '07F0BF60F6FA44ABB8586EC5229D2A51';	//d
+                disableTarget(uuid, true);
+
+                var uuid = '0FB7CC4D07704908AFDAF68D1F53C530';	//e
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.46 --------------- //
+
+        if (mwItemNo == '3.47') {
+            // enable all field
+            var uuid = 'D4B95812F0D348759B6D87BFC84CE4F9';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '083376BF0CC5422CB982281259E2E4EF';	//c
+            disableTarget(uuid, false);
+
+            var uuid = '279900FEC856444E9A72EF4C07FB9B71';	//d
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('E0F14113DDC747C3BC0E628F1980BB1DY').onclick = hideFields;
+            document.getElementById('E0F14113DDC747C3BC0E628F1980BB1DN').onclick = hideFields;
+            document.getElementById('E0F14113DDC747C3BC0E628F1980BB1DM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('E0F14113DDC747C3BC0E628F1980BB1DN').checked) {
+                var uuid = 'D4B95812F0D348759B6D87BFC84CE4F9';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '083376BF0CC5422CB982281259E2E4EF';	//c
+                disableTarget(uuid, true);
+
+                var uuid = '279900FEC856444E9A72EF4C07FB9B71';	//d
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.47 --------------- //
+
+        if (mwItemNo == '3.48') {
+            // enable all field
+            var uuid = 'B5B57641E9EB416898CEB863086460DA';	//b
+            disableTarget(uuid, false);
+
+            var uuid = 'EA81A27709C14864B1777FE1F322E4B3';	//c
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('6DE446E5F38944FCA3710D49A63AF84BY').onclick = hideFields;
+            document.getElementById('6DE446E5F38944FCA3710D49A63AF84BN').onclick = hideFields;
+            document.getElementById('6DE446E5F38944FCA3710D49A63AF84BM').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('6DE446E5F38944FCA3710D49A63AF84BN').checked) {
+                var uuid = 'B5B57641E9EB416898CEB863086460DA';	//b
+                disableTarget(uuid, true);
+
+                var uuid = 'EA81A27709C14864B1777FE1F322E4B3';	//c
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.48 --------------- //
+
+        if (mwItemNo == '3.49') {
+            // enable all field
+            var uuid = '290A094F62AE45EF8865106C50F6201B';	//b
+            disableTarget(uuid, false);
+
+            var uuid = '95C9DC916FA44FCD9D6979608CBC71D7';	//c
+            disableTarget(uuid, false);
+
+            var uuid = 'D24F0E04A2B44EBFA36DF089F197B1B9';	//d
+            disableTarget(uuid, false);
+
+            var uuid = 'AF63C03A446C4505BF7250D8E913EFF0';	//e
+            disableTarget(uuid, false);
+
+            var uuid = '78625489C56945C1A466A3C232EB5181';	//f
+            disableTarget(uuid, false);
+            // ------
+
+            document.getElementById('1D115897655D454EAE029A99618D3086Y').onclick = hideFields;
+            document.getElementById('1D115897655D454EAE029A99618D3086N').onclick = hideFields;
+            document.getElementById('1D115897655D454EAE029A99618D3086M').onclick = hideFields;
+            //if on roof = N
+            if (document.getElementById('1D115897655D454EAE029A99618D3086N').checked) {
+                var uuid = '290A094F62AE45EF8865106C50F6201B';	//b
+                disableTarget(uuid, true);
+
+                var uuid = '95C9DC916FA44FCD9D6979608CBC71D7';	//c
+                disableTarget(uuid, true);
+
+                var uuid = 'D24F0E04A2B44EBFA36DF089F197B1B9';	//d
+                disableTarget(uuid, true);
+
+                var uuid = 'AF63C03A446C4505BF7250D8E913EFF0';	//e
+                disableTarget(uuid, true);
+
+                var uuid = '78625489C56945C1A466A3C232EB5181';	//f
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.49 --------------- //
+
+        if (mwItemNo == '3.50') {
+            // enable all field
+            var uuid = '72E01A5093A54E7C9F4475EF3B2B3BA5';	//c1
+            disableTarget(uuid, false);
+
+            var uuid = '71FB39C3B0B34D05BC6585223C00B6D0';	//c2
+            disableTarget(uuid, false);
+
+            var uuid = 'AB295AC64589474587CF730983955705';	//c3
+            disableTarget(uuid, false);
+
+            var uuid = 'F63009574E2A4CA180A4DDD1605F1C72';	//d1
+            disableTarget(uuid, false);
+
+            var uuid = 'E162923A5B7448A9AE572BAD0139395D';	//d2
+            disableTarget(uuid, false);
+            // ------
+
+            var requirementCSelect = document.getElementById('03CEA234B097445C9DCA304914830F22');
+            requirementCSelect.onchange = hideFields;
+            //if "N" is picked
+            if (requirementCSelect.value == 'N') {
+                var uuid = '72E01A5093A54E7C9F4475EF3B2B3BA5';	//c1
+                disableTarget(uuid, true);
+
+                var uuid = '71FB39C3B0B34D05BC6585223C00B6D0';	//c2
+                disableTarget(uuid, true);
+
+                var uuid = 'AB295AC64589474587CF730983955705';	//c3
+                disableTarget(uuid, true);
+            }
+
+            var requirementDSelect = document.getElementById('D5DE96AC22534620BA81A8660865EE20');
+            requirementCSelect.onchange = hideFields;
+            //if "N" is picked
+            if (requirementDSelect.value == 'N') {
+                var uuid = 'F63009574E2A4CA180A4DDD1605F1C72';	//d1
+                disableTarget(uuid, true);
+
+                var uuid = 'E162923A5B7448A9AE572BAD0139395D';	//d2
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.50 --------------- //
+
+        if (mwItemNo == '3.51') {
+            // enable all field
+            document.getElementById('3CB02A5BAE1048F1833493D816A42C50').disabled = false;  //e
+            document.getElementById('3CB02A5BAE1048F1833493D816A42C50_rmk').disabled = false;
+            var uuid = 'FCBDC82B7F404BD18DE3E50CB1967831'; //e1
+            disableTarget(uuid, false);
+
+            var uuid = '49F9B3D28B6048F4A3FE85C7966373CA'; //e2
+            disableTarget(uuid, false);
+            // ------
+
+            var workTypeSelect = document.getElementById('21304307BB994D83A9AD72E237C1192A');
+            workTypeSelect.onchange = hideFields;
+            //if "supporting structure for BSI " is picked
+            if (workTypeSelect.value == '8a85934727891931012789193248070263') {
+                document.getElementById('3CB02A5BAE1048F1833493D816A42C50').disabled = true;  //e
+                document.getElementById('3CB02A5BAE1048F1833493D816A42C50_rmk').disabled = true;
+                var uuid = 'FCBDC82B7F404BD18DE3E50CB1967831'; //e1
+                disableTarget(uuid, true);
+
+                var uuid = '49F9B3D28B6048F4A3FE85C7966373CA'; //e2
+                disableTarget(uuid, true);
+            }
+        }
+        // --- end 3.51 --------------- //
+
+        if (mwItemNo == '3.52') {
+        }
+        // --- end 3.52 --------------- //
+
+        // ---- end if dataVersion == "NEW"
+        function disableTarget(uuid, isDisable) {
+            document.getElementById(uuid + 'Y').disabled = isDisable;
+            document.getElementById(uuid + 'N').disabled = isDisable;
+            document.getElementById(uuid + 'M').disabled = isDisable;
+            document.getElementById(uuid + '_rmk').disabled = isDisable;
+        }
+
+        if (mwItemNo == '1.41') {
+            if (document.getElementById('8a85934727891931012789s3219028a009-1-1.41-RADIO_5N') != null) {
+                if (document.getElementById('8a85934727891931012789s3219028a009-1-1.41-RADIO_5N').checked == true) {
+
+                    showQuestion('8a85934727891931012789s3219028a010-1-1.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a011-1-1.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a012-1-1.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a013-1-1.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a014-1-1.41-RADIO_1');
+
+                    disabledQuestion('8a85934727891931012789s3219028a010-1-1.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a011-1-1.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a012-1-1.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a013-1-1.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a014-1-1.41-RADIO_1', 'N');
+
+                } else {
+                    disabledQuestion('8a85934727891931012789s3219028a010-1-1.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a011-1-1.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a012-1-1.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a013-1-1.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a014-1-1.41-RADIO_1', 'Y');
+                }
+            }
+        }
+
+        if (mwItemNo == '1.42') {
+
+        }
+
+        if (mwItemNo == '1.43') {
+            var item143group1 = new Array();
+            var item143group2 = new Array();
+
+            var autoCheck143_d1 = new Array();
+            var autoCheck143_d1_target = '';
+
+            var autoCheck143_d2 = new Array();
+            var autoCheck143_d2_target = '';
+
+            //SHOW C1 GROUP
+            item143group1.push('8a85934727891931012789s3219028a037-1-1.43-RADIO_6');
+            item143group1.push('8a85934727891931012789s3219028a038-1-1.43-RADIO_6');
+            item143group1.push('8a85934727891931012789s3219028a039-1-1.43-RADIO_6');
+            item143group1.push('8a85934727891931012789s3219028a040-1-1.43-RADIO_6');
+            item143group1.push('8a85934727891931012789s3219028a041-1-1.43-RADIO_6');
+            item143group1.push('8a85934727891931012789s3219028a042-1-1.43-RADIO_6');
+
+            item143group1.push('8a85934727891931012789s3219028a048-1-1.43-RADIO_1_GROUP_CHECK');
+            item143group1.push('8a85934727891931012789s3219028a049-1-1.43-RADIO_1_ACK_SHOW');
+
+
+
+            //SHOW C2 GROUP
+            item143group2.push('8a85934727891931012789s3219028a043-1-1.43-RADIO_6');
+            item143group2.push('8a85934727891931012789s3219028a044-1-1.43-RADIO_6');
+            item143group2.push('8a85934727891931012789s3219028a045-1-1.43-RADIO_6');
+            item143group2.push('8a85934727891931012789s3219028a046-1-1.43-RADIO_6');
+            item143group2.push('8a85934727891931012789s3219028a047-1-1.43-RADIO_6');
+
+            item143group2.push('8a85934727891931012789s3219028a050-1-1.43-RADIO_1_GROUP_CHECK');
+            item143group2.push('8a85934727891931012789s3219028a051-1-1.43-RADIO_1_ACK_SHOW');
+
+            //AUTO SELECT D1
+            autoCheck143_d1_target = '8a85934727891931012789s3219028a049-1-1.43-RADIO_1_ACK_SHOW';
+            autoCheck143_d1.push('8a85934727891931012789s3219028a037-1-1.43-RADIO_6');
+            autoCheck143_d1.push('8a85934727891931012789s3219028a038-1-1.43-RADIO_6');
+            autoCheck143_d1.push('8a85934727891931012789s3219028a039-1-1.43-RADIO_6');
+            autoCheck143_d1.push('8a85934727891931012789s3219028a040-1-1.43-RADIO_6');
+            autoCheck143_d1.push('8a85934727891931012789s3219028a041-1-1.43-RADIO_6');
+            autoCheck143_d1.push('8a85934727891931012789s3219028a042-1-1.43-RADIO_6');
+
+            //AUTO SELECT D2
+            autoCheck143_d2_target = '8a85934727891931012789s3219028a051-1-1.43-RADIO_1_ACK_SHOW';
+            autoCheck143_d2.push('8a85934727891931012789s3219028a043-1-1.43-RADIO_6');
+            autoCheck143_d2.push('8a85934727891931012789s3219028a044-1-1.43-RADIO_6');
+            autoCheck143_d2.push('8a85934727891931012789s3219028a045-1-1.43-RADIO_6');
+            autoCheck143_d2.push('8a85934727891931012789s3219028a046-1-1.43-RADIO_6');
+            autoCheck143_d2.push('8a85934727891931012789s3219028a047-1-1.43-RADIO_6');
+
+
+
+            if (document.getElementById('8a85934727891931012789s3219028a036-1-1.43-DROP_DOWN_2_ACK_SHOW') != null) {
+                if (document.getElementById('8a85934727891931012789s3219028a036-1-1.43-DROP_DOWN_2_ACK_SHOW').value == '142') {
+                    for (i = 0; i < item143group1.length; i++) {
+                        showQuestion(item143group1[i]);
+                    }
+                    for (i = 0; i < item143group2.length; i++) {
+                        hideQuestion(item143group2[i]);
+                    }
+
+                    if (!isInitPage) {
+                        var result = "";
+                        for (i = 0; i < autoCheck143_d1.length; i++) {
+                            result += getRadioValue(autoCheck143_d1[i]);
+                            if (result.length <= i) break;
+                        }
+                        if (result.length == autoCheck143_d1.length) {
+
+                            if (result.indexOf('N') >= 0 || result.indexOf('M') >= 0)
+                                document.getElementById(autoCheck143_d1_target + 'N').checked = true;
+                            else
+                                document.getElementById(autoCheck143_d1_target + 'Y').checked = true;
+                        }
+                    }
+
+
+
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a036-1-1.43-DROP_DOWN_2_ACK_SHOW').value == '143') {
+
+                    for (i = 0; i < item143group1.length; i++) {
+                        hideQuestion(item143group1[i]);
+                    }
+                    for (i = 0; i < item143group2.length; i++) {
+                        showQuestion(item143group2[i]);
+                    }
+
+
+                    if (!isInitPage) {
+                        var result = "";
+                        for (i = 0; i < autoCheck143_d2.length; i++) {
+                            result += getRadioValue(autoCheck143_d2[i]);
+                            if (result.length <= i) break;
+                        }
+                        if (result.length == autoCheck143_d2.length) {
+                            if (result.indexOf('N') >= 0 || result.indexOf('M') >= 0)
+                                document.getElementById(autoCheck143_d2_target + 'N').checked = true;
+                            else
+                                document.getElementById(autoCheck143_d2_target + 'Y').checked = true;
+                        }
+                    }
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a036-1-1.43-DROP_DOWN_2_ACK_SHOW').value == '') {
+
+                    for (i = 0; i < item143group1.length; i++) {
+                        hideQuestion(item143group1[i]);
+                    }
+                    for (i = 0; i < item143group2.length; i++) {
+                        hideQuestion(item143group2[i]);
+                    }
+                }
+            }
+
+
+            $(document).ready(function () {
+                if (document.getElementById("8a85934727891931012789s3219028a048-1-1.43-RADIO_1_GROUP_CHECK") != null)
+                    groupCheck('8a85934727891931012789s3219028a048-1-1.43-RADIO_1_GROUP_CHECK');
+                if (document.getElementById("8a85934727891931012789s3219028a050-1-1.43-RADIO_1_GROUP_CHECK") != null)
+                    groupCheck('8a85934727891931012789s3219028a050-1-1.43-RADIO_1_GROUP_CHECK');
+            });
+
+        }
+
+        if (mwItemNo == '1.44') {
+            var item144group1 = new Array();
+            var item144group2 = new Array();
+
+            //SHOW C1 GROUP
+            item144group1.push('8a85934727891931012789s3219028a064-1-1.44-SELECT_4_1_ACK_SHOW');
+            item144group1.push('8a85934727891931012789s3219028a065-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN');
+            item144group1.push('8a85934727891931012789s3219028a067-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a068-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a069-1-1.44-SELECT_4_3_ACK_SHOW');
+            item144group1.push('8a85934727891931012789s3219028a070-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a071-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a072-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a073-1-1.44-RADIO_6');
+            item144group1.push('8a85934727891931012789s3219028a083-1-1.44-RADIO_1_ACK_SHOW_AB');
+            item144group1.push('1443394727891931012789s3219028a094-1-1.44-RADIO_6');
+            item144group1.push('1443394727891931012789s3219028a095-1-1.44-RADIO_6');
+            item144group1.push('1443394727891931012789s3219028a096-1-1.44-RADIO_6');
+            item144group1.push('1443394727891931012789s3219028a097-1-1.44-RADIO_6');
+            item144group1.push('1443394727891931012789s3219028a098-1-1.44-RADIO_6');
+            item144group1.push('1443394727891931012789s3219028a099-1-1.44-RADIO_6');
+
+
+            //SHOW C2 GROUP
+            item144group2.push('8a85934727891931012789s3219028a074-1-1.44-SELECT_4_1_ACK_SHOW');
+            item144group2.push('8a85934727891931012789s3219028a075-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN');
+            item144group2.push('8a85934727891931012789s3219028a077-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a078-1-1.44-SELECT_4_2_ACK_SHOW');
+            item144group2.push('8a85934727891931012789s3219028a079-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a080-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a081-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a082-1-1.44-RADIO_6');
+            item144group2.push('144340727891931012789s3219028a111-1-1.44-RADIO_6');
+            item144group2.push('144340727891931012789s3219028a112-1-1.44-RADIO_6');
+            item144group2.push('1443404727891931012789s3219028a113-1-1.44-RADIO_6');
+            item144group2.push('1443404727891931012789s3219028a114-1-1.44-RADIO_6');
+            item144group2.push('144340727891931012789s3219028a115-1-1.44-RADIO_6');
+            item144group2.push('8a85934727891931012789s3219028a084-1-1.44-RADIO_1_ACK_SHOW_AB');
+
+
+
+            if (getRadioValue('8a85934727891931012789s3219028a062-1-1.44-RADIO_1_GROUP_CHECK') != 'Y') {
+                showQuestion('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW');
+                disabledQuestion('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW', 'N');
+
+                for (i = 0; i < item144group1.length; i++) {
+                    hideQuestion(item144group1[i]);
+                }
+                for (i = 0; i < item144group2.length; i++) {
+                    hideQuestion(item144group2[i]);
+                }
+
+            } else {
+                disabledQuestion('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW', 'Y');
+                if (document.getElementById('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW').value == '146') {
+
+                    autoBtn_144_342_Clicked = false;
+                    for (i = 0; i < item144group1.length; i++) {
+                        if (item144group1[i] != '8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN') {
+                            showQuestion(item144group1[i]);
+                        } else if (!autoBtn_144_341_Clicked) {
+                            showQuestion(item144group1[i]);
+                            disabledQuestionWithValue(item144group1[i], 'N');
+                        }
+                    }
+                    for (i = 0; i < item144group2.length; i++) {
+                        hideQuestion(item144group2[i]);
+                    }
+                    if (document.getElementById('8a85934727891931012789s3219028a064-1-1.44-SELECT_4_1_ACK_SHOW').value != 'Y') {
+                        autoBtn_144_341_Clicked = false;
+                        showQuestion('8a85934727891931012789s3219028a065-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN');
+                        showQuestion('1443394727891931012789s3219028a094-1-1.44-RADIO_6');
+                        showQuestion('1443394727891931012789s3219028a095-1-1.44-RADIO_6');
+                        showQuestion('1443394727891931012789s3219028a096-1-1.44-RADIO_6');
+                        showQuestion('1443394727891931012789s3219028a097-1-1.44-RADIO_6');
+                        showQuestion('1443394727891931012789s3219028a098-1-1.44-RADIO_6');
+                        showQuestion('1443394727891931012789s3219028a099-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a065-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a094-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a095-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a096-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a097-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a098-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443394727891931012789s3219028a099-1-1.44-RADIO_6', 'N');
+
+                    } else {
+                        disabledQuestion('8a85934727891931012789s3219028a065-1-1.44-RADIO_6', 'Y');
+                        //disabledQuestion('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a094-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a095-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a096-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a097-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a098-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443394727891931012789s3219028a099-1-1.44-RADIO_6', 'Y');
+
+                    }
+
+                    if (document.getElementById('8a85934727891931012789s3219028a069-1-1.44-SELECT_4_3_ACK_SHOW').value == 'Y') {
+                        showQuestion('8a85934727891931012789s3219028a071-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a072-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a073-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a070-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a071-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a072-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a073-1-1.44-RADIO_6', 'N');
+
+                    } else if (document.getElementById('8a85934727891931012789s3219028a069-1-1.44-SELECT_4_3_ACK_SHOW').value == 'N') {
+                        showQuestion('8a85934727891931012789s3219028a070-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a070-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a071-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a072-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a073-1-1.44-RADIO_6', 'Y');
+
+                    } else {
+                        showQuestion('8a85934727891931012789s3219028a070-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a071-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a072-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a073-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a070-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a071-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a072-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a073-1-1.44-RADIO_6', 'N');
+                    }
+
+
+
+
+
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW').value == '147') {
+
+                    autoBtn_144_341_Clicked = false;
+                    for (i = 0; i < item144group1.length; i++) {
+                        hideQuestion(item144group1[i]);
+                    }
+                    for (i = 0; i < item144group2.length; i++) {
+                        if (item144group2[i] != '8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN') {
+                            showQuestion(item144group2[i]);
+                        } else if (!autoBtn_144_342_Clicked) {
+                            showQuestion(item144group2[i]);
+                            disabledQuestionWithValue(item144group2[i], 'N');
+                        }
+                    }
+
+
+                    if (document.getElementById('8a85934727891931012789s3219028a074-1-1.44-SELECT_4_1_ACK_SHOW').value != 'Y') {
+                        autoBtn_144_342_Clicked = false;
+                        showQuestion('8a85934727891931012789s3219028a075-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN');
+                        showQuestion('144340727891931012789s3219028a111-1-1.44-RADIO_6');
+                        showQuestion('144340727891931012789s3219028a112-1-1.44-RADIO_6');
+                        showQuestion('1443404727891931012789s3219028a113-1-1.44-RADIO_6');
+                        showQuestion('1443404727891931012789s3219028a114-1-1.44-RADIO_6');
+                        showQuestion('144340727891931012789s3219028a115-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a075-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN', 'N');
+                        disabledQuestion('144340727891931012789s3219028a111-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('144340727891931012789s3219028a112-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443404727891931012789s3219028a113-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('1443404727891931012789s3219028a114-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('144340727891931012789s3219028a115-1-1.44-RADIO_6', 'N');
+
+                    } else {
+                        disabledQuestion('8a85934727891931012789s3219028a075-1-1.44-RADIO_6', 'Y');
+                        //disabledQuestion('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN', 'Y');
+                        disabledQuestion('144340727891931012789s3219028a111-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('144340727891931012789s3219028a112-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443404727891931012789s3219028a113-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('1443404727891931012789s3219028a114-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('144340727891931012789s3219028a115-1-1.44-RADIO_6', 'Y');
+
+                    }
+
+                    if (document.getElementById('8a85934727891931012789s3219028a078-1-1.44-SELECT_4_2_ACK_SHOW').value == 'Y') {
+                        showQuestion('8a85934727891931012789s3219028a080-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a081-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a082-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a079-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a080-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a081-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a082-1-1.44-RADIO_6', 'N');
+
+                    } else if (document.getElementById('8a85934727891931012789s3219028a078-1-1.44-SELECT_4_2_ACK_SHOW').value == 'N') {
+                        showQuestion('8a85934727891931012789s3219028a079-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a079-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a080-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a081-1-1.44-RADIO_6', 'Y');
+                        disabledQuestion('8a85934727891931012789s3219028a082-1-1.44-RADIO_6', 'Y');
+
+                    } else {
+                        showQuestion('8a85934727891931012789s3219028a079-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a080-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a081-1-1.44-RADIO_6');
+                        showQuestion('8a85934727891931012789s3219028a082-1-1.44-RADIO_6');
+
+                        disabledQuestion('8a85934727891931012789s3219028a079-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a080-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a081-1-1.44-RADIO_6', 'N');
+                        disabledQuestion('8a85934727891931012789s3219028a082-1-1.44-RADIO_6', 'N');
+                    }
+
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a063-1-1.44-DROP_DOWN_2_ACK_SHOW').value == '') {
+
+                    for (i = 0; i < item144group1.length; i++) {
+                        hideQuestion(item144group1[i]);
+                    }
+                    for (i = 0; i < item144group2.length; i++) {
+                        hideQuestion(item144group2[i]);
+                    }
+                }
+            }
+
+        }
+
+        if (mwItemNo == '3.39') {
+
+        }
+
+        if (mwItemNo == '3.40') {
+
+        }
+
+        if (mwItemNo == '3.41') {
+            if (document.getElementById('8a85934727891931012789s3219028a128-1-3.41-SELECT_3_1_ACK_SHOW') != null) {
+                if (document.getElementById('8a85934727891931012789s3219028a128-1-3.41-SELECT_3_1_ACK_SHOW').value == 'Y') {
+
+                    disabledQuestion('8a85934727891931012789s3219028a129-1-3.41-RADIO_1', 'Y');
+                    //disabledQuestion('8a85934727891931012789s3219028a130', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a094-1-3.41-RADIO_6', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a095-1-3.41-RADIO_6', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a096-1-3.41-RADIO_6', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a097-1-3.41-RADIO_6', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a098-1-3.41-RADIO_6', 'Y');
+                    disabledQuestion('3395934727891931012789s3219028a099-1-3.41-RADIO_6', 'Y');
+
+
+                    if (!autoBtn_341_339_Clicked) {
+                        showQuestion('8a85934727891931012789s3219028a130');
+                        disabledQuestionWithValue('8a85934727891931012789s3219028a130', 'N');
+                    }
+
+
+                } else {
+                    showQuestion('8a85934727891931012789s3219028a129-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a130');
+                    showQuestion('3395934727891931012789s3219028a094-1-3.41-RADIO_6');
+                    showQuestion('3395934727891931012789s3219028a095-1-3.41-RADIO_6');
+                    showQuestion('3395934727891931012789s3219028a096-1-3.41-RADIO_6');
+                    showQuestion('3395934727891931012789s3219028a097-1-3.41-RADIO_6');
+                    showQuestion('3395934727891931012789s3219028a098-1-3.41-RADIO_6');
+                    showQuestion('3395934727891931012789s3219028a099-1-3.41-RADIO_6');
+
+                    disabledQuestion('8a85934727891931012789s3219028a129-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a130', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a094-1-3.41-RADIO_6', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a095-1-3.41-RADIO_6', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a096-1-3.41-RADIO_6', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a097-1-3.41-RADIO_6', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a098-1-3.41-RADIO_6', 'N');
+                    disabledQuestion('3395934727891931012789s3219028a099-1-3.41-RADIO_6', 'N');
+                }
+
+
+
+                if (document.getElementById('8a85934727891931012789s3219028a133-1-3.41-SELECT_3_3_ACK_SHOW').value == 'Y') {
+
+                    showQuestion('8a85934727891931012789s3219028a135-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a136-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a137-1-3.41-RADIO_1');
+
+                    disabledQuestion('8a85934727891931012789s3219028a134-1-3.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a135-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a136-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a137-1-3.41-RADIO_1', 'N');
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a133-1-3.41-SELECT_3_3_ACK_SHOW').value == 'N') {
+                    showQuestion('8a85934727891931012789s3219028a134-1-3.41-RADIO_1');
+                    disabledQuestion('8a85934727891931012789s3219028a134-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a135-1-3.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a136-1-3.41-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a137-1-3.41-RADIO_1', 'Y');
+
+                } else {
+
+                    showQuestion('8a85934727891931012789s3219028a134-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a135-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a136-1-3.41-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a137-1-3.41-RADIO_1');
+
+                    disabledQuestion('8a85934727891931012789s3219028a134-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a135-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a136-1-3.41-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a137-1-3.41-RADIO_1', 'N');
+
+                }
+            }
+
+        }
+
+        if (mwItemNo == '3.42') {
+            if (document.getElementById('8a85934727891931012789s3219028a148-1-3.42-SELECT_3_1_ACK_SHOW') != null) {
+                showQuestion('3425934727891931012789s3219028a111-1-3.42-RADIO_6');
+                showQuestion('3425934727891931012789s3219028a112-1-3.42-RADIO_6');
+                showQuestion('3425934727891931012789s3219028a113-1-3.42-RADIO_6');
+                showQuestion('3425934727891931012789s3219028a115-1-3.42-RADIO_6');
+                showQuestion('3425934727891931012789s3219028a114-1-3.42-RADIO_6');
+
+
+                if (document.getElementById('8a85934727891931012789s3219028a148-1-3.42-SELECT_3_1_ACK_SHOW').value == 'Y') {
+
+                    disabledQuestion('8a85934727891931012789s3219028a149', 'Y');
+                    //disabledQuestion('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN', 'Y');
+                    disabledQuestion('3425934727891931012789s3219028a111-1-3.42-RADIO_6', 'Y');
+                    disabledQuestion('3425934727891931012789s3219028a112-1-3.42-RADIO_6', 'Y');
+                    disabledQuestion('3425934727891931012789s3219028a113-1-3.42-RADIO_6', 'Y');
+                    disabledQuestion('3425934727891931012789s3219028a114-1-3.42-RADIO_6', 'Y');
+                    disabledQuestion('3425934727891931012789s3219028a115-1-3.42-RADIO_6', 'Y');
+
+
+
+
+                    if (!autoBtn_342_340_Clicked) {
+                        showQuestion('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN');
+                        disabledQuestionWithValue('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN', 'N');
+                    }
+
+                } else {
+                    autoBtn_342_340_Clicked = false;
+                    showQuestion('8a85934727891931012789s3219028a149');
+                    showQuestion('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN');
+                    showQuestion('3425934727891931012789s3219028a111-1-3.42-RADIO_6');
+                    showQuestion('3425934727891931012789s3219028a112-1-3.42-RADIO_6');
+                    showQuestion('3425934727891931012789s3219028a113-1-3.42-RADIO_6');
+                    showQuestion('3425934727891931012789s3219028a114-1-3.42-RADIO_6');
+                    showQuestion('3425934727891931012789s3219028a115-1-3.42-RADIO_6');
+
+                    disabledQuestion('8a85934727891931012789s3219028a149', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN', 'N');
+                    disabledQuestion('3425934727891931012789s3219028a111-1-3.42-RADIO_6', 'N');
+                    disabledQuestion('3425934727891931012789s3219028a112-1-3.42-RADIO_6', 'N');
+                    disabledQuestion('3425934727891931012789s3219028a113-1-3.42-RADIO_6', 'N');
+                    disabledQuestion('3425934727891931012789s3219028a114-1-3.42-RADIO_6', 'N');
+                    disabledQuestion('3425934727891931012789s3219028a115-1-3.42-RADIO_6', 'N');
+                }
+
+
+
+
+                if (document.getElementById('8a85934727891931012789s3219028a152-1-3.42-SELECT_3_2_ACK_SHOW').value == 'Y') {
+
+                    showQuestion('8a85934727891931012789s3219028a154-1-3.42-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a155-1-3.42-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a156-1-3.42-RADIO_1');
+
+                    disabledQuestion('8a85934727891931012789s3219028a153-1-3.42-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a154-1-3.42-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a155-1-3.42-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a156-1-3.42-RADIO_1', 'N');
+
+                } else if (document.getElementById('8a85934727891931012789s3219028a152-1-3.42-SELECT_3_2_ACK_SHOW').value == 'N') {
+                    showQuestion('8a85934727891931012789s3219028a153-1-3.42-RADIO_1');
+                    disabledQuestion('8a85934727891931012789s3219028a154-1-3.42-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a155-1-3.42-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a156-1-3.42-RADIO_1', 'Y');
+                    disabledQuestion('8a85934727891931012789s3219028a153-1-3.42-RADIO_1', 'N');
+                } else {
+
+                    showQuestion('8a85934727891931012789s3219028a153-1-3.42-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a154-1-3.42-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a155-1-3.42-RADIO_1');
+                    showQuestion('8a85934727891931012789s3219028a156-1-3.42-RADIO_1');
+
+                    disabledQuestion('8a85934727891931012789s3219028a153-1-3.42-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a154-1-3.42-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a155-1-3.42-RADIO_1', 'N');
+                    disabledQuestion('8a85934727891931012789s3219028a156-1-3.42-RADIO_1', 'N');
+                }
+            }
+        }
+
+        isInitPage = false;
+        return true;
+
+    }
+
+    function groupCheck(uuid) {
+        var checkedValue = '';
+        if (document.getElementById(uuid).style.display == "none") {
+            return;
+        }
+        if (uuid != null) {
+            var checkedValue = getRadioValue(uuid);
+            if (checkedValue == "") {
+                var checkedValue = document.getElementById(uuid).value;
+            }
+        }
+
+        if (uuid == '8a85934727891931012789s3219028a048-1-1.43-RADIO_1_GROUP_CHECK') {  //1.43 c1
+            disabledQuestion('8a85934727891931012789s3219028a037-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a038-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a039-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a040-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a041-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a042-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a049-1-1.43-RADIO_1_ACK_SHOW', checkedValue);
+
+
+        } else if (uuid == '8a85934727891931012789s3219028a050-1-1.43-RADIO_1_GROUP_CHECK') {  //1.43 c2
+            disabledQuestion('8a85934727891931012789s3219028a043-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a044-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a045-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a046-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a047-1-1.43-RADIO_6-1-1.43-RADIO_6', checkedValue);
+            disabledQuestion('8a85934727891931012789s3219028a051-1-1.43-RADIO_1_ACK_SHOW', checkedValue);
+
+        } else if (uuid == '8a85934727891931012789s3219028a062-1-1.44-RADIO_1_GROUP_CHECK') {  //1.44 c2
+            hideFields();
+        }
+
+    }
+
+    function getRadioValue(RadioName) {
+        if (document.getElementById(RadioName + 'Y') == null) return "";
+        if (document.getElementById(RadioName + 'Y').checked) return 'Y';
+        if (document.getElementById(RadioName + 'N').checked) return 'N';
+        if (document.getElementById(RadioName + 'M').checked) return 'M';
+        return "";
+    }
+
+    function autoSelectValue(UUID, callRelate) {
+        var checkItems = new Array();
+        if (false) {
+        } else if (UUID == '8a85934727891931012789s3219028a130-1-3.41-RADIO_1_AUTO_BTN') {
+            checkItems.push('3395934727891931012789s3219028a094-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            checkItems.push('3395934727891931012789s3219028a095-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            checkItems.push('3395934727891931012789s3219028a096-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            checkItems.push('3395934727891931012789s3219028a097-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            checkItems.push('3395934727891931012789s3219028a098-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            checkItems.push('3395934727891931012789s3219028a099-1-3.41-RADIO_6-1-3.41-RADIO_6');
+            autoBtn_341_339_Clicked = autoSelect(UUID, checkItems);
+            if (autoBtn_341_339_Clicked) {
+                //showQuestion('8a85934727891931012789s3219028a130');
+            }
+
+        } else if (UUID == '8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN') {
+            checkItems.push('3425934727891931012789s3219028a111-1-3.42-RADIO_6-1-3.42-RADIO_6');
+            checkItems.push('3425934727891931012789s3219028a112-1-3.42-RADIO_6-1-3.42-RADIO_6');
+            checkItems.push('3425934727891931012789s3219028a113-1-3.42-RADIO_6-1-3.42-RADIO_6');
+            checkItems.push('3425934727891931012789s3219028a115-1-3.42-RADIO_6-1-3.42-RADIO_6');
+            checkItems.push('3425934727891931012789s3219028a114-1-3.42-RADIO_6-1-3.42-RADIO_6');
+            autoBtn_342_340_Clicked = autoSelect(UUID, checkItems);
+            if (autoBtn_342_340_Clicked) {
+                //showQuestion('8a85934727891931012789s3219028a150-1-3.42-RADIO_1_AUTO_BTN');
+            }
+        } else if (UUID == '8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN') { //1.44 question 3.41
+            checkItems.push('1443394727891931012789s3219028a094-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a095-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a096-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a097-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a098-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a099-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            autoBtn_144_341_Clicked = autoSelect(UUID, checkItems);
+            if (autoBtn_144_341_Clicked) {
+                //showQuestion('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN-1-1.44-RADIO_6_AUTO_BTN');
+            }
+            if (callRelate) {
+                autoSelectValue('8a85934727891931012789s3219028a083-1-1.44-RADIO_1_ACK_SHOW_AB', false);
+            }
+
+        } else if (UUID == '8a85934727891931012789s3219028a083-1-1.44-RADIO_1_ACK_SHOW_AB') { //1.44 question E
+            if (callRelate) {
+                autoSelectValue('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN', false);
+            }
+            checkItems.push('8a85934727891931012789s3219028a065-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a066-1-1.44-RADIO_6_AUTO_BTN');
+            checkItems.push('1443394727891931012789s3219028a094-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a095-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a097-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a098-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a099-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a067-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a068-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443394727891931012789s3219028a096-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a070-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a071-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a072-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a073-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            autoSelect(UUID, checkItems);
+
+        } else if (UUID == '8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN') { //1.44 question 3.42
+            checkItems.push('144340727891931012789s3219028a111-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('144340727891931012789s3219028a112-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443404727891931012789s3219028a113-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443404727891931012789s3219028a114-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('144340727891931012789s3219028a115-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            autoBtn_144_342_Clicked = autoSelect(UUID, checkItems);
+            if (autoBtn_144_342_Clicked) {
+                //showQuestion('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN-1-1.44-RADIO_6_AUTO_BTN');
+            }
+            if (callRelate) {
+                autoSelectValue('8a85934727891931012789s3219028a084-1-1.44-RADIO_1_ACK_SHOW_AB', false);
+            }
+        } else if (UUID == '8a85934727891931012789s3219028a084-1-1.44-RADIO_1_ACK_SHOW_AB') { //1.44 question F
+            if (callRelate) {
+                autoSelectValue('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN', false);
+            }
+            checkItems.push('8a85934727891931012789s3219028a075-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a076-1-1.44-RADIO_6_AUTO_BTN');
+            checkItems.push('144340727891931012789s3219028a111-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('144340727891931012789s3219028a112-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443404727891931012789s3219028a113-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('1443404727891931012789s3219028a114-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('144340727891931012789s3219028a115-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a077-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a079-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a080-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a081-1-1.44-RADIO_6-1-1.44-RADIO_6');
+            checkItems.push('8a85934727891931012789s3219028a082-1-1.44-RADIO_6-1-1.44-RADIO_6');
+
+            autoSelect(UUID, checkItems);
+        }
+
+
+
+        function autoSelect(UUID, checkItems) {
+            var result = "";
+            var disabledCount = 0;
+
+            for (i = 0; i < checkItems.length; i++) {
+                if (document.getElementById(checkItems[i] + 'Y').disabled) {
+                    disabledCount++;
+                } else {
+                    result += getRadioValue(checkItems[i]);
+                    if (result.length + disabledCount <= i) break;
+                }
+            }
+            if (result.length + disabledCount == checkItems.length) {
+                if (result.indexOf('N') >= 0 || result.indexOf('M') >= 0) {
+                    document.getElementById(UUID + 'N').checked = true;
+                    return true;
+                } else if (result.indexOf('Y') >= 0) {
+                    document.getElementById(UUID + 'Y').checked = true;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        }
+    }
+
+    function setMatchItem(checked, name) {
+        var tbList = document.getElementsByName(name + "Copy");
+
+        for (var i = 0; i < tbList.length; i++) {
+            tbList[i].checked = checked;
+        }
+    }
+
+    function changeMatchItem(name, value) {
+        //get item code
+        var itemCodeName = name.substring(0, name.indexOf(".")) + ".MW_ITEM_CODE";
+
+        var itemCode = document.getElementsByName(itemCodeName)[0].value;
+
+        var itemCheckBox = document.querySelectorAll("input[class='" + itemCode + " matchItem main']")[0];
+        if (itemCheckBox) {
+            if (value == "Y") {
+                itemCheckBox.removeAttribute("disabled");
+            } else {
+                itemCheckBox.setAttribute("disabled", "True");
+                setMatchItem(false, itemCheckBox.name);
+            }
+        }
+
+    }
+
+    function changeChildItem(name, isDisabled) {
+
+        var formCode = document.getElementById("P_MW_RECORD_S_FORM_TYPE_CODE").value;
+
+        var itemCodeName = name.substring(0, name.indexOf(".")) + ".MW_ITEM_CODE";
+
+        var itemCode = document.getElementsByName(itemCodeName)[0].value;
+
+        var radioList = document.querySelectorAll("input[class*='" + itemCode + "_radio']");
+        var ddlList = document.querySelectorAll("select[class*='" + itemCode + "_ddl']");
+        var taList = document.querySelectorAll("textarea[class*='" + itemCode + "_ta']");
+        var txtList = document.querySelectorAll("input[class*='" + itemCode + "_txt']");
+        var tapoList = document.querySelectorAll("textarea[class*='" + itemCode + "_ta_po']");
+
+
+        for (var i = 0; i < radioList.length; i++) {
+
+            if (isDisabled) {
+                if (radioList[i].value == "N") {
+                    radioList[i].checked = true;
+                }
+            } else {
+                radioList[i].checked = false;
+            }
+
+
+            radioList[i].disabled = isDisabled;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].disabled = isDisabled;
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+
+            //disabled
+            if (isDisabled) {
+                if (formCode == "MW10") {
+                    taList[i].value = "Previous item not exist.";
+                } else {
+                    taList[i].value = "Revised item not exist.";
+                }
+            } else {
+                taList[i].value = "";
+            }
+
+            taList[i].disabled = isDisabled;
+        }
+
+        for (var i = 0; i < tapoList.length; i++) {
+
+            //disabled
+            if (isDisabled) {
+                if (formCode == "MW10") {
+                    tapoList[i].value = "Previous item not exist.";
+                } else {
+                    tapoList[i].value = "Revised item not exist.";
+                }
+            } else {
+                tapoList[i].value = "";
+            }
+
+            tapoList[i].disabled = isDisabled;
+        }
+
+        for (var i = 0; i < txtList.length; i++) {
+            txtList[i].disabled = isDisabled;
+        }
+    }
+
+
+    function initMmItem() {
+        //get Form Code
+        var formCode = document.getElementById("P_MW_RECORD_S_FORM_TYPE_CODE").value;
+
+        if (formCode == "MW02" || formCode == "MW04" || formCode == "MW10") {
+
+            var variationList = document.querySelectorAll("input[name$='].VARIATION_DECLARED");
+            for (var i = 0; i < variationList.length; i++) {
+                if (variationList[i].checked && variationList[i].value == "N") {
+                    changeChildItem(variationList[i].name, true);
+                }
+
+            }
+
+        }
+    }
+
+    domReady(function () {
+        initMmItem();
+    });
+
+</script>

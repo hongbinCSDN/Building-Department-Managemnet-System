@@ -1,0 +1,637 @@
+﻿@model MWMS2.Models.ProcessMonitorDisplayModel
+    <form id="inputForm" method="post" action="Save" enctype="multipart/form-data">
+        <hidden id="crcInterviewDate" />
+        @Html.HiddenFor(model => model.C_COMP_APPLICATION.UUID)
+        @Html.HiddenFor(model => model.C_COMP_APPLICANT_INFO.UUID)
+        @Html.HiddenFor(model => model.C_COMP_PROCESS_MONITOR.UUID)
+        @Html.HiddenFor(model => model.MonitorType)
+        @Html.HiddenFor(model => model.RegType)
+
+        <script type="text/javascript">
+      
+            function changeApplyStatus() {
+
+                var toa = document.getElementById("applicationFormUUID");
+                var selectedtext = toa.options[toa.selectedIndex].text;
+
+                if (selectedtext == "BA2C") {
+                    document.getElementById("A").checked = true;
+                    //alert(selectedtext);
+                }
+                if (selectedtext == "BA2") {
+                    document.getElementById("I").checked = true;
+                    //alert(selectedtext);
+                }
+                if (selectedText == "BA2A") {
+                    document.getElementById("N").checked = true;
+                }
+                if (selectedText == "BA2B") {
+                    document.getElementById("S").checked = true;
+                }
+                if (selectedText == "LETTER") {
+                    document.getElementById("D").checked = true;
+                }
+                if (selectedText == "QP Card") {
+                    document.getElementById("Q").checked = true;
+                }
+            }
+            function changeApplyStatusCMW() {
+
+                var toa = document.getElementById("applicationFormUUID");
+                var selectedtext = toa.options[toa.selectedIndex].text;
+
+                if (selectedtext == "BA25A") {
+                    document.getElementById("N").checked = true;
+                }
+                if (selectedtext == "BA25B") {
+                    document.getElementById("S").checked = true;
+                }
+                if (selectedtext == "BA25C") {
+                    document.getElementById("A").checked = true;
+                }
+                if (selectedtext == "BA25D") {
+                    document.getElementById("A").checked = true;
+                }
+                if (selectedtext == "BA25E") {
+                    document.getElementById("R").checked = true;
+                }
+                if (selectedtext == "QP Card") {
+                    document.getElementById("Q").checked = true;
+                }
+            }
+            function changeTypeOfApplication(value) {
+                if (value == 'A') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 3;
+                }
+                if (value == 'I') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 0;
+                    document.getElementById("C_COMP_PROCESS_MONITOR_TWO_MONTH_CASE").selectedIndex = 1;
+                }
+                if (value == 'N') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 1;
+                    document.getElementById("C_COMP_PROCESS_MONITOR_TWO_MONTH_CASE").selectedIndex = 1;
+                }
+                if (value == 'S') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 2;
+                }
+                if (value == 'D') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 4;
+                }
+                if (value == 'Q') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 5;
+                    document.getElementById("C_COMP_PROCESS_MONITOR_TWO_MONTH_CASE").selectedIndex = 1;
+                }
+            }
+            function changeTypeOfApplicationCMW(value) {
+                if (value == 'A') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 3;
+                }
+                //if (value == 'I') {
+                //    document.getElementById("applicationFormUUID").selectedIndex = 1;
+                //    //document.getElementById("C_COMP_PROCESS_MONITOR_TWO_MONTH_CASE").selectedIndex = 1;
+                //}
+                if (value == 'N') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 1;
+                    //document.getElementById("C_COMP_PROCESS_MONITOR_TWO_MONTH_CASE").selectedIndex = 1;
+                }
+                if (value == 'S') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 2;
+                }
+                if (value == 'R') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 5;
+                }
+                if (value == 'Q') {
+                    document.getElementById("applicationFormUUID").selectedIndex = 8;
+                }
+            }
+            function CalDueDate(o, RegType) {
+                var rType = "";
+                var selectedQP = document.getElementById("Q").checked;
+                //alert(selectedQP);
+                //var toa = document.getElementById("applicationFormUUID");
+                //var selectedtext = toa.options[toa.selectedIndex].text;
+                if (selectedQP == true) {
+                    rType = "Y"
+                }
+                //alert(rType);
+                //var toa = document.getElementById("applicationFormUUID");
+
+                //for( i = 0; i < toa.length ; i++){
+                //	var text = toa.options[i].text;
+                //	var selected = toa.options[i].selected;
+                //	if(text == "QP Card"&& selected){
+                //		rType = "Y"
+                //	}
+                //}
+                var rDate = o.value;
+                var dueDate = document.getElementById("dueDate").value;
+
+                if (rDate != "" && dueDate == "") {
+                    var delimChar = "/";
+                    var d, m, y;
+
+                    if (rDate.indexOf(".") != -1) {
+                        delimChar = ".";
+                    } else if (rDate.indexOf("-") != -1) {
+                        delimChar = "-";
+                    }
+                    if (rType != "Y") {
+                        var delim1 = rDate.indexOf(delimChar);
+                        var delim2 = rDate.lastIndexOf(delimChar);
+                        d = parseInt(rDate.substring(0, delim1), 10);
+                        m = parseInt(rDate.substring(delim1 + 1, delim2), 10);
+                        y = parseInt(rDate.substring(delim2 + 1), 10);
+                        var typeOfApp = $("#applicationFormUUID option:selected").text();
+
+                        if (RegType == "CGC") {
+                            d = d + 90;
+                        } else {
+                            if ("BA25" == typeOfApp) {
+                                d = d + 85;
+                            } else {
+                                m = m + 3;
+                                d = d - 1;
+                            }
+                        }
+                        var date = new Date(y, m - 1, d);
+                        var dateStr = (date.getDate() < 10 ? "0" : "") + date.getDate() + "/" + ((date.getMonth() + 1) < 10 ? "0" : "") + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                        $.ajax({
+                            type: "POST",
+                            url: domId("rootPath").value + '/Registration/Fn02GCA_PM/ProcDueDate',
+                            data: {
+                                dateStr: dateStr, rType: rType
+                            },
+                            success: function (data) {
+                                if (data != "") {
+                                    document.getElementById("dueDate").value = data;
+                                }
+                            }
+                        });
+                    } else {
+                        var delim1 = rDate.indexOf(delimChar);
+                        var delim2 = rDate.lastIndexOf(delimChar);
+                        d = parseInt(rDate.substring(0, delim1), 10);
+                        m = parseInt(rDate.substring(delim1 + 1, delim2), 10);
+                        y = parseInt(rDate.substring(delim2 + 1), 10);
+
+                        var date = new Date(y, m, d + 14);
+                        var dateStr = (date.getDate() < 10 ? "0" : "") + date.getDate() + "/" + ((date.getMonth()) < 10 ? "0" : "") + (date.getMonth()) + "/" + date.getFullYear();
+                        $.ajax({
+                            type: "POST",
+                            url: domId("rootPath").value + '/Registration/Fn02GCA_PM/ProcDueDate',
+                            data: {
+                                dateStr: dateStr, rType: rType
+                            },
+                            success: function (data) {
+                                if (data != "") {
+                                    document.getElementById("dueDate").value = data;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            $("document").ready(function () {
+
+                $(".applyStatus").change(function () {
+                    if ($(this).val() == "A") {
+                        $(".additionCheckBox").removeAttr("disabled");
+                    } else {
+                        $(".additionCheckBox").attr("disabled", "disabled");
+                        $(".additionCheckBox").attr("checked", false);
+                    }
+                    if ($(this).val() == "A") {
+
+                    }
+                })
+                $("input[class=applyStatus]:checked").change();
+
+
+                attr("saveButton", "onclick", {
+                    callback: function () {
+                        attr("inputForm", "addClass", "saving");
+                        $.post("Validate", $("#inputForm").serialize(), function (data) {
+                            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                                domId("inputForm").submit();
+                            }
+                            else {
+                                attr("inputForm", "dropClass", "saving");
+
+                                showErrorMessage(data.ErrorMessages);
+                                console.log(data);
+                            }
+                        }, "json");
+                    }
+                });
+
+
+                $('#C_COMP_PROCESS_MONITOR_INTERVIEW_DATE').change(function () {
+                    $('#crcInterviewDate').val($('#C_COMP_PROCESS_MONITOR_INTERVIEW_DATE').val());
+                    $.ajax({
+                        type: 'POST',
+                        data: $("#inputForm").serialize(),
+                        url: "GetCRC",
+                        cache: false,
+                        success: function (html) {
+                            console.log(html);
+                            if (html.length > 2) {
+                                $('#C_COMP_PROCESS_MONITOR_CRC_NAME').val(html);
+                            }
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        data: $("#inputForm").serialize(),
+                        url: "GetCRCPost",
+                        cache: false,
+                        success: function (html) {
+                            if (html.length > 2) {
+                                $('#C_COMP_PROCESS_MONITOR_SECRETARY').val(html);
+                                if ($('#C_COMP_PROCESS_MONITOR_SECRETARY').val() != html) {
+                                    $('#C_COMP_PROCESS_MONITOR_SECRETARY').append("<option value='" + html + "'>" + html + "</option>");
+                                    $('#C_COMP_PROCESS_MONITOR_SECRETARY').val(html);
+                                    $("#C_COMP_PROCESS_MONITOR_SECRETARY option:selected").text(html);
+                                }
+                            }
+                        }
+                    });
+                })
+                $('#interviewDate').val('@Model.interviewDate');
+            })
+
+/**/</script>
+        @if (Model.RegType == "CGC")
+        {
+            <div class="panelHeader">General Contractor Application &gt; Update Process Monitor</div>
+        }
+        else
+        {
+            <div class="panelHeader">MW Company Application &gt; Update Process Monitor</div>
+        }
+            <div class="displayForm">
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Name of Contractor:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">File Reference :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Candidate :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.CandidateName, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Post :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.RoleType, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-col hr"></div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Applicant Apply Type :</div>
+                        <div class="w3-col l9 m6 s12">
+                            @if (Model.RegType == "CGC")
+                            {
+
+                                foreach (var item in Model.AppApplyByType)
+                                {
+                                    string tmp = "";
+                                    if (item.Selected == true)
+                                    { tmp = "checked"; }
+
+                                    <input type="radio" value="@item.Value" @tmp name="SelectedAppApplyType" id="@item.Value" class="applyStatus" onclick="changeTypeOfApplication(this.value)" />
+                                    @Html.Label(item.Text, new { @for = @item.Value })
+                                }
+                            }
+                            else
+                            {
+                                foreach (var item in Model.MWCAppApplyByType)
+                                {
+                                    string tmp = "";
+                                    if (item.Selected == true)
+                                    { tmp = "checked"; }
+
+                                    <input type="radio" value="@item.Value" @tmp name="SelectedAppApplyType" id="@item.Value" class="applyStatus" onclick="changeTypeOfApplicationCMW(this.value)" />
+                                    @Html.Label(item.Text, new { @for = @item.Value })
+                                }
+                            }
+                        </div>
+                        @if (Model.RegType == "CMW")
+                        {
+                            <div class="w3-col l3 m6 s12"></div>
+                            <div class="w3-col l9 m6 s12">
+                                @Html.CheckBoxFor(model => model.AdditionClass, new { @class = "additionCheckBox" })Addition  Class
+                                @Html.CheckBoxFor(model => model.AdditionType, new { @class = "additionCheckBox" })Addition Type
+                                @Html.CheckBoxFor(model => model.AdditionASorTD, new { @class = "additionCheckBox" })Addition AS/TD
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Interview Date :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.INTERVIEW_DATE, Model.interviewDateList)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Type :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.PROCESS_MONITOR_TYPE, Model.TypeList)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        @if (Model.RegType == "CGC")
+                        {
+                            <div class="w3-col l3 m6 s12">CRC :</div>
+                        }
+                        else
+                        {
+                            <div class="w3-col l3 m6 s12">CRC / RU:</div>
+                        }
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CRC_NAME)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Secretary :</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.SECRETARY, Model.SecretaryList)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Vetting Officer :</div>
+                        <div class="w3-col l2 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.VETTING_OFFICER, Model.VetOfficerList)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Type of Application :</div>
+                        @if (Model.RegType == "CGC")
+                        {
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.CGCAppList, Model.CGATypeOfAppList, new { @id = "applicationFormUUID", onchange = "changeApplyStatus()" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="w3-col l2 m6 s12">
+                                @Html.DropDownListFor(model => model.MWCAppList, Model.MWCTypeOfAppList, new { @id = "applicationFormUUID", onchange = "changeApplyStatusCMW()" })
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Nature (Normal/ Deferred Case) :</div>
+                        <div class="w3-col l1 m6 s12">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.NATURE, Model.CGANature)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Received Date :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RECEIVED_DATE, new { @id = "receivedDate", @class = "inputDate", @onblur = "CalDueDate(this,'" + Model.RegType + "')" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12">Due Date :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DUE_DATE, new { @id = "dueDate", @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        @if (Model.RegType == "CMW")
+                        {
+                            <div class="w3-col l3 m6 s12"> BA2 10-Day Pledge Date of Initial Reply:</div>
+                        }
+                        else
+                        {
+                            <div class="w3-col l3 m6 s12"> BA2 10-Day Pledge Date of Initial Reply [1]/[3] :</div>
+                        }
+                        @if (Model.RegType == "CMW")
+                        {
+                            <div class="w3-col l3 m6 s12">@Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_DUE_10_DAYS_DATE, new { @readonly = "readonly" })</div>
+                        }
+                        else
+                        {
+                            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_DUE_10_DAYS_DATE, new { @class = "inputDate" })</div>
+                        }
+                    </div>
+                </div>
+                @if (Model.RegType == "CGC")
+                {
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"> Two Months Case :</div>
+                            <div class="w3-col l1 m6 s12">
+                                @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.TWO_MONTH_CASE, Model.CGATwoMonthCase)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"> Date of Letter [6] :</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DATE_OF_LETTER_6, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col l12 m12 s12">
+                            <div class="w3-col l3 m6 s12"> Date of Letter [8] :</div>
+                            <div class="w3-col l3 m6 s12">
+                                @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DATE_OF_LETTER_8, new { @class = "inputDate" })
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of 3-alternative Letter :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.ALTERNATIVE_LETTER_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Subsequent to 3-Alt. :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.SUBSEQUENT_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Preliminary Letter :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PRELIMINARY_LETTER_DATE, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Result Letter :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RESULT_LETTER_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Interview/ Assessment Result :</div>
+                        <div class="w3-col l4 m6 s12">
+                            @Html.DropDownListFor(model => model.InterResultID, Model.InterResult)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Initial Reply :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INITIAL_REPLY, new { @readonly = "readonly" }) days from Received Date
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Interview :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INTERVIEW, new { @readonly = "readonly" }) days from Received Date
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Result Letter :</div>
+                        <div class="w3-col l3 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RESULT_LETTER, new { @readonly = "readonly" }) days from Received Date
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> End of Defer Date :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DEFER_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Certificate Issued :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CERTIFICATE_ISSUED_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Withdraw :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.WITHDRAW_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Remarks :</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextAreaFor(model => model.C_COMP_PROCESS_MONITOR.REMARKS)
+                        </div>
+                    </div>
+                </div>
+                @*<div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> QP Card</div>
+                    </div>
+                </div>*@
+                <br>
+                <div class="panelHeader">QP Card</div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Issue:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CARD_ISSUE_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Date of Expiry:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CARD_EXPIRY_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Serial No.:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CARD_SERIAL_NO)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Return Date:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CARD_RETURN_DATE, new { @class = "inputDate" })
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col l12 m12 s12">
+                        <div class="w3-col l3 m6 s12"> Registered Mail No.:</div>
+                        <div class="w3-col l6 m6 s12">
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.REG_MAIL_NO)
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-container footer">
+                    @if (MWMS2.Utility.AuthUtil.CanEdit)
+                    {<button type="button" value="Save" id="saveButton" class="saveButton btn btn-default"><i class="fa fa-save"></i> Save</button>}
+
+                    @if (Model.pmUUID != null && MWMS2.Utility.AuthUtil.CanDelete)
+                    {
+                        <button class="btnDel btn btn-default" type="button" onclick='goTo("Delete", [{ name: "id", value:"@Model.pmUUID"  }]);' value="delete"><i class="fa fa-trash"></i> Delete</button>
+                    }
+                    <button class="backButton btn btn-default" type="button" > Cancel</button>
+                </div>
+            </div>
+    </form>

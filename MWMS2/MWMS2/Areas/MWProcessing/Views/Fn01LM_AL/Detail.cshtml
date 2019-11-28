@@ -1,0 +1,289 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_ALDisplayModel
+
+<style>
+    .w3-col {
+        min-height: 0px! important;
+    }
+</style>
+
+<div class="letterTable displayForm" style="padding-left: 10px; padding-bottom: 10px; width: 1000px; border-width: 1px; border-color: #000; border-style: solid; margin: 0 auto;">
+    @using (Html.BeginForm("", "Fn01LM_AL", FormMethod.Post, new { @id = "alForm", enctype = "multipart /form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(x => x.P_MW_ACK_LETTER.UUID)
+        @Html.HiddenFor(x => x.DSN)
+
+        @Html.HiddenFor(x => x.P_MW_ACK_LETTER.PBP_NO)
+        @Html.HiddenFor(x => x.P_MW_ACK_LETTER.PRC_NO)
+        @Html.HiddenFor(x => x.PoName)
+        @Html.HiddenFor(x => x.PoPost)
+        @Html.HiddenFor(x => x.PoContact)
+        @Html.HiddenFor(x => x.SpoName)
+        @Html.HiddenFor(x => x.SpoPost)
+        @Html.HiddenFor(x => x.SpoContact)
+
+        <div style="padding-left: 8%; padding-right: 8%; padding-top: 3%; padding-bottom: 3%;">
+            <div class="w3-row">&nbsp;</div>
+            <div style="text-align: left;">
+                <div>@Model.DSN</div>
+            </div>
+            @if (Model.LANGUAGE_RADIO_ENGLISH.Equals(Model.Language))
+            {
+                <div class="w3-row" style="text-align:right;">
+                    <div>
+                        <b>@Html.DisplayFor(model => model.LetterDateDisplay)</b>
+                    </div>
+                </div>
+                <div class="w3-row" style="text-align: right;">
+                    <div class="w3-col">
+                        @Html.TextBoxFor(model => model.LetterDate, new { @class = "inputDate" })
+                    </div>
+                </div>
+            }
+            <div class="w3-row" style="text-align: right;">
+                <div>@Model.Heading</div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12" style="min-height: 0px;">
+                    <b>@Model.PbPName</b>
+                </div>
+                <div class="w3-col l6 m12 s12" style="text-align: right;">
+                    <b>@Model.PbpFax</b>
+                </div>
+
+            </div>
+            <div class="w3-row">
+            </div>
+            @if (Model.PbpAddr != null && Model.PbpAddr.Count() > 0)
+            {
+                foreach (var item in Model.PbpAddr)
+                {
+                    <div>
+                        @if (item != null)
+                        {
+                            <div><b>@item</b></div>
+                        }
+                        else
+                        {
+                            <div></div>
+                        }
+                    </div>
+                }
+            }
+            <div class="w3-row">&nbsp;</div>
+            <div class="w3-row">
+                <div class="w3-col l6 m12 s12" style="min-height: 0px;">
+                    <b>@Model.PrcName</b>
+                </div>
+                <div class="w3-col l6 m12 s12" style="text-align: right;">
+                    <b>@Model.PrcFax</b>
+                </div>
+            </div>
+            @if (Model.PrcAddr != null && Model.PrcAddr.Count() > 0)
+            {
+                foreach (var item in Model.PrcAddr)
+                {
+                    <div class="w3-row">
+                        @if (item != null)
+                        {
+                            <div><b>@item</b></div>
+                        }
+                        else
+                        {
+                            <div></div>
+                        }
+                    </div>
+                }
+            }
+            <div class="w3-row">&nbsp;</div>
+            <div class="w3-row">
+                <div>@Model.Title</div>
+            </div>
+            <div class="w3-row">
+                <div style="text-align: center;"><b>@Model.Caption</b></div>
+            </div>
+            <div class="w3-row" style="text-align: center;">
+                @Html.TextAreaFor(model => model.Address, new { @row = "2"
+                , @onkeypress = "return textAreaMaxLength(this, 333);", @onblur = "onBlurTextAreaMaxLength(this, 333);", @style = "width: 80%;" })
+            </div>
+            <div class="w3-row">&nbsp;</div>
+            <div style="text-align: justify;">@Model.FirstPara</div>
+            <div class="w3-row">&nbsp;</div>
+            <div class="w3-row" style="width: 90%; display: table; border: 1px solid black; border-spacing: 10px; margin: 0 auto;">
+                <div style="padding-left: 5%; padding-right: 5%;">
+                    @foreach (var list in Model.Items)
+                    {
+                        <div id="@list.UUID">
+                            <div class="w3-col l2 m12 s12">
+                                @Html.CheckBoxFor(model => model.ItemCheckList[list.UUID], Model.ItemCheckList[list.UUID])
+                                @Html.DisplayFor(model => model.ItemNoList[list.UUID])
+                                .
+                            </div>
+                            <div class="w3-col l10 m12 s12" style="text-align: justify;">
+                                @Html.TextAreaFor(model => model.ItemTextList[list.UUID], new { @cols = "80", @row = "2"
+                                    , @onkeypress = "return textAreaMaxLength(this, 333);"
+                                    , @onblur = "onBlurTextAreaMaxLength(this, 333);"
+                                    , @style = "resize: none;"})
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>&nbsp;</div>
+            <div>
+                <div class="w3-col l2 m2 s2">*2.</div>
+                <div class="w3-col l10 m10 s10" style="text-align: justify;">@Model.SecondPara</div>
+
+            </div>
+            <div>&nbsp;</div>
+            <div>
+                <div class="w3-col l2 m2 s2">3.</div>
+                <div class="w3-col l10 m10 s10" style="text-align: justify;">@Model.ThirdPara</div>
+
+            </div>
+            <div class="w3-row">&nbsp;</div>
+            <div>
+                <div class="w3-col l2 m2 s2">*4.</div>
+                <div class="w3-col l10 m10 s10" style="text-align: justify;">@Model.FourthPara</div>
+            </div>
+            <div class="w3-row">&nbsp;</div>
+            <div>
+                <div class="w3-col l2 m2 s2">5.</div>
+                <div class="w3-col l10 m10 s10" style="text-align: justify;">@Model.FifthPara</div>
+            </div>
+            <div class="w3-row">&nbsp;</div>
+            <div>
+                <div style="text-align: center;">
+                    @if (Model.LANGUAGE_RADIO_CHINESE.Equals(Model.Language))
+                    {
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">建築事務監督</div>
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">( @Model.SpoPost&nbsp;&nbsp;&nbsp;@Model.SpoName&nbsp;&nbsp;&nbsp;代行)</div>
+                    }
+                    else if (Model.LANGUAGE_RADIO_ENGLISH.Equals(Model.Language))
+                    {
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">Yours Faithfully,</div>
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">(@Model.SpoName)</div>
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">@Model.SpoPost</div>
+                        <div class="w3-col l7 m6 s6">&nbsp;</div>
+                        <div class="w3-col l5 m6 s6">for Building Authority</div>
+                    }
+                </div>
+            </div>
+            <div class="w3-row">&nbsp;</div>
+            <div class="w3-row">
+                @if (Model.LANGUAGE_RADIO_CHINESE.Equals(Model.Language))
+                {
+                    <div class="w3-col l1 m1 s1">副本送:</div>
+                    <div class="w3-col l11 m11 s11">@Model.PawName</div>
+
+                }
+                else
+                {
+                    <div class="w3-col l1 m1 s1">cc: </div>
+                    <div class="w3-col l11 m11 s11">@Model.PawName</div>
+                }
+            </div>
+            <div class="w3-row">
+                @if (Model.LANGUAGE_RADIO_CHINESE.Equals(Model.Language))
+                {
+                    <div class="w3-col l1 m1 s1">&nbsp;</div>
+                    <div class="w3-col l5 m11 s11">(傳真:@Model.PawContact)</div>
+                }
+                else
+                {
+                    <div class="w3-col l1 m1 s1">&nbsp;</div>
+                    <div class="w3-col l5 m11 s11">(Fax No.@Model.PawContact)</div>
+                }
+            </div>
+            @if (Model.LANGUAGE_RADIO_CHINESE.Equals(Model.Language))
+            {
+                <div class="w3-row"></div>
+                <div class="w3-row">
+                    @Model.LetterDateDisplay <!-- in chinese -->
+                </div>
+                <div class="w3-row">
+                    @Html.TextBoxFor(model => model.LetterDate, new { @class = "inputDate" })
+                </div>
+
+            }
+            <div class="w3-row">
+                @if (Model.LANGUAGE_RADIO_CHINESE.Equals(Model.Language))
+                {
+                    <div>（*刪去不適用者）</div>
+                }
+                else
+                {
+                    <div>(*delete if appropriate )</div>
+                }
+            </div>
+
+            <div class="w3-row">&nbsp;</div>
+            <div class="w3-row">
+                <div>
+                    <label>@Html.RadioButtonFor(model => model.Language, Model.LANGUAGE_RADIO_CHINESE, new { @class = "w3-radio" })</label>
+                    <label>中文&nbsp;|&nbsp;</label>
+                    <label>@Html.RadioButtonFor(model => model.Language, Model.LANGUAGE_RADIO_ENGLISH, new { @class = "w3-radio" })</label>
+                    <label>English</label>
+                    <label>&nbsp;</label>
+                    <label>@Html.RadioButtonFor(model => model.FileType, Model.DOC_TYPE_PDF, new { @class = "w3-radio" })</label>
+                    <label>PDF&nbsp;|&nbsp;</label>
+                    <label>@Html.RadioButtonFor(model => model.FileType, Model.DOC_TYPE_DOCX, new { @class = "w3-radio" })</label>
+                    <label>DOCX</label>
+                </div>
+            </div>
+            <div class="w3-row">
+                <button type="button" id="btnDownload" class="btn btn-default" onclick="onDownload()">Download</button>
+                <button type="button" id="btnUpdate" class="btn btn-default" onclick="onUpdate()">Update</button>
+                <button type="button" id="btnCancel" class="btn btn-default" onclick="onCancel()">Cancel</button>
+                <button type="button" id="btnRemove" class="btn btn-default" onclick="removeFromList()">Remove from Advisory Letter list</button>
+            </div>
+
+        </div>
+
+    }
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function textAreaMaxLength(textBox, maxLength) {
+            return (textBox.value.length <= maxLength);
+        }
+
+        function onBlurTextAreaMaxLength(textBox, maxLength) {
+            if (textBox.value.length > maxLength)
+                textBox.value = textBox.value.subsdiv(0, maxLength);
+        }
+
+        function onDownload() {
+            domId("alForm").action = "ackLetterDownload";
+            domId("alForm").submit();
+        }
+
+        function onUpdate() {
+            domId("alForm").action = "updateAckLetterList";
+            domId("alForm").submit();
+        }
+
+        function onCancel() {
+            domId("alForm").action = "Index";
+            domId("alForm").submit();
+        }
+
+        function removeFromList() {
+            var confirm = window.confirm("Are you sure to remove this DSN from the Advisory Letter List? ");
+            if (!confirm) {
+                return;
+            }
+            domId("alForm").action = "removeFromAlList";
+            domId("alForm").submit();
+        }
+    </script>
+}

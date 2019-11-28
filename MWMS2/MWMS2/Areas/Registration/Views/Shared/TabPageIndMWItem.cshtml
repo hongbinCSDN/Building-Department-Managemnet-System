@@ -1,0 +1,375 @@
+﻿@model MWMS2.Areas.Registration.Models.IndMWItemDisplayModel
+
+@*<script>
+        domReady(function () {
+
+            alert("123");
+
+        });
+
+    </script>*@
+
+
+@*<button onclick="onLoadEditMWItemPage('')" id="" class="btn btn-default" type="button"><i class="far fa-plus-square"></i> New Record for Item Capability </button>*@
+@{
+    bool isTray = false;
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m6 s12">
+                <b>Application History </b>
+            </div>
+            <div style="text-align:right">
+                Versions:
+                <select id="MWItemVersionSelector" style="width:auto"><option value="Old">Old</option><option value="New" selected>New</option></select>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+    <table class="resultTable" style="width: 100%;  max-width: 100%; table-layout: fixed;  word-wrap: break-word;">
+
+        <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    App. Date
+                </th>
+                <th>
+                    App. Form
+                </th>
+                <th>
+                    Apply Items / Withdrawn Items(For trade only)
+                </th>
+                <th>
+                    Approved by
+                </th>
+                <th>
+                    Approved Date
+                </th>
+                <th>
+                    Approved Items
+                </th>
+                <th style="width:200px">
+                    Status
+                </th>
+                <th style="width:50px">
+
+
+                </th>
+
+            </tr>
+
+
+        </thead>
+        <tbody>
+
+            @{
+                if (Model.MWItemDetailList != null)
+                {
+
+
+                    int idx = 0;
+                    foreach (var item in Model.MWItemDetailList)
+                    {
+                        isTray = item.isTray;
+                        idx++;
+                        <tr>
+                            <td>
+                                <button onclick="onLoadEditMWItemPage('@item.m_UUID','@Model.IndApplication_UUID')" id="" class="btn btn-default" type="button"><i class="fa fa-edit"></i> Edit </button>
+
+                            </td>
+                            <td>
+                                @item.m_APPLICATION_DATE
+                            </td>
+                            <td>
+                                @Model.GetAppFormCode(@item.m_APPLICATION_FORM_ID, item.isTray)
+
+
+                            </td>
+                            <td style="word-break:break-word ;white-space:normal">
+
+                                @{
+
+                                    if (!string.IsNullOrWhiteSpace(item.m_Apply_Item))
+                                    {
+                                        @item.m_Apply_Item
+                                    }
+                                    else if (item.isTray)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @item.GetApplyMWItemApply()
+                                    }
+
+                                }
+
+
+
+                                @*@Model.GetApplyMWItemApply(@item.m_UUID)*@
+                            </td>
+                            <td>
+                                @item.m_APPROVED_BY
+                            </td>
+                            <td>
+                                @item.m_APPROVED_DATE
+                            </td>
+                            <td style="word-break:break-word ;white-space:normal">
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(item.m_Approved_Item))
+                                    {
+                                        @item.m_Approved_Item
+                                    }
+                                    else
+                                    {
+                                        @item.GetApplyMWItemApproved()
+                                    }
+
+
+                                }
+                                @*@Model.GetApplyMWItemApproved(@item.m_UUID)*@
+                            </td>
+                            <td>
+                                @item.m_STATUS_CODE
+                            </td>
+                            <td>
+                                <button onclick="onDeleteMWItem('@item.m_UUID')" id="" class="  w3-red btn btn-default" type="button"><i class="fa fa-trash"></i>  </button>
+
+                            </td>
+                        </tr>
+
+
+                    }
+
+
+                }
+
+
+
+            }
+        </tbody>
+
+
+
+    </table>
+
+
+    <br />
+
+    <div id="OldMWItemList" class="hide">
+        <div class="panelHeader">Current MW Capability</div>
+
+        <div style="overflow-x:auto;">
+            <table class="resultTable">
+
+                <thead>
+                    <tr>
+
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Supported by
+                            Qualification Only
+                        </th>
+                        <th>
+                            Supported by
+                            Qualification and Experience
+                        </th>
+                        <th>
+                            Supported by
+                            Experience Only
+                        </th>
+
+                    </tr>
+
+
+                </thead>
+                <tbody>
+
+                    @{
+                        Model.GetCurrentMWItemApproved();
+                        foreach (var item in Model.GetMWItemFullList())
+                        {
+
+                            //foreach (var Selecteditem in Model.GetCurrentMWItemApproved())
+                            //{
+
+
+                            // }
+
+
+                            <tr>
+                                <td>
+                                    @item.CODE
+                                </td>
+                                <td align="center">
+
+                                    @{
+                                        string IsChecked = "";
+                                        if (Model.LatestApprovedMWItem.Contains(@item.UUID + "Q"))
+                                        { IsChecked = "checked"; }
+                                    }
+
+                                    <input type="radio" @IsChecked id='@(item.UUID + "Q")' value="Q" disabled="disabled" />
+
+                                </td>
+                                <td align="center">
+                                    @{
+                                        IsChecked = "";
+                                        if (Model.LatestApprovedMWItem.Contains(@item.UUID + "A"))
+                                        { IsChecked = "checked"; }
+                                    }
+                                    <input type="radio" @IsChecked id='@(item.UUID + "A")' value="A" disabled="disabled" />
+                                </td>
+                                <td align="center">
+                                    @{
+                                        IsChecked = "";
+                                        if (Model.LatestApprovedMWItem.Contains(@item.UUID + "E"))
+                                        { IsChecked = "checked"; }
+                                    }
+                                    <input type="radio" @IsChecked id='@(item.UUID + "E")' value="E" disabled="disabled" />
+                                </td>
+                            </tr>
+
+                        }
+
+
+                    }
+                </tbody>
+
+
+
+            </table>
+
+
+        </div>
+    </div>
+    <div id="NewMWItemList" class="">
+        <div style="overflow-x:auto;">
+            <table class="resultTable">
+
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th colspan="3">
+                            Supported by
+                        </th>
+                    </tr>
+                    <tr>
+
+                        <th>
+                            指定工種
+                        </th>
+                        <th>
+                            相關的小型工程項目
+                        </th>
+                        <th>
+                            學歷
+                        </th>
+                        <th>
+                            學歷+經驗
+                        </th>
+                        <th>
+                            經驗
+                        </th>
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{
+                        Model.GetFinalTrayMWItem();
+
+                    }
+
+                    @foreach (var item in Model.GetNewMWItemFullList())
+                    {
+                        <tr>
+
+                            <td>
+                                @{
+
+                                    var isSelected = "";
+                                    var supportQ = "";
+                                    var supportA = "";
+                                    var supportE = "";
+
+                                    if (Model.TrayDisplay)
+                                    {
+                                        if (Model.FinalTrayItemList.Where(x => x.MW_IND_CAPA_DISPLAY_ID == item.S_MW_IND_CAPA_ID).Count() != 0)
+                                        {
+                                            isSelected = "checked";
+                                            var supprtAns = Model.FinalTrayItemList
+                                                .Where(x => x.MW_IND_CAPA_DISPLAY_ID == item.S_MW_IND_CAPA_ID)
+                                                .FirstOrDefault().SUPPORT_BY;
+                                            if (supprtAns == "Q")
+                                            {
+                                                supportQ = "checked";
+                                            }
+                                            else if (supprtAns == "A")
+                                            {
+                                                supportA = "checked";
+
+                                            }
+                                            else if (supprtAns == "E")
+                                            {
+                                                supportE = "checked";
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                <input disabled="disabled" @isSelected type="checkbox">@item.DESCRIPTION
+
+                            </td>
+                            <td>
+                                @item.C_S_MW_IND_CAPA.ITEM_DESC_DISPLAY
+                            </td>
+                            <td align="center">
+
+
+
+                                <input type="radio" @supportQ value="Q" disabled="disabled" />
+
+                            </td>
+                            <td align="center">
+
+                                <input type="radio" @supportA value="A" disabled="disabled" />
+                            </td>
+                            <td align="center">
+
+                                <input type="radio" @supportE value="E" disabled="disabled" />
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+    </div>
+
+
+
+}
+
+

@@ -1,0 +1,45 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+
+<script>
+    function editAddress()
+    {
+        var bcis = document.getElementById("bcisBlockId").value;
+        var bdref = document.getElementById("BdRefNo").value;
+
+        window.opener.addAddressCallback(bcis, bdref);
+        window.close();
+    }
+</script>
+
+<div class="panelHeader w3-row">
+    <span class="w3-col l10 m10 s10">Edit BCIS Block ID & BD ref. (4+2)</span>
+    <span class="w3-col l2 m2 s2" style="text-align: right;">
+        <input name="btnSave" id="btnSave" class="btn btn-default" type="button" value="Save" onclick="editAddress()"/>
+    </span>
+    
+</div>
+
+<div class="displayForm">
+    @Html.HiddenFor(x => x.B_SV_ADDRESS.UUID)
+    <div style="overflow-x:auto">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                    <th>BCIS Block ID</th>
+
+                    <th>4+2 No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.TextAreaFor(x => x.B_SV_ADDRESS.BCIS_BLOCK_ID, 3, 50, new { @value = Model.B_SV_ADDRESS.BCIS_BLOCK_ID, @id = "bcisBlockId", @style = "resize: none" })</td>
+                    <td>@Html.TextAreaFor(x => x.B_SV_ADDRESS.FILE_REFERENCE_NO, 3, 50, new { @value = Model.B_SV_ADDRESS.FILE_REFERENCE_NO, @id = "BdRefNo", @style = "resize: none" })</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

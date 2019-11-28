@@ -1,0 +1,64 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_Model
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+<div id="searchCriteria">
+    @Html.HiddenFor(model => model.SystemType)
+    @if (MWMS2.Utility.AuthUtil.CanCreate)
+    {<button onclick="createNew()" name="NewItem" value="newItem"><i class="far fa-plus-square"></i> New Item</button>}
+</div>
+    <br>
+
+    <div id="resultPanel"></div>
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form_BSCI", [{ name: "id", value: row.UUID }@*,
+                                { name: "systemType", value:  "@Model.SystemType" }*@, { name: "pageCode", value: domId("functionCode").value }]);}</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+
+    <script type="text/javascript">
+        function createNew() {
+            //window.location.href = domId("rootPath").value + "/Admin/CRM/Form_BSCI";
+            goTo(domId("rootPath").value + "/Admin/CRM/Form_BSCI", [{ name: "id", value: null }, { name: "systemType", value: '@Model.SystemType' }, { name: "pageCode", value: domId("functionCode").value }], false);
+        }
+    domReady(function () {
+        new searcher({
+            searchPath: "SearchBSCI"
+            , exportPath: "Excel_BSCI"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "REGISTRATION_TYPE"
+            , Columns: [
+
+                { displayName: "Registration Type", columnName: "REGISTRATION_TYPE" }
+
+                , {
+                    displayName: "Category Code", columnName: "CATEGORY_CODE"
+                    , click: function (row) {
+                        try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                    }
+                }
+
+                , { displayName: "Building Safety Code", columnName: "BUILDING_SAFETY_CODE" }
+                , { displayName: "HTML Header (Eng)", columnName: "ENGLISH_HTML_HEADER" }
+                , { displayName: "HTML Header (Chn)", columnName: "CHINESE_HTML_HEADER" }
+
+            ]
+        }).search();
+    });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+

@@ -1,0 +1,213 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_MRADisplayModel
+
+<div class="panelHeader">Meeting & Room Arrangement</div>
+
+<div id="searchCriteria">
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Interview date:*</div>
+            <div class="w3-col l7 m6 s12">
+                @Html.TextBoxFor(model => model.InterviewDate, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Session:*</div>
+            <div class="w3-col l3 m6 s12">
+                <select>
+                    <option></option>
+                </select>
+                @*@Html.DropDownListFor(model => model.Session, Model.SessionList)*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Room:*</div>
+            <div class="w3-col l3 m6 s12">
+                <select>
+                    <option></option>
+                </select>
+                @*@Html.DropDownListFor(model => model.Room, Model.RoomList)*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Committee Group:</div>
+            <div class="w3-col l3 m6 s12">
+                <select>
+                    <option></option>
+                </select>
+                @*@Html.DropDownListFor(model => model.ComGrp, Model.ComGrpList)*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Cancel Meeting:</div>
+            <div class="w3-col l3 m6 s12">
+                <select>
+                    <option></option>
+                </select>
+                @*@Html.DropDownListFor(model => model.CancelMeeting, Model.CancelList)*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panelHeader">Member List for Meeting Group</div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l12 m12 s12" style="text-align:left"><input type="radio" name="MLMG" />By Committee Group</div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <b class="w3-col l3 m6 s12">Please Select :</b>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Panel:</div>
+                <div class="w3-col l3 m6 s12">
+                    <select>
+                        <option></option>
+                    </select>
+                </div>
+                <div class="w3-col l3 m6 s12">Year:</div>
+                <div class="w3-col l3 m6 s12"><input type="text"></div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Committee:</div>
+                <div class="w3-col l3 m6 s12">
+                    <select>
+                        <option></option>
+                    </select>
+                </div>
+                <div class="w3-col l3 m6 s12">Committee Group:</div>
+                <div class="w3-col l3 m6 s12"><input type="text"></div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Month:</div>
+                <div class="w3-col l3 m6 s12">
+                    <select>
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12" style="text-align:left"><input type="radio" name="MLMG" />One-By-One</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Surname:</div>
+                <div class="w3-col l3 m6 s12"><input type="text"></div>
+                <div class="w3-col l3 m6 s12">Given Name:</div>
+                <div class="w3-col l3 m6 s12"><input type="text"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="searchButton btn btn-default" type="button"> Search </button>
+
+    <br><br>
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="sel" /></th>
+                <th>Name</th>
+                <th>Rank</th>
+                <th>Post</th>
+                <th>career</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*<tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>*@
+
+        </tbody>
+    </table>
+
+    <br><br>
+    <button class="searchButton btn btn-default" type="button"> Add to Member List </button>
+
+
+    <br><br>
+    <div class="panelHeader">Member List for Meeting Group</div>
+
+    <table class="resultTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>HKID/ Passport No</th>
+                <th>Rank</th>
+                <th>Post</th>
+                <th>career</th>
+                <th>Role</th>
+                <th>Absent</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <br><br>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"> Save </button>
+        <button class="searchButton btn btn-default" type="button"> Cancel </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        loadResultTable({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

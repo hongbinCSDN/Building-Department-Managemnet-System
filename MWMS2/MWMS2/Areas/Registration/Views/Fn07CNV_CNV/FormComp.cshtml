@@ -1,0 +1,660 @@
+@model MWMS2.Areas.Registration.Models.Fn07CNV_CNVDisplayModel
+
+@*<div class="panelHeader">Search Conviction</div>*@
+
+@using (Html.BeginForm("Save", "Fn07CNV_CNV", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.C_COMP_CONVICTION.UUID)
+    @Html.HiddenFor(model => model.C_COMP_CONVICTION.REGISTRATION_TYPE)
+
+    <div id="searchCriteria">
+
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s12" style="font-size:50%;">1. Fields marked <font color="red">*</font> are required.   2. Dates must be in the format dd/mm/yyyy. </div>
+            <div class="w3-col l6 m6 s12" style="text-align:right;">Last Updated: @Html.DisplayFor(model => model.C_COMP_CONVICTION.MODIFIED_DATE)  </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Company Name (Eng) :<font color="red">*</font></div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.ENGLISH_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Company Name (Chn) :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CHINESE_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Proprietor Name :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.PROPRI_NAME)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">BR Number :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.BR_NO)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Reference :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.REFERENCE)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Company Type :</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.COMPANY_TYPE_ID, Model.getCompanyType())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Site Description :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.SITE_DESCRIPTION, new { style = "width: 100%" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Source :</div>
+                <div class="w3-col l9 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CONVICTION_SOURCE_ID, Model.getConvictionSource())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Remarks :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.REMARKS, new { style = "width: 100%" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Record Type :</div>
+                <div class="w3-col l9 m6 s12 RecordType" id="RecordType">
+                    @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "C") Conviction Record
+                    @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "S") Suspension/Removal Record
+                    @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "D") Disciplinary Action
+                    @Html.RadioButtonFor(x => x.C_COMP_CONVICTION.RECORD_TYPE, "M") Miscellaneous
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="panelHeader">Conviction Record :</div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m6 s12">Section of Ordinances/Regulation :</div>
+                <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_SECTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Date of Offence :</div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_OFFENCE_DATE, "", new { @class = "inputDate" })</div>
+
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Date of Judgement :</div>
+                <div class="w3-col l6 m12 s12">
+                    <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_JUDGE_DATE, "", new { @class = "inputDate" })</div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w3-row">
+
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Fine :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CR_FINE)</div>
+            </div>
+            <div class="w3-col l3 m6 s12">
+                <div class="w3-col l6 m6 s12">Accident: </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CR_ACCIDENT, Model.getYesNo())
+                </div>
+            </div>
+            <div class="w3-col l3 m6 s12">
+                <div class="w3-col l6 m6 s12">Fatal: </div>
+                <div class="w3-col l6 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CR_FATAL, Model.getYesNo())
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12" style="text-align:right;">
+                @Html.CheckBoxFor(model => model.CrReport)This record must be shown on report
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div></div>
+        </div>
+
+
+        <div class="panelHeader">Suspension/Removal Record :</div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Action :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_ACTION, new { disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Effective Date :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_EFFECTIVE_DATE, "", new { @class = "inputDate", disabled = "disabled" })</div>
+            </div>
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Date of Approval :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_APPROVAL_DATE, "", new { @class = "inputDate", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Suspension Date : </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_FROM_DATE, "", new { @class = "inputDate", disabled = "disabled" }) to
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_TO_DATE, "", new { @class = "inputDate", disabled = "disabled" })
+                </div>
+            </div>
+
+            <div class="w3-col l6 m6 s12">
+                <div class="w3-col l6 m12 s12">Category :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.CATEGORY, new { disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Details :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.SRR_SUSPENSION_DETAILS, new { style = "width: 100%", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12" style="text-align:right;">
+                @Html.CheckBoxFor(model => model.SrrReport, new { disabled = "disabled" })This record must be shown on report
+            </div>
+        </div>
+
+
+        <div class="panelHeader">Disciplinary Action :</div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of Decision :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.DA_DECISION_DATE, new { @class = "inputDate", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Details :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.DA_DETAILS, new { style = "width: 100%", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12" style="text-align:right;">
+                @Html.CheckBoxFor(model => model.DaReport, new { disabled = "disabled" })This record must be shown on report
+            </div>
+        </div>
+
+        <div class="panelHeader">Miscellaneous :</div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Receiving Date :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextBoxFor(model => model.C_COMP_CONVICTION.MISC_RECEIVING_DATE, "", new { @class = "inputDate", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Details :</div>
+                <div class="w3-col l9 m6 s12">@Html.TextAreaFor(model => model.C_COMP_CONVICTION.MISC_DETAILS, new { style = "width: 100%", disabled = "disabled" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12" style="text-align:right;">
+                @Html.CheckBoxFor(model => model.MiscReport, new { disabled = "disabled" })This record must be shown on report
+            </div>
+        </div>
+
+        @* new add *@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Name of AS/TD/OO (Eng): </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.AS_NAME_ENG)
+
+                </div>
+
+                <div class="w3-col l3 m6 s12">Name of AS/TD/OO (Chi): </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.AS_NAME_CHN)
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">ID no.:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.ID_NO, Model.getDecryptHKIDComp())
+                </div>
+                @*<input type="button" onclick="GetApplicant()" value="Get HKID" />
+                    <button onclick="window.location='/Registration/Fn07CNV_CNV/Index'" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i></button>*@
+                <div style="color:red" id="ErrorDiv"></div>
+            </div>
+        </div>
+
+        @*<div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m6 s12">BR no.:</div>
+                    <div class="w3-col l3 m6 s12">
+                        @Html.EditorFor(model => model.Fine, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "BRNumber" } })
+                        @Html.ValidationMessageFor(model => model.Fine, "", new { @class = "text-danger" })
+                    </div>
+
+                    <button onclick="window.location='/Registration/Fn07CNV_CNV/Index'" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                </div>
+
+            </div>*@
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category: </div>
+                <div class="w3-col l9 m6 s12 CategoryType" id="CategoryType">
+
+                    @Html.CheckBoxFor(model => model.Category1)                       @Html.Label("GBC  ")
+                    @Html.CheckBoxFor(model => model.Category2)                       @Html.Label("SC(D)  ")
+                    @Html.CheckBoxFor(model => model.Category3)                       @Html.Label("SC(F)  ")
+                    @Html.CheckBoxFor(model => model.Category4)                       @Html.Label("SC(GI)  ")
+                    @Html.CheckBoxFor(model => model.Category5)                       @Html.Label("SC(SF)  ")
+                    @Html.CheckBoxFor(model => model.Category6)                       @Html.Label("SC(V)  ")
+                    @Html.CheckBoxFor(model => model.Category7)                       @Html.Label("MWC(Co)  ")
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Record Cleared:  </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.RECORD_CLEARED, Model.YesNoListWithNoIndication, new { id = "RecordClear" })
+                </div>
+
+                <div class="w3-col l3 m6 s12">CRC interview: </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_COMP_CONVICTION.CRC_INTERVIEW, Model.YesNoListWithNoIndication, new { id = "CRCInterview" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Date of CRC interview  </div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.TextBoxFor(model => model.C_COMP_CONVICTION.CRC_INTERVIEW_DATE, "", new { @class = "inputDate", id = "CRCInterviewDt" })
+                    @Html.ValidationMessageFor(model => model.C_COMP_CONVICTION.CRC_INTERVIEW_DATE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="submit" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            @*<button onclick="window.location='/Registration/Fn07CNV_CNV/Index'" class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>*@
+            <button class="backButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+            @if (Model.C_COMP_CONVICTION.UUID != null && MWMS2.Utility.AuthUtil.CanDelete)
+            {
+                <button class="btnDel btn btn-default" type="button" onclick='del()' value="delete"> <i class="fa fa-trash"> </i>Delete</button>
+            }
+        </div>
+
+    </div>
+}
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+
+    $(document).ready(function () {
+
+        var radioValue = $("input[name='C_COMP_CONVICTION.RECORD_TYPE']:checked").val();
+        // alert(radioValue);
+
+        if (radioValue == "C") {
+
+            $('#C_IND_CONVICTION_CR_SECTION').removeAttr('disabled');
+            $('#C_IND_CONVICTION_CR_OFFENCE_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_CR_JUDGEMENT_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_CR_FINE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_CR_ACCIDENT').removeAttr('disabled');
+            $('#C_IND_CONVICTION_CR_FATAL').removeAttr('disabled');
+            $('#Ind_CrReport').removeAttr('disabled');
+
+            $('#C_IND_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_EFFECT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_CATEGORY').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_SrrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_DaReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "S") {
+
+            $('#C_IND_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_JUDGEMENT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#Ind_CrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_SRR_ACTION').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_EFFECT_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_APPROVAL_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_FROM_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_TO_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_CATEGORY').removeAttr('disabled');
+            $('#C_IND_CONVICTION_SRR_DETAILS').removeAttr('disabled');
+            $('#Ind_SrrReport').removeAttr('disabled');
+
+            $('#C_IND_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_DaReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "D") {
+
+            $('#C_IND_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_JUDGEMENT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#Ind_CrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_EFFECT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_CATEGORY').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_SrrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_DA_DECISION_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_DA_DETAILS').removeAttr('disabled');
+            $('#Ind_DaReport').removeAttr('disabled');
+
+            $('#C_IND_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "M") {
+
+            $('#C_IND_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_JUDGEMENT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#Ind_CrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_EFFECT_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_CATEGORY').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_SRR_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_SrrReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_IND_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#Ind_DaReport').attr('disabled', 'disabled');
+
+            $('#C_IND_CONVICTION_MISC_RECEIVING_DATE').removeAttr('disabled');
+            $('#C_IND_CONVICTION_MISC_DETAILS').removeAttr('disabled');
+            $('#Ind_MiscReport').removeAttr('disabled');
+        }
+    });
+
+
+    $("#RecordType").change(function () {
+        var radioValue = $("input[name='C_COMP_CONVICTION.RECORD_TYPE']:checked").val();
+        // alert(radioValue);
+
+        if (radioValue == "C") {
+
+            $('#C_COMP_CONVICTION_CR_SECTION').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CR_OFFENCE_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CR_JUDGE_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CR_FINE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CR_ACCIDENT').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CR_FATAL').removeAttr('disabled');
+            $('#CrReport').removeAttr('disabled');
+
+            $('#C_COMP_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_EFFECTIVE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CATEGORY').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_DETAILS').attr('disabled', 'disabled');
+            $('#SrrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#DaReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "S") {
+
+            $('#C_COMP_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_JUDGE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#CrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_SRR_ACTION').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_SRR_EFFECTIVE_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_SRR_APPROVAL_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_FROM_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_TO_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_CATEGORY').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_DETAILS').removeAttr('disabled');
+            $('#SrrReport').removeAttr('disabled');
+
+            $('#C_COMP_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#DaReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "D") {
+
+            $('#C_COMP_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_JUDGE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#CrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_EFFECTIVE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CATEGORY').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_DETAILS').attr('disabled', 'disabled');
+            $('#SrrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_DA_DECISION_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_DA_DETAILS').removeAttr('disabled');
+            $('#DaReport').removeAttr('disabled');
+
+            $('#C_COMP_CONVICTION_MISC_RECEIVING_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_MISC_DETAILS').attr('disabled', 'disabled');
+            $('#MiscReport').attr('disabled', 'disabled');
+
+        }
+        else if (radioValue == "M") {
+
+            $('#C_COMP_CONVICTION_CR_SECTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_OFFENCE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_JUDGE_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FINE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_ACCIDENT').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CR_FATAL').attr('disabled', 'disabled');
+            $('#CrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_SRR_ACTION').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_EFFECTIVE_DATEt').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_APPROVAL_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_FROM_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_TO_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_CATEGORY').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_SRR_SUSPENSION_DETAILS').attr('disabled', 'disabled');
+            $('#SrrReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_DA_DECISION_DATE').attr('disabled', 'disabled');
+            $('#C_COMP_CONVICTION_DA_DETAILS').attr('disabled', 'disabled');
+            $('#DaReport').attr('disabled', 'disabled');
+
+            $('#C_COMP_CONVICTION_MISC_RECEIVING_DATE').removeAttr('disabled');
+            $('#C_COMP_CONVICTION_MISC_DETAILS').removeAttr('disabled');
+            $('#MiscReport').removeAttr('disabled');
+        }
+
+
+
+    });
+
+
+    function GetApplicant() {
+        alert($("#C_COMP_CONVICTION_ID_NO").val());
+        //alert($("#C_APPLICANT_HKID").val());
+        $.ajax({
+            type: "POST",
+            url: '/Fn07CNV_CNV/GetApplicantById',
+            data: {
+
+                hkid: $("#C_COMP_CONVICTION_ID_NO").val()
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.ErrorMessage != null) {
+                    document.getElementById("ErrorDiv").innerHTML = data.ErrorMessage;
+                }
+                else {
+                    document.getElementById("ErrorDiv").innerHTML = "";
+                    alert(data.AsTdOoChiName + " " + data.AsTdOoEngName);
+                    //document.getElementById('C_APPLICANT_FULL_NAME_DISPLAY').value = data.AsTdOoEngName;
+                    $("#C_COMP_CONVICTION_AS_NAME_ENG").val(data.AsTdOoEngName);
+                    $("#C_COMP_CONVICTION_AS_NAME_CHN").val(data.AsTdOoChiName);
+                    $("#C_COMP_CONVICTION_ID_NO").val(data.HKID);
+
+                    alert(document.getElementById('C_APPLICANT_FULL_NAME_DISPLAY').value);
+
+                }
+                console.log(data);
+                console.log(data.ErrorMessage);
+            }
+        })
+    }
+
+    function del() {
+        var isDel = confirm("Are you sure delete?");
+        if (isDel) {
+            goTo("Delete", [{ name: "id", value:"@Model.C_COMP_CONVICTION.UUID"  }, { name: "type", value:"@Model.C_COMP_CONVICTION.REGISTRATION_TYPE"  }]);
+        }
+    }
+</script>

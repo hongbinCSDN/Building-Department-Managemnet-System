@@ -1,0 +1,56 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_ESRSearchModel
+
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">DSN :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.Dsn)
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date :</div>
+            <div class="w3-col l6 m12 s12">
+                &nbsp;From&nbsp;@Html.TextBoxFor(model => model.ScanDateFrom, new { @class = "inputDate", @id = "ReceivedDateFrom" })
+                &nbsp;To&nbsp; @Html.TextBoxFor(model => model.ScanDateTo, new { @class = "inputDate", @id = "ReceivedDateTo" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "EFSS_SUBMISSION"
+            , Columns: [
+                { displayName: "DSN", columnName: "DSN" },
+                { displayName: "EFSS Submission No.", columnName: "EFSS_SUBMISSION" },
+                { displayName: "MW No.", columnName: "MW_SUBMISSION" },
+                { displayName: "Form No.", columnName: "FORM_CODE" },
+                { displayName: "MWU Received Date", columnName: "RECEIVED_DATE" },
+                { displayName: "File Ref No (4+2)", columnName: "FOUR_TWO" },
+                { displayName: "Status", columnName: "STATUS" },
+                
+        ]});
+    });
+</script>

@@ -1,0 +1,49 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn07CNV_CNVSearchModel
+
+
+<div class="panelHeader">Import Conviction Records - @Html.DisplayFor(model => model.ImportType) </div>
+@using (Html.BeginForm("Import", "Fn07CNV_CNV", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="displayForm">
+    <div class="w3-row">
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12"> Registration Type :</div>
+            <div class="w3-col l9 m12 s12">
+                @Html.RadioButtonFor(x => x.registrationType, "CGC", new {@checked="checked", @id = "TYPE_CGC" }) <label for="TYPE_CGC">General Contractor Application</label>
+                @Html.RadioButtonFor(x => x.registrationType, "CMW", new { @id = "TYPE_CMW" })  <label for="TYPE_CMW">MW Company</label>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12"> Import File: (Excel Format) <br /> <a href="javascript:getTemplate()">Get Excel Sample</a></div>
+            <div class="w3-col l9 m12 s12">
+                @Html.HiddenFor(model => model.ImportType)
+                <input type="file" name="file" id="file" />
+                @ViewBag.Message
+            </div>
+        </div>
+
+    </div>
+  
+        <div class="w3-container footer">
+            <input type="submit" value="Import" />
+            <input type="button" class="backButton" name="Cancel" value="Cancel" />
+
+        </div>
+    </div>
+    }
+<script>
+    function getTemplate()
+    {
+        goTo("getTemplate", [{ name: "ImportType", value: "@Model.ImportType" }]);
+        dropClass(document.body, "bodyLoading");
+    }
+
+
+</script>

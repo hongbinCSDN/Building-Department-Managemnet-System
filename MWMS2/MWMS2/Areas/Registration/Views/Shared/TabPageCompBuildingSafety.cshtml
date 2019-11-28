@@ -1,0 +1,98 @@
+﻿@model MWMS2.Areas.Registration.Models.CompDisplayModel
+
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.WILLINGNESS_QP) :</div>
+            <div class="w3-col l6 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.WILLINGNESS_QP, Model.WILLINGNESS_QP_List)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.INTERESTED_FSS) :</div>
+            <div class="w3-col l6 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.INTERESTED_FSS, Model.INTERESTED_FSS_List)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.SERVICE_IN_MWIS) :</div>
+            <div class="w3-col l6 m6 s12 data">@Html.DropDownListFor(model => model.ServiceInMWIS, Model.GetMWISOption())</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.ENGLISH_BS_CARE_OF) :</div>
+            <div class="w3-col l9 m12 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.ENGLISH_BS_CARE_OF)</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.CHINESE_BS_CARE_OF) :</div>
+            <div class="w3-col l9 m12 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.CHINESE_BS_CARE_OF)</div>
+        </div>
+
+
+
+        <div class="w3-col hr"></div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l12 m12 s12 w3-center">Address @Html.LabelFor(o => o.C_ADDRESS_English)<button type="button" id="copyEnglishAddressButton">Copy from correspondance address</button></div>
+            <div class="w3-col l12 m12 s12 data">
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE1)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE2)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE3)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE4)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS1.ADDRESS_LINE5)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l12 m12 s12 w3-center">Address @Html.LabelFor(o => o.C_ADDRESS_Chinese)<button type="button" id="copyChineseAddressButton">Copy from correspondance address</button></div>
+            <div class="w3-col l12 m12 s12 data">
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE1)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE2)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE3)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE4)<br />
+                @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS3.ADDRESS_LINE5)
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="w3-col hr"></div>
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l2 m6 s12 label">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_TELEPHONE_NO1) :</div>
+            <div class="w3-col l3 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.BS_TELEPHONE_NO1)</div>
+            <div class="w3-col l1 m6 s12 data"><button type="button" id="copyTelButton">Copy</button></div>
+            <div class="w3-col l2 m6 s12 label">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_FAX_NO1) :</div>
+            <div class="w3-col l3 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.BS_FAX_NO1)</div>
+            <div class="w3-col l1 m6 s12 data"><button type="button" id="copyFaxButton">Copy</button></div>
+        </div>
+
+
+        @if (Model.RegType.Equals(MWMS2.Constant.RegistrationConstant.REGISTRATION_TYPE_MWCA))
+        {
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12 label">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_REGION_CODE_ID) :</div>
+                <div class="w3-col l3 m12 s12 data">
+                    @Html.DropDownListFor(o => o.C_COMP_APPLICATION.BS_REGION_CODE_ID, Model.BS_REGION_CODE_ID_List)
+                </div>
+                <div class="w3-col l1 m6 s12 data"><button type="button" id="copyRegionButton">Copy</button></div>
+                <div class="w3-col l2 m12 s12 label">@Html.LabelFor(o => o.C_COMP_APPLICATION.BS_EMAIL_ADDRESS) :</div>
+                <div class="w3-col l3 m12 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.BS_EMAIL_ADDRESS)</div>
+                <div class="w3-col l1 m6 s12 data"><button type="button" id="copyEmailButton">Copy</button></div>
+            </div>
+        }
+
+        <div class="w3-col hr"></div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l12 m12 s12 w3-left-align">@Html.LabelFor(o => o.C_S_SYSTEM_VALUEs_BS) :</div>
+        </div>
+
+        <div class="w3-col l12 m12 s12" style="overflow-x: auto;">@Html.Partial("DivBuildingSafetyCheckList", Model.BsModel)</div>
+    </div>

@@ -1,0 +1,145 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn01LM_DRSearchModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">DSN :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.DSN, new { @id = "DSN" })
+            </div>
+            <div class="w3-col l3 m12 s12">Form Type :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.FORM_TYPE, new { @id = "FORM_TYPE" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Reg no. of AP/ RI / Contractor :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.CONTRACTOR_REG_NO, new { @id = "CONTRACTOR_REG_NO" })
+            </div>
+            <div class="w3-col l3 m12 s12">Name of AP/ RI / Contractor :</div>
+            <div class="w3-col l3 m12 s12" id="APRIContractorName"></div>
+        </div>
+
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date:</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.RECEIVED_DATE, new { @id = "RECEIVED_DATE", @class = "inputDate" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Irregularities :</div>
+            <div class="w3-col l9 m12 s12">
+                @for (int i = 0; i < Model.IrregularitiesList.Count(); i++)
+                {
+                    @Html.CheckBoxFor(model => Model.IrregularitiesList[i].IsChecked)
+                    @Html.HiddenFor(model => Model.IrregularitiesList[i].UUID, new { })
+                    @Html.HiddenFor(model => Model.IrregularitiesList[i].Code, new { })
+                    @Model.IrregularitiesList[i].Description
+                    @*@Html.Label(Model.IrregularitiesList[i].Description)*@
+
+                    if (Model.IrregularitiesList[i].Code == "N")
+                    {
+                        @Html.TextBoxFor(model => Model.IrregularitiesList[i].Remark, new { @id = "txtReamrk", @style = "width:80%", @placeholder = "請盡快改正並重新一併呈交。" })
+                    }
+                    <br />
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Handling staff 1 (Counter Staff) :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.HANDING_STAFF_1, new { @id = "HANDING_STAFF_1" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Handling staff 2 (ACO/TO/SO) :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.HANDING_STAFF_2, new { @id = "HANDING_STAFF_2" })
+            </div>
+            <div class="w3-col l3 m12 s12">Handling staff 3 (PO) :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(model => model.HANDING_STAFF_3, new { @id = "HANDING_STAFF_3" })
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Export"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "DSN"
+            , Columns: [
+                { displayName: "DSN No.", columnName: "DSN" }
+                , { displayName: "Form Type", columnName: "FORM_TYPE" }
+                , { displayName: "Reg no. of AP/ RI / Contractor", columnName: "CONTRACTOR_REG_NO" }
+                , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                , { displayName: "Irregularities", columnName: "IRREGULARTITES" }
+                , { displayName: "Handling staff 1  (Counter Staff) ", columnName: "HANDING_STAFF_1" }
+                , { displayName: "Handling staff 2  (ACO/TO/SO) ", columnName: "HANDING_STAFF_2" }
+                , {
+                    displayName: "&nbsp;", formater: function (row) {
+                        return createButton("", "fa-edit", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    if (row == null) return;
+                                    goTo("Form", [{ name: "id", value: row.UUID }]);
+                                }
+                            }
+                        }]);
+                    }
+                }
+            ]
+        });
+        attr("CONTRACTOR_REG_NO", "onblur", {
+            callback: function (d, p, e) {
+                //alert(domId("CONTRACTOR_REG_NO").value);
+                //req("AjaxAPRIContractorName"
+                //    , [{ name: "regNo", value: domId("CONTRACTOR_REG_NO").value }]
+                //    , function (data) { attr("APRIContractorName", "html", data.FULL_NAME_DISPLAY); });
+                $.ajax({
+                    url: domId("rootPath").value + "/Fn01LM_DR/AjaxAPRIContractorName",
+                    type: 'POST',
+                    dataType: "json",
+                    data: { regNo: domId("CONTRACTOR_REG_NO").value },
+                    cache: false,
+                    success: function (data) {
+                        $("#APRIContractorName").text(data.FULL_NAME_DISPLAY);
+                    }
+                });
+            }
+        });
+        trigger("CONTRACTOR_REG_NO", "onblur");
+    });
+
+
+</script>

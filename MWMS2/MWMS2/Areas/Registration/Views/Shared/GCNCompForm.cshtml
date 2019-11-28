@@ -1,0 +1,99 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn02GCA_GCNSearchModel
+    
+    <div id="searchCriteria">
+        <div class="displayForm">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">File Reference :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(model => model.FileRef)
+                        @Html.HiddenFor(model => model.FileRef)
+                        @* hiddenfor: get but not show Fileref *@
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Company Name :</div>
+                    <div class="w3-col l9 m12 s12">
+                        @Html.DisplayFor(model => model.ComName)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="resultPanel"></div>
+        
+            <div class="w3-container footer">
+                <button class="btn btn-default" name="GenerateCandidateNo" id="GenerateCandidateNo"> Generate Candidate No. </button>
+                @*<button onclick="window.location='/Registration/Fn02GCA_GCN/Index'" class="back" name="back" id="back">Back</button>*@
+                @*<button onclick="history.go(-1);" class="back" name="back" id="back"><i class="fa fa-times"></i>Back</button>*@
+                <button type="button"  class="backButton btn btn-default w3-right" ><i class="fa fa-times"></i> Cancel</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var list;
+            domReady(function () {
+
+
+                list = new searcher({
+                    searchPath: "GetGCNResult"
+                    , exportPath: "Excel"
+                    , searchTable: "searchCriteria"
+                    , resultPanel: "resultPanel"
+                    , Sort: "FILE_REFERENCE_NO"
+                    , Footer: false  ////remove pagination and export buttons
+                    , Columns: [
+                        {
+                            headerFormater: function (data, idx) {
+                                console.log(data);
+                                var showCheckbox = false;
+                                if (data != null) {
+                                    for (var i = 0; i < data.length; i++) {
+                                        if (data[i].V2 == null || data[i].V2 == "") {
+                                            showCheckbox = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                var r = dom("span");
+                                if (showCheckbox) var checkbox = dom_(r, "input", [{ addClass: "formCheckboxAll" }, { type: "checkbox" }, { "onclick": { callback: function () { checkAller("formCheckboxAll", "formCheckbox"); } } }]);
+                                return r;
+                            }
+                            , formater: function (row) {
+                                var r = dom("span");
+                                if (row.V2 == null || row.V2 == "") {
+                                    var checkbox = dom_(r, "input", [{ addClass: "formCheckbox" }, { type: "checkbox" }, { name: "C_COMP_APPLICANT_INFO_UUIDs" }, { value: row.V1 }]);
+                                }
+                                return r;
+                            }
+                        }
+                        , { displayName: "Candidate No.", columnName: "V2" }
+                        , { displayName: "HKID/ Passport No.", columnName: "V3" }
+                        , { displayName: "Title", columnName: "V4" }
+                        , { displayName: "Name", columnName: "V5" }
+                        , { displayName: "Sex", columnName: "V6" }
+                        , { displayName: "Role", columnName: "V7" }
+                        , { displayName: "Status", columnName: "V8" }
+                        , { displayName: "Date of Acceptance", columnName: "V9" }
+                        , { displayName: "Date of Removal", columnName: "V10" }
+                    ]
+                }).search(null, function () { checkAller("formCheckboxAll", "formCheckbox"); });
+
+             //   $(".formCheckboxAll").click(function () { alert("123"); $(".formCheckbox").prop("checked", true) })
+
+
+                attr("GenerateCandidateNo", "onclick", {
+                    callback: function () {
+                        if (document.querySelectorAll('.formCheckbox:checked').length > 0) {
+                            addClass("resultPanel", "loading");
+                            $.post("GenNo", $(parseForm("resultPanel")).serialize(), function (page) {
+                                list.search(); dropClass("resultPanel", "loading");
+                            });
+                        } else alert("Please select a candidate for generate.");
+                    }
+                });
+            });
+
+        </script>

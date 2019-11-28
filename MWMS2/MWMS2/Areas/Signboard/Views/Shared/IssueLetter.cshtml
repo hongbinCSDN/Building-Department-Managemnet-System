@@ -1,0 +1,443 @@
+﻿@model MWMS2.Areas.Signboard.Models.IssueLetterDisplayModel
+
+<form id="inputForm" method="post" action="SaveIssueLetter">
+    @Html.HiddenFor(x => x.B_SV_VALIDATION.UUID)
+    @Html.HiddenFor(x => x.B_SV_VALIDATION.B_SV_RECORD.UUID)
+    @Html.HiddenFor(x => x.B_SV_VALIDATION.B_SV_RECORD.LANGUAGE_CODE)
+    @Html.HiddenFor(x => x.ExportLetterFlag)
+    <div class="panelHeader">
+        Submission Information
+    </div>
+    <div style="text-align:right">
+        @*Last Modified Date : @Html.TextBoxFor(x => x.B_SV_VALIDATION.MODIFIED_DATE, "{0:dd/MM/yy hh:mm:ss}",new {@readonly="readonly",@style= "outline: none;  border: none; width:200px" })*@
+
+        Last Modified Date : @Html.DisplayFor(x => x.MODIFIED_DATE)
+
+        <br />
+        Last Modified By : @Html.DisplayFor(x => x.B_SV_VALIDATION.MODIFIED_BY)
+
+    </div>
+
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Submission No. :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.REFERENCE_NO)
+
+                </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Form Code   :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.FORM_CODE)
+
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Received Date  :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.DisplayFor(x => x.B_SV_VALIDATION.B_SV_RECORD.RECEIVED_DATE)
+                </div>
+
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Location/Address of the Signboard :	</div>
+
+                <div class="w3-col l6 m12 s12">
+                    @Html.HiddenFor(x => x.B_SV_VALIDATION.B_SV_RECORD.B_SV_PERSON_CONTACT.B_SV_ADDRESS.FULL_ADDRESS)
+
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="panelHeader">
+            Details of the Minor Work
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="resultTable" style="width: 100%;  max-width: 100%; table-layout: fixed;  word-wrap: break-word;">
+
+                <thead>
+                    <tr>
+                        <th>
+                            Minor Work item
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Relevant Order/ Direction/ Notice No./ BD Reference No.
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.B_SV_VALIDATION.B_SV_RECORD.B_SV_RECORD_ITEM)
+                        {
+                            <tr>
+                                <td>
+                                    @item.MW_ITEM_CODE
+                                </td>
+                                <td style="word-break:break-word ;white-space:normal">
+                                    @item.LOCATION_DESCRIPTION
+                                </td>
+                                <td>
+                                    @item.REVISION
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <br />
+
+        <div class="panelHeader">
+            Particulars of PBP
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            PBP
+                        </th>
+                        <th>
+                            Certification of Registration No.
+                        </th>
+                        <th>
+                            English Name
+                        </th>
+                        <th>
+                            Chinese Name
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            AP
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_AP.CERTIFICATION_NO)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_AP.ENGLISH_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_AP.CHINESE_NAME)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            RSE
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RSE.CERTIFICATION_NO)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RSE.ENGLISH_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RSE.CHINESE_NAME)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            RGE
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RGE.CERTIFICATION_NO)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RGE.ENGLISH_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_RGE.CHINESE_NAME)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <br />
+        <div class="panelHeader">
+            Particulars of PRC
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Certification of Registration No.
+                        </th>
+                        <th>
+                            English Name of PRC
+                        </th>
+                        <th>
+                            Chinese Name of PRC
+                        </th>
+                        <th>
+                            English Name of AS
+                        </th>
+                        <th>
+                            Chinese Name of AS
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_PRC.CERTIFICATION_NO)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_PRC.ENGLISH_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_PRC.CHINESE_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_PRC.AS_ENGLISH_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.AP_PRC.AS_CHINESE_NAME)
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <br />
+
+        <div class="panelHeader">
+            Incoming Document
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            DSN Number
+                        </th>
+                        <th>
+                            Document Type
+                        </th>
+                        <th>
+                            Scanned Date
+                        </th>
+                        <th>
+                            View Image
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+
+
+
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.SDList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.DSN_NUMBER
+                                </td>
+                                <td>
+                                    @item.DOCUMENT_TYPE
+                                </td>
+                                <td>
+                                    @item.SCAN_DATE
+                                </td>
+                                <td>
+                                    @if (item.RELATIVE_FILE_PATH != null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+
+
+                                    }
+                                </td>
+                                <td>
+                                    @item.FOLDER_TYPE
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+        <br />
+
+        <div class="panelHeader">
+            Photo Library
+        </div>
+        <div style="overflow-x:auto">
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>
+                            Photo Library Description
+                        </th>
+                        <th>
+                            View Image (URL)
+                        </th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.SV_PL_List)
+                        {
+                            <tr>
+                                <td>
+                                    @item.DESCRIPTION
+                                </td>
+                                <td>
+                                    @if (item.URL != null)
+                                    {
+                                        <button type="button" onclick=""> <i class="fa fa-search"></i></button>
+                                    }
+                                </td>
+
+                            </tr>
+
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <br />
+
+        @Html.Partial("ValidationInformation",Model)
+        <br />
+        @Html.Partial("FormScreeningCheck", Model)
+        <br />
+        @Html.Partial("PreliminaryCheck", Model)
+        <br />
+        @Html.Partial("GenerateAcknowledgementLetter", Model)
+
+        <div class="w3-container footer">
+            <button id="letterButton" type="button" onclick="onGenerateLetter()"><i class="fa fa-save"></i> Save and Export Letter </button>
+
+            <button id="SaveBtn"><i class="fa fa-save"></i> Save </button>
+            <button id="SubmitBtn" type="button" onclick="SubmitForm()"><i class="fa fa-save"></i> Submit </button>
+            <button id="SubmitBtn" type="button" onclick="goTo('Index')"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+
+
+ </form>
+
+<script>
+     function SubmitForm()
+     {
+         var form = document.getElementById("inputForm");
+         form.action = "SubmitIssueLetter";
+         form.submit();
+
+    }
+    function onGenerateLetter() {
+        $.ajax({
+            type: "POST",
+            url: 'checkFileExist',
+            data: 'model:' + $("#inputForm").serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != null && data.Result == "SUCCESS") {
+                    document.getElementById("ExportLetterFlag").value = "Y";
+                    var form = document.getElementById("inputForm");
+                    form.action = "generateIssueLetter";
+                    form.submit();
+
+                } else {
+                    alert(data.Message[0]);
+                }
+            }
+        });
+    }
+    domReady(function () {
+        changeLetterOption();
+        $("#SelectedLetterType").change(function () {
+       
+            var end = this.value;
+            changeLetterOption();
+        });
+
+        function changeLetterOption() {
+            $.ajax({
+                type: "POST",
+                url: 'getLetter',
+                data: 'model:' + $("#inputForm").serialize(),
+                success: function (data) {
+                    console.log(data);
+
+                    $("#SelectedLetter").empty();
+                    $.each(data.B_S_LETTER_TEMPLATE_List, function (i) {
+
+
+                        var optionhtml = '<option value="' +
+                            data.B_S_LETTER_TEMPLATE_List[i].UUID + '">' + data.B_S_LETTER_TEMPLATE_List[i].LETTER_NAME + '</option>';
+
+                        $("#SelectedLetter").append(optionhtml);
+                    });
+
+
+                }
+            });
+        }
+
+    });
+
+
+
+
+    function HideVI() {
+        var x = document.getElementById("VI");
+        if (x.style.display === "none") {
+            document.getElementById("VISHOW").innerHTML = "Hide";
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+            document.getElementById("VISHOW").innerHTML = "Show";
+        }
+    }
+
+    function GetCRMImage(uuid) {
+        goTo('GetSignImg', [{ name: "uuid", value: uuid }], true);
+    }
+
+</script>

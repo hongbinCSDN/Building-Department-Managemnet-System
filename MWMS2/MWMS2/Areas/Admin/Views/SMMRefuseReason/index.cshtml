@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MWMS2.Entity.B_S_SYSTEM_VALUE>
+
+
+
+<div class="btnSet btnSetTypeA">
+    <div class="right">
+        @*<input class="inputButton" id="" name="" value="Add" onclick='location.href="@Url.Action("SMMRefuseReasonCreate", "SMMRefuseReason")"' type="button">*@
+        <button class="inputButton" id="" name="" value="Add" onclick='location.href="@Url.Action("SMMRefuseReasonCreate", "SMMRefuseReason")"' type="button"><i class="far fa-plus-square"></i> Add</button>
+    </div>
+</div>
+<br>
+
+
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th style="width: 50px;"> </th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">No.</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Code</th>
+            <th class="sTh" style="text-align: left; padding-left: 8px;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-default inputButton" onclick="Delete('@item.UUID')">
+                            <i class="fa fa-trash"> </i>
+                            @*@Html.ActionLink("Delete", "SMMRefuseReasonDelete", "SMMRefuseReason", new { id = item.UUID }, new { @style = "text-decoration: none;", @OnClick = "return confirm('Are you sure you to delete this signboard type?');" })*@
+                            Delete
+                        </button>
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.ORDERING)*@
+                        @item.ORDERING
+                    </td>
+                    <td>
+
+                        @Html.ActionLink(item.CODE, "SMMRefuseReasonEdit", "SMMRefuseReason", new { id = item.UUID }, null)
+                        @*@Html.DisplayFor(modelItem => item.REGISTRATION_NO)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                    </td>
+
+
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script>
+    function Delete(id) {
+        if (confirm('Are you sure you to delete this signboard type?')) {
+            $.ajax({
+                url: domId('rootPath').value +  '/Admin/SMMRefuseReason/SMMRefuseReasonDelete'
+                , type: 'POST'
+                , data: {
+                    id:id
+                }
+                , success: function (data) {
+                    goTo(domId('rootPath').value + '/Admin/SMMRefuseReason/Index')
+                }
+            });
+        }
+    }
+</script>

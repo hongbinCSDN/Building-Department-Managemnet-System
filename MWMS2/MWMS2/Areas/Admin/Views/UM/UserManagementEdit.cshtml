@@ -1,0 +1,208 @@
+﻿@model MWMS2.Dao.B_S_USER_ACCOUNT
+@section scripts{
+
+    <script type="text/javascript">
+
+        function CheckAll()
+        {
+           
+        }
+        $(document).ready(function () {
+            $('#select_All').change(function () {
+             
+                var checkboxes = $(this).closest('form').find(':checkbox');
+                checkboxes.prop('checked', $(this).is(':checked'));
+            });
+        });
+        function SaveUser()
+        {
+            if ($("#Password").val() != '')
+            {
+                alert("Password cannot be null");
+                return false;
+            }
+            if ($("#Password").val() == $("#ConfirmPassword").val() )
+            {
+                return true;
+            }
+            else
+            {
+                alert("Password doesnot match");
+                return false;
+            }
+        }
+    </script>
+}
+@using (Html.BeginForm("UserManagementSave", "UserMan", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UUID)
+    <table class="inputTable">
+        <tbody>
+            <tr>
+                <th>
+                    User Name :
+                </th>
+                <td colspan="3">
+                    @Html.EditorFor(model => model.USERNAME, new { htmlAttributes = new { @class = "form-control", @style = "width:300px;" } })
+                    @Html.ValidationMessageFor(model => model.USERNAME, "", new { @class = "text-danger" })
+
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    User ID :
+                </th>
+                <td></td>
+                <th>
+                    DSMS User Name :
+                </th>
+                <td>
+                    <input />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Password :
+                </th>
+                <td>
+                    @Html.PasswordFor(model => model.PASSWORD, new { @class = "form-control", id = "Password", placeholder = "Password" })
+                    @Html.PasswordFor(model => model.PASSWORD, new { @class = "form-control", id = "ConfirmPassword", placeholder = "Confirm Password " })
+                </td>
+                <th>
+                    DSMS Password :
+                </th>
+                <td>
+                    <input />
+                    <input />
+                </td>
+            </tr>
+
+
+            <tr>
+
+            <tr>
+                <th>
+                    Email Address :
+                </th>
+                <td colspan="3">
+                    @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control", @style = "width:300px;" } })
+                    @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    Security Level :
+                </th>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.SECURITY_LEVEL, (IEnumerable<SelectListItem>)ViewBag.SecurityLevelList, new { style = "width:auto", id = "SecurityLevelList" })
+
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Status :
+                </th>
+                <td colspan="3">
+                    @{
+
+                        @Html.RadioButtonFor(model => model.STATUS, "ACTIVE", new { @class = "inputRadio" }) } Active<br />
+                    @{
+
+                        @Html.RadioButtonFor(model => model.STATUS, "INACTIVE", new { @class = "inputRadio" }) } Inactive<br />
+
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Receive Case? :
+                </th>
+                <td colspan="3">
+                    <label>
+                        <input onclick="" id="stateY" class="inputRadio" type="radio" name="Receive" value="1" checked="checked">Yes
+                    </label>
+
+                    <label>
+                        <input onclick="" id="stateY" class="inputRadio" type="radio" name="Receive" value="1">
+                        No
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Rank(For WorkFlow) :
+                </th>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.RANK, (IEnumerable<SelectListItem>)ViewBag.RankWFList, new { style = "width:auto", id = "RankWFList" })
+                </td>
+
+
+            </tr>
+        </tbody>
+    </table>
+
+
+    <h3>
+        Role Assignment
+    </h3>
+
+
+
+
+
+    <table class="inputTable">
+        <thead>
+            <tr>
+                <th>
+                    <input id="select_All" type="checkbox" />
+                </th>
+                <th>
+                    Role
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in ViewBag.UserGroup)
+                {
+                    var selected = "";
+                    foreach (var Selecteditem in ViewBag.SelectedUserGroup)
+                    {
+                        if (item.UUID == Selecteditem.USER_GROUP_ID)
+                        {
+                            selected = "checked";
+                        }
+                    }
+                    <tr>
+                        <td>
+                            <input type="checkbox" @selected  value="@item.UUID" class="v_UserGroup_CheckBox" name="v_UserGroup_CheckBox" id=@item.UUID />
+                        </td>
+                        <td>
+                            <label for="">@item.DESCRIPTION</label>
+                        </td>
+                    </tr>
+                }
+
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" id="Confirm" onclick="return SaveUser()" value="Confirm" />
+                    <input id="passwordid" name="password" value="" style="width: 200px" type="hidden">
+                    <input type="button" id="cancel" name="cancel" value="Cancel"onclick='location.href="@Url.Action("UserManagement","UserMan")"'>
+                </td>
+            </tr>
+
+        </tfoot>
+    </table>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+
+}
+

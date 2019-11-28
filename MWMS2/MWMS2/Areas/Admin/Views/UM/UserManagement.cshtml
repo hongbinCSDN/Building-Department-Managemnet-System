@@ -1,0 +1,97 @@
+﻿@model IEnumerable<MWMS2.Dao.B_S_USER_ACCOUNT>
+@section scripts{
+
+    <script type="text/javascript">
+    
+    </script>
+}
+
+
+
+
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data", id = "UserManagementForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="inputTable">
+        <thead><tr><th colspan="4">Search Criteria</th></tr></thead>
+        <tbody>
+            <tr>
+                <th>User Name :</th>
+                <td>
+                    @Html.TextBox("UserName", "", new { @Style = "max-width:600px" })
+                </td>
+                <th>Status :</th>
+                <td>
+                    @Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.StatusList, new { style = "width:auto", id = "SecurityLevelList" })
+
+                </td>
+            </tr>
+            <tr>
+                <th>Rank (for workflow) :</th>
+                <td>
+                    @Html.TextBox("Rank", "", new { @Style = "max-width:600px" })
+
+                </td>
+                <th>Email Address :</th>
+                <td>
+                    @Html.TextBox("Email", "", new { @Style = "max-width:600px" })
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <input type="submit" name="create" value="Create"
+                           formaction="UserManagementEdit" formmethod="post" />
+                    <input type="submit" name="search" value="Search"
+                           formaction="UserManagement" formmethod="post" />
+                    <input type="submit" name="refresh" value="Refresh"
+                           formaction="UserManagementRefresh" formmethod="post" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+}
+
+
+
+<table class="resultTable" id="">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Rank (for workflow)</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.USERNAME, "UserManagementEdit", "UserMan", new { uuid = item.UUID }, null)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FULLNAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMAIL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RANK)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.STATUS)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

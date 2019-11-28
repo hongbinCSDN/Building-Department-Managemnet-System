@@ -1,0 +1,98 @@
+﻿@*@using (Html.BeginForm("ImportExcel", "Fn03PA_BU", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="uploadForm" enctype="multipart/form-data">
+    <div id="searchCriteria">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Batch Upload (.xlsx):</div>
+                <div class="w3-col l9 m12 s12">
+                    <input type="file" id="FileUpload1" name="FileUpload1" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12" style="text-align:left">
+
+                    <button onclick="DownloadSampleExcel()" class="searchButton btn btn-default" type="button">
+                        <i class="fa fa-download"></i>Download Template File
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input type="submit" id="Submit" name="Submit" value="Submit" />*@
+            <button id="upload" type="button">Submit</button>
+        </div>
+
+
+    </div>
+    </form>
+    @*}*@
+
+    <div class="panelSubHeader"> Upload History</div>
+    <div id="resultPanel"></div>
+    <script type="text/javascript">
+
+        function DownloadSampleExcel() {
+            goTo("DownloadFile", [{ name: "path", value: "BUSampleExcel.xlsx" }, { name: "pathName", value: "BUSampleExcel.xlsx" }]);
+            dropClass(document.body, "bodyLoading");
+
+
+        }
+        var BUTable;
+        domReady(function () {
+
+            $('#upload').click(function (e) {
+                e.preventDefault();
+                var form = $('form')[0];
+                var formData = new FormData(form);
+                $.ajax({
+                    url: 'ImportExcel',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data != null && data.Result != null && data.Result == "SUCCESS") { goTo("Index"); }
+                        else {
+                            alert(data.Message);
+                            showErrorMessage(data.ErrorMessages);
+                            console.log(data);
+                        }
+                    }, error: function (data) {
+                        console.log("failed");
+                    }
+                })
+            });
+
+
+
+            BUTable = new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "CREATED_DATE"
+                , Columns: [
+                    {
+                        displayName: "Excel File", columnName: "FILE_NAME"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                goTo("DownloadFile", [{ name: "path", value: row.FILE_PATH }, { name: "pathName", value: row.FILE_NAME }]);
+                                dropClass(document.body, "bodyLoading");
+
+                            } catch (err) { }
+                        }
+                    }
+
+                    , { displayName: "Upload Date", columnName: "CREATED_DATE" }
+                ]
+            }).search();
+        });
+    </script>

@@ -1,0 +1,31 @@
+﻿@model MWMS2.Areas.Registration.Models.SurnameDetailModel
+
+   
+<div id="SearchTable">
+    @Html.HiddenFor(x => x.UUID)
+    <div class="panelSubHeader">History List of Change of Applicant Name</div>
+
+</div>
+<div id="ResultPanel"></div>
+<script>
+
+    domReady(function () {
+        applicantTableObject = new searcher({
+            searchPath: "SurnameSearch"
+            , searchTable: "SearchTable"
+            , resultPanel: "ResultPanel"
+            , Footer: false
+            , Columns: [
+                { columnName: "V1", displayName: "Surname" }
+                , { columnName: "V2", displayName: "Given Name   " }
+                , { columnName: "V3", displayName: "Chinese Name" }
+                , { columnName: "V4", displayName: "Create Date            " }
+            
+            ]
+        }).search();
+    });
+
+</script>
+
+
+

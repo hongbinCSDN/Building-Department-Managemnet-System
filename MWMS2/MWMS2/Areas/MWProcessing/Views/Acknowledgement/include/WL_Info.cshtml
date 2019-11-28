@@ -1,0 +1,114 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+
+<div class="displayForm">
+    @Html.HiddenFor(m => Model.P_MW_RECORD_WL_FOLLOW_UP.UUID)
+    <div class="panelHeader">
+        <label>Submission Information</label>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                MW No. :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Form No. :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                DSN :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_DSN.DSN
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    @*this div cannot be delete used to clone the AL table*@
+    <div id="divWL">
+
+    </div>
+
+    <br />
+
+    <div class="panelHeader">
+        <label>LSS/EBD follow up information</label>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Referral date to LSS
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_WL_FOLLOW_UP.REFERRAL_LSS_DATE, new { @class = "inputDate" })
+                @*<input class="inputDate" />*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Referral date to EBD
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_WL_FOLLOW_UP.REFERRAL_EBD_DATE, new { @class = "inputDate" })
+                @*<input class="inputDate" />*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Discovery date
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Html.TextBoxFor(m => Model.P_MW_RECORD_WL_FOLLOW_UP.DISCOVERY_DATE, new { @class = "inputDate" })
+                @*<input class="inputDate" />*@
+            </div>
+        </div>
+    </div>
+
+    @Html.HiddenFor(m => Model.IsSacWL)
+    @if (Model.IsSacWL)
+    {
+        <div id="divSacWL">
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/sac_wl.cshtml")
+        </div>
+    }
+    else
+    {
+        <div id="divSacWL" hidden>
+            @Html.Partial("~/Areas/MWProcessing/Views/Acknowledgement/Include/sac_wl.cshtml")
+        </div>
+    }
+
+
+
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+
+    });
+
+</script>

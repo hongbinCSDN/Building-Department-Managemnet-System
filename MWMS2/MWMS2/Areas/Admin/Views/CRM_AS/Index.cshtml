@@ -1,0 +1,61 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_ASModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Applicant Status</div>
+
+    <div id="searchCriteria">
+        @if (MWMS2.Utility.AuthUtil.CanCreate)
+        {<button onclick="createNew()" name="NewStatus" value="New Status"><i class="far fa-plus-square"></i> New Status</button>}
+    </div>
+    <br>
+
+    <div id="resultPanel"></div>
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        function createNew() {
+            window.location.href = domId("rootPath").value + "/Admin/CRM_AS/CreateNew";
+        }
+
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Columns: [
+                    {
+                        displayName: "Code", columnName: "CODE"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+
+
+                    , { displayName: "Engish Description", columnName: "ENGLISH_DESCRIPTION" }
+                    , { displayName: "Chinese Description", columnName: "CHINESE_DESCRIPTION" }
+                    , { displayName: "Ordering", columnName: "ORDERING" }
+                    , { displayName: "Is Active", columnName: "IS_ACTIVE" }
+                ]
+            }).search();
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

@@ -1,0 +1,387 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+<div id="BaseContent" class="w3-border displayForm">
+
+    <div id="BaseForm1" class="w3-border displayForm">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Submission Information Checking
+                    </th>
+                    <th>
+                        Result
+                    </th>
+                    <th>
+                        Remarks
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>Other Information</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.INFO_OTHER_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.AP_VALID_MSG)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.AP_DETAIL_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="BaseForm2" class="w3-border displayForm">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>PBP Checking</th>
+                    <th>Result</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">Checking of AP/RI</td>
+                </tr>
+                <tr>
+                    <td>Validity of appointed AP/RI</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Signature of AP/RI
+                        <br />
+                        Specimen Signature:<img src='/img/view.gif'>
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGN_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                @* form33Dec1*@
+                @if (Model.P_MW_FORM.FORM33_DEC_1 == "Y" || Model.P_MW_FORM.FORM33_DEC_2 == "Y" || Model.P_MW_FORM.FORM33_DEC_3 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_4 == "Y" || Model.P_MW_FORM.FORM33_DEC_5 == "Y" || Model.P_MW_FORM.FORM33_DEC_6 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_7 == "Y" || Model.P_MW_FORM.FORM33_DEC_8 == "Y" || Model.P_MW_FORM.FORM33_DEC_9 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_10 == "Y" || Model.P_MW_FORM.FORM33_DEC_11 == "Y" || Model.P_MW_FORM.FORM33_DEC_12 == "Y")
+                {
+                    <tr>
+                        <td>
+                            @if (Model.P_MW_FORM.FORM33_DEC_1 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Photos showing the physical condition of the premises where the works are to be carried out</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_2 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Photographs showing all works as completed</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_3 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Revised prescribed plans and details </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_4 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Structural calculations </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_5 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Structural appraisal report</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_6 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Geotechnical appraisal report </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_7 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Demolition proposal</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_8 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Temporary safety measures or support</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_9 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Material invoice, test certificate / report</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_10 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Catalogue</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_11 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Supervision plan </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_12 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Others </span>
+                                <br />
+                            }
+
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                            @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1_RMK, new { @disabled = "true" })
+                        </td>
+                    </tr>
+
+                }
+
+                <tr>
+                    <td>
+                        AP/RI Signature Date
+                        <br />
+                        @(string.IsNullOrEmpty(Model.AppointedAP.ENDORSEMENT_DATE.ToString()) ? "" : Model.AppointedAP.ENDORSEMENT_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_SIGNATURE_DATE_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">Other Checking</td>
+                </tr>
+                <tr>
+                    <td>Other Information</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_OTHER_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="BaseForm3" class="w3-border displayForm">
+        <table class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>PRC Checking</th>
+                    <th>Result</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Validity of PRC</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Capability of PRC
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_CAP_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Validity of Authorized Signatory
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_VALID_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Signature Of AS
+                        <br />
+                        Specimen Signature:
+                        <img src="~/img/view.gif" />
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_SIGN_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Any other suitable AS
+                        <br />
+                        @Html.Raw(Model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER_AS_LIST)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_AS_OTHER_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                @*form33Dec1*@
+                @if (Model.P_MW_FORM.FORM33_DEC_1 == "Y" || Model.P_MW_FORM.FORM33_DEC_2 == "Y" || Model.P_MW_FORM.FORM33_DEC_3 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_4 == "Y" || Model.P_MW_FORM.FORM33_DEC_5 == "Y" || Model.P_MW_FORM.FORM33_DEC_6 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_7 == "Y" || Model.P_MW_FORM.FORM33_DEC_8 == "Y" || Model.P_MW_FORM.FORM33_DEC_9 == "Y"
+                            || Model.P_MW_FORM.FORM33_DEC_10 == "Y" || Model.P_MW_FORM.FORM33_DEC_11 == "Y" || Model.P_MW_FORM.FORM33_DEC_12 == "Y")
+                {
+                    <tr>
+                        <td>
+                            @if (Model.P_MW_FORM.FORM33_DEC_1 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Photos showing the physical condition of the premises where the works are to be carried out</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_2 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Photographs showing all works as completed</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_3 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Revised prescribed plans and details </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_4 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Structural calculations </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_5 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Structural appraisal report</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_6 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Geotechnical appraisal report </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_7 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Demolition proposal</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_8 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Temporary safety measures or support</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_9 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Material invoice, test certificate / report</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_10 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Catalogue</span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_11 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Supervision plan </span>
+                                <br />
+                            }
+                            @if (Model.P_MW_FORM.FORM33_DEC_12 == "Y")
+                            {
+                                <input type="checkbox" checked disabled /><span>Others </span>
+                                <br />
+                            }
+
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                            @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PBP_AP_DEC1_RMK, new { @disabled = "true" })
+                        </td>
+                    </tr>
+
+                }
+
+                <tr>
+                    <td>
+                        PRC Signature Date
+                        <br />
+                        @(string.IsNullOrEmpty(Model.AppointedPRC.ENDORSEMENT_DATE.ToString()) ? "" : Model.AppointedPRC.ENDORSEMENT_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE, "O", new { @class = "w3-radio", @disabled = "true" })<span>OK</span>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE, "N", new { @class = "w3-radio", @disabled = "true" })<span>Not OK</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_SIGNATURE_DATE_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">Other Checking</td>
+                </tr>
+                <tr>
+                    <td>Other Information</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER, "O", new { @class = "w3-radio", @disabled = "true" }) OK
+                        @Html.RadioButtonFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER, "N", new { @class = "w3-radio", @disabled = "true" }) Not OK
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.P_MW_RECORD_FORM_CHECKLIST.PRC_OTHER_RMK, new { @disabled = "true" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

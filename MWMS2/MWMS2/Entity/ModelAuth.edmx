@@ -1,0 +1,1160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelAuth.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SYS_FUNC">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="PARENT_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="500" />
+          <Property Name="URL" Type="varchar2" MaxLength="1000" />
+          <Property Name="SEQ" Type="number" Precision="38" Scale="0" />
+          <Property Name="USE_TYPE" Type="varchar2" MaxLength="20" />
+          <Property Name="ABLE_SHOW" Type="varchar2" MaxLength="1" />
+          <Property Name="ABLE_LIST" Type="varchar2" MaxLength="1" />
+          <Property Name="ABLE_VIEW_DETAILS" Type="varchar2" MaxLength="1" />
+          <Property Name="ABLE_CREATE" Type="varchar2" MaxLength="1" />
+          <Property Name="ABLE_EDIT" Type="varchar2" MaxLength="1" />
+          <Property Name="ABLE_DELETE" Type="varchar2" MaxLength="1" />
+          <Property Name="IS_ACTIVE" Type="varchar2" MaxLength="1" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="ICON" Type="varchar2" MaxLength="200" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_LOG">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="LOG_DATE" Type="date" Nullable="false" />
+          <Property Name="LOGIN" Type="varchar2" MaxLength="100" />
+          <Property Name="ACTION" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="500" />
+          <Property Name="IPADDRESS" Type="varchar2" MaxLength="200" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS_POST">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_RANK_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="SYS_UNIT_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="SUPERVISOR_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="PHONE" Type="varchar2" MaxLength="40" />
+          <Property Name="FAX_NO" Type="varchar2" MaxLength="40" />
+          <Property Name="IS_ACTIVE" Type="varchar2" MaxLength="1" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="BD_PORTAL_LOGIN" Type="varchar2" MaxLength="100" />
+          <Property Name="PW" Type="varchar2" MaxLength="200" />
+          <Property Name="EMAIL" Type="varchar2" MaxLength="300" />
+          <Property Name="DSMS_USERNAME" Type="varchar2" MaxLength="300" />
+          <Property Name="DSMS_PW" Type="varchar2" MaxLength="300" />
+          <Property Name="RECEIVE_CASE" Type="varchar2" MaxLength="50" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_POST_AREA">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="AREA_CODE" Type="varchar2" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SYS_POST_ROLE">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="SYS_ROLE_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_RANK">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="RECVERSION" Type="number" Precision="20" Scale="0" />
+          <Property Name="RANK_GROUP" Type="varchar2" MaxLength="10" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="500" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_FUNC">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_ROLE_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="SYS_FUNC_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CAN_LIST" Type="varchar2" MaxLength="1" />
+          <Property Name="CAN_VIEW_DETAILS" Type="varchar2" MaxLength="1" />
+          <Property Name="CAN_CREATE" Type="varchar2" MaxLength="1" />
+          <Property Name="CAN_EDIT" Type="varchar2" MaxLength="1" />
+          <Property Name="CAN_DELETE" Type="varchar2" MaxLength="1" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_SECTION">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="100" />
+          <Property Name="FAX" Type="varchar2" MaxLength="20" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_UNIT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_SECTION_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CODE" Type="varchar2" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="100" />
+          <Property Name="FAX" Type="varchar2" MaxLength="20" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="varchar2" MaxLength="36" />
+          <Property Name="CREATED_DT" Type="date" />
+          <Property Name="CREATED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="CREATED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="LAST_MODIFIED_DT" Type="date" />
+          <Property Name="LAST_MODIFIED_POST" Type="varchar2" MaxLength="15" />
+          <Property Name="LAST_MODIFIED_NAME" Type="varchar2" MaxLength="100" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="varchar2" MaxLength="5" />
+          <Property Name="NAME" Type="varchar2" MaxLength="200" />
+          <Property Name="CREATED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="CREATED_DATE" Type="date" />
+          <Property Name="MODIFIED_BY" Type="varchar2" MaxLength="100" />
+          <Property Name="MODIFIED_DATE" Type="date" />
+        </EntityType>
+        <Association Name="FK_AUTH_01">
+          <End Role="SYS_FUNC" Type="Self.SYS_FUNC" Multiplicity="0..1" />
+          <End Role="SYS_FUNC1" Type="Self.SYS_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_FUNC">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_FUNC1">
+              <PropertyRef Name="PARENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_02">
+          <End Role="SYS_RANK" Type="Self.SYS_RANK" Multiplicity="0..1" />
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_RANK">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST">
+              <PropertyRef Name="SYS_RANK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_03">
+          <End Role="SYS_UNIT" Type="Self.SYS_UNIT" Multiplicity="0..1" />
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_UNIT">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST">
+              <PropertyRef Name="SYS_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_04">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_POST1" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST1">
+              <PropertyRef Name="SUPERVISOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_05">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_POST_ROLE" Type="Self.SYS_POST_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_ROLE">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_06">
+          <End Role="SYS_ROLE" Type="Self.SYS_ROLE" Multiplicity="0..1" />
+          <End Role="SYS_POST_ROLE" Type="Self.SYS_POST_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_ROLE">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_ROLE">
+              <PropertyRef Name="SYS_ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_07">
+          <End Role="SYS_ROLE" Type="Self.SYS_ROLE" Multiplicity="0..1" />
+          <End Role="SYS_ROLE_FUNC" Type="Self.SYS_ROLE_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_ROLE">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_ROLE_FUNC">
+              <PropertyRef Name="SYS_ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_08">
+          <End Role="SYS_FUNC" Type="Self.SYS_FUNC" Multiplicity="0..1" />
+          <End Role="SYS_ROLE_FUNC" Type="Self.SYS_ROLE_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_FUNC">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_ROLE_FUNC">
+              <PropertyRef Name="SYS_FUNC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_09">
+          <End Role="SYS_SECTION" Type="Self.SYS_SECTION" Multiplicity="0..1" />
+          <End Role="SYS_UNIT" Type="Self.SYS_UNIT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_SECTION">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_UNIT">
+              <PropertyRef Name="SYS_SECTION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_10">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_USER" Type="Self.SYS_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_USER">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS_POST_AREA_FK">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="1" />
+          <End Role="SYS_POST_AREA" Type="Self.SYS_POST_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_AREA">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelAuthStoreContainer">
+          <EntitySet Name="SYS_FUNC" EntityType="Self.SYS_FUNC" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_LOG" EntityType="Self.SYS_LOG" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_POST" EntityType="Self.SYS_POST" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_POST_AREA" EntityType="Self.SYS_POST_AREA" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_POST_ROLE" EntityType="Self.SYS_POST_ROLE"  Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_RANK" EntityType="Self.SYS_RANK" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_ROLE" EntityType="Self.SYS_ROLE" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_ROLE_FUNC" EntityType="Self.SYS_ROLE_FUNC" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_SECTION" EntityType="Self.SYS_SECTION" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_UNIT" EntityType="Self.SYS_UNIT" Schema="" store:Type="Tables" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" Schema="" store:Type="Tables" />
+          <AssociationSet Name="FK_AUTH_01" Association="Self.FK_AUTH_01">
+            <End Role="SYS_FUNC" EntitySet="SYS_FUNC" />
+            <End Role="SYS_FUNC1" EntitySet="SYS_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_02" Association="Self.FK_AUTH_02">
+            <End Role="SYS_RANK" EntitySet="SYS_RANK" />
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_03" Association="Self.FK_AUTH_03">
+            <End Role="SYS_UNIT" EntitySet="SYS_UNIT" />
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_04" Association="Self.FK_AUTH_04">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST1" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_05" Association="Self.FK_AUTH_05">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST_ROLE" EntitySet="SYS_POST_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_06" Association="Self.FK_AUTH_06">
+            <End Role="SYS_ROLE" EntitySet="SYS_ROLE" />
+            <End Role="SYS_POST_ROLE" EntitySet="SYS_POST_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_07" Association="Self.FK_AUTH_07">
+            <End Role="SYS_ROLE" EntitySet="SYS_ROLE" />
+            <End Role="SYS_ROLE_FUNC" EntitySet="SYS_ROLE_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_08" Association="Self.FK_AUTH_08">
+            <End Role="SYS_FUNC" EntitySet="SYS_FUNC" />
+            <End Role="SYS_ROLE_FUNC" EntitySet="SYS_ROLE_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_09" Association="Self.FK_AUTH_09">
+            <End Role="SYS_SECTION" EntitySet="SYS_SECTION" />
+            <End Role="SYS_UNIT" EntitySet="SYS_UNIT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_10" Association="Self.FK_AUTH_10">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_USER" EntitySet="SYS_USER" />
+          </AssociationSet>
+          <AssociationSet Name="SYS_POST_AREA_FK" Association="Self.SYS_POST_AREA_FK">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST_AREA" EntitySet="SYS_POST_AREA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelAuth" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SYS_FUNC">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PARENT_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="SEQ" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="USE_TYPE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_SHOW" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_LIST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_VIEW_DETAILS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_CREATE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_EDIT" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ABLE_DELETE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IS_ACTIVE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ICON" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_FUNC1" Relationship="Self.FK_AUTH_01" FromRole="SYS_FUNC" ToRole="SYS_FUNC1" />
+          <NavigationProperty Name="SYS_FUNC2" Relationship="Self.FK_AUTH_01" FromRole="SYS_FUNC1" ToRole="SYS_FUNC" />
+          <NavigationProperty Name="SYS_ROLE_FUNC" Relationship="Self.FK_AUTH_08" FromRole="SYS_FUNC" ToRole="SYS_ROLE_FUNC" />
+        </EntityType>
+        <EntityType Name="SYS_POST">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_RANK_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SYS_UNIT_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SUPERVISOR_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="FAX_NO" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="IS_ACTIVE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BD_PORTAL_LOGIN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PW" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DSMS_USERNAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DSMS_PW" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="RECEIVE_CASE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_RANK" Relationship="Self.FK_AUTH_02" FromRole="SYS_POST" ToRole="SYS_RANK" />
+          <NavigationProperty Name="SYS_UNIT" Relationship="Self.FK_AUTH_03" FromRole="SYS_POST" ToRole="SYS_UNIT" />
+          <NavigationProperty Name="SYS_POST1" Relationship="Self.FK_AUTH_04" FromRole="SYS_POST" ToRole="SYS_POST1" />
+          <NavigationProperty Name="SYS_POST2" Relationship="Self.FK_AUTH_04" FromRole="SYS_POST1" ToRole="SYS_POST" />
+          <NavigationProperty Name="SYS_POST_ROLE" Relationship="Self.FK_AUTH_05" FromRole="SYS_POST" ToRole="SYS_POST_ROLE" />
+          <NavigationProperty Name="SYS_USER" Relationship="Self.FK_AUTH_10" FromRole="SYS_POST" ToRole="SYS_USER" />
+          <NavigationProperty Name="SYS_POST_AREA" Relationship="Self.SYS_POST_AREA_FK" FromRole="SYS_POST" ToRole="SYS_POST_AREA" />
+        </EntityType>
+        <EntityType Name="SYS_POST_AREA">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AREA_CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SYS_POST" Relationship="Self.SYS_POST_AREA_FK" FromRole="SYS_POST_AREA" ToRole="SYS_POST" />
+        </EntityType>
+        <EntityType Name="SYS_POST_ROLE">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SYS_ROLE_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_POST" Relationship="Self.FK_AUTH_05" FromRole="SYS_POST_ROLE" ToRole="SYS_POST" />
+          <NavigationProperty Name="SYS_ROLE" Relationship="Self.FK_AUTH_06" FromRole="SYS_POST_ROLE" ToRole="SYS_ROLE" />
+        </EntityType>
+        <EntityType Name="SYS_RANK">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="RECVERSION" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="RANK_GROUP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_POST" Relationship="Self.FK_AUTH_02" FromRole="SYS_RANK" ToRole="SYS_POST" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_POST_ROLE" Relationship="Self.FK_AUTH_06" FromRole="SYS_ROLE" ToRole="SYS_POST_ROLE" />
+          <NavigationProperty Name="SYS_ROLE_FUNC" Relationship="Self.FK_AUTH_07" FromRole="SYS_ROLE" ToRole="SYS_ROLE_FUNC" />
+        </EntityType>
+        <EntityType Name="SYS_ROLE_FUNC">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_ROLE_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="SYS_FUNC_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CAN_LIST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CAN_VIEW_DETAILS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CAN_CREATE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CAN_EDIT" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CAN_DELETE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_FUNC" Relationship="Self.FK_AUTH_08" FromRole="SYS_ROLE_FUNC" ToRole="SYS_FUNC" />
+          <NavigationProperty Name="SYS_ROLE" Relationship="Self.FK_AUTH_07" FromRole="SYS_ROLE_FUNC" ToRole="SYS_ROLE" />
+        </EntityType>
+        <EntityType Name="SYS_SECTION">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_UNIT" Relationship="Self.FK_AUTH_09" FromRole="SYS_SECTION" ToRole="SYS_UNIT" />
+        </EntityType>
+        <EntityType Name="SYS_UNIT">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_SECTION_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FAX" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_POST" Relationship="Self.FK_AUTH_03" FromRole="SYS_UNIT" ToRole="SYS_POST" />
+          <NavigationProperty Name="SYS_SECTION" Relationship="Self.FK_AUTH_09" FromRole="SYS_UNIT" ToRole="SYS_SECTION" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SYS_POST_ID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DT" Type="DateTime" />
+          <Property Name="CREATED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_DT" Type="DateTime" />
+          <Property Name="LAST_MODIFIED_POST" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_MODIFIED_SECTION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NAME" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" />
+          <NavigationProperty Name="SYS_POST" Relationship="Self.FK_AUTH_10" FromRole="SYS_USER" ToRole="SYS_POST" />
+        </EntityType>
+        <Association Name="FK_AUTH_01">
+          <End Role="SYS_FUNC" Type="Self.SYS_FUNC" Multiplicity="0..1" />
+          <End Role="SYS_FUNC1" Type="Self.SYS_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_FUNC">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_FUNC1">
+              <PropertyRef Name="PARENT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_08">
+          <End Role="SYS_FUNC" Type="Self.SYS_FUNC" Multiplicity="0..1" />
+          <End Role="SYS_ROLE_FUNC" Type="Self.SYS_ROLE_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_FUNC">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_ROLE_FUNC">
+              <PropertyRef Name="SYS_FUNC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_02">
+          <End Role="SYS_RANK" Type="Self.SYS_RANK" Multiplicity="0..1" />
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_RANK">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST">
+              <PropertyRef Name="SYS_RANK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_03">
+          <End Role="SYS_UNIT" Type="Self.SYS_UNIT" Multiplicity="0..1" />
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_UNIT">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST">
+              <PropertyRef Name="SYS_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_04">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_POST1" Type="Self.SYS_POST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST1">
+              <PropertyRef Name="SUPERVISOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_05">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_POST_ROLE" Type="Self.SYS_POST_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_ROLE">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_10">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="0..1" />
+          <End Role="SYS_USER" Type="Self.SYS_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_USER">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SYS_POST_AREA_FK">
+          <End Role="SYS_POST" Type="Self.SYS_POST" Multiplicity="1" />
+          <End Role="SYS_POST_AREA" Type="Self.SYS_POST_AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_POST">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_AREA">
+              <PropertyRef Name="SYS_POST_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_06">
+          <End Role="SYS_ROLE" Type="Self.SYS_ROLE" Multiplicity="0..1" />
+          <End Role="SYS_POST_ROLE" Type="Self.SYS_POST_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_ROLE">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_POST_ROLE">
+              <PropertyRef Name="SYS_ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_07">
+          <End Role="SYS_ROLE" Type="Self.SYS_ROLE" Multiplicity="0..1" />
+          <End Role="SYS_ROLE_FUNC" Type="Self.SYS_ROLE_FUNC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_ROLE">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_ROLE_FUNC">
+              <PropertyRef Name="SYS_ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AUTH_09">
+          <End Role="SYS_SECTION" Type="Self.SYS_SECTION" Multiplicity="0..1" />
+          <End Role="SYS_UNIT" Type="Self.SYS_UNIT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_SECTION">
+              <PropertyRef Name="UUID" />
+            </Principal>
+            <Dependent Role="SYS_UNIT">
+              <PropertyRef Name="SYS_SECTION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SYS_FUNC" EntityType="Self.SYS_FUNC" />
+          <EntitySet Name="SYS_POST" EntityType="Self.SYS_POST" />
+          <EntitySet Name="SYS_POST_AREA" EntityType="Self.SYS_POST_AREA" />
+          <EntitySet Name="SYS_POST_ROLE" EntityType="Self.SYS_POST_ROLE" />
+          <EntitySet Name="SYS_RANK" EntityType="Self.SYS_RANK" />
+          <EntitySet Name="SYS_ROLE" EntityType="Self.SYS_ROLE" />
+          <EntitySet Name="SYS_ROLE_FUNC" EntityType="Self.SYS_ROLE_FUNC" />
+          <EntitySet Name="SYS_SECTION" EntityType="Self.SYS_SECTION" />
+          <EntitySet Name="SYS_UNIT" EntityType="Self.SYS_UNIT" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" />
+          <AssociationSet Name="FK_AUTH_01" Association="Self.FK_AUTH_01">
+            <End Role="SYS_FUNC" EntitySet="SYS_FUNC" />
+            <End Role="SYS_FUNC1" EntitySet="SYS_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_08" Association="Self.FK_AUTH_08">
+            <End Role="SYS_FUNC" EntitySet="SYS_FUNC" />
+            <End Role="SYS_ROLE_FUNC" EntitySet="SYS_ROLE_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_02" Association="Self.FK_AUTH_02">
+            <End Role="SYS_RANK" EntitySet="SYS_RANK" />
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_03" Association="Self.FK_AUTH_03">
+            <End Role="SYS_UNIT" EntitySet="SYS_UNIT" />
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_04" Association="Self.FK_AUTH_04">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST1" EntitySet="SYS_POST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_05" Association="Self.FK_AUTH_05">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST_ROLE" EntitySet="SYS_POST_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_10" Association="Self.FK_AUTH_10">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_USER" EntitySet="SYS_USER" />
+          </AssociationSet>
+          <AssociationSet Name="SYS_POST_AREA_FK" Association="Self.SYS_POST_AREA_FK">
+            <End Role="SYS_POST" EntitySet="SYS_POST" />
+            <End Role="SYS_POST_AREA" EntitySet="SYS_POST_AREA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_06" Association="Self.FK_AUTH_06">
+            <End Role="SYS_ROLE" EntitySet="SYS_ROLE" />
+            <End Role="SYS_POST_ROLE" EntitySet="SYS_POST_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_07" Association="Self.FK_AUTH_07">
+            <End Role="SYS_ROLE" EntitySet="SYS_ROLE" />
+            <End Role="SYS_ROLE_FUNC" EntitySet="SYS_ROLE_FUNC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AUTH_09" Association="Self.FK_AUTH_09">
+            <End Role="SYS_SECTION" EntitySet="SYS_SECTION" />
+            <End Role="SYS_UNIT" EntitySet="SYS_UNIT" />
+          </AssociationSet>
+          <EntitySet Name="SYS_LOG" EntityType="ModelAuth.SYS_LOG" />
+        </EntityContainer>
+        <EntityType Name="SYS_LOG">
+          <Key>
+            <PropertyRef Name="UUID" />
+          </Key>
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="LOG_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="LOGIN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACTION" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="IPADDRESS" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" />
+          <Property Name="MODIFIED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MODIFIED_DATE" Type="DateTime" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelAuthStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="SYS_FUNC">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_FUNC">
+              <MappingFragment StoreEntitySet="SYS_FUNC">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="PARENT_ID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="SEQ" ColumnName="SEQ" />
+                <ScalarProperty Name="USE_TYPE" ColumnName="USE_TYPE" />
+                <ScalarProperty Name="ABLE_SHOW" ColumnName="ABLE_SHOW" />
+                <ScalarProperty Name="ABLE_LIST" ColumnName="ABLE_LIST" />
+                <ScalarProperty Name="ABLE_VIEW_DETAILS" ColumnName="ABLE_VIEW_DETAILS" />
+                <ScalarProperty Name="ABLE_CREATE" ColumnName="ABLE_CREATE" />
+                <ScalarProperty Name="ABLE_EDIT" ColumnName="ABLE_EDIT" />
+                <ScalarProperty Name="ABLE_DELETE" ColumnName="ABLE_DELETE" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="ICON" ColumnName="ICON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_POST">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_POST">
+              <MappingFragment StoreEntitySet="SYS_POST">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_RANK_ID" ColumnName="SYS_RANK_ID" />
+                <ScalarProperty Name="SYS_UNIT_ID" ColumnName="SYS_UNIT_ID" />
+                <ScalarProperty Name="SUPERVISOR_ID" ColumnName="SUPERVISOR_ID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="FAX_NO" ColumnName="FAX_NO" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="BD_PORTAL_LOGIN" ColumnName="BD_PORTAL_LOGIN" />
+                <ScalarProperty Name="PW" ColumnName="PW" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="DSMS_USERNAME" ColumnName="DSMS_USERNAME" />
+                <ScalarProperty Name="DSMS_PW" ColumnName="DSMS_PW" />
+                <ScalarProperty Name="RECEIVE_CASE" ColumnName="RECEIVE_CASE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_POST_AREA">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_POST_AREA">
+              <MappingFragment StoreEntitySet="SYS_POST_AREA">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_POST_ID" ColumnName="SYS_POST_ID" />
+                <ScalarProperty Name="AREA_CODE" ColumnName="AREA_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_POST_ROLE">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_POST_ROLE">
+              <MappingFragment StoreEntitySet="SYS_POST_ROLE">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_POST_ID" ColumnName="SYS_POST_ID" />
+                <ScalarProperty Name="SYS_ROLE_ID" ColumnName="SYS_ROLE_ID" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_RANK">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_RANK">
+              <MappingFragment StoreEntitySet="SYS_RANK">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="RECVERSION" ColumnName="RECVERSION" />
+                <ScalarProperty Name="RANK_GROUP" ColumnName="RANK_GROUP" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ROLE">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_ROLE">
+              <MappingFragment StoreEntitySet="SYS_ROLE">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ROLE_FUNC">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_ROLE_FUNC">
+              <MappingFragment StoreEntitySet="SYS_ROLE_FUNC">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_ROLE_ID" ColumnName="SYS_ROLE_ID" />
+                <ScalarProperty Name="SYS_FUNC_ID" ColumnName="SYS_FUNC_ID" />
+                <ScalarProperty Name="CAN_LIST" ColumnName="CAN_LIST" />
+                <ScalarProperty Name="CAN_VIEW_DETAILS" ColumnName="CAN_VIEW_DETAILS" />
+                <ScalarProperty Name="CAN_CREATE" ColumnName="CAN_CREATE" />
+                <ScalarProperty Name="CAN_EDIT" ColumnName="CAN_EDIT" />
+                <ScalarProperty Name="CAN_DELETE" ColumnName="CAN_DELETE" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_SECTION">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_SECTION">
+              <MappingFragment StoreEntitySet="SYS_SECTION">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_UNIT">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_UNIT">
+              <MappingFragment StoreEntitySet="SYS_UNIT">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_SECTION_ID" ColumnName="SYS_SECTION_ID" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="FAX" ColumnName="FAX" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_USER">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_USER">
+              <MappingFragment StoreEntitySet="SYS_USER">
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="SYS_POST_ID" ColumnName="SYS_POST_ID" />
+                <ScalarProperty Name="CREATED_DT" ColumnName="CREATED_DT" />
+                <ScalarProperty Name="CREATED_POST" ColumnName="CREATED_POST" />
+                <ScalarProperty Name="CREATED_NAME" ColumnName="CREATED_NAME" />
+                <ScalarProperty Name="CREATED_SECTION" ColumnName="CREATED_SECTION" />
+                <ScalarProperty Name="LAST_MODIFIED_DT" ColumnName="LAST_MODIFIED_DT" />
+                <ScalarProperty Name="LAST_MODIFIED_POST" ColumnName="LAST_MODIFIED_POST" />
+                <ScalarProperty Name="LAST_MODIFIED_NAME" ColumnName="LAST_MODIFIED_NAME" />
+                <ScalarProperty Name="LAST_MODIFIED_SECTION" ColumnName="LAST_MODIFIED_SECTION" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_LOG">
+            <EntityTypeMapping TypeName="ModelAuth.SYS_LOG">
+              <MappingFragment StoreEntitySet="SYS_LOG">
+                <ScalarProperty Name="MODIFIED_DATE" ColumnName="MODIFIED_DATE" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+                <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="IPADDRESS" ColumnName="IPADDRESS" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ACTION" ColumnName="ACTION" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="LOG_DATE" ColumnName="LOG_DATE" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

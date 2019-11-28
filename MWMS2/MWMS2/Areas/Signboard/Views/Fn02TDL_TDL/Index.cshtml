@@ -1,0 +1,248 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_TDLDisplayModel
+
+<div id="searchCriteria">
+
+</div>
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Issue Letter :	</div>
+
+            <div class="w3-col l6 m12 s12" id="IssuseLetterCount">
+                Loading..
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Validation :	</div>
+
+            <div class="w3-col l6 m12 s12" id="ValidationCount">  Loading..</div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Audit :	</div>
+
+            <div class="w3-col l6 m12 s12" id="AuditCount">  Loading..</div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission :</div>
+            <div class="w3-col l6 m12 s12" id="SubmissionCount">Loading..</div>
+        </div>
+    </div>
+    <br />
+
+    <div class="panelHeader">
+        Issue Letter
+    </div>
+    <div id="IssueLetter"></div>
+    <br />
+    <div class="panelHeader">
+        Validation
+    </div>
+    <div id="Validation"></div>
+    <br />
+    <div class="panelHeader">
+        Audit
+    </div>
+    <div id="Audit"></div>
+
+    <br><div class="panelHeader">Submission        </div><div id="SubmissionDiv"></div>
+</div>
+
+
+
+<script>
+    domReady(function () {
+        IssueLetterSearch();
+        ValidationSearch();
+        AuditSearch();
+        SubmissionSearch();
+    });
+
+    function IssueLetterSearch() {
+        new searcher({
+            searchPath: "IssueLetterSearch"
+            , searchTable: "searchCriteria"
+            , resultPanel: "IssueLetter"
+            , Sort: "RECEIVED_DATE ASC , REFERENCE_NO "
+            , SortType: "2"
+
+            , Columns: [
+                { displayName: "Task", columnName: "TASK" }
+                , {
+                    displayName: "Submission No. ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("IssueLetter", [{ name: "uuid", value: row.VALIDATION_UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "Form Code ", columnName: "FORM_CODE" }
+                , { displayName: "Received Date	", columnName: "RECEIVED_DATE" }
+                , { displayName: "Target Date", columnName: "TARGETDATE" }
+                , { displayName: "Assignment Date", columnName: "START_TIME" }
+                , { displayName: "Status", columnName: "VALIDATION_STATUS" }
+
+            ]
+            , onAfterSearch: function (d) {
+                document.getElementById("IssuseLetterCount").innerHTML = d.Total;
+            }
+        }).search();
+    }
+
+
+
+    function ValidationSearch() {
+        new searcher({
+            searchPath: "ValidationSearch"
+            , searchTable: "searchCriteria"
+            , resultPanel: "Validation"
+            , Sort: "RECEIVED_DATE ASC , REFERENCE_NO "
+            , SortType: "2"
+
+            , Columns: [
+                { displayName: "Task", columnName: "TASK" }
+                , {
+                    displayName: "Submission No. ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            // console.log(row);
+                            //   console.log(row.TASK);
+                            if (row.TASK == "SO/TO Validation") {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_TO" }]);
+                            }
+                            else if (row.TASK == "TL Validation") {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_PO" }]);
+
+                            }
+                            else {
+                                goTo("goToValidationToDoTO", [{ name: "uuid", value: row.VALIDATION_UUID }, { name: "Type", value: "WF_VALIDATION_SPO" }]);
+
+
+                            }
+
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "Form Code ", columnName: "FORM_CODE" }
+                , { displayName: "Received Date	", columnName: "RECEIVED_DATE" }
+                , { displayName: "Target Date", columnName: "TARGETDATE" }
+                , { displayName: "Assignment Date", columnName: "START_TIME" }
+                , { displayName: "Status", columnName: "VALIDATION_STATUS" }
+
+            ]
+            , onAfterSearch: function (d) {
+                document.getElementById("ValidationCount").innerHTML = d.Total;
+            }
+        }).search();
+    }
+
+
+
+    function AuditSearch() {
+        new searcher({
+            searchPath: "AuditSearch"
+            , searchTable: "searchCriteria"
+            , resultPanel: "Audit"
+            , Sort: "RECEIVED_DATE ASC , REFERENCE_NO "
+            , SortType: "2"
+
+            , Columns: [
+                { displayName: "Task", columnName: "TASK" }
+                , {
+                    displayName: "Submission No. ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("goToAuditDetail", [{ name: "uuid", value: row.AUDIT_UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , { displayName: "Form Code ", columnName: "FORM_CODE" }
+                , { displayName: "Received Date	", columnName: "RECEIVED_DATE" }
+                , { displayName: "Target Date", columnName: "TARGETDATE" }
+                , { displayName: "Assignment Date", columnName: "START_TIME" }
+                , { displayName: "Status", columnName: "AUDIT_STATUS" }
+
+            ]
+            , onAfterSearch: function (d) {
+                document.getElementById("AuditCount").innerHTML = d.Total;
+            }
+        }).search();
+    }
+
+    function SubmissionSearch() {
+        SubmissionList = new searcher({
+            searchPath: "SubmissionsSearch"
+            //, exportPath: "ExcelSubmissions"
+            , searchTable: "RefNo"
+            , resultPanel: "SubmissionDiv"
+
+            , Columns: [
+                { displayName: "Task               ", columnName: "TASK" }
+                , {
+                    displayName: "Ref.No.            ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+
+                            if (row.TASK == "Acknowledgement") {
+                                //console.log(row.TASK_CODE);
+                                if (row.TASK_CODE == "Acknowledgement-PO-SMM") {
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                        [
+                                            { name: "R_UUID", value: row.R_UUID },
+                                            { name: "V_UUID", value: row.V_UUID },
+                                            { name: "TaskUserID", value: row.USER_ID }
+                                        ]);
+                                } else if (row.TASK_CODE == "Acknowledgement-SPO-SMM") {
+                                    goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                        [
+                                            { name: "R_UUID", value: row.R_UUID },
+                                            { name: "V_UUID", value: row.V_UUID },
+                                            { name: "IsReadonly", value: true },
+                                            { name: "IsSPO", value: true },
+                                            { name: "TaskUserID", value: row.USER_ID }
+                                        ]);
+                                }
+
+
+                            } else if (row.TASK == "Verification" || row.TASK == "Rollbacked Verification") {
+                                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Verification",
+                                    [
+                                        { name: "R_UUID", value: row.R_UUID },
+                                        { name: "V_UUID", value: row.V_UUID },
+                                        { name: "TaskUserID", value: row.USER_ID }
+                                    ]);
+                            }
+
+                        }
+                        catch (err) {
+                        }
+                    }
+                }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+            , onBeforeSearch: function (r) {
+                attr("SubmissionCount", "html", "Loading..");
+            }
+            , onAfterSearch: function (r) {
+
+                document.getElementById("SubmissionCount").innerHTML = r.Total;
+            }
+        }).search();
+    }
+
+</script>

@@ -1,0 +1,73 @@
+﻿@model MWMS2.Areas.Admin.Models.Sys_SectionModel
+
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    <form id="inputForm" method="post">
+        <div class="w3-border displayForm">
+            @Html.HiddenFor(model => model.SYS_SECTION.UUID)
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Code :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.SYS_SECTION.CODE, new { @id = "CODE" })
+                    </div>
+                    <div class="w3-col l3 m12 s12">Description :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.SYS_SECTION.DESCRIPTION, new { @id = "DESCRIPTION" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Fax :</div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.SYS_SECTION.FAX, new { @id = "FAX", oninput = @"value=value.replace(/[^\d]/g,'')" })
+                    </div>
+                    @*<div class="w3-col l3 m12 s12">Name of AP/ RI / Contractor :</div>
+                <div class="w3-col l3 m12 s12" id="APRIContractorName"></div>*@
+                </div>
+
+            </div>
+            <div class="w3-container footer">
+                <button type="button" id="updateBtn" onclick="onUpdateForm()"><i class="fa fa-save"></i> Save</button>
+                <button type="button" id="cancelBtn" onclick="goTo('Index')"><i class="fa fa-times"></i> Cancel</button>
+                @*<input type="button" id="updateBtn" onclick="onUpdateForm()" value="Update" />
+        <input type="button" id="cancelBtn" onclick="goTo('Index')" value="Cancel" />*@
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    
+    function onUpdateForm(d, p, e) {
+        attr("inputForm", "addClass", "saving");
+        $.post("Update", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                goTo("Index", null);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    domReady(function () {
+
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Export"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+
+
+</script>

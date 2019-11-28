@@ -1,0 +1,93 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_DisplayModel
+
+<div class="panelHeader">
+    Category Code Details Maintenance
+</div>
+
+@*@using (Html.BeginForm("SaveCCD", "CRM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="inputForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.C_S_CATEGORY_CODE_DETAIL.UUID, new { id = "UUID" })
+    @Html.HiddenFor(model => model.SystemType)
+
+    <div class="displayForm">
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Code:</div>
+                <div class="w3-col l3 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE_DETAIL.CODE, new { id = "CATCODE" })</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Category Code:</div>
+                <div class="w3-col l3 m6 s12">
+                    @Html.DropDownListFor(model => model.C_S_CATEGORY_CODE_DETAIL.S_CATEGORY_CODE_ID, Model.getCategoryCode())
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Eng):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE_DETAIL.ENGLISH_DESCRIPTION)</div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12">Description (Chn):</div>
+                <div class="w3-col l9 m6 s12">@Html.EditorFor(o => o.C_S_CATEGORY_CODE_DETAIL.CHINESE_DESCRIPTION)</div>
+            </div>
+        </div>
+
+
+        <div class="w3-container footer">
+            @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+            @if (MWMS2.Utility.AuthUtil.CanEdit)
+            {<button type="button" onclick="onSaveForm()" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>}
+            <button onclick='goTo("IndexCCD", [{name:"systemType",value:"@Model.SystemType"}, { name: "pageCode", value: domId("functionCode").value }])' class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+
+        </div>
+
+    </div>
+</form>
+  
+
+@*}*@
+
+<script>
+
+    //hide building safety code if is old record
+    $(document).ready(function () {
+        var UUID = $('#UUID').val();
+
+        if (UUID == '' || UUID == null) {
+            //alert(UUID);
+            $('#C_S_CATEGORY_CODE_DETAIL_CODE').removeAttr('disabled');
+
+        }
+        else {
+            // alert(UUID);
+            $('#C_S_CATEGORY_CODE_DETAIL_CODE').attr('disabled', 'disabled');
+
+        }
+
+    });
+
+       function onSaveForm() {
+           $.post("SaveCCD", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo("IndexCCD", [{ name: "systemType", value: "@Model.SystemType" }, { name: "pageCode", value: domId("functionCode").value }]);
+                }
+             else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+        }, "json" );
+    }
+
+</script>

@@ -1,0 +1,91 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn04RPT_PPJLSearchModel
+
+    <div id="searchCriteria">
+
+        <div class="panelHeader">
+            Search Criteria
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Registration No. of PBP/PRC :	</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.searchPbpRegNo)
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">English Name of PBP/PRC :	</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.searchPbpEnglishName)
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m12 s12">Chinese  Name of PBP/PRC :	</div>
+                <div class="w3-col l4 m12 s12">
+                    @Html.TextBoxFor(model => model.searchPbpChineseName)
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "CERTIFICATION_NO"
+            , Columns: [
+                {
+                    displayName: "Chinese Name of PBP/ PRC", columnName: "CHINESE_NAME"
+                    //, click: function (row) {
+                    //    try {
+                    //        if (row == null) return;
+                    //        goTo("Form", [{ name: "compAppInfoMasterId", value: row.MASTERID }, { name: "compAppInfoUUID", value: row.COMPUUID }]);
+                    //    } catch (err) { }
+                    //}
+                }
+                , { displayName: "English Name of PBP/ PRC", columnName: "ENGLISH_NAME" }
+                , { displayName: "Registration No.", columnName: "CERTIFICATION_NO" }
+                , { displayName: "Submission No.", columnName: "REFERENCE_NO" }
+                , { displayName: "Form Code", columnName: "FORM_CODE" }
+                , { displayName: "Status", columnName: "WF_STATUS" }
+                , { displayName: "Signboard Location", columnName: "FULL_ADDRESS" }
+                , { displayName: "Result", columnName: "VALIDATION_RESULT" }
+                , { displayName: "Endorsement Date", columnName: "SPO_ENDORSEMENT_DATE" }
+            ]
+        });
+    });
+</script>
+
+@*<div id="result" class="hide">
+
+        <div class="panelHeader">
+            Completed Cases Statistic by Officer
+        </div>
+        <div id="resultPanel">
+
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+            });
+        });
+    </script>*@

@@ -1,0 +1,78 @@
+﻿@model MWMS2.Models.ProcessMonitorSearchModel
+
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+    @Html.HiddenFor(x => x.doSearch)
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">File Reference :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.FileRef)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Company Name :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(model => model.ComName)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container footer">
+        <button onclick="searchForm()" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+
+<script type="text/javascript">
+    var a;
+    domReady(function () {
+        a =
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "FILE_REFERENCE_NO"
+                , Columns: [
+                    {
+                        displayName: " ", columnName: "RECORD_TYPE"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                goTo("Form", [{ name: "compUUID", value: row.COMP_UUID }, { name: "pmUUID", value: row.PM_UUID }, { name: "compAppUUID", value: row.COMP_APPL_UUID }]);
+                            } catch (err) { }
+                        }
+                    },
+                    {
+                        displayName: "File Ref.", columnName: "FILE_REFERENCE_NO"
+                    }
+                    , { displayName: "Company Name", columnName: "ENGLISH_COMPANY_NAME" }
+                    , { displayName: "Candidate Name", columnName: "NAME" }
+                    , { displayName: "Received Date", columnName: "RECEIVED_DATE" }
+                    , { displayName: "Type of Application", columnName: "APPLICATION_TYPE" }
+                    , { displayName: "Role", columnName: "CODE" }
+                    , { displayName: "Under Monitor", columnName: "UM" }
+                ]
+            });
+    });
+
+    function searchForm() {
+        if ((document.getElementById("FileRef").value) == "" && (document.getElementById("ComName").value) == "") {
+            alert("Please enter one or more search criteria.");
+            return;
+        }
+        else {
+            a.search();
+        }
+    }
+
+</script>
+
+
+

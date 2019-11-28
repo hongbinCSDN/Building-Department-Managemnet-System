@@ -1,0 +1,439 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+<div id="PSACContent" class="w3-border displayForm">
+    <div id="PSACForm1" class="w3-border displayForm">
+        @Html.HiddenFor(model => model.P_MW_RECORD_PSAC.UUID)
+        <div class="panelHeader">
+            <label id="PSACTitle1">PSAC</label>
+        </div>
+        <div class="panelHeader">
+            <label>Report of Pre-commencement Site Audit Checking of Minor Works</label>
+            <br />
+            <label>I General Information</label>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    (a) MW Submission No.:
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.Label(Model.P_MW_REFERENCE_NO.REFERENCE_NO)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    (b) Address/Location:
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @Model.P_MW_RECORD.LOCATION_OF_MINOR_WORK
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    (c) Item No:
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @{
+                        string itemNo = "";
+                        foreach (var item in Model.P_MW_RECORD_ITEMs)
+                        {
+                            itemNo += ((itemNo.Length > 0 ? "/" : "") + item.MW_ITEM_CODE);
+                        }
+
+                    }
+                    @itemNo
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    (d) Date of Receipt:
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => Model.P_MW_RECORD_PSAC.RECEIPT_DATE, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    (e) INspection Date:
+                </div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(model => Model.P_MW_RECORD_PSAC.INSPECTION_DATE, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="panelHeader">
+            <label>II Audit Result</label>
+        </div>
+        <div class="w3-row">
+            <label>
+                @Html.CheckBoxFor(model => model.P_MW_RECORD_PSAC.IsCHK_MW_NOT_YET_COMM)
+                Minor Works not yet commenced
+            </label>
+        </div>
+        <div class="w3-row">
+            <label>
+                @Html.CheckBoxFor(model => model.P_MW_RECORD_PSAC.IsCHK_MW_COMM_AND_COMP)
+                Minor Works commence & completed
+            </label>
+        </div>
+        <div class="w3-row">
+            <label>
+                @Html.CheckBoxFor(model => model.P_MW_RECORD_PSAC.IsCHK_MW_IN_PROGRESS)
+                Minor Works is progress
+            </label>
+        </div>
+        <div class="w3-row">
+            <label>
+                @Html.CheckBoxFor(model => model.P_MW_RECORD_PSAC.IsCHK_INACCESSIBLE)
+                Inaccessible
+            </label>
+        </div>
+
+        <div class="panelHeader">
+            <label>III Plan</label>
+            @if (!Model.IsSummary)
+            {
+                <button type="button" style="float:right;height:30px" onclick="AddPsacImage('Plan')">Add</button>
+            }
+
+        </div>
+        <table id="PlanTable" class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>Document Type</th>
+                    <th>DSN</th>
+                    <th>View Image</th>
+                    <th>Remove Image</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.IsSummary)
+                {
+                    <tr>
+                        <td>
+                            <lable>Plan</lable>
+                        </td>
+                        <td>
+                            <input id="PlanDSN" name="PlanDSN" type="text" />
+                        </td>
+                        <td>
+                            <img src="~/img/view.gif" />
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-default">Remove</button>
+                        </td>
+                    </tr>
+                }
+                @for (int i = 0; i < Model.P_MW_RECORD_PSAC_IMAGEsPlan.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            <lable>Plan</lable>
+                        </td>
+                        <td>
+                            @Model.P_MW_RECORD_PSAC_IMAGEsPlan[i].DSN
+                        </td>
+                        <td>
+                            <img src="~/img/view.gif" />
+                            @Html.HiddenFor(model => model.P_MW_RECORD_PSAC_IMAGEsPlan[i].UUID)
+                        </td>
+                        @if (!Model.IsSummary)
+                        {
+                            <td>
+                                <button type="button" class="btn btn-default" onclick="RemovePsacImageRow('Plan',this)">Remove</button>
+                            </td>
+                        }
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+        <div class="panelHeader">
+            <label>IV Site Photos</label>
+            @if (!Model.IsSummary)
+            {
+                <button type="button" style="float:right;height:30px" onclick="AddPsacImage('Photo')">Add</button>
+            }
+        </div>
+        <table id="PhotoTable" class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>Document Type</th>
+                    <th>DSN</th>
+                    <th>View Image</th>
+                    <th>Remove Image</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.IsSummary)
+                {
+                    <tr>
+                        <td>
+                            <lable>Photo</lable>
+                        </td>
+                        <td>
+                            <input id="PhotoDSN" name="PhotoDSN" type="text" />
+                        </td>
+                        <td>
+                            <img src="~/img/view.gif" />
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-default">Remove</button>
+                        </td>
+
+
+                    </tr>
+                }
+                @for (int i = 0; i < Model.P_MW_RECORD_PSAC_IMAGEsPhoto.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            <lable>Photo</lable>
+                        </td>
+                        <td>
+                            @Model.P_MW_RECORD_PSAC_IMAGEsPhoto[i].DSN
+                        </td>
+                        <td>
+                            <img src="~/img/view.gif" />
+                        </td>
+                        @if (!Model.IsSummary)
+                        {
+                            <td>
+                                <button type="button" class="btn btn-default" onclick="RemovePsacImageRow('Photo',this)">Remove</button>
+                            </td>
+                        }
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+        <div class="panelHeader">
+            <label>V Audit Checking Officer</label>
+        </div>
+
+        @if (Model.IsSummary)
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BS Name
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_NAME, new { @disabled = "true" })
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        SO Name
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_NAME, new { @disabled = "true" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BO Post
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_POST, new { @disabled = "true" })
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        SO Post
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_POST, new { @disabled = "true" })
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BS Signature Date
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_SIGNATURE_DATE, new { @class = "inputDate", @disabled = "true" })
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        So Signature Date
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_SIGNATURE_DATE, new { @class = "inputDate", @disabled = "true" })
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BS Name
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_NAME)
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        SO Name
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_NAME)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BO Post
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_POST)
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        SO Post
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_POST)
+                    </div>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">
+                        BS Signature Date
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.BS_SIGNATURE_DATE, new { @class = "inputDate" })
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        SO Signature Date
+                    </div>
+                    <div class="w3-col l3 m12 s12">
+                        @Html.TextBoxFor(model => model.P_MW_RECORD_PSAC.SO_SIGNATURE_DATE, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function RemovePsacImageRow(typeName, obj) {
+
+        var index = obj.parentNode.parentNode.rowIndex - 1;
+
+        var tableName = typeName + "Table";
+        var tb = document.getElementById(tableName);
+
+        //get template data
+        var PsacImageInfo = {};
+
+        //get Image UUID
+
+        var cell = tb.tBodies[0].rows[index].cells[2];
+
+        var textName = "P_MW_RECORD_PSAC_IMAGEs" + typeName;
+
+        currentRow = cell.querySelectorAll("input[name^='" + textName + "[']");
+
+        for (var i = 0; i < currentRow.length; i++) {
+            var name = currentRow[i].name.substring(currentRow[i].name.indexOf('.'));
+            PsacImageInfo['P_MW_RECORD_PSAC_IMAGE' + name] = currentRow[i].value;
+        }
+
+        attr(tableName, "addClass", "deleting");
+        $.post("DeletePsacImage", PsacImageInfo, function (data) {
+            attr(tableName, "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                tb.deleteRow(index + 1);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+
+    }
+
+    function AddPsacImage(typeName) {
+
+        //get template data
+        var PsacImageInfo = {};
+
+        var inputName = typeName + "DSN";
+        var tableName = typeName + "Table";
+
+        //get DSN Number
+        var dsn = document.getElementById(inputName).value;
+        PsacImageInfo['P_MW_RECORD_PSAC_IMAGE.DSN'] = dsn;
+
+        //get PSAC ID
+        var Psac = document.getElementsByName('P_MW_RECORD_PSAC.UUID')[0];
+        PsacImageInfo['P_MW_RECORD_PSAC_IMAGE.P_MW_RECORD_PSAC_ID'] = Psac.value;
+
+        //get PSAC Image Type
+        PsacImageInfo['P_MW_RECORD_PSAC_IMAGE.DOCUMENT_TYPE'] = typeName;
+
+        attr(tableName, "addClass", "saving");
+        $.post("AddPsacImage", PsacImageInfo, function (data) {
+            attr(tableName, "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                AddPsacImageRow(typeName, dsn, data.Data);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function AddPsacImageRow(typeName, dsn, obj) {
+
+        //Html string
+        var trHtml = "<td></td>"
+            + "<td></td>"
+            + "<td></td>"
+            + "<td><button type='button' onclick=" + "RemovePsacImageRow('" + typeName + "',this)" + " class='btn btn-default'>Remove</button></td>";
+
+        //get table
+        var tb = document.getElementById(typeName + 'Table');
+
+        //get table rows count
+        var index = tb.tBodies[0].rows.length;
+        //add row
+        tb.tBodies[0].insertRow(index);
+        tb.tBodies[0].rows[index].innerHTML = trHtml;
+
+        tb.tBodies[0].rows[index].cells[0].innerText = typeName;
+        tb.tBodies[0].rows[index].cells[1].innerText = dsn;
+        tb.tBodies[0].rows[index].cells[2].innerHTML = "<img src='/img/view.gif'>";
+
+        var textName = "P_MW_RECORD_PSAC_IMAGEs" + typeName;
+        var hiddenHtml = "";
+
+        var UUIDHtml = "<input name='" + textName + "[" + index + "].UUID' type='text' value='" + obj['UUID'] + "' style='display:none;' />";
+        hiddenHtml += UUIDHtml;
+
+        tb.tBodies[0].rows[index].cells[2].innerHTML += hiddenHtml;
+    }
+
+</script>

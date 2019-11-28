@@ -1,0 +1,182 @@
+﻿@model MWMS2.Areas.Registration.Models.CompDisplayModel
+
+<div class="w3-row">
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m12 s12">MW Ref No :</div>
+        <div class="w3-col l9 m12 s12" style="position:relative">
+            <div id="AddPanel" class="w3-col l4 m6 s6">
+                @if (Model.ListPoolingRefNo != null)
+                {
+                    for (int i = 1; i <= Model.ListPoolingRefNo.Count; i++)
+                    {
+                        @Html.TextBox(("PoolingRefNo"), Model.ListPoolingRefNo[i - 1].POOL_NO, new { @style = "max-width:200px", @id = "PoolingRefNo" + i })
+                        var temp = Model.ListPoolingRefNo[i - 1].POOL_NO;
+
+                        var nameP = "PoolingButton" + (i);
+                        //var nameP = "PoolingButton" + (i - 1);
+                        <button onclick='PopUpPoolingTable("@temp")' type="button" name="PoolingButton" id='@nameP'><i class="fa fa-search"></i></button>
+                        <button type="button" onclick="MinusPoolingRefNoTB(@(i))" name="PoolingRemoveButton" id="@("PoolingRemoveButton"+i)">Remove</button>
+                    }
+                }
+                else
+                {
+                    <input style="max-width:200px" type="text" id="PoolingRefNo1" name="PoolingRefNo" />
+                    <button type="button" onclick="PopUpPoolingTable(document.getElementsByName('PoolingRefNo')[0].value)" name="PoolingButton" id="PoolingButton1"><i class="fa fa-search"></i></button>
+                    <input style="max-width:200px" type="text" id="PoolingRefNo2" name="PoolingRefNo" />
+                    <button type="button" onclick="PopUpPoolingTable(document.getElementsByName('PoolingRefNo')[1].value)" name="PoolingButton" id="PoolingButton2"><i class="fa fa-search"></i></button>
+                    <input style="max-width:200px" type="text" id="PoolingRefNo3" name="PoolingRefNo" />
+                    <button type="button" onclick="PopUpPoolingTable(document.getElementsByName('PoolingRefNo')[2].value)" name="PoolingButton" id="PoolingButton3"><i class="fa fa-search"></i></button>
+                }
+            </div>
+            <div class="w3-col l8 m6 s6" style="position:absolute;float:left;width:50%;bottom:0;right:0;">
+
+                <button id="AddPoolingRefNoBtn" class="btn btn-default" type="button">Add</button>
+                @*<button id="MinusPoolingRefNoBtn" class="btn btn-default" type="button">Remove</button>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.COMPANY_TYPE_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l9 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.COMPANY_TYPE_ID, Model.COMPANY_TYPE_List)</div>
+
+
+
+
+        @*<div class="w3-col l3 m6 s12">@Html.CheckBoxFor(x => x.PoolingSelected) Pooling</div>
+            <div class="w3-col l2 m5 s12 data">@Html.TextBoxFor(x => x.PoolingRefNo) </div>
+            <div class="w3-col l1 m1 s3 data"><button type="button" id="PoolingButton"><i class="fa fa-search"></i></button></div>*@
+
+    </div>
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.APPLICANT_NAME) :</div>
+        <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.APPLICANT_NAME)</div>
+    </div>
+
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.ENGLISH_CARE_OF) :</div>
+        <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.ENGLISH_CARE_OF)</div>
+    </div>
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.CHINESE_CARE_OF) :</div>
+        <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.CHINESE_CARE_OF)</div>
+    </div>
+
+    <div class="w3-col hr"></div>
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l12 m12 s12 w3-center">Address @Html.LabelFor(o => o.C_ADDRESS_English)<input type="button" onclick="CopyFromChineseAddress()" value="Copy From Chinese Address" /></div>
+        <div class="w3-col l12 m12 s12 data">
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE1)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE2)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE3)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE4)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS2.ADDRESS_LINE5)
+        </div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l12 m12 s12 w3-center">Address @Html.LabelFor(o => o.C_ADDRESS_Chinese)<input type="button" onclick="CopyFromEnglishAddress()" value="Copy From English Address" /></div>
+        <div class="w3-col l12 m12 s12 data">
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE1)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE2)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE3)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE4)<br />
+            @Html.TextBoxFor(o => o.C_COMP_APPLICATION.C_ADDRESS.ADDRESS_LINE5)
+        </div>
+    </div>
+
+
+    <div class="w3-col hr"></div>
+
+
+    @if (Model.RegType.Equals(MWMS2.Constant.RegistrationConstant.REGISTRATION_TYPE_MWCA))
+    {
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.REGION_CODE_ID) :</div>
+            <div class="w3-col l9 m6 s12">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.REGION_CODE_ID, Model.BS_REGION_CODE_ID_List)</div>
+        </div>
+    }
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.TELEPHONE_NOS_DISPLAY) <font color="red">*</font> :</div>
+        <div class="w3-col l3 m2 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.TELEPHONE_NO1)</div>
+        <div class="w3-col l3 m2 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.TELEPHONE_NO2)</div>
+        <div class="w3-col l3 m2 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.TELEPHONE_NO3)</div>
+    </div>
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.FAX_NOS_DISPLAY) :</div>
+        <div class="w3-col l3 m3 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.FAX_NO1)</div>
+        <div class="w3-col l3 m3 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.FAX_NO2)</div>
+        <div class="w3-col l3 w3-hide-medium w3-hide-small data"></div>
+    </div>
+
+    <div class="w3-col l12 m12 s12">
+        <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.EMAIL_ADDRESS) :</div>
+        <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.EMAIL_ADDRESS)</div>
+    </div>
+
+    <div class="w3-col hr"></div>
+
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.OLD_FILE_REFERENCE) :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.OLD_FILE_REFERENCE)</div>
+    </div>
+    <div class="w3-col l6 m12 s12">
+        <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.PERIOD_OF_VALIDITY_ID) <font color="red">*</font> :</div>
+        <div class="w3-col l6 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.PERIOD_OF_VALIDITY_ID, Model.PERIOD_OF_VALIDITY_List)</div>
+    </div>
+    @if (Model.RegType.Equals(MWMS2.Constant.RegistrationConstant.REGISTRATION_TYPE_MWCA))
+    {
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12"> @Html.LabelFor(o => o.C_COMP_APPLICATION.APPLICATION_FORM_ID) <font color="red">*</font> :</div>
+            <div class="w3-col l9 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.APPLICATION_FORM_ID, Model.APPLICATION_FORM_List)</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.FIRST_APPLICATION_DATE) :</div>
+            <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.FIRST_APPLICATION_DATE, new { @class = "inputDate" })</div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.DUE_DATE) :</div>
+            <div class="w3-col l6 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.DUE_DATE, new { @class = "inputDate" })</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Date of latest Application :</div>
+            <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.APPLICATION_DATE, new { @class = "inputDate" })</div>
+        </div>
+
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l12 m12 s12">MW Capability :</div>
+        </div>
+        <table class="resultTable">
+            <thead><tr><th>Class</th><th>Type</th></tr></thead>
+            <tbody>
+                <tr><th>Class I, II & III</th><td>@Model.Class1</td></tr>
+                <tr><th>Class II & III</th><td>@Model.Class2</td></tr>
+                <tr><th>Class III</th><td>@Model.Class3</td></tr>
+            </tbody>
+        </table>
+
+
+
+
+
+
+    }
+    else
+    {
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.APPLICATION_DATE) :</div>
+            <div class="w3-col l3 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.APPLICATION_DATE, new { @class = "inputDate" })</div>
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.APPLICATION_FORM_ID) <font color="red">*</font> :</div>
+            <div class="w3-col l3 m6 s12 data">@Html.DropDownListFor(o => o.C_COMP_APPLICATION.APPLICATION_FORM_ID, Model.APPLICATION_FORM_List)</div>
+        </div>
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">@Html.LabelFor(o => o.C_COMP_APPLICATION.DUE_DATE) :</div>
+            <div class="w3-col l9 m6 s12 data">@Html.TextBoxFor(o => o.C_COMP_APPLICATION.DUE_DATE, new { @class = "inputDate" })</div>
+        </div>
+    }
+</div>

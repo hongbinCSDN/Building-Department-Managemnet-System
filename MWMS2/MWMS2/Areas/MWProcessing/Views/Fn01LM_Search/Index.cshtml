@@ -1,0 +1,613 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn01LM_SearchModel
+
+<div class="panelHeader">
+    Submission Info
+</div>
+
+<form id="inputForm" method="post">
+    <div id="searchTable" class="w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Counter :</div>
+                <div class="w3-col l9 m12 s12">
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "1", new { @class = "w3-radio" }) Kwun Tong</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "2", new { @class = "w3-radio" }) Pioneer Centre</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "3", new { @class = "w3-radio" }) E-submission</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "4", new { @class = "w3-radio", @checked = "true" })WKGO</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.COUNTER, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                    |
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Nature :</div>
+                <div class="w3-col l9 m12 s12">
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "SUBMISSION", new { @class = "w3-radio" }) Submission</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "E-SUBMISSION", new { @class = "w3-radio" }) E-Submission</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "DIRECT RETURN", new { @class = "w3-radio" }) Direct Return</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "WITHDRAWAL", new { @class = "w3-radio" }) Withdrawal</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "ICU", new { @class = "w3-radio" }) ICU</label>
+                    | <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.NATURE, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                    |
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Received Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    <div>
+                        From
+                        @Html.TextBoxFor(m => m.ReceivedDateFrom, new { @class = "inputDate" })
+                        To
+                        @Html.TextBoxFor(m => m.ReceivedDateTo, new { @class = "inputDate" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Letter Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    From
+                    @Html.TextBoxFor(m => m.LetterDateFrom, new { @class = "inputDate" })
+                    To
+                    @Html.TextBoxFor(m => m.LetterDateTo, new { @class = "inputDate" })
+                    <br />
+                    @*<input type="checkbox" name="mwAckLetterFixed" value="Y" />*@
+                    <label> <input type="checkbox" name="IsLetterDateNull" value="true" checked="checked" /> (如tick此，可check未出信的cases!!)</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">File Reference No. :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.FileReferenceNo)
+                    @*@Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FILEREF_FOUR, new { style = "width:60px", maxlength = "4" })
+                        /
+                        @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FILEREF_TWO, new { style = "width:40px", maxlength = "2" })*@
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">DSN :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.DSN, new { @onBlur = "onBlurDSN('DSN')" });
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">MW No. :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.MW_NO, new { @onBlur = "onBlurDSN('MWNO')" })
+                    "MW140100001" 或 "140100001" 都得!
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Form No. :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FORM_NO,new { @onBlur= "onBlurFormNo()" })
+                    "MW01" 或 "01" 都得!
+                </div>
+
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">開工  :</div>
+                <div class="w3-col l9 m12 s12">
+                    From
+                    @Html.TextBoxFor(m => m.CommDateFrom, new { @class = "inputDate" })
+                    To
+                    @Html.TextBoxFor(m => m.CommDateTo, new { @class = "inputDate" })
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">完工  :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(m => m.CompDate1, new { @class = "inputDate" })
+                    <br />
+                    <label> <input type="checkbox" name="IsCompDateNull" value="true" checked="checked" /> (如tick此, 可check未入完工的cases!!)</label>
+                </div>
+                <div class="w3-col l3 m12 s12">完工2  :</div>
+                <div class="w3-col l3 m12 s12">
+                    @Html.TextBoxFor(m => m.CompDate2, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">MW Items  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.MW_ITEM, new { onblur = "onMwItemsBlur(this)" })
+
+                </div>
+            </div>
+        </div>
+        <!--
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Strengthening of PBBW :</div>
+                <div class="w3-col l9 m12 s12">
+                    @*<label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER., "Y", new { @class = "w3-radio" }) Y</label>|
+                        <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER., "Y", new { @class = "w3-radio" }) N</label>
+                        <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER., "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>*@
+                </div>
+            </div>
+        </div>
+                -->
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Audit Selected :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.AUDIT_RELATED, "Y", new { @class = "w3-radio" }) Y</label>|
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.AUDIT_RELATED, "N", new { @class = "w3-radio" }) N</label>
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.AUDIT_RELATED, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Order Related  :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.ORDER_RELATED, "Y", new { @class = "w3-radio" }) Y</label>|
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.ORDER_RELATED, "N", new { @class = "w3-radio" }) N</label>
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.ORDER_RELATED, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SDF Related  :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SDF_RELATED, "Y", new { @class = "w3-radio" }) Y</label>|
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SDF_RELATED, "N", new { @class = "w3-radio" }) N</label>
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SDF_RELATED, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Signboard Related :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SIGNBOARD_RELATED, "Y", new { @class = "w3-radio" }) Y</label>|
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SIGNBOARD_RELATED, "N", new { @class = "w3-radio" }) N</label>
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SIGNBOARD_RELATED, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">SSP Related  :</div>
+                <div class="w3-col l9 m12 s12">
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SSP, "Y", new { @class = "w3-radio" }) Y</label>|
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SSP, "N", new { @class = "w3-radio" }) N</label>
+                    <label>@Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.SSP, "ALL", new { @class = "w3-radio", @checked = "checked" }) All</label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Referral Date  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.REFERRAL_DATE, new { @class = "inputDate" })
+                    <label>
+                        <input type="checkbox" name="IsReferralDateNull" value="true" checked="checked" />
+                        (如tick此, 可check未做referral的cases!! )
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PBP No.   :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PBP_NO,new {  oninput = "oninputFormatPBP()" })
+                    1=AP(A) | 2=AP(E) | 3=AP(S) [其他就要全打，如RI(A)。]
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PRC No.  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PRC_NO,new { oninput = "oninputFormatPRC()" })
+                    1=GBC | 2=MWC | 3=MWC(W) [其他就要全打，如SC(D)。]
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Address  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.ADDRESS)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Building :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.BUILDING)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Street :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.STREET)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Street No. :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.STREET_NO)
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Floor :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.FLOOR)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Unit  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.UNIT)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PAW  :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PAW)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">PAW Contact :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.PAW_CONTACT)
+                    <br />
+                    如果係FAX，只打號碼，不要隔格。
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">I.O./Mgt. :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.IO_MGT)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">I.O./Mgt. Contact :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.IO_MGT_CONTACT)
+                    <br />
+                    如果係FAX，只打號碼，不要隔格。
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Remarks :</div>
+                <div class="w3-col l9 m12 s12">
+                    @Html.TextBoxFor(m => m.P_MW_ACK_LETTER.REMARK)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">
+                    Language :
+                </div>
+                <div class="w3-col l3 m12 s12">
+                    <label>
+                        @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.LANGUAGE, "CHT", new { @class = "w3-radio" }) 中文
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.P_MW_ACK_LETTER.LANGUAGE, "ENG", new { @class = "w3-radio" }) English
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="resetButton btn btn-default" type="reset"> Reset</button>
+            <button class="searchButton btn btn-default" type="button"> <i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+
+</form>
+
+<br />
+<div id="resultPanel">
+</div>
+
+<script type="text/javascript">
+    function onBlurDSN(type) {
+        var dsn;
+        if (type == 'DSN')
+            dsn = $('#P_MW_ACK_LETTER_DSN').val();
+        else
+            dsn = $('#P_MW_ACK_LETTER_MW_NO').val()
+        if (dsn != "" && dsn != null) {
+            $.post(domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/GetMWNo", { id: dsn, type: type }, function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    attr("P_MW_ACK_LETTER_DSN", "value", data.Message[2]);  
+                    attr("P_MW_ACK_LETTER_MW_NO", "value", data.Message[0]);
+                    attr("P_MW_ACK_LETTER_FORM_NO", "value", data.Message[1]);
+                }
+            });
+        }
+    }
+    function onBlurFormNo() {
+        var formNo = $('#P_MW_ACK_LETTER_FORM_NO').val();
+        if (formNo != "" && formNo != null) {
+            attr("P_MW_ACK_LETTER_FORM_NO", "value", "MW" + $('#P_MW_ACK_LETTER_FORM_NO').val());  
+        }
+    }
+
+    function onClickDSN(uuid) {
+        goTo(domId("rootPath").value + "/MWProcessing/Fn01LM_Ack/Edit", [{ name: "id", value: uuid }]);
+    }
+    function onPrintPDF(uuid) {
+        if (window.dlForm == null) dlForm = dom_(document.body, "form");
+        dlForm.method = "post";
+        //dlForm.target = "dlFrame";
+        dlForm.action = "PrintPDF";
+        dom_(dlForm, "input", { "type": "hidden", "name": "id", "value": uuid });
+        dlForm.submit();
+        attr(dlForm, "html", "");
+    }
+    domReady(function () {
+        var searching;
+
+
+        searching = new complexResultSearcher({
+            searchPath: "Search"
+            , exportPath: "Export"
+            , searchTable: "searchTable"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "MW NO.", columnName: "MW_NO"
+                }
+                , {
+                    displayName: "Particulars", columnName: ""
+                }
+            ]
+        });
+
+        //searching = new complexSearcher(searchParams);
+        //searching;
+
+        atcpAddress({
+            streetName: "P_MW_ACK_LETTER_STREET"
+            , streetNo: "P_MW_ACK_LETTER_STREET_NO"
+            , building: "P_MW_ACK_LETTER_BUILDING"
+            , floor: "P_MW_ACK_LETTER_FLOOR"
+            , unit: "P_MW_ACK_LETTER_UNIT"
+        });
+    });
+
+    function onMwItemsBlur(sender) {
+        if (sender.value == "") {
+            return;
+        }
+        markError(sender, mwItemsValid(sender));
+    }
+    function markError(dom, flag) {
+        dom.style.color = flag ? "" : "#FF0000";
+        dom.style.fontWeight = flag ? "" : "bold";
+    }
+    function mwItemsValid(sender) {
+        var itemNo = sender.value;
+        var mwitems = new Array(
+            "1", "2", "3", "4",
+            "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10",
+            "1.11", "1.12", "1.13", "1.14", "1.15", "1.16", "1.17", "1.18", "1.19", "1.20",
+            "1.21", "1.22", "1.23", "1.24", "1.25", "1.26", "1.27", "1.28", "1.29", "1.30",
+            "1.31", "1.32", "1.33", "1.34", "1.35", "1.36", "1.37", "1.38", "1.39", "1.40",
+            "1.41", "1.42", "1.43", "1.44",
+
+            "2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "2.10",
+            "2.11", "2.12", "2.13", "2.14", "2.15", "2.16", "2.17", "2.18", "2.19", "2.20",
+            "2.21", "2.22", "2.23", "2.24", "2.25", "2.26", "2.27", "2.28", "2.29", "2.30",
+            "2.31", "2.32", "2.33", "2.34", "2.35", "2.36", "2.37", "2.38", "2.39", "2.40",
+
+            "3.1", "3.2", "3.3", "3.4", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10",
+            "3.11", "3.12", "3.13", "3.14", "3.15", "3.16", "3.17", "3.18", "3.19", "3.20",
+            "3.21", "3.22", "3.23", "3.24", "3.25", "3.26", "3.27", "3.28", "3.29", "3.30",
+            "3.31", "3.32", "3.33", "3.34", "3.35", "3.36", "3.37", "3.38", "3.39", "3.40",
+            "3.41", "3.42");
+        if ((itemNo != "") && itemNo.charAt(itemNo.length - 1) != "/") {
+            sender.value = sender.value + "/";
+        }
+        var splititem = itemNo.split("/");
+        for (var i = 0; i < splititem.length; i++) {
+            if (splititem[i].length == 0) {
+                continue;
+            }
+            var flag = false;
+            for (var j = 0; j < mwitems.length; j++) {
+                flag = (splititem[i] == mwitems[j]);
+                if (flag) {
+                    break;
+                }
+            }
+            if (!flag) {
+                return false;
+            }
+        }
+        return true;
+    }
+    function oninputFormatPBP() {
+        var pbp = $("#P_MW_ACK_LETTER_PBP_NO").val();
+        if (pbp === ("1".trim())) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(A) ");
+        } else if (pbp === "2".trim()) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(E) ");
+        } else if (pbp === "3".trim()) {
+            $("#P_MW_ACK_LETTER_PBP_NO").val("AP(S) ");
+        } else {
+            $("#P_MW_ACK_LETTER_PBP_NO").val(pbp.toUpperCase());
+        }
+    }
+
+    function oninputFormatPRC() {
+        var prc = $("#P_MW_ACK_LETTER_PRC_NO").val();
+        if (prc === "1".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("GBC ");
+        } else if (prc === "2".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("MWC ");
+        } else if (prc === "3".trim()) {
+            $("#P_MW_ACK_LETTER_PRC_NO").val("MWC(W) ");
+        } else {
+            $("#P_MW_ACK_LETTER_PRC_NO").val(prc.toUpperCase());
+        }
+    }
+
+</script>
+<style type="text/css">
+    .wordClass {
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow: hidden;
+    }
+</style>
+<script id="resultTableTemp" type="text/x-handlebars-template">
+    {{#each Data}}
+    <tr class="complexResultTableTr">
+        <td style="border: 1px solid black !important;">
+            {{MW_NO}}
+        </td>
+        <td style="border: 1px solid black !important;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            Address:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.ADDRESS}}
+                            </span>
+                        </td>
+                        <td>
+                            File Ref No.:
+                            <span class="wordClass">
+                                {{{FINAL_RECORD.FILEREF_FOUR}}}
+                                {{{FINAL_RECORD.FILEREF_TWO}}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px">
+                            PBP:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.PBP_NO}}
+                                <img style="width:23px;height:23px;margin-top:-5px;" src="../../img/info_icon.png" />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            PRC:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.PRC_NO}}
+                                <img style="width:23px;height:23px;margin-top:-5px;" src="../../img/info_icon.png" />
+                            </span>
+                        </td>
+                        <td style="width:10%">
+                            Audit:
+                            <span class="wordClass">
+                                {{#if FINAL_RECORD.AUDIT_RELATED}}
+                                    {{FINAL_RECORD.AUDIT_RELATED}}
+                                {{else}}
+                                    N
+                                {{/if}}
+                                <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            開工:
+                            <span class="wordClass">
+                                {{formatDate FINAL_RECORD.COMM_DATE}} <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            完工:
+                            <span class="wordClass">
+                                {{formatDate FINAL_RECORD.COMP_DATE}} <br />
+                            </span>
+                        </td>
+                        <td style="width:18%">
+                            MW items:
+                            <span class="wordClass">
+                                {{FINAL_RECORD.ITEM_DISPLAY}}<br />
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="complexResultTable">
+                {{#each ACK_RECORDS}}
+                <tr>
+                    <td>
+                        DSN :
+                        <a href="/MWMS2/MWProcessing/Fn01LM_Search/PrintPDF/{{UUID}}" target="_blank"><i class="fa fa-print"></i></a>
+                        <a href="#" onclick="onClickDSN('{{UUID}}')">{{DSN}}</a>
+                        <!--<a href="#" onclick="onPrintPDF('{{UUID}}')"><i class="fa fa-print"></i></a>-->
+                    </td>
+                    <td colspan="2">
+                        Form {{FORM_NO}} ({{NATURE}})
+                    </td>
+                    <td colspan="2">
+                        Received on: {{formatDate RECEIVED_DATE}}
+                    </td>
+                    <td>
+                        Ack'd on:{{formatDate LETTER_DATE}}
+                    </td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td>
+                        Mod Ref No.:
+                    </td>
+                    <td>
+                        MW 001/2018(MOD)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:120px"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:10%"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:18%"></td>
+                    <td style="width:18%"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    {{/each}}
+</script>

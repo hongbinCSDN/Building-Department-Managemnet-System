@@ -1,0 +1,207 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_DTRSSearchModel
+
+@*@section scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#searchBtn').click(function () {
+                $('#searchCriteria').css('display', 'none');
+                $('#result').css('display', '');
+            });
+        });
+    </script>
+
+}*@
+
+
+
+<div id="searchCriteria" class="w3-border displayForm">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s6">
+            <div class="w3-col l4 m4 s4">Type of Document :	</div>
+            <div class="w3-col l8 m8 s8">
+                @Html.DropDownListFor(model => model.DocumentType,Model.GetDocumentTypeList())
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s6">
+            <div class="w3-col l4 m4 s4">DSN :	</div>
+            <div class="w3-col l8 m8 s8">
+                @Html.TextBoxFor(model => model.DSN)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s6">
+            <div class="w3-col l4 m4 s4">Related Ref. No. :	</div>
+            <div class="w3-col l8 m8 s8">
+                @Html.DropDownListFor(model => model.RefNo,Model.GetRelatedRefNoList())
+            </div>
+        </div>
+        <div class="w3-col l6 m6 s6"> 
+            <div class="w3-col l4 m8 s8">Period :</div>
+            <div class="w3-col l8 m8 s8">
+                From  @Html.TextBoxFor(model => model.PeriodFromDate,new  { @class="inputDate" }) To  @Html.TextBoxFor(model => model.PeriodToDate, new { @class = "inputDate" })
+            </div>
+        </div>
+    </div>
+    <div class="w3-container footer">
+        <button id="print" class="btn btn-default" type="button" style="display:none">Print</button>
+        <button id="back" class="btn btn-default" type="button" style="display:none" onclick="Back()">Back</button>
+        <button id="searchBtn" class="searchButton btn btn-default" onclick="Generate()" type="button" > Generate</button>
+       @* <button id="export" class="searchButton btn btn-default" type="button"><i class="fa fa-print"></i> Export</button>*@
+    </div>
+
+    <div id="result" style="display:none">
+        <div id="incoming" style="display:none">
+            <div class="panelHeader">Incoming Document</div>
+            <div id="IncomingResult">
+
+            </div>
+        </div>
+        <div id="outgoing" style="display:none">
+            <div class="panelHeader">Outgoing Document</div>
+            <div id="OutgoingResult">
+
+            </div>
+        </div>
+    </div>
+   
+</div>
+<script>
+    var incomingSearch;
+    var outgoingSearch;
+    domReady(function () {
+        incomingSearch = new searcher({
+            searchPath: "SearchIncoming"
+            , exportPath: "IncomingExportExcel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "IncomingResult"
+            , Columns: [
+                {
+                    displayName: "DSN", columnName: "DSN"
+                }
+                ,
+                {
+                    displayName: "Ref No.", columnName: "RECORD_ID"
+                }
+                ,
+                {
+                    displayName: "R&D Outgoing (Date/Time)", columnName: "RD_DELIVERED_DATE"
+                }
+                ,
+                {
+                    displayName: "MWU Incoming (Date/Time)", columnName: "MWU_RECEIVED_DATE"
+                }
+                ,
+                {
+                    displayName: "Sorting(Date/ Time)", columnName: ""
+                }
+                ,
+                {
+                    displayName: "Sorting(Handling Officer)", columnName: ""
+                }
+                ,
+                {
+                    displayName: "Case Handling(Date/ Time)", columnName: ""
+                }
+                ,
+                {
+                    displayName: "Case Handling(Handling Officer)", columnName: ""
+                }
+                ,
+                {
+                    displayName: "Action Completion(Date/ Time)", columnName: ""
+                }
+                ,
+                {
+                    displayName: "Action Completion(Handling Officer)", columnName: ""
+                }
+            ]
+        });
+
+        outgoingSearch = new searcher({
+            searchPath: "SearchOutgoing"
+            , exportPath: "OutgoingExportExcel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "OutgoingResult"
+            , Columns: [
+                {
+                    displayName: "DSN", columnName: "DSN"
+                }
+                ,
+                {
+                    displayName: "Ref No.", columnName: "RECORD_ID"
+                }
+                ,
+                {
+                    displayName: "Type of Document", columnName: "DESCRIPTION"
+                }
+                ,
+                {
+                    displayName: "MWU Outgoing (Date/Time)", columnName: "REGISTRY_DELIVERED_DATE"
+                }
+                ,
+                {
+                    displayName: "R&D Incoming (Date/Time)", columnName: "RD_RECEIVED_DATE"
+                }
+
+            ]
+        });
+
+        attr("print", "onclick", { parameters: {}, callback: printFunc });
+       
+    });
+
+    function printFunc() {
+        window.print();
+    }
+
+    function Generate() {
+        attr('DocumentType', 'disabled', 'disabled');
+        attr('DSN', 'disabled', 'disabled');
+        attr('RefNo', 'disabled', 'disabled');
+        attr('PeriodFromDate', 'disabled', 'disabled');
+        attr('PeriodToDate', 'disabled', 'disabled');
+        attr('print', 'style', "display:''");
+        attr('back', 'style', "display:''");
+        attr('searchBtn', 'style', "display:none");
+        //attr('export', 'style', "display:none");
+
+        attr('result', 'style', "display:''");
+        if ($('#DocumentType').val() == "") {
+            incomingSearch.search();
+            attr('incoming', 'style', "display:''");
+            outgoingSearch.search();
+            attr('outgoing', 'style', "display:''");
+        }
+        if ($('#DocumentType').val() == "Incoming") {
+            incomingSearch.search();
+            attr('incoming', 'style', "display:''");
+            attr('outgoing', 'style', "display:none");
+        }
+        if ($('#DocumentType').val() == "Outgoing") {
+            outgoingSearch.search();
+            attr('outgoing', 'style', "display:''");
+            attr('incoming', 'style', "display:none");
+        }
+    }
+    function Back() {
+        attr('DocumentType', 'disabled', '');
+        attr('DSN', 'disabled', '');
+        attr('RefNo', 'disabled', '');
+        attr('PeriodFromDate', 'disabled', '');
+        attr('PeriodToDate', 'disabled', '');
+        attr('print', 'style', "display:none");
+        attr('back', 'style', "display:none");
+        attr('searchBtn', 'style', "display:''");
+        //attr('export', 'style', "display:''");
+        attr('result', 'style', "display:none");
+    }
+
+  
+
+</script>

@@ -1,0 +1,14 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+@if (Model.P_MW_RECORD.PRE_SITE_AUDIT_RELATED == "Y")
+{
+    @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/psac.cshtml")
+}
+
+@Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/mwItem.cshtml")
+
+@if (Model.IsSAC)
+{
+    @Html.Partial("~/Areas/MWProcessing/Views/Verification/Included/sac.cshtml")
+}
+

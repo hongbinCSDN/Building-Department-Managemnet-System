@@ -1,0 +1,139 @@
+v201901017
+CREATE TABLE WL(
+	uuid 						varchar2(36), 
+	subject 					varchar2(60),
+	Category					varchar2(40),
+	Registration_NO				varchar2(25),
+	MW_Submission_No            varchar2(25), 
+   
+	Comp_Contractor_Name_Eng	varchar2(80),
+	Comp_Contractor_Name_Chi	varchar2(80),
+	
+	Section_Unit				varchar2(30),
+
+	File_Ref_Four				varchar2(4),
+	File_Ref_Two				varchar2(2),
+	WL_Issued_by				varchar2(40),
+	Post						varchar2(40),
+	Case_officer				varchar2(40),
+	Related_to					varchar2(40),
+	Source						varchar2(80),
+	Letter_issue_date			date,
+	
+	Authorized_Signatory_Name_Eng		varchar2(80),
+    Authorized_Signatory_Name_Chi		varchar2(80),
+	Status						varchar2(30),
+	Remark						varchar2(200),	
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	Notice_NO          varchar2(40),
+	CONSTRAINT WL_PK PRIMARY KEY (uuid)
+
+);
+
+
+
+
+
+
+CREATE TABLE WL_File(
+	uuid 						varchar(36), 
+	WL_uuid						varchar(36),
+	Letter_File			        Blob,	
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	Status_Description          varchar(40) DEFAULT 'Active',
+	File_Name 					varchar(40) DEFAULT 'FileName',
+	CONSTRAINT WL_File_PK PRIMARY KEY (uuid),
+	CONSTRAINT FK_WLWL_File FOREIGN KEY (WL_uuid)
+    REFERENCES WL(uuid)
+
+);
+
+CREATE TABLE WL_TYPE_OF_Offense(
+	uuid 						varchar(36), 
+	WL_uuid						varchar(36),
+	WL_TYPE_OF_Offense_Eng	    varchar(120),
+	WL_TYPE_OF_Offense_Chi	    varchar(80),		
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	CONSTRAINT WL_TYPE_OF_Offense_PK PRIMARY KEY (uuid),	
+	CONSTRAINT FK_WLWL_TYPE_OF_Offense FOREIGN KEY (WL_uuid)
+    REFERENCES WL(uuid)
+
+);
+
+CREATE TABLE WL_MW_ITEM(
+	uuid 						varchar(36), 
+	WL_uuid						varchar(36),
+	WL_MW_item_Eng				varchar(36),	
+	WL_MW_item_Chi				varchar(36),	
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	CONSTRAINT WL_MW_ITEM_PK PRIMARY KEY (uuid),	
+	CONSTRAINT FK_WLWL_MW_ITEM FOREIGN KEY (WL_uuid)
+    REFERENCES WL(uuid)
+
+);
+
+
+
+CREATE TABLE S_System_Type(
+	uuid 						varchar(36), 
+	type						varchar(36),
+	description						varchar(100),
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	CONSTRAINT S_System_Type_PK PRIMARY KEY (uuid)	
+);
+
+CREATE TABLE S_System_Value(
+	uuid 						varchar(36), 
+	description_Eng				varchar(120),
+	description_Chi				varchar(80),
+	S_System_Type_id			varchar(36),
+	ordering					varchar(10),
+	Created_date				date,
+	Created_by					varchar2(40),
+	Modified_date				date,
+	Modified_by					varchar2(40),
+	CONSTRAINT S_System_Value_PK PRIMARY KEY (uuid),
+	CONSTRAINT FK_S_System_TypeS_System_Value FOREIGN KEY (S_System_Type_id)
+    REFERENCES S_System_Type(uuid)
+);
+-------------------------------------------------------
+CREATE TABLE customers
+( customer_id number(10) NOT NULL,
+  customer_name varchar2(50) NOT NULL,
+  city varchar2(50),
+  CONSTRAINT customers_pk PRIMARY KEY (customer_id)
+);
+
+
+
+----------------------------
+drop table
+drop table S_system_Value
+drop table S_system_type
+drop table TMP
+drop table WL_File
+drop table WL_Type_of_offense
+
+
+
+
+delete from wl where uuid ='02eaf161-e980-41eb-8c00-1187ddad6518'
+
+delete from wl_mw_item where wl_uuid='02eaf161-e980-41eb-8c00-1187ddad6518'
+delete from WL_TYPE_OF_OFFENSE where wl_uuid='02eaf161-e980-41eb-8c00-1187ddad6518'
+

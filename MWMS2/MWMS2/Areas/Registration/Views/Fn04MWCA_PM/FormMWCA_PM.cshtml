@@ -1,0 +1,257 @@
+﻿@model MWMS2.Models.ProcessMonitorDisplayModel
+@using (Html.BeginForm("Save", "Fn04MWCA_PM", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.C_COMP_APPLICATION.UUID)
+    @Html.HiddenFor(model => model.C_COMP_APPLICANT_INFO.UUID)
+    @Html.HiddenFor(model => model.C_COMP_PROCESS_MONITOR.UUID)
+
+    <table id="Table2" style="BORDER-BOTTOM: #dedfde 1px solid" cellspacing="0" cellpadding="0" width="100%" border="0">
+        <tr>
+            <td style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" valign="top">
+                <div class="title1"> &nbsp;MW Company Application &gt; Update Process Monitor</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="PADDING-RIGHT: 8px; PADDING-LEFT: 8px" valign="top">
+                <table class="editform" width="850" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label1">Name of Contractor:</span></td>
+                        <td>@Html.TextBoxFor(model => model.C_COMP_APPLICATION.ENGLISH_COMPANY_NAME, new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label3">File Reference :</span></td>
+                        <td>@Html.TextBoxFor(model => model.C_COMP_APPLICATION.FILE_REFERENCE_NO, new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label4"> Candidate :</span></td>
+                        <td>@Html.TextBoxFor(model => model.CandidateName, new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td><span id="Label5">Post :</span></td>
+                        <td>@Html.TextBoxFor(model => model.RoleType, new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><hr /></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span id="Label22">Applicant Apply Type :</span></td>
+                        <td>
+                            <table id="rdlAppStatus" border="0">
+                                <tr>
+                                    <%	if(registrationType.equals(ApplicationConstants.COMPANY_MINOR_WORK)) { %>
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="A" value="A" />
+                                        <label for="rdlAppStatus_0">Addition</label>
+                                    </td>
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="I" value="I" />
+                                        <label for="rdlAppStatus_1">Inclusion</label>
+                                    </td>
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="N" value="N" />
+                                        <label for="rdlAppStatus_2">Renewal</label>
+                                    </td>
+
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="S" value="S" />
+                                        <label for="rdlAppStatus_3">Restoration</label>
+                                    </td>
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="D" value="D" />
+                                        <label for="rdlAppStatus_4">Application after Deferral</label>
+                                    </td>
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="R" value="R" />
+                                        <label for="rdlAppStatus_5">Review</label>
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <td>
+                                        <html:radio property="applyStatus" styleClass="applyStatus" styleId="Q" value="Q" onclick="changeTypeOfApplicationCMW()" />
+                                        <label for="rdlAppStatus_6">QP Card</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span id="Label12"></span></td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><html:checkbox styleClass="additionCheckBox" property="additionClass" styleId="additionClass"></html:checkbox>Addition Class</td>
+                                    <td><html:checkbox styleClass="additionCheckBox" property="additionType" styleId="additionType"></html:checkbox>Addition Type</td>
+                                    <td><html:checkbox styleClass="additionCheckBox" property="additionAuthSign" styleId="additionAuthSign"></html:checkbox>Addition AS / TD</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span id="Label12">Interview Date :</span></td>
+
+                        <td>
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.INTERVIEW_DATE)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span id="Label11">CRC / RU :</span></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.CRC_NAME)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="HEIGHT: 23px"><span id="Label13">Secretary :</span></td>
+                        <td style="HEIGHT: 23px">
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.SECRETARY, Model.SecretaryList)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span id="Labelss">Vetting Officer :</span></td>
+                        <td>@Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.VETTING_OFFICER, Model.VetOfficer, new { @id = "vettingOfficer" })</td>
+                    </tr>
+                    <tr>
+                        <td><span id="Label2">Type of Application :</span></td>
+                        <td>
+                            @Html.DropDownListFor(model => model.C_COMP_APPLICATION.APPLICATION_FORM_ID, Model.MWCTypeOfAppList)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label15">Nature (Normal/ Deferred Case) :</span></td>
+                        <td>
+                            @Html.DropDownListFor(model => model.C_COMP_PROCESS_MONITOR.NATURE, Model.CGANature)
+                        </td>
+                    </tr>
+                </table>
+                <table class="editform" width="850" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label6">Received Date :</span></td>
+                        <td>
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.RECEIVED_DATE, new { @id = "receivedDate" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label6">Due Date :</span></td>
+                        <td>@Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.DUE_DATE)</td>
+                    </tr>
+
+                    <tr>
+                        <td style="WIDTH: 186px">
+                            <span id="Label26" style='color:grey'>
+                                BA25 10-Day Pledge Date of Initial Reply :
+                            </span>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.C_COMP_PROCESS_MONITOR.PLEDGE_DUE_10_DAYS_DATE)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label8" style='color:grey'>Date of 3-alternative Letter :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label9" style='color:grey'>Subsequent to 3-Alt. :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label10" style='color:grey'>Date of Preliminary Letter :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label14">Date of Result Letter :</span></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <table class="editform" width="850" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label16">Interview/ Assessment Result :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label17">Initial Reply :</span></td>
+                        <td>
+                            days from Received Date
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label18">Interview :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label19">Result Letter :</span></td>
+                        <td> days from Received Date</td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label24">End of Defer Date :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label20">Date of Certificate Issued :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="Label22">Date of Withdraw :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px" valign="top"><span id="Label21">Remarks :</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <%if(regristrationTitle.contains("Contractor")){%>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP00"><u>QP Card</u></span></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP01">Date of Issue:</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP02">Date of Expiry:</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP03">Serial No.:</span></td>
+
+                        <td>
+                            <html:text styleClass="inputText" styleId="serialNoQp" property="serialNoQp" style="width:80px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP04">Return Date:</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="WIDTH: 186px"><span id="LabelQP05">Registered Mail No.:</span></td>
+                        <td></td>
+                    </tr>
+                    <%}%>
+
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td class="editfooter" colspan="4">
+
+                            <input type="button" name="btnSave" id="btnSave" value="Save" onclick="SaveClick()" />
+                            &nbsp;
+
+                            @if(!pmUUID.trim().equals("")) {
+                            <input type="button" name="btnDel" id="btnDel" value="Delete" onclick="DelClick()" />
+                            &nbsp;
+                            }
+
+                            <input type="button" name="btnCancel" id="btnCancel" value="Cancel" onclick="CancelClick()" />
+
+
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+}

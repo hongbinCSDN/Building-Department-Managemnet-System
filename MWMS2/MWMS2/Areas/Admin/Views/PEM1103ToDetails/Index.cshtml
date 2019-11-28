@@ -1,0 +1,166 @@
+﻿@model MWMS2.Areas.Admin.Models.PEM1103ToDetailsModel
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Message");
+    </script>
+}
+
+<div class="panelHeader">To Details</div>
+@using (Html.BeginForm("SaveToDetails", "PEM1103ToDetails", FormMethod.Post, new { enctype = "multipart/form-data", @class = "displayForm" }))
+{
+    <div class="w3-border displayForm">
+        <div class="w3-row">
+            <table class="w3-table-all w3-hoverable resultTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Post ID</th>
+                        <th>Post English</th>
+                        <th>Post Chinese</th>
+                        <th>Name English</th>
+                        <th>Name Chinese</th>
+                        <th>Contact</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int y = 1; }
+                    @for(int i = 0; i< Model.pEM1103ToDetailsListModels.Count; i++ )
+                    {
+                    <tr>
+                        @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].UUID)
+                        @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].ISACTIVE)
+                        @if (Model.pEM1103ToDetailsListModels[i].ISACTIVE == "D")
+                        {
+                            <td>Default</td>
+                            <td>SPO</td>
+                            <td></td>
+                            <td>@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_POST_ENG)</td>
+                            <td>@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_POST_CHI)</td>
+                            <td>@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_NAME_ENG)</td>
+                            <td>@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_NAME_CHI)</td>
+                            <td>@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_CONTACT)</td>
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_POST)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_POST_ENG)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_POST_CHI)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_NAME_ENG)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_NAME_CHI)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].TO_CONTACT)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_POST)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_POST_ENG)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_POST_CHI)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_NAME_ENG)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_NAME_CHI)
+                            @Html.HiddenFor(model => model.pEM1103ToDetailsListModels[i].PO_CONTACT)
+                        }
+                        else
+                        {
+                            <td>@y</td>
+                            <td>
+                                <br />TO
+                                <br />PO
+                                <br />SPO
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(model => model.pEM1103ToDetailsListModels[i].IsCheckActive) Active<br />
+                                @Html.DropDownListFor(model => model.pEM1103ToDetailsListModels[i].TO_POST, Model.ToPostList, new { @style = "width:8rem;" })<br />
+                                @Html.DropDownListFor(model => model.pEM1103ToDetailsListModels[i].PO_POST, Model.PoPostList, new { @style = "width:8rem;" })<br />
+                                @Html.DropDownListFor(model => model.pEM1103ToDetailsListModels[i].SPO_POST, Model.SpoPostList, new { @style = "width:8rem;" })
+                            </td>
+                            <td>
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].TO_POST_ENG)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].PO_POST_ENG)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_POST_ENG)
+                            </td>
+                            <td>
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].TO_POST_CHI)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].PO_POST_CHI)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_POST_CHI)
+                            </td>
+                            <td>
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].TO_NAME_ENG)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].PO_NAME_ENG)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_NAME_ENG)
+                            </td>
+                            <td>
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].TO_NAME_CHI)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].PO_NAME_CHI)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_NAME_CHI)
+                            </td>
+                            <td>
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].TO_CONTACT)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].PO_CONTACT)
+                                <br />@Html.TextBoxFor(model => model.pEM1103ToDetailsListModels[i].SPO_CONTACT)
+                            </td>
+                            <td><br /><button class="btn btn-default" type="button" onclick="javascript:if(confirm('Do you want to delete this record?'))  window.location = '@Url.Action("Delete","PEM1103ToDetails",new { UUID = Model.pEM1103ToDetailsListModels[i].UUID,index = y,count = Model.pEM1103ToDetailsListModels.Count })'">Delete</button></td>
+                            y++;
+                        }
+                    </tr>
+                    }
+                </tbody>
+                <tbody id="detailForm"></tbody>
+            </table>
+        </div>
+        <div class="w3-container footer">
+            <button id="addNewBtn" class="btn btn-default" type="button" onclick="window.location = '@Url.Action("Index", "PEM1103ToDetails", new { count = Model.pEM1103ToDetailsListModels.Count, message = "",type="Add" })' ">Add New Set</button>
+            <button id="saveBtn" class="btn btn-default" type="submit">Save</button>
+            <button type="button" class="btn btn-default" onclick="cancel()">Cancel</button>
+        </div>
+    </div>
+}
+
+<script>
+    function DeleteToDetails(UUID, index, count) {
+        var r = confirm("Do you want to delete this record?");
+        if (r) {
+
+        }
+    }
+    function cancel() {
+        //window.location.href = domId("rootPath").value + "/PEM1103/PEM1103";
+        goTo(domId("rootPath").value + '/PEM1103/PEM1103', [{ name: 'pageCode', value: '100601' }]);
+    }
+
+        //domReady(function () {
+        //    var counter = 0;
+        //    var btn = document.getElementById("addNewBtn");
+        //    var form = document.getElementById("detailForm");
+        //    var addNewSet = function () {
+        //        counter++;
+        //        var tr = document.createElement("tr");
+        //        tr.innerHTML =
+        //            "<td></td>" +
+        //            "<td><br /> TO <br />PO <br /> SP</td>" +
+        //            "<td><input type='checkbox' id='isActive_" + counter + "' > Active <br /><input type='text' id= 'to_post_eng_" + counter + "'><br /><input type='text' id='po_post_eng_" + counter + "'><br /><input type='text' id='spo_post_eng_" + counter + "'> </td>" +
+        //            "<td><br /><input type='text' id= 'to_post_eng_" + counter + "'><br /><input type='text' id='po_post_eng_" + counter + "'><br /><input type='text' id='spo_post_eng_" + counter + "'></td>" +
+        //            "<td><input type='text' id= 'to_post_chi_" + counter + "'><br /><input type='text' id='po_post_chi_" + counter + "'><br /><input type='text' id='spo_post_chi_" + counter + "'></td>" +
+        //            ""
+        //        var td1 = document.createElement("td");
+        //        var td2 = document.createElement("td");
+        //        var td3 = document.createElement("td");
+        //        var td4 = document.createElement("td");
+        //        var td5 = document.createElement("td");
+        //        var td6 = document.createElement("td");
+        //        var td7 = document.createElement("td");
+        //        var td8 = document.createElement("td");
+        //        tr.id = 'tr-' + counter;
+        //        tr.appendChild(td1); tr.appendChild(td2);
+        //        tr.appendChild(td3); tr.appendChild(td4);
+        //        tr.appendChild(td5); tr.appendChild(td6);
+        //        tr.appendChild(td7); tr.appendChild(td8);
+        //        td2.innerHTML = "<br />TO<br />PO<br />SPO";
+        //        td3.innerHTML = "<input type='checkbox' id='isActive_" + counter + "' > Active <br /><input type='text' id= 'to_post_eng_" + counter + "'><br /><input type='text' id='po_post_eng_" + counter + "'><br /><input type='text' id='spo_post_eng_" + counter + "'>";
+        //        td4.innerHTML = "<br /><input type='text' id= 'to_post_eng_" + counter + "'><br /><input type='text' id='po_post_eng_" + counter + "'><br /><input type='text' id='spo_post_eng_" + counter + "'>";
+        //        td5.innerHtml = "<br /><input type='text' id= 'to_post_chi_" + counter + "'><br /><input type='text' id='po_post_chi_" + counter + "'><br /><input type='text' id='spo_post_chi_" + counter + "'>";
+        //        td6.innerHTML = "<br /><input type='text' id= 'to_name_eng_" + counter + "'><br /><input type='text' id='po_name_eng_" + counter + "'><br /><input type='text' id='spo_name_eng_" + counter + "'>";
+        //        td7.innerHTML = "<br /><input type='text' id= 'to_name_chi_" + counter + "'><br /><input type='text' id='po_name_chi_" + counter + "'><br /><input type='text' id='spo_name_chi_" + counter + "'>";
+        //        td8.innerHTML = "<br /><input type='text' id= 'to_contact_" + counter + "'><br /><input type='text' id='po_contact_" + counter + "'><br /><input type='text' id='spo_contact_" + counter + "'>";
+        //        form.appendChild(tr);
+        //    };
+        //    btn.addEventListener('click', function () {
+        //        addNewSet();
+        //    }.bind(this));
+        //});
+</script>

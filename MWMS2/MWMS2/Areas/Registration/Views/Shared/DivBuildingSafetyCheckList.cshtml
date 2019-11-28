@@ -1,0 +1,22 @@
+﻿@model MWMS2.Areas.Registration.Models.BuildingSafetyCheckListModel
+
+<table class="resultTable">
+    <thead><tr><th><input type="checkbox" class="checkAll" /></th><th>BS Code</th><th>Description</th></tr></thead>
+    <tbody>
+        @{
+            if (Model.BsItems != null)
+            {
+                for (int i = 0; i < Model.BsItems.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.CheckBoxFor(o => o.BsItems[i].Checked) @Html.HiddenFor(o => o.BsItems[i].CheckListUuid)</td>
+                        <td>@Html.Label(Model.BsItems[i].Code)</td>
+                        <td>@Html.Label(Model.BsItems[i].Description)</td>
+                    </tr>
+                }
+
+            }
+        }
+
+    </tbody>
+</table>

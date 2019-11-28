@@ -1,0 +1,64 @@
+﻿
+@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_NCCWIModel
+
+<div class="panelHeader">
+    Search Criteria
+</div>
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Received Date :</div>
+            <div class="w3-col l9 m12 s12">
+                From
+                @Html.TextBoxFor(m => m.ReceivedDateFrom, new { @class = "inputDate" })
+                To
+                @Html.TextBoxFor(m => m.ReceivedDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button">View Report</button>
+    </div>
+
+</div>
+
+<br />
+
+
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "DSN No", columnName:"MW_DSN"
+                }
+                , {
+                    displayName: "Form Type", columnName:"S_FORM_TYPE_CODE"
+                }
+                , {
+                    displayName: "MW No", columnName:"REFERENCE_NO"
+                }
+                , {
+                    displayName: "Date of Receive", columnName:"RECEIVED_DATE"
+                }
+                , {
+                    displayName: "Date of Commencement", columnName:"COMMENCEMENT_SUBMISSION_DATE"
+                }
+                , {
+                    displayName: "MW Item", columnName:"ITEMCODE"
+                }
+                , {
+                    displayName: "Address", columnName:"ADDRESS"
+                }
+            ]
+        }).goToPage();
+    });
+</script>

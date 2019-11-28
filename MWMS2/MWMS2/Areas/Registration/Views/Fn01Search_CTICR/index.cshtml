@@ -1,0 +1,127 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn01Search_CTICRSearchModel
+
+<script>
+    function printNumberOfRegistrationReport() {
+        thisForm = document.getElementById('reportForm');
+		if($("#from_date").val() != "" || $("#to_date").val() != ""){
+			if($("#date_type").val() == ""){
+				alert("Please select Type of Date!")
+				return;
+			}
+		}
+		if(thisForm.date_type.value != ""){
+			if($("#from_date").val() == "" && $("#to_date").val() == ""){
+				alert("Please input date period!")
+				return;
+			}
+		}
+		
+		//var statusArray = [];
+		//var statusStr;
+		//$("#div_statusList :checked").each(function(){
+		//	statusArray[statusArray.length] = $(this).val();
+		//});
+		//statusStr = statusArray.join("|"); 
+		
+		
+		var selectedCategory = thisForm.category.value;
+		
+		switch(selectedCategory){
+			case "AP":
+			case "RSE":
+			case "RGE":
+			case "RI":
+            case "IP":
+                thisForm.rptId.value = 'CRM0061';
+				thisForm.REPORT_NAME.value ='no_of_reg_IP';
+				break;
+			case "GBC":
+            case "SC":
+                thisForm.rptId.value = 'CRM0050';
+				thisForm.REPORT_NAME.value ='no_of_reg_CGC';
+				break;
+			case "MWC":
+            case "MWC(P)":
+                thisForm.rptId.value = 'CRM0052';
+				thisForm.REPORT_NAME.value ='no_of_reg_CMW';
+				break;
+            case "MWC(W)":
+                thisForm.rptId.value = 'CRM0052';
+				thisForm.REPORT_NAME.value ='no_of_reg_IMW';
+				break;
+			default:
+				return;
+        }
+
+        thisForm.reg_type.value = selectedCategory;
+        openReport('reportForm')
+		//thisForm.statusStr.value = statusStr;
+		//thisForm.action = 'exportButtion';
+		//thisForm.target= 'bd_wind';
+		//popupWind('');
+	 //   thisForm.submit();
+	}
+</script>
+<form action="exportButtion" method="post" id="reportForm">
+    <input type="hidden" name="rptId"  />
+    <input type="hidden" name="REPORT_NAME"  />
+    <input type="hidden" name="reg_type" />
+    <div class="panelHeader">Class, Type, Item Count Report</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m6 s12"> Type of Date :</div>
+                <div class="w3-col l3 m6 s12">
+                    <select id="date_type" name="date_type">
+                        <option value="">- Select Type of Date -</option>
+                        <option value="application_date">Date of Application</option>
+                        <option value="registration_date">Date of Registration</option>
+                        <option value="gazette_date">Date of Gazette</option>
+                        <option value="expiry_date">Date of Expiry</option>
+                        <option value="removal_date">Date of Removal</option>
+                        <option value="retention_date">Date of Renewal</option>
+                        <option value="restore_date">Date of Restoration</option>
+                        <option value="approval_date">Date of Approval</option>
+                    </select>
+                </div>
+                <div class="w3-col    m6 s12 w3-hide-large"></div>
+                <div class="w3-col l6 m6 s12 data">
+                    &nbsp;From&nbsp;@Html.TextBoxFor(model => model.DateFrom, new { @id = "from_date", @class = "inputDate" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.DateTo, new { @id = "to_date", @class = "inputDate" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12" style="display:none;">
+                <div class="w3-col l3 m6 s12">Application Status:</div>
+                <div class="scrollTableDivLower" style="height:100px; width:220px" id="div_statusList">
+                    @foreach (var item in Model.StatusList)
+                    {
+                        string tmp = "";
+                        if (item.Selected == true)
+                        { tmp = "checked"; }
+
+                        <input type="checkbox" value="@item.Value" @tmp name="StatusListItem" id="@item.Value" />
+                        @Html.Label(item.Text, new { @for = @item.Value })
+                        <br />
+                    }
+                </div>
+                <input type="hidden" id="statusStr" name="statusStr" />
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Type of Registers :</div>
+                <div class="w3-col l2 m12 s12">
+                    @Html.DropDownListFor(model => model.TypeOfCategorys, Model.TypeOfCategoryList, new { @id = "category" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button onclick="printNumberOfRegistrationReport()" class="searchButton btn btn-default" type="button" id="btnRPT">
+                <i class="fa fa-print"></i>Export Class, Type, Item Count Report
+            </button>
+            @*<button onclick="openReport('reportForm')" class="searchButton btn btn-default" type="button" id="btnRPT0008">
+                <i class="fa fa-print"></i>Export Class, Type, Item Count Report
+            </button>*@
+            @*<a href="javascript:printNumberOfRegistrationReport()"><i class="fa fa-file-export"></i>Export Class, Type, Item Count Report</a>*@
+        </div>
+    </div>
+</form>

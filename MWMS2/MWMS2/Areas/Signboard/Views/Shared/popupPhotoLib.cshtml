@@ -1,0 +1,73 @@
+﻿@model MWMS2.Areas.Signboard.Models.ValidationDisplayModel
+
+<script>
+    function Add()
+    {
+
+        var a = document.getElementById("PhotoLibDes").value;
+        var b = document.getElementById("PhotoLibUrl").value;
+
+        window.opener.addPhotoLibCallback(a,b);
+        window.close();
+
+    }
+    function Save()
+    {
+        var a = document.getElementById("PhotoLibDes").value;
+        var b = document.getElementById("PhotoLibUrl").value;
+        var c = document.getElementById("PhotoLibUUID").value;
+        window.opener.savePhotoLibCallback(a, b, c);
+        window.close();
+
+    }
+</script>
+
+<div class="panelHeader">
+    Photo Library
+    @{
+        if (Model.PhotoLibUUID == null)
+        {
+            <button onclick="Add()" type="button">Add</button>
+        }
+        else
+        {
+            <button onclick="Save()" type="button">Save</button>
+        }
+    }
+
+</div>
+
+<div class="displayForm">
+    @Html.HiddenFor(x => x.PhotoLibUUID)
+    <div style="overflow-x:auto">
+        <table class="resultTable">
+            <thead>
+                <tr>
+                 
+                    <th>
+                      Description
+                    </th>
+                    <th>
+                    URL
+                    </th>
+                 
+                </tr>
+            </thead>
+            <tbody>
+        <tr>
+          
+            <td>
+                @Html.TextAreaFor(x=>x.PhotoLibDes)
+            </td>
+            <td>
+                @Html.TextAreaFor(x=>x.PhotoLibUrl)
+            </td>
+        </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

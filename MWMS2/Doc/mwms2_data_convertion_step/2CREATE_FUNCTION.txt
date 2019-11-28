@@ -1,0 +1,5655 @@
+CREATE OR REPLACE FUNCTION MWMS2.B_GET_SCANNED_DOCUMENT_COUNT (
+  p_reference_no in VARCHAR2,
+  p_folder_type IN VARCHAR2
+)return NUMBER 
+is 
+record_cnt varchar2(36);
+begin 
+
+SELECT count(*) into record_cnt 
+FROM B_SV_SCANNED_DOCUMENT
+WHERE RECORD_ID = p_reference_no
+AND FOLDER_TYPE = p_folder_type;
+
+return record_cnt;
+
+end B_GET_SCANNED_DOCUMENT_COUNT;
+
+CREATE OR REPLACE FUNCTION MWMS2."B_GET_TASK_COUNT"  
+( P_USER_ID IN VARCHAR2, 
+  P_TYPE_CODE IN VARCHAR2,
+  P_STATUS IN VARCHAR2
+  
+) RETURN INTEGER 
+IS 
+R_RESULT_COUNTER INTEGER; 
+R_COUNTER INTEGER; 
+
+BEGIN 
+R_RESULT_COUNTER:=0; 
+R_COUNTER:=0; 
+
+IF(P_TYPE_CODE = 'V') THEN
+SELECT COUNT (*) into R_COUNTER FROM B_WF_INFO F
+INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+WHERE T.TASK_CODE in ('WF_VALIDATION_TO', 'WF_VALIDATION_PO', 'WF_VALIDATION_SPO' )  
+AND F.CURRENT_STATUS = P_STATUS AND T.STATUS = P_STATUS AND U.STATUS = P_STATUS 
+AND U.USER_ID = P_USER_ID;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'A') THEN
+SELECT COUNT (*) into R_COUNTER FROM B_WF_INFO F
+INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+WHERE T.TASK_CODE in ('WF_AUDIT_TO', 'WF_AUDIT_PO', 'WF_AUDIT_SPO' )  
+AND F.CURRENT_STATUS = P_STATUS AND T.STATUS = P_STATUS AND U.STATUS = P_STATUS 
+AND U.USER_ID = P_USER_ID;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'G') THEN
+
+SELECT COUNT (*) into R_COUNTER FROM B_SV_GC GC
+INNER JOIN B_WF_INFO F ON GC.UUID = F.RECORD_ID
+INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+WHERE T.TASK_CODE in ('WF_GC_SPO_APPROVE', 'WF_GC_PO', 'WF_MAP_GC_SPO_COMPILE', 'WF_MAP_GC_PO_COMPILE', 'WF_GC_SPO_END' )  
+AND F.CURRENT_STATUS = P_STATUS AND T.STATUS = P_STATUS AND U.STATUS = P_STATUS 
+AND U.USER_ID = P_USER_ID;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'S') THEN
+
+SELECT COUNT (*) into R_COUNTER FROM B_SV_24_ORDER S24
+INNER JOIN B_WF_INFO F ON S24.UUID = F.RECORD_ID
+INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+WHERE T.TASK_CODE in ('WF_S24_SPO_APPROVE', 'WF_S24_PO', 'WF_MAP_S24_PO_COMPILE', 'WF_S24_SPO_END' )  
+AND F.CURRENT_STATUS = P_STATUS AND T.STATUS = P_STATUS AND U.STATUS = P_STATUS 
+AND U.USER_ID = P_USER_ID;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+RETURN R_RESULT_COUNTER; 
+
+END B_GET_TASK_COUNT;
+
+CREATE OR REPLACE FUNCTION MWMS2."B_GET_TASK_COUNT_WITH_RECE_DATE"  
+( P_USER_ID IN VARCHAR2, 
+  P_TYPE_CODE IN VARCHAR2,
+  P_STATUS IN VARCHAR2,
+  P_RECEIVED_DATE_FROM IN DATE,
+  P_RECEIVED_DATE_TO IN DATE
+  
+) RETURN INTEGER 
+IS 
+R_RESULT_COUNTER INTEGER; 
+R_COUNTER INTEGER; 
+
+BEGIN 
+R_RESULT_COUNTER:=0; 
+R_COUNTER:=0; 
+
+IF(P_TYPE_CODE = 'V') THEN
+
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_VALIDATION_TO', 'WF_VALIDATION_PO', 'WF_VALIDATION_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_VALIDATION_TO', 'WF_VALIDATION_PO', 'WF_VALIDATION_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'A') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_AUDIT_TO', 'WF_AUDIT_PO', 'WF_AUDIT_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_AUDIT_TO', 'WF_AUDIT_PO', 'WF_AUDIT_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'G') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_GC GC
+		INNER JOIN B_WF_INFO F ON GC.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_GC_SPO_APPROVE', 'WF_GC_PO', 'WF_MAP_GC_SPO_COMPILE', 'WF_MAP_GC_PO_COMPILE', 'WF_GC_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_GC GC
+		INNER JOIN B_WF_INFO F ON GC.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_GC_SPO_APPROVE', 'WF_GC_PO', 'WF_MAP_GC_SPO_COMPILE', 'WF_MAP_GC_PO_COMPILE', 'WF_GC_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'S') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_24_ORDER S24
+		INNER JOIN B_WF_INFO F ON S24.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_S24_SPO_APPROVE', 'WF_S24_PO', 'WF_MAP_S24_PO_COMPILE', 'WF_S24_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_24_ORDER S24
+		INNER JOIN B_WF_INFO F ON S24.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_S24_SPO_APPROVE', 'WF_S24_PO', 'WF_MAP_S24_PO_COMPILE', 'WF_S24_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+RETURN R_RESULT_COUNTER; 
+
+END B_GET_TASK_COUNT_WITH_RECE_DATE;
+
+CREATE OR REPLACE function MWMS2.B_is_final_record(
+  p_sv_record_id in varchar2
+)return varchar2 
+is 
+sv_record_id_num varchar2(36);
+begin 
+
+select count(uuid) into sv_record_id_num 
+from (
+  select
+    *
+  from (
+    select r.uuid , r.CREATED_DATE, max(r.created_date) over (partition by r.reference_no) as max_created_date 
+    from B_sv_record r, B_SV_RECORD m
+    WHERE r.REFERENCE_NO = m.REFERENCE_NO
+    AND m.UUID = p_sv_record_id
+  )
+  where
+    created_date = max_created_date
+)where uuid = p_sv_record_id;
+
+return case when sv_record_id_num > 0 then 'Y' else 'N' end;
+
+end B_is_final_record;
+
+CREATE OR REPLACE function MWMS2.B_is_final_validation(
+  p_sv_record_id in varchar2
+)return varchar2 
+is 
+sv_record_id_num varchar2(36);
+begin 
+
+select count(uuid) into sv_record_id_num 
+from (
+  select
+    *
+  from (
+    select r.*
+      , max(r.created_date) over (partition by r.reference_no) as max_created_date 
+    from B_sv_record r 
+    join B_sv_validation 
+    on r.uuid = sv_record_id
+  )
+  where
+    created_date = max_created_date
+)where uuid = p_sv_record_id;
+
+return case when sv_record_id_num > 0 then 'Y' else 'N' end;
+
+end B_is_final_validation;
+
+CREATE OR REPLACE FUNCTION MWMS2."B_TGET_TASK_COUNT_WITH_RECE_DATE"  
+( P_USER_ID IN VARCHAR2, 
+  P_TYPE_CODE IN VARCHAR2,
+  P_STATUS IN VARCHAR2,
+  P_RECEIVED_DATE_FROM IN DATE,
+  P_RECEIVED_DATE_TO IN DATE
+  
+) RETURN INTEGER 
+IS 
+R_RESULT_COUNTER INTEGER; 
+R_COUNTER INTEGER; 
+
+BEGIN 
+R_RESULT_COUNTER:=0; 
+R_COUNTER:=0; 
+
+IF(P_TYPE_CODE = 'V') THEN
+
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_VALIDATION_TO', 'WF_VALIDATION_PO', 'WF_VALIDATION_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_VALIDATION_TO', 'WF_VALIDATION_PO', 'WF_VALIDATION_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'A') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_AUDIT_TO', 'WF_AUDIT_PO', 'WF_AUDIT_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_WF_INFO F
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		INNER JOIN B_SV_VALIDATION V ON R.UUID = V.SV_RECORD_ID  
+		WHERE T.TASK_CODE in ('WF_AUDIT_TO', 'WF_AUDIT_PO', 'WF_AUDIT_SPO' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'G') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_GC GC
+		INNER JOIN B_WF_INFO F ON GC.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_GC_SPO_APPROVE', 'WF_GC_PO', 'WF_MAP_GC_SPO_COMPILE', 'WF_MAP_GC_PO_COMPILE', 'WF_GC_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_GC GC
+		INNER JOIN B_WF_INFO F ON GC.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_GC_SPO_APPROVE', 'WF_GC_PO', 'WF_MAP_GC_SPO_COMPILE', 'WF_MAP_GC_PO_COMPILE', 'WF_GC_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+IF(P_TYPE_CODE = 'S') THEN
+	IF P_RECEIVED_DATE_FROM IS NULL AND P_RECEIVED_DATE_TO IS NULL THEN 
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_24_ORDER S24
+		INNER JOIN B_WF_INFO F ON S24.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_S24_SPO_APPROVE', 'WF_S24_PO', 'WF_MAP_S24_PO_COMPILE', 'WF_S24_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND U.USER_ID = P_USER_ID;
+	ELSE
+		SELECT COUNT (DISTINCT R.UUID) into R_COUNTER FROM B_SV_24_ORDER S24
+		INNER JOIN B_WF_INFO F ON S24.UUID = F.RECORD_ID
+		INNER JOIN B_WF_TASK T ON F.UUID = T.WF_INFO_ID 
+		INNER JOIN B_WF_TASK_USER U ON T.UUID = U.WF_TASK_ID 
+		INNER JOIN B_SV_RECORD R ON F.RECORD_ID = R.UUID 
+		WHERE T.TASK_CODE in ('WF_S24_SPO_APPROVE', 'WF_S24_PO', 'WF_MAP_S24_PO_COMPILE', 'WF_S24_SPO_END' )  
+		AND U.STATUS = P_STATUS 
+		AND TO_DATE(R.RECEIVED_DATE) BETWEEN TO_DATE(P_RECEIVED_DATE_FROM) AND TO_DATE(P_RECEIVED_DATE_TO)
+		AND U.USER_ID = P_USER_ID;
+	END IF;
+    R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+END IF;
+
+RETURN R_RESULT_COUNTER; 
+
+END B_TGET_TASK_COUNT_WITH_RECE_DATE;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_ACCIDENT_CNT"  
+( offence_d IN VARCHAR2, 
+  reg_type IN VARCHAR2 
+) RETURN NUMBER  
+IS 
+accidentcnt INTEGER; 
+BEGIN 
+accidentcnt:=0; 
+SELECT COUNT (*) into accidentcnt 
+FROM C_COMP_CONVICTION C_CVT  
+WHERE to_char(C_CVT.CR_OFFENCE_DATE, 'YYYYMMDD')= offence_d  
+AND C_CVT.CR_ACCIDENT='Y' 
+AND C_CVT.REGISTRATION_TYPE = reg_type; 
+ 
+  RETURN accidentcnt; 
+END C_ACCIDENT_CNT;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_APPLN_INFO_CONCAT_MWTYPE"  
+( appln_id IN VARCHAR2, 
+  mw_class_id IN VARCHAR2 
+) RETURN VARCHAR2 
+is 
+  CONCAT_MWTYPE VARCHAR2 (200); 
+  MW_REC INTEGER; 
+  counter INTEGER; 
+   
+  class_code VARCHAR2 (200); 
+ 
+CURSOR MW IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_MW_ITEM C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_ID = appln_id -- AND C_MW.ITEM_CLASS_ID = mw_class_id 
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=1 
+     ORDER BY MW_TYPE_CODE; 
+ 
+ 
+CURSOR MW2 IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_MW_ITEM C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_ID = appln_id -- AND C_MW.ITEM_CLASS_ID = mw_class_id 
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=2 
+     ORDER BY MW_TYPE_CODE ;
+     
+ 
+CURSOR MW3 IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_MW_ITEM C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_ID = appln_id -- AND C_MW.ITEM_CLASS_ID = mw_class_id 
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=3 
+     ORDER BY MW_TYPE_CODE ;
+ 
+CURSOR reg IS  
+  SELECT code from  C_S_SYSTEM_VALUE where uuid= mw_class_id ;
+ 
+BEGIN 
+  CONCAT_MWTYPE := ''; 
+  counter := 0; 
+  MW_REC := 0;  
+ 
+  class_code := ''; 
+ 
+  open reg; 
+  fetch reg into class_code; 
+    
+  if class_code = 'Class 1' then 
+      FOR MW_REC in MW3 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   elsif class_code='Class 2' then 
+       FOR MW_REC in MW2 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   else  
+      FOR MW_REC in MW 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   end if; 
+ 
+  RETURN CONCAT_MWTYPE; 
+END C_APPLN_INFO_CONCAT_MWTYPE;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_APPLN_INFO_MASTER_MWTYPE" 
+( P_UUID IN VARCHAR2, 
+  P_MW_CLASS_ID IN VARCHAR2,
+  P_STATUS_CODE IN VARCHAR2 
+  
+  
+) RETURN VARCHAR2 
+is 
+  CONCAT_MWTYPE VARCHAR2 (200); 
+  MW_REC INTEGER; 
+  counter INTEGER; 
+
+  class_code VARCHAR2 (200); 
+
+CURSOR MW IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_INFO_DETAIL C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_MASTER_ID = P_UUID 
+     AND C_MW.STATUS_CODE = P_STATUS_CODE
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=1 
+     ORDER BY MW_TYPE_CODE; 
+
+
+CURSOR MW2 IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_INFO_DETAIL C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_MASTER_ID = P_UUID 
+     AND C_MW.STATUS_CODE = P_STATUS_CODE
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=2 
+     ORDER BY MW_TYPE_CODE;
+
+
+CURSOR MW3 IS  
+SELECT  
+     replace (MW_TYPE.CODE,'Type ') AS MW_TYPE_CODE , count(*) 
+FROM 
+     C_COMP_APPLICANT_INFO_DETAIL C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_MASTER_ID = P_UUID 
+     AND C_MW.STATUS_CODE = P_STATUS_CODE
+     group by   replace (MW_TYPE.CODE,'Type ') 
+     having count(*)=3 
+     ORDER BY MW_TYPE_CODE;
+
+CURSOR reg IS  
+  SELECT code from  C_S_SYSTEM_VALUE where uuid= P_MW_CLASS_ID ;
+
+BEGIN 
+  CONCAT_MWTYPE := ''; 
+  counter := 0; 
+  MW_REC := 0;  
+
+  class_code := ''; 
+
+  open reg; 
+  fetch reg into class_code; 
+
+  if class_code = 'Class 1' then 
+      FOR MW_REC in MW3 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   elsif class_code='Class 2' then 
+       FOR MW_REC in MW2 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   else  
+      FOR MW_REC in MW 
+      LOOP 
+             if counter=0 then  
+             CONCAT_MWTYPE := 'Type ' || MW_REC.MW_TYPE_CODE; 
+             else  
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;       
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+   end if; 
+
+  RETURN CONCAT_MWTYPE; 
+END C_APPLN_INFO_MASTER_MWTYPE;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_BNUM" 
+( offence_y IN VARCHAR2 
+, offence_m IN VARCHAR2 
+, cvt_code IN VARCHAR2 
+, reg_type IN VARCHAR2 
+) RETURN INTEGER  
+IS 
+section VARCHAR2 (20); 
+Bnum INTEGER; 
+NBnum INTEGER; 
+count_cvt INTEGER; 
+CURSOR offencedate IS  
+  SELECT 
+       cr_section  
+  FROM 
+       C_comp_conviction c_cvt 
+       INNER JOIN C_S_SYSTEM_VALUE S_CVT ON S_CVT.UUID = C_CVT.CONVICTION_SOURCE_ID 
+       WHERE S_CVT.code = cvt_code 
+       AND TO_CHAR(c_cvt.cr_offence_date,'YYYY')= offence_y 
+       AND TO_CHAR(c_cvt.cr_offence_date,'MM')= offence_m 
+       AND c_cvt.registration_type = reg_type; 
+BEGIN 
+  Bnum := 0; 
+  NBnum := 0; 
+  section := ''; 
+  count_cvt := 0; 
+
+  open offencedate; 
+    fetch offencedate into section; 
+
+    while offencedate%found loop 
+
+      SELECT COUNT (*) into count_cvt 
+              FROM C_S_SYSTEM_VALUE S_NB  
+              INNER JOIN C_S_SYSTEM_TYPE S_NB_TYPE ON S_NB.SYSTEM_TYPE_ID = S_NB_TYPE.UUID 
+              WHERE  
+              S_NB_TYPE.TYPE = 'NB_CODE' 
+              and S_NB.CODE = section; 
+
+
+      if count_cvt > 0 then 
+        NBnum :=NBnum + 1; 
+      else 
+        Bnum := Bnum + 1; 
+      end if; 
+
+		fetch offencedate into section; 
+    END LOOP; 
+
+  close offencedate; 
+
+
+  RETURN Bnum; 
+END C_BNUM;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CAN_COMP_APPLICATION_DELETE" 
+(
+P_UUID IN VARCHAR2
+) RETURN INTEGER
+IS 
+R_COUNTER INTEGER; 
+R_RESULT_COUNTER INTEGER;
+BEGIN 
+
+R_COUNTER := 0 ;
+R_RESULT_COUNTER := 0 ;
+
+
+   	SELECT COUNT(S.UUID) INTO R_COUNTER 
+   	FROM C_COMP_PROCESS_MONITOR S WHERE S.MASTER_ID = P_UUID ;
+
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+
+  RETURN R_RESULT_COUNTER; 
+
+END "C_CAN_COMP_APPLICATION_DELETE";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CAN_IND_APPLICATION_DELETE" 
+(
+P_UUID IN VARCHAR2
+) RETURN INTEGER
+IS 
+R_COUNTER INTEGER; 
+R_RESULT_COUNTER INTEGER;
+BEGIN 
+
+	R_COUNTER := 0 ;
+	R_RESULT_COUNTER := 0 ;
+
+   	SELECT COUNT(S.UUID) INTO R_COUNTER 
+   	FROM C_IND_PROCESS_MONITOR S WHERE S.MASTER_ID = P_UUID;
+
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+
+  RETURN R_RESULT_COUNTER; 
+
+END "C_CAN_IND_APPLICATION_DELETE";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CNT1" 
+( offence_d IN VARCHAR2, 
+  reg_type  IN VARCHAR2 
+) RETURN INTEGER  
+IS 
+cnt INTEGER; 
+BEGIN 
+cnt:=0; 
+SELECT COUNT (*) into cnt 
+FROM 
+         C_comp_conviction C_CVT  
+         INNER JOIN C_S_SYSTEM_VALUE S_NB ON C_CVT.CR_SECTION=S_NB.CODE 
+         INNER JOIN C_S_SYSTEM_TYPE S_NB_TYPE ON S_NB.SYSTEM_TYPE_ID = S_NB_TYPE.UUID 
+         WHERE S_NB_TYPE."TYPE" = 'NB_CODE'  
+         AND to_char(C_CVT.CR_OFFENCE_DATE, 'YYYYMMDD')=offence_d 
+         AND C_CVT.REGISTRATION_TYPE = reg_type; 
+  RETURN cnt; 
+END C_CNT1;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CONCAT_BUILDING_SAFETY_ID" 
+( var_uuid IN VARCHAR2,
+code1 IN VARCHAR2,
+code2 IN VARCHAR2,
+regType IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_BUILDING_SAFETY_ID VARCHAR2 (200);
+  ID_REC VARCHAR2 (200);
+  counter INTEGER;
+
+CURSOR BUILDING_SAFETY_ID IS 
+SELECT 	 BSV.CODE AS CODE
+         FROM 
+         C_IND_CERTIFICATE C, C_S_CATEGORY_CODE CAT, 
+         C_APPLICANT APP, C_IND_APPLICATION A 
+         LEFT OUTER JOIN C_BUILDING_SAFETY_INFO BS ON  A.REGISTRATION_TYPE=BS.REGISTRATION_TYPE AND A.UUID=BS.MASTER_ID 
+             LEFT OUTER JOIN C_S_SYSTEM_VALUE BSV ON  BS.BUILDING_SAFETY_ID=BSV.UUID 
+         WHERE 
+         C.CATEGORY_ID= CAT.UUID 
+         AND C.MASTER_ID=A.UUID 
+         AND A.REGISTRATION_TYPE= regType
+         AND (CAT.UUID = (select uuid from C_S_CATEGORY_CODE where code=code1)   OR  CAT.UUID = (select uuid from C_S_CATEGORY_CODE where code=code2))
+         AND A.APPLICANT_ID =APP.UUID 
+         AND C.CERTIFICATION_NO IS NOT NULL 
+	     AND C.UUID = var_uuid
+         AND ( 
+          (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= CURRENT_DATE ) or 
+          (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < CURRENT_DATE) ) 
+         ) 
+
+
+         AND ((C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > CURRENT_DATE)) 
+
+         ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID, BSV.ORDERING; 
+
+
+
+BEGIN
+  CONCAT_BUILDING_SAFETY_ID := '';
+  counter := 0;
+  ID_REC := ''; 
+
+      FOR ID_REC in BUILDING_SAFETY_ID
+      LOOP
+             if counter=0 then 
+             CONCAT_BUILDING_SAFETY_ID := ID_REC.CODE ;
+             else 
+             CONCAT_BUILDING_SAFETY_ID := CONCAT_BUILDING_SAFETY_ID || ' ' || ID_REC.CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_BUILDING_SAFETY_ID;
+END C_CONCAT_BUILDING_SAFETY_ID;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CONCAT_BUILDING_SAFETY_ID_ALL" 
+( IN_MASTER_ID IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_BUILDING_SAFETY_ID VARCHAR2 (200);
+  ID_REC VARCHAR2 (200);
+  counter INTEGER;
+
+CURSOR BUILDING_SAFETY_ID IS 
+SELECT 	 BSV.CODE AS CODE
+FROM C_BUILDING_SAFETY_INFO BS, C_S_SYSTEM_VALUE BSV
+WHERE BS.BUILDING_SAFETY_ID=BSV.UUID  AND BS.MASTER_ID = IN_MASTER_ID
+ORDER BY BSV.ORDERING; 
+
+BEGIN
+  CONCAT_BUILDING_SAFETY_ID := '';
+  counter := 0;
+  ID_REC := ''; 
+
+      FOR ID_REC in BUILDING_SAFETY_ID
+      LOOP
+             if counter=0 then 
+             CONCAT_BUILDING_SAFETY_ID := ID_REC.CODE ;
+             else 
+             CONCAT_BUILDING_SAFETY_ID := CONCAT_BUILDING_SAFETY_ID || ' ' || ID_REC.CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_BUILDING_SAFETY_ID;
+END C_CONCAT_BUILDING_SAFETY_ID_ALL;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CONCAT_BUILDING_SAFETY_ID2" 
+( var_uuid IN VARCHAR2,
+code1 IN VARCHAR2,
+regType IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_BUILDING_SAFETY_ID VARCHAR2 (200);
+  ID_REC VARCHAR2 (200);
+  counter INTEGER;
+
+CURSOR BUILDING_SAFETY_ID IS 
+SELECT 	 BSV.CODE AS CODE
+         FROM 
+         C_IND_CERTIFICATE C, C_S_CATEGORY_CODE CAT, 
+         C_APPLICANT APP, C_IND_APPLICATION A 
+         LEFT OUTER JOIN C_BUILDING_SAFETY_INFO BS ON  A.REGISTRATION_TYPE=BS.REGISTRATION_TYPE AND A.UUID=BS.MASTER_ID 
+             LEFT OUTER JOIN C_S_SYSTEM_VALUE BSV ON  BS.BUILDING_SAFETY_ID=BSV.UUID 
+         WHERE 
+         C.CATEGORY_ID= CAT.UUID 
+         AND C.MASTER_ID=A.UUID 
+         AND A.REGISTRATION_TYPE=  regType
+         AND (CAT.UUID = (select uuid from C_S_CATEGORY_CODE where code=code1)) 
+         AND A.APPLICANT_ID =APP.UUID 
+         AND C.CERTIFICATION_NO IS NOT NULL 
+	     AND C.UUID = var_uuid
+         AND ( 
+          (C.EXPIRY_DATE IS NOT NULL and C.EXPIRY_DATE >= CURRENT_DATE ) or 
+          (C.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') and (C.EXPIRY_DATE < CURRENT_DATE) ) 
+         ) 
+
+
+         AND ((C.REMOVAL_DATE IS NULL) OR  (C.REMOVAL_DATE > CURRENT_DATE)) 
+
+         ORDER BY upper(APP.SURNAME)  || ' '  ||  upper(APP.GIVEN_NAME_ON_ID) ,  C.CERTIFICATION_NO, C.UUID, BSV.ORDERING; 
+
+
+
+BEGIN
+  CONCAT_BUILDING_SAFETY_ID := '';
+  counter := 0;
+  ID_REC := ''; 
+
+      FOR ID_REC in BUILDING_SAFETY_ID
+      LOOP
+             if counter=0 then 
+             CONCAT_BUILDING_SAFETY_ID := ID_REC.CODE ;
+             else 
+             CONCAT_BUILDING_SAFETY_ID := CONCAT_BUILDING_SAFETY_ID || ' ' || ID_REC.CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_BUILDING_SAFETY_ID;
+END C_CONCAT_BUILDING_SAFETY_ID2;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CONCAT_REG_NO" 
+( file_ref IN VARCHAR2
+, ctr_id IN VARCHAR2
+, prb_id IN VARCHAR2
+) RETURN VARCHAR2
+is
+
+reg_no varchar2(20);
+ctrid varchar2(36);
+prbid varchar2(36);
+total_reg_no VARCHAR2 (200);
+counter INTEGER;
+
+CURSOR reg IS 
+  SELECT
+       i_quali.registration_number,
+       i_quali.category_id,
+       i_quali.prb_id
+  FROM
+       C_IND_APPLICATION I_APPL INNER JOIN C_IND_QUALIFICATION I_QUALI 
+       ON I_APPL.UUID = I_QUALI.MASTER_ID
+       WHERE i_appl.file_reference_no = file_ref;
+
+BEGIN
+  counter := 0;
+  reg_no :='';
+  ctrid :='';
+  prbid :='';
+  total_reg_no :='aaa';
+
+  open reg;
+    fetch reg into reg_no, ctrid, prbid;
+    while reg%found loop
+    if instr(ctr_id, ctrid) > 0 and instr(prb_id, prbid) > 0 and instr(total_reg_no, reg_no) <=0 then
+       if counter=0 then 
+       total_reg_no := reg_no;
+       else 
+       total_reg_no := total_reg_no || ', ' || reg_no;      
+       end if;
+       counter := counter +1;
+    end if;
+    fetch reg into reg_no, ctrid, prbid;
+    END LOOP;
+
+  close reg;
+
+  RETURN total_reg_no ; 
+
+END C_CONCAT_REG_NO;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_CONVICTNUM" 
+( offence_y IN VARCHAR2 
+, offence_m IN VARCHAR2 
+, cvt_code IN VARCHAR2 
+, reg_type IN VARCHAR2 
+) RETURN VARCHAR2  
+IS 
+convict_num VARCHAR2 (2000); 
+section VARCHAR2 (20); 
+BnumCounter INTEGER; 
+NBnumCounter INTEGER; 
+count_cvt INTEGER; 
+CURSOR offencedate IS  
+  SELECT 
+       cr_section  
+  FROM 
+       C_comp_conviction c_cvt 
+       INNER JOIN C_S_SYSTEM_VALUE S_CVT ON S_CVT.UUID = C_CVT.CONVICTION_SOURCE_ID 
+       WHERE S_CVT.code = cvt_code 
+       AND TO_CHAR(c_cvt.cr_offence_date,'YYYY')= offence_y 
+       AND TO_CHAR(c_cvt.cr_offence_date,'MM')= offence_m 
+       AND c_cvt.registration_type = reg_type; 
+BEGIN 
+  BnumCounter := 0; 
+  NBnumCounter := 0; 
+  convict_num := ''; 
+  section := ''; 
+  count_cvt := 0; 
+
+  open offencedate; 
+    fetch offencedate into section; 
+
+    while offencedate%found loop 
+     	 sELECT COUNT(s_nB.UUID) into count_cvt 
+              FROM C_S_SYSTEM_VALUE S_NB  
+              INNER JOIN C_S_SYSTEM_TYPE S_NB_TYPE ON S_NB.SYSTEM_TYPE_ID = S_NB_TYPE.UUID 
+              WHERE S_NB_TYPE.TYPE = 'NB_CODE' and S_NB.CODE =section; 
+
+
+
+      	if count_cvt > 0 then 
+        	NBnumCounter := NBnumCounter + 1; 
+	    else 
+    	    BnumCounter := BnumCounter + 1; 
+	     end if; 
+
+
+		fetch offencedate into section; 
+    END LOOP; 
+
+  close offencedate; 
+
+  convict_num:= '[' || to_char(BnumCounter) || '],(' || to_char(NBnumCounter) || ')'; 
+
+  RETURN convict_num; 
+
+EXCEPTION
+WHEN OTHERS THEN
+	--  RETURN SQLCODE ||'-' ||SQLERRM||' error[' || to_char(BnumCounter) || '],(' || to_char(NBnumCounter) || ')'; 
+		raise_application_error(-20001,'An error was encountered - '||SQLCODE||' -ERROR- '||SQLERRM);
+END;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_DECRYPT" ( p_in in varchar2, p_key in VARCHAR2)
+ return VARCHAR2
+IS
+   input_string       VARCHAR2 (100) ;
+   encryption_type    PLS_INTEGER :=          -- total encryption type
+                           DBMS_CRYPTO.ENCRYPT_AES256
+                          + DBMS_CRYPTO.CHAIN_CBC
+                          + DBMS_CRYPTO.PAD_PKCS5;
+    key_bytes_raw      RAW (32);   
+     decrypted_raw      RAW (2000);
+ BEGIN
+ 	input_string := p_in;
+      DBMS_OUTPUT.PUT_LINE ( 'Original string: ' || input_string);
+
+    if input_string is null then
+      RETURN '';
+    end if;
+
+     DBMS_OUTPUT.PUT_LINE ( 'Original string: ' || input_string);
+
+
+ 	input_string := C_FROM_BASE64(input_string);
+  	key_bytes_raw := p_key;
+   decrypted_raw := DBMS_CRYPTO.DECRYPT
+      (
+         src => input_string,
+         typ => encryption_type,
+         key => key_bytes_raw
+      );
+
+     DBMS_OUTPUT.PUT_LINE ( 'decrypted_raw string: ' || decrypted_raw);
+
+ 	RETURN 	UTL_I18N.RAW_TO_CHAR ( decrypted_raw, 'AL32UTF8');
+ 	EXCEPTION
+	  WHEN OTHERS THEN -- optional handler for all other errors
+	    RETURN 'error';
+ end;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_ENCRYPT" 
+ ( p_in in varchar2,  p_key in VARCHAR2)
+ return VARCHAR2
+
+IS
+   input_string       VARCHAR2 (100) ;
+   output_string      VARCHAR2 (500);
+   encrypted_raw      RAW (2000);             -- stores encrypted binary text
+   decrypted_raw      RAW (2000);             -- stores decrypted binary text
+   num_key_bytes      NUMBER := 256/8;        -- key length 256 bits (32 bytes)
+   key_bytes_raw      RAW (32);               -- stores 256-bit encryption key
+   encryption_type    PLS_INTEGER :=          -- total encryption type
+                           DBMS_CRYPTO.ENCRYPT_AES256
+                          + DBMS_CRYPTO.CHAIN_CBC
+                          + DBMS_CRYPTO.PAD_PKCS5;
+BEGIN
+   input_string := p_in;
+   if input_string is null then
+      RETURN '';
+   end if;
+   -- DBMS_OUTPUT.PUT_LINE ( 'Original string: ' || input_string);
+   key_bytes_raw := p_key;
+   -- '22A7907EF0B997F0821ADE5538A6A5249F94AEB41D95D3756629D53AFD44DFD3';
+   -- DBMS_CRYPTO.RANDOMBYTES (num_key_bytes);
+   --DBMS_OUTPUT.PUT_LINE ( 'key_bytes_raw: ' || key_bytes_raw );
+   --DBMS_OUTPUT.PUT_LINE ( 'Original string: ' || key_bytes_raw );
+   --DBMS_OUTPUT.PUT_LINE ( 'Original string: ' || UTL_I18N.RAW_TO_CHAR (key_bytes_raw, 'AL32UTF8') );
+   --key_bytes_raw := UTL_I18N.STRING_TO_RAW (FROM_BASE64('RMT2b1e/FtwW8qz7AJdHAUuinI403y5qMz4qdcX8CA=='),  'AL32UTF8');
+   encrypted_raw := DBMS_CRYPTO.ENCRYPT(
+         src => UTL_I18N.STRING_TO_RAW (input_string,  'AL32UTF8'),
+         typ => encryption_type,
+         key => key_bytes_raw
+      );
+   RETURN C_to_base64(encrypted_raw);
+  -- RETURN  TO_BASE64(UTL_I18N.RAW_TO_CHAR (encrypted_raw, 'AL32UTF8'));
+EXCEPTION
+  WHEN OTHERS THEN -- optional handler for all other errors
+    RETURN 'error';
+
+ end;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_FATAL_CNT" 
+( offence_d IN VARCHAR2, 
+  reg_type IN VARCHAR2 
+) RETURN INTEGER 
+IS 
+fatalcnt INTEGER; 
+BEGIN 
+fatalcnt:=0; 
+SELECT COUNT (*) into fatalcnt 
+FROM C_COMP_CONVICTION C_CVT WHERE to_char(C_CVT.CR_OFFENCE_DATE, 'YYYYMMDD')= offence_d  
+AND C_CVT.CR_FATAL='Y' 
+AND C_CVT.registration_type = reg_type; 
+  RETURN fatalcnt; 
+END C_FATAL_CNT;
+
+
+
+CREATE OR REPLACE function MWMS2.C_from_base64(t in varchar2) return VARCHAR2 is
+
+   BEGIN
+
+     return utl_raw.cast_to_varchar2(utl_encode.base64_decode(utl_raw.cast_to_raw    (t)));
+
+   END C_from_base64;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_AFTER_WORKING_DAY" 
+(
+	sdate IN DATE
+	, dateCount IN INTEGER
+) RETURN DATE 
+IS
+	dcnt INTEGER;
+	cnt INTEGER;
+	cDate DATE;
+	r INTEGER;
+	BEGIN
+	dcnt := dateCount;
+	cnt := 1;
+	cDate := sdate;
+	WHILE cnt <= dcnt LOOP
+		cDate := cDate + 1;
+		SELECT count(day) INTO r FROM(
+		    SELECT TRUNC(holiday) AS day
+		    FROM C_s_public_holiday 
+		    WHERE TO_CHAR(holiday, 'YYYYMMDD') = TO_CHAR(cDate, 'YYYYMMDD')
+		    UNION ALL
+		    SELECT TRUNC(cDate) AS day
+		    FROM dual
+		    WHERE TO_CHAR(cDate, 'D') = 1 or TO_CHAR(cDate, 'D') = 7
+		);
+		IF r > 0 THEN
+			dcnt := dcnt + 1;
+	    END IF;
+	    cnt := cnt + 1;
+	END LOOP;
+RETURN cDate;
+END C_GET_AFTER_WORKING_DAY;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_AS_LIST_HTML" 
+( master_UUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+surname varchar2(40);
+givename varchar2(40);
+asname varchar2(80);
+eachOne varchar2(80);
+counter INTEGER;
+
+CURSOR reg IS 
+  SELECT APP.SURNAME , APP.GIVEN_NAME_ON_ID
+  FROM C_COMP_APPLICANT_INFO INFO, C_S_SYSTEM_VALUE S, C_APPLICANT APP, C_S_SYSTEM_VALUE status
+  WHERE 
+  INFO.MASTER_ID= master_UUID
+  AND INFO.APPLICANT_ROLE_ID=S.UUID
+  AND INFO.APPLICANT_ID=APP.UUID
+   and info.applicant_status_id= status.uuid and status.code='1'
+  AND S.CODE LIKE 'A%'
+  AND INFO.accept_date IS NOT NULL
+  AND 
+  ( (INFO.REMOVAL_DATE IS NULL) OR
+    (INFO.REMOVAL_DATE < CURRENT_DATE)
+  ) order by APP.SURNAME , APP.GIVEN_NAME_ON_ID;
+
+BEGIN
+  counter := 0;
+  surname :='';
+  givename :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into surname, givename;
+    resultList := surname || ' ' || givename;
+    while reg%found loop
+      if counter=0 then 
+          resultList := surname || ' ' || givename;
+      else 
+          resultList := resultList || '<br>' || surname || ' ' || givename;
+      end if;
+      counter := counter + 1;
+     fetch reg into surname, givename;
+    END LOOP;
+  close reg;
+
+
+ RETURN resultList; 
+
+
+END C_GET_AS_LIST_HTML;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_AS_LIST_WITH_CHINESE_HTML"  
+( master_UUID IN varchar2 
+) RETURN varchar2 
+is 
+resultList varchar2(4000); 
+surname varchar2(40); 
+givename varchar2(40); 
+chinesename varchar2(40); 
+asname varchar2(120); 
+eachOne varchar2(120); 
+counter INTEGER; 
+ 
+CURSOR reg IS  
+  SELECT APP.SURNAME , APP.GIVEN_NAME_ON_ID, APP.CHINESE_NAME 
+  FROM C_COMP_APPLICANT_INFO INFO, C_S_SYSTEM_VALUE S, C_APPLICANT APP, C_S_SYSTEM_VALUE status 
+  WHERE  
+  INFO.MASTER_ID= master_UUID 
+  AND INFO.APPLICANT_ROLE_ID=S.UUID 
+  AND INFO.APPLICANT_ID=APP.UUID 
+  and info.applicant_status_id= status.uuid and status.code='1' 
+    AND info.accept_date IS NOT NULL
+  AND S.CODE LIKE 'A%' 
+  AND  
+  ( (INFO.REMOVAL_DATE IS NULL) OR 
+    (INFO.REMOVAL_DATE < CURRENT_DATE) 
+  )   order by APP.SURNAME , APP.GIVEN_NAME_ON_ID; 
+ 
+BEGIN 
+  counter := 0; 
+  surname :=''; 
+  givename :=''; 
+  chinesename :=''; 
+  resultList := 'TEST'; 
+ 
+  open reg; 
+    fetch reg into surname, givename, chinesename; 
+    resultList := chinesename || ' '|| surname || ' ' || givename; 
+    while reg%found loop 
+      if counter=0 then  
+          resultList := chinesename || ' ' || surname || ' ' || givename; 
+      else  
+          resultList := resultList  ||'<br>'|| chinesename || ' ' || surname || ' ' || givename; 
+      end if; 
+      counter := counter + 1; 
+     fetch reg into surname, givename, chinesename; 
+    END LOOP; 
+  close reg; 
+   
+   
+ RETURN resultList;  
+ 
+ 
+END C_GET_AS_LIST_WITH_CHINESE_HTML;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_AS_NAME_LIST" 
+( master_UUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+surname varchar2(40);
+givename varchar2(40);
+asname varchar2(80);
+eachOne varchar2(80);
+counter INTEGER;
+
+CURSOR reg IS 
+  SELECT APP.SURNAME , APP.GIVEN_NAME_ON_ID
+  FROM C_COMP_APPLICANT_INFO INFO, C_S_SYSTEM_VALUE S, C_APPLICANT APP
+  WHERE 
+  INFO.MASTER_ID= master_UUID
+  AND INFO.APPLICANT_ROLE_ID=S.UUID
+  AND INFO.APPLICANT_ID=APP.UUID
+  AND S.CODE LIKE 'A%'
+  AND 
+  ( (INFO.REMOVAL_DATE IS NULL) OR
+    (INFO.REMOVAL_DATE < CURRENT_DATE)
+  )
+  ;
+
+BEGIN
+  counter := 0;
+  surname :='';
+  givename :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into surname, givename;
+    resultList := surname || ' ' || givename;
+    while reg%found loop
+      if counter=0 then 
+          resultList := surname || ' ' || givename;
+      else 
+          resultList := resultList || surname || ' ' || givename;
+      end if;
+      counter := counter + 1;
+     fetch reg into surname, givename;
+    END LOOP;
+  close reg;
+
+
+ RETURN resultList; 
+
+
+END C_GET_AS_NAME_LIST;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_COMP_MW_LIST" 
+( master_UUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(400);
+class_name varchar2(40);
+type_name varchar2(40);
+o1 varchar2(40);
+o2 varchar2(40);
+asname varchar2(80);
+eachOne varchar2(80);
+counter INTEGER;
+
+CURSOR reg IS 
+  select distinct sv1.code, sv2.code, sv1.ordering, sv2.ordering from C_comp_application
+	INNER JOIN C_COMP_APPLICANT_INFO ON C_COMP_APPLICATION.uuid = C_COMP_APPLICANT_INFO.master_id
+	INNER JOIN C_COMP_APPLICANT_MW_ITEM ON C_COMP_APPLICANT_INFO.uuid = C_COMP_APPLICANT_MW_ITEM.company_applicants_id
+	INNER JOIN C_s_system_value sv1 ON sv1.uuid = C_COMP_APPLICANT_MW_ITEM.item_class_id
+	INNER JOIN C_s_system_value sv2 ON sv2.uuid = C_COMP_APPLICANT_MW_ITEM.item_type_id
+  --WHERE C_COMP_APPLICANT_INFO.master_id = master_UUID
+  WHERE C_COMP_APPLICATION.uuid = master_UUID
+  ORDER BY sv1.ordering, sv2.ordering
+
+  ;
+
+BEGIN
+  counter := 0;
+  class_name :='';
+  type_name :='';
+  o1 :='';
+  o2 :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into class_name, type_name, o1, o2;
+    resultList := class_name || ' ' || type_name;
+    while reg%found loop
+      if counter=0 then 
+          resultList := class_name || ' ' || type_name || ', ' ;
+      else 
+          resultList := resultList || class_name || ' ' || type_name || ', ';
+      end if;
+      counter := counter + 1;
+     fetch reg into class_name, type_name, o1, o2;
+    END LOOP;
+  close reg;
+
+ RETURN SUBSTR(resultList, 0, LENGTH(resultList)-2); 
+
+
+END C_GET_COMP_MW_LIST;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_IND_MW_LIST" 
+( master_UUID IN varchar2 
+) RETURN varchar2 
+is 
+resultList varchar2(32767); 
+item varchar2(50); 
+ordering NUMBER(38,0); 
+asname varchar2(80); 
+eachOne varchar2(80); 
+counter INTEGER; 
+
+CURSOR reg IS  
+  SELECT distinct C_s_system_value.code, C_s_system_value.ordering FROM C_ind_application_mw_item 
+  LEFT OUTER JOIN C_s_system_value ON C_IND_APPLICATION_MW_ITEM.item_details_id = C_s_system_value.uuid 
+  WHERE C_IND_APPLICATION_MW_ITEM.master_id = master_UUID 
+  ORDER BY C_s_system_value.ordering 
+
+  ;
+
+BEGIN 
+  counter := 0; 
+  item :=''; 
+  ordering :=''; 
+  resultList := 'TEST'; 
+
+  open reg; 
+    fetch reg into item, ordering; 
+    resultList := item || ' ' ;
+    while reg%found loop 
+      if counter=0 then  
+          resultList := item || ', ' ;
+      else  
+          resultList := resultList || item || ', ' ;
+      end if; 
+      counter := counter + 1; 
+     fetch reg into item, ordering; 
+    END LOOP; 
+  close reg; 
+
+ RETURN SUBSTR(resultList, 0, LENGTH(resultList)-2);  
+
+END C_GET_IND_MW_LIST;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_IND_PROC_DUEDATE" 
+(sdate IN DATE
+) RETURN DATE 
+IS
+cnt INTEGER;
+cDate DATE;
+BEGIN
+  cDate := sDate;
+  cnt := 1;
+  WHILE cnt > 0 LOOP
+
+    SELECT count(day) INTO cnt FROM(
+    SELECT TRUNC(holiday) AS day
+    FROM C_s_public_holiday 
+    WHERE TO_CHAR(holiday, 'dd/MM/yyyy') = TO_CHAR(cDate, 'dd/MM/yyyy')
+    UNION ALL
+    SELECT TRUNC(cDate) AS day
+    FROM dual
+    WHERE TO_CHAR(cDate, 'D') = 1 or TO_CHAR(cDate, 'D') = 7
+    );
+
+    if cnt > 0 then
+      cDate := cDate - 1;
+    end if;
+  END LOOP;
+
+  RETURN cDate;
+  END C_GET_IND_PROC_DUEDATE;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_APPLY_CLASS_TYPE" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 3'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_APPLY_CLASS_TYPE";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_APPLY_CLASS_TYPEO" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 3'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+MINUS
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM 
+C_COMP_APPLICANT_INFO_MASTER MASTER, 
+C_COMP_APPLICANT_INFO_DETAIL MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE 
+MW_ITEM.STATUS_CODE = 'APPLY' AND
+
+MASTER.COMPANY_APPLICANTS_ID  IN (SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MASTER.UUID = MW_ITEM.COMPANY_APPLICANTS_MASTER_ID 
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MASTER.COMPANY_APPLICANTS_ID IN 
+( SELECT APP_INFO.UUID FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+	WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+	AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+	AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+	AND S_ROLE.CODE LIKE 'A%' 
+)
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_APPLY_CLASS_TYPEO";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_AS_CLASS_TYPE" 
+( P_COMPANY_APPLICANTS_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_TYPE_CUROR IS 
+SELECT  
+	trim(REPLACE(upper(MW_TYPE.CODE),'TYPE', '' )) AS MW_TYPE_CODE 
+FROM 
+     C_COMP_APPLICANT_MW_ITEM C_MW
+     INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID 
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID 
+     WHERE C_MW.COMPANY_APPLICANTS_ID = P_COMPANY_APPLICANTS_ID
+group by   MW_TYPE.CODE
+having count(*)=P_CLASS_ID
+ORDER BY MW_TYPE_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  open CLASS_TYPE_CUROR;
+
+  fetch CLASS_TYPE_CUROR into item_code;
+  	resultList :=  item_code;
+    while CLASS_TYPE_CUROR%found loop
+      if counter=0 then 
+          resultList := item_code;
+      else 
+          resultList := resultList || ', ' || item_code;
+      end if;
+      counter := counter + 1;
+     fetch CLASS_TYPE_CUROR into item_code;
+    END LOOP;
+  close CLASS_TYPE_CUROR;
+
+ RETURN resultList; 
+END "C_GET_MW_COMP_AS_CLASS_TYPE";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_CLASS_TYPE" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+	  --	trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 3'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE >= trunc(CURRENT_DATE)) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_CLASS_TYPE";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_CLASS_TYPE_BK" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+	  --	trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 3'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_CLASS_TYPE_BK";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_CLASS_TYPE_NEW" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+	  --	trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 3'
+MINUS
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 2'
+
+MINUS
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 1'
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 2'
+MINUS
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 1'
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT ITEM_CODE.CODE AS code 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_COMP_APPLICANT_MW_ITEM MW_ITEM, 
+C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE 
+APP_INFO.UUID= MW_ITEM.COMPANY_APPLICANTS_ID
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND APP_INFO.APPLICANT_ROLE_ID = S_ROLE.UUID
+AND APP_INFO.APPLICANT_STATUS_ID = S_STATUS.UUID
+AND APP_INFO.MASTER_ID = P_COMP_APPLICATION_ID
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1'
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+AND CLASS_CODE.CODE='Class 1'
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_CLASS_TYPE_NEW";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_COMP_CLASS_TYPE_ORG" 
+( P_COMP_APPLICATION_ID IN VARCHAR2,
+  P_CLASS_ID IN INTEGER
+) RETURN VARCHAR2 IS
+resultList varchar2(100);
+item_code VARCHAR2(10);
+counter INTEGER;
+
+CURSOR CLASS_MW_3_CUROR IS 
+	  --	trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE    
+ FROM 
+(
+SELECT ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 3'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_2_CUROR IS 
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 2'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+MINUS
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+
+CURSOR CLASS_MW_1_CUROR IS 
+
+
+
+SELECT DISTINCT trim(REPLACE(upper(A.CODE),'TYPE', '' )) AS ITEM_CODE   
+FROM 
+(
+SELECT 
+ITEM_CODE.CODE AS code
+FROM C_COMP_APPLICANT_MW_ITEM MW_ITEM, C_S_SYSTEM_VALUE ITEM_CODE, C_S_SYSTEM_VALUE CLASS_CODE
+WHERE MW_ITEM.COMPANY_APPLICANTS_ID IN 
+(SELECT F.UUID FROM C_COMP_APPLICANT_INFO F WHERE F.MASTER_ID=P_COMP_APPLICATION_ID)
+AND MW_ITEM.ITEM_TYPE_ID=ITEM_CODE.UUID
+AND MW_ITEM.ITEM_CLASS_ID=CLASS_CODE.UUID
+AND CLASS_CODE.CODE='Class 1'
+AND MW_ITEM.COMPANY_APPLICANTS_ID IN (
+SELECT APP_INFO.UUID 
+FROM C_COMP_APPLICANT_INFO APP_INFO, C_S_SYSTEM_VALUE S_ROLE, C_S_SYSTEM_VALUE S_STATUS
+WHERE APP_INFO.MASTER_ID=P_COMP_APPLICATION_ID
+AND APP_INFO.APPLICANT_ROLE_ID=S_ROLE.UUID 
+AND APP_INFO.APPLICANT_STATUS_ID= S_STATUS.UUID 
+AND S_ROLE.CODE LIKE 'A%' 
+AND S_STATUS.CODE= '1' 
+AND APP_INFO.accept_date IS NOT NULL 
+AND ( (APP_INFO.REMOVAL_DATE IS NULL) OR  (APP_INFO.REMOVAL_DATE < CURRENT_DATE) ) 
+)
+
+) a ORDER BY ITEM_CODE;
+
+BEGIN
+  counter := 0;
+  resultList := '';
+
+  IF P_CLASS_ID=1 THEN
+  	  open CLASS_MW_1_CUROR;
+
+	  fetch CLASS_MW_1_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_1_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_1_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_1_CUROR;
+  end IF;
+
+  if P_CLASS_ID=2 THEN
+    	 open CLASS_MW_2_CUROR;
+
+	  fetch CLASS_MW_2_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_2_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_2_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_2_CUROR;
+  end IF;
+   IF P_CLASS_ID=3 THEN
+    	 open CLASS_MW_3_CUROR;
+
+	  fetch CLASS_MW_3_CUROR into item_code;
+	  	resultList :=  item_code;
+	    while CLASS_MW_3_CUROR%found loop
+	      if counter=0 then 
+	          resultList := item_code;
+	      else 
+	          resultList := resultList || ', ' || item_code;
+	      end if;
+	      counter := counter + 1;
+	     fetch CLASS_MW_3_CUROR into item_code;
+	    END LOOP;
+	  close CLASS_MW_3_CUROR;
+  END IF;
+ RETURN resultList; 
+END "C_GET_MW_COMP_CLASS_TYPE_ORG";
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MW_INDIVIDUAL_ITEMS" 
+( master_uuid IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_MW_ITEM VARCHAR2 (400);
+  MW_REC INTEGER;
+  counter INTEGER;
+
+CURSOR MW IS 
+SELECT DISTINCT ( replace(S_MW_ITEM.CODE ,'Item', '') ) AS MW_ITEM_CODE,
+(to_number( replace(S_MW_ITEM.CODE ,'Item 3.', '') ) ) AS MW_ITEM_ORDERING
+FROM C_IND_APPLICATION_MW_ITEM ITEMS, C_S_SYSTEM_VALUE S_MW_ITEM
+WHERE ITEMS.ITEM_DETAILS_ID = S_MW_ITEM.UUID
+AND ITEMS.MASTER_ID = master_uuid
+ORDER BY MW_ITEM_ORDERING;
+
+BEGIN
+  CONCAT_MW_ITEM := '';
+  counter := 0;
+  MW_REC := 0; 
+
+      FOR MW_REC in MW
+      LOOP
+             if counter=0 then 
+              CONCAT_MW_ITEM := MW_REC.MW_ITEM_CODE;
+             else 
+              CONCAT_MW_ITEM := CONCAT_MW_ITEM || ', ' || MW_REC.MW_ITEM_CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_MW_ITEM;
+END C_GET_MW_INDIVIDUAL_ITEMS;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_CELL_TABLE_AND" 
+(
+	CATEGORY IN VARCHAR2,ITEM_CLASS IN VARCHAR2, GROUP_TYPE IN VARCHAR2
+)
+	RETURN REG_COMP_MWC_CELL_TABLE IS
+	regCompMwcCellTable REG_COMP_MWC_CELL_TABLE;
+
+	resultQuery VARCHAR2(32767);
+	resultQueryWhere VARCHAR2(32767);
+BEGIN
+	regCompMwcCellTable := REG_COMP_MWC_CELL_TABLE();
+
+	resultQuery := '';
+	resultQuery := resultQuery || 'SELECT CAST(multiset(';
+	resultQuery := resultQuery || '    SELECT BASE.BR_NO';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    ,REPLACE(wm_concat(F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO), '','', '', '')';
+    END LOOP;
+    FOR i IN 1..(7 - LENGTH(GROUP_TYPE)) LOOP
+    	resultQuery := resultQuery || '    ,''''';
+    END LOOP;
+
+
+	resultQuery := resultQuery || '    FROM';
+	resultQuery := resultQuery || '    (';
+	resultQuery := resultQuery || '	    SELECT DISTINCT';
+	resultQuery := resultQuery || '	    a.BR_NO, ''or'' AS FILE_REFERENCE_NO';
+	resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+	resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+	resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+	resultQuery := resultQuery || '	    AND c.CODE = ''' || CATEGORY || '''';
+	resultQuery := resultQuery || '	    AND itemClass.CODE = ''' || ITEM_CLASS || '''';
+	resultQuery := resultQuery || '	    AND (';
+	resultQuery := resultQuery || '		    	(';
+	resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+	resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+	resultQuery := resultQuery || '				) OR (';
+	resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+	resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+	resultQuery := resultQuery || '		    	)';
+	resultQuery := resultQuery || '			)';
+	resultQuery := resultQuery || '    ) BASE';
+
+
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    LEFT JOIN';
+		resultQuery := resultQuery || '    (';
+		resultQuery := resultQuery || '	    SELECT DISTINCT';
+		resultQuery := resultQuery || '	    a.BR_NO, a.FILE_REFERENCE_NO';
+		resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+		resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+		resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+		resultQuery := resultQuery || '	    AND c.CODE = ''' || CATEGORY || '''';
+		resultQuery := resultQuery || '	    AND itemClass.CODE = ''' || ITEM_CLASS || '''';
+		resultQuery := resultQuery || '	    AND itemType.CODE = ''Type ' || SUBSTR(GROUP_TYPE,i,1) || '''';
+		resultQuery := resultQuery || '	    AND (';
+		resultQuery := resultQuery || '		    	(';
+		resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+		resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+		resultQuery := resultQuery || '				) OR (';
+		resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+		resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+		resultQuery := resultQuery || '		    	)';
+		resultQuery := resultQuery || '			)';
+		resultQuery := resultQuery || '    ) F_R_' || SUBSTR(GROUP_TYPE,i,1) || ' ON BASE.BR_NO = F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.BR_NO';
+	END LOOP;
+
+	resultQuery := resultQuery || '    WHERE 1 = 1';
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    AND F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO IS NOT NULL';
+	END LOOP;
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    AND F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO = F_R_' || SUBSTR(GROUP_TYPE,1,1) || '.FILE_REFERENCE_NO';
+	END LOOP;
+
+	resultQuery := resultQuery || ' GROUP BY BASE.BR_NO ) AS REG_COMP_MWC_CELL_TABLE) FROM DUAL';
+	EXECUTE IMMEDIATE resultQuery  INTO regCompMwcCellTable;
+	RETURN regCompMwcCellTable;
+END C_GET_MWC_CELL_TABLE_AND;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_CELL_TABLE_AND_SC" 
+(
+	GROUP_TYPE IN VARCHAR2
+)
+	RETURN REG_COMP_MWC_CELL_TABLE IS
+	regCompMwcCellTable REG_COMP_MWC_CELL_TABLE;
+
+	resultQuery VARCHAR2(32767);
+	resultQueryWhere VARCHAR2(32767);
+	TYPE stringArray IS TABLE OF VARCHAR2(32767) INDEX BY BINARY_INTEGER;
+	codeArray stringArray;
+	keyArray stringArray;
+BEGIN
+	keyArray(1) := 'A';
+	keyArray(2) := 'B';
+	keyArray(3) := 'C';
+	keyArray(4) := 'D';
+	keyArray(5) := 'E';
+
+	codeArray(1) := 'SC(D)';
+	codeArray(2) := 'SC(F)';
+	codeArray(3) := 'SC(GI)';
+	codeArray(4) := 'SC(SF)';
+	codeArray(5) := 'SC(V)';
+
+	regCompMwcCellTable := REG_COMP_MWC_CELL_TABLE();
+	resultQuery := '';
+
+	resultQuery := resultQuery || 'SELECT CAST(multiset(';
+	resultQuery := resultQuery || '    SELECT BASE.BR_NO';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    ,REPLACE(wm_concat(F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO), '','', '', '')';
+    END LOOP;
+    FOR i IN 1..(7 - LENGTH(GROUP_TYPE)) LOOP
+    	resultQuery := resultQuery || '    ,''''';
+    END LOOP;
+
+    resultQuery := resultQuery || '    FROM';
+	resultQuery := resultQuery || '    (';
+	resultQuery := resultQuery || '	    SELECT DISTINCT';
+	resultQuery := resultQuery || '	    a.BR_NO, ''or'' AS FILE_REFERENCE_NO';
+	resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+	resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+	resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+	resultQuery := resultQuery || '	    AND c.CODE LIKE ''SC%''';
+	resultQuery := resultQuery || '	    AND (';
+	resultQuery := resultQuery || '		    	(';
+	resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+	resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+	resultQuery := resultQuery || '				) OR (';
+	resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+	resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+	resultQuery := resultQuery || '		    	)';
+	resultQuery := resultQuery || '			)';
+	resultQuery := resultQuery || '    ) BASE';
+
+	    --resultQuery := resultQuery || '    ) F_R_' || SUBSTR(GROUP_TYPE,i,1) || ' ON BASE.BR_NO = F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.BR_NO';
+
+
+
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    LEFT JOIN';
+		resultQuery := resultQuery || '    (';
+		resultQuery := resultQuery || '	    SELECT DISTINCT';
+		resultQuery := resultQuery || '	    a.BR_NO, a.FILE_REFERENCE_NO';
+		resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+		resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+		resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+		resultQuery := resultQuery || '	    AND c.CODE = ''' || codeArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '''';
+		resultQuery := resultQuery || '	    AND (';
+		resultQuery := resultQuery || '		    	(';
+		resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+		resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+		resultQuery := resultQuery || '				) OR (';
+		resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+		resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+		resultQuery := resultQuery || '		    	)';
+		resultQuery := resultQuery || '			)';
+		resultQuery := resultQuery || '    ) F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || ' ON BASE.BR_NO = F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.BR_NO';
+	END LOOP;
+
+
+	resultQuery := resultQuery || '    WHERE 1 = 1';
+
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    AND F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO IS NOT NULL';
+	END LOOP;
+
+	resultQuery := resultQuery || ' GROUP BY BASE.BR_NO ) AS REG_COMP_MWC_CELL_TABLE) FROM DUAL';
+	EXECUTE IMMEDIATE resultQuery INTO regCompMwcCellTable;
+	RETURN regCompMwcCellTable;
+END C_GET_MWC_CELL_TABLE_AND_SC;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_CELL_TABLE_OR" 
+(
+	CATEGORY IN VARCHAR2,ITEM_CLASS IN VARCHAR2, GROUP_TYPE IN VARCHAR2
+)
+	RETURN REG_COMP_MWC_CELL_TABLE IS
+	regCompMwcCellTable REG_COMP_MWC_CELL_TABLE;
+
+	resultQuery VARCHAR2(32767);
+	resultQueryWhere VARCHAR2(32767);
+BEGIN
+	regCompMwcCellTable := REG_COMP_MWC_CELL_TABLE();
+	resultQuery := '';
+	resultQuery := resultQuery || 'SELECT CAST(multiset(';
+	resultQuery := resultQuery || '    SELECT BASE.BR_NO';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    ,REPLACE(wm_concat(F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO), '','', '', '')';
+    END LOOP;
+    FOR i IN 1..(7 - LENGTH(GROUP_TYPE)) LOOP
+    	resultQuery := resultQuery || '    ,''''';
+    END LOOP;
+
+
+	resultQuery := resultQuery || '    FROM';
+	resultQuery := resultQuery || '    (';
+	resultQuery := resultQuery || '	    SELECT DISTINCT';
+	resultQuery := resultQuery || '	    a.BR_NO, ''or'' AS FILE_REFERENCE_NO';
+	resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+	resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+	resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+	resultQuery := resultQuery || '	    AND c.CODE = ''' || CATEGORY || '''';
+	resultQuery := resultQuery || '	    AND itemClass.CODE = ''' || ITEM_CLASS || '''';
+	resultQuery := resultQuery || '	    AND (';
+	resultQuery := resultQuery || '		    	(';
+	resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+	resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+	resultQuery := resultQuery || '				) OR (';
+	resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+	resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+	resultQuery := resultQuery || '		    	)';
+	resultQuery := resultQuery || '			)';
+	resultQuery := resultQuery || '    ) BASE';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    LEFT JOIN';
+		resultQuery := resultQuery || '    (';
+		resultQuery := resultQuery || '	    SELECT DISTINCT';
+		resultQuery := resultQuery || '	    a.BR_NO, a.FILE_REFERENCE_NO';
+		resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+		resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+		resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+		resultQuery := resultQuery || '	    AND c.CODE = ''' || CATEGORY || '''';
+		resultQuery := resultQuery || '	    AND itemClass.CODE = ''' || ITEM_CLASS || '''';
+		resultQuery := resultQuery || '	    AND itemType.CODE = ''Type ' || SUBSTR(GROUP_TYPE,i,1) || '''';
+		resultQuery := resultQuery || '	    AND (';
+		resultQuery := resultQuery || '		    	(';
+		resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+		resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+		resultQuery := resultQuery || '				) OR (';
+		resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+		resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+		resultQuery := resultQuery || '		    	)';
+		resultQuery := resultQuery || '			)';
+		resultQuery := resultQuery || '    ) F_R_' || SUBSTR(GROUP_TYPE,i,1) || ' ON BASE.BR_NO = F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.BR_NO';
+    END LOOP;
+
+	resultQuery := resultQuery || '    WHERE 1 = 1';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	FOR j IN i..LENGTH(GROUP_TYPE) LOOP
+    		IF i <> j THEN
+			    resultQuery := resultQuery || '	AND ';
+				resultQuery := resultQuery || '    (F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO = F_R_' || SUBSTR(GROUP_TYPE,j,1) || '.FILE_REFERENCE_NO ';
+				resultQuery := resultQuery || '    OR F_R_' || SUBSTR(GROUP_TYPE,i,1) || '.FILE_REFERENCE_NO IS NULL ';
+				resultQuery := resultQuery || '    OR F_R_' || SUBSTR(GROUP_TYPE,j,1) || '.FILE_REFERENCE_NO IS NULL)';
+			END IF;
+		END LOOP;
+    END LOOP;
+    	resultQuery := resultQuery || '   AND ( 1 = 0 ';
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    OR F_R_' || SUBSTR(GROUP_TYPE,I,1) || '.FILE_REFERENCE_NO IS NOT NULL';
+    END LOOP;
+    	resultQuery := resultQuery || '   ) ';
+
+
+
+    DBMS_OUTPUT.PUT_LINE(resultQueryWhere);
+	resultQuery := resultQuery || '    GROUP BY BASE.BR_NO';
+	resultQuery := resultQuery || ') AS REG_COMP_MWC_CELL_TABLE) FROM DUAL';
+
+	EXECUTE IMMEDIATE resultQuery INTO regCompMwcCellTable;
+
+	RETURN regCompMwcCellTable;
+END C_GET_MWC_CELL_TABLE_OR;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_CELL_TABLE_OR_SC" 
+(
+	GROUP_TYPE IN VARCHAR2
+)
+	RETURN REG_COMP_MWC_CELL_TABLE IS
+	regCompMwcCellTable REG_COMP_MWC_CELL_TABLE;
+
+	resultQuery VARCHAR2(32767);
+	resultQueryWhere VARCHAR2(32767);
+	TYPE stringArray IS TABLE OF VARCHAR2(50) INDEX BY BINARY_INTEGER;
+	codeArray stringArray;
+	keyArray stringArray;
+BEGIN
+	keyArray(1) := 'A';
+	keyArray(2) := 'B';
+	keyArray(3) := 'C';
+	keyArray(4) := 'D';
+	keyArray(5) := 'E';
+
+	codeArray(1) := 'SC(D)';
+	codeArray(2) := 'SC(F)';
+	codeArray(3) := 'SC(GI)';
+	codeArray(4) := 'SC(SF)';
+	codeArray(5) := 'SC(V)';
+
+	regCompMwcCellTable := REG_COMP_MWC_CELL_TABLE();
+	resultQuery := '';
+
+	resultQuery := resultQuery || 'SELECT CAST(multiset(';
+	resultQuery := resultQuery || '    SELECT BASE.BR_NO';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    ,REPLACE(wm_concat(F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO), '','', '', '')';
+    END LOOP;
+    FOR i IN 1..(7 - LENGTH(GROUP_TYPE)) LOOP
+    	resultQuery := resultQuery || '    ,''''';
+    END LOOP;
+
+    resultQuery := resultQuery || '    FROM';
+	resultQuery := resultQuery || '    (';
+	resultQuery := resultQuery || '	    SELECT DISTINCT';
+	resultQuery := resultQuery || '	    a.BR_NO, ''or'' AS FILE_REFERENCE_NO';
+	resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+	resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+	resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+	resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+	resultQuery := resultQuery || '	    AND c.CODE LIKE ''SC%''';
+	resultQuery := resultQuery || '	    AND (';
+	resultQuery := resultQuery || '		    	(';
+	resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+	resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+	resultQuery := resultQuery || '				) OR (';
+	resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+	resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+	resultQuery := resultQuery || '		    	)';
+	resultQuery := resultQuery || '			)';
+	resultQuery := resultQuery || '    ) BASE';
+
+	FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+		resultQuery := resultQuery || '    LEFT JOIN';
+		resultQuery := resultQuery || '    (';
+		resultQuery := resultQuery || '	    SELECT DISTINCT';
+		resultQuery := resultQuery || '	    a.BR_NO, a.FILE_REFERENCE_NO';
+		resultQuery := resultQuery || '	    FROM C_COMP_APPLICATION a';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID';
+		resultQuery := resultQuery || '	    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID';
+		resultQuery := resultQuery || '	    ,C_S_SYSTEM_VALUE status';
+		resultQuery := resultQuery || '	    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = ''1''';
+		resultQuery := resultQuery || '	    AND c.CODE = ''' || codeArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '''';
+		resultQuery := resultQuery || '	    AND (';
+		resultQuery := resultQuery || '		    	(';
+		resultQuery := resultQuery || '		    		a.EXPIRY_DATE IS NOT NULL AND';
+		resultQuery := resultQuery || '					a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)';
+		resultQuery := resultQuery || '				) OR (';
+		resultQuery := resultQuery || '		    		a.RETENTION_APPLICATION_DATE > TO_DATE(''20040831'', ''yyyymmdd'') AND';
+		resultQuery := resultQuery || '		    		(a.EXPIRY_DATE < CURRENT_DATE)';
+		resultQuery := resultQuery || '		    	)';
+		resultQuery := resultQuery || '			)';
+		resultQuery := resultQuery || '    ) F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || ' ON BASE.BR_NO = F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.BR_NO';
+	END LOOP;
+
+
+	resultQuery := resultQuery || '    WHERE 1 = 1';
+
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	FOR j IN i..LENGTH(GROUP_TYPE) LOOP
+    		IF i <> j THEN
+			    resultQuery := resultQuery || '	AND ';
+				resultQuery := resultQuery || '    (F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO = F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO ';
+				resultQuery := resultQuery || '    OR F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO IS NULL ';
+				resultQuery := resultQuery || '    OR F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO IS NULL)';
+			END IF;
+		END LOOP;
+    END LOOP;
+    	resultQuery := resultQuery || '   AND ( 1 = 0 ';
+    FOR i IN 1..LENGTH(GROUP_TYPE) LOOP
+    	resultQuery := resultQuery || '    OR F_R_' || keyArray(TO_NUMBER(SUBSTR(GROUP_TYPE,i,1),'9')) || '.FILE_REFERENCE_NO IS NOT NULL';
+    END LOOP;
+    	resultQuery := resultQuery || '   ) ';
+
+	resultQuery := resultQuery || ' GROUP BY BASE.BR_NO ) AS REG_COMP_MWC_CELL_TABLE) FROM DUAL';
+	EXECUTE IMMEDIATE resultQuery INTO regCompMwcCellTable;
+	RETURN regCompMwcCellTable;
+END C_GET_MWC_CELL_TABLE_OR_SC;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_HTML_STAR" 
+( P_BR_NO IN VARCHAR2
+) RETURN VARCHAR2 
+IS 
+resultCounter INTEGER; 
+resultReturn VARCHAR2(1);
+BEGIN 
+
+resultCounter:=0; 
+resultReturn := '';
+
+SELECT COUNT(COMP.UUID) into resultCounter
+FROM C_COMP_APPLICATION COMP 
+INNER JOIN C_S_CATEGORY_CODE CAT ON COMP.CATEGORY_ID = CAT.UUID 
+INNER JOIN C_S_SYSTEM_VALUE STATUS ON COMP.APPLICATION_status_id = STATUS.UUID 
+WHERE 
+COMP.REGISTRATION_TYPE = 'CMW' AND 
+CAT.CODE = 'MWC' AND 
+STATUS.CODE = '2' AND
+COMP.FILE_REFERENCE_NO IS NOT NULL AND
+COMP.BR_NO = P_BR_NO AND
+TO_DATE(COMP.FIRST_APPLICATION_DATE) <= to_date('28/09/2012','dd/mm/yyyy');
+
+
+
+   	IF resultCounter > 0 THEN 
+	resultReturn := '*';
+	END IF;
+
+RETURN resultReturn; 
+
+
+END C_GET_MWC_HTML_STAR;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_MWC_HTML_STAR_OLD" 
+( P_BR_NO IN VARCHAR2
+) RETURN VARCHAR2 
+IS 
+resultCounter INTEGER; 
+resultReturn VARCHAR2(1);
+BEGIN 
+
+resultCounter:=0; 
+resultReturn := '';
+
+SELECT COUNT(COMP.UUID) into resultCounter
+FROM C_COMP_APPLICATION COMP 
+INNER JOIN C_S_CATEGORY_CODE CAT ON COMP.CATEGORY_ID = CAT.UUID 
+WHERE 
+COMP.EXPIRY_DATE IS NOT NULL AND 
+COMP.REGISTRATION_TYPE = 'CMW' AND 
+CAT.CODE = 'MWC' AND 
+COMP.FILE_REFERENCE_NO IS NOT NULL AND
+COMP.BR_NO = P_BR_NO AND
+TO_DATE(COMP.FIRST_APPLICATION_DATE) <= to_date('28/09/2012','dd/mm/yyyy');
+
+   	IF resultCounter > 0 THEN 
+	resultReturn := '*';
+	END IF;
+
+RETURN resultReturn; 
+
+
+END C_GET_MWC_HTML_STAR_old;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_GET_REG_COMP" 
+(
+-- SELECT 7 TYPES AND SUBTYPE
+-- LOGIC = 'and' OR 'or'
+-- SORTBY = '1' or '2' or '3' or ... '7'
+appType1 IN VARCHAR2,subType1 IN VARCHAR2, groupType1 IN VARCHAR2,
+appType2 IN VARCHAR2,subType2 IN VARCHAR2, groupType2 IN VARCHAR2,
+appType3 IN VARCHAR2,subType3 IN VARCHAR2, groupType3 IN VARCHAR2,
+appType4 IN VARCHAR2,subType4 IN VARCHAR2, groupType4 IN VARCHAR2,
+appType5 IN VARCHAR2,subType5 IN VARCHAR2, groupType5 IN VARCHAR2,
+appType6 IN VARCHAR2,subType6 IN VARCHAR2, groupType6 IN VARCHAR2,
+appType7 IN VARCHAR2,subType7 IN VARCHAR2, groupType7 IN VARCHAR2,
+logic IN VARCHAR2, sortBy NUMBER,
+perColuumCount NUMBER
+)
+RETURN REG_COMP_TABLE IS
+
+resultTable REG_COMP_TABLE;
+
+TYPE REG_COMP_MWC_CELL_TABLE_ARRAY IS TABLE OF REG_COMP_MWC_CELL_TABLE INDEX BY BINARY_INTEGER;
+mwcCellTableArray REG_COMP_MWC_CELL_TABLE_ARRAY;
+
+
+TYPE stringArray IS TABLE OF VARCHAR2(32767) INDEX BY BINARY_INTEGER;
+TYPE intArray IS TABLE OF NUMBER INDEX BY BINARY_INTEGER;
+
+appTypes stringArray;
+subTypes stringArray;
+groupTypes stringArray;
+
+codeArray stringArray;
+cellTablePointer NUMBER;
+mwcCellTablePointer NUMBER;
+cellTypes intArray;
+orderByColumn NUMBER;
+orderByString VARCHAR2(32767);
+resultQuery VARCHAR2(32767);
+resultQueryColumn VARCHAR2(32767);
+resultColumnCount NUMBER;
+
+mwctIndex NUMBER;
+joinLogic VARCHAR2(32767);
+BEGIN
+
+codeArray(1) := 'A';
+codeArray(2) := 'B';
+codeArray(3) := 'C';
+codeArray(4) := 'D';
+codeArray(5) := 'E';
+codeArray(6) := 'F';
+codeArray(7) := 'G';
+
+cellTablePointer := 1;
+mwcCellTablePointer := 1;
+mwctIndex := 1;
+resultColumnCount := 0;
+resultTable := REG_COMP_TABLE();
+appTypes(1) := appType1;
+appTypes(2) := appType2;
+appTypes(3) := appType3;
+appTypes(4) := appType4;
+appTypes(5) := appType5;
+appTypes(6) := appType6;
+appTypes(7) := appType7;
+
+subTypes(1) := subType1;
+subTypes(2) := subType2;
+subTypes(3) := subType3;
+subTypes(4) := subType4;
+subTypes(5) := subType5;
+subTypes(6) := subType6;
+subTypes(7) := subType7;
+
+groupTypes(1) := groupType1;
+groupTypes(2) := groupType2;
+groupTypes(3) := groupType3;
+groupTypes(4) := groupType4;
+groupTypes(5) := groupType5;
+groupTypes(6) := groupType6;
+groupTypes(7) := groupType7;
+
+
+
+
+
+joinLogic := 'LEFT';
+IF logic = 'and' THEN
+joinLogic := 'INNER';
+ELSIF logic = 'or' THEN
+joinLogic := 'LEFT';
+END IF;
+
+
+--Loop 7 type and select the table to each object table
+FOR i IN 1..appTypes.count LOOP
+	IF appTypes(i) = 'GBC' THEN
+		mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+		SELECT CAST(multiset(
+		    SELECT
+		    a.BR_NO
+		    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+		    FROM C_COMP_APPLICATION a
+		    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+		    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+		    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+		    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+		    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+		    ,C_S_SYSTEM_VALUE status
+		    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+
+		    AND c.CODE = 'GBC'
+		    AND (
+			    	(
+			    		a.EXPIRY_DATE IS NOT NULL AND
+						a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+					) OR (
+			    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+			    		(a.EXPIRY_DATE < CURRENT_DATE)
+			    	)
+		    	)
+		) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+		mwcCellTablePointer := mwcCellTablePointer + 1;
+		cellTypes(i) := 0;
+
+
+
+
+	ELSIF appTypes(i) = 'SC' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'SC(' || subTypes(i) || ')'
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND_SC(groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 2;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR_SC(groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 2;
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC - Class III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC'
+			    AND itemClass.CODE = 'Class 3'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC', 'Class 3', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC', 'Class 3', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC - Class II, III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT DISTINCT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC'
+			    AND itemClass.CODE = 'Class 2'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC', 'Class 2', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC', 'Class 2', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC - Class I, II, III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC'
+			    AND itemClass.CODE = 'Class 1'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC', 'Class 1', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC', 'Class 1', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC(P) - Class III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC(P)'
+			    AND itemClass.CODE = 'Class 3'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC(P)', 'Class 3', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC(P)', 'Class 3', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC(P) - Class II, III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC(P)'
+			    AND itemClass.CODE = 'Class 2'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC(P)', 'Class 2', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC(P)', 'Class 2', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		END IF;
+
+
+
+
+
+	ELSIF appTypes(i) = 'MWC(P) - Class I, II, III' THEN
+		IF subTypes(i) <> 'and'  AND subTypes(i) <> 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := REG_COMP_MWC_CELL_TABLE();
+			SELECT CAST(multiset(
+			    SELECT
+			    a.BR_NO
+			    ,a.FILE_REFERENCE_NO, '', '', '', '', '', ''
+			    FROM C_COMP_APPLICATION a
+			    LEFT JOIN C_S_CATEGORY_CODE c ON c.UUID = a.CATEGORY_ID
+			    LEFT JOIN C_COMP_APPLICANT_INFO info ON a.UUID = info.MASTER_ID
+			    LEFT JOIN C_COMP_APPLICANT_MW_ITEM item ON info.UUID = item.COMPANY_APPLICANTS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemClass ON itemClass.UUID = item.ITEM_CLASS_ID
+			    LEFT JOIN C_S_SYSTEM_VALUE itemType ON itemType.UUID = item.ITEM_TYPE_ID
+			    ,C_S_SYSTEM_VALUE status
+			    WHERE a.APPLICATION_STATUS_ID = status.UUID AND status.CODE = '1'
+			    AND c.CODE = 'MWC(P)'
+			    AND itemClass.CODE = 'Class 1'
+			    AND itemType.CODE = 'Type ' || subTypes(i)
+			    AND (
+				    	(
+				    		a.EXPIRY_DATE IS NOT NULL AND
+							a.EXPIRY_DATE >= TRUNC(CURRENT_DATE)
+						) OR (
+				    		a.RETENTION_APPLICATION_DATE > TO_DATE('20040831', 'yyyymmdd') AND
+				    		(a.EXPIRY_DATE < CURRENT_DATE)
+				    	)
+			    	)
+			) AS REG_COMP_MWC_CELL_TABLE) INTO mwcCellTableArray(mwcCellTablePointer) FROM DUAL;
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 0;
+
+		ELSIF subTypes(i) = 'and' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_AND('MWC(P)', 'Class 1', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		ELSIF subTypes(i) = 'or' THEN
+			mwcCellTableArray(mwcCellTablePointer) := c_GET_MWC_CELL_TABLE_OR('MWC(P)', 'Class 1', groupTypes(i));
+			mwcCellTablePointer := mwcCellTablePointer + 1;
+			cellTypes(i) := 1;
+		END IF;
+
+
+
+
+
+	END IF;
+
+
+
+
+
+END LOOP;
+
+-- join the 7 table together and get the result table
+resultQuery := '';
+resultQueryColumn := '';
+resultQuery := resultQuery ||
+' SELECT CAST( multiset( SELECT DISTINCT BR_KEY.ENGLISH_COMPANY_NAME, BR_KEY.BR_NO, BR_KEY.CODE ';
+
+FOR i IN 1..cellTypes.count LOOP
+	IF cellTypes(i) = 0 THEN
+
+		resultQueryColumn := resultQueryColumn ||
+		' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_A';
+		resultColumnCount := resultColumnCount + 1;
+
+	ELSIF cellTypes(i) = 1 THEN
+	--DBMS_OUTPUT.PUT_LINE(groupTypes(3) || 'rr');
+
+		FOR j IN 1..LENGTH(groupTypes(i)) LOOP 
+			resultQueryColumn := resultQueryColumn || ' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_' || codeArray(j);
+		END loop;
+		resultColumnCount := resultColumnCount + LENGTH(groupTypes(i));
+
+		--resultQueryColumn := resultQueryColumn ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_A' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_B' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_C' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_D' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_E' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_F' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_G';
+		--resultColumnCount := resultColumnCount + 7;
+
+	ELSIF cellTypes(i) = 2 THEN
+
+		FOR j IN 1..LENGTH(groupTypes(i)) LOOP 
+			resultQueryColumn := resultQueryColumn || ' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_' || codeArray(j);
+		END loop;
+		resultColumnCount := resultColumnCount + LENGTH(groupTypes(i));
+		--resultQueryColumn := resultQueryColumn ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_A' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_B' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_C' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_D' ||
+		--' ,mwct' || mwctIndex || '.FILE_REFERENCE_NO_E';
+		--resultColumnCount := resultColumnCount + 5;
+
+	END IF;
+	mwctIndex := mwctIndex + 1;
+END LOOP;
+mwctIndex := 1;
+
+FOR i IN 1.. (50 - resultColumnCount) LOOP
+	resultQueryColumn := resultQueryColumn || ', NULL';
+END LOOP;
+resultQueryColumn := substr(resultQueryColumn, 2);
+resultQuery := resultQuery || ' ' || resultQueryColumn;
+
+
+
+resultQuery := resultQuery || 
+' FROM ( SELECT MAX(a.ENGLISH_COMPANY_NAME) AS ENGLISH_COMPANY_NAME, BR_BASE.BR_NO, MAX(region.ENGLISH_DESCRIPTION) AS CODE FROM C_COMP_APPLICATION a LEFT JOIN C_S_SYSTEM_VALUE region ON a.REGION_CODE_ID = region.UUID RIGHT JOIN (';
+
+
+
+resultQueryColumn := '';
+FOR i IN 1..cellTypes.count LOOP
+	resultQueryColumn := resultQueryColumn ||
+	' UNION SELECT BR_NO FROM TABLE(:mwctable' || mwctIndex || ')';
+	mwctIndex := mwctIndex + 1;
+END LOOP;
+mwctIndex := 1;
+
+resultQueryColumn := substr(resultQueryColumn, 7);
+resultQuery := resultQuery || ' ' || resultQueryColumn;
+
+resultQuery := resultQuery || 
+') BR_BASE ON BR_BASE.BR_NO = a.BR_NO GROUP BY(BR_BASE.BR_NO) ) BR_KEY';
+
+resultQueryColumn := '';
+FOR i IN 1..cellTypes.count LOOP
+	resultQueryColumn := resultQueryColumn
+	|| ' ' || joinLogic || ' JOIN'
+	|| ' ('
+	|| ' SELECT *'
+	|| ' FROM TABLE(:mwctable' || mwctIndex || ')'
+	|| ' ) mwct' || mwctIndex || ' ON mwct' || mwctIndex || '.BR_NO = BR_KEY.BR_NO';
+	mwctIndex := mwctIndex + 1;
+
+END LOOP;
+
+orderByColumn := perColuumCount;
+
+IF sortBy > 0 AND sortBy < 8 THEN
+	FOR i IN 1..(sortBy - 1) LOOP
+		IF cellTypes(i) = 0 THEN
+			orderByColumn := orderByColumn + 1;
+		ELSIF cellTypes(i) = 1 THEN
+			orderByColumn := orderByColumn + LENGTH(groupTypes(i));
+		ELSIF cellTypes(i) = 2 THEN
+			orderByColumn := orderByColumn + LENGTH(groupTypes(i));
+		END IF;
+	END LOOP;
+	orderByColumn := orderByColumn + 1;
+	--IF cellTypes(sortBy) = 0 THEN
+	--	orderByColumn := orderByColumn + 1;
+	--END IF;
+	orderByString := '';
+	IF cellTypes(sortBy) = 0 THEN
+		orderByString := orderByString || (orderByColumn + 1) || ', ';
+	ELSIF cellTypes(sortBy) = 1 THEN
+		FOR i IN 1..LENGTH(groupTypes(sortBy)) LOOP
+			orderByString := orderByString || (orderByColumn + i) || ', ';
+		END LOOP;
+	ELSIF cellTypes(sortBy) = 2 THEN
+		FOR i IN 1..LENGTH(groupTypes(sortBy)) LOOP
+			orderByString := orderByString || (orderByColumn + i) || ', ';
+		END LOOP;
+	END IF;
+	IF orderByColumn = 0 THEN
+		orderByString := '';
+	END IF;
+END IF;
+IF sortBy > 100 THEN
+orderByString := orderByString || (sortBy - 100) || ', ';
+END IF;
+DBMS_OUTPUT.PUT_LINE(orderByString);
+mwctIndex := 1;
+resultQuery := resultQuery || ' ' || resultQueryColumn;
+resultQuery := resultQuery ||
+' ORDER BY ' || orderByString || ' 2) AS REG_COMP_TABLE) FROM DUAL ';
+
+
+-- execute result table and set parameter
+IF mwcCellTableArray.count = 1 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable
+	USING 
+	mwcCellTableArray(1),
+	mwcCellTableArray(1);
+
+ELSIF mwcCellTableArray.count = 2 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable
+	USING 
+	mwcCellTableArray(1), mwcCellTableArray(2),
+	mwcCellTableArray(1), mwcCellTableArray(2);
+
+ELSIF mwcCellTableArray.count = 3 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable 
+	USING
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3),
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3);
+
+ELSIF mwcCellTableArray.count = 4 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable 
+	USING 
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4),
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4);
+
+ELSIF mwcCellTableArray.count = 5 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable 
+	USING 
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5),
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5);
+
+ELSIF mwcCellTableArray.count = 6 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable 
+	USING 
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5), mwcCellTableArray(6),
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5), mwcCellTableArray(6);
+
+ELSIF mwcCellTableArray.count = 7 THEN
+	EXECUTE IMMEDIATE resultQuery INTO resultTable 
+	USING 
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5), mwcCellTableArray(6), mwcCellTableArray(7),
+	mwcCellTableArray(1), mwcCellTableArray(2), mwcCellTableArray(3), mwcCellTableArray(4), mwcCellTableArray(5), mwcCellTableArray(6), mwcCellTableArray(7);
+
+END IF;
+
+
+RETURN resultTable;
+END C_GET_REG_COMP;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_MIN_MEETING_UUID" 
+( m_year IN VARCHAR2
+, m_month IN VARCHAR2
+, reg_type IN VARCHAR2
+) RETURN VARCHAR2 
+IS
+m_uuid VARCHAR2 (36);
+BEGIN
+SELECT MIN (M.UUID) into m_uuid
+FROM
+     C_MEETING_MEMBER M_MEM INNER JOIN C_MEETING M ON M_MEM.MEETING_ID = M.UUID
+     INNER JOIN C_INTERVIEW_SCHEDULE I_SCH ON M.UUID = I_SCH.MEETING_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_COMM_TYPE ON M.COMMITTEE_TYPE_ID = S_COMM_TYPE.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_PNL_TYPE ON S_COMM_TYPE.PARENT_ID = S_PNL_TYPE.UUID
+WHERE 
+     to_char(I_SCH.INTERVIEW_DATE, 'yyyy') = m_year
+     AND to_char(I_SCH.INTERVIEW_DATE, 'mm')  = m_month
+     AND S_COMM_TYPE.REGISTRATION_TYPE= reg_type
+     AND S_PNL_TYPE.REGISTRATION_TYPE= reg_type
+     ORDER BY M.UUID;
+
+  RETURN (m_uuid);
+END C_MIN_MEETING_UUID;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_MWI_CONCAT_MW_ITEM" 
+( master_uuid IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_MW_ITEM VARCHAR2 (2000);
+  MW_REC INTEGER;
+  counter INTEGER;
+
+CURSOR MW IS 
+SELECT 
+     replace (S_MW_ITEM.CODE,'Item ') AS MW_ITEM_CODE
+FROM
+     C_S_SYSTEM_VALUE S_MW_ITEM INNER JOIN C_IND_APPLICATION_MW_ITEM MW_ITEM ON S_MW_ITEM.UUID = MW_ITEM.ITEM_DETAILS_ID
+     WHERE MW_ITEM.MASTER_ID = master_uuid
+     ORDER BY S_MW_ITEM.CODE ;
+
+BEGIN
+  CONCAT_MW_ITEM := '';
+  counter := 0;
+  MW_REC := 0; 
+
+      FOR MW_REC in MW
+      LOOP
+             if counter=0 then 
+             CONCAT_MW_ITEM := MW_REC.MW_ITEM_CODE;
+             else 
+             CONCAT_MW_ITEM := CONCAT_MW_ITEM || ', ' || MW_REC.MW_ITEM_CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_MW_ITEM;
+END C_MWI_CONCAT_MW_ITEM;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_MWI_CONCAT_MW_ITEM_MASTER" 
+( P_MASTER_UUID IN VARCHAR2,
+  P_STATUS_CODE IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_MW_ITEM VARCHAR2 (2000);
+  MW_REC INTEGER;
+  counter INTEGER;
+
+CURSOR MW IS 
+SELECT replace (S_MW_ITEM.CODE,'Item ') AS MW_ITEM_CODE
+FROM C_S_SYSTEM_VALUE S_MW_ITEM 
+INNER JOIN C_IND_APPLICATION_MW_ITEM_DETAIL MW_ITEM ON S_MW_ITEM.UUID = MW_ITEM.ITEM_DETAILS_ID
+WHERE MW_ITEM.IND_APP_MW_ITEM_MASTER_ID = P_MASTER_UUID
+AND MW_ITEM.STATUS_CODE = P_STATUS_CODE
+ORDER BY S_MW_ITEM.CODE ;
+
+BEGIN
+  CONCAT_MW_ITEM := '';
+  counter := 0;
+  MW_REC := 0; 
+
+      FOR MW_REC in MW
+      LOOP
+             if counter=0 then 
+             CONCAT_MW_ITEM := MW_REC.MW_ITEM_CODE;
+             else 
+             CONCAT_MW_ITEM := CONCAT_MW_ITEM || ', ' || MW_REC.MW_ITEM_CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_MW_ITEM;
+END C_MWI_CONCAT_MW_ITEM_MASTER;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_NBNUM" 
+( offence_y IN VARCHAR2 
+, offence_m IN VARCHAR2 
+, cvt_code IN VARCHAR2 
+, reg_type IN VARCHAR2 
+) RETURN INTEGER  
+IS 
+section VARCHAR2 (20); 
+Bnum INTEGER; 
+NBnum INTEGER; 
+count_cvt INTEGER; 
+CURSOR offencedate IS  
+  SELECT 
+       cr_section  
+  FROM 
+       C_comp_conviction c_cvt 
+       INNER JOIN C_S_SYSTEM_VALUE S_CVT ON S_CVT.UUID = C_CVT.CONVICTION_SOURCE_ID 
+       WHERE S_CVT.code = cvt_code 
+       AND TO_CHAR(c_cvt.cr_offence_date,'YYYY')= offence_y 
+       AND TO_CHAR(c_cvt.cr_offence_date,'MM')= offence_m 
+       AND c_cvt.registration_type = reg_type; 
+BEGIN 
+  Bnum := 0; 
+  NBnum := 0; 
+  section := ''; 
+  count_cvt := 0; 
+
+  open offencedate; 
+    fetch offencedate into section; 
+
+    while offencedate%found loop 
+
+      SELECT COUNT (*) into count_cvt 
+              FROM C_S_SYSTEM_VALUE S_NB  
+              INNER JOIN C_S_SYSTEM_TYPE S_NB_TYPE ON S_NB.SYSTEM_TYPE_ID = S_NB_TYPE.UUID 
+              WHERE  
+              S_NB_TYPE.TYPE = 'NB_CODE' 
+              and S_NB.CODE = section; 
+
+
+      if count_cvt > 0 then 
+        NBnum :=NBnum + 1; 
+      else 
+        Bnum := Bnum + 1; 
+      end if; 
+
+		fetch offencedate into section; 
+    END LOOP; 
+
+  close offencedate; 
+
+
+  RETURN NBnum; 
+END C_NBNUM;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_OFFENCEDT" 
+( offence_y IN VARCHAR2 
+, offence_m IN VARCHAR2 
+, cvt_code IN VARCHAR2 
+, reg_type IN VARCHAR2 
+) RETURN VARCHAR2  
+IS 
+offence_dt VARCHAR2 (500); 
+offdt VARCHAR2 (8); 
+accfat_ind VARCHAR2 (1); 
+CURSOR offencedate IS  
+  SELECT 
+       DISTINCT TO_CHAR(cr_offence_date,'YYYYMMDD')  
+  FROM 
+       C_comp_conviction c_cvt 
+       INNER JOIN C_S_SYSTEM_VALUE S_CVT ON S_CVT.UUID = C_CVT.CONVICTION_SOURCE_ID 
+       WHERE S_CVT.code = cvt_code 
+       AND TO_CHAR(cr_offence_date,'YYYY')= offence_y 
+       AND TO_CHAR(cr_offence_date,'MM')= offence_m 
+       AND c_cvt.registration_type = reg_type; 
+
+BEGIN 
+  accfat_ind := 'N'; 
+  offdt := ''; 
+  offence_dt := ''; 
+
+  open offencedate; 
+    fetch offencedate into offdt; 
+
+    while offencedate%found loop 
+
+    if C_cnt1 (offdt,  reg_type) > 0 THEN 
+
+			if C_fatal_cnt(offdt, reg_type) + C_ACCIDENT_CNT(offdt, reg_type) > 0 THEN 
+				offence_dt := offence_dt || '(' || substr(offdt,7,2) || ')*,'; 
+        accfat_ind:= 'Y'; 
+			else 
+				offence_dt:= offence_dt || '(' || substr(offdt,7,2) || '),'; 
+      END IF; 
+
+		end IF; 
+
+		if C_total_cnt (offdt, reg_type) > C_cnt1 (offdt, reg_type) THEN 
+
+			if C_fatal_cnt(offdt, reg_type) + C_ACCIDENT_CNT(offdt, reg_type) > 0 THEN  
+				offence_dt := offence_dt || '[' || substr(offdt,7,2) || ']*,'; 
+        accfat_ind:= 'Y'; 
+			else 
+				offence_dt := offence_dt || '[' || substr(offdt,7,2) || '],'; 
+       END IF; 
+
+		end IF; 
+		fetch offencedate into offdt; 
+    END LOOP; 
+
+  close offencedate; 
+
+  IF offence_dt = '' THEN 
+     offence_dt := ''; 
+     ELSE 
+     offence_dt := SUBSTR (offence_dt,0, LENGTH(offence_dt)-1); 
+  end if;   
+
+
+  RETURN  accfat_ind || offence_dt; 
+END C_OFFENCEDT;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_PROPERCASE" 
+( input IN VARCHAR2
+) RETURN VARCHAR2
+IS
+output varchar(8000);
+ctr INTEGER;
+len INTEGER;
+found_at INTEGER;
+LOWER_CASE_a INTEGER;
+LOWER_CASE_z INTEGER;
+Delimiter VARCHAR2 (3);
+UPPER_CASE_A INTEGER;
+UPPER_CASE_Z INTEGER;
+
+BEGIN
+	ctr := 1;
+	len := LENGTH(input);
+	output := '';
+	LOWER_CASE_a := 97;
+	LOWER_CASE_z := 122;
+	Delimiter := ', (';
+	UPPER_CASE_A := 65;
+	UPPER_CASE_Z := 90;
+
+	IF input IS NULL THEN
+		--Just return NULL if input string is NULL
+		RETURN output;
+	END IF;
+
+
+	WHILE ctr <= len LOOP
+		--This loop will take care of reccuring white spaces
+		WHILE INSTR(Delimiter, SUBSTR(input,ctr,1)) > 0 LOOP
+      output := output || SUBSTR(input,ctr,1);
+			ctr := ctr + 1;
+		END LOOP;
+
+		IF ASCII(SUBSTR(input,ctr,1)) BETWEEN LOWER_CASE_a AND LOWER_CASE_z THEN
+			--Converting the first character to upper case
+      output := output || UPPER(SUBSTR(input,ctr,1));
+		ELSE
+			output := output || SUBSTR(input,ctr,1);
+		END IF;
+
+		ctr := ctr + 1;
+
+		WHILE INSTR( Delimiter,  SUBSTR(input,ctr,1)) = 0 AND (ctr <= len) LOOP
+			IF ASCII(SUBSTR(input,ctr,1)) BETWEEN UPPER_CASE_A AND UPPER_CASE_Z THEN
+				output := output || LOWER(SUBSTR(input,ctr,1));
+			ELSE
+				output := output || SUBSTR(input,ctr,1);
+			END IF;
+			ctr := ctr + 1;
+		END LOOP;		
+	END LOOP;
+RETURN output;
+
+END C_PROPERCASE;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_AS_TD" 
+( app_status IN VARCHAR2,
+  app_role_code IN VARCHAR2,
+  cat_code_id IN VARCHAR2,
+  intrv_result_code IN VARCHAR2,
+  input_month IN VARCHAR2,
+  input_year IN VARCHAR2,
+    reg_type IN VARCHAR2
+) RETURN INTEGER
+IS
+output varchar(4);
+appln INTEGER;
+intrv_result varchar(4);
+temp varchar (36);
+counter INTEGER;
+
+CURSOR reg_no IS 
+select DISTINCT C_APPLN.applicant_id as appln_id
+FROM
+     C_COMP_PROCESS_MONITOR C_PMON
+     INNER JOIN C_COMP_APPLICANT_INFO C_APPLN  ON C_APPLN.UUID = C_PMON.COMPANY_APPLICANTS_ID
+     INNER JOIN C_COMP_APPLICATION C_APPL ON C_APPL.UUID=C_PMON.MASTER_ID
+          where C_PMON.monitor_type='UPM' 
+          and C_PMON.apply_status = app_status
+          and C_APPL.category_id = cat_code_id
+          and to_char (c_pmon.interview_date,'yyyy') = input_year
+          and to_char (c_pmon.interview_date,'mm') = input_month
+          AND C_APPL.registration_type = reg_type
+      group by C_APPLN.applicant_id 
+      having count ( C_APPLN.applicant_id ) > 1;
+
+BEGIN
+
+appln :=0;
+counter :=0;
+
+	FOR appln IN reg_no
+	LOOP 
+
+		 counter := counter + C_RPT_AS_TD_OO_COUNTER (app_status, app_role_code, intrv_result_code, appln.appln_id, reg_type);
+
+	END LOOP ;
+
+output := counter;
+
+RETURN output;
+END C_RPT_AS_TD;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_AS_TD_OO_COUNTER" 
+( app_status IN VARCHAR2,
+  app_role_code IN VARCHAR2,
+  intrv_result_code in varchar2,
+  appln_id in varchar2,
+    reg_type IN VARCHAR2
+) RETURN INTEGER
+IS
+output integer;
+appln INTEGER;
+temp varchar (36);
+counter integer;
+
+CURSOR reg_no IS 
+select '1' as output1
+FROM
+C_COMP_PROCESS_MONITOR C_PMON
+INNER JOIN C_COMP_APPLICANT_INFO C_APPLN  ON C_APPLN.UUID = C_PMON.COMPANY_APPLICANTS_ID
+INNER JOIN C_S_SYSTEM_VALUE S_APP_ROLE ON C_APPLN.APPLICANT_ROLE_ID = S_APP_ROLE.UUID
+INNER JOIN C_S_SYSTEM_VALUE S_INTRV_RESULT ON INTERVIEW_RESULT_ID = S_INTRV_RESULT."UUID"
+where c_appln.applicant_id = appln_id
+AND S_APP_ROLE.CODE = app_role_code
+and C_PMON.apply_status = app_status
+and S_INTRV_RESULT.CODE = intrv_result_code
+AND S_APP_ROLE.registration_type = reg_type;
+BEGIN
+
+appln :=0;
+counter :=0;
+
+	FOR appln IN reg_no
+	LOOP 
+	    counter := counter + 1;
+	END LOOP ;
+
+if counter > 0 then
+output := 1;
+else 
+output := 0;
+end if;
+
+
+
+RETURN output;
+
+END C_RPT_AS_TD_OO_COUNTER;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_ASTDOO" 
+( app_status IN VARCHAR2,
+  app_role_code IN VARCHAR2,
+  cat_code_id IN VARCHAR2,
+  intrv_result_code IN VARCHAR2,
+  input_month IN VARCHAR2,
+  input_year IN VARCHAR2,
+  reg_type IN VARCHAR2
+) RETURN INTEGER
+IS
+output varchar(4);
+appln INTEGER;
+intrv_result varchar(4);
+temp varchar (36);
+counter INTEGER;
+
+CURSOR reg_no IS 
+select DISTINCT C_APPLN.applicant_id as appln_id
+FROM
+     C_COMP_PROCESS_MONITOR C_PMON
+     INNER JOIN C_COMP_APPLICANT_INFO C_APPLN  ON C_APPLN.UUID = C_PMON.COMPANY_APPLICANTS_ID
+     INNER JOIN C_COMP_APPLICATION C_APPL ON C_APPL.UUID=C_PMON.MASTER_ID
+          where C_PMON.monitor_type='UPM' 
+          and C_PMON.apply_status = app_status
+          and C_APPL.category_id = cat_code_id
+          and to_char (c_pmon.interview_date,'yyyy') = input_year
+          and to_char (c_pmon.interview_date,'mm') = input_month
+          AND C_APPL.registration_type = reg_type
+      group by C_APPLN.applicant_id 
+      having count ( C_APPLN.applicant_id ) = 1;
+
+BEGIN
+
+appln :=0;
+counter :=0;
+
+	FOR appln IN reg_no
+	LOOP 
+
+		 counter := counter + C_RPT_AS_TD_OO_COUNTER (app_status, app_role_code, intrv_result_code, appln.appln_id, reg_type);
+
+	END LOOP ;
+
+output := counter;
+
+RETURN output;
+END C_RPT_ASTDOO;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_ASTDOO_NO_INTRV" 
+( app_status IN VARCHAR2,
+  cat_code_id IN VARCHAR2,
+  input_month IN VARCHAR2,
+  input_year IN VARCHAR2,
+    reg_type IN VARCHAR2
+) RETURN INTEGER
+IS
+output varchar(4);
+intrv_no INTEGER;
+counter INTEGER;
+
+CURSOR reg_no IS 
+SELECT
+     COUNT (C_PMON.CRC_NAME) as num
+	FROM
+     C_S_CATEGORY_CODE S_CAT INNER JOIN C_COMP_APPLICATION C_APPL ON S_CAT.UUID = C_APPL.CATEGORY_ID
+     INNER JOIN C_COMP_PROCESS_MONITOR C_PMON ON C_APPL.UUID = C_PMON.MASTER_ID
+     INNER JOIN C_COMP_APPLICANT_INFO C_APPLN ON C_PMON.COMPANY_APPLICANTS_ID = C_APPLN.UUID
+	WHERE
+     C_PMON.CRC_NAME IS NOT NULL
+     AND C_PMON.APPLY_STATUS =app_status
+     AND C_APPL.CATEGORY_ID= cat_code_id
+     AND to_char(C_PMON.INTERVIEW_DATE,'MM')=input_month
+     AND to_char(C_PMON.INTERVIEW_DATE,'yyyy') =input_year
+      AND C_APPL.registration_type = reg_type;
+BEGIN
+counter :=0;
+output :=0;
+
+	FOR intrv_no IN reg_no
+	LOOP 
+		counter:=intrv_no.num;
+	END LOOP ;
+
+output := counter;
+
+RETURN output;
+END C_RPT_ASTDOO_NO_INTRV;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_COMP_APP_WEEKLY" 
+(   
+	gaz_date IN VARCHAR2,   
+  reg_type  IN VARCHAR2   
+) RETURN VARCHAR2   
+is   
+file_ref varchar2(20);   
+reg_no varchar2(20);   
+ename varchar2(300);   
+cname varchar2(300);   
+cert_name varchar2(300);   
+cat_code varchar2(20);   
+exp_d varchar2(20);   
+TotalFileRef  varchar2(4000);   
+counter INTEGER;   
+max_counter INTEGER;   
+CURSOR FileRef IS    
+SELECT   
+     C_APPL.FILE_REFERENCE_NO,   
+     C_APPL.CERTIFICATION_NO,   
+     upper(C_APPL.ENGLISH_COMPANY_NAME),   
+     case when C_APPL.CHINESE_COMPANY_NAME is null then upper(C_APPL.ENGLISH_COMPANY_NAME) else CAST(C_APPL.CHINESE_COMPANY_NAME AS VARCHAR2 (300))END,   
+     case when C_APPL.CHINESE_COMPANY_NAME is null then upper(C_APPL.ENGLISH_COMPANY_NAME) else CAST(C_APPL.CHINESE_COMPANY_NAME AS VARCHAR2 (300))END,   
+     S_CAT.CODE,   
+     CASE WHEN C_APPL.EXTEND_DATE IS NULL THEN to_char (C_APPL.EXPIRY_DATE, 'dd.mm.yyyy')    
+     ELSE to_char (C_APPL.EXTEND_DATE, 'dd.mm.yyyy') END   
+
+FROM   
+     C_S_CATEGORY_CODE S_CAT INNER JOIN C_COMP_APPLICATION C_APPL ON S_CAT.UUID = C_APPL.CATEGORY_ID   
+where C_APPL.GAZETTE_DATE = TO_DATE (gaz_date,'DD/MM/YYYY')   
+AND S_CAT.REGISTRATION_TYPE = reg_type   
+order by S_CAT.CODE, C_APPL.ENGLISH_COMPANY_NAME;   
+
+BEGIN   
+  file_ref :='';   
+  reg_no :='';   
+  ename :='';   
+  cname :='';   
+  cert_name :='';   
+  cat_code :='';   
+  exp_d :='';   
+  counter := 0;   
+  max_counter := 15;   
+  TotalFileRef :='aaa';   
+
+open FileRef;   
+    while counter <15 loop   
+      fetch FileRef into file_ref, reg_no, ename, cname,cert_name, cat_code, exp_d ;
+
+      IF FileRef%notfound then    
+           file_ref:='';   
+           reg_no :='';   
+           ename :='';   
+           cname :='';   
+           cert_name :='';   
+           cat_code :='';   
+           exp_d :='';   
+    --    ELSE fetch FileRef into file_ref, reg_no, ename, cname,cert_name, cat_code, exp_d ;  
+        END IF;   
+       if counter=0 then    
+       TotalFileRef := '"' || file_ref ||'","' || reg_no ||'","' || ename ||'","' || cname ||'","' || cert_name ||'","' || cat_code ||'","' || exp_d ||'",';   
+       else    
+       TotalFileRef := TotalFileRef || '"' || file_ref ||'","' || reg_no ||'","' || ename ||'","' || cert_name ||'","' || cname ||'","' || cat_code ||'","' || exp_d ||'",';         
+       end if;   
+       counter := counter +1;   
+
+     end loop;   
+close FileRef;   
+
+  RETURN TotalFileRef ; 
+END C_RPT_COMP_APP_WEEKLY;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_COMP_GAZETTE" 
+(
+	gaz_date IN VARCHAR2,
+  reg_type IN VARCHAR2
+) RETURN VARCHAR2
+is
+file_ref varchar2(20);
+TotalFileRef  varchar2(500);
+counter INTEGER;
+max_counter INTEGER;
+CURSOR FileRef IS 
+SELECT
+       DISTINCT (FILE_REFERENCE_NO)
+FROM
+     C_COMP_APPLICATION
+WHERE  GAZETTE_DATE = TO_DATE (gaz_date,'DD/MM/YYYY')
+AND TO_CHAR (EXPIRY_DATE, 'YYYYMMDD') >= TO_CHAR (SYSDATE,'YYYYMMDD')
+and registration_type = reg_type
+order by FILE_REFERENCE_NO;
+
+BEGIN
+  file_ref :='';
+  counter := 0;
+  max_counter := 15;
+  TotalFileRef :='';
+
+open FileRef;
+fetch FileRef into file_ref;
+    while counter <15 loop
+        IF FileRef%notfound then 
+           file_ref:='';
+        ELSE fetch FileRef into file_ref;
+        END IF;
+       if counter=0 then 
+       TotalFileRef := '"' || file_ref ||'",';
+       else 
+       TotalFileRef := TotalFileRef || '"'  || file_ref ||'",';      
+       end if;
+       counter := counter +1;
+
+     end loop;
+close FileRef;
+
+  RETURN TotalFileRef ; 
+END C_RPT_COMP_GAZETTE;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_INDIV_APP_WEEKLY" 
+(   
+	gaz_date IN VARCHAR2,   
+  reg_type  IN VARCHAR2   
+) RETURN VARCHAR2   
+is   
+file_ref varchar2(20);   
+reg_no varchar2(20);   
+title varchar2(20);   
+surname varchar2(100);   
+given_name varchar2(200);   
+given_name_on_id varchar2(200);   
+cname varchar2(300);   
+cert_name varchar2(300);   
+letter_file_ref varchar2(30);   
+cat_code varchar2(20);   
+reg_d varchar2(20);   
+TotalFileRef  varchar2(4000);   
+counter INTEGER;   
+max_counter INTEGER;   
+CURSOR FileRef IS    
+
+SELECT   
+     I_APPL.FILE_REFERENCE_NO AS FILE_REF,   
+     I_CERT.CERTIFICATION_NO AS reg_NO,   
+     S_TITLE.ENGLISH_DESCRIPTION,  
+     upper(APPLN.SURNAME),  
+     C_propercase( APPLN.GIVEN_NAME_ON_ID),   
+     C_propercase( APPLN.GIVEN_NAME_ON_ID),   
+     CASE WHEN APPLN.CHINESE_NAME IS NULL THEN ( upper(APPLN.SURNAME) || ' ' || C_propercase( APPLN.GIVEN_NAME_ON_ID)) ELSE CAST (APPLN.CHINESE_NAME AS VARCHAR2 (300)) END,   
+     CASE WHEN APPLN.CHINESE_NAME IS NULL THEN ( upper(APPLN.SURNAME) || ' ' || c_propercase( APPLN.GIVEN_NAME_ON_ID)) ELSE CAST (APPLN.CHINESE_NAME AS VARCHAR2 (300)) END,        
+     CASE WHEN S_CAT.CODE = 'RSE' THEN I_APPL.FILE_REFERENCE_NO ||'(SE)'    
+     WHEN S_CAT.CODE = 'RGE' THEN I_APPL.FILE_REFERENCE_NO ||'(GE)' ELSE I_APPL.FILE_REFERENCE_NO   
+     END,   
+     S_CAT.CODE AS CAT_CODE,   
+     to_char (I_CERT.REGISTRATION_DATE, 'dd.mm.yyyy')   
+FROM   
+     C_APPLICANT APPLN INNER JOIN C_IND_APPLICATION I_APPL ON APPLN.UUID = I_APPL.APPLICANT_ID   
+     INNER JOIN C_IND_CERTIFICATE I_CERT ON I_APPL.UUID = I_CERT.MASTER_ID   
+     INNER JOIN C_S_CATEGORY_CODE S_CAT ON I_CERT.CATEGORY_ID = S_CAT.UUID   
+     LEFT JOIN C_S_SYSTEM_VALUE S_TITLE ON APPLN.TITLE_ID = S_TITLE.UUID   
+WHERE   
+     S_CAT.REGISTRATION_TYPE = reg_type   
+ and  I_CERT.GAZETTE_DATE = TO_DATE (gaz_date,'DD/MM/YYYY')   
+
+order by S_CAT.CODE, APPLN.SURNAME || ' ' || APPLN.GIVEN_NAME_ON_ID;   
+
+
+BEGIN   
+  file_ref :='';   
+  reg_no :='';   
+  title :='';   
+  surname :='';   
+  given_name :='';   
+  given_name_on_id :='';    
+  cname :='';   
+  cert_name :='';   
+  cat_code :='';   
+  reg_d :='';   
+  letter_file_ref := '';   
+  counter := 0;   
+  max_counter := 15;   
+  TotalFileRef :='aaa';   
+
+  open FileRef;   
+  --fetch FileRef into file_ref, reg_no, ename, cname, cert_name, letter_file_ref, cat_code, reg_d ;  
+    while counter <15 loop   
+      fetch FileRef into file_ref, reg_no, title, surname, given_name, given_name_on_id, cname, cert_name, letter_file_ref, cat_code, reg_d ;
+
+       IF FileRef%notfound then    
+           file_ref:='';   
+           reg_no :='';   
+           title :='';   
+  		   surname :='';   
+		   given_name :='';   
+		   given_name_on_id :='';    
+           cname :='';   
+           cert_name :='';   
+           cat_code :='';   
+           reg_d :='';   
+           letter_file_ref := '';   
+       -- ELSE fetch FileRef into file_ref, reg_no, ename, cname,cert_name, letter_file_ref, cat_code, reg_d ;  
+        END IF;   
+       if counter=0 then    
+       TotalFileRef := '"' || file_ref ||'","' || reg_no ||'","' || title ||'","'|| surname ||'","'|| given_name ||'","'|| given_name_on_id ||'","' || cname ||'","' || cert_name ||'","' || letter_file_ref ||'","' || reg_d ||'","' || cat_code ||'",';   
+       else    
+       TotalFileRef := TotalFileRef || '"' || file_ref ||'","' || reg_no ||'","' || title ||'","'|| surname ||'","'|| given_name ||'","'|| given_name_on_id ||'","' || cname ||'","' || cert_name ||'","' || letter_file_ref ||'","' || reg_d ||'","' || cat_code ||'",';         
+       end if;   
+       counter := counter +1;   
+
+     end loop;   
+close FileRef;   
+
+  RETURN TotalFileRef ; 
+
+END C_RPT_INDIV_APP_WEEKLY;
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT_INDIV_GAZETTE" 
+(
+	gaz_date IN VARCHAR2,
+  reg_type IN VARCHAR2
+) RETURN VARCHAR2
+is
+file_ref varchar2(20);
+TotalFileRef  varchar2(500);
+counter INTEGER;
+max_counter INTEGER;
+CURSOR FileRef IS 
+SELECT
+       DISTINCT (I_APPL.FILE_REFERENCE_NO)
+FROM
+     C_IND_APPLICATION I_APPL 
+     INNER JOIN C_IND_CERTIFICATE I_CERT
+     ON I_APPL.UUID = I_CERT.MASTER_ID
+WHERE
+I_CERT.GAZETTE_DATE = TO_DATE (gaz_date,'DD/MM/YYYY')
+AND TO_CHAR (I_CERT.EXPIRY_DATE, 'YYYYMMDD') > TO_CHAR (SYSDATE,'YYYYMMDD')
+and i_appl.registration_type = reg_type
+order by I_APPL.FILE_REFERENCE_NO;
+
+BEGIN
+  file_ref :='';
+  counter := 0;
+  max_counter := 15;
+  TotalFileRef :='';
+
+open FileRef;
+fetch FileRef into file_ref;
+    while counter <15 loop
+        IF FileRef%notfound then 
+           file_ref:='';
+        ELSE fetch FileRef into file_ref;
+        END IF;
+       if counter=0 then 
+       TotalFileRef := '"' || file_ref ||'",';
+       else 
+       TotalFileRef := TotalFileRef || '"'  || file_ref ||'",';      
+       end if;
+       counter := counter +1;
+
+     end loop;
+close FileRef;
+
+  RETURN TotalFileRef ; 
+
+END C_RPT_INDIV_GAZETTE;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_CMW_ASTDOO" 
+( role_code IN VARCHAR2
+, class_code IN VARCHAR2
+) RETURN INTEGER AS
+  MW_REC INTEGER;
+  counter INTEGER;
+  H1 INTEGER;
+  H2 INTEGER;
+  H3 INTEGER;
+
+CURSOR MW IS 
+SELECT
+     C_APPLN_MW.COMPANY_APPLICANTS_ID AS C_APPLN_ID,
+     C_APPLN.APPLICANT_ROLE_ID AS ROLE_ID,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 1' Then 1 ELSE 0 End AS C1,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 2' Then 1 ELSE 0 End AS C2,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 3' Then 1 ELSE 0 End AS C3
+FROM
+     C_COMP_APPLICATION C_APPL INNER JOIN C_COMP_APPLICANT_INFO C_APPLN ON C_APPL.UUID = C_APPLN.MASTER_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_VAL_A_ROLE ON C_APPLN.APPLICANT_ROLE_ID = S_VAL_A_ROLE.UUID
+     INNER JOIN C_COMP_APPLICANT_MW_ITEM C_APPLN_MW ON C_APPLN.UUID = C_APPLN_MW.COMPANY_APPLICANTS_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS ON C_APPLN_MW.ITEM_CLASS_ID = S_MW_CLASS.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_STATUS ON C_APPLN.APPLICANT_STATUS_ID = S_STATUS.UUID
+WHERE
+     C_APPL.REGISTRATION_TYPE = 'CMW'
+     AND S_VAL_A_ROLE.CODE = role_code
+     AND C_APPLN.ACCEPT_DATE is not null
+     AND C_APPL.CERTIFICATION_NO is not null
+     AND to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd') >= to_char (sysdate, 'yyyymmdd')
+     and (C_APPLN.REMOVAL_DATE IS null or (C_APPLN.REMOVAL_DATE IS NOT null and to_char(C_APPLN.REMOVAL_DATE, 'yyyymmdd') > to_char (sysdate, 'yyyymmdd')))
+     and (C_APPL.REMOVAL_DATE IS null or (to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd') and to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char (sysdate, 'yyyymmdd')))
+	 AND S_STATUS.CODE IN ('1', '4')
+
+GROUP BY
+     C_APPLN_MW.COMPANY_APPLICANTS_ID,
+     C_APPLN.APPLICANT_ROLE_ID;
+
+BEGIN
+  counter := 0;
+  MW_REC := 0; 
+  H1 := 0;
+  H2 := 0;
+  H3 := 0;
+      FOR MW_REC in MW
+      LOOP
+        H1 := H1 + mw_rec.C1;
+        H2 := H2 + mw_rec.C2;
+        H3 := H3 + mw_rec.C3;
+      END LOOP;
+
+  IF class_code = 'Class 1' then
+  return H1;
+  END IF;
+  IF class_code = 'Class 2' then
+  return H2;
+  END IF;
+  IF class_code = 'Class 3' then
+  return H3;
+  end IF;
+  RETURN NULL;
+END C_RPT0002_CMW_ASTDOO;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_CMW_CONTRACTORS" 
+(
+ class_code IN VARCHAR2
+) RETURN INTEGER AS
+  MW_REC INTEGER;
+  counter INTEGER;
+  H1 INTEGER;
+  H2 INTEGER;
+  H3 INTEGER;
+
+CURSOR MW IS 
+SELECT
+     C_APPL.UUID AS C_APPLN_ID,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 1' Then 1 ELSE 0 End AS C1,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 2' Then 1 ELSE 0 End AS C2,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 3' Then 1 ELSE 0 End AS C3
+
+FROM
+     C_COMP_APPLICATION C_APPL INNER JOIN C_COMP_APPLICANT_INFO C_APPLN ON C_APPL.UUID = C_APPLN.MASTER_ID
+     INNER JOIN C_COMP_APPLICANT_MW_ITEM C_APPLN_MW ON C_APPLN.UUID = C_APPLN_MW.COMPANY_APPLICANTS_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS ON C_APPLN_MW.ITEM_CLASS_ID = S_MW_CLASS.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_APP_STATUS ON C_APPL.APPLICATION_STATUS_ID = S_APP_STATUS.UUID
+WHERE
+     C_APPL.CERTIFICATION_NO is not null 
+     AND to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd') >= to_char (sysdate, 'yyyymmdd')
+     and (C_APPL.REMOVAL_DATE IS null or (to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd')
+     and to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char (sysdate, 'yyyymmdd')))
+     AND C_APPL.REGISTRATION_TYPE = 'CMW'
+    AND S_APP_STATUS.CODE IN ('1', '4')
+GROUP BY
+    C_APPL.UUID;
+BEGIN
+  counter := 0;
+  MW_REC := 0; 
+  H1 := 0;
+  H2 := 0;
+  H3 := 0;
+      FOR MW_REC in MW
+      LOOP
+        H1 := H1 + mw_rec.C1;
+        H2 := H2 + mw_rec.C2;
+        H3 := H3 + mw_rec.C3;
+      END LOOP;
+
+  IF class_code = 'Class 1' then
+  return H1;
+  END IF;
+  IF class_code = 'Class 2' then
+  return H2;
+  END IF;
+  IF class_code = 'Class 3' then
+  return H3;
+  end IF;
+  RETURN NULL;
+
+END C_RPT0002_CMW_CONTRACTORS;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_CMW_CONTRACTORS_BACKUP" 
+(
+ class_code IN VARCHAR2
+) RETURN INTEGER AS
+  MW_REC INTEGER;
+  counter INTEGER;
+  H1 INTEGER;
+  H2 INTEGER;
+  H3 INTEGER;
+
+CURSOR MW IS 
+SELECT
+     C_APPLN_MW.COMPANY_APPLICANTS_ID AS C_APPLN_ID,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 1' Then 1 ELSE 0 End AS C1,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 2' Then 1 ELSE 0 End AS C2,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 3' Then 1 ELSE 0 End AS C3
+
+FROM
+     C_COMP_APPLICATION C_APPL INNER JOIN C_COMP_APPLICANT_INFO C_APPLN ON C_APPL.UUID = C_APPLN.MASTER_ID
+     INNER JOIN C_COMP_APPLICANT_MW_ITEM C_APPLN_MW ON C_APPLN.UUID = C_APPLN_MW.COMPANY_APPLICANTS_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS ON C_APPLN_MW.ITEM_CLASS_ID = S_MW_CLASS.UUID
+WHERE
+     C_APPL.CERTIFICATION_NO is not null 
+     AND to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd') >= to_char (sysdate, 'yyyymmdd')
+     and (C_APPL.REMOVAL_DATE IS null or (to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd')
+     and to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char (sysdate, 'yyyymmdd')))
+     AND C_APPL.REGISTRATION_TYPE = 'CMW'
+
+GROUP BY
+     C_APPLN_MW.COMPANY_APPLICANTS_ID;
+BEGIN
+  counter := 0;
+  MW_REC := 0; 
+  H1 := 0;
+  H2 := 0;
+  H3 := 0;
+      FOR MW_REC in MW
+      LOOP
+        H1 := H1 + mw_rec.C1;
+        H2 := H2 + mw_rec.C2;
+        H3 := H3 + mw_rec.C3;
+      END LOOP;
+
+  IF class_code = 'Class 1' then
+  return H1;
+  END IF;
+  IF class_code = 'Class 2' then
+  return H2;
+  END IF;
+  IF class_code = 'Class 3' then
+  return H3;
+  end IF;
+  RETURN NULL;
+
+END C_RPT0002_CMW_CONTRACTORS_BACKUP;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_CMW_CORPORATIONS" 
+(
+ class_code IN VARCHAR2
+) RETURN INTEGER AS
+  MW_REC INTEGER;
+  counter INTEGER;
+  H1 INTEGER;
+  H2 INTEGER;
+  H3 INTEGER;
+
+CURSOR MW IS 
+SELECT
+     C_APPLN_MW.COMPANY_APPLICANTS_ID AS C_APPLN_ID,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 1' Then 1 ELSE 0 End AS C1,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 2' Then 1 ELSE 0 End AS C2,
+     CASE WHEN MIN(S_MW_CLASS.CODE) = 'Class 3' Then 1 ELSE 0 End AS C3
+
+FROM
+     C_COMP_APPLICATION C_APPL INNER JOIN C_COMP_APPLICANT_INFO C_APPLN ON C_APPL.UUID = C_APPLN.MASTER_ID
+     INNER JOIN C_COMP_APPLICANT_MW_ITEM C_APPLN_MW ON C_APPLN.UUID = C_APPLN_MW.COMPANY_APPLICANTS_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_TYPE ON C_APPLN_MW.ITEM_TYPE_ID = S_MW_TYPE.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS ON C_APPLN_MW.ITEM_CLASS_ID = S_MW_CLASS.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_VAL_C_TYPE ON C_APPL.COMPANY_TYPE_ID = S_VAL_C_TYPE.UUID
+WHERE
+     S_VAL_C_TYPE.CODE='1'
+     AND C_APPL.CERTIFICATION_NO is not null
+     AND to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd') >= to_char (sysdate, 'yyyymmdd')
+     and (C_APPL.REMOVAL_DATE IS null or (to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char(C_APPL.EXPIRY_DATE, 'yyyymmdd')
+     and to_char(C_APPL.REMOVAL_DATE, 'yyyymmdd') > to_char (sysdate, 'yyyymmdd')))
+     AND C_APPL.REGISTRATION_TYPE = 'CMW'
+
+GROUP BY
+     C_APPLN_MW.COMPANY_APPLICANTS_ID;
+BEGIN
+  counter := 0;
+  MW_REC := 0; 
+  H1 := 0;
+  H2 := 0;
+  H3 := 0;
+      FOR MW_REC in MW
+      LOOP
+        H1 := H1 + mw_rec.C1;
+        H2 := H2 + mw_rec.C2;
+        H3 := H3 + mw_rec.C3;
+      END LOOP;
+
+  IF class_code = 'Class 1' then
+  return H1;
+  END IF;
+  IF class_code = 'Class 2' then
+  return H2;
+  END IF;
+  IF class_code = 'Class 3' then
+  return H3;
+  end IF;
+  RETURN NULL;
+
+END C_RPT0002_CMW_CORPORATIONS;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_IMW_TOTAL2" 
+(
+ reg_type in varchar2,
+ class_code in varchar2,
+ detail_uuid in varchar2
+) RETURN INTEGER AS
+  TOTAL2 INTEGER;
+
+BEGIN
+TOTAL2 := 0;
+SELECT
+     COUNT (*) INTO TOTAL2
+FROM
+     C_IND_CERTIFICATE I_CERT2 INNER JOIN C_IND_APPLICATION I_APPL2 ON I_CERT2.MASTER_ID = I_APPL2.UUID
+     INNER JOIN C_IND_APPLICATION_MW_ITEM I_MW_ITEM2 ON I_APPL2.UUID = I_MW_ITEM2.MASTER_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_DETAILS2 ON I_MW_ITEM2.ITEM_DETAILS_ID = S_MW_DETAILS2.UUID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS2 ON I_MW_ITEM2.ITEM_CLASS_ID = S_MW_CLASS2.UUID
+WHERE
+     I_APPL2.REGISTRATION_TYPE = reg_type
+     AND S_MW_CLASS2.CODE = class_code
+     AND I_CERT2.CERTIFICATION_NO IS NOT NULL
+     AND to_char( SYSDATE, 'YYYYMMDD') > to_char(I_CERT2.EXPIRY_DATE, 'yyyymmdd') 
+and to_char( I_CERT2.RETENTION_APPLICATION_DATE, 'yyyymmdd') > '20040831' and to_char( I_CERT2.EXPIRY_DATE, 'yyyymmdd') < to_char( SYSDATE, 'YYYYMMDD')
+and (I_CERT2.REMOVAL_DATE is null or to_char(I_CERT2.REMOVAL_DATE, 'yyyymmdd') >to_char( SYSDATE, 'YYYYMMDD'))
+AND S_MW_DETAILS2.UUID = detail_uuid;
+
+  RETURN TOTAL2;
+END C_RPT0002_IMW_TOTAL2;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0002_IMW_TOTAL3" 
+(
+ reg_type in varchar2,
+ class_code in varchar2
+) RETURN INTEGER AS
+  TOTAL3 INTEGER;
+
+BEGIN
+TOTAL3 := 0;
+SELECT COUNT (DISTINCT I_APPL.APPLICANT_ID) INTO TOTAL3 FROM
+     C_IND_CERTIFICATE I_CERT INNER JOIN C_IND_APPLICATION I_APPL ON I_CERT.MASTER_ID = I_APPL.UUID
+     INNER JOIN C_IND_APPLICATION_MW_ITEM I_MW_ITEM ON I_APPL.UUID = I_MW_ITEM.MASTER_ID
+     INNER JOIN C_S_SYSTEM_VALUE S_MW_CLASS ON I_MW_ITEM.ITEM_CLASS_ID = S_MW_CLASS.UUID
+WHERE
+     I_APPL.REGISTRATION_TYPE = reg_type
+     AND S_MW_CLASS.CODE = class_code
+     AND I_CERT.CERTIFICATION_NO IS NOT NULL
+     and to_char(I_CERT.EXPIRY_DATE, 'yyyymmdd') >= to_char(sysdate, 'yyyymmdd')
+     and (I_CERT.REMOVAL_DATE IS NULL
+     or (to_char(I_CERT.REMOVAL_DATE, 'yyyymmdd') > to_char(I_CERT.EXPIRY_DATE, 'yyyymmdd')));
+
+  RETURN TOTAL3;
+END C_RPT0002_IMW_TOTAL3;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0004_CONCAT_MW_ITEM" 
+( master_uuid IN VARCHAR2, 
+  reg_d IN VARCHAR2 
+) RETURN VARCHAR2 
+is 
+  CONCAT_MW_ITEM VARCHAR2 (4000); 
+  MW_REC INTEGER; 
+  counter INTEGER; 
+
+CURSOR MW IS  
+SELECT  
+     replace (S_MW_ITEM.CODE,'Item ') AS MW_ITEM_CODE 
+FROM 
+     C_S_SYSTEM_VALUE S_MW_ITEM INNER JOIN C_IND_APPLICATION_MW_ITEM I_MW_HIST ON S_MW_ITEM.UUID = I_MW_HIST.ITEM_DETAILS_ID 
+     WHERE I_MW_HIST.MASTER_ID = master_uuid  
+      order by  CAST(substr(S_MW_ITEM.CODE,8) as int); 
+
+BEGIN 
+  CONCAT_MW_ITEM := ''; 
+  counter := 0; 
+  MW_REC := 0;  
+
+      FOR MW_REC in MW 
+      LOOP 
+             if counter=0 then  
+
+                if( length(MW_REC.MW_ITEM_CODE)=3) then 
+                    CONCAT_MW_ITEM := MW_REC.MW_ITEM_CODE; 
+                else 
+                    CONCAT_MW_ITEM := ' '|| MW_REC.MW_ITEM_CODE; 
+                end if; 
+
+             else  
+                if( length(MW_REC.MW_ITEM_CODE)=3) then 
+                  CONCAT_MW_ITEM := CONCAT_MW_ITEM || '     ' || MW_REC.MW_ITEM_CODE;          
+                else 
+                  CONCAT_MW_ITEM := CONCAT_MW_ITEM || '    ' || MW_REC.MW_ITEM_CODE;       
+                end if; 
+             end if; 
+             counter := counter +1;             
+      END LOOP; 
+
+  RETURN CONCAT_MW_ITEM; 
+END C_RPT0004_CONCAT_MW_ITEM;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_RPT0004_CONCAT_MWTYPE" 
+( appln_id IN VARCHAR2,
+  mw_class_id IN VARCHAR2
+) RETURN VARCHAR2
+is
+  CONCAT_MWTYPE VARCHAR2 (200);
+  MW_REC INTEGER;
+  counter INTEGER;
+
+CURSOR MW IS 
+SELECT 
+     MW_TYPE.CODE AS MW_TYPE_CODE
+FROM
+     C_COMP_APPLICANT_MW_ITEM C_MW INNER JOIN C_S_SYSTEM_VALUE MW_CLASS ON C_MW.ITEM_CLASS_ID = MW_CLASS.UUID
+     INNER JOIN C_S_SYSTEM_VALUE MW_TYPE ON C_MW.ITEM_TYPE_ID = MW_TYPE.UUID
+     WHERE C_MW.COMPANY_APPLICANTS_ID = appln_id AND C_MW.ITEM_CLASS_ID = mw_class_id
+     ORDER BY MW_TYPE.CODE ;
+
+BEGIN
+  CONCAT_MWTYPE := '';
+  counter := 0;
+  MW_REC := 0; 
+
+      FOR MW_REC in MW
+      LOOP
+             if counter=0 then 
+             CONCAT_MWTYPE := MW_REC.MW_TYPE_CODE;
+             else 
+             CONCAT_MWTYPE := CONCAT_MWTYPE || ', ' || MW_REC.MW_TYPE_CODE;      
+             end if;
+             counter := counter +1;            
+      END LOOP;
+
+  RETURN CONCAT_MWTYPE;
+END C_RPT0004_CONCAT_MWTYPE;
+
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_TO_BASE64" (t in varchar2) return varchar2 is
+
+   BEGIN
+
+     return utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_raw.cast_to_raw(t)));
+
+   END C_to_base64;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."C_TOTAL_CNT" 
+( offence_d IN VARCHAR2, 
+  reg_type  IN VARCHAR2 
+) RETURN INTEGER IS 
+totalcnt INTEGER; 
+BEGIN 
+totalcnt:=0; 
+SELECT COUNT (*) into totalcnt 
+FROM 
+ C_comp_conviction C_CVT WHERE to_char(C_CVT.CR_OFFENCE_DATE, 'YYYYMMDD')=offence_d 
+ AND C_CVT.registration_type= reg_type; 
+ RETURN totalcnt; 
+END C_TOTAL_CNT;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."P_AA_TRANS_DATE" (PDATE IN CHAR) 
+RETURN DATE IS
+BEGIN
+	RETURN CASE LENGTH(TRIM(PDATE))
+	WHEN 5 THEN TO_DATE('18991230','YYYYMMDD')+TO_NUMBER(PDATE)
+	WHEN 10 THEN TO_DATE(PDATE,'YYYY-MM-DD')
+	ELSE NULL
+END;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN NULL;
+END P_AA_TRANS_DATE;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."P_BB_TRANS_DATE" (PDATE IN CHAR) 
+RETURN DATE IS
+BEGIN
+	RETURN CASE LENGTH(TRIM(PDATE))
+	WHEN 5 THEN TO_DATE('18991230','YYYYMMDD')+TO_NUMBER(PDATE)
+	WHEN 10 THEN TO_DATE(PDATE,'YYYY-MM-DD')
+	ELSE NULL
+END;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN NULL;
+END P_BB_TRANS_DATE;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."P_CHECK_WORKING_DAY" (sdate IN DATE) RETURN INTEGER 
+IS
+ resultCounter INTEGER;
+ checkDate DATE;
+ BooleanResult INTEGER;
+BEGIN
+  checkDate := sdate;
+  resultCounter := 0;
+  BooleanResult := 0;
+    SELECT count(day) INTO resultCounter FROM(
+    SELECT TRUNC(holiday) AS day  FROM P_s_public_holiday 
+    WHERE TO_CHAR(holiday, 'dd/MM/yyyy') = TO_CHAR(checkDate, 'dd/MM/yyyy')
+    UNION ALL
+  	SELECT TRUNC(checkDate) AS day
+    FROM dual
+    WHERE TO_CHAR(checkDate, 'D') = 1 or TO_CHAR(checkDate, 'D') = 7
+    );
+    if resultCounter = 0 then
+      BooleanResult := 1;
+    end if;
+
+  RETURN BooleanResult;
+
+  END P_CHECK_WORKING_DAY;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_DATE_VALID" 
+(
+DATE_STRING IN VARCHAR2
+) RETURN DATE  
+IS 
+BEGIN
+RETURN TO_DATE (DATE_STRING, 'yyyy-MM-dd');
+EXCEPTION
+WHEN OTHERS THEN
+RETURN NULL; 
+END P_DATE_VALID;
+
+
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_ITEM_CODE_BY_RECORD_ID" 
+( inputUUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+itemCode varchar2(40);
+
+counter INTEGER;
+
+CURSOR reg IS 
+ select DISTINCT m.mw_item_code from P_mw_record_item m where m.mw_item_code IS NOT NULL AND m.mw_record_id = inputUUID;
+
+BEGIN
+  counter := 0;
+  itemCode :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into itemCode;
+    resultList := itemCode;
+    while reg%found loop
+      if counter=0 then 
+          resultList := itemCode;
+      else 
+          resultList := resultList || ', ' || itemCode;
+      end if;
+      counter := counter + 1;
+     fetch reg into itemCode;
+    END LOOP;
+  close reg;
+
+ RETURN resultList; 
+
+
+END P_GET_ITEM_CODE_BY_RECORD_ID;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_ITEM_CODE_BY_RECORD_ID2" 
+( inputUUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+itemCode varchar2(40);
+
+counter INTEGER;
+
+CURSOR reg IS 
+ select DISTINCT m.mw_item_code from P_mw_record_item m where m.mw_item_code IS NOT NULL AND m.mw_record_id = inputUUID;
+
+BEGIN
+  counter := 0;
+  itemCode :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into itemCode;
+    resultList := itemCode;
+    while reg%found loop
+      if counter=0 then 
+          resultList := itemCode || '/';
+      else 
+          resultList := resultList || itemCode || '/';
+      end if;
+      counter := counter + 1;
+     fetch reg into itemCode;
+    END LOOP;
+  close reg;
+
+ RETURN resultList; 
+
+
+END P_GET_ITEM_CODE_BY_RECORD_ID2;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_ITEM_REF_BY_RECORD_ID" 
+( inputUUID IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(20000);
+itemCode varchar2(2000);
+
+counter INTEGER;
+
+CURSOR reg IS 
+ select DISTINCT m.RELEVANT_REFERENCE from P_mw_record_item m where m.RELEVANT_REFERENCE IS NOT NULL AND m.mw_record_id = inputUUID;
+
+BEGIN
+  counter := 0;
+  itemCode :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into itemCode;
+    resultList := itemCode;
+    while reg%found loop
+      if counter=0 then 
+          resultList := itemCode;
+      else 
+          resultList := resultList || ', ' || itemCode;
+      end if;
+      counter := counter + 1;
+     fetch reg into itemCode;
+    END LOOP;
+  close reg;
+
+ RETURN resultList; 
+
+
+END P_GET_ITEM_REF_BY_RECORD_ID;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_RECEIVED_DATE" 
+( INPUT_DSN IN varchar2
+) RETURN DATE
+is
+resultDate DATE;
+
+CURSOR reg IS 
+
+SELECT  F.RECEIVED_DATE FROM P_MW_RECORD R, P_MW_FORM F
+WHERE R.UUID=F.MW_RECORD_ID
+AND R.IS_DATA_ENTRY='Y'
+AND R.MW_DSN=INPUT_DSN
+AND ROWNUM=1
+ORDER BY R.CREATED_DATE DESC;
+
+BEGIN
+  open reg;
+  fetch reg into resultDate;
+  close reg;
+
+RETURN resultDate; 
+
+END P_GET_RECEIVED_DATE;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_SEC_COMP_RECEIVED_DATE" 
+(
+IN_REFERENCE_NUMBER IN VARCHAR2
+, START_DATE IN DATE
+, END_DATE IN DATE
+) RETURN INTEGER
+IS
+RESULT INTEGER;
+BEGIN
+
+IF START_DATE IS NULL AND END_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = IN_REFERENCE_NUMBER;
+
+ELSIF END_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = IN_REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE >= START_DATE;
+
+ELSIF START_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = IN_REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE <= END_DATE;
+
+ELSE
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = IN_REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE <= END_DATE
+	AND FM.RECEIVED_DATE >= START_DATE;
+END IF;
+RETURN RESULT;
+END P_GET_SEC_COMP_RECEIVED_DATE;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_SEC_COMP_RECEIVED_DATE_ORG" 
+(
+REFERENCE_NUMBER IN VARCHAR2
+, START_DATE IN DATE
+, END_DATE IN DATE
+) RETURN INTEGER
+IS
+RESULT INTEGER;
+BEGIN
+
+IF START_DATE IS NULL AND END_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = REFERENCE_NUMBER;
+
+ELSIF END_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE >= START_DATE;
+
+ELSIF START_DATE IS NULL THEN
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE <= END_DATE;
+
+ELSE
+	SELECT COUNT(RD.UUID) INTO RESULT FROM
+	P_MW_REFERENCE_NO RN
+	, P_MW_RECORD RD
+	, P_MW_FORM FM
+	WHERE RN.UUID = RD.REFERENCE_NUMBER
+	AND RD.UUID = FM.MW_RECORD_ID
+    AND RD.STATUS_CODE = 'MW_SECOND_COMPLETE'
+	AND RN.REFERENCE_NO = REFERENCE_NUMBER
+	AND FM.RECEIVED_DATE <= END_DATE
+	AND FM.RECEIVED_DATE >= START_DATE;
+END IF;
+RETURN RESULT;
+END P_GET_SEC_COMP_RECEIVED_DATE_ORG;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_USERNAME_BY_GENERAL_RECORD" 
+( generalRecordUUID IN varchar2
+) RETURN varchar2
+is
+insta NUMBER;
+
+BEGIN
+
+SELECT NUM INTO insta FROM (
+ (SELECT p.INSTANCEID AS NUM  FROM P_PROCESSTRANSACTION p
+ INNER JOIN P_DSN_REQUESTID d ON p.REQUESTID = d.REQUESTID
+ WHERE ROWNUM <= 1
+ AND d.DSN = generalRecordUUID
+ )
+ UNION
+ (
+
+
+ SELECT P.INSTANCEID  AS NUM FROM P_PROCESSTRANSACTION p
+ INNER JOIN P_DSN_REQUESTID d ON p.REQUESTID = d.REQUESTID
+ INNER JOIN P_MW_GENERAL_RECORD m ON m.UUID = d.DSN
+ INNER JOIN P_MW_REFERENCE_NO r ON r.UUID = m.REFERENCE_NUMBER
+ INNER JOIN P_MW_DSN dsn ON dsn.RECORD_ID = r.REFERENCE_NO AND dsn.DSN = d.DSN
+ WHERE m.UUID = generalRecordUUID
+
+ )
+ );
+
+
+
+
+ RETURN P_GET_USERNAME_BY_INSTANCEID(insta); 
+
+
+END P_GET_USERNAME_BY_GENERAL_RECORD;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_USERNAME_BY_INSTANCEID" 
+( input_instanceId IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+userName varchar2(40);
+
+counter INTEGER;
+
+CURSOR reg IS 
+
+ select distinct userName 
+ from P_users u, P_wftaskUser wu , P_wftask wf, P_wfinstactivity w
+ WHERE  wu.status=210 and u.userid=wu.userid AND wu.taskid=wf.taskid 
+ AND wf.instactivityid=w.instactivityid and w.instanceid=input_instanceId;
+
+
+
+BEGIN
+  counter := 0;
+  userName :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into userName;
+    resultList := userName;
+    while reg%found loop
+      if counter=0 then 
+          resultList := userName;
+      else 
+          resultList := resultList || ', ' || userName;
+      end if;
+      counter := counter + 1;
+     fetch reg into userName;
+    END LOOP;
+  close reg;
+
+
+ RETURN resultList; 
+
+
+END P_GET_USERNAME_BY_INSTANCEID;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_VER_USERNAME_BY_INSTANCEID" 
+( input_instanceId IN varchar2
+) RETURN varchar2
+is
+resultList varchar2(4000);
+userName varchar2(40);
+
+counter INTEGER;
+
+CURSOR reg IS 
+
+ select distinct userName 
+ from P_users u, P_wftaskUser wu , P_wftask wf, P_wfinstactivity w
+ WHERE  wf.TASKNAME = 'Verification-TO' and u.userid=wu.userid AND wu.taskid=wf.taskid 
+ AND wf.instactivityid=w.instactivityid and w.instanceid=input_instanceId;
+
+
+
+BEGIN
+  counter := 0;
+  userName :='';
+  resultList := 'TEST';
+
+  open reg;
+    fetch reg into userName;
+    resultList := userName;
+    while reg%found loop
+      if counter=0 then 
+          resultList := userName;
+      else 
+          resultList := resultList || ', ' || userName;
+      end if;
+      counter := counter + 1;
+     fetch reg into userName;
+    END LOOP;
+  close reg;
+
+
+ RETURN resultList; 
+
+
+END P_GET_VER_USERNAME_BY_INSTANCEID;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_GET_WORKING_DAY" (sdate IN DATE, inNumberOfDays INTEGER ) RETURN DATE 
+IS
+
+iSQLCounter INTEGER;
+iRunning INTEGER;
+iDayCounter INTEGER;
+
+resultDate DATE;
+
+BEGIN
+  resultDate := sDate;
+  iSQLCounter := 0;
+  iRunning :=0;
+  iDayCounter :=0;
+
+  WHILE iDayCounter < inNumberOfDays LOOP
+
+   	iRunning := iRunning+1;
+    resultDate := sdate+iRunning;
+
+    SELECT count(day) INTO iSQLCounter FROM(
+    SELECT TRUNC(holiday) AS day  FROM P_s_public_holiday 
+    WHERE TO_CHAR(holiday, 'dd/MM/yyyy') = TO_CHAR(resultDate, 'dd/MM/yyyy')
+    UNION ALL
+  	SELECT TRUNC(resultDate) AS day
+    FROM dual
+    WHERE TO_CHAR(resultDate, 'D') = 1 or TO_CHAR(resultDate, 'D') = 7
+    );
+    if iSQLCounter = 0 then
+      iDayCounter := iDayCounter + 1;
+    end if;
+
+  END LOOP;
+
+
+  RETURN resultDate;
+  END P_GET_WORKING_DAY;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_SEARCH_MW_WITH_SUB_CO" 
+( P_MW_UUID IN VARCHAR2,
+P_USER_ID IN INTEGER
+) RETURN INTEGER
+IS 
+counter INTEGER; 
+BEGIN 
+
+select COUNT( info.MWNO ) into counter  
+from P_MW_SUBMISSION_PROCESSING_INFO info
+where info.handle_officer in 
+(SELECT  r.FULL_NAME as subcoordinate
+FROM P_ORG_USER r , P_ORG_POSITION p, P_ORG_USERPOSITION_R rp, P_ORG_INFO o_info
+WHERE r.USER_ID=rp.USER_ID 
+and p.position_id=rp.POSITION_ID
+AND rp.ORG_ID=o_info.ORG_ID 
+AND p.POSITION_NAME IN ('PO', 'TO')
+AND o_info.ORG_ID IN ( 
+SELECT org_id FROM P_ORG_INFO O
+WHERE O.PARENT_ORG_ID IN  (SELECT P.ORG_ID FROM P_ORG_USERPOSITION_R P, P_ORG_USER R
+WHERE P.USER_ID=R.USER_ID
+AND R.SYSTEM_USER_ID= P_USER_ID )
+UNION 
+SELECT org_id FROM P_ORG_INFO O
+WHERE O.PARENT_ORG_ID IN 
+(SELECT O.ORG_ID FROM P_ORG_INFO O
+WHERE O.PARENT_ORG_ID IN  (SELECT P.ORG_ID FROM P_ORG_USERPOSITION_R P, P_ORG_USER R
+WHERE P.USER_ID=R.USER_ID
+AND R.SYSTEM_USER_ID=P_USER_ID)))
+) and info.mwno= P_MW_UUID;
+
+  RETURN counter; 
+END P_SEARCH_MW_WITH_SUB_CO;
+
+CREATE OR REPLACE FUNCTION MWMS2."P_SECURITY_USER_CAN_VIEW" 
+(
+P_MW_UUID IN VARCHAR2,
+P_USER_GROUP_TYPE IN VARCHAR2,
+P_IS_SPO IN VARCHAR2,
+P_USER_ID IN VARCHAR2
+) RETURN INTEGER
+IS 
+R_COUNTER INTEGER; 
+R_RESULT_COUNTER INTEGER;
+BEGIN 
+
+R_COUNTER := 0 ;
+R_RESULT_COUNTER := 0 ;
+
+IF P_USER_GROUP_TYPE='BD_USER'THEN 
+
+   	SELECT COUNT(S_MW_SEC.UUID) INTO R_COUNTER
+	FROM P_MW_RECORD R, P_MW_REFERENCE_NO REF_NO, P_S_MW_NO_SECURITY_LEVEL S_MW_SEC
+	WHERE R.UUID = P_MW_UUID AND
+	R.REFERENCE_NUMBER=REF_NO.UUID AND 
+	REF_NO.REFERENCE_NO=S_MW_SEC.REFERENCE_NO AND 
+	S_MW_SEC.USER_ID=P_USER_ID;
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+	IF R_RESULT_COUNTER <= 0 THEN
+		SELECT count(R.UUID) INTO R_COUNTER
+		FROM P_MW_RECORD R
+		WHERE R.UUID=P_MW_UUID
+		AND R.STATUS_CODE='MW_RECORD_COMPLETED';
+	   	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;	
+  	END IF;
+
+ELSIF P_USER_GROUP_TYPE='MWU_HANDLED_USER' THEN
+	R_RESULT_COUNTER := 1;
+ELSE
+	R_RESULT_COUNTER := 1;
+END IF;
+	RETURN R_RESULT_COUNTER; 
+END "P_SECURITY_USER_CAN_VIEW";
+
+-----------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION MWMS2."P_SECURITY_USER_CAN_VIEW_BK" 
+(
+P_MW_UUID IN VARCHAR2,
+P_USER_GROUP_TYPE IN VARCHAR2,
+P_IS_SPO IN VARCHAR2,
+P_USER_ID IN VARCHAR2
+) RETURN INTEGER
+IS 
+R_COUNTER INTEGER; 
+R_RESULT_COUNTER INTEGER;
+BEGIN 
+
+R_COUNTER := 0 ;
+R_RESULT_COUNTER := 0 ;
+
+IF P_USER_GROUP_TYPE='ADMIN'THEN 
+
+	R_RESULT_COUNTER := 1;
+
+ELSE
+
+   	SELECT COUNT(S_MW_SEC.UUID) INTO R_COUNTER
+	FROM P_MW_RECORD R, P_MW_REFERENCE_NO REF_NO, P_S_MW_NO_SECURITY_LEVEL S_MW_SEC
+	WHERE R.UUID = P_MW_UUID AND
+	R.REFERENCE_NUMBER=REF_NO.UUID AND 
+	REF_NO.REFERENCE_NO=S_MW_SEC.REFERENCE_NO AND 
+	S_MW_SEC.USER_ID=P_USER_ID;
+
+	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;
+
+
+	IF P_USER_GROUP_TYPE='MWU_HANDLED_USER' THEN
+
+		SELECT COUNT(secondEntry.UUID) INTO R_COUNTER
+		FROM P_MW_RECORD secondEntry, P_MW_SUMMARY_MW_ITEM_CHECKLIST summaryCheckList
+		WHERE secondEntry.UUID= summaryCheckList.MW_RECORD_ID
+		AND summaryCheckList.RECOMMEDATION_APPLICATION ='O'
+		AND secondEntry.REFERENCE_NUMBER=
+		(SELECT F.REFERENCE_NUMBER FROM P_MW_RECORD F WHERE UUID=P_MW_UUID);
+
+     	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;	
+
+		IF P_IS_SPO='Y' THEN
+
+			SELECT count(R.UUID) INTO R_COUNTER
+			FROM P_MW_RECORD R
+			WHERE P_SEARCH_MW_WITH_SUB_CO(R.REFERENCE_NUMBER, P_USER_ID) > 0
+			AND R.UUID=P_MW_UUID;
+		ELSE
+			SELECT COUNT(P.UUID) INTO R_COUNTER
+			FROM P_MW_RECORD R, P_MW_SUBMISSION_PROCESSING_INFO p 
+			WHERE R.REFERENCE_NUMBER=P.MWNO  
+			AND R.UUID=P_MW_UUID
+			AND P.HANDLE_OFFICER= (SELECT LOGINNAME FROM P_USERS WHERE USERID = P_USER_ID);
+		END IF;
+
+		R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;	
+
+	ELSIF P_USER_GROUP_TYPE='BD_USER' THEN
+
+		SELECT count(R.UUID) INTO R_COUNTER
+		FROM P_MW_RECORD R
+		WHERE R.UUID=P_MW_UUID
+		AND R.STATUS_CODE='MW_RECORD_COMPLETED';
+
+	   	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;	
+
+
+	ELSE
+	   	SELECT COUNT(secondEntry.UUID) INTO R_COUNTER
+		FROM P_MW_RECORD secondEntry, P_MW_SUMMARY_MW_ITEM_CHECKLIST summaryCheckList,
+		P_MW_VERIFICATION ver
+		WHERE secondEntry.UUID= summaryCheckList.MW_RECORD_ID
+		AND ver.MW_RECORD_ID=summaryCheckList.MW_RECORD_ID
+		AND ver.STATUS_CODE='MW_ACKN_STATUS_COMPLETE'
+		AND summaryCheckList.RECOMMEDATION_APPLICATION ='O'
+		AND secondEntry.REFERENCE_NUMBER=
+		(SELECT F.REFERENCE_NUMBER FROM P_MW_RECORD F WHERE UUID=P_MW_UUID);
+
+
+	 	R_RESULT_COUNTER := R_RESULT_COUNTER + R_COUNTER;	
+
+	END IF;
+
+END IF;
+  RETURN R_RESULT_COUNTER; 
+
+END "P_SECURITY_USER_CAN_VIEW_BK";
+

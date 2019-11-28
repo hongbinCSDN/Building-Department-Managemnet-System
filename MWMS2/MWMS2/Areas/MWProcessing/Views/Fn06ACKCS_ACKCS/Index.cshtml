@@ -1,0 +1,122 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn06ACKCS_ACKCSModel
+
+
+<div class="panelHeader">
+    Search Minor Work Item
+</div>
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">MW No. :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.MWNo)
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">MW Class :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.MWClass, Model.MWClasses)
+                @*<select name="MWClass">
+                        <option value="">- Select -</option>
+                        <option>Class I</option>
+                        <option>Class II</option>
+                        <option>Class III</option>
+                    </select>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Date :	</div>
+            <div class="w3-col l6 m12 s12">
+                From  @Html.TextBoxFor(m => m.SubmissionDateFrom, new { @class = "inputDate" })
+                To @Html.TextBoxFor(m => m.SubmissionDateTo, new { @class = "inputDate" })
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Submission Type :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.SubmissionType, Model.SubmissionTypes)
+                @*<select name="SubmissionType">
+                        <option value="">- Select -</option>
+                        <option>Commencement</option>
+                        <option>Completion</option>
+                        <option>Validation Scheme</option>
+                    </select>*@
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Status :			</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(m => m.Status, Model.Statuses)
+                @*<select name="Status">
+                        <option value="">- Select -</option>
+                        <option>Open</option>
+                        <option>Completed</option>
+
+                    </select>*@
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                { displayName: "Task               ", columnName: "TASK" }
+                , {
+                    displayName: "Ref.No.            ", columnName: "REFERENCE_NO"
+                    , click: function (row) {
+                        try {
+                            if (row == null) { return; }
+
+                            if (row.TASK_CODE == "Acknowledgement-PO") {
+                                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                    [
+                                        { name: "R_UUID", value: row.R_UUID },
+                                        { name: "V_UUID", value: row.V_UUID },
+                                        { name: "TaskUserID", value: row.USER_ID }
+                                    ]);
+                            } else if (row.TASK_CODE == "Acknowledgement-SPO") {
+                                goTo(domId("rootPath").value + "/MWProcessing/Fn03TSK_Tdl/Acknowledgement",
+                                    [
+                                        { name: "R_UUID", value: row.R_UUID },
+                                        { name: "V_UUID", value: row.V_UUID },
+                                        { name: "IsReadonly", value: true },
+                                        { name: "IsSPO", value: true },
+                                        { name: "TaskUserID", value: row.USER_ID }
+                                    ]);
+                            }
+
+                        }
+                        catch (err) {
+                        }
+                    }
+                }
+                , { displayName: "Form No.           ", columnName: "S_FORM_TYPE_CODE" }
+                , { displayName: "Received Date      ", columnName: "RECEIVED_DATE" }
+                , { displayName: "Assignment Date    ", columnName: "MODIFIED_DATE" }
+                , { displayName: "Status             ", columnName: "PROGRESS" }
+            ]
+        });
+    });
+</script>

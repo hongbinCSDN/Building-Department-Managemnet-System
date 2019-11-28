@@ -1,0 +1,127 @@
+﻿@model MWMS2.Entity.B_S_LETTER_TEMPLATE
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#DeleteLetterTemplate').click(function () {
+                $('#formFile').css("display", "block");
+                $('#LetterDoc').css("display", "none");
+
+            });
+
+
+
+        });
+             function DeleteLetterTemp()
+            {
+
+
+                if (confirm("Are you sure to delete this item"))
+                {
+                     location.href = "@Url.Action("SPMLetterTemplateDelete", new {id = Model.UUID})";
+                }
+
+
+            }
+    </script>
+
+
+}
+<h3>Letter Template</h3>
+<div style="text-align: right; width: 100%;">
+    Last Modified Date:
+    <span id="MODIFIED_DATE">
+        @ViewBag.MODIFIED_DATE
+    </span>
+</div>
+<div style="text-align: right; width: 100%;">
+    Last Modified By:
+    <span id="MODIFIED_BY">
+        @Html.DisplayFor(model => model.MODIFIED_BY)
+    </span>
+</div>
+
+@using (Html.BeginForm("SPMLetterTemplateEdit", "SPMLetterTemplate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="sList w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Letter Name<span class="asterix">*</span>:</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.LETTER_NAME, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "LetterName", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.LETTER_NAME, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Letter Type:</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.DropDownListFor(model => model.LETTER_TYPE, (IEnumerable<SelectListItem>)ViewBag.LetterType, new { style = "width:auto", id = "LetterType" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Form Code:</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.DropDownListFor(model => model.FORM_CODE, (IEnumerable<SelectListItem>)ViewBag.FormCode, new { style = "width:auto", id = "LetterType", @required = "required" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Result:</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.DropDownListFor(model => model.RESULT, (IEnumerable<SelectListItem>)ViewBag.LetterResult, new { style = "width:auto", id = "LetterResult", @required = "required" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">Template File:</div>
+                <div class="w3-col l9 m9 s9">
+                    @*<input type="button" value="Delete" id="DeleteLetterTemplate" />*@
+                    <button type="button" value="Delete" id="DeleteLetterTemplate"><i class="fa fa-trash"></i> Delete</button>
+                    @Html.ActionLink(Model.FILE_NAME, "SPMLetterTemplateDownload", "SPMLetterTemplate", new { docid = Model.UUID, }, new { id = "LetterDoc" })
+                    <input name="formFile" value="" id="formFile" @*required="required"*@ type="file" style="display:none">
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            @*<input class="btn btn-default inputButton" id="" name="" value="Delete" onclick='javascript:DeleteLetterTemp()' type="button">*@
+            <button class="btn btn-default" id="" name="" value="Delete" onclick='javascript:DeleteLetterTemp()' type="button"><i class="fa fa-trash"></i> Delete</button>
+            @*<input type="submit" class="btn btn-default SaveBtn" id="Save" value="Save" />*@
+            <button type="submit" class="btn btn-default SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save</button>
+            @*<input class="btn btn-default inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMLetterTemplate", "SPMLetterTemplate")"' type="button">*@
+            <button class="btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("SPMLetterTemplate", "SPMLetterTemplate")"' type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+
+    </div>
+    <div style="display:none">
+        @Html.EditorForModel()
+    </div>
+}
+
+<br />
+<h3>
+    Tag Reference
+</h3>
+<table class="resultTable">
+    <thead>
+        <tr>
+            <th style="text-align: left; padding-left: 8px;">Code</th>
+            <th style="text-align: left; padding-left: 8px;">Example</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (ViewBag.TagRef != null)
+            {
+                foreach (var item in ViewBag.TagRef)
+                {
+                    <tr>
+                        <td style="word-wrap: break-word; white-space: normal; font-weight: bold;">@item.CODE</td>
+                        <td style="word-wrap: break-word; white-space: normal;">@item.DESCRIPTION</td>
+                    </tr>}
+            }
+
+        }
+    </tbody>
+
+</table>

@@ -1,0 +1,83 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_SLRModel
+
+<div id="searchCriteria">
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Sort by :		</div>
+            <div class="w3-col l6 m12 s12">
+                <select name="SortBy">
+                    <option value="">- Select -</option>
+                    <option value="TASK_DATE,TASK_TIME">Date/Time</option>
+                    <option value="R.MW_DSN">Document S/N</option>
+                    <option value="RN.REFERENCE_NO">Ref No.</option>
+                    <option value="TASK_CODE">Activity</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Ref. No. :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.RefNo)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">DSN Number :	</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.DSN)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"> Generate</button>
+
+    </div>
+
+</div>
+
+
+<div id="resultPanel">
+
+
+</div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "Date", columnName: "TASK_DATE"
+                }
+                ,{
+                    displayName: "Time", columnName: "TASK_TIME"
+                }
+                ,{
+                    displayName: "Document S/N", columnName: "MW_DSN"
+                }
+                ,{
+                    displayName: "Ref No.", columnName: "REFERENCE_NO"
+                }
+                ,{
+                    displayName: "Activity", columnName: "TASK_CODE"
+                }
+                ,{
+                    displayName: "Handling Officer", columnName: "BD_PORTAL_LOGIN"
+                }
+            ]
+        });
+
+    });
+</script>

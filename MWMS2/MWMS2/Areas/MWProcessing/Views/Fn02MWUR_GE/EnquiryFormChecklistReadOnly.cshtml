@@ -1,0 +1,516 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+
+<form id="inputForm">
+    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.UUID)
+    @Html.HiddenFor(m => m.P_MW_REFERENCE_NO.UUID)
+
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormChecklistInfo.cshtml", Model)
+
+    <div class="displayForm">
+        <table class="w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th style="width:10%">
+                        &nbsp;
+                    </th>
+                    <th style="width:40%">
+                        &nbsp;
+                    </th>
+                    <th style="width:50%">
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>
+                        Revert to Document Sorting
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RE_ASSIGNMENT_REQUIRED, "N", new { @class = "w3-radio" }) No
+                            </label>
+
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>
+                        Follow up by other divisions / sections / units / required
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_REQUIRED, "N", new { @class = "w3-radio" }) No
+                            </label>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Request Due Date
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_DUE_DATE, new { @class = "inputDate", disabled = "disabled" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST.REFERRAL_TO_DUE_DATE, new { @class = "inputDate" })
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <table class="w3-hoverable resultTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Section/Unit/Division
+                                    </th>
+                                    <th>
+                                        Officer
+                                    </th>
+                                    <th>
+                                        Result
+                                    </th>
+                                    <th>
+                                        DSN
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodySection">
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs != null && Model.IsReadOnly)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].SECTION_UNIT_DIVISION, new { disabled = "disabled" })
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].OFFICER, new { disabled = "disabled" })
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].RESULT, new { disabled = "disabled" })
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].DSN, new { disabled = "disabled" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs != null && !Model.IsReadOnly)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_SECTIONs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].SECTION_UNIT_DIVISION)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].OFFICER)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].RESULT)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_SECTIONs[i].DSN)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div class="w3-container footer">
+                            @if (Model.IsReadOnly)
+                            {
+                                <button id="addAddressBtn" class="btn btn-default disableBtnClass" type="button" disabled="disabled">Add</button>
+                            }
+                            else
+                            {
+                                <button id="addAddressBtn" class="btn btn-default" type="button">Add</button>
+                            }
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>
+                        Internal comment(MWU) required
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.STRUCTURAL_COMMENT_REQUIRED, "N", new { @class = "w3-radio" }) No
+                            </label>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <table class="w3-hoverable resultTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Request Due Date
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyComment">
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs != null && Model.IsReadOnly)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT_DUE_DATE, new { disabled = "disabled" })
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT, new { disabled = "disabled" })
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                                @if (Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs != null && !Model.IsReadOnly)
+                                {
+                                    for (int i = 0; i < Model.P_MW_COMPLAINT_CHECKLIST_COMMENTs.Count; i++)
+                                    {
+                                        <tr>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT_DUE_DATE)
+                                            </td>
+                                            <td class="w3-padding">
+                                                @Html.TextBoxFor(m => m.P_MW_COMPLAINT_CHECKLIST_COMMENTs[i].INTERNAL_COMMENT)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <div class="w3-container footer">
+                            @if (Model.IsReadOnly)
+                            {
+                                <button id="addAddressBtn" class="btn btn-default disableBtnClass" type="button" disabled="disabled">Add</button>
+                            }
+                            else
+                            {
+                                <button id="addAddressBtn" class="btn btn-default" type="button">Add</button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>
+                        interim reply required
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "N", new { @class = "w3-radio" }) No
+                            </label>
+
+                        }
+
+                        @*@Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "Y", new { @class = "w3-radio" })
+                            @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIM_REPLY_REQUIRED, "N", new { @class = "w3-radio" })*@
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Reply
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.INTERIRM_REPLY_BY, "N", new { @class = "w3-radio" }) No
+                            </label>
+                        }
+                        @*@Html.RadioButtonFor(m=>m.P_MW_COMPLAINT_CHECKLIST.)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <button class="btn btn-default disableBtnClass" disabled="disabled">Draft reply required</button>
+                        }
+                        else
+                        {
+                            <button>Draft reply required</button>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5.</td>
+                    <td>
+                        Reply required
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_REQUIRED, "N", new { @class = "w3-radio" }) No
+                            </label>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="w3-right-align">
+                        Reply
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_BY, "N", new { @class = "w3-radio" }) No
+                            </label>
+
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <button class="btn btn-default disableBtnClass" disabled="disabled">Draft Reply Template</button>
+                        }
+                        else
+                        {
+                            <button>Draft Reply Template</button>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        Recommend on action taken
+                    </td>
+                    <td>
+                        @if (Model.IsReadOnly)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Enforcement", new { @class = "w3-radio", disabled = "disabled" }) Enforcement
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Prosecution", new { @class = "w3-radio", disabled = "disabled" }) Prosecution
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Disciplinary", new { @class = "w3-radio", disabled = "disabled" }) Disciplinary
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "No Further Action", new { @class = "w3-radio", disabled = "disabled" }) No Further Action
+                            </label>
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Enforcement", new { @class = "w3-radio" }) Enforcement
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Prosecution", new { @class = "w3-radio" }) Prosecution
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "Disciplinary", new { @class = "w3-radio" }) Disciplinary
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.RECOMMENT_ON_ACTION_TAKEN, "No Further Action", new { @class = "w3-radio" }) No Further Action
+                            </label>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        Reply completed & recommended
+                    </td>
+                    <td>
+                        @if (true)
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "Y", new { @class = "w3-radio", disabled = "disabled" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "N", new { @class = "w3-radio", disabled = "disabled" }) No
+                            </label>
+
+
+                        }
+                        else
+                        {
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "Y", new { @class = "w3-radio" }) Yes
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(m => m.P_MW_COMPLAINT_CHECKLIST.REPLY_COMPLETED, "N", new { @class = "w3-radio" }) No
+                            </label>
+                        }
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</form>
+
+<div class="displayForm">
+    <div class="w3-container footer">
+        <button id="preBtn" class="btn btn-default w3-left" type="button">Previous</button>
+        <button id="cancelBtn" class="btn btn-default" type="button">Cancel</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        var previous
+            , cancel;
+
+        previous = function () {
+            goTo(domId("rootPath").value + '/MWProcessing/Fn02MWUR_GE/EnquiryFormReadOnly', [{ name: "id", value: "@Model.P_MW_GENERAL_RECORD.UUID" }]);
+        };
+        cancel = function () {
+            goTo(domId("rootPath").value + '/MWProcessing/Fn03TSK_GS/Index');
+        }
+
+        attr("preBtn", "onclick", { parameters: {}, callback: previous });
+        attr("cancelBtn", "onclick", { parameters: {}, callback: cancel });
+
+    });
+
+    function getDSN(eleId) {
+        $.post("/MWProcessing/Fn02MWUR_GE/GeneralMWNumber", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                $("#" + eleId).text(data.Data.MW_NUMBER);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>

@@ -1,0 +1,76 @@
+﻿@model  MWMS2.Areas.CMN.Models.LoginModel
+
+
+<div class="panelHeader">Login</div>
+
+<form id="inputForm" method="post" action="inputForm">
+
+    <div class="displayForm" id="searchCriteria">
+
+        <span id="errorMsg" name="errorMsg"> </span>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">@Html.LabelFor(m => m.BD_PORTAL_LOGIN):</div>
+                <div class="w3-col l9 m9 s9">@Html.TextBoxFor(m => m.BD_PORTAL_LOGIN ,new { @class= "inputUpperCase" })</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">@Html.LabelFor(m => m.password):</div>
+                <div class="w3-col l9 m9 s9">@Html.PasswordFor(m => m.password)</div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button" id="submitBtn">Submit</button>
+
+        </div>
+
+        @{ var session = HttpContext.Current.Request.Headers; }
+        <!--
+            @foreach (string key in session.AllKeys)
+            {
+                <p>Key: @key - Value: @session[key].ToString()</p>
+            }
+        -->
+    </div>
+</form>
+
+
+
+<script type="text/javascript">
+
+
+    domReady(function () {
+        attr("submitBtn", "onclick", {
+            parameters: {}, callback: onSaveForm
+        });
+
+
+        KE.add(window, KE.KEY_ENTER, KeyboardEvent.PRESS, {  }, function (d, k, e, p) {
+            trigger("submitBtn", "onclick"); });
+
+
+        upperCaseBox('.inputUpperCase');
+    });
+
+    function onSaveForm(d, p, e) {
+
+        addClass(document.body, "bodyLoading");
+        $.post("checkLogin", $("#inputForm").serialize(), function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                dropClass(document.body, "bodyLoading");
+                goTo("doLogin");
+            } else {
+               // alert(data.ErrorMessages);
+
+                dropClass(document.body, "bodyLoading");
+                showErrorMessage(data.ErrorMessages);
+            }
+
+        }, "json");
+    }
+
+
+
+</script>

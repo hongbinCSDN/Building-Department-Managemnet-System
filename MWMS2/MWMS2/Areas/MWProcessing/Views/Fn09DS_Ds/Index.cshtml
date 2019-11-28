@@ -1,0 +1,34 @@
+﻿
+<div id="searchCriteria" />
+<div id="resultPanel"></div>
+
+
+
+    <script type="text/javascript">
+        var searching; var searching2;
+        domReady(function () {
+            searching = new searcher({
+                searchPath: "FindDocSorting"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "DSN"
+            , Columns: [
+                    {
+                        displayName: "DSN", columnName: "DSN"
+                        , click: function (row) {
+                            try {
+                                goTo("ViewDetail", [{ name: "DSN", value: row.DSN }, { name: "TaskID", value: row.DSN }]); 
+                        
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Ref. No.", columnName: "RECORD_ID" }
+                    , { displayName: "Received Date	", columnName: "MWU_RECEIVED_DATE" }
+                    , { displayName: "Assignment Date", columnName: "MODIFIED_DATE" }
+                    , { displayName: "Case", columnName: "SUBMIT_TYPE" }
+                ]
+            }).search();
+
+        });
+    </script>

@@ -1,0 +1,176 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_IncomingModel
+
+<div class="panelHeader">Print BarCode</div>
+<div id="searchCriteria">
+    <div class="panelHeader">Generate New Barcode for Incoming Document</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <button id="NewDocumentBtn" class="btn btn-default" type="button" onclick="generateNewDsn()">Generate New Document S/N</button>
+        </div>
+    </div>
+    <div class="panelHeader">Re-print Barcode</div>
+    <form id="inputForm" class=" w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Existing Document S/N. :</div>
+                <div class="w3-col l4 m12 s12">
+                    <input id="DSN" name="DSN" type="text" />
+                </div>
+                <button class="btn btn-default" type="button" onclick="getDsnInfo()">Generate</button>
+            </div>
+            @*<div class="w3-col l6 m12 s12">
+                    <button class="btn btn-default" type="button">Generate</button>
+                </div>*@
+        </div>
+
+
+
+        <div id="NewDocumentDiv" hidden class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Document S/N :</div>
+                <div class="w3-col l4 m12 s12">
+                    @*@Html.TextBoxFor(m => Model.P_MW_DSN.DSN, new { @disabled = "True" })*@
+                    <input id="P_MW_DSN.DSN" name="P_MW_DSN.DSN" type="text" readonly />
+                </div>
+
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Ref. No. :</div>
+                <div class="w3-col l4 m12 s12">
+                    @*@Html.TextBoxFor(m => Model.P_MW_DSN.RECORD_ID)*@
+                    <input id="P_MW_DSN.RECORD_ID" name="P_MW_DSN.RECORD_ID" type="text" />
+                </div>
+
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l2 m12 s12">Received Date :</div>
+                <div class="w3-col l4 m12 s12">
+                    @*@Html.TextBoxFor(m => Model.P_MW_DSN.MWU_RECEIVED_DATE, new { @class = "inputDate" })*@
+                    <input type="text" id="P_MW_DSN.MWU_RECEIVED_DATE" name="P_MW_DSN.MWU_RECEIVED_DATE" class="inputDate" />
+                </div>
+
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <button class="btn btn-default" type="button" style="float: right;" onclick="submitDsnInfo()">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+    attr("NewDocumentBtn", "onclick", { parameters: {}, callback: ShowNewDocumentDiv });
+
+    function ShowNewDocumentDiv() {
+
+        var nd = document.getElementById("NewDocumentDiv");
+        //nd.setAttribute("hidden", "true");
+        nd.removeAttribute("hidden");
+    }
+
+    function generateNewDsn() {
+        //goTo("GenerateNewDsn");
+
+        //if ($('#DSN').val() != "") {
+        //    getDsnInfo();
+        //    return;
+        //}
+
+        $.post("GenerateNewDsn", null, function (data) {
+
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                console.log(data);
+                var nd = document.getElementById("NewDocumentDiv");
+                nd.removeAttribute("hidden");
+
+                var txtDsn = document.getElementById("P_MW_DSN.DSN");
+                txtDsn.value = data.Data["DSN"];
+
+                var txtReceivedDate = document.getElementById("P_MW_DSN.MWU_RECEIVED_DATE");
+                var strDate = data.Data["MWU_RECEIVED_DATE"];
+                var valDate = new Date(parseInt(strDate.replace("/Date(", "").replace(")/", ""), 10));
+                txtReceivedDate.value = formatDate("dd/MM/yyyy", valDate);
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+    function submitDsnInfo() {
+
+        attr("inputForm", "addClass", "saving");
+        $.post("SubmitDsnInfo", $("#inputForm").serialize(), function (data) {
+            attr("inputForm", "dropClass", "saving");
+            //console.log(data);
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+
+                goTo("Index");
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+    function getDsnInfo() {
+
+        if ($('#DSN').val() == "" || $('#DSN').val() == null) {
+            alert("Please input the Existing Document S/N.");
+            return;
+        }
+
+        var errorFiledList = document.getElementsByClassName("errorField");
+
+        for (var i = 0; i < errorFiledList.length; i++) {
+            errorFiledList[i].className = "";
+        }
+
+        var errorText = document.getElementsByClassName("errorText");
+        for (var i = 0; i < errorText.length; i++) {
+            errorText[i].outerHTML = "";
+        }
+
+        $.post("GetDsnInfo", [{ name: "DSN", value: $('#DSN').val() }], function (data) {
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                //console.log(data);
+                var nd = document.getElementById("NewDocumentDiv");
+                nd.removeAttribute("hidden");
+
+                var dsnInfo = data.Data["P_MW_DSN"];
+
+                var txtDsn = document.getElementById("P_MW_DSN.DSN");
+                txtDsn.value = dsnInfo["DSN"];
+
+
+                var txtRecordID = document.getElementById("P_MW_DSN.RECORD_ID");
+                txtRecordID.value = dsnInfo["RECORD_ID"];
+
+                var txtReceivedDate = document.getElementById("P_MW_DSN.MWU_RECEIVED_DATE");
+                txtReceivedDate.value = "";
+
+            }
+            else {
+
+                showErrorMessage(data.ErrorMessages);
+                //console.log(data);
+            }
+        }, "json");
+    }
+
+
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+        });
+    });
+</script>
+

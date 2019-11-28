@@ -1,0 +1,39 @@
+﻿
+
+<div class="panelHeader">Re-print Existing DSN/Reference Number</div>
+<div id="searchCriteria" class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Existing DSN/Reference Number :</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" id="barCode"/>
+                @*<button class="btn btn-default" type="button"><i class="fa fa-search"></i> Print</button>*@
+            </div>
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <button class="btn btn-default" type="button" id="printBarCode">Print</button>
+        </div>
+
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        attr("printBarCode", "onclick", { parameters: {}, callback: print });
+      
+
+    });
+    function printBarCode(dsn) {
+        //var dsn = document.getElementById("DSN").value;
+        window.location = ("MWMS2PrinterAgent:" + dsn);
+    }
+
+    function print() {
+      
+        printBarCode($("#barCode").val());
+    }
+
+</script>

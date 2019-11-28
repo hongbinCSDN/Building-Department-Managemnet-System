@@ -1,0 +1,133 @@
+﻿
+@model MWMS2.Areas.Signboard.Models.SignboardRecordCommonDisplayModel
+
+
+<div class="panelHeader">Preliminary Check <button onclick="ElementaryChecking()" type="button">Go to Elementary Checking</button></div>
+<div id="PC" class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Appointment of AP for MW item under Class I :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_APP_AP_MW_ITEM, "OK", new { @class = "w3-radio", @id = "ap_mw_I_OK" }) <label for="ap_mw_I_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_APP_AP_MW_ITEM, "Not OK", new { @class = "w3-radio", @id = "ap_mw_I_NOK" }) <label for="ap_mw_I_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_APP_AP_MW_ITEM, "N/A", new { @class = "w3-radio", @id = "ap_mw_I_NA" }) <label for="ap_mw_I_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Validity of AP appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_AP, "OK", new { @class = "w3-radio", @id = "v_AP_appointed_OK" }) <label for="v_AP_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_AP, "Not OK", new { @class = "w3-radio", @id = "v_AP_appointed_NOK" }) <label for="v_AP_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_AP, "N/A", new { @class = "w3-radio", @id = "v_AP_appointed_NA" }) <label for="v_AP_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Signature of AP appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AP, "OK", new { @class = "w3-radio", @id = "sign_AP_appointed_OK" }) <label for="sign_AP_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AP, "Not OK", new { @class = "w3-radio", @id = "sign_AP_appointed_NOK" }) <label for="sign_AP_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AP, "N/A", new { @class = "w3-radio", @id = "sign_AP_appointed_NA" }) <label for="sign_AP_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Validity of RSE appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RSE, "OK", new { @class = "w3-radio", @id = "v_RSE_appointed_OK" }) <label for="v_RSE_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RSE, "Not OK", new { @class = "w3-radio", @id = "v_RSE_appointed_NOK" }) <label for="v_RSE_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RSE, "N/A", new { @class = "w3-radio", @id = "v_RSE_appointed_NA" }) <label for="v_RSE_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Signature of RSE appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RSE, "OK", new { @class = "w3-radio", @id = "sign_RSE_appointed_OK" }) <label for="sign_RSE_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RSE, "Not OK", new { @class = "w3-radio", @id = "sign_RSE_appointed_NOK" }) <label for="sign_RSE_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RSE, "N/A", new { @class = "w3-radio", @id = "sign_RSE_appointed_NA" }) <label for="sign_RSE_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Validity of RI appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RI, "OK", new { @class = "w3-radio", @id = "v_RI_appointed_OK" }) <label for="v_RI_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RI, "Not OK", new { @class = "w3-radio", @id = "v_RI_appointed_NOK" }) <label for="v_RI_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_RI, "N/A", new { @class = "w3-radio", @id = "v_RI_appointed_NA" }) <label for="v_RI_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Signature of RI appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RI, "OK", new { @class = "w3-radio", @id = "sign_RI_appointed_OK" }) <label for="sign_RI_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RI, "Not OK", new { @class = "w3-radio", @id = "sign_RI_appointed_NOK" }) <label for="sign_RI_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_RI, "N/A", new { @class = "w3-radio", @id = "sign_RI_appointed_NA" }) <label for="sign_RI_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Validity of PRC appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_PRC, "OK", new { @class = "w3-radio", @id = "v_PRC_appointed_OK" }) <label for="v_PRC_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_PRC, "Not OK", new { @class = "w3-radio", @id = "v_PRC_appointed_NOK" }) <label for="v_PRC_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_VAL_PRC, "N/A", new { @class = "w3-radio", @id = "v_PRC_appointed_NA" }) <label for="v_PRC_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Signature of AS (PRC) appointed :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AS, "OK", new { @class = "w3-radio", @id = "sign_AS_PRC_appointed_OK" }) <label for="sign_AS_PRC_appointed_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AS, "Not OK", new { @class = "w3-radio", @id = "sign_AS_PRC_appointed_NOK" }) <label for="sign_AS_PRC_appointed_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_SIG_AS, "N/A", new { @class = "w3-radio", @id = "sign_AS_PRC_appointed_NA" }) <label for="sign_AS_PRC_appointed_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l4 m12 s12">Capacity of AS (PRC) appointed for the MW item :	</div>
+
+            <div class="w3-col l8 m12 s12">
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_CAP_AS_MW_ITEM, "OK", new { @class = "w3-radio", @id = "cap_AS_PRC_appointed_mw_item_OK" }) <label for="cap_AS_PRC_appointed_mw_item_OK">OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_CAP_AS_MW_ITEM, "Not OK", new { @class = "w3-radio", @id = "cap_AS_PRC_appointed_mw_item_NOK" }) <label for="cap_AS_PRC_appointed_mw_item_NOK">Not OK</label>
+                @Html.RadioButtonFor(x => x.B_SV_VALIDATION.B_SV_RECORD.P_CHK_CAP_AS_MW_ITEM, "N/A", new { @class = "w3-radio", @id = "cap_AS_PRC_appointed_mw_item_NA" }) <label for="cap_AS_PRC_appointed_mw_item_NA">N/A</label>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ElementaryChecking() {
+        goTo(domId("rootPath").value +"/MWProcessing/Fn11EC_EC/Index", [{ name: "IsPopup", value: true }], true);
+    }
+</script>

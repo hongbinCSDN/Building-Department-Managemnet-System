@@ -1,0 +1,116 @@
+﻿@model MWMS2.Areas.Admin.Models.CRM_ARModel
+
+<div class="panelHeader">Applicant Role Maintenance</div>
+
+@using (Html.BeginForm("CreateNew", "CRM_AR", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+<div id="searchCriteria">
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Code</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Registration Type :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.DropDownListFor(model => model.RegType, Model.RegTypeList)
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Description (Eng) :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.EditorFor(model => model.EngDesc, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.EngDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Description (Chn) :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.EditorFor(model => model.ChiDesc, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.ChiDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Ordering :</div>
+            <div class="w3-col l3 m6 s12">
+                @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Subject" } })
+                @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m6 s12">Is Active</div>
+            <div class="w3-col l8 m6 s12">
+                <div class="checkbox" >
+                    @Html.EditorFor(model => model.IsActive)
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new {
+                    @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="w3-container footer">
+        @*<input type="submit" class="SaveBtn" id="Save" value="Save" />*@
+        @if (MWMS2.Utility.AuthUtil.CanEdit)
+        {<button type="submit" class="SaveBtn" id="Save" value="Save"><i class="fa fa-save"></i> Save </button>}
+        @*<button onclick="window.location='/Admin/CRM_AR/Index'" class="searchButton btn btn-default" type="button"> Save </button>*@
+    <button onclick="goTo('Index')" class="searchButton btn btn-default" type="button"><i class="fa fa-times"></i> Cancel</button>
+    </div>
+</div>
+
+}
+
+
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Columns: [
+                {
+                    displayName: "File Reference", columnName: "FILE_REFERENCE_NO"
+                    , click: function (row) { alert("Clicked File Reference No.  : " + row.FILE_REFERENCE_NO); alert("Clicked UUID  : " + row.UUID); }
+                    , click: function (row) {
+                        if (row == null) return;
+                        alert("Clicked File Reference No. : " + row.FILE_REFERENCE_NO);
+                        console.log(row);
+                    }
+                }
+                , { displayName: "HKID", columnName: "HKID" }
+                , { displayName: "Name", columnName: "NAME" }
+                , { displayName: "Chines Name", columnName: "CHINESE_NAME" }
+            ]
+        });
+    });
+</script>

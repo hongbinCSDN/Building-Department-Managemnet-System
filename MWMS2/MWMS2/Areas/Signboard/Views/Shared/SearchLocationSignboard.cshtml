@@ -1,0 +1,92 @@
+﻿
+
+@model MWMS2.Areas.Signboard.Models.DataEntrySearchModel
+
+@{
+    Layout = null;
+}
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/js")
+@Scripts.Render("~/bundles/jqueryui")
+
+<div class="panelHeader">
+    Type of Signboard
+</div>
+<script>
+
+
+</script>
+
+<div style="overflow-x:auto">
+    <table class="resultTable">
+        <thead>
+            <tr>
+
+                <th class="sTh" style="text-align: left; padding-left: 8px;">No.</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Type Of Signboard</th>
+                <th class="sTh" style="text-align: left; padding-left: 8px;">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model.SignboardTypeList)
+                {
+                    <tr>
+
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @Html.DisplayFor(modelItem => item.ORDERING)
+                        </td>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @*@Html.ActionLink(item.CODE, "SMMSignboardTypeEdit", "SMMSignboardType", new { id = item.UUID }, null)*@
+                            @{
+                                List<string> code = item.CODE.Split(',').ToList<string>();
+                                List<string> typeEng = code[0].Split('\'').ToList<string>();
+                                List<string> typeChi = code[1].Split('\'').ToList<string>();
+                            }
+                            @if (typeEng[3] != "")
+                            {
+                                @typeEng[3]
+                            }
+                            @if (typeEng[3] != "" && typeChi[3] != "")
+                            {
+                                <br />
+                            }
+                            @if (typeChi[3] != "")
+                            {
+                                @typeChi[3]
+                            }
+                        </td>
+                        <td style="word-wrap: break-word; white-space: normal;">
+                            @{
+                                List<string> desc = item.DESCRIPTION.Split(',').ToList<string>();
+                                // string descEng = desc[0].Split(':').ToList<string>()[1].Replace("'", "");
+                                List<string> descEng = desc[0].Split('\'').ToList<string>();
+                                // string descChi = desc[1].Split(':').ToList<string>()[1].Replace("''}", "").Replace("'}", "").Replace("'", "");
+                                List<string> descChi = desc[1].Split('\'').ToList<string>();
+                            }
+                            @if (descEng[3].Replace(" ", "") != "")
+                            {
+                                var aaa = descEng[3];
+                                @*@Html.ActionLink(descEng[3], "SMMSignboardTypeEdit", "SMMSignboardType", new { id = item.UUID }, null)*@
+                                <a href="javascript:window.opener.addSignboardLocationCALLBACK('@aaa');window.close();">@descEng[3]</a>
+
+                            }
+                            @if (descEng[3].Replace(" ", "") != "" && descChi[3].Replace(" ", "") != "")
+                            {
+                                <br />
+                            }
+                            @if (descChi[3].Replace(" ", "") != "")
+                            {
+                                var bbb = descChi[3];
+                                <a href="javascript:window.opener.addSignboardLocationCALLBACK('@bbb');window.close();">@descChi[3]</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+</div>

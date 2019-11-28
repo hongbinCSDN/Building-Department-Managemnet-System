@@ -1,0 +1,57 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn01SCUR_SDSearchModel
+
+
+<form id="inputForm" method="post" action="ReceiveForm">
+
+    <div class="displayForm">
+
+        <div id="searchCriteria">
+            <div class="panelHeader">
+                Search Criteria
+            </div>
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-col l3 m12 s12">Submission No. :	</div>
+                    <div class="w3-col l6 m12 s12">
+                        @Html.TextBoxFor(x => x.FILE_REFERCEN_NO)
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container footer">
+                <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Generate</button>
+
+            </div>
+
+        </div>
+
+        <div id="resultPanel"></div>
+
+    </div>
+</form>
+
+        <script type="text/javascript">
+            domReady(function () {
+                new searcher({
+                    searchPath: "Search"
+                    , exportPath: "Excel"
+                    , searchTable: "searchCriteria"
+                    , resultPanel: "resultPanel"
+                    , Sort: "REFERENCE_NO"
+                    , Columns: [
+                        {
+                            displayName: "Signboard No", columnName: "REFERENCE_NO"
+                            , click: function (row) {
+                                try {
+                                    if (row == null) return;
+                                    goTo("Form", [{ name: "refNo", value: row.REFERENCE_NO }]);
+                                } catch (err) { }
+                            }
+                        }
+
+
+                    ]
+                });
+            });
+        </script>

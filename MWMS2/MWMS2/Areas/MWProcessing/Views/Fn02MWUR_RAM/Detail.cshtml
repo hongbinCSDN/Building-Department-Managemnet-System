@@ -1,0 +1,713 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_RAMModel
+<div class="displayForm" id="searchCriteria">
+    @Html.HiddenFor(model => model.MWRecordID)
+    <div class="panelHeader">Submission Information</div>
+    <div class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    Minor Work No./VS No.
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.RefNo)
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    Commencement Date
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.CommencementDate)
+                </div>
+            </div>
+
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    Completion Date(Latest Reported)
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.CompletionCondintionalDate)
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    File Referemce No
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.FileReference)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    Completion Date(Acknowledged)
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.CompletionAcknowledgeDate)
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6  s6">
+                    Address of minor works carried out
+                </div>
+                <div class="w3-col l6 m6  s6">
+                    @Html.DisplayFor(model => model.LocationOfMinorWork)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6 s6">
+                    Is Case Transfer to Bravo
+                </div>
+                <div class="w3-col l6 m6 s6">
+                    @Html.DisplayFor(model => model.IsCaseTransferToBravo)
+                </div>
+            </div>
+            <div class="w3-col l6 m6 s6">
+                <div class="w3-col l6 m6 s6">
+                    Image Transfer to RRM
+                </div>
+                <div class="w3-col l6 m6 s6">
+                    <label id="TRANSFER_RRM" name="TRANSFER_RRM">N</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    @*<div class="panelHeader">Minor Work Item</div>
+        <div id="MinorWorkItem">
+
+        </div>*@
+    <div class="panelHeader">Submitted Document</div>
+    <div>
+        <table id="NicTable" class=" w3-table-all w3-hoverable resultTable">
+            <thead>
+                <tr>
+                    <th>
+                        Document Type
+                    </th>
+                    <th>
+                        Received Date
+                    </th>
+                    <th>
+                        Document S/N
+                    </th>
+                    <th>
+                        Document Title
+                    </th>
+                    <th>
+                        View Image
+                    </th>
+                    <th>
+                        Folder Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsNIC.Count(); i++)
+                {
+                    string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH;
+                    <tr>
+                        @Html.HiddenFor(model => model.P_MW_SCANNED_DOCUMENTsNIC[i].UUID)
+                        <td>
+                            @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOCUMENT_TYPE
+                        </td>
+                        <td>
+                            @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                        </td>
+                        <td>
+                            @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DSN_SUB
+                        </td>
+                        <td>
+                            @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOC_TITLE
+                        </td>
+                        <td>
+                            <a onclick="popupWind('DownloadFile?path=@Url.Content(filePath)')"><img src="~/img/view.gif" /></a>
+                        </td>
+                        <td>
+                            @Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div class="panelHeader">Issued Correspondence</div>
+    <table id="IcTable" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Letter Type
+                </th>
+                <th>
+                    Issued Date
+                </th>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Letter Template No.
+                </th>
+                <th>
+                    View Image
+                </th>
+                <th>
+                    Folder Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsIC.Count(); i++)
+            {
+                string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH;
+                <tr>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DOCUMENT_TYPE
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DSN_SUB
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].TEMPLATE_NO
+                    </td>
+                    <td>
+                        <a onclick="popupWind('DownloadFile?path=@Url.Content(filePath)')"><img src="~/img/view.gif" /></a>
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+
+    <div class="displayForm" id="divFileRef">
+        @Html.HiddenFor(m => Model.RefNo)
+        <div class="panelHeader">File Reference (4+2)</div>
+        <form class="displayForm" id="tableFileRef"></form>
+    </div>
+    <br />
+    <div class="panelHeader">Pick Address</div>
+    <form class="displayForm" id="PickAddress">
+        <input hidden id="MW_RECORD_ID" name="MW_RECORD_ID" value="@Model.RefNo" />
+        <div hidden class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Address :</div>
+                <div class="w3-col l6 m12 s12">
+                    @*<input id="ADDRESS" name="ADDRESS" type="text" />*@
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                @*<div class="w3-col l6 m12 s12">Block ID :</div>
+                    <div class="w3-col l6 m12 s12">
+                        <input id="BLK_ID" name="BLK_ID" type="text" />
+                    </div>*@
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Street :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="STREET" name="STREET" type="text" />
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Block ID :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="BLK_ID" name="BLK_ID" type="number" oninput="txtNumberLength(this,8)" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Street No :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="STREET_NO" name="STREET_NO" type="text" />
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Unit ID :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="UNIT_ID" name="UNIT_ID" type="number" oninput="txtNumberLength(this,8)" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Building :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="BUILDING" name="BUILDING" type="text" />
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">File Reference No :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="FILEREF_FOUR" style="width:50%;" oninput="txtNumberLength(this,4)" name="FILEREF_FOUR" type="number" min="0" /> /
+                    <input id="FILEREF_TWO" style="width:40%;" oninput="txtNumberLength(this,2)" name="FILEREF_TWO" type="number" min="0" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Floor :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="FLOOR" name="FLOOR" type="text" />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Unit :</div>
+                <div class="w3-col l6 m12 s12">
+                    <input id="UNIT" name="UNIT" type="text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l12 m12 s12">
+                    <button id="pickAddBtn" class="btn btn-default" type="button" onclick="addFileRef()">Add</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+        </div>
+
+    </form>
+
+    <br />
+    <div class="w3-container footer">
+        <button id="btnConfirm" class=" btn btn-default w3-gray w3-hover-gray" disabled onclick="transferToBravo()" type="button">Confirm Transfer to Bravo</button>
+
+        <button id="backBtn" class="btn btn-default" type="button" onclick="goTo('Index')">Back</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var tableFileRef;
+
+    function txtNumberLength(obj, length) {
+        if (obj.value.length >= length) {
+            obj.value = obj.value.replace(/-/g, '');
+            obj.value = obj.value.substring(0, length);
+        }
+    }
+
+    function refreshBtnConfirm(isEnable) {
+        var btnConfirm = document.getElementById('btnConfirm');
+        btnConfirm.disabled = !isEnable;
+        btnConfirm.className = (isEnable ? "btn btn-default" : "btn btn-default w3-gray w3-hover-gray");
+    }
+
+    function searchFileRef() {
+        tableFileRef.search();
+    }
+
+    function transferToBravo() {
+        attr("searchCriteria", "addClass", "save");
+        $.post("TransferToBravo", [{ name: "mwRefNo", value: $('#RefNo').val() }], function (data) {
+            attr("searchCriteria", "dropClass", "save");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Transfer To Bravo Successfully');
+                //Refersh Page
+                goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_RAM/Detail", [{ name: "uuid", value: $('#MWRecordID').val() }]);
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function onDeleteForm(appUUID) {
+        var popuper1 = new popuper({
+            title: "Confirmation Message"
+            , message: "Are you sure you want to delete?"
+            , buttons: [
+                createButton("Yes", "fa-check", [{
+                    "onclick": {
+                        parameters: { row: appUUID }, callback: function (d, p, e) {
+                            popuper1.close();
+                            deleteFileRef(appUUID);
+                        }
+                    }
+                }, { "addClass": "w3-red" }])
+                , createButton("No", "fa-times", [{ "onclick": { parameters: { row: appUUID }, callback: function (d, p, e) { popuper1.close(); } } }])
+            ]
+        }).open();
+    }
+
+    function checkPickAddress(uuid) {
+
+        if (uuid == undefined) { uuid = ""; }
+        var fileFour = $('#FILEREF_FOUR' + uuid).val();
+        var fileTwo = $('#FILEREF_TWO' + uuid).val();
+
+        var valid42 = fileFour != "" && fileTwo != "";
+        var validblk = domId("BLK_ID").value != "";
+        var validUnit = domId("UNIT_ID").value != "";
+
+        // if (domId("UNIT_ID").value != "" && domId("BLK_ID").value == "") {
+        //
+        // }
+        return (valid42 || validblk || validUnit);
+
+        //return (fileFour != "" && fileTwo != "");
+    }
+
+    function addFileRef() {
+        var isCheckPickAddress = checkPickAddress();
+        if (!isCheckPickAddress) {
+            alert('Please Input The File Reference No');
+            return;
+        }
+
+        attr("PickAddress", "addClass", "save");
+        $.post("SaveFilRef", $("#PickAddress").serialize(), function (data) {
+            attr("PickAddress", "dropClass", "save");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save Successfully');
+                searchFileRef();
+                document.getElementById("PickAddress").reset();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function deleteFileRef(uuid) {
+        attr("SearchFileRef", "addClass", "deleting");
+        $.post("DeleteFilRef", [{ name: "uuid", value: uuid }], function (data) {
+            attr("SearchFileRef", "dropClass", "deleting");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Delete Successfully');
+                searchFileRef();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function edit(uuid) {
+
+        var divDisplayList = document.getElementsByClassName("divDisplay" + uuid);
+        var divHiddenList = document.getElementsByClassName("divHidden" + uuid);
+
+        for (var i = 0; i < divDisplayList.length; i++) {
+            divDisplayList[i].hidden = true;
+        }
+
+        for (var i = 0; i < divHiddenList.length; i++) {
+            divHiddenList[i].hidden = false;
+        }
+
+        var editBtn = document.getElementById("editBtn" + uuid);
+        var saveBtn = document.getElementById("saveBtn" + uuid);
+
+        editBtn.hidden = true;
+        saveBtn.hidden = false;
+
+        //enabl text box
+        var inputList = document.querySelectorAll("input[class='tag" + uuid + "']");
+        for (var i = 0; i < inputList.length; i++) {
+            inputList[i].disabled = false;
+        }
+
+    }
+
+    function save(uuid) {
+
+        //searchFileRef();
+        var isCheckPickAddress = checkPickAddress(uuid);
+        if (!isCheckPickAddress) {
+            alert('Please Input The File Reference No');
+            return;
+        }
+
+        attr("tableFileRef", "addClass", "save");
+        $.post("SaveFilRef", $("#tableFileRef").serialize(), function (data) {
+            attr("tableFileRef", "dropClass", "save");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save Successfully');
+                searchFileRef();
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    domReady(function () {
+
+        atcpAddress2({
+            fullAddress: "ADDRESS"
+            , streetName: "STREET"
+            , streetNo: "STREET_NO"
+            , building: "BUILDING"
+            , floor: "FLOOR"
+            , unit: "UNIT"
+            , blkId: "BLK_ID"
+            , unitId: "UNIT_ID"
+            , FILEREF_FOUR: "FILEREF_FOUR"
+            , FILEREF_TWO: "FILEREF_TWO"
+
+        });
+
+        tableFileRef = new searcher({
+            searchPath: "SearchFileRef"
+            , searchTable: "divFileRef"
+            , resultPanel: "tableFileRef"
+            , Columns: [
+                {
+                    displayName: "File Reference(4 + 2)", formater: function (row) {
+
+
+                        var divTemp = dom("div");
+
+                        //display div
+                        var divDisplay = document.createElement("div");
+                        divDisplay.className = "divDisplay" + row.UUID;
+
+                        var lalFileRef = document.createElement("lable");
+                        if (row.FILEREF_FOUR != null && row.FILEREF_TWO != null) {
+                            lalFileRef.innerText = row.FILEREF_FOUR + "/" + row.FILEREF_TWO;
+                        } else lalFileRef.innerText = " ";
+
+                        divDisplay.appendChild(lalFileRef);
+
+                        //hidden div
+                        var divHidden = document.createElement("div");
+                        divHidden.className = "divHidden" + row.UUID;
+                        divHidden.hidden = true;
+
+                        var txtUUID = document.createElement("input");
+                        txtUUID.id = "UUID" + row.UUID;
+                        txtUUID.name = "UUID";
+                        txtUUID.type = "hidden";
+                        txtUUID.disabled = true;
+                        txtUUID.className = "tag" + row.UUID;
+                        txtUUID.value = row.UUID;
+                        divHidden.appendChild(txtUUID);
+
+                        var txtFileFour = document.createElement("input");
+                        txtFileFour.id = "FILEREF_FOUR" + row.UUID;
+                        txtFileFour.name = "FILEREF_FOUR";
+                        txtFileFour.type = "number";
+                        txtFileFour.style = "width:50%;";
+                        txtFileFour.disabled = true;
+                        txtFileFour.className = "tag" + row.UUID;
+                        txtFileFour.value = row.FILEREF_FOUR;
+                        txtFileFour.min = 0;
+                        txtFileFour.oninput = function () { txtNumberLength(this, 4); };
+                        divHidden.appendChild(txtFileFour);
+
+                        var lblDiagonal = document.createElement("lable");
+                        lblDiagonal.innerText = " / ";
+                        divHidden.appendChild(lblDiagonal);
+
+                        var txtFileTwo = document.createElement("input");
+                        txtFileTwo.id = "FILEREF_TWO" + row.UUID;
+                        txtFileTwo.name = "FILEREF_TWO";
+                        txtFileTwo.type = "number";
+                        txtFileTwo.style = "width:40%;";
+                        txtFileTwo.disabled = true;
+                        txtFileTwo.className = "tag" + row.UUID;
+                        txtFileTwo.value = row.FILEREF_TWO;
+                        txtFileTwo.min = 0;
+                        txtFileTwo.oninput = function () { txtNumberLength(this, 2); };
+                        divHidden.appendChild(txtFileTwo);
+
+                        divTemp.appendChild(divDisplay);
+                        divTemp.appendChild(divHidden);
+
+                        return divTemp;
+                    }
+                },
+                {
+                    displayName: "Block ID", formater: function (row) {
+
+
+                        var divTemp = dom("div");
+
+                        //display div
+                        var divDisplay = document.createElement("div");
+                        divDisplay.className = "divDisplay" + row.UUID;
+
+                        var lblBlockID = document.createElement("label");
+
+                        if (row.BLK_ID != null) {
+                            lblBlockID.innerText = row.BLK_ID;
+                        } else lblBlockID.innerText = " ";
+
+                        divDisplay.appendChild(lblBlockID);
+
+                        //hidden div
+                        var divHidden = document.createElement("div");
+                        divHidden.className = "divHidden" + row.UUID;
+                        divHidden.hidden = true;
+
+                        var txtBlockID = document.createElement("input");
+                        txtBlockID.id = "BLK_ID" + row.UUID;
+                        txtBlockID.name = "BLK_ID";
+                        txtBlockID.type = "number";
+                        txtBlockID.style = "width:50%;";
+                        txtBlockID.disabled = true;
+                        txtBlockID.className = "tag" + row.UUID;
+                        txtBlockID.value = row.BLK_ID;
+                        txtBlockID.oninput = function () { txtNumberLength(this, 5); };
+
+                        divHidden.appendChild(txtBlockID);
+
+                        divTemp.appendChild(divDisplay);
+                        divTemp.appendChild(divHidden);
+
+                        return divTemp;
+                    }
+                },
+                {
+                    displayName: "Unit ID", formater: function (row) {
+
+
+                        var divTemp = dom("div");
+
+                        //display div
+                        var divDisplay = document.createElement("div");
+                        divDisplay.className = "divDisplay" + row.UUID;
+
+                        var lblUnitID = document.createElement("label");
+                        if (row.UNIT_ID != null) {
+                            lblUnitID.innerText = row.UNIT_ID;
+                        } else lblUnitID.innerText = " ";
+
+                        divDisplay.appendChild(lblUnitID);
+
+                        //hidden div
+                        var divHidden = document.createElement("div");
+                        divHidden.className = "divHidden" + row.UUID;
+                        divHidden.hidden = true;
+
+                        var txtUnitID = document.createElement("input");
+                        txtUnitID.id = "UNIT_ID" + row.UUID;
+                        txtUnitID.name = "UNIT_ID";
+                        txtUnitID.type = "number";
+                        txtUnitID.style = "width:50%;";
+                        txtUnitID.disabled = true;
+                        txtUnitID.className = "tag" + row.UUID;
+                        txtUnitID.value = row.UNIT_ID;
+                        txtUnitID.oninput = function () { txtNumberLength(this, 6); };
+
+                        divHidden.appendChild(txtUnitID);
+
+                        divTemp.appendChild(divDisplay);
+                        divTemp.appendChild(divHidden);
+
+                        return divTemp;
+                    }
+                },
+                {
+                    displayName: "Is Transfer to Bravo", formater: function (row) {
+
+                        var lblIsTransfer = document.createElement("lable");
+                        lblIsTransfer.innerText = "N";
+
+                        if (row.RRM_SYN_STATUS == "COMPLETE") {
+                            lblIsTransfer.innerText = "Y";
+                        }
+
+                        return lblIsTransfer;
+                    }
+                },
+                {
+                    displayName: " ", formater: function (row) {
+                        var divEdit = dom("div");
+
+                        //Edit button
+                        var editBtn = dom("button", [
+                            { type: "button" },
+                            { id: "editBtn" + row.UUID },
+                            {
+                                onclick: {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        edit(row.UUID);
+                                    }
+                                }
+                            }
+                        ]);
+                        editBtn.innerHTML = "<i class='fa fa-edit'></i> Edit";
+
+                        if (row.RRM_SYN_STATUS == "COMPLETE") {
+                            editBtn.disabled = true;
+                            editBtn.className = "btn btn-default w3-gray w3-hover-gray";
+                        }
+
+                        divEdit.appendChild(editBtn);
+
+                        //Save button
+                        var saveBtn = dom("button", [
+                            { type: "button" },
+                            { id: "saveBtn" + row.UUID },
+                            {
+                                onclick: {
+                                    parameters: { row: row }, callback: function (d, p, e) {
+                                        save(row.UUID);
+                                    }
+                                }
+                            },
+                            { hidden: true }
+                        ]);
+                        saveBtn.innerHTML = "<i class='fa fa-save'></i> Save";
+
+                        divEdit.appendChild(saveBtn);
+
+                        return divEdit;
+                    }
+                },
+                {
+                    displayName: " ", formater: function (row) {
+                        var btnDelete = createButton("Delete", "fa-trash", [{
+                            "onclick": {
+                                parameters: { row: row }, callback: function (d, p, e) {
+                                    //deleteFileRef(row.UUID);
+                                    onDeleteForm(row.UUID);
+                                }
+                            }
+                        }]);
+
+                        if (row.RRM_SYN_STATUS == "COMPLETE") {
+                            btnDelete.disabled = true;
+                            btnDelete.className = "btn btn-default w3-gray w3-hover-gray";
+                        }
+
+                        return btnDelete;
+                    }
+                }
+            ],
+            onAfterSearch: function (r) {
+                refreshBtnConfirm(r.IsEnableTransfer);
+                document.getElementById('TRANSFER_RRM').innerText = r.TRANSFER_RRM;
+            }
+        });
+        searchFileRef();
+    });
+
+
+</script>

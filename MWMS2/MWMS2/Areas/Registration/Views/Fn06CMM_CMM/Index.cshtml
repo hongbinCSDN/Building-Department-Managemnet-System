@@ -1,0 +1,95 @@
+﻿@model MWMS2.Areas.Registration.Models.Fn06CMM_CMMSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x=>x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Panel :</div>
+                <div class="w3-col l6 m12 s12">@Html.DropDownListFor(model => model.Panel, Model.SYSTEM_TYPE_PANEL_TYPE_List)</div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Year :</div>
+                <div class="w3-col l6 m12 s12">@Html.DropDownListFor(model => model.Year, Model.YEAR_List)</div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Committee :</div>
+                <div class="w3-col l6 m12 s12">@Html.DropDownListFor(model => model.Committee, Model.SYSTEM_TYPE_COMMITTEE_TYPE_List)</div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            @if (MWMS2.Utility.AuthUtil.CanCreate)
+            {<button class="btn btn-default w3-left" onclick='goTo("Edit")' type="button"><i class="far fa-plus-square"></i> New Committee</button>}
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+    </div>
+
+
+    <div id="resultPanel"></div>
+
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Edit", [{ name: "C_COMMITTEE.UUID", value: row.UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+    <script type="text/javascript">
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "YEAR"
+                , SortType: 1
+                , Columns: [
+                    { displayName: "Year", columnName: "YEAR" }
+                    , {
+                        displayName: "Panel", columnName: "PANEL_TYPE_ID", click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Committee Type", columnName: "COMMITTEE_TYPE_ID" }
+                ]
+                , onBeforeSearch: function () {
+                    if (domId("Year").value == "") {
+                        domId("Year").value = new Date().getFullYear();
+                    }
+                }
+            });
+            $.post("AjaxPanelParent", {}, function (r) {
+                console.log(r);
+                for (var i = 0; i < r.Data.length; i++) {
+                    attr(domId("Committee").querySelectorAll("option[value='" + r.Data[i].UUID + "']"), "addClass", r.Data[i].PARENT_ID);
+                    attr(domId("Committee").querySelectorAll("option[value='" + r.Data[i].UUID + "']"), "addClass", "panelAll");
+                }
+            }, "json");
+            attr("Panel", "onblur", {
+                callback: function (d, p, e) {
+                    if (d.value != "") {
+                        attr(domClass("panelAll"), "addClass", "hide");
+                        attr(domClass(d.value), "dropClass", "hide");
+                    } else {
+                        attr(domClass("panelAll"), "dropClass", "hide");
+                    }
+                }
+            });
+        });
+
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}

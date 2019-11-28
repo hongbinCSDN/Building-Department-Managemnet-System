@@ -1,0 +1,59 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn10RPT_SRSearchModel
+
+<form id="inputForm" method="post">
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria" class="displayForm">
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Type of Report :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.ReportType, new SelectList(Model.ReportTypeList, "Value", "Text"))
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Class of Minor Works :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.WorkClass, new SelectList(Model.ClassCodeList, "Value", "Text"))
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12">Period :</div>
+                <div class="w3-col l9 m12 s12">
+                    &nbsp;From &nbsp;@Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                    &nbsp;To&nbsp; @Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button class="btn btn-default" type="button" id="exportButton"><i class="fa fa-print"></i>Export to Excel</button>
+        </div>
+    </div>
+    <div id="resultPanel"></div>
+</form>
+    <script type="text/javascript">
+        
+
+        attr("exportButton", "onclick", { parameters: {}, callback: onExportForm });
+
+        function onExportForm() {
+            $.post("validation", $("#inputForm").serialize(), function (data) {
+                if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                    exportToExcel();
+                } else {
+                    showErrorMessage(data.ErrorMessages);
+                }
+
+            }, "json");
+        }
+
+        function exportToExcel() {
+            thisForm = document.getElementById("inputForm");
+            thisForm.action = "ExportToExcel";
+            thisForm.method = "POST";
+            thisForm.submit();
+        }
+
+    </script>

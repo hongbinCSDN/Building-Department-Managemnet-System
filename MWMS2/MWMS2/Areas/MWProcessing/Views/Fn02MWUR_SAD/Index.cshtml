@@ -1,0 +1,129 @@
+﻿
+
+@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_SADModel
+
+
+<div id="searchCriteria">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">No. of Outstanding :</div>
+            <div class="w3-col l6 m12 s12" id="noOfOutstanding">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="panelHeader">Scan</div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Document S/N :</div>
+            <div class="w3-col l3 m12 s12">
+                @Html.TextBoxFor(m => m.ScanDSN, new { @id = "scanDSN" })
+            </div>
+            (Scan Barcode)
+            <span class="text-danger" id="errorMsg"></span>
+        </div>
+
+    </div>
+    <div class="panelHeader">
+        Search Document
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m12 s12">Document S/N :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.TextBoxFor(m => m.DSN)
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">MWU Receive Date :</div>
+            <div class="w3-col l6 m12 s12">
+                From @Html.TextBoxFor(m => m.ReceiveDateFrom, new { @class = "inputDate" })
+                To @Html.TextBoxFor(m => m.ReceiveDateTo, new { @class = "inputDate" })
+
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Status  :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(x => x.Status, Model.RetrieveStatusCode())
+                @* @Html.DropDownListFor(x=>x.Status,)*@
+            </div>
+        </div>
+
+    </div>
+    <div class="w3-container footer">
+        <button class="createButton btn btn-default" type="button" onclick="createNewDSN()"><i class="fa fa-search"></i> Create New DSN for Re-submission</button>
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+    </div>
+
+</div>
+<div id="resultPanel"></div>
+
+<script type="text/javascript">
+
+    domReady(function () {
+        $('#scanDSN').bind('keydown', function (event) {
+            if (event.keyCode == "13") {
+                $.post("CheckDSN", { "dsn": $("#scanDSN").val() }, function (data) {
+                    console.log(data);
+                    if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                        goTo("Form", [{
+                            name: "dsn", value: $("#scanDSN").val()
+                        }]);
+                    }
+                    else {
+                        $("#errorMsg").text(data.Message[0]);
+                        showErrorMessage(data.ErrorMessages);
+                    }
+                }, "json");
+            }
+        });
+
+        new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "DSN"
+            , Columns: [
+                {
+                    displayName: "Document S/N", columnName: "DSN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Form", [{ name: "uuid", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                }
+                , {
+                    displayName: "Assignment Date", columnName: "DT"
+                }
+                , {
+                    displayName: "Time", columnName: "REC_TIME"
+                }
+                , {
+                    displayName: "Ref. No.", columnName: "RECORD_ID"
+                }
+                , {
+                    displayName: "Form", columnName: "FORM_CODE"
+                }
+                , {
+                    displayName: "Status", columnName: "SCANNED_CODE"
+                }
+            ]
+            , onAfterSearch: function (r) {
+                attr("noOfOutstanding", "html", r.Total)
+            }
+        });
+    });
+    function createNewDSN() {
+        goTo(domId("rootPath").value + "/MWProcessing/Fn02MWUR_SAD/Form", [{ name: "uuid", value: $('#scanDSN').val() }]);
+    }
+</script>

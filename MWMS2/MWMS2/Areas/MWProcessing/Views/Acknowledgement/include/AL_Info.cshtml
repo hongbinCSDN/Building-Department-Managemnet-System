@@ -1,0 +1,186 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.AcknowledgementModel
+
+<div class="displayForm">
+    @Html.HiddenFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP.UUID)
+    <div class="panelHeader">
+        <label>Submission Information</label>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                MW No. :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_REFERENCE_NO.REFERENCE_NO
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                Form No. :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_RECORD.S_FORM_TYPE_CODE
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">
+                DSN :
+            </div>
+            <div class="w3-col l9 m12 s12">
+                @Model.P_MW_DSN.DSN
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <table id="tableOffenceAL" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th colspan="2">Category of Offence</th>
+                <th>Rectified/Clarifiede</th>
+                <th style="width:500px">Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs.Count(); i++)
+            {
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i ></i>
+                        <button type="button" onclick="RemoveOffenceRow(this)" class="btn btn-default w3-red"><i class="fa fa-trash"> </i></button>
+                    </td>
+                    <td style="vertical-align: middle;">
+
+                        @Html.DropDownListFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[i].SV_QUESTION_ID, new SelectList(Model.OffenseList, "Value", "Text", Model.P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[i].SV_QUESTION_ID))
+                    </td>
+                    <td style="vertical-align: middle; ">
+                        @Html.CheckBoxFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[i].IsRectified)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[i].REMARKS)
+                    </td>
+                </tr>
+            }
+            <tr style="height:50px;vertical-align: middle;">
+                <td colspan="2" style="vertical-align: middle;">
+                    <button id="btnAddALOffence" type="button" class="btn btn-default" onclick="addALOffence()">Add Offences</button>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="height:50px;vertical-align: middle;">
+                <td colspan="2" style="vertical-align: middle;">
+                    Irregularities Type
+                </td>
+                <td style="vertical-align: middle;">
+                    <label>@Html.CheckBoxFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP.IsMinor) Minor Only                         </label>
+                    <label>@Html.CheckBoxFor(m => Model.P_MW_RECORD_AL_FOLLOW_UP.IsInvolveMajorOffence) Involve Major Offence</label>
+                </td>
+                <td style="vertical-align: middle;"></td>
+            </tr>
+
+            <tr hidden>
+                <td></td>
+                <td style="vertical-align: middle;">
+                    @Html.DropDownList("TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[tempIndex].SV_QUESTION_ID", Model.OffenseList)
+                </td>
+                <td style="vertical-align: middle; ">
+                    <input type="checkbox" id="TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs_tempIndex__IsRectified" name="TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[tempIndex].IsRectified" />
+                </td>
+                <td>
+                    <textarea id="TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs_tempIndex__REMARKS" name="TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[tempIndex].REMARKS"></textarea>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <dive id="tableTest">
+
+    </dive>
+
+</div>
+
+<script type="text/javascript">
+
+    function addALOffence() {
+
+        //get table
+        var tb = document.getElementById('tableOffenceAL');
+
+        //get new tr index
+        var rowIndex = tb.tBodies[0].rows.length - 3;
+
+        //get template
+        var template = document.querySelectorAll("[name^='TemplateP_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[']");
+
+        //create tr
+        var tr = document.createElement('tr');
+
+        var td0 = document.createElement('td');
+        td0.style.verticalAlign = "middle";
+        td0.innerHTML = "<button type='button' onclick='RemoveOffenceRow(this)' class='btn btn -default w3-red'><i class='fa fa-trash'> </i></button>";
+
+        var td1 = document.createElement('td');
+        td1.style.verticalAlign = "middle";
+        td1.innerHTML = template[0].outerHTML.replace(/Template/g, '').replace(/tempIndex/g, rowIndex);
+
+        var td2 = document.createElement('td');
+        td2.style.verticalAlign = "middle";
+        td2.innerHTML = template[1].outerHTML.replace(/Template/g, '').replace(/tempIndex/g, rowIndex);
+
+        var td3 = document.createElement('td');
+        td3.style.width = "500px";
+        td3.innerHTML = template[2].outerHTML.replace(/Template/g, '').replace(/tempIndex/g, rowIndex);
+
+        tr.appendChild(td0);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+
+        tb.tBodies[0].insertBefore(tr, tb.tBodies[0].children[rowIndex]);
+
+    }
+
+    function RemoveOffenceRow(obj) {
+
+        var rowIndex = obj.parentNode.parentNode.rowIndex - 1;
+        var tb = document.getElementById('tableOffenceAL');
+
+        //get current index
+        var currentLabels = tb.tBodies[0].rows[rowIndex].querySelectorAll("[name^='P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[']");
+        var currentIdex = currentLabels[0].name.substring(currentLabels[0].name.indexOf('[') + 1, currentLabels[0].name.indexOf(']'));
+
+        //get last index
+        var lastIndex = tb.tBodies[0].rows.length - 4;
+
+        if (currentIdex < lastIndex) {
+            // swap index
+            //get last row
+            var lastLabels = document.querySelectorAll("[name^='P_MW_RECORD_AL_FOLLOW_UP_OFFENCESs[" + lastIndex + "]']");
+
+            for (var i = 0; i < lastLabels.length; i++) {
+
+                lastLabels[i].name = lastLabels[i].name.replace(lastIndex, currentIdex);
+                lastLabels[i].id = lastLabels[i].id.replace(lastIndex, currentIdex);
+            }
+
+        }
+
+        tb.deleteRow(rowIndex + 1);
+
+    }
+
+    domReady(function () {
+
+    });
+
+</script>

@@ -1,0 +1,148 @@
+﻿@model MWMS2.Models.InterviewResultSearchModel
+
+@if (MWMS2.Utility.AuthUtil.CanList)
+{
+
+    <div class="panelHeader">Search Criteria</div>
+    <div id="searchCriteria">
+        @Html.HiddenFor(x=>x.doSearch)
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Year :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Year, Model.yearList)
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m12 s12"> Date :</div>
+                <div class="w3-col l9 m12 s12">
+                    From &nbsp; @Html.TextBoxFor(model => model.DateFrom, new { @class = "inputDate" })
+                    To &nbsp; @Html.TextBoxFor(model => model.DateTo, new { @class = "inputDate" })
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Group :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Group, Model.showGroupList)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Type :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.DropDownListFor(model => model.Type, Model.showTypeList)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Surname. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.SurnName)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Given Name. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.GivenName)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">File Reference :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.FileRef)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Interview / Assessment  No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.InterviewNo)
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">HKID : </div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.HKID)
+                </div>
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l6 m12 s12">Passport No. :</div>
+                <div class="w3-col l6 m12 s12">
+                    @Html.TextBoxFor(model => model.PassportNo)
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container footer">
+            <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+            <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+        </div>
+
+
+    </div>
+    <div id="resultPanel"></div>
+
+    if (MWMS2.Utility.AuthUtil.CanViewDetails)
+    {
+        <script type="text/javascript">function ViewDetail(row) { goTo("Form", [{ name: "id", value: row.INTERVIEW_CANDIDATES_UUID }]); }</script>
+    }
+    else
+    {
+        <script type="text/javascript">function ViewDetail(row) { }</script>
+    }
+
+    <script type="text/javascript">
+        domReady(function () {
+            new searcher({
+                searchPath: "Search"
+                , exportPath: "Excel"
+                , searchTable: "searchCriteria"
+                , resultPanel: "resultPanel"
+                , Sort: "INTERVIEW_DATE"
+                , SortType: 1
+                , Columns: [
+                    {
+                        displayName: "Interview Date", columnName: "INTERVIEW_DATE_DISPLAY"
+                        , click: function (row) {
+                            try {
+                                if (row == null) return;
+                                ViewDetail(row);
+                            } catch (err) { }
+                        }
+                    }
+                    , { displayName: "Interview/Assessment No", columnName: "INTERVIEW_NUMBER" }
+                    , { displayName: "Type", columnName: "INTERVIEW_TYPE" }
+                    , { displayName: "Name", columnName: "FULL_NAME" }
+
+                    , { displayName: "Role", columnName: "ROLE" }
+                    //, { displayName: "Role", columnName: "ROLE" }
+                    , { displayName: "Result Date", columnName: "RESULT_DATE" }
+                    , { displayName: "Result", columnName: "RESULT" }
+                    , { displayName: "Absent", columnName: "IS_ABSENT" }
+
+                ]
+            });
+        });
+    </script>
+}
+else
+{
+    <b>Access denied, please contact your supervisor.</b>
+}
+
+

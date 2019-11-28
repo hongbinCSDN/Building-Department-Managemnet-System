@@ -1,0 +1,196 @@
+﻿@model  MWMS2.Areas.MWProcessing.Models.VerificaionFormModel
+
+<div class="panelHeader">
+    Submitted Document
+</div>
+
+<div class="w3-border displayForm">
+    <table id="NicTable" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Document Type
+                </th>
+                <th>
+                    Received Date
+                </th>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Document Title
+                </th>
+                <th>
+                    View Image
+                </th>
+                <th>
+                    Folder Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsNIC.Count(); i++)
+            {
+                string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].FILE_PATH;
+                <tr>
+                    @Html.HiddenFor(model => model.P_MW_SCANNED_DOCUMENTsNIC[i].UUID)
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOCUMENT_TYPE
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsNIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DSN_SUB
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsNIC[i].DOC_TITLE
+                    </td>
+                    <td>
+                        <a onclick="openNewTab(domId('rootPath').value + '/Doc/Download', [{name: 'fileType', value: '@Model.HandlingUnit'}, {name: 'fileUuid', value: '@filePath'}])"><img src="~/img/view.gif" /></a>
+                    </td>
+                    <td>
+                        @if (Model.IsSummary)
+                        {
+                            @Html.DropDownListFor(model => Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE, new SelectList(Model.FolderTypeList, "Value", "Text", Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE), new { @disabled = "true" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE, new SelectList(Model.FolderTypeList, "Value", "Text", Model.P_MW_SCANNED_DOCUMENTsNIC[i].FOLDER_TYPE))
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="w3-row">
+        @if (!Model.IsSummary)
+        {
+            if (Model.P_MW_SCANNED_DOCUMENTsNIC.Count() > 0)
+            {
+                <button id="btnSaveNIC" onclick="saveNIC()" class="btn btn-default" style="float:right" type="button"> Save</button>
+            }
+            else
+            {
+                <button id="btnSaveNIC" disabled class="btn btn-default w3-gray w3-hover-gray" style="float:right" type="button"> Save</button>
+            }
+
+        }
+    </div>
+</div>
+
+<div class="panelHeader">
+    Issued Correspondence
+</div>
+
+<div class="w3-border displayForm">
+    <table id="IcTable" class=" w3-table-all w3-hoverable resultTable">
+        <thead>
+            <tr>
+                <th>
+                    Letter Type
+                </th>
+                <th>
+                    Issued Date
+                </th>
+                <th>
+                    Document S/N
+                </th>
+                <th>
+                    Letter Template No.
+                </th>
+                <th>
+                    View Image
+                </th>
+                <th>
+                    Folder Type
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.P_MW_SCANNED_DOCUMENTsIC.Count(); i++)
+            {
+                string filePath = string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH) ? "/" : Model.P_MW_SCANNED_DOCUMENTsIC[i].FILE_PATH;
+                <tr>
+                    @Html.HiddenFor(model => Model.P_MW_SCANNED_DOCUMENTsIC[i].UUID)
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DOCUMENT_TYPE
+                    </td>
+                    <td>
+                        @(string.IsNullOrEmpty(Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString()) ? "" : Model.P_MW_SCANNED_DOCUMENTsIC[i].SCAN_DATE.ToString().Substring(0, 10))
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].DSN_SUB
+                    </td>
+                    <td>
+                        @Model.P_MW_SCANNED_DOCUMENTsIC[i].TEMPLATE_NO
+                    </td>
+                    <td>
+                        <a onclick="openNewTab(domId('rootPath').value + '/Doc/Download', [{name: 'fileType', value: '@Model.HandlingUnit'}, {name: 'fileUuid', value: '@filePath'}])"><img src="~/img/view.gif" /></a>
+                    </td>
+                    <td>
+                        @if (Model.IsSummary)
+                        {
+                            @Html.DropDownListFor(model => Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE, new SelectList(Model.FolderTypeList, "Value", "Text", Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE), new { @disabled = "true" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE, new SelectList(Model.FolderTypeList, "Value", "Text", Model.P_MW_SCANNED_DOCUMENTsIC[i].FOLDER_TYPE))
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="w3-row">
+        @if (!Model.IsSummary)
+        {
+            if (Model.P_MW_SCANNED_DOCUMENTsIC.Count() > 0)
+            {
+                <button id="btnSaveIC" onclick="saveIC()" class="btn btn-default" style="float:right" type="button"> Save</button>
+            }
+            else
+            {
+                <button id="btnSaveIC" onclick="saveIC()" disabled class="btn btn-default w3-gray w3-hover-gray" style="float:right" type="button"> Save</button>
+            }
+
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function saveIC() {
+        attr("IcTable", "addClass", "saving");
+        $.post("SaveP_MW_SCANNED_DOCUMENTsIC", $("#inputForm").serialize(), function (data) {
+            attr("IcTable", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+    function saveNIC() {
+        attr("NicTable", "addClass", "saving");
+        $.post("SaveP_MW_SCANNED_DOCUMENTsNIC", $("#inputForm").serialize(), function (data) {
+            attr("NicTable", "dropClass", "saving");
+            if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                alert('Save successfully');
+            }
+            else {
+                showErrorMessage(data.ErrorMessages);
+                console.log(data);
+            }
+        }, "json");
+    }
+
+</script>

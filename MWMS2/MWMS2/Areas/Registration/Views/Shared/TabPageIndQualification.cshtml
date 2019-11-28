@@ -1,0 +1,118 @@
+﻿@model MWMS2.Areas.Registration.Models.QualifcationDisplayListModel
+
+@Html.HiddenFor(x=>x.UUID)
+<div class="displayForm">
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                PRB<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.DropDownListFor(model => model.PRB, Model.getPRPByType())</div>
+
+        </div>
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Disciplines/ Divisions
+            </div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Qualification Code<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">
+                @Html.DropDownListFor(model => model.QUALIFICATIONCODE, Model.RetrieveQCByType(), new { @style = "width:auto;" })
+                @Html.DropDownListFor(model => model.QUALIFICATIONCODETYPE, Model.RetrieveQCType(), new { @style = "width:auto;" })
+
+            </div>
+           
+             
+            </div>
+            <div class="w3-col l6 m12 s12">
+                <div class="w3-col l12 m6 s12">
+                    <div id="div_dd">
+                        <div id="div_RIE" style="display:none">
+
+                            @foreach (var item in Model.getRIECatCode())
+                            {
+                                string isChecked = "";
+                                if (Model.SelectedCatCodeDetail != null)
+                                {
+                                    foreach (var itemb in Model.SelectedCatCodeDetail)
+                                    {
+                                        if (itemb == item.Value)
+                                        {
+                                            isChecked = "checked";
+                                        }
+                                    }
+                                }
+                                <input type="checkbox" name="SelectedCatCodeDetail" @isChecked id=@item.Text value=@item.Value>
+                                <label for=@item.Text>@item.Text</label>
+                                <br />
+
+                            }
+
+                            @*@Html.CheckBoxFor(model => model.ChkbxRPE_B)
+                        @Html.CheckBoxFor(model => model.ChkbxRPE_BS)
+                        @Html.CheckBoxFor(model => model.ChkbxRPE_C)
+                        @Html.CheckBoxFor(model => model.ChkbxRPE_M)
+                        @Html.CheckBoxFor(model => model.ChkbxRPE_S)*@
+
+                        </div>
+                        <div id="div_RIS" style="display:none">
+                            @foreach (var item in Model.getRISCatCode())
+                            {
+                                string isChecked = "";
+                                if (Model.SelectedCatCodeDetail != null)
+                                {
+                                    foreach (var itemb in Model.SelectedCatCodeDetail)
+                                    {
+                                        if (itemb == item.Value)
+                                        {
+                                            isChecked = "checked";
+                                        }
+                                    }
+                                }
+
+                                <input type="checkbox" name="SelectedCatCodeDetail" @isChecked id=@item.Text value=@item.Value>
+                                <label for=@item.Text>@item.Text</label>
+                                <br />
+
+                            }
+                            @*@Html.CheckBoxFor(model => model.ChkbxRPS_B)
+                        @Html.CheckBoxFor(model => model.ChkbxRPS_Q)*@
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Registration No.<font color="red">*</font> :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.REGISTRATIONNO)</div>
+
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m12 s12">
+            <div class="w3-col l6 m6 s12">
+                Expiry Date :
+            </div>
+            <div class="w3-col l6 m6 s12">@Html.TextBoxFor(model => model.EXPIRYDATE, new { @class = "inputDate" })</div>
+
+        </div>
+
+    </div>
+    <br />
+    <div class="w3-row hr"></div>
+    <div class="w3-container footer">
+        <button id="saveQualificationButton" class="btn btn-default" type="button"><i class="fa fa-save"></i> Draft Submit</button>
+        <button id="backQualificationButton" class="btn btn-default" type="button"><i class="fa fa-arrow-left"></i> Back</button>
+    </div>
+</div>

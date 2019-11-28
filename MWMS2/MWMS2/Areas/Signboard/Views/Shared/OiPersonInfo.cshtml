@@ -1,0 +1,177 @@
+﻿@model MWMS2.Areas.Signboard.Models.DataEntryDisplayModel
+    <div class="displayForm">
+        <div class="panelHeader">
+            <label>
+                業主立案法團 Owners’ Corporations
+                <br />
+            </label>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Chinese Name :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.NAME_CHINESE, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">English Name :</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.NAME_ENGLISH, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"></div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.ID_NUMBER, new { @maxlength = "50" })
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12"><span hide-medium w3-hide-small"><br /><br /><br /><br />&nbsp;</span></div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.RadioButtonFor(model => model.Oi.ID_TYPE, "1", new { @class = "w3-radio", @id="oi_hkid" }) <label for="oi_hkid">HKID No.</label>
+                    @Html.RadioButtonFor(model => model.Oi.ID_TYPE, "2", new { @class = "w3-radio", @id = "oi_passport" }) <label for="oi_passport">Passport No.</label>
+                    <br />
+                    @Html.RadioButtonFor(model => model.Oi.ID_TYPE, "3", new { @class = "w3-radio", @id = "oi_brno" }) <label for="oi_brno">Business Registration No.</label>
+                    @Html.RadioButtonFor(model => model.Oi.ID_TYPE, "4", new { @class = "w3-radio", @id = "oi_crno" }) <label for="oi_crno">Company Registration No.</label>
+                    @Html.RadioButtonFor(model => model.Oi.ID_TYPE, "5", new { @class = "w3-radio", @id = "oi_iorno" }) <label for="oi_iorno">I/O Registration No.</label>
+                    <br />
+                    Country of Issue
+                    @Html.TextBoxFor(model => model.Oi.ID_ISSUE_COUNTRY, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Correspondence Address<span hide-medium w3-hide-small"><br />&nbsp;</span>
+            </div>
+                <div class="w3-col l4 m6 s12">
+                    <input class="inputButton" type="button" value="Copy from Signboard Address" style="width:300px;" onclick="copySignboardAddressToOI()" /><br />
+                    <input class="inputButton" type="button" value="Copy from Signboard owner Address" style="width:360px;" onclick="copySignboardOwnerAddressToOI()" /><br />
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Street/Road/Village</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.STREET, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Street Number</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.STREET_NO, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Building/Estate</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.BUILDINGNAME, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Flat/Room</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.FLAT, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Floor</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.FLOOR, new { @maxlength = "500" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Block</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.BLOCK, new { @maxlength = "30" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">District <span hide-medium w3-hide-small"><br />&nbsp;</span></div>
+           
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.B_SV_ADDRESS.DISTRICT, new { @maxlength = "200" })
+                    <br />
+                    @Html.RadioButtonFor(model => model.Oi.B_SV_ADDRESS.REGION, "HK", new { @class = "w3-radio" ,@id="RegHK"})<label for="RegHK"> Hong Kong</label>
+                    @Html.RadioButtonFor(model => model.Oi.B_SV_ADDRESS.REGION, "KLW", new { @class = "w3-radio",@id= "RegKL" }) <label for="RegKL">Kowloon</label>
+                    @Html.RadioButtonFor(model => model.Oi.B_SV_ADDRESS.REGION, "NT", new { @class = "w3-radio" ,@id= "RegNT" })<label for="RegNT">New Territories</label> 
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">E-mail Address</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.EMAIL, new { @maxlength = "100" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Contact No.</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.CONTACT_NO, new { @maxlength = "50" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Fax No.</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.FAX_NO, new { @maxlength = "100" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Name of the representative of the prescribed registered contractor appointed</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.PRC_NAME, new { @maxlength = "100" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Contact No.</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.PRC_CONTACT_NO, new { @maxlength = "50" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Name of the representative of the prescribed building professional appointed</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.PBP_NAME, new { @maxlength = "100" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l4 m6 s12">Contact No.</div>
+                <div class="w3-col l4 m6 s12">
+                    @Html.TextBoxFor(model => model.Oi.PBP_CONTACT_NO, new { @maxlength = "50" })
+                </div>
+            </div>
+        </div>
+    </div>

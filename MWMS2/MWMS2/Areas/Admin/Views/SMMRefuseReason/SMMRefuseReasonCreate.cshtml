@@ -1,0 +1,51 @@
+﻿
+
+@model MWMS2.Entity.B_S_SYSTEM_VALUE
+<h3>
+    Reason for Refuse
+</h3>
+
+
+<br>
+
+@using (Html.BeginForm("SMMRefuseReasonCreate", "SMMRefuseReason", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UUID)
+    <div class="sList w3-border displayForm">
+        <div class="w3-row">
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3">No. :</div>
+                <div class="w3-col l9 m9 s9">
+                    @Html.EditorFor(model => model.ORDERING, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "systemValueOrdering", @type = "number", @min = "0" } })
+                    @Html.ValidationMessageFor(model => model.ORDERING, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3" id="type-tag">Code :</div>
+                <div class="w3-col l9 m9 s9" id="input-area">
+                    @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "Code", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="w3-col l12 m12 s12">
+                <div class="w3-col l3 m3 s3" id="desc-tag">Description :</div>
+                <div class="w3-col l9 m9 s9" id="text-area">
+                    @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control", style = "max-width:600px", id = "systemValueDescription" } })
+                    @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="w3-container footer">
+            @*<input class="btn btn-default" type="submit" id="submit" value="Submit" />*@
+            <button class="btn btn-default" type="submit" id="submit" value="Submit" ><i class="fa fa-save"></i> Save</button>
+            @*<input class="btn btn-default inputButton" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("Index","SMMRefuseReason")"' type="button">*@
+            <button class="btn btn-default" id="btnCancel" name="btnCancel" value="Cancel" onclick='location.href="@Url.Action("Index","SMMRefuseReason")"' type="button"><i class="fa fa-times"></i> Cancel</button>
+        </div>
+    </div>
+
+}
+
+<br>
+

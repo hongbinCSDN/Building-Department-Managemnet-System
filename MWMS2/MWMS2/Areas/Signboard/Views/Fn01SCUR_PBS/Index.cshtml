@@ -1,0 +1,33 @@
+﻿
+
+<div class="displayForm">
+
+    <div class="panelHeader">
+        Sticker Number
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Sticker Number : 	</div>
+            <div class="w3-col l6 m12 s12">
+                <input type="text" name="DSN" id="DSN"  style="width:200px"/>
+                <button type="button" onclick="PrintDSN()"><i class="fa fa-print"></i>Print</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    function PrintDSN()
+    {
+        var dsn = document.getElementById("DSN").value;
+         window.location =("MWMS2PrinterAgent:" + dsn);
+    }
+
+
+        </script>
+@*<form action="PrintDSN">
+    
+</form>*@

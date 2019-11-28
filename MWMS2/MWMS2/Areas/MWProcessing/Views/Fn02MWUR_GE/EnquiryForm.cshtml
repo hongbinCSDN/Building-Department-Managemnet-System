@@ -1,0 +1,139 @@
+﻿@model MWMS2.Areas.MWProcessing.Models.Fn02MWUR_GEModel
+
+<form id="inputForm">
+    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.UUID)
+    @Html.HiddenFor(m => m.P_MW_REFERENCE_NO.UUID)
+    @Html.HiddenFor(m => m.IsSubmit)
+    @Html.HiddenFor(m => m.IsSPO)
+    @Html.HiddenFor(m => m.IsReadOnly)
+    @Html.HiddenFor(m => m.P_MW_GENERAL_RECORD.SUBMIT_TYPE)
+    <div class="panelHeader">Enquiry</div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormInfo.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquirer Details
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <label>
+            @if (Model.IsReadOnly)
+            {
+                <input type="checkbox" name="contactInfo" value="" disabled="disabled" readonly="readonly" />
+            }
+            else
+            {
+                <input type="checkbox" name="contactInfo" value="" />
+            }
+            The citizen refuses to leave contact information
+        </label>
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormDetails.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquiry Address Keys
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormAddressKey.cshtml", Model)
+
+    <div class="panelHeader">
+        Enquiry Address
+    </div>
+    @Html.Partial("~/Areas/MWProcessing/Views/GenerateEntry/generalEntryFormAddress.cshtml", Model)
+
+    <div class="displayForm">
+        <div class="w3-container footer">
+            <button id="draftBtn" class="btn btn-default" type="button" onclick="SaveAsDraft()">Save as Draft</button>
+            <button id="submitBtn" class="btn btn-default enabled" type="button" onclick="Submit()">Submit</button>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    var isSPO = false;
+    var isReadonly = false;
+    var recordID = "";
+
+    function SaveAsDraft() {
+
+         $.post(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/SaveEnquiryForm", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 alert('Save Successfully');
+                 //goTo(domId("rootPath").value + '/MWProcessing/Fn03TSK_Tdl/Index');
+             } else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+            });
+    }
+
+    function Submit() {
+        if (!isSPO) {
+            $.post(domId("rootPath").value + "/MWProcessing/Fn02MWUR_GE/SubmitEnquiryForm", $("#inputForm").serialize(), function (data) {
+             if (data != null && data.Result != null && data.Result == "SUCCESS") {
+                 goTo(domId("rootPath").value + '/MWProcessing/Fn02MWUR_GE/EnquiryFormChecklist', [{ name: "id", value: recordID }])
+             } else {
+                 showErrorMessage(data.ErrorMessages);
+                 console.log(data);
+             }
+            });
+        } else {
+            goTo(domId("rootPath").value + '/MWProcessing/Fn02MWUR_GE/EnquiryFormChecklist', [{ name: "id", value: recordID }])
+        }
+         
+    }
+
+    function initPage() {
+
+        if (isReadonly) {
+            readonlyPage();
+        }
+    }
+
+    function readonlyPage() {
+
+        var inputForm = document.getElementById('inputForm');
+        var inputList = inputForm.querySelectorAll("input");
+        var ddlList = inputForm.querySelectorAll("select");
+        var btnList = inputForm.querySelectorAll("button");
+        var taList = inputForm.querySelectorAll("textarea");
+
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].type == "hidden") { continue; }
+            inputList[i].disabled = true;
+        }
+
+        for (var i = 0; i < ddlList.length; i++) {
+            ddlList[i].disabled = true;
+        }
+
+        for (var i = 0; i < btnList.length; i++) {
+
+            if (btnList[i].className.indexOf("enabled") < 0) {
+                btnList[i].disabled = true;
+                btnList[i].className = "btn btn-default w3-gray w3-hover-gray";
+            }
+        }
+
+        for (var i = 0; i < taList.length; i++) {
+            taList[i].disabled = true;
+        }
+    }
+
+    domReady(function () {
+        isSPO = document.getElementById("IsSPO").value.toLowerCase() == "true";
+        isReadonly = document.getElementById("IsReadOnly").value.toLowerCase() == "true";
+        recordID = $('#P_MW_GENERAL_RECORD_UUID').val();
+
+        initPage();
+
+        atcpAddress({
+            streetName: "P_MW_ADDRESS_CHINESE_STREET_NAME"
+            , streetNo: "P_MW_ADDRESS_STREET_NO"
+            , building: "P_MW_ADDRESS_BUILDING_NAME"
+            , floor: "P_MW_ADDRESS_FLOOR"
+            , unit: "P_MW_ADDRESS_FLAT"
+            , region: "P_MW_ADDRESS_REGION"
+        });
+    });
+
+</script>

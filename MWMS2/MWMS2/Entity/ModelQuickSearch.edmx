@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelQuick_Search.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MWMS2.SYS_QUICK_SEARCH' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SYS_QUICK_SEARCH">
+          <Key>
+            <PropertyRef Name="KEYWORD" />
+          </Key>
+          <Property Name="UUID" Type="varchar2" MaxLength="36" />
+          <Property Name="KEYWORD" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="RECORD_UUID" Type="varchar2" MaxLength="36" />
+          <Property Name="RECORD_TYPE" Type="varchar2" MaxLength="15" />
+          <Property Name="REGISTRATION_NO" Type="varchar2" MaxLength="20" />
+          <Property Name="APPLICANT_SURNAME" Type="varchar2" MaxLength="40" />
+          <Property Name="APPLICANT_GIVEN_NAME" Type="varchar2" MaxLength="40" />
+          <Property Name="APPLICANT_CHINESE_NAME" Type="nvarchar2" MaxLength="50" />
+          <Property Name="COMP_NAME" Type="varchar2" MaxLength="150" />
+          <Property Name="COMP_CHI_NAME" Type="nvarchar2" MaxLength="50" />
+          <Property Name="AS_SURNAME" Type="varchar2" MaxLength="40" />
+          <Property Name="AS_GIVEN_NAME" Type="varchar2" MaxLength="40" />
+          <Property Name="AS_CHI_NAME" Type="nvarchar2" MaxLength="50" />
+          <Property Name="HKID" Type="varchar2" MaxLength="300" />
+          <Property Name="PASSPORT" Type="varchar2" MaxLength="300" />
+          <Property Name="UKEY" Type="varchar2" MaxLength="100" />
+          <Property Name="KEYWORD_TYPE" Type="varchar2" MaxLength="100" />
+          <Property Name="COMP_IND_TYPE" Type="varchar2" MaxLength="1" />
+          <Property Name="EXPIRY_DATE" Type="date" />
+        </EntityType>
+        <EntityContainer Name="ModelQuick_SearchStoreContainer">
+          <EntitySet Name="SYS_QUICK_SEARCH" EntityType="Self.SYS_QUICK_SEARCH" store:Type="Tables" store:Schema="">
+            <DefiningQuery>SELECT 
+"SYS_QUICK_SEARCH"."UUID" AS "UUID", 
+"SYS_QUICK_SEARCH"."KEYWORD" AS "KEYWORD", 
+"SYS_QUICK_SEARCH"."RECORD_UUID" AS "RECORD_UUID", 
+"SYS_QUICK_SEARCH"."RECORD_TYPE" AS "RECORD_TYPE", 
+"SYS_QUICK_SEARCH"."REGISTRATION_NO" AS "REGISTRATION_NO", 
+"SYS_QUICK_SEARCH"."APPLICANT_SURNAME" AS "APPLICANT_SURNAME", 
+"SYS_QUICK_SEARCH"."APPLICANT_GIVEN_NAME" AS "APPLICANT_GIVEN_NAME", 
+"SYS_QUICK_SEARCH"."APPLICANT_CHINESE_NAME" AS "APPLICANT_CHINESE_NAME", 
+"SYS_QUICK_SEARCH"."COMP_NAME" AS "COMP_NAME", 
+"SYS_QUICK_SEARCH"."COMP_CHI_NAME" AS "COMP_CHI_NAME", 
+"SYS_QUICK_SEARCH"."AS_SURNAME" AS "AS_SURNAME", 
+"SYS_QUICK_SEARCH"."AS_GIVEN_NAME" AS "AS_GIVEN_NAME", 
+"SYS_QUICK_SEARCH"."AS_CHI_NAME" AS "AS_CHI_NAME", 
+"SYS_QUICK_SEARCH"."HKID" AS "HKID", 
+"SYS_QUICK_SEARCH"."PASSPORT" AS "PASSPORT", 
+"SYS_QUICK_SEARCH"."UKEY" AS "UKEY", 
+"SYS_QUICK_SEARCH"."KEYWORD_TYPE" AS "KEYWORD_TYPE", 
+"SYS_QUICK_SEARCH"."COMP_IND_TYPE" AS "COMP_IND_TYPE", 
+"SYS_QUICK_SEARCH"."EXPIRY_DATE" AS "EXPIRY_DATE"
+FROM "MWMS2"."SYS_QUICK_SEARCH" "SYS_QUICK_SEARCH"</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelQuick_Search" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SYS_QUICK_SEARCH" EntityType="ModelQuick_Search.SYS_QUICK_SEARCH" />
+        </EntityContainer>
+        <EntityType Name="SYS_QUICK_SEARCH">
+          <Key>
+            <PropertyRef Name="KEYWORD" />
+          </Key>
+          <Property Name="UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="KEYWORD" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RECORD_UUID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="RECORD_TYPE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="REGISTRATION_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="APPLICANT_SURNAME" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="APPLICANT_GIVEN_NAME" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="APPLICANT_CHINESE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COMP_NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="COMP_CHI_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AS_SURNAME" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="AS_GIVEN_NAME" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="AS_CHI_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HKID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="PASSPORT" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="UKEY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KEYWORD_TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COMP_IND_TYPE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EXPIRY_DATE" Type="DateTime" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelQuick_SearchStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="SYS_QUICK_SEARCH">
+            <EntityTypeMapping TypeName="ModelQuick_Search.SYS_QUICK_SEARCH">
+              <MappingFragment StoreEntitySet="SYS_QUICK_SEARCH">
+                <ScalarProperty Name="EXPIRY_DATE" ColumnName="EXPIRY_DATE" />
+                <ScalarProperty Name="COMP_IND_TYPE" ColumnName="COMP_IND_TYPE" />
+                <ScalarProperty Name="KEYWORD_TYPE" ColumnName="KEYWORD_TYPE" />
+                <ScalarProperty Name="UKEY" ColumnName="UKEY" />
+                <ScalarProperty Name="PASSPORT" ColumnName="PASSPORT" />
+                <ScalarProperty Name="HKID" ColumnName="HKID" />
+                <ScalarProperty Name="AS_CHI_NAME" ColumnName="AS_CHI_NAME" />
+                <ScalarProperty Name="AS_GIVEN_NAME" ColumnName="AS_GIVEN_NAME" />
+                <ScalarProperty Name="AS_SURNAME" ColumnName="AS_SURNAME" />
+                <ScalarProperty Name="COMP_CHI_NAME" ColumnName="COMP_CHI_NAME" />
+                <ScalarProperty Name="COMP_NAME" ColumnName="COMP_NAME" />
+                <ScalarProperty Name="APPLICANT_CHINESE_NAME" ColumnName="APPLICANT_CHINESE_NAME" />
+                <ScalarProperty Name="APPLICANT_GIVEN_NAME" ColumnName="APPLICANT_GIVEN_NAME" />
+                <ScalarProperty Name="APPLICANT_SURNAME" ColumnName="APPLICANT_SURNAME" />
+                <ScalarProperty Name="REGISTRATION_NO" ColumnName="REGISTRATION_NO" />
+                <ScalarProperty Name="RECORD_TYPE" ColumnName="RECORD_TYPE" />
+                <ScalarProperty Name="RECORD_UUID" ColumnName="RECORD_UUID" />
+                <ScalarProperty Name="KEYWORD" ColumnName="KEYWORD" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

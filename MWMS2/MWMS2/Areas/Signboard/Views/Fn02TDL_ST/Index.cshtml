@@ -1,0 +1,52 @@
+﻿@model MWMS2.Areas.Signboard.Models.Fn02TDL_STSearchModel
+<div id="searchCriteria">
+  
+    <div class="panelHeader">
+        Search Criteria
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l6 m12 s12">Subordinate Task :</div>
+            <div class="w3-col l6 m12 s12">
+                @Html.DropDownListFor(model => model.SearchClass, Model.ChildList, new { @class = "form-control", @style = "max-width: 300px;" })
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="w3-container footer">
+        <button id="searchBtn" class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+
+    </div>
+
+</div>
+
+    <div id="resultPanel">
+
+
+    </div>
+
+<script type="text/javascript">
+    domReady(function () {
+        new searcher({
+            searchPath: "Search"
+            //, exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "UUID"
+            , Columns: [
+                {
+                    displayName: "User", columnName: "BD_PORTAL_LOGIN"
+                    , click: function (row) {
+                        try {
+                            if (row == null) return;
+                            goTo("Detail", [{ name: "uuid", value: row.UUID }]);
+                        } catch (err) { }
+                    }
+                },
+                { displayName: "Validation", columnName: "VAL" },
+                { displayName: "Audit", columnName: "AUD" },
+            ]
+        });
+    });
+</script>

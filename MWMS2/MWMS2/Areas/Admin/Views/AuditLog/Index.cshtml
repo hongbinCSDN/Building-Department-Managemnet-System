@@ -1,0 +1,68 @@
+﻿@model MWMS2.Areas.Admin.Models.AuditLogSearchModel
+<div class="panelHeader">Search Criteria</div>
+<div id="searchCriteria">
+
+    @*<div class="w3-row">
+            <div class="w3-col l12 m6 s12">
+                <div class="w3-col l6 m12 s12">Action :</div>
+                <div class="w3-col l6 m12 s12">@Html.TextBoxFor(model => model.Action)</div>
+            </div>
+
+        </div>*@
+    <div class="w3-row">
+        <div class="w3-col l12 m6 s12">
+            <div class="w3-col l3 m12 s12">Log Date :</div>
+            <div class="w3-col l9 m12 s12"> From @Html.TextBoxFor(model => model.FromDate, new { @class = "inputDate" }) To @Html.TextBoxFor(model => model.ToDate, new { @class = "inputDate" })</div>
+        </div>
+
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Post Code  :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(x => x.Post)</div>
+        </div>
+        <div class="w3-col l6 m6 s12">
+            <div class="w3-col l6 m12 s12">Action  :</div>
+            <div class="w3-col l6 m12 s12">@Html.TextBoxFor(x => x.Action)</div>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col l12 m12 s12">
+            <div class="w3-col l3 m12 s12">Description :</div>
+            <div class="w3-col l9 m12 s12">@Html.TextBoxFor(x => x.Detail)</div>
+        </div>
+       
+    </div>
+
+
+    <div class="w3-container footer">
+        <button class="searchButton btn btn-default" type="button"><i class="fa fa-search"></i> Search</button>
+        <button class="resetButton btn btn-default" type="button"><i class="fa fa-eraser"></i> Clear</button>
+    </div>
+</div>
+<br />
+<div id="resultPanel"></div>
+<script type="text/javascript">
+    domReady(function () {
+        searching = new searcher({
+            searchPath: "Search"
+            , exportPath: "Excel"
+            , searchTable: "searchCriteria"
+            , resultPanel: "resultPanel"
+            , Sort: "LOG_DATE"
+            , SortType: 1
+            , Columns: [
+                {
+                    displayName: "Log Date", columnName: "LOG_DATE", format: "time"
+
+                }
+
+                , { displayName: "IP Address", columnName: "IPADDRESS" }
+                , { displayName: "Login", columnName: "LOGIN" }
+                , { displayName: "Action", columnName: "ACTION" }
+                , { displayName: "Description", columnName: "DESCRIPTION" }
+            ]
+        });
+
+    });
+</script>
